@@ -8,8 +8,8 @@
 
 #include <iostream>
 
-#include "../lib_network/Lib1.hpp"
-#include "../lib_network/Object.hpp"
+#include "Lib1.hpp"
+#include "Object.hpp"
 
 #define BOOST_TEST_MODULE ObjectTestModule
 #define BOOST_TEST_DYN_LINK

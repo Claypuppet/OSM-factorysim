@@ -5,7 +5,7 @@
 #include <iostream>
 #include "BetterObject.h"
 
-BetterObject::BetterObject(uint8_t timesBetter): mTimesBetter(timesBetter) {
+BetterObject::BetterObject(uint8_t timesBetter) : mTimesBetter(timesBetter) {
 
 }
 

@@ -9,12 +9,12 @@
 
 class BetterObject {
 public:
-	BetterObject(uint8_t timesBetter);
-	void shoutOut();
 
+	explicit BetterObject(uint8_t timesBetter);
+
+	void shoutOut();
 private:
 	uint16_t mTimesBetter;
 };
-
 
 #endif //PRODUCTION_LINE_SIMULATOR_BETTEROBJECT_H

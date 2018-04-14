@@ -11,6 +11,7 @@
 #include <iostream>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <wx/datetime.h>
+#include <wx/wx.h>
 
 
 /* static */ void Lib1::print()
