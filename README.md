@@ -20,7 +20,7 @@ je de gecompiled binaries worden opgeslagen.
 Bouw de makefile dingen, gebruik de extra args voor het instellen van
 (niet-standaard) boost en wxwidget directories. (TODO: exacte args opzoeken)
 
-`cmake ../ [--extra args]`
+`cmake .. [--extra args]`
 
 Bouw de applicatie(s)
 
