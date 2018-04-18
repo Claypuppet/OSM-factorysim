@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
 
-include_directories(src/lib_silly_objects)
+include_directories(src/lib_silly_objects src/lib_patterns)
 
 find_package(wxWidgets REQUIRED net gl core base)
 include(${wxWidgets_USE_FILE})
@@ -19,7 +19,7 @@ link_directories(${Boost_LIBRARY_DIR} )
 # Add
 
 add_executable(app_machine_control
-        src/machine_control/Main.cpp)
+        src/machine_control/Main.cpp src/lib_patterns/Singleton.cpp src/lib_patterns/Singleton.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp)
@@ -52,6 +52,14 @@ file(GLOB lib_network_SRC
 add_library(lib_network STATIC
         ${lib_network_SRC})
 
+# Lib Patterns
+file(GLOB lib_patterns_SRC
+        "src/lib_patterns/**.h"
+        "src/lib_patterns/**.cpp")
+
+add_library(lib_patterns STATIC
+        ${lib_patterns_SRC})
+
 # Lib Cereal
 file(GLOB lib_cereal_SRC
         "src/lib_cereal/**.hpp")
@@ -72,6 +80,7 @@ add_library(lib_silly_objects STATIC
 install(TARGETS
         lib_silly_objects
         lib_network
+        lib_patterns
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
@@ -80,6 +89,8 @@ install(TARGETS
 
 # TODO: remove wxwidget library from lib after project startup, (and change boost to include asio)
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
+
+target_link_libraries(lib_network lib_patterns)
 
 
 # Production control & test
