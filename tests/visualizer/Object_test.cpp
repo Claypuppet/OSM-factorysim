@@ -5,7 +5,7 @@
  * Author: jkr
  */
 
-#include "Object.hpp"
+#include "silly_objects/Object.hpp"
 
 // http://www.boost.org/doc/libs/1_60_0/libs/test/doc/html/boost_test/adv_scenarios/shared_lib_customizations/entry_point.html
 //#define BOOST_TEST_MODULE ObjectTestModule

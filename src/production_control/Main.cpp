@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-#include "Lib1.hpp"
+#include "silly_objects/Lib1.hpp"
 
 int main( 	int argc,
 			char** argv)

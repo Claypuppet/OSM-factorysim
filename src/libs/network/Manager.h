@@ -10,7 +10,7 @@
 
 
 #include "Settings.h"
-#include "Singleton.h"
+#include "patterns/Singleton.h"
 
 
 #include <cstdint>
