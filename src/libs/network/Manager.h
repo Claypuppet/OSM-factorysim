@@ -9,12 +9,8 @@
 #define NETWORK_MANAGER_H_
 
 
-#include "Settings.h"
-#include "patterns/Singleton.h"
-
-
-#include <cstdint>
-#include <cstring>
+#include <stdint.h>
+#include <string.h>
 #include <string>
 #include <memory>
 #include <mutex>
@@ -60,11 +56,12 @@ namespace network
 	struct IConnectionHandler;
 	typedef std::shared_ptr<IConnectionHandler> ConnectionHandlerPtr;
 
-	class Manager : public Singleton<Manager>
+	class Manager
 	{
 	public:
 
 		Manager();
+		Manager(const Manager&);
 		virtual ~Manager();
 
 		io_service& getIOService() { return *mServicePtr.get(); }
