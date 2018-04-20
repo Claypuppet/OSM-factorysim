@@ -13,18 +13,20 @@ public:
 	NetworkComponent() = default;
 	~NetworkComponent() = default;
 
+	const void sendHello();
+
+	network::ConnectionPtr getConnection();
 
 private:
 	void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
-
 	void onConnectionEstablished(network::ConnectionPtr connection) override;
-
 	void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
-
 	void onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) override;
 
-	void onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) override;
+	network::ConnectionPtr mConnection;
 
+	void handleReconfigureMessage();
+	void handleProcessProductMessage();
 
 };
 
