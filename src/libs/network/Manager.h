@@ -31,16 +31,6 @@
 
 typedef std::shared_ptr<std::thread> ThreadPtr;
 
-
-namespace boost  {
-	namespace system {
-		class error_code;
-	}
-	namespace asio {
-		class io_service;
-	}
-}
-
 namespace network
 {
 	using boost::asio::io_service;
