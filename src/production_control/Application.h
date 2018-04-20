@@ -1,0 +1,14 @@
+//
+// Created by don on 20-4-18.
+//
+
+#ifndef PRODUCTION_LINE_CONTROL_APPLICATION_H
+#define PRODUCTION_LINE_CONTROL_APPLICATION_H
+
+
+class Application {
+
+};
+
+
+#endif //PRODUCTION_LINE_CONTROL_APPLICATION_H
