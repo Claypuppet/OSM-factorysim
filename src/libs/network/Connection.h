@@ -21,7 +21,7 @@
 
 #pragma GCC diagnostic pop
 
-namespace network
+namespace Network
 {
 
 	using boost::asio::io_service;
@@ -207,7 +207,7 @@ namespace network
 	};
 
 
-} // namespace network
+} // namespace Network
 
 
 

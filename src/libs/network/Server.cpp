@@ -14,7 +14,7 @@
 #include "Connection.h"
 
 
-namespace network
+namespace Network
 {
 
 	Server::Server(Manager& manager, ConnectionHandlerPtr handler, uint16_t port, uint16_t maxClients)
@@ -54,7 +54,7 @@ namespace network
 			std::cout << "Server: accepting clients on port: " << mAcceptor.local_endpoint().port() << std::endl;
 
 			if(auto l = mServiceEventLister) {
-				// call this from a network i/o thread (to keep it consistent with other callbacks)
+				// call this from a Network i/o thread (to keep it consistent with other callbacks)
 				mManager.getIOService().post([self, l](){
 					l->onServiceStarted(self);
 				});
@@ -68,7 +68,7 @@ namespace network
 			std::string errorMsg = ss.str();
 			std::cerr << errorMsg << std::endl;
 			if(auto l = self->getServiceEventListener()) {
-				// call this from a network i/o thread (to keep it consistent with other callbacks)
+				// call this from a Network i/o thread (to keep it consistent with other callbacks)
 				mManager.getIOService().post([self, errorMsg, l](){
 					l->onServiceError(self, errorMsg);
 				});

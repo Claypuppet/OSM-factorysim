@@ -5,8 +5,8 @@
 #ifndef SINGLETON_H_
 #define SINGLETON_H_
 
-namespace patterns {
-    namespace singleton {
+namespace Patterns {
+    namespace Singleton {
         template<typename T>
         class Singleton {
         public:

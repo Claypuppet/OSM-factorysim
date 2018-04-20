@@ -23,7 +23,7 @@
 
 #pragma GCC diagnostic pop
 
-namespace network
+namespace Network
 {
 
 	using boost::system::error_code;
@@ -91,7 +91,7 @@ namespace network
 		bool mFStopped;
 	};
 
-} // namespace network
+} // namespace Network
 
 
 

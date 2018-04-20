@@ -17,7 +17,7 @@
 
 
 
-namespace network {
+namespace Network {
 
 	Client::Client(Manager& manager, ConnectionHandlerPtr handler, const std::string& host, uint16_t port)
 		: mManager(manager)
@@ -195,6 +195,6 @@ namespace network {
 		mConnectionHandler = connectionHandler;
 	}
 
-} // namespace network
+} // namespace Network
 
 

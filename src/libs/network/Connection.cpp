@@ -18,7 +18,7 @@
 #include <boost/bind.hpp>
 #include <boost/asio/io_service.hpp>
 
-namespace network
+namespace Network
 {
 
 	using boost::asio::io_service;
@@ -288,6 +288,6 @@ namespace network
 		return mFEstablished && !mFDisconnect;
 	}
 
-} // namespace network
+} // namespace Network
 
 

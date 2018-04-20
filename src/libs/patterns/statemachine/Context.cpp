@@ -6,13 +6,13 @@
  */
 #include "Context.h"
 
-patterns::statemachine::Context::Context() {
+Patterns::Statemachine::Context::Context() {
 }
 
-patterns::statemachine::Context::~Context() {
+Patterns::Statemachine::Context::~Context() {
 }
 
-void patterns::statemachine::Context::setCurrentState(const std::shared_ptr<State> currentState) {
+void Patterns::Statemachine::Context::setCurrentState(const std::shared_ptr<State> currentState) {
 	if(this->currentState){
 		this->currentState->exitAction();
 	}
@@ -23,11 +23,11 @@ void patterns::statemachine::Context::setCurrentState(const std::shared_ptr<Stat
 	this->currentState->doActivity();
 }
 
-void patterns::statemachine::Context::scheduleEvent(Event e){
+void Patterns::Statemachine::Context::scheduleEvent(Event e){
 	events.push(e);
 }
 
-void patterns::statemachine::Context::run(){
+void Patterns::Statemachine::Context::run(){
 	while(!events.empty()){
 		if(!currentState->handleEvent(events.front(), *this)){
 		}

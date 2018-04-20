@@ -1,7 +1,7 @@
 #ifndef EVENT_H_
 #define EVENT_H_
-namespace patterns {
-    namespace statemachine {
+namespace Patterns {
+    namespace Statemachine {
         class Event {
         public:
             Event(unsigned long long id);

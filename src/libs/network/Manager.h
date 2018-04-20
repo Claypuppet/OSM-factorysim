@@ -31,7 +31,7 @@
 
 typedef std::shared_ptr<std::thread> ThreadPtr;
 
-namespace network
+namespace Network
 {
 	using boost::asio::io_service;
 	using boost::system::error_code;
@@ -102,7 +102,7 @@ namespace network
 		uint16_t	 				mLocalPort;
 	};
 
-} // namespace network
+} // namespace Network
 
 
 

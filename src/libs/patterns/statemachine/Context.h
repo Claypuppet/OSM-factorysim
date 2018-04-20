@@ -13,8 +13,8 @@
 
 #include "State.h"
 
-namespace patterns {
-    namespace statemachine {
+namespace Patterns {
+    namespace Statemachine {
         class Context {
         public:
             void run();
