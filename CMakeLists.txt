@@ -21,12 +21,11 @@ link_directories(${Boost_LIBRARY_DIR} )
 # Add
 
 add_executable(app_machine_control
-        src/machine_control/Main.cpp
-        src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h)
+        src/machine_control/Main.cpp)
 
 add_executable(app_production_control
-        src/production_control/Main.cpp)
+        src/production_control/Main.cpp
+        src/production_control/CommNet.cpp src/production_control/Machine.cpp src/production_control/Machine.h src/production_control/Application.cpp src/production_control/Application.h)
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)
@@ -97,7 +96,7 @@ target_link_libraries(lib_network ${Boost_SYSTEM_LIBRARY})
 
 
 # Production control & test
-target_link_libraries(app_production_control lib_silly_objects)
+target_link_libraries(app_production_control lib_network lib_silly_objects)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

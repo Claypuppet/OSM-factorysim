@@ -6,9 +6,26 @@
 #define PRODUCTION_LINE_CONTROL_MACHINE_H
 
 
-class Machine {
+#include <cstdint>
+#include <network/Connection.h>
 
+
+class Machine {
+public:
+    Machine(uint8_t anId);
+    Machine(const Machine& aMachine);
+    Machine& operator=(const Machine& rhs);
+    ~Machine() = default;
+    void sendMessage(network::Message& msg);
+    bool isConnected();
+    void setConnection(network::ConnectionPtr aConnection);
+    uint8_t getId();
+private:
+    uint8_t id;
+    network::ConnectionPtr connection;
 };
+
+typedef std::shared_ptr<Machine> MachinePtr;
 
 
 #endif //PRODUCTION_LINE_CONTROL_MACHINE_H

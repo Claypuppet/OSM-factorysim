@@ -9,11 +9,18 @@
 #include <iostream>
 
 #include "silly_objects/Lib1.hpp"
+#include <memory>
+#include "network/Manager.h"
+#include "CommNet.h"
+#include "network/Server.h"
+#include "network/Client.h"
+#include "network/Connection.h"
 
 int main( 	int argc,
 			char** argv)
 {
-	std::cout << "Hello from app production control!" << std::endl;
-	Lib1::print();
+	Application app;
+	//app.joinServerThread();
+	app.joinClientThread();
 	return 0;
 }
