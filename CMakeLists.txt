@@ -21,7 +21,19 @@ link_directories(${Boost_LIBRARY_DIR} )
 # Add
 
 add_executable(app_machine_control
-        src/machine_control/Main.cpp src/machine_control/SimulationNetworkComponent.cpp src/machine_control/SimulationNetworkComponent.h src/machine_control/Controller.cpp src/machine_control/Controller.h src/machine_control/Application.cpp src/machine_control/Application.h src/machine_control/SimulationController.cpp src/machine_control/SimulationController.h src/machine_control/SimulationApplication.cpp src/machine_control/SimulationApplication.h src/machine_control/NetworkComponent.cpp src/machine_control/NetworkComponent.h)
+        src/machine_control/Main.cpp
+        src/machine_control/SimulationNetworkComponent.cpp
+        src/machine_control/SimulationNetworkComponent.h
+        src/machine_control/Controller.cpp
+        src/machine_control/Controller.h
+        src/machine_control/Application.cpp
+        src/machine_control/Application.h
+        src/machine_control/SimulationController.cpp
+        src/machine_control/SimulationController.h
+        src/machine_control/SimulationApplication.cpp
+        src/machine_control/SimulationApplication.h
+        src/machine_control/NetworkComponent.cpp
+        src/machine_control/NetworkComponent.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp)
