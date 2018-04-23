@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "NetworkComponent.h"
+#include <network/Protocol.h>
 
 namespace Communication {
 
@@ -17,6 +18,8 @@ namespace Communication {
 
 	void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
 		mConnection = connection;
+
+		sendHello();
 	}
 
 	void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
@@ -36,7 +39,7 @@ namespace Communication {
 	}
 
 	const void NetworkComponent::sendHello() {
-		Network::Message msg(1, "aaaaa");
+		Network::Message msg(1, "1");
 		mConnection->writeMessage(msg);
 	}
 

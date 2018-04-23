@@ -6,9 +6,6 @@
 
 
 namespace SimulationStates {
-	OffState::OffState(SimulationCommunication::SimulationNetworkComponent &) : SimulationState(
-
-	<unnamed>) {
 	void OffState::entryAction() {
 
 	}
@@ -20,5 +17,5 @@ namespace SimulationStates {
 	void OffState::exitAction() {
 
 	}
-}
+
 }

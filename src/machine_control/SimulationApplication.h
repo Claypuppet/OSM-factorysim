@@ -9,7 +9,7 @@
 
 namespace Simulator {
     class SimulationApplication : public Core::Application {
-        SimulationApplication();
+        SimulationApplication() = default;
         virtual ~SimulationApplication() = default;
     };
 }

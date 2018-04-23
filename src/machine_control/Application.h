@@ -13,7 +13,7 @@
 namespace Core {
     class Application : public Patterns::Statemachine::Context {
     public:
-        Application();
+        Application() = default;
         virtual ~Application() = default;
 
     private:
