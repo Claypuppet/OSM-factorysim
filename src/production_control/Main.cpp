@@ -11,7 +11,7 @@
 #include "silly_objects/Lib1.hpp"
 #include <memory>
 #include "network/Manager.h"
-#include "CommNet.h"
+#include "AppConnectionHandler.h"
 #include "network/Server.h"
 #include "network/Client.h"
 #include "network/Connection.h"

@@ -2,7 +2,7 @@
 // Created by don on 19-4-18.
 //
 
-#include "CommNet.h"
+#include "AppConnectionHandler.h"
 #include "Machine.h"
 
 #include <iostream>
@@ -13,7 +13,7 @@
  * @param error
  */
 
-void CommNet::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
+void AppConnectionHandler::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
     IConnectionHandler::onConnectionFailed(connection, error);
     std::cout << "Connection failed!" << std::endl;
 }
@@ -23,7 +23,7 @@ void CommNet::onConnectionFailed(network::ConnectionPtr connection, const boost:
  * @param connection
  */
 
-void CommNet::onConnectionEstablished(network::ConnectionPtr connection) {
+void AppConnectionHandler::onConnectionEstablished(network::ConnectionPtr connection) {
     connection = connection;
 }
 
@@ -33,7 +33,7 @@ void CommNet::onConnectionEstablished(network::ConnectionPtr connection) {
  * @param error
  */
 
-void CommNet::onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) {
+void AppConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) {
     std::cout << "Disconnected!" << std::endl;
 }
 
@@ -43,7 +43,7 @@ void CommNet::onConnectionDisconnected(network::ConnectionPtr connection, const 
  * @param message
  */
 
-void CommNet::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+void AppConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
     std::cout << "Received a message!" << std::endl;
     if(message.getMessageType() == 5)
     {
@@ -67,7 +67,7 @@ void CommNet::onConnectionMessageReceived(network::ConnectionPtr connection, net
  * @param message
  */
 
-void CommNet::onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) {
+void AppConnectionHandler::onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) {
     IConnectionHandler::onConnectionMessageSent(connection, message);
     std::cout << "Message sent!" << std::endl;
 }
@@ -77,6 +77,6 @@ void CommNet::onConnectionMessageSent(network::ConnectionPtr connection, network
  * @param app
  */
 
-CommNet::CommNet(Application *app) {
+AppConnectionHandler::AppConnectionHandler(Application *app) {
     this->app = app;
 }

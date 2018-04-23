@@ -9,10 +9,10 @@
 #include "Application.h"
 
 
-class CommNet : public network::IConnectionHandler {
+class AppConnectionHandler : public network::IConnectionHandler {
 public:
-    CommNet(Application *app);
-    ~CommNet() = default;
+    AppConnectionHandler(Application *app);
+    ~AppConnectionHandler() = default;
 private:
     void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
 

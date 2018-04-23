@@ -25,7 +25,7 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        src/production_control/CommNet.cpp src/production_control/Machine.cpp src/production_control/Machine.h src/production_control/Application.cpp src/production_control/Application.h)
+        src/production_control/AppConnectionHandler.cpp src/production_control/Machine.cpp src/production_control/Machine.h src/production_control/Application.cpp src/production_control/Application.h)
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)

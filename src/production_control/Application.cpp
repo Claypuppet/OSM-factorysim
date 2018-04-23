@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-#include "CommNet.h"
+#include "AppConnectionHandler.h"
 #include "network/Server.h"
 #include "network/Client.h"
 
@@ -42,8 +42,8 @@ Application::Application()
     network::Manager m;
     m.setRemoteHost("192.168.137.1");
     serverThread = m.runServiceThread();
-    CommNet c(this);
-    server = m.createServer(std::make_shared<CommNet>(c), 50);
+    AppConnectionHandler c(this);
+    server = m.createServer(std::make_shared<AppConnectionHandler>(c), 50);
     server->start();
 }
 
