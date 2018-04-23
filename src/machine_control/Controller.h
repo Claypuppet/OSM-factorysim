@@ -11,7 +11,7 @@ namespace Core{
     class Controller {
     public:
         Controller();
-        virtual ~Controller();
+        virtual ~Controller() = default;
 
     private:
         Application application;

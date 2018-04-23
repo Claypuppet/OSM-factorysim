@@ -11,10 +11,11 @@
 #include "SimulationApplication.h"
 
 namespace Simulator {
+
     class SimulationController : public Core::Controller, public Patterns::Statemachine::Context   {
     public:
         SimulationController();
-        virtual ~SimulationController();
+        virtual ~SimulationController() = default;
 
     private:
         Network::ClientPtr client;

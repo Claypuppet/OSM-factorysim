@@ -3,3 +3,9 @@
 //
 
 #include "SimulationApplication.h"
+
+namespace Simulator {
+	SimulationApplication::SimulationApplication() {
+
+	}
+}

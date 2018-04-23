@@ -27,7 +27,6 @@ namespace SimulationCommunication {
         void handleProcessProductMessage();
 
         void onConfigurationReceived(std::string);
-
     };
 }
 

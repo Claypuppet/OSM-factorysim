@@ -18,6 +18,7 @@ namespace SimulationCommunication {
 
 	void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
 		std::cout << "dc" << std::endl;
+
 	}
 
 	void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {

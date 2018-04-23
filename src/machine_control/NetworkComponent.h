@@ -11,7 +11,7 @@ namespace Communication {
 
 	class NetworkComponent : public Network::IConnectionHandler {
 	public:
-		NetworkComponent() = default;
+		NetworkComponent();
 		~NetworkComponent() = default;
 
 		const void sendHello();
@@ -30,7 +30,6 @@ namespace Communication {
 		void handleProcessProductMessage();
 
 	};
-
 }
 
 

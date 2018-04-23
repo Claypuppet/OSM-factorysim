@@ -4,3 +4,5 @@
 
 #include "SimulationController.h"
 
+namespace Simulator {
+}

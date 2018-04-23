@@ -7,6 +7,10 @@
 
 namespace Communication {
 
+	NetworkComponent::NetworkComponent() {
+
+	}
+
 	void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
 		IConnectionHandler::onConnectionFailed(connection, error);
 	}
