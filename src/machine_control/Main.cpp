@@ -11,29 +11,29 @@
 #include "NetworkComponent.h"
 
 
-class TempProdControlServer : public network::IConnectionHandler {
+class TempProdControlServer : public Network::IConnectionHandler {
 public:
 	TempProdControlServer() = default;
 	~TempProdControlServer() = default;
 protected:
 
-	void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override {
+	void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
 		IConnectionHandler::onConnectionFailed(connection, error);
 	}
 
-	void onConnectionEstablished(network::ConnectionPtr connection) override {
+	void onConnectionEstablished(Network::ConnectionPtr connection) override {
 
 	}
 
-	void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override {
+	void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
 
 	}
 
-	void onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) override {
+	void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override {
 		std::cout << "Server recieved: " << message.mBody << std::endl;
 	}
 
-	void onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) override {
+	void onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) override {
 		IConnectionHandler::onConnectionMessageSent(connection, message);
 	}
 
@@ -45,7 +45,7 @@ int main( 	int argc,
 	std::cout << "Hello from app machine simulator!" << std::endl;
 
 	// Temp server production control
-//	network::Manager serverManager;
+//	Network::Manager serverManager;
 //	auto serverThread = serverManager.runServiceThread();
 //	TempProdControlServer serverController;
 //	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
@@ -54,11 +54,11 @@ int main( 	int argc,
 
 
 	// This machine
-	network::Manager manager;
+	Network::Manager manager;
 	manager.setRemoteHost("192.168.137.20");
 	auto clientThread = manager.runServiceThread();
-	NetworkComponent network;
-	auto client = manager.createClient(std::make_shared<NetworkComponent>(network));
+	Communication::NetworkComponent Network;
+	auto client = manager.createClient(std::make_shared<Communication::NetworkComponent>(Network));
 
 
 //	if(server->isRunning())
@@ -67,9 +67,9 @@ int main( 	int argc,
 		client->start();
 
 
-		while(!network.getConnection()){}  // Wait for client to connect
+		while(!Network.getConnection()){}  // Wait for client to connect
 
-		network.sendHello();
+		Network.sendHello();
 //	}
 //
 //	serverThread->join();

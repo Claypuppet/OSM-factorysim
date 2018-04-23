@@ -21,9 +21,7 @@ link_directories(${Boost_LIBRARY_DIR} )
 # Add
 
 add_executable(app_machine_control
-        src/machine_control/Main.cpp
-        src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h)
+        src/machine_control/Main.cpp src/machine_control/SimulationNetworkComponent.cpp src/machine_control/SimulationNetworkComponent.h src/machine_control/Controller.cpp src/machine_control/Controller.h src/machine_control/Application.cpp src/machine_control/Application.h src/machine_control/SimulationController.cpp src/machine_control/SimulationController.h src/machine_control/SimulationApplication.cpp src/machine_control/SimulationApplication.h src/machine_control/NetworkComponent.cpp src/machine_control/NetworkComponent.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp)
@@ -57,12 +55,17 @@ add_library(lib_network SHARED
         ${lib_network_SRC})
 
 # Lib Patterns
-file(GLOB lib_patterns_SRC
-        "src/libs/patterns/**.h"
-        "src/libs/patterns/**.cpp")
+file(GLOB lib_patterns_state_SRC
+        "src/libs/patterns/statemachine/**.h"
+        "src/libs/patterns/statemachine/**.cpp")
+
+file(GLOB lib_patterns_singleton_SRC
+        "src/libs/patterns/singleton/**.h"
+        "src/libs/patterns/singleton/**.cpp")
 
 add_library(lib_patterns SHARED
-        ${lib_patterns_SRC})
+        ${lib_patterns_state_SRC}
+        ${lib_patterns_singleton_SRC})
 
 # Lib Cereal
 file(GLOB lib_cereal_SRC
@@ -101,7 +104,7 @@ target_link_libraries(app_production_control lib_silly_objects)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test
-target_link_libraries(app_machine_control lib_network)
+target_link_libraries(app_machine_control lib_network lib_silly_objects)
 target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Visualizer & test

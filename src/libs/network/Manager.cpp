@@ -14,7 +14,7 @@
 #include <boost/asio/io_service.hpp>
 
 
-namespace network
+namespace Network
 {
 
 	Manager::Manager()
@@ -136,7 +136,7 @@ namespace network
 			return;
 
 		try {
-			std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " running network service" << std::dec << std::endl;
+			std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
 			service->run();
 		}
 		catch(std::exception& e) {
@@ -145,7 +145,7 @@ namespace network
 		catch(...) {
 			std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
 		}
-		std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running network service" << std::dec << std::endl;
+		std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
 	}
 
 	ThreadPtr Manager::runServiceThread()
@@ -183,6 +183,6 @@ namespace network
 		return mLocalPort = port, *this;
 	}
 
-} // namespace network
+} // namespace Network
 
 

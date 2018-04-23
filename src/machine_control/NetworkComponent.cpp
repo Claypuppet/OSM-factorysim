@@ -5,36 +5,38 @@
 #include <iostream>
 #include "NetworkComponent.h"
 
-void NetworkComponent::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
-	IConnectionHandler::onConnectionFailed(connection, error);
-	std::cout << "fail" << std::endl;
-}
+namespace Communication {
 
-void NetworkComponent::onConnectionEstablished(network::ConnectionPtr connection) {
-	mConnection = connection;
-}
+	void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+		IConnectionHandler::onConnectionFailed(connection, error);
+	}
 
-void NetworkComponent::onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) {
-	std::cout << "dc" << std::endl;
-}
+	void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+		mConnection = connection;
+	}
 
-void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
-	std::cout << message.mBody << std::endl;
-}
+	void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+		std::cout << "dc" << std::endl;
+	}
 
-void NetworkComponent::handleProcessProductMessage() {
+	void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+		std::cout << message.mBody << std::endl;
+	}
 
-}
+	void NetworkComponent::handleProcessProductMessage() {
 
-void NetworkComponent::handleReconfigureMessage() {
+	}
 
-}
+	void NetworkComponent::handleReconfigureMessage() {
 
-const void NetworkComponent::sendHello() {
-	network::Message msg(1, "aaaaa");
-	mConnection->writeMessage(msg);
-}
+	}
 
-network::ConnectionPtr NetworkComponent::getConnection() {
-	return mConnection;
+	const void NetworkComponent::sendHello() {
+		Network::Message msg(1, "aaaaa");
+		mConnection->writeMessage(msg);
+	}
+
+	Network::ConnectionPtr NetworkComponent::getConnection() {
+		return mConnection;
+	}
 }
