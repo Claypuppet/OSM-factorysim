@@ -12,7 +12,7 @@
 class AppConnectionHandler : public Network::IConnectionHandler {
 public:
     AppConnectionHandler(Application *app);
-    ~AppConnectionHandler() = default;
+    virtual ~AppConnectionHandler() = default;
 private:
     void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <utility>
 #include <Logger/Logger.h>
 #include "Connection.h"
 
@@ -24,7 +25,7 @@ namespace Network
 	,	mSocket(manager.getIOService())
 	,	mPort(port)
 	,	mMaxClients(maxClients)
-	,	mConnectionHandler(handler)
+	,	mConnectionHandler(std::move(handler))
 	, 	mFStarted(ATOMIC_FLAG_INIT)
 	, 	mFStopping(ATOMIC_FLAG_INIT)
 	,   mFStopped(true)
@@ -50,6 +51,7 @@ namespace Network
 			mAcceptor.set_option(boost::asio::socket_base::reuse_address(true));
 			mAcceptor.bind(endpoint);
 			mAcceptor.listen();
+
 
 			mFStopped = false;
 

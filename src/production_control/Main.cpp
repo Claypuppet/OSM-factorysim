@@ -8,7 +8,6 @@
 
 #include <iostream>
 
-#include "silly_objects/Lib1.hpp"
 #include <memory>
 #include "network/Manager.h"
 #include "AppConnectionHandler.h"
@@ -22,21 +21,25 @@ int main( 	int argc,
 			char** argv)
 {
 	Application app;
-	Network::Manager m;
-	m.setRemotePort(12345);
-	ThreadPtr clientThread = m.runServiceThread();
-	Network::ClientPtr client = m.createClient(std::make_shared<TestConnectionHandler>());
+	app.startServer();
+
+
+
+	Network::Manager clientManager;
+	ThreadPtr clientThread = clientManager.runServiceThread();
+	Network::ClientPtr client = clientManager.createClient(std::make_shared<TestConnectionHandler>());
 
 	if(app.isServerRunning())
-    {
-        client->start();
+	{
+		client->start();
 //        if(client->getConnection()) {
 //			Network::Message msg(Network::Protocol::kAppMessageTypeRegisterMachine, "5");
 //			client->getConnection()->writeMessage(msg);
 //		}
-    }
+	}
 
 	clientThread->join();
+
 	app.joinServerThread();
 
 	return 0;

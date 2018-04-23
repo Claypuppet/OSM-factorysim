@@ -2,11 +2,25 @@
 // Created by don on 20-4-18.
 //
 
+#include "AppConnectionHandler.h"
 #include "Application.h"
 
-#include "AppConnectionHandler.h"
 #include "network/Server.h"
 #include "network/Client.h"
+#include "TestConnectionHandler.h"
+
+
+
+/**
+ * Default Constructor
+ * Constructs application, creates a connectionhandler and starts server thread / instance
+ */
+Application::Application()
+		: connectionHandler(std::make_shared<AppConnectionHandler>(this))
+{
+	serverThread = m.runServiceThread();
+	server = m.createServer(connectionHandler, 50);
+}
 
 /**
  * A function to add a machine to the machines vector
@@ -34,24 +48,21 @@ MachinePtr Application::getMachine(uint8_t machineId) {
 }
 
 /**
- * Default Constructor
- * Constructs application and starts a server
- */
-Application::Application()
-{
-    Network::Manager m;
-    m.setRemoteHost("192.168.137.1");
-    serverThread = m.runServiceThread();
-    AppConnectionHandler c(this);
-    server = m.createServer(std::make_shared<AppConnectionHandler>(c), 50);
-    server->start();
-}
-
-/**
  *  A function that joins the serverThread with the main thread
  */
 void Application::joinServerThread() {
     serverThread->join();
+}
+
+
+/**
+ *  Start the server if it's not running
+ */
+void Application::startServer(){
+	if(!isServerRunning()){
+		server->start();
+	}
+
 }
 
 /**

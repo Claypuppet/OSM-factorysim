@@ -9,6 +9,15 @@
 #include <iostream>
 
 /**
+ * The constructor (Set temp application pointer till observer - notifier pattern implementation)
+ * @param app
+ */
+
+AppConnectionHandler::AppConnectionHandler(Application *app) {
+    this->app = app;
+}
+
+/**
  * A handler for when a connection fails
  * @param connection
  * @param error
@@ -73,13 +82,4 @@ void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr co
 void AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
     Network::IConnectionHandler::onConnectionMessageSent(connection, message);
     std::cout << "Message sent!" << std::endl;
-}
-
-/**
- * The constructor
- * @param app
- */
-
-AppConnectionHandler::AppConnectionHandler(Application *app) {
-    this->app = app;
 }
