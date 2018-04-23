@@ -36,7 +36,7 @@ add_executable(app_machine_control
         src/machine_control/NetworkComponent.h)
 
 add_executable(app_production_control
-        src/production_control/Main.cpp)
+        src/production_control/Main.cpp src/production_control/ConfigurationReader.cpp src/production_control/ConfigurationReader.h src/production_control/Configuration.cpp src/production_control/Configuration.h src/production_control/SimulationInfoConfiguration.cpp src/production_control/SimulationInfoConfiguration.h src/production_control/ProductionLineConfiguration.cpp src/production_control/ProductionLineConfiguration.h src/production_control/ProductConfiguration.cpp src/production_control/ProductConfiguration.h src/production_control/MachineConfiguration.cpp src/production_control/MachineConfiguration.h src/production_control/MachineConfigurationConfiguration.cpp src/production_control/MachineConfigurationConfiguration.h)
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)
@@ -79,6 +79,14 @@ add_library(lib_patterns SHARED
         ${lib_patterns_state_SRC}
         ${lib_patterns_singleton_SRC})
 
+# Lib yaml-cpp
+file(GLOB lib_yaml_SRC
+        "src/libs/yaml-cpp/include/yaml-cpp/**.h"
+        "src/libs/yaml-cpp/src/**.cpp")
+
+add_library(lib_yaml-cpp SHARED
+        ${lib_yaml_SRC})
+
 # Lib Cereal
 file(GLOB lib_cereal_SRC
         "src/libs/cereal/**.hpp")
@@ -100,6 +108,7 @@ install(TARGETS
         lib_silly_objects
         lib_network
         lib_patterns
+        lib_yaml-cpp
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
@@ -112,7 +121,7 @@ target_link_libraries(lib_network ${Boost_SYSTEM_LIBRARY})
 
 
 # Production control & test
-target_link_libraries(app_production_control lib_silly_objects)
+target_link_libraries(app_production_control lib_yaml-cpp lib_silly_objects)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test
