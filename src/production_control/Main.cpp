@@ -20,7 +20,6 @@ int main( 	int argc,
 			char** argv)
 {
 	Application app;
-	//app.joinServerThread();
-	app.joinClientThread();
+	app.joinServerThread();
 	return 0;
 }

@@ -16,12 +16,9 @@ public:
     void addMachine(const Machine& aMachine);
     MachinePtr getMachine(uint8_t machineId);
     void joinServerThread();
-    void joinClientThread();
 private:
     std::vector<Machine> machines;
     network::ServerPtr server;
-    network::ClientPtr client;
-    ThreadPtr clientThread;
     ThreadPtr serverThread;
 };
 

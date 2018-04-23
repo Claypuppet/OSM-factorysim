@@ -13,7 +13,6 @@ class CommNet : public network::IConnectionHandler {
 public:
     CommNet(Application *app);
     ~CommNet() = default;
-    void sendMessage(network::Message msg);
 private:
     void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
