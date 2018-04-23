@@ -7,6 +7,7 @@
 #include "network/Protocol.h"
 
 #include <iostream>
+#include <Logger/Logger.h>
 
 /**
  * The constructor (Set temp application pointer till observer - notifier pattern implementation)
@@ -55,21 +56,12 @@ void AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr conne
 
 void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
     std::cout << "Received a message!" << std::endl;
-    if(message.getMessageType() == Network::Protocol::kAppMessageTypeRegisterMachine)
+    uint8_t messageType = message.getMessageType();
+    switch(messageType)
     {
-        uint8_t machineId = stoi(message.getBody());
-        MachinePtr machine = app->getMachine(machineId);
-        if(machine)
-        {
-            machine->setConnection(connection);
-            std::cout << "Added connection to machine with ID: " << machineId << std::endl;
-        }
-        else {
-            Machine m(machineId);
-            m.setConnection(connection);
-            app->addMachine(m);
-            std::cout << "Added machine with ID: " << machineId << std::endl;
-        }
+        case Network::Protocol::kAppMessageTypeRegisterMachine:
+            handleRegisterMachine(message.getBody(), connection);
+            break;
     }
 }
 
@@ -82,4 +74,24 @@ void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr co
 void AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
     Network::IConnectionHandler::onConnectionMessageSent(connection, message);
     std::cout << "Message sent!" << std::endl;
+}
+
+void AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
+    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
+    MachinePtr machine = app->getMachine(machineId);
+    if(machine)
+    {
+        machine->setConnection(connection);
+        std::stringstream ss;
+        ss << "Added connection to machine with ID: " << std::to_string(machineId) << std::endl;
+        Logger::log(ss.str());
+    }
+    else {
+        Machine m(machineId);
+        m.setConnection(connection);
+        app->addMachine(m);
+        std::stringstream ss;
+        ss << "Added machine with ID: " << std::to_string(machineId) << std::endl;
+        Logger::log(ss.str());
+    }
 }

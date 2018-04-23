@@ -73,3 +73,7 @@ void Application::startServer(){
 bool Application::isServerRunning() {
     return server->isRunning();
 }
+
+Network::ServerPtr Application::getServer() {
+    return Network::ServerPtr();
+}

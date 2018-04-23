@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include <memory>
+#include <Logger/Logger.h>
 #include "network/Manager.h"
 #include "AppConnectionHandler.h"
 #include "network/Server.h"
@@ -39,6 +40,9 @@ int main( 	int argc,
 	}
 
 	clientThread->join();
+
+//	AppConnectionHandler c(&app);
+//	c.handleRegisterMachine("12", nullptr);
 
 	app.joinServerThread();
 
