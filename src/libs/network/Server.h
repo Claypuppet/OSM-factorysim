@@ -23,18 +23,7 @@
 
 #pragma GCC diagnostic pop
 
-
-namespace boost {
-	namespace asio {
-		class io_service;
-	}
-	namespace system {
-		class error_code;
-	}
-}
-
-
-namespace network
+namespace Network
 {
 
 	using boost::system::error_code;
@@ -102,7 +91,7 @@ namespace network
 		bool mFStopped;
 	};
 
-} // namespace network
+} // namespace Network
 
 
 

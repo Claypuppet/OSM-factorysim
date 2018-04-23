@@ -21,17 +21,7 @@
 
 #pragma GCC diagnostic pop
 
-namespace boost {
-	namespace asio {
-		class io_service;
-	}
-	namespace system {
-		class error_code;
-	}
-}
-
-
-namespace network
+namespace Network
 {
 
 	using boost::asio::io_service;
@@ -217,7 +207,7 @@ namespace network
 	};
 
 
-} // namespace network
+} // namespace Network
 
 
 
