@@ -15,6 +15,7 @@ public:
     ~Application() = default;
     void addMachine(const Machine& aMachine);
     MachinePtr getMachine(uint8_t machineId);
+    Network::ServerPtr getServer();
     void joinServerThread();
     bool isServerRunning();
 private:

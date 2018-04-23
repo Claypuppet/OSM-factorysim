@@ -62,3 +62,7 @@ void Application::joinServerThread() {
 bool Application::isServerRunning() {
     return server->isRunning();
 }
+
+Network::ServerPtr Application::getServer() {
+    return Network::ServerPtr();
+}

@@ -13,6 +13,9 @@ class AppConnectionHandler : public Network::IConnectionHandler {
 public:
     AppConnectionHandler(Application *app);
     ~AppConnectionHandler() = default;
+
+    //Move to private when network component works
+    void handleRegisterMachine(const std::string& msgBody, Network::ConnectionPtr connection);
 private:
     void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
