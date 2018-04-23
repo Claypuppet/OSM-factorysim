@@ -9,21 +9,21 @@
 #include "Application.h"
 
 
-class AppConnectionHandler : public network::IConnectionHandler {
+class AppConnectionHandler : public Network::IConnectionHandler {
 public:
     AppConnectionHandler(Application *app);
     ~AppConnectionHandler() = default;
 private:
-    void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+    void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
-    void onConnectionEstablished(network::ConnectionPtr connection) override;
+    void onConnectionEstablished(Network::ConnectionPtr connection) override;
 
     void
-    onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+    onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
-    void onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) override;
+    void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-    void onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) override;
+    void onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) override;
     Application* app;
 };
 

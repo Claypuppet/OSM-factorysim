@@ -15,11 +15,29 @@
 #include "network/Server.h"
 #include "network/Client.h"
 #include "network/Connection.h"
+#include "network/Protocol.h"
+#include "TestConnectionHandler.h"
 
 int main( 	int argc,
 			char** argv)
 {
 	Application app;
+	Network::Manager m;
+	m.setRemotePort(12345);
+	ThreadPtr clientThread = m.runServiceThread();
+	Network::ClientPtr client = m.createClient(std::make_shared<TestConnectionHandler>());
+
+	if(app.isServerRunning())
+    {
+        client->start();
+//        if(client->getConnection()) {
+//			Network::Message msg(Network::Protocol::kAppMessageTypeRegisterMachine, "5");
+//			client->getConnection()->writeMessage(msg);
+//		}
+    }
+
+	clientThread->join();
 	app.joinServerThread();
+
 	return 0;
 }

@@ -4,6 +4,7 @@
 
 #include "AppConnectionHandler.h"
 #include "Machine.h"
+#include "network/Protocol.h"
 
 #include <iostream>
 
@@ -13,8 +14,8 @@
  * @param error
  */
 
-void AppConnectionHandler::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
-    IConnectionHandler::onConnectionFailed(connection, error);
+void AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+    Network::IConnectionHandler::onConnectionFailed(connection, error);
     std::cout << "Connection failed!" << std::endl;
 }
 
@@ -23,8 +24,8 @@ void AppConnectionHandler::onConnectionFailed(network::ConnectionPtr connection,
  * @param connection
  */
 
-void AppConnectionHandler::onConnectionEstablished(network::ConnectionPtr connection) {
-    connection = connection;
+void AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
+    //std::cout << "test" << std::endl;
 }
 
 /**
@@ -33,7 +34,7 @@ void AppConnectionHandler::onConnectionEstablished(network::ConnectionPtr connec
  * @param error
  */
 
-void AppConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) {
+void AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
     std::cout << "Disconnected!" << std::endl;
 }
 
@@ -43,20 +44,22 @@ void AppConnectionHandler::onConnectionDisconnected(network::ConnectionPtr conne
  * @param message
  */
 
-void AppConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
     std::cout << "Received a message!" << std::endl;
-    if(message.getMessageType() == 5)
+    if(message.getMessageType() == Network::Protocol::kAppMessageTypeRegisterMachine)
     {
         uint8_t machineId = stoi(message.getBody());
         MachinePtr machine = app->getMachine(machineId);
         if(machine)
         {
             machine->setConnection(connection);
+            std::cout << "Added connection to machine with ID: " << machineId << std::endl;
         }
         else {
             Machine m(machineId);
             m.setConnection(connection);
             app->addMachine(m);
+            std::cout << "Added machine with ID: " << machineId << std::endl;
         }
     }
 }
@@ -67,8 +70,8 @@ void AppConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr co
  * @param message
  */
 
-void AppConnectionHandler::onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) {
-    IConnectionHandler::onConnectionMessageSent(connection, message);
+void AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
+    Network::IConnectionHandler::onConnectionMessageSent(connection, message);
     std::cout << "Message sent!" << std::endl;
 }
 

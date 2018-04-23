@@ -12,9 +12,10 @@
 
 
 #include <boost/asio/io_service.hpp>
+#include <Logger/Logger.h>
 
 
-namespace network
+namespace Network
 {
 
 	Manager::Manager()
@@ -89,12 +90,16 @@ namespace network
 		auto c = mClient;
 
 		if(s) {
-			std::cout << "Stopping server..." << std::endl;
+			std::stringstream message;
+			message << "Stopping server..." << std::endl;
+			Logger::log(message.str());
 			s->stop();
 			mServer.reset();
 		}
 		if(c) {
-			std::cout << "Stopping client..." << std::endl;
+			std::stringstream message;
+			message << "Stopping client..." << std::endl;
+			Logger::log(message.str());
 			c->stop();
 			mClient.reset();
 		}
@@ -103,14 +108,18 @@ namespace network
 		if(s) {
 			while(s->isRunning())
 				std::this_thread::yield();
-			std::cout << "Server stopped" << std::endl;
+			std::stringstream message;
+			message << "Server stopped" << std::endl;
+			Logger::log(message.str());
 			s.reset();
 		}
 
 		if(c) {
 			while(c->isRunning())
 				std::this_thread::yield();
-			std::cout << "Client stopped" << std::endl;
+			std::stringstream message;
+			message << "Client stopped" << std::endl;
+			Logger::log(message.str());
 			c.reset();
 		}
 
@@ -136,7 +145,9 @@ namespace network
 			return;
 
 		try {
-			std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " running network service" << std::dec << std::endl;
+			std::stringstream message;
+			message << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
+			Logger::log(message.str());
 			service->run();
 		}
 		catch(std::exception& e) {
@@ -145,7 +156,9 @@ namespace network
 		catch(...) {
 			std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
 		}
-		std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running network service" << std::dec << std::endl;
+		std::stringstream message;
+		message << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
+		Logger::log(message.str());
 	}
 
 	ThreadPtr Manager::runServiceThread()
@@ -183,6 +196,6 @@ namespace network
 		return mLocalPort = port, *this;
 	}
 
-} // namespace network
+} // namespace Network
 
 

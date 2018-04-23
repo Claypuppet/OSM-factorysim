@@ -11,7 +11,7 @@
 #include <string>
 #include <memory>
 
-namespace network
+namespace Network
 {
 	typedef std::size_t size_t;
 	typedef uint8_t MessageType;
@@ -135,6 +135,6 @@ namespace network
 
 	typedef std::shared_ptr<Message> MessagePtr;
 
-} /* namespace network */
+} /* namespace Network */
 
 #endif /* NETWORK_MESSAGE_H_ */

@@ -11,10 +11,11 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <Logger/Logger.h>
 #include "Connection.h"
 
 
-namespace network
+namespace Network
 {
 
 	Server::Server(Manager& manager, ConnectionHandlerPtr handler, uint16_t port, uint16_t maxClients)
@@ -51,10 +52,14 @@ namespace network
 			mAcceptor.listen();
 
 			mFStopped = false;
-			std::cout << "Server: accepting clients on port: " << mAcceptor.local_endpoint().port() << std::endl;
+
+			std::stringstream message;
+			message << "Server: accepting clients on port: " << mAcceptor.local_endpoint().port() << std::endl;
+
+			Logger::log(message.str());
 
 			if(auto l = mServiceEventLister) {
-				// call this from a network i/o thread (to keep it consistent with other callbacks)
+				// call this from a Network i/o thread (to keep it consistent with other callbacks)
 				mManager.getIOService().post([self, l](){
 					l->onServiceStarted(self);
 				});
@@ -68,7 +73,7 @@ namespace network
 			std::string errorMsg = ss.str();
 			std::cerr << errorMsg << std::endl;
 			if(auto l = self->getServiceEventListener()) {
-				// call this from a network i/o thread (to keep it consistent with other callbacks)
+				// call this from a Network i/o thread (to keep it consistent with other callbacks)
 				mManager.getIOService().post([self, errorMsg, l](){
 					l->onServiceError(self, errorMsg);
 				});
@@ -110,7 +115,9 @@ namespace network
 					connectionPtr->established();
 				}
 				else {
-					std::cout << "Server: dropping client server full" << std::endl;
+					std::stringstream message;
+					message << "Server: dropping client server full" << std::endl;
+					Logger::log(message.str());
 					connectionPtr->failed(error_code(boost::system::errc::connection_refused,boost::system::generic_category()));
 				}
 			}
@@ -118,7 +125,9 @@ namespace network
 
 		if(error) {
 			// TODO: handle "fatal" errors which might cause an infinite loop asyncAccept -> error -> asyncAccept ... etc
-			std::cout << "Server: failed to accept client. error: " << error.message() << std::endl;
+			std::stringstream message;
+			message << "Server: failed to accept client. error: " << error.message() << std::endl;
+			Logger::log(message.str());
 			if(mFStopped || !mSocket.is_open() || !mAcceptor.is_open()) {
 				return;
 			}
@@ -147,7 +156,9 @@ namespace network
 	void Server::onConnectionEstablished(ConnectionPtr connection)
 	{
 		auto self = shared_from_this();
-		std::cout << "Server: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		std::stringstream message;
+		message << "Server: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection](){ h->onConnectionEstablished(connection); });
 	}
@@ -155,8 +166,11 @@ namespace network
 	void Server::onConnectionDisconnected(ConnectionPtr connection, const error_code& error)
 	{
 		auto self = shared_from_this();
-		std::cout << "Server: lost connection with: " << connection->getSocket().remote_endpoint() <<
+
+		std::stringstream message;
+		message << "Server: lost connection with: " << connection->getSocket().remote_endpoint() <<
 				" (" << error.message() << ")" << std::endl;
+		Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection, error](){ h->onConnectionDisconnected(connection, error); });
 		bool doAccept = mConnections.size() >= mMaxClients;

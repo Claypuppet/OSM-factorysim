@@ -30,7 +30,7 @@ bool Machine::isConnected() {
  * @param msg The message to send to this machine
  */
 
-void Machine::sendMessage(network::Message &msg) {
+void Machine::sendMessage(Network::Message &msg) {
     connection->writeMessage(msg);
 }
 
@@ -76,6 +76,6 @@ Machine& Machine::operator=(const Machine& rhs) {
  * @param aConnection The connection with this machine
  */
 
-void Machine::setConnection(network::ConnectionPtr aConnection) {
+void Machine::setConnection(Network::ConnectionPtr aConnection) {
     connection = aConnection;
 }

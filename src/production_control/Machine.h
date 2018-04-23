@@ -16,13 +16,13 @@ public:
     Machine(const Machine& aMachine);
     Machine& operator=(const Machine& rhs);
     ~Machine() = default;
-    void sendMessage(network::Message& msg);
+    void sendMessage(Network::Message& msg);
     bool isConnected();
-    void setConnection(network::ConnectionPtr aConnection);
+    void setConnection(Network::ConnectionPtr aConnection);
     uint8_t getId();
 private:
     uint8_t id;
-    network::ConnectionPtr connection;
+    Network::ConnectionPtr connection;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;

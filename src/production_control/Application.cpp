@@ -39,7 +39,7 @@ MachinePtr Application::getMachine(uint8_t machineId) {
  */
 Application::Application()
 {
-    network::Manager m;
+    Network::Manager m;
     m.setRemoteHost("192.168.137.1");
     serverThread = m.runServiceThread();
     AppConnectionHandler c(this);
@@ -52,4 +52,13 @@ Application::Application()
  */
 void Application::joinServerThread() {
     serverThread->join();
+}
+
+/**
+ * A function to check if the applications server is running
+ * @return True when the server is running
+ */
+
+bool Application::isServerRunning() {
+    return server->isRunning();
 }

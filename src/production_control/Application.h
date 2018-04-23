@@ -16,9 +16,10 @@ public:
     void addMachine(const Machine& aMachine);
     MachinePtr getMachine(uint8_t machineId);
     void joinServerThread();
+    bool isServerRunning();
 private:
     std::vector<Machine> machines;
-    network::ServerPtr server;
+    Network::ServerPtr server;
     ThreadPtr serverThread;
 };
 
