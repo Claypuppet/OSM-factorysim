@@ -33,7 +33,7 @@ add_executable(app_machine_control
         src/machine_control/SimulationApplication.cpp
         src/machine_control/SimulationApplication.h
         src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h)
+        src/machine_control/NetworkComponent.h src/machine_control/states_simulation/SimulationState.cpp src/machine_control/states_simulation/SimulationState.h src/machine_control/states_simulation/InitializeSimulationState.cpp src/machine_control/states_simulation/InitializeSimulationState.h src/machine_control/states_simulation/OffState.cpp src/machine_control/states_simulation/OffState.h src/machine_control/states_simulation/OnState.cpp src/machine_control/states_simulation/OnState.h src/machine_control/states_simulation/ShutdownState.cpp src/machine_control/states_simulation/ShutdownState.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp)
