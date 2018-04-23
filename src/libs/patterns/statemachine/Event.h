@@ -1,21 +1,30 @@
 #ifndef EVENT_H_
 #define EVENT_H_
+
+#include <cstdint>
+
 namespace Patterns {
     namespace Statemachine {
+
+        template <typename T = uint32_t>
         class Event {
         public:
-            Event(unsigned long long id);
 
-            Event(const Event &event);
+            Event(T id) : id(id){}
+            Event(const Event& event) : id(event.id){}
+            virtual ~Event() = default;
 
-            virtual ~Event();
+            T getId() const { return id; };
 
-            unsigned long long getId() const;
-
-            const Event& operator=(const Event& rhs);
+            Event& operator=(const Event &e) {
+                if(this != &e){
+                    id = e.id;
+                }
+                return *this;
+            }
 
         private:
-            unsigned long long id;
+            T id;
         };
     }
 }
