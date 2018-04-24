@@ -4,16 +4,19 @@
 
 #include "SelfTestState.h"
 
-namespace ProductionStates::Initialization {
-    void SelfTestState::entryAction() {
+namespace ProductionStates {
+    namespace Initialization {
+        void SelfTestState::entryAction() {
 
-    }
+        }
 
-    void SelfTestState::doActivity() {
+        void SelfTestState::doActivity() {
 
-    }
+        }
 
-    void SelfTestState::exitAction() {
+        void SelfTestState::exitAction() {
+
+        }
 
     }
 }

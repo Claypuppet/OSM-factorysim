@@ -4,16 +4,19 @@
 
 #include "IdleState.h"
 
-namespace ProductionStates::InOperation {
-    void IdleState::entryAction() {
+namespace ProductionStates {
+    namespace InOperation {
+        void IdleState::entryAction() {
 
-    }
+        }
 
-    void IdleState::doActivity() {
+        void IdleState::doActivity() {
 
-    }
+        }
 
-    void IdleState::exitAction() {
+        void IdleState::exitAction() {
 
+
+        }
     }
 }

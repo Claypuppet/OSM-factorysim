@@ -11,16 +11,18 @@
 namespace ProductionStates {
     class ConnectState : public ProductionState {
     public:
-        ConnectState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+        ConnectState(Patterns::Statemachine::Context &aContext)
+                : ProductionState(aContext) {};
 
         virtual ~ConnectState() = default;
 
         virtual void entryAction();
 
-
         virtual void doActivity();
 
         virtual void exitAction();
+
+        virtual bool handleEvent(const Patterns::Statemachine::Event &e);
     };
 }
 

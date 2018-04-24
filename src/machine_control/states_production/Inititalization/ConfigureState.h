@@ -8,20 +8,22 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates::Initialization {
-    class ConfigureState : public ProductionState {
-    public:
-        ConfigureState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+     namespace Initialization {
+         class ConfigureState : public ProductionState {
+         public:
+             ConfigureState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~ConfigureState() = default;
+             virtual ~ConfigureState() = default;
 
-        virtual void entryAction();
+             virtual void entryAction();
 
 
-        virtual void doActivity();
+             virtual void doActivity();
 
-        virtual void exitAction();
-    };
+             virtual void exitAction();
+         };
+     }
 }
 
 

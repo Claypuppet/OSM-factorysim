@@ -8,20 +8,22 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates::Broken {
-    class RepairingState : public ProductionState {
-    public:
-        RepairingState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace Broken {
+        class RepairingState : public ProductionState {
+        public:
+            RepairingState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~RepairingState() = default;
+            virtual ~RepairingState() = default;
 
-        virtual void entryAction();
+            virtual void entryAction();
 
 
-        virtual void doActivity();
+            virtual void doActivity();
 
-        virtual void exitAction();
-    };
+            virtual void exitAction();
+        };
+    }
 }
 
 #endif //PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H

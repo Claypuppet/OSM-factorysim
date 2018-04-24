@@ -4,16 +4,18 @@
 
 #include "RepairingState.h"
 
-namespace ProductionStates::Broken {
-    void RepairingState::entryAction() {
+namespace ProductionStates {
+    namespace Broken {
+        void RepairingState::entryAction() {
 
-    }
+        }
 
-    void RepairingState::doActivity() {
+        void RepairingState::doActivity() {
 
-    }
+        }
 
-    void RepairingState::exitAction() {
+        void RepairingState::exitAction() {
 
+        }
     }
 }

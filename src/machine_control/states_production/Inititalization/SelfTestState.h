@@ -8,21 +8,24 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates::Initialization {
-    class SelfTestState : public ProductionState {
-    public:
-        SelfTestState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace Initialization {
+        class SelfTestState : public ProductionState {
+        public:
+            SelfTestState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~SelfTestState() = default;
+            virtual ~SelfTestState() = default;
 
-        virtual void entryAction();
+            virtual void entryAction();
 
 
-        virtual void doActivity();
+            virtual void doActivity();
 
-        virtual void exitAction();
-    };
+            virtual void exitAction();
+        };
+    }
 }
+
 
 
 #endif //PRODUCTION_LINE_CONTROL_SELFTESTSTATE_H

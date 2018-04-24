@@ -16,4 +16,8 @@ namespace ProductionStates {
     void ConnectState::exitAction() {
         //TODO: START CONFIGURESTATE
     }
+
+    bool ConnectState::handleEvent(const Patterns::Statemachine::Event &e) {
+        return false;
+    }
 }

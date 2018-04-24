@@ -5,16 +5,23 @@
 #include "BrokenState.h"
 
 
-namespace ProductionStates::Broken {
-    void BrokenState::entryAction() {
+namespace ProductionStates {
+    namespace Broken {
+        BrokenState::BrokenState(Patterns::Statemachine::Context& aContext)
+            : ProductionState(aContext){
 
-    }
+        }
 
-    void BrokenState::doActivity() {
+        void BrokenState::entryAction() {
 
-    }
+        }
 
-    void BrokenState::exitAction() {
+        void BrokenState::doActivity() {
 
+        }
+
+        void BrokenState::exitAction() {
+
+        }
     }
 }

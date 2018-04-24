@@ -9,21 +9,24 @@
 #include "../../../NetworkComponent.h"
 #include "../../ProductionState.h"
 
-namespace ProductionStates::InOperation::ProcessProduct {
-    class TakeProductState : public ProductionState {
-    public:
-        TakeProductState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace InOperation {
+        namespace ProcessProduct {
+            class TakeProductState : public ProductionState {
+            public:
+                TakeProductState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~TakeProductState() = default;
+                virtual ~TakeProductState() = default;
 
-        virtual void entryAction();
+                virtual void entryAction();
 
+                virtual void doActivity();
 
-        virtual void doActivity();
+                virtual void exitAction();
 
-        virtual void exitAction();
-
-    };
+            };
+        }
+    }
 }
 
 

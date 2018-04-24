@@ -9,7 +9,6 @@
 #include "../NetworkComponent.h"
 
 namespace ProductionStates {
-
     class ProductionState : public Patterns::Statemachine::State {
     public:
         virtual ~ProductionState() = default;
@@ -20,13 +19,14 @@ namespace ProductionStates {
 
         virtual void exitAction() = 0;
 
-//            virtual bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c);
+        virtual bool handleEvent(const Patterns::Statemachine::Event &e) = 0;
 
     protected:
-        ProductionState(Communication::NetworkComponent &aContext);
+        ProductionState(Patterns::Statemachine::Context& aContext);
 
-        Communication::NetworkComponent &context;
+        Patterns::Statemachine::Context& context;
     };
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_PRODUCTIONSTATE_H

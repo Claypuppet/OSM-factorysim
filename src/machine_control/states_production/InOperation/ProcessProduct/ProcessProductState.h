@@ -8,20 +8,24 @@
 
 #include "../../ProductionState.h"
 
-namespace ProductionStates::InOperation::ProcessProduct {
-    class ProcessProductState : public ProductionState {
-    public:
-        ProcessProductState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace InOperation {
+        namespace ProcessProduct {
+            class ProcessProductState : public ProductionState {
+            public:
+                ProcessProductState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~ProcessProductState() = default;
+                virtual ~ProcessProductState() = default;
 
-        virtual void entryAction();
+                virtual void entryAction();
 
 
-        virtual void doActivity();
+                virtual void doActivity();
 
-        virtual void exitAction();
-    };
+                virtual void exitAction();
+            };
+        }
+    }
 }
 
 

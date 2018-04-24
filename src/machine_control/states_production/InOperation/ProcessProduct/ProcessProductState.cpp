@@ -4,16 +4,21 @@
 
 #include "ProcessProductState.h"
 
-namespace ProductionStates::InOperation::ProcessProduct {
-    void ProcessProductState::entryAction() {
+namespace ProductionStates {
+    namespace InOperation {
+        namespace ProcessProduct {
+            void ProcessProductState::entryAction() {
 
-    }
+            }
 
-    void ProcessProductState::doActivity() {
+            void ProcessProductState::doActivity() {
 
-    }
+            }
 
-    void ProcessProductState::exitAction() {
+            void ProcessProductState::exitAction() {
 
+            }
+
+        }
     }
 }

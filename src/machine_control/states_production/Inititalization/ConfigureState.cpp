@@ -4,16 +4,18 @@
 
 #include "ConfigureState.h"
 
-namespace ProductionStates::Initialization {
-    void ConfigureState::entryAction() {
+namespace ProductionStates {
+    namespace Initialization {
+        void ConfigureState::entryAction() {
 
-    }
+        }
 
-    void ConfigureState::doActivity() {
+        void ConfigureState::doActivity() {
 
-    }
+        }
 
-    void ConfigureState::exitAction() {
+        void ConfigureState::exitAction() {
 
+        }
     }
 }

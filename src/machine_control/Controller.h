@@ -7,7 +7,7 @@
 
 #include "Application.h"
 
-namespace Core{
+namespace MachineCore{
     class Controller {
     public:
         Controller() = default;

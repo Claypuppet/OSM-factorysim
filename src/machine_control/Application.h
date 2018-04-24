@@ -6,20 +6,24 @@
 #define PRODUCTION_LINE_CONTROL_APPLICATION_H
 
 #include "patterns/statemachine/Context.h"
+#include "patterns/notifyobserver/Observer.hpp"
 #include "network/Manager.h"
 #include "NetworkComponent.h"
 
 //TODO: Implement Observer
-namespace Core {
-    class Application : public Patterns::Statemachine::Context {
+namespace MachineCore {
+    class Application
+            : public Patterns::Statemachine::Context, public Patterns::NotifyObserver::Observer{
     public:
-        Application(const Network::ClientPtr &client);
+        virtual void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification);
 
         Application();
-        virtual ~Application();
+        virtual ~Application() = default;
 
     private:
+        Network::Manager manager;
         Network::ClientPtr client;
+        ThreadPtr clientThread;
     };
 }
 

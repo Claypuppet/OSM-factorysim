@@ -8,20 +8,22 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates::InOperation {
-    class IdleState : public ProductionState {
-    public:
-        IdleState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace InOperation {
+        class IdleState : public ProductionState {
+        public:
+            IdleState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-        virtual ~IdleState() = default;
+            virtual ~IdleState() = default;
 
-        virtual void entryAction();
+            virtual void entryAction();
 
 
-        virtual void doActivity();
+            virtual void doActivity();
 
-        virtual void exitAction();
-    };
+            virtual void exitAction();
+        };
+    }
 }
 
 

@@ -4,6 +4,6 @@
 
 #include "Controller.h"
 
-namespace Core {
+namespace MachineCore {
 
 }

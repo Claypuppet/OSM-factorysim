@@ -7,20 +7,22 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates::Broken {
-    class BrokenState : public ProductionState {
-    public:
-        BrokenState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
+namespace ProductionStates {
+    namespace Broken {
+        class BrokenState : public ProductionState {
+        public:
+            BrokenState(Patterns::Statemachine::Context &aContext);
 
-        virtual ~BrokenState() = default;
+            virtual ~BrokenState() = default;
 
-        virtual void entryAction();
+            virtual void entryAction();
 
 
-        virtual void doActivity();
+            virtual void doActivity();
 
-        virtual void exitAction();
-    };
+            virtual void exitAction();
+        };
+    }
 }
 
 #endif //PRODUCTION_LINE_CONTROL_BROKENSTATE_H
