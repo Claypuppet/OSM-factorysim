@@ -9,11 +9,11 @@
 #include "../../ProductionState.h"
 
 namespace ProductionStates::InOperation::ProcessProduct {
-    class ProcessProductState : public ProductionState {
+    class TakeOutProductState : public ProductionState {
     public:
-        ProcessProductState(Communication::NetworkComponent &context);
+        TakeOutProductState(Communication::NetworkComponent &context);
 
-        virtual ~ProcessProductState() = default;
+        virtual ~TakeOutProductState() = default;
 
         virtual void entryAction();
 

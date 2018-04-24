@@ -4,4 +4,9 @@
 
 #include "ProductionState.h"
 
-ProductionStates::ProductionState::ProductionState(Communication::NetworkComponent &context) : context(context) {}
+namespace ProductionStates {
+    ProductionState::ProductionState(Communication::NetworkComponent &aContext)
+            : context(aContext) {}
+
+
+}

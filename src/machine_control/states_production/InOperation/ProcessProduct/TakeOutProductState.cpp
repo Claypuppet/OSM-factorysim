@@ -5,15 +5,15 @@
 #include "TakeOutProductState.h"
 
 namespace ProductionStates::InOperation::ProcessProduct {
-    void ProcessProductState::entryAction() {
+    void TakeOutProductState::entryAction() {
 
     }
 
-    void ProcessProductState::doActivity() {
+    void TakeOutProductState::doActivity() {
 
     }
 
-    void ProcessProductState::exitAction() {
+    void TakeOutProductState::exitAction() {
 
     }
 }

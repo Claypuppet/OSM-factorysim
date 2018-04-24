@@ -11,7 +11,6 @@
 namespace ProductionStates {
 
     class ProductionState : public Patterns::Statemachine::State {
-
     public:
         virtual ~ProductionState() = default;
 
@@ -21,10 +20,10 @@ namespace ProductionStates {
 
         virtual void exitAction() = 0;
 
-        virtual bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c);
+//            virtual bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c);
 
     protected:
-        ProductionState(Communication::NetworkComponent &context);
+        ProductionState(Communication::NetworkComponent &aContext);
 
         Communication::NetworkComponent &context;
     };
