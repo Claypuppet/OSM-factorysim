@@ -12,7 +12,7 @@ namespace Patterns {
 
         typedef std::shared_ptr<Event> EventPtr;
 
-        class Event {
+        class Event : public std::enable_shared_from_this<Event> {
         public:
 			/**
 			 * Create new event

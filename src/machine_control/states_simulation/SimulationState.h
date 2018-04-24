@@ -6,22 +6,25 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONSTATE_H
 
 #include <patterns/statemachine/State.h>
-#include "../SimulationNetworkComponent.h"
-#include "Event.h"
+#include <patterns/statemachine/Event.h>
+#include "../SimulationController.h"
 
 namespace SimulationStates {
 
-	class SimulationState : Patterns::Statemachine::State {
+	typedef Patterns::Statemachine::Event Event;
+	typedef Patterns::Statemachine::EventPtr EventPtr;
+
+	class SimulationState : public Patterns::Statemachine::State {
 
 	public:
 		virtual ~SimulationState() = default;
-		virtual bool handleEvent(const Event &e, SimulationCommunication::SimulationNetworkComponent &c) {};
-		virtual void entryAction() {};
-		virtual void doActivity() {};
-		virtual void exitAction() {};
+		virtual bool handleEvent(const EventPtr &e);
+		virtual void entryAction() = 0;
+		virtual void doActivity() = 0;
+		virtual void exitAction() = 0;
 	protected:
-		SimulationState(SimulationCommunication::SimulationNetworkComponent&);
-		SimulationCommunication::SimulationNetworkComponent& context;
+		SimulationState(Simulator::SimulationController&);
+		Simulator::SimulationController& context;
 
 	};
 }

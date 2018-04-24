@@ -17,4 +17,8 @@ namespace SimulationStates {
 	void ShutdownState::exitAction() {
 
 	}
+
+	bool ShutdownState::handleEvent(const EventPtr &e) {
+		return SimulationState::handleEvent(e);
+	}
 }

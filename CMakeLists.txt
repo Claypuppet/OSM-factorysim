@@ -44,8 +44,7 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/OnState.h
         src/machine_control/states_simulation/ShutdownState.cpp
         src/machine_control/states_simulation/ShutdownState.h
-        src/machine_control/states_simulation/Event.cpp
-        src/machine_control/states_simulation/Event.h)
+        )
 
 add_executable(app_production_control
         src/production_control/Main.cpp

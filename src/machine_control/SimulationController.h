@@ -6,6 +6,7 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 
 #include <network/Manager.h>
+#include <network/Client.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include "SimulationNetworkComponent.h"
 #include "Controller.h"
@@ -21,11 +22,12 @@ namespace Simulator {
         SimulationController();
         virtual ~SimulationController() = default;
 
-        void run() override;
-
 		void execute();
 
 		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+
+		const bool isConnected();
+		void setupNetwork();
 
 	private:
 		bool executing;
@@ -34,7 +36,8 @@ namespace Simulator {
 		Network::Manager networkManager;
         Network::ClientPtr client;
 
-		void setupNetwork();
+
+		void setStartState();
 	};
 }
 

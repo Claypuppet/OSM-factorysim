@@ -18,4 +18,8 @@ namespace SimulationStates {
 
 	}
 
+	bool OffState::handleEvent(const EventPtr &e) {
+		return SimulationState::handleEvent(e);
+	}
+
 }

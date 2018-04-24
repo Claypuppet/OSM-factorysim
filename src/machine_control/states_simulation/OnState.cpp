@@ -17,4 +17,8 @@ namespace SimulationStates {
 	void OnState::exitAction() {
 
 	}
+
+	bool OnState::handleEvent(const EventPtr &e) {
+		return SimulationState::handleEvent(e);
+	}
 }

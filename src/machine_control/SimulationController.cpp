@@ -3,16 +3,12 @@
 //
 
 #include "SimulationController.h"
+#include "states_simulation/InitializeSimulationState.h"
 #include <network/Client.h>
 
 namespace Simulator {
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		// TODO: add notification (state event) to event queue
-
-	}
-
-	void SimulationController::run() {
-		Context::run();
 	}
 
 	SimulationController::SimulationController() : executing(false) {
@@ -25,21 +21,25 @@ namespace Simulator {
 		handleNotificationsFor(connectionHandler);
 
 		client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(connectionHandler));
-
+		client->start();
 	}
 
 	void SimulationController::execute() {
-		// TODO: set first state
 		executing = true;
+		setStartState();
 
-
-		setupNetwork();
-
-		// This should be done in a state
-		client->start();
-
-
-		while(executing)
+		while(executing){
 			run();
+		}
+	}
+
+	void SimulationController::setStartState()
+	{
+		auto startState = std::make_shared<SimulationStates::InitializeSimulationState>(*this);
+		setCurrentState(startState);
+	}
+
+	const bool SimulationController::isConnected()  {
+		return (client && client->isRunning() && client->getConnection() && client->getConnection()->isConnected());
 	}
 }

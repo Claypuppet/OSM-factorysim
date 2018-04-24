@@ -13,7 +13,7 @@ namespace SimulationStates {
 
 	class ShutdownState : public SimulationState {
 	public:
-		ShutdownState(SimulationCommunication::SimulationNetworkComponent &context) : SimulationState(context){};
+		ShutdownState(Simulator::SimulationController &context) : SimulationState(context){};
 		virtual ~ShutdownState() = default;
 
 		void entryAction() override;
@@ -21,6 +21,8 @@ namespace SimulationStates {
 		void doActivity() override;
 
 		void exitAction() override;
+
+		bool handleEvent(const EventPtr &e) override;
 
 	};
 

@@ -13,7 +13,7 @@ namespace SimulationStates {
 
 	class OffState : public SimulationState {
 	public:
-		OffState(SimulationCommunication::SimulationNetworkComponent &context) : SimulationState(context){};
+		OffState(Simulator::SimulationController &context) : SimulationState(context){};
 		virtual ~OffState() = default;
 
 		void entryAction() override;
@@ -21,6 +21,8 @@ namespace SimulationStates {
 		void doActivity() override;
 
 		void exitAction() override;
+
+		bool handleEvent(const EventPtr &e) override;
 
 	};
 
