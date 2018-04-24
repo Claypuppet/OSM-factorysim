@@ -3,40 +3,34 @@
 #include <sstream>
 #include <typeinfo>
 #include "Observer.hpp"
+#include "../../../machine_control/states_simulation/Event.h"
 #include <algorithm>
+#include <patterns/statemachine/Event.h>
 
 namespace Patterns {
 	namespace NotifyObserver {
 
 		const NotifyTrigger NotifyTrigger::DoNotNotify(kNotifyTriggerId_DoNotNotify);
 
-		NotifyEvent::NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier, NotifyEventId event)
-				: mNotifier(notifier), mEventId(event), mTrigger(trigger) {
+		NotifyEvent::NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier)
+				: mNotifier(notifier), mTrigger(trigger) {
 		}
 
 
 		NotifyEvent::NotifyEvent(const NotifyTrigger &trigger)
-				: NotifyEvent(trigger, nullptr, kNotifyEventId_None) {
+				: NotifyEvent(trigger, nullptr) {
 		}
 
 		NotifyEvent::NotifyEvent()
-				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), nullptr, kNotifyEventId_None) {
+				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), nullptr) {
 		}
 
 		Notifier *NotifyEvent::getNotifier() const {
 			return mNotifier;
 		}
 
-		NotifyEventId NotifyEvent::getEventId() const {
-			return mEventId;
-		}
-
 		const NotifyTrigger &NotifyEvent::getTrigger() const {
 			return mTrigger;
-		}
-
-		NotifyEvent &NotifyEvent::setEvent(NotifyEventId event) {
-			return mEventId = event, *this;
 		}
 
 		NotifyEvent &NotifyEvent::setTrigger(NotifyTrigger &trigger) {
@@ -47,12 +41,12 @@ namespace Patterns {
 			return mNotifier = notifier, *this;
 		}
 
-		std::string NotifyEvent::asString() const {
-			std::stringstream ss;
-			ss << "NotifyEvent{"
-			   << ", id=" << mEventId << '}';
-			return ss.str();
+		const Patterns::Statemachine::EventPtr &NotifyEvent::getStateEvent() const {
+			return stateEvent;
+		}
 
+		void NotifyEvent::setStateEvent(const Patterns::Statemachine::EventPtr &stateEvent) {
+			NotifyEvent::stateEvent = stateEvent;
 		}
 
 		/**
@@ -139,13 +133,8 @@ namespace Patterns {
 			}
 		}
 
-		NotifyEvent
-		Notifier::makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger, NotifyEventId eventId) {
-			return NotifyEvent(trigger, notifier, eventId);
-		}
-
-		NotifyEvent Notifier::makeNotifcation(const NotifyTrigger &trigger, NotifyEventId event) {
-			return NotifyEvent(trigger, this, event);
+		NotifyEvent Notifier::makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger) {
+			return NotifyEvent(trigger, notifier);
 		}
 
 
