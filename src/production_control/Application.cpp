@@ -10,32 +10,17 @@
 #include "TestConnectionHandler.h"
 
 
-
-/**
- * Default Constructor
- * Constructs application, creates a connectionhandler and starts server thread / instance
- */
-Application::Application()
+Core::Application::Application()
 {
 	serverThread = m.runServiceThread();
 	server = m.createServer(std::make_shared<AppConnectionHandler>(this), 50);
 }
 
-/**
- * A function to add a machine to the machines vector
- * @param aMachine the machine to add
- */
-
-void Application::addMachine(const Machine &aMachine) {
+void Core::Application::addMachine(const Machine &aMachine) {
     machines.push_back(aMachine);
 }
 
-/**
- * A function to get a machine by its ID
- * @param machineId The ID of the machine you are looking for
- * @return The machine with the requested ID or a nullptr when the machine doesn't exist
- */
-MachinePtr Application::getMachine(uint8_t machineId) {
+Core::MachinePtr Core::Application::getMachine(uint8_t machineId) {
     for(Machine& m : machines)
     {
         if(m.getId() == machineId)
@@ -46,33 +31,21 @@ MachinePtr Application::getMachine(uint8_t machineId) {
     return nullptr;
 }
 
-/**
- *  A function that joins the serverThread with the main thread
- */
-void Application::joinServerThread() {
+void Core::Application::joinServerThread() {
     serverThread->join();
 }
 
-
-/**
- *  Start the server if it's not running
- */
-void Application::startServer(){
+void Core::Application::startServer(){
 	if(!isServerRunning()){
 		server->start();
 	}
 
 }
 
-/**
- * A function to check if the applications server is running
- * @return True when the server is running
- */
-
-bool Application::isServerRunning() {
+bool Core::Application::isServerRunning() {
     return server->isRunning();
 }
 
-Network::ServerPtr Application::getServer() {
+Network::ServerPtr Core::Application::getServer() {
     return Network::ServerPtr();
 }

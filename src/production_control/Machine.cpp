@@ -4,65 +4,34 @@
 
 #include "Machine.h"
 
-/**
- * A function to get the id of the machine
- * @return The id of the machine
- */
-
-uint8_t Machine::getId() {
+uint8_t Core::Machine::getId() {
     return id;
 }
 
-/**
- * A function to check if a connection is established with the machine
- * @return True if theres a connection establised with the machine
- */
-
-bool Machine::isConnected() {
+bool Core::Machine::isConnected() {
     if(connection != nullptr){
         return true;
     }
     return false;
 }
 
-/**
- * A function to send a message to this machine
- * @param msg The message to send to this machine
- */
-
-void Machine::sendMessage(Network::Message &msg) {
+void Core::Machine::sendMessage(Network::Message &msg) {
     connection->writeMessage(msg);
 }
 
-/**
- * Constructor
- * @param anId The id of the machine
- */
-
-Machine::Machine(uint8_t anId)
+Core::Machine::Machine(uint8_t anId)
     :id(anId),connection(nullptr)
 {
 
 }
 
-/**
- * Copy constructor
- * @param aMachine The machine to copy
- */
-
-Machine::Machine(const Machine &aMachine)
+Core::Machine::Machine(const Machine &aMachine)
     :id(aMachine.id),connection(aMachine.connection)
 {
 
 }
 
-/**
- * Assignment operator
- * @param rhs The machine to copy
- * @return The new machine
- */
-
-Machine& Machine::operator=(const Machine& rhs) {
+Core::Machine& Core::Machine::operator=(const Machine& rhs) {
     if(this != &rhs)
     {
         id = rhs.id;
@@ -71,11 +40,6 @@ Machine& Machine::operator=(const Machine& rhs) {
     return *this;
 }
 
-/**
- * A function that sets the connection with this machine
- * @param aConnection The connection with this machine
- */
-
-void Machine::setConnection(Network::ConnectionPtr aConnection) {
+void Core::Machine::setConnection(Network::ConnectionPtr aConnection) {
     connection = aConnection;
 }

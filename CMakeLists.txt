@@ -42,7 +42,14 @@ add_executable(app_production_control
         src/production_control/Machine.cpp
         src/production_control/Machine.h
         src/production_control/Application.cpp
-        src/production_control/Application.h src/production_control/TestConnectionHandler.cpp src/production_control/TestConnectionHandler.h)
+        src/production_control/Application.h
+        src/production_control/TestConnectionHandler.cpp
+        src/production_control/TestConnectionHandler.h
+        src/production_control/SimulationController.cpp
+        src/production_control/SimulationController.h
+        src/production_control/Controller.cpp
+        src/production_control/Controller.h)
+
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)

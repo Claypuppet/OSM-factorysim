@@ -14,7 +14,7 @@
  * @param app
  */
 
-AppConnectionHandler::AppConnectionHandler(Application *app) {
+Core::AppConnectionHandler::AppConnectionHandler(Application *app) {
     this->app = app;
 }
 
@@ -24,7 +24,7 @@ AppConnectionHandler::AppConnectionHandler(Application *app) {
  * @param error
  */
 
-void AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void Core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
     Network::IConnectionHandler::onConnectionFailed(connection, error);
     std::cout << "Connection failed!" << std::endl;
 }
@@ -34,7 +34,7 @@ void AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
  * @param connection
  */
 
-void AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
+void Core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
     //std::cout << "test" << std::endl;
 }
 
@@ -44,7 +44,7 @@ void AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connec
  * @param error
  */
 
-void AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void Core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
     std::cout << "Disconnected!" << std::endl;
 }
 
@@ -54,7 +54,7 @@ void AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr conne
  * @param message
  */
 
-void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+void Core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
     std::cout << "Received a message!" << std::endl;
     uint8_t messageType = message.getMessageType();
     switch(messageType)
@@ -71,14 +71,14 @@ void AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr co
  * @param message
  */
 
-void AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
+void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
     Network::IConnectionHandler::onConnectionMessageSent(connection, message);
     std::cout << "Message sent!" << std::endl;
 }
 
-void AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
+void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
     uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
-    MachinePtr machine = app->getMachine(machineId);
+    Core::MachinePtr machine = app->getMachine(machineId);
     if(machine)
     {
         machine->setConnection(connection);

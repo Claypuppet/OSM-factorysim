@@ -7,7 +7,6 @@
 
 
 #include <iostream>
-
 #include <memory>
 #include <Logger/Logger.h>
 #include "network/Manager.h"
@@ -21,7 +20,7 @@
 int main( 	int argc,
 			char** argv)
 {
-	Application app;
+	Core::Application app;
 	app.startServer();
 
 
@@ -54,6 +53,5 @@ int main( 	int argc,
 	clientThread->join();
 
 	app.joinServerThread();
-
 	return 0;
 }
