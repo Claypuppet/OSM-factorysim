@@ -20,6 +20,7 @@ namespace Network {
 		};
 
 		enum AppMessageType {
+//			1 - MC - PC - Send id of machine
 //			10 - PC - MC - Start process product
 //			11 - PC - MC - Reconfigure
 
@@ -31,6 +32,8 @@ namespace Network {
 
 //			50 - MC - PC - Response OK
 //			51 - MC - PC - Response NOK
+
+			kAppMessageTypeRegisterMachine = 1,
 
 			kAppMessageTypeStartProcess = 10,
 			kAppMessageTypeReconfigure,

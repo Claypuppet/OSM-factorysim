@@ -97,7 +97,7 @@ namespace Network
 				return mHeader.mType;
 			}
 
-			void setMessageType(MessageType aMessageType)
+				void setMessageType(MessageType aMessageType)
 			{
 				mHeader.mType = aMessageType;
 			}
