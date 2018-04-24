@@ -11,7 +11,7 @@
 namespace ProductionStates::InOperation {
     class IdleState : public ProductionState {
     public:
-        IdleState(Communication::NetworkComponent &context);
+        IdleState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~IdleState() = default;
 

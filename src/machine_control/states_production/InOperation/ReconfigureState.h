@@ -9,11 +9,11 @@
 #include "../ProductionState.h"
 
 namespace ProductionStates::InOperation {
-    class ConfigureState : public ProductionState {
+    class ReConfigureState : public ProductionState {
     public:
-        ConfigureState(Communication::NetworkComponent &context);
+        ReConfigureState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
-        virtual ~ConfigureState() = default;
+        virtual ~ReConfigureState() = default;
 
         virtual void entryAction();
 

@@ -5,15 +5,15 @@
 #include "ReconfigureState.h"
 
 namespace ProductionStates::InOperation {
-    void ConfigureState::entryAction() {
+    void ReConfigureState::entryAction() {
 
     }
 
-    void ConfigureState::doActivity() {
+    void ReConfigureState::doActivity() {
 
     }
 
-    void ConfigureState::exitAction() {
+    void ReConfigureState::exitAction() {
 
     }
 }

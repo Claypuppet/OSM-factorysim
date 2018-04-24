@@ -11,7 +11,7 @@
 namespace ProductionStates {
     class ConnectState : public ProductionState {
     public:
-        ConnectState(Communication::NetworkComponent &context);
+        ConnectState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~ConnectState() = default;
 

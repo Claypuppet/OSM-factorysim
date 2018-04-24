@@ -11,7 +11,7 @@
 namespace ProductionStates::Broken {
     class RepairingState : public ProductionState {
     public:
-        RepairingState(Communication::NetworkComponent &context);
+        RepairingState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~RepairingState() = default;
 

@@ -12,7 +12,7 @@
 namespace ProductionStates::InOperation::ProcessProduct {
     class TakeProductState : public ProductionState {
     public:
-        TakeProductState(Communication::NetworkComponent &context);
+        TakeProductState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~TakeProductState() = default;
 

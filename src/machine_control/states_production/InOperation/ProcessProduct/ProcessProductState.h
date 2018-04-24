@@ -11,7 +11,7 @@
 namespace ProductionStates::InOperation::ProcessProduct {
     class ProcessProductState : public ProductionState {
     public:
-        ProcessProductState(Communication::NetworkComponent &context);
+        ProcessProductState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~ProcessProductState() = default;
 

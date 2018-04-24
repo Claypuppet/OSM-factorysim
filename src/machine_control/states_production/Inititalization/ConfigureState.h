@@ -11,7 +11,7 @@
 namespace ProductionStates::Initialization {
     class ConfigureState : public ProductionState {
     public:
-        ConfigureState(Communication::NetworkComponent &context);
+        ConfigureState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~ConfigureState() = default;
 

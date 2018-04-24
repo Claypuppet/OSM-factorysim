@@ -11,7 +11,7 @@
 namespace ProductionStates::Initialization {
     class SelfTestState : public ProductionState {
     public:
-        SelfTestState(Communication::NetworkComponent &context);
+        SelfTestState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~SelfTestState() = default;
 

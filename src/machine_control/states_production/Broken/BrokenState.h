@@ -10,7 +10,7 @@
 namespace ProductionStates::Broken {
     class BrokenState : public ProductionState {
     public:
-        BrokenState(Communication::NetworkComponent &context);
+        BrokenState(Communication::NetworkComponent &aContext) : ProductionState(aContext) {};
 
         virtual ~BrokenState() = default;
 
