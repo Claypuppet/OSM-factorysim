@@ -51,7 +51,6 @@ namespace Network
 	public:
 
 		Manager();
-		Manager(const Manager&);
 		virtual ~Manager();
 
 		io_service& getIOService() { return *mServicePtr.get(); }

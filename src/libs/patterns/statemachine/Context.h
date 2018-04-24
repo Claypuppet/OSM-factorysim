@@ -17,7 +17,7 @@ namespace Patterns {
     namespace Statemachine {
         class Context {
         public:
-            void run();
+			virtual void run();
 
             void scheduleEvent(Event e);
 

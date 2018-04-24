@@ -3,3 +3,7 @@
 //
 
 #include "SimulationApplication.h"
+
+namespace Simulator {
+
+}

@@ -12,15 +12,15 @@ Patterns::Statemachine::Context::Context() {
 Patterns::Statemachine::Context::~Context() {
 }
 
-void Patterns::Statemachine::Context::setCurrentState(const std::shared_ptr<State> currentState) {
-	if(this->currentState){
-		this->currentState->exitAction();
+void Patterns::Statemachine::Context::setCurrentState(const std::shared_ptr<State> newState) {
+	if(currentState){
+		currentState->exitAction();
 	}
 
-	this->currentState = currentState;
+	currentState = newState;
 
-	this->currentState->entryAction();
-	this->currentState->doActivity();
+	currentState->entryAction();
+	currentState->doActivity();
 }
 
 void Patterns::Statemachine::Context::scheduleEvent(Event e){
@@ -29,8 +29,8 @@ void Patterns::Statemachine::Context::scheduleEvent(Event e){
 
 void Patterns::Statemachine::Context::run(){
 	while(!events.empty()){
-		if(!currentState->handleEvent(events.front(), *this)){
-		}
+		Event e = events.front();
 		events.pop();
+		currentState->handleEvent(e, *this);
 	}
 }

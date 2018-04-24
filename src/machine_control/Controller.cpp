@@ -3,3 +3,7 @@
 //
 
 #include "Controller.h"
+
+namespace Core {
+
+}

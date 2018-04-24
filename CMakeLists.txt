@@ -33,7 +33,19 @@ add_executable(app_machine_control
         src/machine_control/SimulationApplication.cpp
         src/machine_control/SimulationApplication.h
         src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h)
+        src/machine_control/NetworkComponent.h
+        src/machine_control/states_simulation/SimulationState.cpp
+        src/machine_control/states_simulation/SimulationState.h
+        src/machine_control/states_simulation/InitializeSimulationState.cpp
+        src/machine_control/states_simulation/InitializeSimulationState.h
+        src/machine_control/states_simulation/OffState.cpp
+        src/machine_control/states_simulation/OffState.h
+        src/machine_control/states_simulation/OnState.cpp
+        src/machine_control/states_simulation/OnState.h
+        src/machine_control/states_simulation/ShutdownState.cpp
+        src/machine_control/states_simulation/ShutdownState.h
+        src/machine_control/states_simulation/Event.cpp
+        src/machine_control/states_simulation/Event.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp
@@ -80,17 +92,16 @@ add_library(lib_network SHARED
         ${lib_network_SRC})
 
 # Lib Patterns
-file(GLOB lib_patterns_state_SRC
+file(GLOB lib_patterns_SRC
         "src/libs/patterns/statemachine/**.h"
-        "src/libs/patterns/statemachine/**.cpp")
-
-file(GLOB lib_patterns_singleton_SRC
+        "src/libs/patterns/statemachine/**.cpp"
         "src/libs/patterns/singleton/**.h"
-        "src/libs/patterns/singleton/**.cpp")
+        "src/libs/patterns/singleton/**.cpp"
+        "src/libs/patterns/notifyobserver/**.h"
+        "src/libs/patterns/notifyobserver/**.cpp")
 
 add_library(lib_patterns SHARED
-        ${lib_patterns_state_SRC}
-        ${lib_patterns_singleton_SRC})
+        ${lib_patterns_SRC})
 
 # Lib Cereal
 file(GLOB lib_cereal_SRC
@@ -137,6 +148,7 @@ target_link_libraries(app_production_control lib_network lib_silly_objects lib_l
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test
+target_link_libraries(app_machine_control lib_network lib_patterns)
 target_link_libraries(app_machine_control lib_network lib_silly_objects lib_logger)
 target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
