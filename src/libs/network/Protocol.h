@@ -8,6 +8,16 @@
 namespace Network {
 	namespace Protocol {
 
+		enum DiscoverMessageType {
+//			For UPD connection
+//			Find Machines	PC	Broadcast (MC)	250	(ip address?)	Broadcast connection point (ip address) for existing machines to connect
+//			Find Production control	MC	Broadcast (PC)	251	-	Request PC location (PC will respond with 250)
+
+
+			kDiscoverMessageTypePCIP = 250,
+			kDiscoverMessageTypeRequestPCIP
+		};
+
 		enum SimMessageType {
 //			101 - PC - MC - Machine configurations for the simulation
 //			102 - PC - MC - Turn machine on
@@ -21,6 +31,7 @@ namespace Network {
 
 		enum AppMessageType {
 //			1 - MC - PC - Send id of machine
+
 //			10 - PC - MC - Start process product
 //			11 - PC - MC - Reconfigure
 
@@ -34,6 +45,7 @@ namespace Network {
 //			51 - MC - PC - Response NOK
 
 			kAppMessageTypeRegisterMachine = 1,
+			kAppMessageTypeInitialConfigure,
 
 			kAppMessageTypeStartProcess = 10,
 			kAppMessageTypeReconfigure,
@@ -46,15 +58,6 @@ namespace Network {
 
 			kAppMessageTypeOK = 50,
 			kAppMessageTypeNOK,
-		};
-
-		enum DiscoverMessageType {
-//			For UPD connection
-//			250 - PC - MC - Broadcast connection point (ip address) for existing machines to connect
-//			251 - MC - PC - Request PC location (PC will respond 101)
-
-			kDiscoverMessageTypePCIP = 250,
-			kDiscoverMessageTypeRequestPCIP
 		};
 
 	}

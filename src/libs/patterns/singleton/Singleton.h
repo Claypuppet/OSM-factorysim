@@ -10,16 +10,25 @@ namespace Patterns {
         template<typename T>
         class Singleton {
         public:
-            Singleton() = default;
-
             Singleton(const Singleton &) = delete;
+            Singleton& operator=(const Singleton &) = delete;
 
+            /**
+             * Get singleton object instance
+             * @return T type
+             */
             static T &getInstance() {
                 static T instance;
                 return instance;
             }
 
+            /**
+             * Short function for getInstance
+             * @return T type
+             */
             static T &i() { return getInstance(); }
+        protected:
+            Singleton() = default;
         };
     }
 }

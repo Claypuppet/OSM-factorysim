@@ -10,6 +10,8 @@
 #include <ostream>
 #include <sstream>
 
+#include <patterns/statemachine/Event.h>
+
 #include "Observer.hpp"
 
 #define DEFINE_HASHED_ENUM_VALUE(type, name) static const constexpr type name = (type)static_cast<int32_t>(cx::fnv1(#name))
@@ -19,9 +21,6 @@ namespace Patterns {
 
 		class Observer;
 		class Notifier;
-
-		using NotifyEventId = int32_t;
-		static constexpr const NotifyEventId kNotifyEventId_None = 0;
 
 
 		enum NotifyTriggerId
@@ -79,7 +78,7 @@ namespace Patterns {
 
 		class NotifyEvent {
 		public:
-			NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier, NotifyEventId event);
+			NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier);
 
 			NotifyEvent(const NotifyTrigger &trigger);
 
@@ -87,48 +86,12 @@ namespace Patterns {
 
 			Notifier *getNotifier() const;
 
-			NotifyEventId getEventId() const;
-
 			const NotifyTrigger &getTrigger() const;
-
-			NotifyEvent &setEvent(NotifyEventId event);
 
 			NotifyEvent &setTrigger(NotifyTrigger &trigger);
 
-
-			boost::any getArgument(uint32_t index) const {
-				return mArguments[index];
-			}
-
-			template<typename T>
-			T getArgumentAsType(uint32_t index) const {
-				return boost::any_cast<T>(mArguments[index]);
-			}
-
-			uint32_t getNumberOfArguments() {
-				return static_cast<uint32_t>(mArguments.size());
-			}
-
-
-			template<typename T>
-			NotifyEvent &addArgument(const T &value) {
-				mArguments.push_back(value);
-				return *this;
-			}
-
-			template<typename T>
-			NotifyEvent &setArgument(uint32_t index, const T &value) {
-				if (index > mArguments.size())
-					throw new std::out_of_range("index > size()");
-				if (index == mArguments.size())
-					mArguments.push_back(value);
-				else
-					mArguments[index] = value;
-				return *this;
-			}
-
-
-			std::string asString() const;
+			const Statemachine::EventPtr &getStateEvent() const;
+			void setStateEvent(const Statemachine::EventPtr &stateEvent);
 
 		protected:
 
@@ -138,13 +101,9 @@ namespace Patterns {
 
 
 		protected:
-			using Arguments = std::vector<boost::any>;
-
-
 			Notifier *mNotifier;
-			NotifyEventId mEventId;
 			NotifyTrigger mTrigger;
-			Arguments mArguments;
+			Statemachine::EventPtr stateEvent;
 		};
 
 
@@ -228,25 +187,13 @@ namespace Patterns {
 
 
 			static NotifyEvent
-			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger, NotifyEventId eventId);
+			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger);
 
-			template<typename ...Args>
 			static NotifyEvent
-			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger, NotifyEventId eventId,
-										Args &&... args) {
-				auto event = makeNotificationForNotifier(notifier, trigger, eventId);
-				event.addArgument(args...);
-				return event;
-			}
-
-			NotifyEvent makeNotifcation(const NotifyTrigger &trigger, NotifyEventId event);
-
-			template<typename ...Args>
-			NotifyEvent
-			makeNotificationWithArgs(const NotifyTrigger &trigger, NotifyEventId eventId, Args &&... args) {
-				auto event = makeNotificationForNotifier(this, trigger, eventId);
-				event.addArgument(args...);
-				return event;
+			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger, const Statemachine::EventPtr stateEvent) {
+				auto notification = makeNotificationForNotifier(notifier, trigger);
+				notification.setStateEvent(stateEvent);
+				return notification;
 			}
 
 

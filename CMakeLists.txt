@@ -142,6 +142,7 @@ install(TARGETS
 # Libs
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
 target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
 
 # Production control & test
 target_link_libraries(app_production_control lib_network lib_silly_objects lib_logger)
