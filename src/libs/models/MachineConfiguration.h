@@ -12,6 +12,8 @@ namespace Models {
         MachineConfiguration(const MachineConfiguration &other);
         virtual ~MachineConfiguration();
 
+        MachineConfiguration& operator=(const MachineConfiguration& other);
+
         void deserialize(YAML::Node &machineConfigurationNode);
 
         uint16_t getProductId() const;

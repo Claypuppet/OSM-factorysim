@@ -16,6 +16,19 @@ namespace Models {
     Machine::~Machine() {
     }
 
+    Machine& Machine::operator=(const Machine& other) {
+        if (this != &other) {
+            id = other.id;
+            name = other.name;
+
+            for (uint16_t i = 0; i < other.configurations.size(); ++i) {
+                configurations.push_back(other.configurations[i]);
+            }
+        }
+
+        return *this;
+    }
+
     void Machine::deserialize(YAML::Node &machineNode) {
         id = machineNode["id"].as<uint16_t>();
         name = machineNode["name"].as<std::string>();

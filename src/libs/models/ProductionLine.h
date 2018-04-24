@@ -19,6 +19,8 @@ namespace Models {
         ProductionLine(const ProductionLine &other);
         virtual ~ProductionLine();
 
+        ProductionLine& operator=(const ProductionLine& other);
+
         void deserialize(YAML::Node &productionLineNode);
 
         const std::string &getName() const;

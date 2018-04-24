@@ -14,10 +14,10 @@ namespace Models {
     class Configuration {
     public:
         Configuration();
-
         Configuration(const Configuration &other);
-
         virtual ~Configuration();
+
+        Configuration& operator=(const Configuration& other);
 
         void deserialize(YAML::Node &configurationNode);
 

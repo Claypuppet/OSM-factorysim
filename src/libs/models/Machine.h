@@ -14,10 +14,10 @@ namespace Models {
     class Machine {
     public:
         Machine();
-
         Machine(const Machine &other);
-
         virtual ~Machine();
+
+        Machine& operator=(const Machine& other);
 
         void deserialize(YAML::Node &machineNode);
 

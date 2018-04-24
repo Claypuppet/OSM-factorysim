@@ -21,6 +21,23 @@ namespace Models {
     MachineConfiguration::~MachineConfiguration() {
     }
 
+    MachineConfiguration& MachineConfiguration::operator=(const MachineConfiguration& other) {
+        if (this != &other) {
+            productId = other.productId;
+            nextMachineId = other.nextMachineId;
+            inputMaterialsForEachProduct = other.inputMaterialsForEachProduct;
+            outputEachMinute = other.outputEachMinute;
+            initializationDurationInSeconds = other.initializationDurationInSeconds;
+            inputBufferSize = other.inputBufferSize;
+            turnAroundTimeInSeconds = other.turnAroundTimeInSeconds;
+            meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
+            meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
+            reparationTimeInMinutes = other.reparationTimeInMinutes;
+        }
+
+        return *this;
+    }
+
     void MachineConfiguration::deserialize(YAML::Node &machineConfigurationConfigurationNode) {
         productId = machineConfigurationConfigurationNode["productId"].as<uint16_t>();
         nextMachineId = machineConfigurationConfigurationNode["nextMachineId"].as<uint16_t>();
