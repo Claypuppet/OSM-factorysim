@@ -25,7 +25,6 @@ private:
     std::vector<Machine> machines;
     Network::ServerPtr server;
     ThreadPtr serverThread;
-    std::shared_ptr<AppConnectionHandler> connectionHandler;
 	Network::Manager m;
 };
 

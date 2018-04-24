@@ -16,10 +16,9 @@
  * Constructs application, creates a connectionhandler and starts server thread / instance
  */
 Application::Application()
-		: connectionHandler(std::make_shared<AppConnectionHandler>(this))
 {
 	serverThread = m.runServiceThread();
-	server = m.createServer(connectionHandler, 50);
+	server = m.createServer(std::make_shared<AppConnectionHandler>(this), 50);
 }
 
 /**
