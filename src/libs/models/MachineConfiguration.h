@@ -30,8 +30,7 @@ namespace Models {
     private:
         uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
         uint16_t outputEachMinute, initializationDurationInSeconds, inputBufferSize;
-        uint16_t turnAroundTimeInSeconds, meanTimeBetweenFailureInHours;
-        uint16_t meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
+        uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
     };
 
 }

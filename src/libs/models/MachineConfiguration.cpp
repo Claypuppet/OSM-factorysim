@@ -12,7 +12,6 @@ namespace Models {
               outputEachMinute(other.outputEachMinute),
               initializationDurationInSeconds(other.initializationDurationInSeconds),
               inputBufferSize(other.inputBufferSize),
-              turnAroundTimeInSeconds(other.turnAroundTimeInSeconds),
               meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
               meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
               reparationTimeInMinutes(other.reparationTimeInMinutes) {
@@ -29,7 +28,6 @@ namespace Models {
             outputEachMinute = other.outputEachMinute;
             initializationDurationInSeconds = other.initializationDurationInSeconds;
             inputBufferSize = other.inputBufferSize;
-            turnAroundTimeInSeconds = other.turnAroundTimeInSeconds;
             meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
             meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
             reparationTimeInMinutes = other.reparationTimeInMinutes;
@@ -45,7 +43,6 @@ namespace Models {
         outputEachMinute = machineConfigurationConfigurationNode["outputEachMinute"].as<uint16_t>();
         initializationDurationInSeconds = machineConfigurationConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
         inputBufferSize = machineConfigurationConfigurationNode["inputBufferSize"].as<uint16_t>();
-        turnAroundTimeInSeconds = machineConfigurationConfigurationNode["turnAroundTimeInSeconds"].as<uint16_t>();
         meanTimeBetweenFailureInHours = machineConfigurationConfigurationNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
         meanTimeBetweenFailureStddevInHours = machineConfigurationConfigurationNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
         reparationTimeInMinutes = machineConfigurationConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
@@ -73,10 +70,6 @@ namespace Models {
 
     uint16_t MachineConfiguration::getInputBufferSize() const {
         return inputBufferSize;
-    }
-
-    uint16_t MachineConfiguration::getTurnAroundTimeInSeconds() const {
-        return turnAroundTimeInSeconds;
     }
 
     uint16_t MachineConfiguration::getMeanTimeBetweenFailureInHours() const {
