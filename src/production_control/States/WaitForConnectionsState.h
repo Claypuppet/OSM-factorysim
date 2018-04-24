@@ -12,6 +12,10 @@ class WaitForConnectionsState : public Patterns::Statemachine::State {
 public:
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Waits untill all configured machines are connected to the Application
+     * Sends the relevant config to the machines
+     */
     void doActivity() override;
 
     void entryAction() override;

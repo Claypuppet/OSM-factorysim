@@ -77,21 +77,13 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 }
 
 void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
-    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
+    uint16_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
     Core::MachinePtr machine = app->getMachine(machineId);
     if(machine)
     {
         machine->setConnection(connection);
         std::stringstream ss;
         ss << "Added connection to machine with ID: " << std::to_string(machineId) << std::endl;
-        Logger::log(ss.str());
-    }
-    else {
-        Machine m(machineId);
-        m.setConnection(connection);
-        app->addMachine(m);
-        std::stringstream ss;
-        ss << "Added machine with ID: " << std::to_string(machineId) << std::endl;
         Logger::log(ss.str());
     }
 }

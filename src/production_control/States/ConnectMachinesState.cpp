@@ -2,6 +2,7 @@
 // Created by don on 24-4-18.
 //
 
+#include <memory>
 #include "ConnectMachinesState.h"
 #include "BroadCastState.h"
 

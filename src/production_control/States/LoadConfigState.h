@@ -12,6 +12,9 @@ class LoadConfigState : public Patterns::Statemachine::State{
 public:
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Loads configuration and creates machine objects for the Application and SimulationController class
+     */
     void doActivity() override;
 
     void entryAction() override;

@@ -7,16 +7,33 @@
 
 
 #include <patterns/statemachine/State.h>
+#include "patterns/statemachine/Context.h"
+
+class InitSimulationContext : public Patterns::Statemachine::Context
+{
+public:
+    InitSimulationContext() = default;
+    ~InitSimulationContext() = default;
+};
 
 class InitSimulationState : public Patterns::Statemachine::State {
 public:
+    InitSimulationState();
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Handles the doActivity of the contexts state
+     */
     void doActivity() override;
 
+    /**
+     * Sets state to SimulationBroadcastState
+     */
     void entryAction() override;
 
     void exitAction() override;
+private:
+    InitSimulationContext context;
 };
 
 

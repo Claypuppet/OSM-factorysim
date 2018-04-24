@@ -8,7 +8,3 @@
 Core::SimulationController::SimulationController() {
     setCurrentState(std::make_shared<LoadConfigState>());
 }
-
-Core::SimulationController::~SimulationController() {
-
-}

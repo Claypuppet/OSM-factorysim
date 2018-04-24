@@ -12,6 +12,9 @@ class SimulationWaitForConnectionsState : public Patterns::Statemachine::State {
 public:
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Waits for machines to connect to the Application and sends relevant config data
+     */
     void doActivity() override;
 
     void entryAction() override;

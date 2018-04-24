@@ -8,6 +8,10 @@ bool WaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e
     return false;
 }
 
+/**
+ * Waits untill all configured machines are connected to the SimulationControll component
+ * Sends simulation configuration to all connected machines
+ */
 void WaitForConnectionsState::doActivity() {
 
 }

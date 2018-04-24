@@ -49,6 +49,8 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
+        src/production_control/ConfigurationReader.cpp
+        src/production_control/ConfigurationReader.h
         src/production_control/AppConnectionHandler.h
         src/production_control/AppConnectionHandler.cpp
         src/production_control/Machine.cpp
@@ -60,7 +62,23 @@ add_executable(app_production_control
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
         src/production_control/Controller.cpp
-        src/production_control/Controller.h)
+        src/production_control/Controller.h
+        src/production_control/States/BroadCastState.cpp
+        src/production_control/States/BroadCastState.h
+        src/production_control/States/ConnectMachinesState.cpp
+        src/production_control/States/ConnectMachinesState.h
+        src/production_control/States/InitSimulationState.cpp
+        src/production_control/States/InitSimulationState.h
+        src/production_control/States/LoadConfigState.cpp
+        src/production_control/States/LoadConfigState.h
+        src/production_control/States/OperationState.cpp
+        src/production_control/States/OperationState.h
+        src/production_control/States/SimulationBroadcastState.h
+        src/production_control/States/SimulationBroadcastState.cpp
+        src/production_control/States/SimulationWaitForConnectionsState.cpp
+        src/production_control/States/SimulationWaitForConnectionsState.h
+        src/production_control/States/WaitForConnectionsState.h
+        src/production_control/States/WaitForConnectionsState.cpp)
 
 
 add_executable(app_visualizer
@@ -91,6 +109,14 @@ file(GLOB lib_network_SRC
 add_library(lib_network SHARED
         ${lib_network_SRC})
 
+# Lib Models
+file(GLOB lib_models_SRC
+        "src/libs/models/**.h"
+        "src/libs/models/**.cpp")
+
+add_library(lib_models SHARED
+        ${lib_models_SRC})
+
 # Lib Patterns
 file(GLOB lib_patterns_SRC
         "src/libs/patterns/statemachine/**.h"
@@ -102,6 +128,14 @@ file(GLOB lib_patterns_SRC
 
 add_library(lib_patterns SHARED
         ${lib_patterns_SRC})
+
+# Lib yaml-cpp
+file(GLOB lib_yaml_SRC
+        "src/libs/yaml-cpp/include/yaml-cpp/**.h"
+        "src/libs/yaml-cpp/src/**.cpp")
+
+add_library(lib_yaml-cpp SHARED
+        ${lib_yaml_SRC})
 
 # Lib Cereal
 file(GLOB lib_cereal_SRC
@@ -132,6 +166,8 @@ install(TARGETS
         lib_silly_objects
         lib_network
         lib_patterns
+        lib_yaml-cpp
+        lib_models
         lib_logger
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
@@ -144,7 +180,7 @@ target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME
 target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 
 # Production control & test
-target_link_libraries(app_production_control lib_network lib_silly_objects lib_logger)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger lib_patterns)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

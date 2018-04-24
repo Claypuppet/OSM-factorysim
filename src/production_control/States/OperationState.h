@@ -12,6 +12,9 @@ class OperationState : public Patterns::Statemachine::State {
 public:
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Runs the simulation
+     */
     void doActivity() override;
 
     void entryAction() override;

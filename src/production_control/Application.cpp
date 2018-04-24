@@ -20,7 +20,7 @@ void Core::Application::addMachine(const Machine &aMachine) {
     machines.push_back(aMachine);
 }
 
-Core::MachinePtr Core::Application::getMachine(uint8_t machineId) {
+Core::MachinePtr Core::Application::getMachine(uint16_t machineId) {
     for(Machine& m : machines)
     {
         if(m.getId() == machineId)

@@ -7,7 +7,7 @@
 
 
 #include <patterns/statemachine/State.h>
-#include <patterns/statemachine/Context.h>
+#include "patterns/statemachine/Context.h"
 
 class ConnectMachinesContext : public Patterns::Statemachine::Context
 {
@@ -22,8 +22,14 @@ public:
 
     bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
+    /**
+     * Handles the doActivity of the context state
+     */
     void doActivity() override;
 
+    /**
+     * Sets the state of context to BroadcastState
+     */
     void entryAction() override;
 
     void exitAction() override;
