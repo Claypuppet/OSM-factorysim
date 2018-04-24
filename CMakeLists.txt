@@ -36,7 +36,7 @@ add_executable(app_machine_control
         src/machine_control/NetworkComponent.h)
 
 add_executable(app_production_control
-        src/production_control/Main.cpp src/production_control/ConfigurationReader.cpp src/production_control/ConfigurationReader.h src/production_control/Configuration.cpp src/production_control/Configuration.h src/production_control/SimulationInfoConfiguration.cpp src/production_control/SimulationInfoConfiguration.h src/production_control/ProductionLineConfiguration.cpp src/production_control/ProductionLineConfiguration.h src/production_control/ProductConfiguration.cpp src/production_control/ProductConfiguration.h src/production_control/MachineConfiguration.cpp src/production_control/MachineConfiguration.h src/production_control/MachineConfigurationConfiguration.cpp src/production_control/MachineConfigurationConfiguration.h)
+        src/production_control/Models/Main.cpp src/production_control/Models/ConfigurationReader.cpp src/production_control/Models/ConfigurationReader.h src/production_control/Models/Configuration.cpp src/production_control/Models/Configuration.h src/production_control/Models/SimulationInfoConfiguration.cpp src/production_control/Models/SimulationInfoConfiguration.h src/production_control/Models/ProductionLineConfiguration.cpp src/production_control/Models/ProductionLineConfiguration.h src/production_control/Models/ProductConfiguration.cpp src/production_control/Models/ProductConfiguration.h src/production_control/Models/MachineConfiguration.cpp src/production_control/Models/MachineConfiguration.h src/production_control/Models/MachineConfigurationConfiguration.cpp src/production_control/Models/MachineConfigurationConfiguration.h)
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)

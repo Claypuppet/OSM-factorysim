@@ -1,67 +1,60 @@
+---
 name: ProductieConfiguratie
 simulationInfo:
- durationInHours: 8760
+  durationInHours: 8760
 productionLine:
- name: Kantoortafels
- products:
-  -
-   id: 1
-   name: normalekantoortafels
-   proportion: 2
-  -
-   id: 2
-   name: luxekantoortafels
-   proportion: 1
- machines:
-  -
-   id: 1
-   name: Zaagmachine
-   configurations:
-    -
-   productId: 1
-     nextMachineId: 2
-     inputMaterialsForEachProduct: 1
-     outputEachMinute: 12
-     initializationDurationInSeconds: 6
-     inputBufferSize: 68
-     turnAroundTimeInSeconds: 16
-     meanTimeBetweenFailureInUren: 8800
-     meanTimeBetweenFailureStddevInHours: 30
-     reparationTimeInMinutes: 24
-    -
-   productId: 2
-     nextMachineId: 2
-     inputMaterialsForEachProduct: 3
-     outputEachMinute: 8
-     initializationDurationInSeconds: 9
-     inputBufferSize: 68
-     turnAroundTimeInSeconds: 21
-     meanTimeBetweenFailureInUren: 9800
-     meanTimeBetweenFailureStddevInHours: 36
-     reparationTimeInMinutes: 27
-  -
-   id: 2
-   name: Lijmmachine
-   configurations:
-    -
-   productId: 1
-     nextMachineId: null
-     inputMaterialsForEachProduct: 1
-     outputEachMinute: 12
-     initializationDurationInSeconds: 6
-     inputBufferSize: 68
-     turnAroundTimeInSeconds: 16
-     meanTimeBetweenFailureInUren: 8800
-     meanTimeBetweenFailureStddevInHours: 30
-     reparationTimeInMinutes: 24
-    -
-   productId: 2
-     nextMachineId: null
-     inputMaterialsForEachProduct: 3
-     outputEachMinute: 8
-     initializationDurationInSeconds: 9
-     inputBufferSize: 68
-     turnAroundTimeInSeconds: 21
-     meanTimeBetweenFailureInUren: 9800
-     meanTimeBetweenFailureStddevInHours: 36
-     reparationTimeInMinutes: 27
+  name: Kantoortafels
+  products:
+  - id: 1
+    name: normalekantoortafels
+    proportion: 2
+  - id: 2
+    name: luxekantoortafels
+    proportion: 1
+  machines:
+  - id: 1
+    name: Zaagmachine
+    configurations:
+    - productId: 1
+      nextMachineId: 2
+      inputMaterialsForEachProduct: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      inputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInUren: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+    - productId: 2
+      nextMachineId: 2
+      inputMaterialsForEachProduct: 3
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      inputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInUren: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+  - id: 2
+    name: Lijmmachine
+    configurations:
+    - productId: 1
+      nextMachineId:
+      inputMaterialsForEachProduct: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      inputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInUren: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+    - productId: 2
+      nextMachineId:
+      inputMaterialsForEachProduct: 3
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      inputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInUren: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
