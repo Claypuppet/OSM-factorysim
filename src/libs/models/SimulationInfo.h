@@ -4,17 +4,16 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
-namespace models {
+namespace Models {
 
-    class SimulationInfoConfiguration {
+    class SimulationInfo {
     public:
-        SimulationInfoConfiguration();
+        SimulationInfo();
+        SimulationInfo(const SimulationInfo &other);
 
-        SimulationInfoConfiguration(const SimulationInfoConfiguration &other);
+        virtual ~SimulationInfo();
 
-        virtual ~SimulationInfoConfiguration();
-
-        void deserialize(YAML::Node &simulationInfoConfigurationNode);
+        void deserialize(YAML::Node &simulationInfoNode);
 
         uint8_t getDurationInHours() const;
 

@@ -6,10 +6,10 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
-#include "SimulationInfoConfiguration.h"
-#include "ProductionLineConfiguration.h"
+#include "SimulationInfo.h"
+#include "ProductionLine.h"
 
-namespace models {
+namespace Models {
 
     class Configuration {
     public:
@@ -22,15 +22,13 @@ namespace models {
         void deserialize(YAML::Node &configurationNode);
 
         const std::string &getName() const;
-
-        const SimulationInfoConfiguration &getSimulationInfoConfiguration() const;
-
-        const ProductionLineConfiguration &getProductionLineConfiguration() const;
+        const SimulationInfo &getSimulationInfoConfiguration() const;
+        const ProductionLine &getProductionLineConfiguration() const;
 
     private:
         std::string name;
-        SimulationInfoConfiguration simulationInfoConfiguration;
-        ProductionLineConfiguration productionLineConfiguration;
+        SimulationInfo simulationInfoConfiguration;
+        ProductionLine productionLineConfiguration;
     };
 
 }

@@ -36,7 +36,7 @@ add_executable(app_machine_control
         src/machine_control/NetworkComponent.h)
 
 add_executable(app_production_control
-        src/production_control/Models/Main.cpp src/production_control/Models/ConfigurationReader.cpp src/production_control/Models/ConfigurationReader.h src/production_control/Models/Configuration.cpp src/production_control/Models/Configuration.h src/production_control/Models/SimulationInfoConfiguration.cpp src/production_control/Models/SimulationInfoConfiguration.h src/production_control/Models/ProductionLineConfiguration.cpp src/production_control/Models/ProductionLineConfiguration.h src/production_control/Models/ProductConfiguration.cpp src/production_control/Models/ProductConfiguration.h src/production_control/Models/MachineConfiguration.cpp src/production_control/Models/MachineConfiguration.h src/production_control/Models/MachineConfigurationConfiguration.cpp src/production_control/Models/MachineConfigurationConfiguration.h)
+        src/production_control/Main.cpp src/production_control/ConfigurationReader.cpp src/production_control/ConfigurationReader.h)
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)
@@ -65,6 +65,14 @@ file(GLOB lib_network_SRC
 
 add_library(lib_network SHARED
         ${lib_network_SRC})
+
+# Lib Models
+file(GLOB lib_models_SRC
+        "src/libs/models/**.h"
+        "src/libs/models/**.cpp")
+
+add_library(lib_models SHARED
+        ${lib_models_SRC})
 
 # Lib Patterns
 file(GLOB lib_patterns_state_SRC
@@ -109,6 +117,7 @@ install(TARGETS
         lib_network
         lib_patterns
         lib_yaml-cpp
+        lib_models
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
@@ -121,7 +130,7 @@ target_link_libraries(lib_network ${Boost_SYSTEM_LIBRARY})
 
 
 # Production control & test
-target_link_libraries(app_production_control lib_yaml-cpp lib_silly_objects)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

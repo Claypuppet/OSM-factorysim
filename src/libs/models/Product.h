@@ -7,22 +7,18 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
-namespace models {
+namespace Models {
 
-    class ProductConfiguration {
+    class Product {
     public:
-        ProductConfiguration();
+        Product();
+        Product(const Product &other);
+        virtual ~Product();
 
-        ProductConfiguration(const ProductConfiguration &other);
-
-        virtual ~ProductConfiguration();
-
-        void deserialize(YAML::Node &productConfigurationNode);
+        void deserialize(YAML::Node &productNode);
 
         uint16_t getId() const;
-
         const std::string &getName() const;
-
         uint16_t getProportion() const;
 
     private:

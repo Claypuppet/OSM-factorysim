@@ -1,11 +1,11 @@
-#include "MachineConfigurationConfiguration.h"
+#include "MachineConfiguration.h"
 
-namespace models {
+namespace Models {
 
-    MachineConfigurationConfiguration::MachineConfigurationConfiguration() {
+    MachineConfiguration::MachineConfiguration() {
     }
 
-    MachineConfigurationConfiguration::MachineConfigurationConfiguration(const MachineConfigurationConfiguration &other)
+    MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
             : productId(other.productId),
               nextMachineId(other.nextMachineId),
               inputMaterialsForEachProduct(other.inputMaterialsForEachProduct),
@@ -18,10 +18,10 @@ namespace models {
               reparationTimeInMinutes(other.reparationTimeInMinutes) {
     }
 
-    MachineConfigurationConfiguration::~MachineConfigurationConfiguration() {
+    MachineConfiguration::~MachineConfiguration() {
     }
 
-    void MachineConfigurationConfiguration::deserialize(YAML::Node &machineConfigurationConfigurationNode) {
+    void MachineConfiguration::deserialize(YAML::Node &machineConfigurationConfigurationNode) {
         productId = machineConfigurationConfigurationNode["productId"].as<uint16_t>();
         nextMachineId = machineConfigurationConfigurationNode["nextMachineId"].as<uint16_t>();
         inputMaterialsForEachProduct = machineConfigurationConfigurationNode["inputMaterialsForEachProduct"].as<uint16_t>();
@@ -34,43 +34,43 @@ namespace models {
         reparationTimeInMinutes = machineConfigurationConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
     }
 
-    uint16_t MachineConfigurationConfiguration::getProductId() const {
+    uint16_t MachineConfiguration::getProductId() const {
         return productId;
     }
 
-    uint16_t MachineConfigurationConfiguration::getNextMachineId() const {
+    uint16_t MachineConfiguration::getNextMachineId() const {
         return nextMachineId;
     }
 
-    uint16_t MachineConfigurationConfiguration::getInputMaterialsForEachProduct() const {
+    uint16_t MachineConfiguration::getInputMaterialsForEachProduct() const {
         return inputMaterialsForEachProduct;
     }
 
-    uint16_t MachineConfigurationConfiguration::getOutputEachMinute() const {
+    uint16_t MachineConfiguration::getOutputEachMinute() const {
         return outputEachMinute;
     }
 
-    uint16_t MachineConfigurationConfiguration::getInitializationDurationInSeconds() const {
+    uint16_t MachineConfiguration::getInitializationDurationInSeconds() const {
         return initializationDurationInSeconds;
     }
 
-    uint16_t MachineConfigurationConfiguration::getInputBufferSize() const {
+    uint16_t MachineConfiguration::getInputBufferSize() const {
         return inputBufferSize;
     }
 
-    uint16_t MachineConfigurationConfiguration::getTurnAroundTimeInSeconds() const {
+    uint16_t MachineConfiguration::getTurnAroundTimeInSeconds() const {
         return turnAroundTimeInSeconds;
     }
 
-    uint16_t MachineConfigurationConfiguration::getMeanTimeBetweenFailureInHours() const {
+    uint16_t MachineConfiguration::getMeanTimeBetweenFailureInHours() const {
         return meanTimeBetweenFailureInHours;
     }
 
-    uint16_t MachineConfigurationConfiguration::getMeanTimeBetweenFailureStddevInHours() const {
+    uint16_t MachineConfiguration::getMeanTimeBetweenFailureStddevInHours() const {
         return meanTimeBetweenFailureStddevInHours;
     }
 
-    uint16_t MachineConfigurationConfiguration::getReparationTimeInMinutes() const {
+    uint16_t MachineConfiguration::getReparationTimeInMinutes() const {
         return reparationTimeInMinutes;
     }
 

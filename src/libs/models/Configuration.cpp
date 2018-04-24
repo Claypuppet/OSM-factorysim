@@ -1,6 +1,6 @@
 #include "Configuration.h"
 
-namespace models {
+namespace Models {
 
     Configuration::Configuration() {
     }
@@ -28,11 +28,11 @@ namespace models {
         return name;
     }
 
-    const SimulationInfoConfiguration &Configuration::getSimulationInfoConfiguration() const {
+    const SimulationInfo &Configuration::getSimulationInfoConfiguration() const {
         return simulationInfoConfiguration;
     }
 
-    const ProductionLineConfiguration &Configuration::getProductionLineConfiguration() const {
+    const ProductionLine &Configuration::getProductionLineConfiguration() const {
         return productionLineConfiguration;
     }
 

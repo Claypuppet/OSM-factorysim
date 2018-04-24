@@ -4,36 +4,25 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
-namespace models {
+namespace Models {
 
-    class MachineConfigurationConfiguration {
+    class MachineConfiguration {
     public:
-        MachineConfigurationConfiguration();
+        MachineConfiguration();
+        MachineConfiguration(const MachineConfiguration &other);
+        virtual ~MachineConfiguration();
 
-        MachineConfigurationConfiguration(const MachineConfigurationConfiguration &other);
-
-        virtual ~MachineConfigurationConfiguration();
-
-        void deserialize(YAML::Node &machineConfigurationConfigurationNode);
+        void deserialize(YAML::Node &machineConfigurationNode);
 
         uint16_t getProductId() const;
-
         uint16_t getNextMachineId() const;
-
         uint16_t getInputMaterialsForEachProduct() const;
-
         uint16_t getOutputEachMinute() const;
-
         uint16_t getInitializationDurationInSeconds() const;
-
         uint16_t getInputBufferSize() const;
-
         uint16_t getTurnAroundTimeInSeconds() const;
-
         uint16_t getMeanTimeBetweenFailureInHours() const;
-
         uint16_t getMeanTimeBetweenFailureStddevInHours() const;
-
         uint16_t getReparationTimeInMinutes() const;
 
     private:
