@@ -5,10 +5,9 @@
 
 #include <iostream>
 #include <memory>
-#include <network/Manager.h>
+#include "SimulationController.h"
+
 #include <network/Server.h>
-#include <network/Client.h>
-#include "NetworkComponent.h"
 
 
 class TempProdControlServer : public Network::IConnectionHandler {
@@ -45,35 +44,19 @@ int main( 	int argc,
 	std::cout << "Hello from app machine simulator!" << std::endl;
 
 	// Temp server production control
-//	Network::Manager serverManager;
-//	auto serverThread = serverManager.runServiceThread();
-//	TempProdControlServer serverController;
-//	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
-//	server->start();
+	Network::Manager serverManager;
+	auto serverThread = serverManager.runServiceThread();
+	TempProdControlServer serverController;
+	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
+	server->start();
 
 
 
-	// This machine
-	Network::Manager manager;
-	manager.setRemoteHost("192.168.137.20");
-	auto clientThread = manager.runServiceThread();
-	Communication::NetworkComponent Network;
-	auto client = manager.createClient(std::make_shared<Communication::NetworkComponent>(Network));
+	// This machine controller
 
+	Simulator::SimulationController controller;
 
-//	if(server->isRunning())
-//	{
-//		std::cout << "server running, try to connect client to server" << std::endl;
-		client->start();
-
-
-		while(!Network.getConnection()){}  // Wait for client to connect
-
-		Network.sendHello();
-//	}
-//
-//	serverThread->join();
-	clientThread->join();
+	controller.execute();
 
 	return 0;
 }

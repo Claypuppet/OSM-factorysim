@@ -5,10 +5,19 @@
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H
 
+#include <patterns/notifyobserver/Notifier.hpp>
 #include "network/Connection.h"
 
 namespace SimulationCommunication {
-    class SimulationNetworkComponent : public Network::IConnectionHandler {
+
+	class SimulationNetworkComponent;
+
+	typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
+
+    class SimulationNetworkComponent :
+			public Network::IConnectionHandler,
+			public Patterns::NotifyObserver::Notifier
+	{
     public:
         SimulationNetworkComponent() = default;
         ~SimulationNetworkComponent() = default;

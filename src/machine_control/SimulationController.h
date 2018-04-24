@@ -6,20 +6,36 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 
 #include <network/Manager.h>
+#include <patterns/notifyobserver/Observer.hpp>
 #include "SimulationNetworkComponent.h"
 #include "Controller.h"
 #include "SimulationApplication.h"
 
 namespace Simulator {
 
-    class SimulationController : public Core::Controller, public Patterns::Statemachine::Context   {
+    class SimulationController
+            : public Core::Controller,
+              public Patterns::Statemachine::Context,
+              public Patterns::NotifyObserver::Observer {
     public:
         SimulationController();
         virtual ~SimulationController() = default;
 
-    private:
+        void run() override;
+
+		void execute();
+
+		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+
+	private:
+		bool executing;
+
+		ThreadPtr clientThread;
+		Network::Manager networkManager;
         Network::ClientPtr client;
-    };
+
+		void setupNetwork();
+	};
 }
 
 

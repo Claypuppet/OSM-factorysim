@@ -7,6 +7,7 @@
 
 #include <patterns/statemachine/State.h>
 #include "../SimulationNetworkComponent.h"
+#include "Event.h"
 
 namespace SimulationStates {
 
@@ -14,9 +15,10 @@ namespace SimulationStates {
 
 	public:
 		virtual ~SimulationState() = default;
-		virtual void entryAction() = 0;
-		virtual void doActivity() = 0;
-		virtual void exitAction() = 0;
+		virtual bool handleEvent(const Event &e, SimulationCommunication::SimulationNetworkComponent &c) {};
+		virtual void entryAction() {};
+		virtual void doActivity() {};
+		virtual void exitAction() {};
 	protected:
 		SimulationState(SimulationCommunication::SimulationNetworkComponent&);
 		SimulationCommunication::SimulationNetworkComponent& context;

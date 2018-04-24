@@ -7,5 +7,5 @@
 namespace SimulationStates {
 
 
-	Event::Event(uint32_t id) : Event(id) {}
+	Event::Event(uint32_t id) : Patterns::Statemachine::Event(id) {}
 }
