@@ -6,10 +6,11 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 
 #include <network/Server.h>
+#include <patterns/notifyobserver/Observer.hpp>
 #include "Controller.h"
 
 namespace Core {
-    class SimulationController : public Controller {
+    class SimulationController : public Controller, public Patterns::NotifyObserver::Observer {
     public:
         SimulationController();
 

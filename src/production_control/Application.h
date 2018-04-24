@@ -10,9 +10,7 @@
 
 namespace Core {
 
-    class AppConnectionHandler;
-
-    class Application{
+    class Application : public Patterns::NotifyObserver::Observer{
     public:
         /**
         * Default Constructor
@@ -53,12 +51,15 @@ namespace Core {
         */
         void startServer();
 
+        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+
     private:
         std::vector<Machine> machines;
         Network::ServerPtr server;
         ThreadPtr serverThread;
         Network::Manager m;
     };
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_APPLICATION_H

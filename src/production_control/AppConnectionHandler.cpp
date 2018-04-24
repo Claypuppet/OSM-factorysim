@@ -5,6 +5,7 @@
 #include "AppConnectionHandler.h"
 #include "Machine.h"
 #include "network/Protocol.h"
+#include "NotificationTypes.h"
 
 #include <iostream>
 #include <Logger/Logger.h>
@@ -14,8 +15,8 @@
  * @param app
  */
 
-Core::AppConnectionHandler::AppConnectionHandler(Application *app) {
-    this->app = app;
+Core::AppConnectionHandler::AppConnectionHandler()
+{
 }
 
 /**
@@ -76,22 +77,12 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
     std::cout << "Message sent!" << std::endl;
 }
 
+
 void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
     uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
-    Core::MachinePtr machine = app->getMachine(machineId);
-    if(machine)
-    {
-        machine->setConnection(connection);
-        std::stringstream ss;
-        ss << "Added connection to machine with ID: " << std::to_string(machineId) << std::endl;
-        Logger::log(ss.str());
-    }
-    else {
-        Machine m(machineId);
-        m.setConnection(connection);
-        app->addMachine(m);
-        std::stringstream ss;
-        ss << "Added machine with ID: " << std::to_string(machineId) << std::endl;
-        Logger::log(ss.str());
-    }
+    Patterns::NotifyObserver::NotifyEvent notification;
+    notification.setEvent(ApplicationRegisterMachine);
+    notification.addArgument(machineId);
+    notification.addArgument(connection);
+    notifyObservers(notification);
 }

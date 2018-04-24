@@ -48,7 +48,11 @@ add_executable(app_production_control
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
         src/production_control/Controller.cpp
+<<<<<<< Updated upstream
         src/production_control/Controller.h)
+=======
+        src/production_control/Controller.h src/production_control/SimulationConnectionHandler.cpp src/production_control/SimulationConnectionHandler.h src/production_control/SimulationMachine.cpp src/production_control/SimulationMachine.h src/production_control/Buffer.cpp src/production_control/Buffer.h src/production_control/NotificationTypes.h)
+>>>>>>> Stashed changes
 
 
 add_executable(app_visualizer
