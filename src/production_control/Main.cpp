@@ -33,16 +33,25 @@ int main( 	int argc,
 	if(app.isServerRunning())
 	{
 		client->start();
-//        if(client->getConnection()) {
-//			Network::Message msg(Network::Protocol::kAppMessageTypeRegisterMachine, "5");
-//			client->getConnection()->writeMessage(msg);
-//		}
+		while(!client->getConnection())
+        {
+
+        }
+        if(client->getConnection()) {
+			Network::Message msg(Network::Protocol::kAppMessageTypeRegisterMachine, "5");
+			client->getConnection()->writeMessage(msg);
+		}
+		Network::Message msg(2, "test");
+		while(!app.getMachine(5))
+        {
+
+        }
+		if(app.getMachine(5)->isConnected()) {
+            app.getMachine(5)->sendMessage(msg);
+        }
 	}
 
 	clientThread->join();
-
-//	AppConnectionHandler c(&app);
-//	c.handleRegisterMachine("12", nullptr);
 
 	app.joinServerThread();
 

@@ -2,6 +2,7 @@
 // Created by don on 23-4-18.
 //
 
+#include <Logger/Logger.h>
 #include "TestConnectionHandler.h"
 
 void
@@ -19,7 +20,9 @@ void TestConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr conn
 }
 
 void TestConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-
+    Logger::log("Message received:");
+    Logger::log(message.getBody());
+    Logger::log("\n");
 }
 
 void TestConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {

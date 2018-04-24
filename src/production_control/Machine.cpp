@@ -19,7 +19,7 @@ uint8_t Machine::getId() {
  */
 
 bool Machine::isConnected() {
-    if(connection){
+    if(connection != nullptr){
         return true;
     }
     return false;
@@ -40,7 +40,7 @@ void Machine::sendMessage(Network::Message &msg) {
  */
 
 Machine::Machine(uint8_t anId)
-    :id(anId)
+    :id(anId),connection(nullptr)
 {
 
 }
