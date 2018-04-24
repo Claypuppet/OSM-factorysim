@@ -1,17 +1,19 @@
 //
-// Created by hqnders on 20/04/18.
+// Created by sven on 22-4-18.
 //
 
 #ifndef PRODUCTION_LINE_CONTROL_CONTROLLER_H
 #define PRODUCTION_LINE_CONTROL_CONTROLLER_H
 
+
 #include "Application.h"
 
-namespace Core{
+namespace Core {
     class Controller {
     public:
-        Controller() = default;
-        virtual ~Controller() = default;
+        Controller();
+
+        virtual ~Controller();
 
     private:
         Application application;

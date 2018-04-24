@@ -14,7 +14,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
-
+#include <Logger/Logger.h>
 
 
 namespace Network {
@@ -85,7 +85,9 @@ namespace Network {
 		auto entry = *iter;
 		EndpointType endpoint(entry.endpoint());
 
-		std::cout << "Client: resolved host: '" << entry.host_name() << "' to: '" << endpoint << '\'' << std::endl;
+		std::stringstream message;
+		message << "Client: resolved host: '" << entry.host_name() << "' to: '" << endpoint << '\'' << std::endl;
+		Logger::log(message.str());
 
 		asyncConnect(endpoint);
 
@@ -136,7 +138,9 @@ namespace Network {
 	void Client::onConnectionEstablished(ConnectionPtr connection)
 	{
 		auto self = shared_from_this();
-		std::cout << "Client: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		std::stringstream message;
+		message << "Client: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mConnectionHandler->onConnectionEstablished(connection);
 		if(auto l = mServiceEventLister)
@@ -146,8 +150,12 @@ namespace Network {
 	void Client:: onConnectionDisconnected(ConnectionPtr connection, const error_code& error)
 	{
 		auto self = shared_from_this();
-		std::cout << "Client: connection with: " << connection->getSocket().remote_endpoint() <<
-				" disconnected (" << error.message() << ")" << std::endl;
+		std::stringstream message;
+
+		message << "Client: connection with: " << connection->getSocket().remote_endpoint() <<
+				  " disconnected (" << error.message() << ")" << std::endl;
+
+		Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			h->onConnectionDisconnected(connection, error);
 		stop();

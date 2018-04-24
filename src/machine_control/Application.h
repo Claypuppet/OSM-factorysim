@@ -13,8 +13,8 @@
 namespace Core {
     class Application : public Patterns::Statemachine::Context {
     public:
-        Application();
-        virtual ~Application();
+        Application() = default;
+        virtual ~Application() = default;
 
     private:
         Network::ClientPtr client;

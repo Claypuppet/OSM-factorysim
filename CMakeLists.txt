@@ -33,10 +33,37 @@ add_executable(app_machine_control
         src/machine_control/SimulationApplication.cpp
         src/machine_control/SimulationApplication.h
         src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h)
+        src/machine_control/NetworkComponent.h
+        src/machine_control/states_simulation/SimulationState.cpp
+        src/machine_control/states_simulation/SimulationState.h
+        src/machine_control/states_simulation/InitializeSimulationState.cpp
+        src/machine_control/states_simulation/InitializeSimulationState.h
+        src/machine_control/states_simulation/OffState.cpp
+        src/machine_control/states_simulation/OffState.h
+        src/machine_control/states_simulation/OnState.cpp
+        src/machine_control/states_simulation/OnState.h
+        src/machine_control/states_simulation/ShutdownState.cpp
+        src/machine_control/states_simulation/ShutdownState.h
+        src/machine_control/states_simulation/Event.cpp
+        src/machine_control/states_simulation/Event.h)
 
 add_executable(app_production_control
-        src/production_control/Main.cpp src/production_control/ConfigurationReader.cpp src/production_control/ConfigurationReader.h)
+        src/production_control/Main.cpp
+        src/production_control/ConfigurationReader.cpp
+        src/production_control/ConfigurationReader.h
+        src/production_control/AppConnectionHandler.h
+        src/production_control/AppConnectionHandler.cpp
+        src/production_control/Machine.cpp
+        src/production_control/Machine.h
+        src/production_control/Application.cpp
+        src/production_control/Application.h
+        src/production_control/TestConnectionHandler.cpp
+        src/production_control/TestConnectionHandler.h
+        src/production_control/SimulationController.cpp
+        src/production_control/SimulationController.h
+        src/production_control/Controller.cpp
+        src/production_control/Controller.h)
+
 
 add_executable(app_visualizer
         src/visualizer/Main.cpp)
@@ -75,17 +102,16 @@ add_library(lib_models SHARED
         ${lib_models_SRC})
 
 # Lib Patterns
-file(GLOB lib_patterns_state_SRC
+file(GLOB lib_patterns_SRC
         "src/libs/patterns/statemachine/**.h"
-        "src/libs/patterns/statemachine/**.cpp")
-
-file(GLOB lib_patterns_singleton_SRC
+        "src/libs/patterns/statemachine/**.cpp"
         "src/libs/patterns/singleton/**.h"
-        "src/libs/patterns/singleton/**.cpp")
+        "src/libs/patterns/singleton/**.cpp"
+        "src/libs/patterns/notifyobserver/**.h"
+        "src/libs/patterns/notifyobserver/**.cpp")
 
 add_library(lib_patterns SHARED
-        ${lib_patterns_state_SRC}
-        ${lib_patterns_singleton_SRC})
+        ${lib_patterns_SRC})
 
 # Lib yaml-cpp
 file(GLOB lib_yaml_SRC
@@ -111,6 +137,14 @@ file(GLOB lib_silly_objects_SRC
 add_library(lib_silly_objects SHARED
         ${lib_silly_objects_SRC})
 
+# Lib logger
+file(GLOB lib_logger_SRC
+        "src/libs/Logger/**.h"
+        "src/libs/Logger/**.cpp")
+
+add_library(lib_logger SHARED
+        ${lib_logger_SRC})
+
 
 install(TARGETS
         lib_silly_objects
@@ -118,6 +152,7 @@ install(TARGETS
         lib_patterns
         lib_yaml-cpp
         lib_models
+        lib_logger
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
@@ -126,18 +161,18 @@ install(TARGETS
 
 # Libs
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
-target_link_libraries(lib_network ${Boost_SYSTEM_LIBRARY})
-
+target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 
 # Production control & test
-target_link_libraries(app_production_control lib_yaml-cpp lib_models)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test
-target_link_libraries(app_machine_control lib_network lib_silly_objects)
+target_link_libraries(app_machine_control lib_network lib_patterns)
+target_link_libraries(app_machine_control lib_network lib_silly_objects lib_logger)
 target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Visualizer & test
-target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects)
+target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects lib_logger)
 target_link_libraries(test_visualizer ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${wxWidgets_LIBRARIES} lib_silly_objects)
 
