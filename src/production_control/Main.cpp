@@ -16,42 +16,12 @@
 #include "network/Connection.h"
 #include "network/Protocol.h"
 #include "TestConnectionHandler.h"
+#include "SimulationController.h"
 
 int main( 	int argc,
 			char** argv)
 {
-	Core::Application app;
-	app.startServer();
-
-
-
-	Network::Manager clientManager;
-	ThreadPtr clientThread = clientManager.runServiceThread();
-	Network::ClientPtr client = clientManager.createClient(std::make_shared<TestConnectionHandler>());
-
-	if(app.isServerRunning())
-	{
-		client->start();
-		while(!client->getConnection())
-        {
-
-        }
-        if(client->getConnection()) {
-			Network::Message msg(Network::Protocol::kAppMessageTypeRegisterMachine, "5");
-			client->getConnection()->writeMessage(msg);
-		}
-		Network::Message msg(2, "test");
-		while(!app.getMachine(5))
-        {
-
-        }
-		if(app.getMachine(5)->isConnected()) {
-            app.getMachine(5)->sendMessage(msg);
-        }
-	}
-
-	clientThread->join();
-
-	app.joinServerThread();
+	Core::SimulationController controller;
+	controller.run();
 	return 0;
 }
