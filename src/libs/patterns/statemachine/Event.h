@@ -18,7 +18,8 @@ namespace Patterns {
 			 * Create new event
 			 * @param id
 			 */
-            Event(uint32_t id) : id(id){}
+            explicit Event(uint32_t aId) : id(aId){}
+
             Event(const Event& event) : id(event.id){}
             virtual ~Event() = default;
 

@@ -42,9 +42,11 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/OffState.h
         src/machine_control/states_simulation/OnState.cpp
         src/machine_control/states_simulation/OnState.h
-        src/machine_control/states_simulation/ShutdownState.cpp
-        src/machine_control/states_simulation/ShutdownState.h
-        )
+        src/machine_control/states_simulation/FindProductControlState.cpp
+        src/machine_control/states_simulation/FindProductControlState.h
+        src/machine_control/states_simulation/ConnectSimulationState.cpp
+        src/machine_control/states_simulation/ConnectSimulationState.h
+        src/machine_control/config.h )
 
 add_executable(app_production_control
         src/production_control/Main.cpp

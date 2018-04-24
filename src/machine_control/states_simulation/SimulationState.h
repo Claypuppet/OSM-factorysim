@@ -11,6 +11,16 @@
 
 namespace SimulationStates {
 
+	enum EventType {
+		kEventTypeReceivedPCIP,
+		kEventTypeConnected,
+		kEventTypeConnectionFailed,
+		kEventTypeConfigReceived,
+		kEventTypePowerOn,
+		kEventTypePowerOff,
+//			kEventType,
+	};
+
 	typedef Patterns::Statemachine::Event Event;
 	typedef Patterns::Statemachine::EventPtr EventPtr;
 

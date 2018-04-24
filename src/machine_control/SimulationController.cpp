@@ -3,10 +3,31 @@
 //
 
 #include "SimulationController.h"
-#include "states_simulation/InitializeSimulationState.h"
+#include "states_simulation/FindProductControlState.h"
 #include <network/Client.h>
 
 namespace Simulator {
+
+	class SimulationNetworkService : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
+	public:
+		SimulationNetworkService() = default;
+		~SimulationNetworkService() override = default;
+	private:
+		void onServiceError(Network::ServicePtr service, const std::string &message) override {
+
+		}
+
+		void onServiceStopped(Network::ServicePtr service) override {
+
+		}
+
+		void onServiceStarted(Network::ServicePtr service) override {
+
+		}
+
+	};
+
+
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		// TODO: add notification (state event) to event queue
 	}
@@ -24,22 +45,28 @@ namespace Simulator {
 		client->start();
 	}
 
+	void SimulationController::setStartState()
+	{
+		auto startState = std::make_shared<SimulationStates::FindProductControlState>(*this);
+		setCurrentState(startState);
+	}
+
 	void SimulationController::execute() {
-		executing = true;
 		setStartState();
 
+		executing = true;
 		while(executing){
 			run();
 		}
 	}
 
-	void SimulationController::setStartState()
-	{
-		auto startState = std::make_shared<SimulationStates::InitializeSimulationState>(*this);
-		setCurrentState(startState);
+	void SimulationController::stop(){
+		executing = false;
+		networkManager.stop();
+		clientThread->join();
 	}
 
-	const bool SimulationController::isConnected()  {
-		return (client && client->isRunning() && client->getConnection() && client->getConnection()->isConnected());
+	void SimulationController::setRemoteHost(const std::string &remoteHost) {
+		networkManager.setRemoteHost(remoteHost);
 	}
 }

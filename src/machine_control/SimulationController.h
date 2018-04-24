@@ -23,21 +23,24 @@ namespace Simulator {
         virtual ~SimulationController() = default;
 
 		void execute();
+		void stop();
 
 		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
-		const bool isConnected();
+		void setRemoteHost(const std::string &setRemoteHost);
 		void setupNetwork();
 
 	private:
+		void setStartState();
+
 		bool executing;
 
 		ThreadPtr clientThread;
 		Network::Manager networkManager;
         Network::ClientPtr client;
 
+	private:
 
-		void setStartState();
 	};
 }
 
