@@ -5,6 +5,8 @@
 #include "Application.h"
 #include "states_production/ConnectState.h"
 
-Core::Application::Application(const Network::ClientPtr &client) : client(client) {
-    setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
+namespace core {
+    Application::Application(const Network::ClientPtr &client) : client(client) {
+        setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
+    }
 }

@@ -1,23 +1,36 @@
 //
-// Created by hqnders on 20/04/18.
+// Created by klei on 4/19/18.
 //
 
-#ifndef PRODUCTION_LINE_CONTROL_NETWORKCOMPONENT_H
-#define PRODUCTION_LINE_CONTROL_NETWORKCOMPONENT_H
+#ifndef PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
+#define PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
 
 #include "network/Connection.h"
 
 namespace Communication {
-    class NetworkComponent : public Network::IConnectionHandler {
-    public:
-        NetworkComponent();
-        virtual ~NetworkComponent();
 
-        virtual void onConnectionEstablished(Network::ConnectionPtr connection);
-        virtual void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error);
-        virtual void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message);
-    };
+	class NetworkComponent : public Network::IConnectionHandler {
+	public:
+		NetworkComponent();
+		~NetworkComponent() = default;
+
+		const void sendHello();
+
+		Network::ConnectionPtr getConnection();
+
+	private:
+		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+		void onConnectionEstablished(Network::ConnectionPtr connection) override;
+		void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+		void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+
+		Network::ConnectionPtr mConnection;
+
+		void handleReconfigureMessage();
+		void handleProcessProductMessage();
+
+	};
 }
 
 
-#endif //PRODUCTION_LINE_CONTROL_NETWORKCOMPONENT_H
+#endif //PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H

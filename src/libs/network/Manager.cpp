@@ -12,6 +12,7 @@
 
 
 #include <boost/asio/io_service.hpp>
+#include <Logger/Logger.h>
 
 
 namespace Network
@@ -28,16 +29,16 @@ namespace Network
 	{
 	}
 
-	Manager::Manager(const Manager& m)
-	: mServicePtr(std::make_shared<io_service>())
-	, mServicerWorkPtr(std::unique_ptr<io_service::work>(new io_service::work(*mServicePtr)))
-	, mFStopping(false)
-	, mFStopped(false)
-	, mRemoteHost(m.mRemoteHost)
-	, mRemotePort(m.mRemotePort)
-	, mLocalPort(m.mLocalPort)
-	{
-	}
+//	Manager::Manager(const Manager& m)
+//	: mServicePtr(std::make_shared<io_service>())
+//	, mServicerWorkPtr(std::unique_ptr<io_service::work>(new io_service::work(*mServicePtr)))
+//	, mFStopping(false)
+//	, mFStopped(false)
+//	, mRemoteHost(m.mRemoteHost)
+//	, mRemotePort(m.mRemotePort)
+//	, mLocalPort(m.mLocalPort)
+//	{
+//	}
 
 	Manager::~Manager()
 	{
@@ -89,12 +90,16 @@ namespace Network
 		auto c = mClient;
 
 		if(s) {
-			std::cout << "Stopping server..." << std::endl;
+			std::stringstream message;
+			message << "Stopping server..." << std::endl;
+			Logger::log(message.str());
 			s->stop();
 			mServer.reset();
 		}
 		if(c) {
-			std::cout << "Stopping client..." << std::endl;
+			std::stringstream message;
+			message << "Stopping client..." << std::endl;
+			Logger::log(message.str());
 			c->stop();
 			mClient.reset();
 		}
@@ -103,14 +108,18 @@ namespace Network
 		if(s) {
 			while(s->isRunning())
 				std::this_thread::yield();
-			std::cout << "Server stopped" << std::endl;
+			std::stringstream message;
+			message << "Server stopped" << std::endl;
+			Logger::log(message.str());
 			s.reset();
 		}
 
 		if(c) {
 			while(c->isRunning())
 				std::this_thread::yield();
-			std::cout << "Client stopped" << std::endl;
+			std::stringstream message;
+			message << "Client stopped" << std::endl;
+			Logger::log(message.str());
 			c.reset();
 		}
 
@@ -136,7 +145,9 @@ namespace Network
 			return;
 
 		try {
-			std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
+			std::stringstream message;
+			message << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
+			Logger::log(message.str());
 			service->run();
 		}
 		catch(std::exception& e) {
@@ -145,7 +156,9 @@ namespace Network
 		catch(...) {
 			std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
 		}
-		std::cout << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
+		std::stringstream message;
+		message << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
+		Logger::log(message.str());
 	}
 
 	ThreadPtr Manager::runServiceThread()

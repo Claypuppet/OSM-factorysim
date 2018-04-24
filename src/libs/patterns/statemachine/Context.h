@@ -17,18 +17,29 @@ namespace Patterns {
     namespace Statemachine {
         class Context {
         public:
-            void run();
+			virtual ~Context() = default;
 
+			/**
+			 * Run context once. Will handle events in the event queue and apply doAction in currentState.
+			 */
+			virtual void run();
+
+			/**
+			 * Add event to the event queue.
+			 * @param e : Event to add
+			 */
             void scheduleEvent(Event e);
 
-            void setCurrentState(const std::shared_ptr<State> currentState);
+            /**
+             * Set a new state
+             * @param currentState : State to set
+             */
+            void setCurrentState(StatePtr currentState);
 
         protected:
-            Context();
+            Context() = default;
 
-            virtual ~Context();
-
-            std::shared_ptr<State> currentState;
+            StatePtr currentState;
             std::queue<Event> events;
         };
     }
