@@ -9,11 +9,16 @@
 #include <iostream>
 
 #include "silly_objects/Lib1.hpp"
+#include "SimulationController.h"
+
 
 int main( 	int argc,
 			char** argv)
 {
 	std::cout << "Hello from app production control!" << std::endl;
 	Lib1::print();
+
+    Core::SimulationController simController = Core::SimulationController();
+    Core::Controller controller = Core::Controller();
 	return 0;
 }

@@ -5,9 +5,10 @@
 #include "Controller.h"
 
 
-namespace Core {
+Core::Controller::Controller() {
 
-	Controller::Controller() {
+}
 
-	};
+Core::Controller::~Controller() {
+
 }
