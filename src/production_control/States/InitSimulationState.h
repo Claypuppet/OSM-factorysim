@@ -9,32 +9,35 @@
 #include <patterns/statemachine/State.h>
 #include "patterns/statemachine/Context.h"
 
-class InitSimulationContext : public Patterns::Statemachine::Context
-{
-public:
-    InitSimulationContext() = default;
-    ~InitSimulationContext() = default;
-};
+namespace States {
+    class InitSimulationContext : public Patterns::Statemachine::Context {
+    public:
+        InitSimulationContext() = default;
 
-class InitSimulationState : public Patterns::Statemachine::State {
-public:
-    InitSimulationState();
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+        ~InitSimulationContext() = default;
+    };
 
-    /**
-     * Handles the doActivity of the contexts state
-     */
-    void doActivity() override;
+    class InitSimulationState : public Patterns::Statemachine::State {
+    public:
+        InitSimulationState();
 
-    /**
-     * Sets state to SimulationBroadcastState
-     */
-    void entryAction() override;
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    void exitAction() override;
-private:
-    InitSimulationContext context;
-};
+        /**
+         * Handles the doActivity of the contexts state
+         */
+        void doActivity() override;
 
+        /**
+         * Sets state to SimulationBroadcastState
+         */
+        void entryAction() override;
+
+        void exitAction() override;
+
+    private:
+        InitSimulationContext context;
+    };
+}
 
 #endif //PRODUCTION_LINE_CONTROL_INITSIMULATIONSTATE_H

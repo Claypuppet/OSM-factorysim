@@ -9,33 +9,36 @@
 #include <patterns/statemachine/State.h>
 #include "patterns/statemachine/Context.h"
 
-class ConnectMachinesContext : public Patterns::Statemachine::Context
-{
-public:
-    ConnectMachinesContext() = default;
-    ~ConnectMachinesContext() = default;
-};
+namespace States {
 
-class ConnectMachinesState : public Patterns::Statemachine::State{
-public:
-    ConnectMachinesState();
+    class ConnectMachinesContext : public Patterns::Statemachine::Context {
+    public:
+        ConnectMachinesContext() = default;
 
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+        ~ConnectMachinesContext() = default;
+    };
 
-    /**
-     * Handles the doActivity of the context state
-     */
-    void doActivity() override;
+    class ConnectMachinesState : public Patterns::Statemachine::State {
+    public:
+        ConnectMachinesState();
 
-    /**
-     * Sets the state of context to BroadcastState
-     */
-    void entryAction() override;
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    void exitAction() override;
-private:
-    ConnectMachinesContext context;
-};
+        /**
+         * Handles the doActivity of the context state
+         */
+        void doActivity() override;
 
+        /**
+         * Sets the state of context to BroadcastState
+         */
+        void entryAction() override;
+
+        void exitAction() override;
+
+    private:
+        ConnectMachinesContext context;
+    };
+}
 
 #endif //PRODUCTION_LINE_CONTROL_CONNECTMACHINESSTATE_H

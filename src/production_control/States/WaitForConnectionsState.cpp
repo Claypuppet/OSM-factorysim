@@ -4,7 +4,7 @@
 
 #include "WaitForConnectionsState.h"
 
-bool WaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::WaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
@@ -12,14 +12,14 @@ bool WaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e
  * Waits untill all configured machines are connected to the SimulationControll component
  * Sends simulation configuration to all connected machines
  */
-void WaitForConnectionsState::doActivity() {
+void States::WaitForConnectionsState::doActivity() {
 
 }
 
-void WaitForConnectionsState::entryAction() {
+void States::WaitForConnectionsState::entryAction() {
 
 }
 
-void WaitForConnectionsState::exitAction() {
+void States::WaitForConnectionsState::exitAction() {
 
 }

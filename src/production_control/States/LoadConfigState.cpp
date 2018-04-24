@@ -6,15 +6,15 @@
 #include "../ConfigurationReader.h"
 #include <iostream>
 
-bool LoadConfigState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void LoadConfigState::entryAction() {
+void States::LoadConfigState::entryAction() {
 
 }
 
-void LoadConfigState::doActivity() {
+void States::LoadConfigState::doActivity() {
     ConfigurationReader reader;
     Models::Configuration model;;
     reader.readConfigurationFile("path/to/config/file", model);
@@ -36,6 +36,6 @@ void LoadConfigState::doActivity() {
     // Switch state to InitSimulationState
 }
 
-void LoadConfigState::exitAction() {
+void States::LoadConfigState::exitAction() {
 
 }

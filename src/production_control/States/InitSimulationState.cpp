@@ -6,24 +6,24 @@
 #include "InitSimulationState.h"
 #include "SimulationBroadcastState.h"
 
-bool InitSimulationState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void InitSimulationState::doActivity() {
+void States::InitSimulationState::doActivity() {
     context.run();
 }
 
-void InitSimulationState::entryAction() {
-    context.setCurrentState(std::make_shared<SimulationBroadcastState>());
+void States::InitSimulationState::entryAction() {
+    context.setCurrentState(std::make_shared<States::SimulationBroadcastState>());
 }
 
-void InitSimulationState::exitAction() {
+void States::InitSimulationState::exitAction() {
 
 }
 
 InitSimulationState::InitSimulationState()
-    :context(InitSimulationContext())
+    :context(States::InitSimulationContext())
 {
 
 }

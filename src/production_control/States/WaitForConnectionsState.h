@@ -8,20 +8,22 @@
 
 #include <patterns/statemachine/State.h>
 
-class WaitForConnectionsState : public Patterns::Statemachine::State {
-public:
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+namespace States {
+    class WaitForConnectionsState : public Patterns::Statemachine::State {
+    public:
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    /**
-     * Waits untill all configured machines are connected to the Application
-     * Sends the relevant config to the machines
-     */
-    void doActivity() override;
+        /**
+         * Waits untill all configured machines are connected to the Application
+         * Sends the relevant config to the machines
+         */
+        void doActivity() override;
 
-    void entryAction() override;
+        void entryAction() override;
 
-    void exitAction() override;
-};
+        void exitAction() override;
+    };
+}
 
 
 #endif //PRODUCTION_LINE_CONTROL_WAITFORCONNECTIONSSTATE_H

@@ -4,18 +4,18 @@
 
 #include "BroadCastState.h"
 
-bool BroadCastState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::BroadCastState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void BroadCastState::doActivity() {
+void States::BroadCastState::doActivity() {
 
 }
 
-void BroadCastState::entryAction() {
+void States::BroadCastState::entryAction() {
 
 }
 
-void BroadCastState::exitAction() {
+void States::BroadCastState::exitAction() {
 
 }

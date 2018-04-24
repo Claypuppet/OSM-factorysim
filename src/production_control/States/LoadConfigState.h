@@ -8,20 +8,21 @@
 
 #include <patterns/statemachine/State.h>
 
-class LoadConfigState : public Patterns::Statemachine::State{
-public:
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+namespace States {
+    class LoadConfigState : public Patterns::Statemachine::State {
+    public:
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    /**
-     * Loads configuration and creates machine objects for the Application and SimulationController class
-     */
-    void doActivity() override;
+        /**
+         * Loads configuration and creates machine objects for the Application and SimulationController class
+         */
+        void doActivity() override;
 
-    void entryAction() override;
+        void entryAction() override;
 
-    void exitAction() override;
+        void exitAction() override;
 
-};
-
+    };
+}
 
 #endif //PRODUCTION_LINE_CONTROL_LOADCONFIGSTATE_H

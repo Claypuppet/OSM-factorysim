@@ -6,24 +6,24 @@
 #include "ConnectMachinesState.h"
 #include "BroadCastState.h"
 
-ConnectMachinesState::ConnectMachinesState()
-    :context(ConnectMachinesContext())
+States::ConnectMachinesState::ConnectMachinesState()
+    :context(States::ConnectMachinesContext())
 {
 
 }
 
-bool ConnectMachinesState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::ConnectMachinesState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void ConnectMachinesState::doActivity() {
+void States::ConnectMachinesState::doActivity() {
     context.run();
 }
 
-void ConnectMachinesState::entryAction() {
-    context.setCurrentState(std::make_shared<BroadCastState>());
+void States::ConnectMachinesState::entryAction() {
+    context.setCurrentState(std::make_shared<States::BroadCastState>());
 }
 
-void ConnectMachinesState::exitAction() {
+void States::ConnectMachinesState::exitAction() {
 
 }

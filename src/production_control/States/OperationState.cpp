@@ -4,18 +4,18 @@
 
 #include "OperationState.h"
 
-bool OperationState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::OperationState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void OperationState::doActivity() {
+void States::OperationState::doActivity() {
 
 }
 
-void OperationState::entryAction() {
+void States::OperationState::entryAction() {
 
 }
 
-void OperationState::exitAction() {
+void States::OperationState::exitAction() {
 
 }

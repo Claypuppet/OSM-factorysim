@@ -8,19 +8,21 @@
 
 #include <patterns/statemachine/State.h>
 
-class SimulationBroadcastState : public Patterns::Statemachine::State {
-public:
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+namespace States {
+    class SimulationBroadcastState : public Patterns::Statemachine::State {
+    public:
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    /**
-     * Broadcasts the ip and port of the SimulationControll component over the network
-     */
-    void doActivity() override;
+        /**
+         * Broadcasts the ip and port of the SimulationControll component over the network
+         */
+        void doActivity() override;
 
-    void entryAction() override;
+        void entryAction() override;
 
-    void exitAction() override;
-};
+        void exitAction() override;
+    };
+}
 
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONBROADCASTSTATE_H

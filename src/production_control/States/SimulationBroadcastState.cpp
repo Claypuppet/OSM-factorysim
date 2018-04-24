@@ -4,18 +4,18 @@
 
 #include "SimulationBroadcastState.h"
 
-bool SimulationBroadcastState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::SimulationBroadcastState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
     return false;
 }
 
-void SimulationBroadcastState::doActivity() {
+void States::SimulationBroadcastState::doActivity() {
 
 }
 
-void SimulationBroadcastState::entryAction() {
+void States::SimulationBroadcastState::entryAction() {
 
 }
 
-void SimulationBroadcastState::exitAction() {
+void States::SimulationBroadcastState::exitAction() {
 
 }

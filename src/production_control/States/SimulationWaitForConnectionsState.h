@@ -8,19 +8,21 @@
 
 #include <patterns/statemachine/State.h>
 
-class SimulationWaitForConnectionsState : public Patterns::Statemachine::State {
-public:
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+namespace States {
+    class SimulationWaitForConnectionsState : public Patterns::Statemachine::State {
+    public:
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    /**
-     * Waits for machines to connect to the Application and sends relevant config data
-     */
-    void doActivity() override;
+        /**
+         * Waits for machines to connect to the Application and sends relevant config data
+         */
+        void doActivity() override;
 
-    void entryAction() override;
+        void entryAction() override;
 
-    void exitAction() override;
-};
+        void exitAction() override;
+    };
+}
 
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONWAITFORCONNECTIONSSTATE_H

@@ -8,19 +8,20 @@
 
 #include <patterns/statemachine/State.h>
 
-class BroadCastState : public Patterns::Statemachine::State{
-public:
-    bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+namespace States {
+    class BroadCastState : public Patterns::Statemachine::State {
+    public:
+        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
 
-    /**
-     * Broadcasts the ip and port of the Application over the network
-     */
-    void doActivity() override;
+        /**
+         * Broadcasts the ip and port of the Application over the network
+         */
+        void doActivity() override;
 
-    void entryAction() override;
+        void entryAction() override;
 
-    void exitAction() override;
-};
-
+        void exitAction() override;
+    };
+}
 
 #endif //PRODUCTION_LINE_CONTROL_BROADCASTSTATE_H
