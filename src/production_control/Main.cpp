@@ -11,6 +11,8 @@
 #include "network/Protocol.h"
 #include "TestConnectionHandler.h"
 
+//#include "ConfigurationReader.h"
+
 int main( 	int argc,
 			char** argv)
 {
@@ -19,9 +21,7 @@ int main( 	int argc,
 
 //    std::string fileName = argv[1];
 //    Models::Configuration configuration;
-//    ConfigurationReader::getInstance().readConfigurationFile(fileName, configuration);
-
-
+//    ConfigLoader::ConfigurationReader::getInstance().readConfigurationFile(fileName, configuration);
 
 	Network::Manager clientManager;
 	ThreadPtr clientThread = clientManager.runServiceThread();

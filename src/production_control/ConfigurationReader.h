@@ -11,13 +11,19 @@
 
 #include <models/Configuration.h>
 
-class ConfigurationReader : public Patterns::Singleton::Singleton<ConfigurationReader> {
-public:
-    ConfigurationReader();
-    ConfigurationReader(ConfigurationReader &other) = delete;
-    virtual ~ConfigurationReader();
+namespace ConfigLoader {
 
-    void readConfigurationFile(std::string filePath, Models::Configuration &configuration);
-};
+    class ConfigurationReader : public Patterns::Singleton::Singleton<ConfigurationReader> {
+    public:
+        ConfigurationReader();
+
+        ConfigurationReader(ConfigurationReader &other) = delete;
+
+        virtual ~ConfigurationReader();
+
+        void readConfigurationFile(std::string filePath, Models::Configuration &configuration);
+    };
+
+}
 
 #endif //PRODUCTION_LINE_CONTROL_CONFIGFILE_H

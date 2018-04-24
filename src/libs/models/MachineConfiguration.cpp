@@ -36,16 +36,16 @@ namespace Models {
         return *this;
     }
 
-    void MachineConfiguration::deserialize(YAML::Node &machineConfigurationConfigurationNode) {
-        productId = machineConfigurationConfigurationNode["productId"].as<uint16_t>();
-        nextMachineId = machineConfigurationConfigurationNode["nextMachineId"].as<uint16_t>();
-        inputMaterialsForEachProduct = machineConfigurationConfigurationNode["inputMaterialsForEachProduct"].as<uint16_t>();
-        outputEachMinute = machineConfigurationConfigurationNode["outputEachMinute"].as<uint16_t>();
-        initializationDurationInSeconds = machineConfigurationConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
-        inputBufferSize = machineConfigurationConfigurationNode["inputBufferSize"].as<uint16_t>();
-        meanTimeBetweenFailureInHours = machineConfigurationConfigurationNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
-        meanTimeBetweenFailureStddevInHours = machineConfigurationConfigurationNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
-        reparationTimeInMinutes = machineConfigurationConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
+    void MachineConfiguration::deserialize(YAML::Node &machineConfigurationNode) {
+        productId = machineConfigurationNode["productId"].as<uint16_t>();
+        nextMachineId = machineConfigurationNode["nextMachineId"].as<uint16_t>();
+        inputMaterialsForEachProduct = machineConfigurationNode["inputMaterialsForEachProduct"].as<uint16_t>();
+        outputEachMinute = machineConfigurationNode["outputEachMinute"].as<uint16_t>();
+        initializationDurationInSeconds = machineConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
+        inputBufferSize = machineConfigurationNode["inputBufferSize"].as<uint16_t>();
+        meanTimeBetweenFailureInHours = machineConfigurationNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
+        meanTimeBetweenFailureStddevInHours = machineConfigurationNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
+        reparationTimeInMinutes = machineConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
     }
 
     uint16_t MachineConfiguration::getProductId() const {

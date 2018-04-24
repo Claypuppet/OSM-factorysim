@@ -2,7 +2,6 @@
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATION_H
 
 #include <string>
-#include <vector>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>

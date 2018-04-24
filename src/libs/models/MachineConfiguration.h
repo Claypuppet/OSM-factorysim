@@ -1,6 +1,8 @@
 #ifndef PRODUCTION_LINE_CONTROL_MACHINECONFIGURATIONCONFIGURATION_H
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATIONCONFIGURATION_H
 
+#include <iostream> // TODO : remove line
+
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
@@ -22,7 +24,6 @@ namespace Models {
         uint16_t getOutputEachMinute() const;
         uint16_t getInitializationDurationInSeconds() const;
         uint16_t getInputBufferSize() const;
-        uint16_t getTurnAroundTimeInSeconds() const;
         uint16_t getMeanTimeBetweenFailureInHours() const;
         uint16_t getMeanTimeBetweenFailureStddevInHours() const;
         uint16_t getReparationTimeInMinutes() const;
