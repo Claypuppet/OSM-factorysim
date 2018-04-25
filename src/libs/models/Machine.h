@@ -2,7 +2,6 @@
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATION_H
 
 // standard includes
-#include <string>
 #include <memory>
 
 // library includes
