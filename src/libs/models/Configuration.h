@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/cereal.hpp>
 
 #include "SimulationInfo.h"
 #include "ProductionLine.h"
@@ -25,10 +26,25 @@ namespace Models {
         const SimulationInfo &getSimulationInfoConfiguration() const;
         const ProductionLine &getProductionLineConfiguration() const;
 
+
     private:
         std::string name;
         SimulationInfo simulationInfoConfiguration;
         ProductionLine productionLineConfiguration;
+
+        template<class Archive>
+        void save(Archive& ar) const
+        {
+            ar(name, simulationInfoConfiguration, productionLineConfiguration);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(name, simulationInfoConfiguration, productionLineConfiguration);
+        }
+
+        friend class ::cereal::access;
     };
 
 }

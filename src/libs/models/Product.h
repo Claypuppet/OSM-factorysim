@@ -6,6 +6,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/cereal.hpp>
 
 namespace Models {
 
@@ -27,6 +28,20 @@ namespace Models {
         uint16_t id;
         std::string name;
         uint16_t proportion;
+
+        template <class Archive>
+        void save(Archive& ar) const
+        {
+            ar(id, name, proportion);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(id, name, proportion);
+        }
+
+        friend class cereal::access;
     };
 
 }
