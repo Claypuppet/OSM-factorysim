@@ -23,6 +23,7 @@ namespace SimulationStates {
 		switch (e->getId()){
 			case kEventTypeConfigReceived:
 				context.setCurrentState(std::make_shared<OffState>(context));
+				return true;
 			default:
 				return SimulationState::handleEvent(e);
 		}

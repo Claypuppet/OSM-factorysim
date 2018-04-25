@@ -4,6 +4,7 @@
 
 #include "OnState.h"
 #include "../states_production/ConnectState.h"
+#include "OffState.h"
 
 
 namespace SimulationStates {
@@ -20,6 +21,12 @@ namespace SimulationStates {
 	}
 
 	bool OnState::handleEvent(const EventPtr &e) {
-		return SimulationState::handleEvent(e);
+	    switch(e->getId()) {
+            case kEventTypePowerOff:
+                context.setCurrentState(std::make_shared<OffState>(context));
+                return true;
+        default:
+            return SimulationState::handleEvent(e);
+        }
 	}
 }

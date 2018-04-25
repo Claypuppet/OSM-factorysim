@@ -22,6 +22,7 @@ namespace SimulationStates {
 		switch(e->getId()){
             case kEventTypePowerOn:
                 context.setCurrentState(std::make_shared<OnState>(context));
+                return true;
             default:
                 return SimulationState::handleEvent(e);
         }
