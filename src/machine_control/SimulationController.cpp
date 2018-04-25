@@ -8,21 +8,25 @@
 
 namespace Simulator {
 
-	class SimulationNetworkService : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
+	/**
+	 * Network service event dispatcher, handles service callbacks
+	 */
+	class NetworkEventDispatcher : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
 	public:
-		SimulationNetworkService() = default;
-		~SimulationNetworkService() override = default;
+		NetworkEventDispatcher() = default;
+		~NetworkEventDispatcher() override = default;
 	private:
 		void onServiceError(Network::ServicePtr service, const std::string &message) override {
-
+			// TODO: event - could not connect, notify observer
+			auto e = std::make_shared<SimulationStates::Event>(SimulationStates::Event(SimulationStates::kEventTypeConnectionFailed));
 		}
 
 		void onServiceStopped(Network::ServicePtr service) override {
-
+			// TODO: check if this is needed
 		}
 
 		void onServiceStarted(Network::ServicePtr service) override {
-
+			// TODO: Event -
 		}
 
 	};

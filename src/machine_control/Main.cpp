@@ -41,7 +41,7 @@ int main( 	int argc,
 class TempProdControlServer : public Network::IConnectionHandler {
 public:
 	TempProdControlServer() = default;
-	~TempProdControlServer() = default;
+	virtual ~TempProdControlServer() = default;
 protected:
 
 	void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
