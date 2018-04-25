@@ -7,6 +7,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/cereal.hpp>
 
 #include "Product.h"
 #include "Machine.h"
@@ -31,6 +32,20 @@ namespace Models {
         std::string name;
         std::vector<Product> products;
         std::vector<Machine> machines;
+
+        template<class Archive>
+        void save(Archive& ar) const
+        {
+            ar(name, products, machines);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(name, products, machines);
+        }
+
+        friend class cereal::access;
     };
 
 }

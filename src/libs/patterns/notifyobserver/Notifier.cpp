@@ -1,27 +1,27 @@
 #include "Notifier.hpp"
 #include <boost/foreach.hpp>
-#include <sstream>
-#include <typeinfo>
-#include "Observer.hpp"
-#include <algorithm>
-#include <patterns/statemachine/Event.h>
 
 namespace Patterns {
 	namespace NotifyObserver {
 
 		const NotifyTrigger NotifyTrigger::DoNotNotify(kNotifyTriggerId_DoNotNotify);
 
-		NotifyEvent::NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier)
-				: mNotifier(notifier), mTrigger(trigger) {
+		NotifyEvent::NotifyEvent(const NotifyTrigger& trigger, Notifier* notifier, NotifyEventId event)
+				: mNotifier(notifier)
+				, mEventId(event)
+				, mTrigger(trigger)
+		{
 		}
 
 
-		NotifyEvent::NotifyEvent(const NotifyTrigger &trigger)
-				: NotifyEvent(trigger, nullptr) {
+		NotifyEvent::NotifyEvent(const NotifyTrigger& trigger)
+				: NotifyEvent(trigger, nullptr, 0)
+		{
 		}
 
 		NotifyEvent::NotifyEvent()
-				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), nullptr) {
+				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), nullptr, 0)
+		{
 		}
 
 		Notifier *NotifyEvent::getNotifier() const {
@@ -40,17 +40,13 @@ namespace Patterns {
 			return mNotifier = notifier, *this;
 		}
 
-		const Patterns::Statemachine::EventPtr &NotifyEvent::getStateEvent() const {
-			return stateEvent;
-		}
-
-		void NotifyEvent::setStateEvent(const Patterns::Statemachine::EventPtr &stateEvent) {
-			NotifyEvent::stateEvent = stateEvent;
+		NotifyEventId NotifyEvent::getEventId() const {
+			return mEventId;
 		}
 
 		/**
-		 *
-		 */
+         *
+         */
 		Notifier::Notifier(bool enable /*= true*/) :
 				notify(enable) {
 		}
@@ -132,8 +128,14 @@ namespace Patterns {
 			}
 		}
 
-		NotifyEvent Notifier::makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger) {
-			return NotifyEvent(trigger, notifier);
+
+		NotifyEvent Notifier::makeNotificationForNotifier(Notifier* notifier, const NotifyTrigger& trigger, NotifyEventId eventId) {
+			return NotifyEvent(trigger, notifier, eventId);
+		}
+
+		NotifyEvent Notifier::makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event)
+		{
+			return NotifyEvent(trigger, this, event);
 		}
 
 

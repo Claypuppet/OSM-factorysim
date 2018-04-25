@@ -5,13 +5,14 @@
 #ifndef PRODUCTION_LINE_CONTROL_COMMNET_H
 #define PRODUCTION_LINE_CONTROL_COMMNET_H
 
+#include <patterns/notifyobserver/Notifier.hpp>
 #include "network/Connection.h"
 #include "Application.h"
 
 namespace Core {
-    class AppConnectionHandler : public Network::IConnectionHandler {
+    class AppConnectionHandler : public Network::IConnectionHandler, Patterns::NotifyObserver::Notifier {
     public:
-        AppConnectionHandler(Application *app);
+        AppConnectionHandler();
 
         virtual ~AppConnectionHandler() = default;
 
@@ -29,9 +30,6 @@ namespace Core {
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
         void onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) override;
-
-
-        Application *app;
     };
 }
 

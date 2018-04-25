@@ -4,7 +4,6 @@
 
 #include <memory>
 #include "InitSimulationState.h"
-#include "SimulationBroadcastState.h"
 
 
 void States::InitSimulationState::doActivity() {
@@ -12,7 +11,7 @@ void States::InitSimulationState::doActivity() {
 }
 
 void States::InitSimulationState::entryAction() {
-    context.setCurrentState(std::make_shared<States::SimulationBroadcastState>());
+//    context.setCurrentState(std::make_shared<States::SimulationBroadcastState>());
 }
 
 void States::InitSimulationState::exitAction() {
