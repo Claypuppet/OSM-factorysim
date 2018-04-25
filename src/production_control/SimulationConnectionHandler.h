@@ -61,8 +61,6 @@ namespace Simulation {
          */
         void onSimulationMachineInfoReceived(const Model::Machine &machine);
 
-        void SimulationConnectionHandler::onSimulationMachineRegister()
-
         /**
          * Handles machine turn on command
          */

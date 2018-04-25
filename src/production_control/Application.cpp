@@ -3,7 +3,6 @@
 //
 
 #include "AppConnectionHandler.h"
-#include "Application.h"
 
 #include "network/Server.h"
 #include "network/Client.h"
@@ -11,7 +10,7 @@
 Core::Application::Application()
 {
 	serverThread = m.runServiceThread();
-	server = m.createServer(std::make_shared<AppConnectionHandler>(this), 50);
+    server = m.createServer(std::make_shared<AppConnectionHandler>(), 50);
 }
 
 void Core::Application::addMachine(const Machine &aMachine) {
@@ -46,4 +45,8 @@ bool Core::Application::isServerRunning() {
 
 Network::ServerPtr Core::Application::getServer() {
     return Network::ServerPtr();
+}
+
+void Core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+
 }

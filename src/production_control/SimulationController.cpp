@@ -2,30 +2,82 @@
 // Created by sven on 22-4-18.
 //
 
+#include <cereal/archives/portable_binary.hpp>
+#include <network/Protocol.h>
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
 #include "States/LoadConfigState.h"
+#include "NotificationTypes.h"
 
 Core::SimulationController::SimulationController() {
     serverThread = m.runServiceThread();
-    Core::SimulationConnectionHandler handler;
+    Simulation::SimulationConnectionHandler handler;
     handler.addObserver(*this);
-    server = m.createServer(std::make_shared<Core::SimulationConnectionHandler>(handler), 50);
+    server = m.createServer(std::make_shared<Simulation::SimulationConnectionHandler>(handler), 50);
     setCurrentState(std::make_shared<States::LoadConfigState>());
 }
 
 void Core::SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+    switch (notification.getEventId()) {
+        case SimulationregisterMachine:
+            handleRegisterMachine(notification);
+            break;
+        default:
+            break;
+    }
 
 }
 
 Core::MachinePtr Core::SimulationController::getMachine(uint16_t machineId) {
-    for(Machine& m : machines)
-    {
-        if(m.getId() == machineId)
-        {
+    for (Machine &m : machines) {
+        if (m.getId() == machineId) {
             return std::make_shared<Machine>(m);
         }
     }
     return nullptr;
+}
+
+
+void Core::SimulationController::addMachine(Core::Machine &m) {
+
+}
+
+void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
+    uint16_t machineId = notification.getArgumentAsType<uint16_t>(0);
+    Network::ConnectionPtr connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
+
+    Core::MachinePtr machine = getMachine(machineId);
+    if (machine) {
+        machine->setConnection(connection);
+
+        std::vector<Models::MachineConfiguration> config;
+        config = machine->getConfigurations();
+
+        std::string binaryStream;
+
+        std::stringstream outputBinary((std::ios::out | std::ios::binary));
+        cereal::PortableBinaryOutputArchive archive(outputBinary);
+        archive(config);
+
+        binaryStream = outputBinary.str();
+
+        Network::Message msg(Network::Protocol::SimMessageType::kSimMessageTypeConfig, binaryStream);
+
+        machine->sendMessage(msg);
+    }
+
+}
+
+void Core::SimulationController::sendTurnOnMachine(uint16_t m) {
+
+}
+
+void Core::SimulationController::sendTurnOffMachine(uint16_t m) {
+
+}
+
+void Core::SimulationController::sendConfigureMachine(uint16_t m) {
+
+}
 
 

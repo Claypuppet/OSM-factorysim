@@ -4,6 +4,7 @@
 
 #include <network/Protocol.h>
 #include "SimulationConnectionHandler.h"
+#include "NotificationTypes.h"
 
 namespace Simulation {
     void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
@@ -27,11 +28,17 @@ namespace Simulation {
                                                                   Network::Message &message) {
         std::cout << message.mBody << std::endl;
         switch (message.getMessageType()) {
-            case Network::Protocol::kSimMessageTypeRegister :
-                Model::MachinePtr machineSimulation;
-                if (deserializeSimulationMachineInfo(message.mBody, machineSimulation)) {
-                    onSimulationMachineRegister(machineSimulation);
-                }
+            case Network::Protocol::kSimMessageTypeRegister:
+                //TODO set right event id
+                auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(),
+                                                    SimulationregisterMachine);
+
+                uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+                notification.setArgument(0, machineId);
+                notification.setArgument(1, connection);
+
+                notifyObservers(notification);
                 break;
         }
     }
@@ -55,17 +62,5 @@ namespace Simulation {
         //TODO registreer externe machine als SimulationMachine
     }
 
-    void SimulationConnectionHandler::turnOnMachine() {
-        //TODO zet machine aan
 
-
-    }
-
-    void SimulationConnectionHandler::turnOffMachine() {
-        //TODO zet machine uit
-
-    }
-    void SimulationConnectionHandler::turnOnMachine() {
-
-    }
 }

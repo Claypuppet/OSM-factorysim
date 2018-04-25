@@ -30,6 +30,13 @@ namespace Core {
         std::vector<Core::Machine> machines;
 
         void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+
+        void sendTurnOnMachine(uint16_t m);
+
+        void sendTurnOffMachine(uint16_t m);
+
+        void sendConfigureMachine(uint16_t m);
+
     };
 }
 

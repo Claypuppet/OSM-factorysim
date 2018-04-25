@@ -59,8 +59,8 @@ add_executable(app_production_control
         src/production_control/Machine.h
         src/production_control/Application.cpp
         src/production_control/Application.h
-        src/production_control/TestConnectionHandler.cpp
-        src/production_control/TestConnectionHandler.h
+        src/production_control/SimulationConnectionHandler.cpp
+        src/production_control/SimulationConnectionHandler.h
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
         src/production_control/Controller.cpp
