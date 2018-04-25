@@ -42,11 +42,8 @@ void Core::SimulationController::addMachine(Core::Machine &m) {
 
 }
 
-void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
-    uint16_t machineId = notification.getArgumentAsType<uint16_t>(0);
-    Network::ConnectionPtr connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
-
-    Core::MachinePtr machine = getMachine(machineId);
+void Core::SimulationController::sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection) {
+    Core::MachinePtr machine = Core::SimulationController::getMachine(m);
     if (machine) {
         machine->setConnection(connection);
 
@@ -62,22 +59,11 @@ void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObs
         binaryStream = outputBinary.str();
 
         Network::Message msg(Network::Protocol::SimMessageType::kSimMessageTypeConfig, binaryStream);
-
         machine->sendMessage(msg);
     }
-
 }
 
-void Core::SimulationController::sendTurnOnMachine(uint16_t m) {
 
-}
 
-void Core::SimulationController::sendTurnOffMachine(uint16_t m) {
-
-}
-
-void Core::SimulationController::sendConfigureMachine(uint16_t m) {
-
-}
 
 

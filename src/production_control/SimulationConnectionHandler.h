@@ -61,20 +61,10 @@ namespace Simulation {
          */
         void onSimulationMachineInfoReceived(const Model::Machine &machine);
 
-        /**
-         * Handles machine turn on command
-         */
-        void onTurnOnReceived();
 
-        /**
-         * Handles machine turn off command
-         */
-        void onTurnOffReceived();
+        void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
 
-        /**
-         * Registers new simulation machine
-         */
-        void onSimulationMachineRegister(Model::MachinePtr& machineSimulation);
+        void onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
     };
 }
 

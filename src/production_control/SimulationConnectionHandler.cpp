@@ -3,6 +3,7 @@
 //
 
 #include <network/Protocol.h>
+#include <cereal/archives/portable_binary.hpp>
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
@@ -58,8 +59,14 @@ namespace Simulation {
 
     }
 
-    void SimulationConnectionHandler::onSimulationMachineRegister(Model::MachinePtr& machineSimulation) {
-        //TODO registreer externe machine als SimulationMachine
+
+    void
+    SimulationConnectionHandler::onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
+        uint16_t machineId = notification.getArgumentAsType<uint16_t>(0);
+
+        Network::ConnectionPtr connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
+
+        sendConfigureMachine(machineId, connection);
     }
 
 

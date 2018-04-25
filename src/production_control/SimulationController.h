@@ -23,6 +23,7 @@ namespace Core {
         void addMachine(Core::Machine& m);
         Core::MachinePtr getMachine(uint16_t id);
 
+        void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
     private:
         Network::Manager m;
         ThreadPtr serverThread;
@@ -35,7 +36,6 @@ namespace Core {
 
         void sendTurnOffMachine(uint16_t m);
 
-        void sendConfigureMachine(uint16_t m);
 
     };
 }
