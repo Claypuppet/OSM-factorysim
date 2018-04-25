@@ -7,7 +7,20 @@
 #include <iostream>
 
 bool States::LoadConfigState::handleEvent(const EventPtr &e) {
-    return false;
+    switch (e->getId()){
+        case kEventTypeReadConfigFile:
+            // TODO: read config on context
+            auto fileLocation = e->getArgumentAsType<std::string>();
+            break;
+        case kEventTypeProductionConfigLoaded:
+            context.setCurrentState(std::make_shared<>(context));
+            break;
+        case kEventTypeSimulationConfigLoaded:
+            context.setCurrentState(std::make_shared<>(context));
+            break;
+        default:
+            return ControllerState::handleEvent(e);
+    }
 }
 
 void States::LoadConfigState::entryAction() {

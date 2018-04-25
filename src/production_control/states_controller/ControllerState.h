@@ -10,13 +10,15 @@
 namespace States {
 
 	enum EventType {
-//		kEventTypeReceivedPCIP,
-//		kEventTypeConnected,
-//		kEventTypeConnectionFailed,
-//		kEventTypeConfigReceived,
-//		kEventTypePowerOn,
-//		kEventTypePowerOff,
-//			kEventType,
+		kEventTypeReadConfigFile,
+		kEventTypeSimulationConfigLoaded,
+		kEventTypeProductionConfigLoaded,
+		kEventTypeServerSetupFailed,
+		kEventTypeMachineConnected,
+		kEventTypeMachineReady,
+//		kEventType,
+//		kEventType,
+//		kEventType,
 	};
 
 	typedef Patterns::Statemachine::Event Event;
