@@ -59,15 +59,12 @@ add_executable(app_production_control
         src/production_control/Machine.h
         src/production_control/Application.cpp
         src/production_control/Application.h
-        src/production_control/TestConnectionHandler.cpp
-        src/production_control/TestConnectionHandler.h
+        src/production_control/SimulationConnectionHandler.cpp
+        src/production_control/SimulationConnectionHandler.h
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
         src/production_control/Controller.cpp
         src/production_control/Controller.h
-        src/production_control/SimulationConnectionHandler.cpp
-        src/production_control/SimulationConnectionHandler.h
-        src/production_control/NotificationTypes.h
         src/production_control/States/BroadCastState.cpp
         src/production_control/States/BroadCastState.h
         src/production_control/States/ConnectMachinesState.cpp
