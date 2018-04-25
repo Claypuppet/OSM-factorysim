@@ -15,8 +15,8 @@ namespace States {
 		kEventTypeProductionConfigLoaded,
 		kEventTypeServerSetupFailed,
 		kEventTypeMachineConnected,
+		kEventTypeAllMachinesConnected,
 		kEventTypeMachineReady,
-//		kEventType,
 //		kEventType,
 //		kEventType,
 	};

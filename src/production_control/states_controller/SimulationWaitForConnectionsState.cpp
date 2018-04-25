@@ -3,10 +3,11 @@
 //
 
 #include "SimulationWaitForConnectionsState.h"
+#include "OperationState.h"
 
 
 void States::SimulationWaitForConnectionsState::entryAction() {
-    // TODO: start UDP server
+    context.setupNetwork();
 }
 
 void States::SimulationWaitForConnectionsState::doActivity() {
@@ -18,5 +19,14 @@ void States::SimulationWaitForConnectionsState::exitAction() {
 }
 
 bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
-    return false;
+    switch (e->getId()){
+        case kEventTypeMachineConnected:
+            context.setConfigFromFile(e->getArgumentAsType<std::string>());
+            break;
+        case kEventTypeAllMachinesConnected:
+//            context.setCurrentState(std::make_shared<OperationState>(context));
+            break;
+        default:
+            return ControllerState::handleEvent(e);
+    }
 }

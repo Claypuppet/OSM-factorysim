@@ -29,7 +29,8 @@ namespace Core {
 		void setupNetwork();
 		void execute();
 
-		const std::string getNextConfigFile();
+
+		void setConfigFromFile(const std::string &);
 
 	private:
 		void setStartState();

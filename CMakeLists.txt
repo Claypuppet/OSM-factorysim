@@ -69,8 +69,6 @@ add_executable(app_production_control
         src/production_control/states_controller/BroadCastState.h
         src/production_control/states_controller/ConnectMachinesState.cpp
         src/production_control/states_controller/ConnectMachinesState.h
-        src/production_control/states_controller/InitSimulationState.cpp
-        src/production_control/states_controller/InitSimulationState.h
         src/production_control/states_controller/LoadConfigState.cpp
         src/production_control/states_controller/LoadConfigState.h
         src/production_control/states_controller/OperationState.cpp

@@ -5,10 +5,12 @@
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
 #include <command_line/CommandLineArguments.h>
+#include <models/Configuration.h>
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
+#include "ConfigurationReader.h"
 
 Core::SimulationController::SimulationController() : executing(false){
 }
@@ -99,15 +101,39 @@ void Core::SimulationController::setStartState() {
     setCurrentState(startState);
 
     // TEMP!!!! set first file
-    scheduleEvent(States::EventPtr());
-}
-
-const std::string Core::SimulationController::getNextConfigFile() {
-    CommandLineArguments::i();
-    return "";
+	auto e = std::make_shared<States::Event>(States::kEventTypeReadConfigFile);
+	e->setArgument<std::string>(configFile);
+	scheduleEvent(e);
 }
 
 Core::SimulationController::SimulationController(const std::string &aConfigFile) : configFile(aConfigFile) {
+
+}
+
+void Core::SimulationController::setConfigFromFile(const std::string &configFile) {
+
+	ConfigLoader::ConfigurationReader reader;
+	Models::Configuration model;
+	reader.readConfigurationFile(configFile, model);
+
+	Models::ProductionLine productionline = model.getProductionLineConfiguration();
+	Models::SimulationInfo simInfo = model.getSimulationInfoConfiguration();
+
+	std::vector<Models::Machine> machines = productionline.getMachines();
+	for(Models::Machine m : machines)
+	{
+		machines.push_back(m);
+	}
+
+	// If simulation, add sim state
+//	if(){
+	auto e = std::make_shared<States::Event>(States::kEventTypeSimulationConfigLoaded);
+	scheduleEvent(e);
+//	}
+//	else{
+//		auto e = std::make_shared<States::Event>(States::kEventTypeProductionConfigLoaded);
+//		scheduleEvent(e);
+//	}
 
 }
 

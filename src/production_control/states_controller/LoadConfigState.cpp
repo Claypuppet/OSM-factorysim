@@ -31,18 +31,6 @@ void States::LoadConfigState::entryAction() {
 }
 
 void States::LoadConfigState::doActivity() {
-    ConfigLoader::ConfigurationReader reader;
-    Models::Configuration model;
-    reader.readConfigurationFile("../configs/configfile.yaml", model);
-
-    Models::ProductionLine productionline = model.getProductionLineConfiguration();
-    Models::SimulationInfo simInfo = model.getSimulationInfoConfiguration();
-
-    std::vector<Models::Machine> machines = productionline.getMachines();
-    for(Models::Machine m : machines)
-    {
-        //Add to SimulationController and Application
-    }
 }
 
 void States::LoadConfigState::exitAction() {

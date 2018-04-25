@@ -3,13 +3,16 @@
 //
 
 #include "SimulationBroadcastState.h"
+#include "SimulationWaitForConnectionsState.h"
 
 void States::SimulationBroadcastState::doActivity() {
 
+    // temp move directly to next state
+    context.setCurrentState(std::make_shared<SimulationWaitForConnectionsState>(context));
 }
 
 void States::SimulationBroadcastState::entryAction() {
-
+    // TODO: start UDP server
 }
 
 void States::SimulationBroadcastState::exitAction() {
