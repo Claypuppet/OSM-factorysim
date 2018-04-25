@@ -7,12 +7,18 @@
 
 enum ApplicationNotificationTypes
 {
-    ApplicationRegisterMachine
+    ApplicationRegisterMachine = 0,
+    ApplicationStartInit,
+    ApplicationStartProcessing,
+    ApplicationDoneProcessing,
+    ApplicationMachineReady,
+    ApplicationOK,
+    ApplicationNOK
 };
 
 enum SimulationNotificationTypes
 {
-    SimulationregisterMachine
+    SimulationregisterMachine = 100
 };
 
 #endif //PRODUCTION_LINE_CONTROL_NOTIFICATIONTYPES_H
