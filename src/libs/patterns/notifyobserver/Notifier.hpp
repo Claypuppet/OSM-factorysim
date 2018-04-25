@@ -10,7 +10,6 @@
 #include <ostream>
 #include <sstream>
 
-#include <patterns/statemachine/Event.h>
 
 #include "Observer.hpp"
 
@@ -21,6 +20,8 @@ namespace Patterns {
 
 		class Observer;
 		class Notifier;
+
+		typedef uint32_t NotifyEventId;
 
 
 		enum NotifyTriggerId
@@ -78,20 +79,57 @@ namespace Patterns {
 
 		class NotifyEvent {
 		public:
-			NotifyEvent(const NotifyTrigger &trigger, Notifier *notifier);
-
-			NotifyEvent(const NotifyTrigger &trigger);
-
+			NotifyEvent(const NotifyTrigger& trigger, Notifier* notifier, NotifyEventId event);
+			NotifyEvent(const NotifyTrigger& trigger);
 			NotifyEvent();
 
-			Notifier *getNotifier() const;
+			Notifier* getNotifier() const;
+			NotifyEventId getEventId() const;
+			const NotifyTrigger& getTrigger() const;
 
-			const NotifyTrigger &getTrigger() const;
+			NotifyEvent& setEvent(NotifyEventId event);
+			NotifyEvent& setTrigger(NotifyTrigger& trigger);
 
-			NotifyEvent &setTrigger(NotifyTrigger &trigger);
 
-			const Statemachine::EventPtr &getStateEvent() const;
-			void setStateEvent(const Statemachine::EventPtr &stateEvent);
+			boost::any getArgument(uint32_t index) const {
+				return mArguments[index];
+			}
+
+			template<typename T>
+			T getArgumentAsType(uint32_t index) const
+			{
+				return boost::any_cast<T>(mArguments[index]);
+			}
+
+			template<typename T>
+			T getFirstArgumentAsType() const
+			{
+				return boost::any_cast<T>(mArguments.front());
+			}
+
+			uint32_t getNumberOfArguments() {
+				return static_cast<uint32_t>(mArguments.size());
+			}
+
+
+			template <typename T>
+			NotifyEvent& addArgument(const T& value)
+			{
+				mArguments.push_back(value);
+				return *this;
+			}
+
+			template<typename T>
+			NotifyEvent& setArgument(uint32_t index, const T& value)
+			{
+				if(index > mArguments.size())
+					throw new std::out_of_range("index > size()");
+				if(index == mArguments.size())
+					mArguments.push_back(value);
+				else
+					mArguments[index] = value;
+				return *this;
+			}
 
 		protected:
 
@@ -101,9 +139,13 @@ namespace Patterns {
 
 
 		protected:
-			Notifier *mNotifier;
-			NotifyTrigger mTrigger;
-			Statemachine::EventPtr stateEvent;
+			using Arguments = std::vector<boost::any>;
+
+
+			Notifier*		mNotifier;
+			uint32_t		mEventId;
+			NotifyTrigger	mTrigger;
+			Arguments		mArguments;
 		};
 
 
@@ -186,14 +228,25 @@ namespace Patterns {
 			virtual void notifyObservers(const NotifyEvent &notification);
 
 
-			static NotifyEvent
-			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger);
+			static NotifyEvent makeNotificationForNotifier(Notifier* notifier, const NotifyTrigger& trigger, NotifyEventId eventId);
 
-			static NotifyEvent
-			makeNotificationForNotifier(Notifier *notifier, const NotifyTrigger &trigger, const Statemachine::EventPtr stateEvent) {
-				auto notification = makeNotificationForNotifier(notifier, trigger);
-				notification.setStateEvent(stateEvent);
-				return notification;
+			template<typename ...Args>
+			static NotifyEvent makeNotificationForNotifier(Notifier* notifier, const NotifyTrigger& trigger, NotifyEventId eventId, Args&&... args)
+			{
+				auto event = makeNotificationForNotifier(notifier, trigger, eventId);
+				event.addArgument(args...);
+				return event;
+			}
+
+
+			NotifyEvent makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event);
+
+			template<typename ...Args>
+			NotifyEvent makeNotificationWithArgs(const NotifyTrigger& trigger, NotifyEventId eventId, Args&&... args)
+			{
+				auto event = makeNotificationForNotifier(this, trigger, eventId);
+				event.addArgument(args...);
+				return event;
 			}
 
 
