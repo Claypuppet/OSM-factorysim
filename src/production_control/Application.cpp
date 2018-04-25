@@ -7,8 +7,6 @@
 
 #include "network/Server.h"
 #include "network/Client.h"
-#include "TestConnectionHandler.h"
-
 
 Core::Application::Application()
 {

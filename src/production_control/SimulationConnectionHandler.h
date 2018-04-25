@@ -72,6 +72,11 @@ namespace Simulation {
          * Handles machine turn off command
          */
         void onTurnOffReceived();
+
+        /**
+         * Registers new simulation machine
+         */
+        void onSimulationMachineRegister(Model::MachinePtr& machineSimulation);
     };
 }
 

@@ -3,6 +3,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 namespace Models {
 
@@ -20,6 +21,20 @@ namespace Models {
 
     private:
         uint8_t durationInHours;
+
+        template <class Archive>
+        void save(Archive& ar) const
+        {
+            ar(durationInHours);
+        }
+
+        template <class Archive>
+        void load(Archive& ar)
+        {
+            ar(durationInHours);
+        }
+
+        friend class cereal::access;
     };
 
 }

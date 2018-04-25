@@ -29,11 +29,9 @@ namespace Simulation {
         switch (message.getMessageType()) {
             case Network::Protocol::kSimMessageTypeRegister :
                 Model::MachinePtr machineSimulation;
-
                 if (deserializeSimulationMachineInfo(message.mBody, machineSimulation)) {
                     onSimulationMachineRegister(machineSimulation);
                 }
-
                 break;
         }
     }
@@ -53,11 +51,21 @@ namespace Simulation {
 
     }
 
-    void SimulationConnectionHandler::onSimulationMachineRegister() {
+    void SimulationConnectionHandler::onSimulationMachineRegister(Model::MachinePtr& machineSimulation) {
+        //TODO registreer externe machine als SimulationMachine
+    }
+
+    void SimulationConnectionHandler::turnOnMachine() {
+        //TODO zet machine aan
+
 
     }
 
-    void SimulationConnectionHandler::onTurnOnReceived() {
+    void SimulationConnectionHandler::turnOffMachine() {
+        //TODO zet machine uit
+
+    }
+    void SimulationConnectionHandler::turnOnMachine() {
 
     }
 }
