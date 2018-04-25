@@ -11,15 +11,17 @@ namespace SimulationStates {
 
 
 	class InitializeSimulationState : public SimulationState {
-		InitializeSimulationState(SimulationCommunication::SimulationNetworkComponent &context) : SimulationState(context){};
+	public:
+		InitializeSimulationState(Simulator::SimulationController &context) : SimulationState(context){};
 		virtual ~InitializeSimulationState() = default;
 
-	public:
 		void entryAction() override;
 
 		void doActivity() override;
 
 		void exitAction() override;
+
+		bool handleEvent(const EventPtr &e) override;
 
 	};
 

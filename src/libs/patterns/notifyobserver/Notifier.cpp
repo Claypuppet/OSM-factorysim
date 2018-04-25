@@ -3,7 +3,6 @@
 #include <sstream>
 #include <typeinfo>
 #include "Observer.hpp"
-#include "../../../machine_control/states_simulation/Event.h"
 #include <algorithm>
 #include <patterns/statemachine/Event.h>
 

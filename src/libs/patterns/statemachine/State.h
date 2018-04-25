@@ -24,7 +24,7 @@ namespace Patterns {
              * @param e : Event to handle
              * @return bool : handled the event
              */
-            virtual bool handleEvent(const Event &e) = 0;
+            virtual bool handleEvent(const EventPtr &e) = 0;
 
             virtual void doActivity() = 0;
 

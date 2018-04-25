@@ -6,7 +6,15 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H
 
 #include <patterns/notifyobserver/Notifier.hpp>
-#include "network/Connection.h"
+#include <network/Connection.h>
+
+
+namespace Model {
+	class Machine;
+	class MachineConfiguration;
+	typedef std::shared_ptr<Machine> MachinePtr;
+	typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
+}
 
 namespace SimulationCommunication {
 
@@ -20,9 +28,7 @@ namespace SimulationCommunication {
 	{
     public:
         SimulationNetworkComponent() = default;
-        ~SimulationNetworkComponent() = default;
-
-        Network::ConnectionPtr getConnection();
+        virtual ~SimulationNetworkComponent() = default;
 
     private:
         void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
@@ -32,10 +38,29 @@ namespace SimulationCommunication {
 
         Network::ConnectionPtr mConnection;
 
-        void handleReconfigureMessage();
-        void handleProcessProductMessage();
+        /**
+         * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
+         * @param body : body string from message
+         * @param machine : machine model to fill
+         * @return bool : success
+         */
+        bool deserializeSimulationMachineInfo(const std::string &body, Model::MachinePtr machine);
 
-        void onConfigurationReceived(std::string);
+        /**
+         * Handles new machine info receive
+         * @param machine
+         */
+        void onSimulationMachineInfoReceived(const Model::Machine &machine);
+
+        /**
+         * Handles machine turn on command
+         */
+        void onTurnOnReceived();
+
+		/**
+		 * Handles machine turn off command
+		 */
+        void onTurnOffReceived();
     };
 }
 

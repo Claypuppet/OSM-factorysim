@@ -17,13 +17,13 @@ void Patterns::Statemachine::Context::setCurrentState(const StatePtr newState) {
 	currentState->doActivity();
 }
 
-void Patterns::Statemachine::Context::scheduleEvent(Event e){
+void Patterns::Statemachine::Context::scheduleEvent(EventPtr e){
 	events.push(e);
 }
 
 void Patterns::Statemachine::Context::run(){
 	while(!events.empty()){
-		Event e = events.front();
+		EventPtr e = events.front();
 		events.pop();
 		auto handled = currentState->handleEvent(e);
 

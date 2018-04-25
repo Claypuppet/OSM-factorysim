@@ -43,10 +43,11 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/OffState.h
         src/machine_control/states_simulation/OnState.cpp
         src/machine_control/states_simulation/OnState.h
-        src/machine_control/states_simulation/ShutdownState.cpp
-        src/machine_control/states_simulation/ShutdownState.h
-        src/machine_control/states_simulation/Event.cpp
-        src/machine_control/states_simulation/Event.h src/production_control/States/LoadConfigState.cpp src/production_control/States/LoadConfigState.h src/production_control/States/InitSimulationState.cpp src/production_control/States/InitSimulationState.h src/production_control/States/SimulationBroadcastState.cpp src/production_control/States/SimulationBroadcastState.h src/production_control/States/SimulationWaitForConnectionsState.cpp src/production_control/States/SimulationWaitForConnectionsState.h src/production_control/States/ConnectMachinesState.cpp src/production_control/States/ConnectMachinesState.h src/production_control/States/BroadCastState.cpp src/production_control/States/BroadCastState.h src/production_control/States/WaitForConnectionsState.cpp src/production_control/States/WaitForConnectionsState.h src/production_control/States/OperationState.cpp src/production_control/States/OperationState.h)
+        src/machine_control/states_simulation/FindProductControlState.cpp
+        src/machine_control/states_simulation/FindProductControlState.h
+        src/machine_control/states_simulation/ConnectSimulationState.cpp
+        src/machine_control/states_simulation/ConnectSimulationState.h
+        src/machine_control/config.h )
 
 add_executable(app_production_control
         src/production_control/Main.cpp
