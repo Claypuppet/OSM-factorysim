@@ -15,17 +15,20 @@ namespace Network {
 
 
 			kDiscoverMessageTypePCIP = 250,
-			kDiscoverMessageTypeRequestPCIP
+            kDiscoverMessageTypeRequestPCIP = 251,
 		};
 
 		enum SimMessageType {
+//			100 - MC - PC - Register machine in production control for simulation
 //			101 - PC - MC - Machine configurations for the simulation
 //			102 - PC - MC - Turn machine on
 //			103 - PC - MC - Shutdown machine
 
+            kSimMessageTypeRegister = 100,
 			kSimMessageTypeConfig = 101,
-			kSimMessageTypeTurnOn,
-			kSimMessageTypeTurnOff
+            kSimMessageTypeTurnOn = 102,
+            kSimMessageTypeTurnOff = 103,
+
 
 		};
 

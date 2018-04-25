@@ -3,21 +3,14 @@
 //
 
 #include "AppConnectionHandler.h"
-#include "Machine.h"
 #include "network/Protocol.h"
-#include "NotificationTypes.h"
-
-#include <iostream>
-#include <Logger/Logger.h>
 
 /**
  * The constructor (Set temp application pointer till observer - notifier pattern implementation)
  * @param app
  */
 
-Core::AppConnectionHandler::AppConnectionHandler()
-{
-}
+Core::AppConnectionHandler::AppConnectionHandler() {}
 
 /**
  * A handler for when a connection fails
@@ -77,13 +70,6 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
     std::cout << "Message sent!" << std::endl;
 }
 
-
 void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
-//    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
-//    Patterns::NotifyObserver::NotifyEvent notification;
-//    notification.setEvent(ApplicationRegisterMachine);
-//    notification.addArgument(machineId);
-//    notification.addArgument(connection);
-//    notifyObservers(notification);
 
 }
