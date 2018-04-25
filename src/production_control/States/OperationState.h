@@ -20,7 +20,7 @@ namespace States {
 
         void entryAction() override;
 
-        bool handleEvent(const Patterns::Statemachine::Event &e) override;
+        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
 
         void exitAction() override;
     };

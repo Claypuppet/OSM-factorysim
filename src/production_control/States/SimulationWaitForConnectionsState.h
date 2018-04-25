@@ -13,7 +13,7 @@ namespace States {
     public:
         SimulationWaitForConnectionsState() = default;
 
-        bool handleEvent(const Patterns::Statemachine::Event &e) override;
+        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
 
         /**
          * Waits for machines to connect to the Application and sends relevant config data

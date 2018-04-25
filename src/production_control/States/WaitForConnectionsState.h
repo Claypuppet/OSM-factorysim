@@ -13,7 +13,7 @@ namespace States {
     public:
         WaitForConnectionsState() = default;
 
-        bool handleEvent(const Patterns::Statemachine::Event &e) override;
+        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
 
         /**
          * Waits untill all configured machines are connected to the Application

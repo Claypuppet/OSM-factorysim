@@ -6,7 +6,7 @@
 #include "../ConfigurationReader.h"
 #include <iostream>
 
-bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }
 

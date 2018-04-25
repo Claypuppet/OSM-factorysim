@@ -16,6 +16,6 @@ void States::OperationState::exitAction() {
 
 }
 
-bool States::OperationState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::OperationState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }

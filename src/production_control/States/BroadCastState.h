@@ -18,7 +18,7 @@ namespace States {
          */
         void doActivity() override;
 
-        bool handleEvent(const Patterns::Statemachine::Event &e) override;
+        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
 
         void entryAction() override;
 

@@ -16,6 +16,6 @@ void States::SimulationWaitForConnectionsState::exitAction() {
 
 }
 
-bool States::SimulationWaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::SimulationWaitForConnectionsState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }

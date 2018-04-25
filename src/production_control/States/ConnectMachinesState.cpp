@@ -24,6 +24,6 @@ void States::ConnectMachinesState::exitAction() {
 
 }
 
-bool States::ConnectMachinesState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::ConnectMachinesState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }

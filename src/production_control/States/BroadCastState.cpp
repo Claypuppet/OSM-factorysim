@@ -16,6 +16,6 @@ void States::BroadCastState::exitAction() {
 
 }
 
-bool States::BroadCastState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::BroadCastState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }

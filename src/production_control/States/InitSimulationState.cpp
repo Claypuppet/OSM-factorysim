@@ -19,7 +19,7 @@ void States::InitSimulationState::exitAction() {
 
 }
 
-bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::Event &e) {
+bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
 }
 

@@ -12,7 +12,7 @@ namespace States {
     class LoadConfigState : public Patterns::Statemachine::State {
     public:
         LoadConfigState() = default;
-        bool handleEvent(const Patterns::Statemachine::Event &e) override;
+        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
 
         /**
          * Loads configuration and creates machine objects for the Application and SimulationController class
