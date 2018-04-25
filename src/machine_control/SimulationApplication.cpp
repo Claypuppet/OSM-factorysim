@@ -5,5 +5,7 @@
 #include "SimulationApplication.h"
 
 namespace Simulator {
-
+    SimulationApplication::SimulationApplication(const Models::Machine &aMachineInfo)
+            : Application(aMachineInfo) {
+    }
 }

@@ -6,8 +6,8 @@
 #include "states_production/ConnectState.h"
 
 namespace MachineCore {
-    Application::Application()
-            : Patterns::Statemachine::Context()
+    Application::Application(const Models::Machine& aMachineInfo)
+            : Patterns::Statemachine::Context(), machineInfo(aMachineInfo)
     {
         clientThread = manager.runServiceThread();
 
@@ -20,5 +20,9 @@ namespace MachineCore {
     }
 
     void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+    }
+
+    const Models::Machine &Application::getMachineInfo() const {
+        return machineInfo;
     }
 }

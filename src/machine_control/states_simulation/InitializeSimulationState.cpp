@@ -9,6 +9,7 @@
 namespace SimulationStates {
 	void InitializeSimulationState::entryAction() {
 		// TODO: Register machine
+        context.registerMachine();
 	}
 
 	void InitializeSimulationState::doActivity() {

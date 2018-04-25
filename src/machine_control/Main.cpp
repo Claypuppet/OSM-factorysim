@@ -28,7 +28,16 @@ int main( 	int argc,
 
 	// This machine controller
 
-	Simulator::SimulationController controller;
+	uint16_t machineId;
+	std::string machineName;
+
+	std::cout << "What is the machine's ID?" << std::endl;
+	std::cin >> machineId;
+
+	std::cout << "What is the machine's name?" << std::endl;
+	std::cin >> machineName;
+
+	Simulator::SimulationController controller(Models::Machine(machineId, machineName));
 
 	controller.execute();
 

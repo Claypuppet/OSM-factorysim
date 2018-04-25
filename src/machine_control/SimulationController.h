@@ -19,11 +19,12 @@ namespace Simulator {
               public Patterns::Statemachine::Context,
               public Patterns::NotifyObserver::Observer {
     public:
-        SimulationController();
+        SimulationController(const Models::Machine& aMachineInfo);
         virtual ~SimulationController() = default;
 
 		void execute();
 		void stop();
+		void registerMachine();
 
 		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
@@ -38,9 +39,6 @@ namespace Simulator {
 		ThreadPtr clientThread;
 		Network::Manager networkManager;
         Network::ClientPtr client;
-
-	private:
-
 	};
 }
 

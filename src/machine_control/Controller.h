@@ -10,10 +10,10 @@
 namespace MachineCore{
     class Controller {
     public:
-        Controller() = default;
+        Controller(const Models::Machine& aMachineInfo);
         virtual ~Controller() = default;
 
-    private:
+    protected:
         Application application;
     };
 }
