@@ -6,6 +6,10 @@
 #include "states_simulation/FindProductControlState.h"
 #include <network/Client.h>
 
+namespace Models {
+    typedef std::shared_ptr<Machine> MachinePtr;
+}
+
 namespace Simulator {
 
 	/**
@@ -22,14 +26,12 @@ namespace Simulator {
          * @param message The error message.
          */
 		void onServiceError(Network::ServicePtr service, const std::string &message) override {
+		    //TODO: Add eventId
 		    //Set up the Connection Failed state event to send to the observers.
-			auto e = std::make_shared<SimulationStates::Event>(SimulationStates::Event(SimulationStates::kEventTypeConnectionFailed));
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), 99);
 
-			//Make an empty trigger
-			Patterns::NotifyObserver::NotifyTrigger t;
-
-			//Notify observers of the error
-			notifyObservers(makeNotificationForNotifier(this, t, e));
+            //Notify observers of the error
+			notifyObservers(event);
 		}
 
 		void onServiceStopped(Network::ServicePtr service) override {
@@ -42,29 +44,37 @@ namespace Simulator {
 		 */
 		void onServiceStarted(Network::ServicePtr service) override {
 		    //Set up an event to let the observers know that connection was successful
-			auto e = std::make_shared<SimulationStates::Event>(SimulationStates::kEventTypeConnected);
-
-			//Make an empty trigger
-			Patterns::NotifyObserver::NotifyTrigger t;
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), 99);
 
 			//Notify observers of connection success
-            notifyObservers(makeNotificationForNotifier(this, t, e));
+            notifyObservers(event);
 		}
 
 	};
 
 	/**
-	 * On every notification, checks if a state event is present and adds it to the event queue.
+	 * Handler of every notification.
 	 * @param notification The received notification.
 	 */
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-	    //Get the state event out of the notification
-        auto e = notification.getStateEvent();
+	    switch(notification.getEventId()){
+	        //TODO: Add eventId support when available
+            case 0: {
+                application.setMachineInfo(*notification.getFirstArgumentAsType<Models::MachinePtr>());
+                auto e = std::make_shared<SimulationStates::Event>(SimulationStates::kEventTypeConfigReceived);
+                scheduleEvent(e);
+                break;
+            }
 
-        //Schedule the event on existence
-        if(e) {
-            scheduleEvent(e);
-        }
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            default:
+                break;
+	    }
 	}
 
 	SimulationController::SimulationController(const Models::Machine& aMachineInfo)

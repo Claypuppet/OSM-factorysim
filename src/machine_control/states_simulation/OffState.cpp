@@ -3,7 +3,7 @@
 //
 
 #include "OffState.h"
-
+#include "OnState.h"
 
 namespace SimulationStates {
 	void OffState::entryAction() {
@@ -19,7 +19,12 @@ namespace SimulationStates {
 	}
 
 	bool OffState::handleEvent(const EventPtr &e) {
-		return SimulationState::handleEvent(e);
+		switch(e->getId()){
+            case kEventTypePowerOn:
+                context.setCurrentState(std::make_shared<OnState>(context));
+            default:
+                return SimulationState::handleEvent(e);
+        }
 	}
 
 }

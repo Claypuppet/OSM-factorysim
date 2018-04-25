@@ -23,6 +23,7 @@ namespace MachineCore {
         virtual ~Application() = default;
 
         const Models::Machine &getMachineInfo() const;
+        void setMachineInfo(const Models::Machine &machineInfo);
 
     private:
         Network::Manager manager;

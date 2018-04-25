@@ -11,7 +11,6 @@ namespace SimulationStates {
 	}
 
 	void OnState::doActivity() {
-
 	}
 
 	void OnState::exitAction() {

@@ -25,4 +25,8 @@ namespace MachineCore {
     const Models::Machine &Application::getMachineInfo() const {
         return machineInfo;
     }
+
+    void Application::setMachineInfo(const Models::Machine &machineInfo) {
+        Application::machineInfo = machineInfo;
+    }
 }
