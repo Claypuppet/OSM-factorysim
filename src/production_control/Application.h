@@ -5,6 +5,7 @@
 
 
 #include <patterns/statemachine/Context.h>
+#include <patterns/notifyobserver/Observer.hpp>
 #include "Machine.h"
 #include "network/Manager.h"
 

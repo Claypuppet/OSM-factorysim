@@ -19,6 +19,7 @@ namespace Models {
         Machine& operator=(const Machine& other);
 
         void deserialize(YAML::Node &machineNode);
+        YAML::Node& archive();
 
         uint16_t getId() const;
         const std::string &getName() const;

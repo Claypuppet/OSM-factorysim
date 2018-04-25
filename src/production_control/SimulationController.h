@@ -17,6 +17,8 @@ namespace Core {
         virtual ~SimulationController();
 
     private:
+        ThreadPtr serverThread;
+        Network::Manager m;
         Network::ServerPtr server;
     };
 }

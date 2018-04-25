@@ -79,10 +79,10 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 
 
 void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
-    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
-    Patterns::NotifyObserver::NotifyEvent notification;
-    notification.setEvent(ApplicationRegisterMachine);
-    notification.addArgument(machineId);
-    notification.addArgument(connection);
-    notifyObservers(notification);
+//    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
+//    Patterns::NotifyObserver::NotifyEvent notification;
+//    notification.setEvent(ApplicationRegisterMachine);
+//    notification.addArgument(machineId);
+//    notification.addArgument(connection);
+//    notifyObservers(notification);
 }

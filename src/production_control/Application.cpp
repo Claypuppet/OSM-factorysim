@@ -15,7 +15,7 @@ Core::Application::Application()
 {
 	serverThread = m.runServiceThread();
 	Core::AppConnectionHandler handler;
-	handler.addObserver(*this);
+	//handler.addObserver(*this);
 	server = m.createServer(std::make_shared<AppConnectionHandler>(handler), 50);
 }
 
@@ -54,13 +54,13 @@ Network::ServerPtr Core::Application::getServer() {
 }
 
 void Core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-    switch(notification.getEventId())
-    {
-        case ApplicationRegisterMachine:
-            if(notification.getArgument(0).type() == )
-            {
-
-            }
-            break;
-    }
+//    switch(notification.getEventId())
+//    {
+//        case ApplicationRegisterMachine:
+//            if(notification.getArgument(0).type() == )
+//            {
+//
+//            }
+//            break;
+//    }
 }

@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 namespace Models {
 
@@ -27,6 +28,12 @@ namespace Models {
         uint16_t getMeanTimeBetweenFailureInHours() const;
         uint16_t getMeanTimeBetweenFailureStddevInHours() const;
         uint16_t getReparationTimeInMinutes() const;
+
+        template<class Archive>
+        void save(Archive &ar) const;
+
+        template<class Archive>
+        void load(Archive& ar);
 
     private:
         uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
