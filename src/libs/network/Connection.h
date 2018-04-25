@@ -23,7 +23,6 @@
 
 namespace Network
 {
-
 	using boost::asio::io_service;
 	using boost::system::error_code;
 	using boost::asio::ip::tcp;

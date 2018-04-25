@@ -13,10 +13,18 @@
 namespace Patterns {
     namespace Statemachine {
         class Context;
+        class State;
+
+        typedef std::shared_ptr<State> StatePtr;
 
         class State {
         public:
-            virtual bool handleEvent(const Event &e, Context &c) = 0;
+            /**
+             *
+             * @param e : Event to handle
+             * @return bool : handled the event
+             */
+            virtual bool handleEvent(const EventPtr &e) = 0;
 
             virtual void doActivity() = 0;
 
@@ -28,6 +36,7 @@ namespace Patterns {
             State() {};
 
             virtual ~State() {};
+
         };
     }
 }

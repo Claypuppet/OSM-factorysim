@@ -3,4 +3,74 @@
 //
 
 #include "SimulationController.h"
+#include "states_simulation/FindProductControlState.h"
+#include <network/Client.h>
 
+namespace Simulator {
+
+	/**
+	 * Network service event dispatcher, handles service callbacks
+	 */
+	class NetworkEventDispatcher : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
+	public:
+		NetworkEventDispatcher() = default;
+		~NetworkEventDispatcher() override = default;
+	private:
+		void onServiceError(Network::ServicePtr service, const std::string &message) override {
+			// TODO: event - could not connect, notify observer
+			auto e = std::make_shared<SimulationStates::Event>(SimulationStates::Event(SimulationStates::kEventTypeConnectionFailed));
+		}
+
+		void onServiceStopped(Network::ServicePtr service) override {
+			// TODO: check if this is needed
+		}
+
+		void onServiceStarted(Network::ServicePtr service) override {
+			// TODO: Event -
+		}
+
+	};
+
+
+	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+		// TODO: add notification (state event) to event queue
+	}
+
+	SimulationController::SimulationController() : executing(false) {
+	}
+
+	void SimulationController::setupNetwork(){
+		clientThread = networkManager.runServiceThread();
+
+		SimulationCommunication::SimulationNetworkComponent connectionHandler;
+		handleNotificationsFor(connectionHandler);
+
+		client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(connectionHandler));
+		client->start();
+	}
+
+	void SimulationController::setStartState()
+	{
+		auto startState = std::make_shared<SimulationStates::FindProductControlState>(*this);
+		setCurrentState(startState);
+	}
+
+	void SimulationController::execute() {
+		setStartState();
+
+		executing = true;
+		while(executing){
+			run();
+		}
+	}
+
+	void SimulationController::stop(){
+		executing = false;
+		networkManager.stop();
+		clientThread->join();
+	}
+
+	void SimulationController::setRemoteHost(const std::string &remoteHost) {
+		networkManager.setRemoteHost(remoteHost);
+	}
+}

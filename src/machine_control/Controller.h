@@ -7,11 +7,11 @@
 
 #include "Application.h"
 
-namespace Core{
+namespace MachineCore{
     class Controller {
     public:
-        Controller();
-        virtual ~Controller();
+        Controller() = default;
+        virtual ~Controller() = default;
 
     private:
         Application application;

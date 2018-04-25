@@ -1,19 +1,49 @@
 //
-// Created by hqnders on 20/04/18.
+// Created by klei on 4/19/18.
 //
 
+#include <iostream>
 #include "NetworkComponent.h"
+#include <network/Protocol.h>
 
-void Communication::NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+namespace Communication {
 
-}
+	NetworkComponent::NetworkComponent() {
 
-void Communication::NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
-                                                               const boost::system::error_code &error) {
+	}
 
-}
+	void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+		IConnectionHandler::onConnectionFailed(connection, error);
+	}
 
-void Communication::NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
-                                                                  Network::Message &message) {
+	void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+		mConnection = connection;
 
+		sendHello();
+	}
+
+	void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+		std::cout << "dc" << std::endl;
+	}
+
+	void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+		std::cout << message.mBody << std::endl;
+	}
+
+	void NetworkComponent::handleProcessProductMessage() {
+
+	}
+
+	void NetworkComponent::handleReconfigureMessage() {
+
+	}
+
+	const void NetworkComponent::sendHello() {
+		Network::Message msg(1, "1");
+		mConnection->writeMessage(msg);
+	}
+
+	Network::ConnectionPtr NetworkComponent::getConnection() {
+		return mConnection;
+	}
 }
