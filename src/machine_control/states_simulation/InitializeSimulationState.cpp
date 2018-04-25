@@ -5,6 +5,7 @@
 namespace SimulationStates {
 	void InitializeSimulationState::entryAction() {
 		// TODO: Register machine
+        context.registerMachine();
 	}
 
 	void InitializeSimulationState::doActivity() {
@@ -18,6 +19,7 @@ namespace SimulationStates {
 		switch (e->getId()){
 			case kEventTypeConfigReceived:
 				context.setCurrentState(std::make_shared<OffState>(context));
+				return true;
 			default:
 				return SimulationState::handleEvent(e);
 		}

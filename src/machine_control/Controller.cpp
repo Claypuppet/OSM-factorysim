@@ -6,4 +6,12 @@
 
 namespace MachineCore {
 
+    Controller::Controller(const Models::Machine& aMachineInfo)
+            : application(aMachineInfo){
+
+    }
+
+    Application &Controller::getApplication() {
+        return application;
+    }
 }

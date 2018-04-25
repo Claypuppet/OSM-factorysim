@@ -9,10 +9,10 @@
 
 namespace Simulator {
     class SimulationApplication : public MachineCore::Application {
-        SimulationApplication() = default;
+    public:
+        SimulationApplication(const Models::Machine& aMachineInfo);
         virtual ~SimulationApplication() = default;
     };
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONAPPLICATION_H

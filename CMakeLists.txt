@@ -189,6 +189,7 @@ target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRAR
 
 # Machine control & test
 target_link_libraries(app_machine_control lib_network lib_patterns lib_models)
+target_link_libraries(app_machine_control lib_network lib_silly_objects lib_logger)
 target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Visualizer & test

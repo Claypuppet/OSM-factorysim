@@ -18,6 +18,9 @@ namespace ProductionStates {
     }
 
     bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
-        return false;
+        switch(e->getId()){
+            default:
+                return false;
+        }
     }
 }

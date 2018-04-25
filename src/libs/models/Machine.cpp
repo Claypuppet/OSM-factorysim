@@ -5,6 +5,10 @@ namespace Models {
     Machine::Machine() {
     }
 
+    Machine::Machine(uint16_t aId, std::string aName)
+            : id(aId), name(aName){
+    }
+
     Machine::Machine(const Machine &other)
             : id(other.id),
               name(other.name) {

@@ -5,7 +5,9 @@ namespace ControllerEvents {
     enum NotifyEventType {
         kNotifyEventTypeMachineInfoReceived,
         kNotifyEventTypeTurnOffReceived,
-        kNotifyEventTypeTurnOnReceived
+        kNotifyEventTypeTurnOnReceived,
+        kNotifyEventTypeServiceStarted,
+        kNotifyEventTypeServiceError
     };
 }
 

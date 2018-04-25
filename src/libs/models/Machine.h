@@ -21,6 +21,7 @@ namespace Models {
     class Machine {
     public:
         Machine();
+        Machine(uint16_t aId, std::string aName);
         Machine(const Machine &other);
         virtual ~Machine();
 

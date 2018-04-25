@@ -22,10 +22,10 @@ namespace SimulationStates {
 		switch (e->getId()){
 			case kEventTypeConnectionFailed:
 				// TODO: create WaitForProductionControl state and listen to udp
-				break;
+				return true;
 			case kEventTypeConnected:
 				context.setCurrentState(std::make_shared<InitializeSimulationState>(context));
-				break;
+				return true;
 			default:
 				return SimulationState::handleEvent(e);
 		}
