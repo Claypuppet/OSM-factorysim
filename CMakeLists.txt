@@ -64,7 +64,23 @@ add_executable(app_production_control
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
         src/production_control/Controller.cpp
-        src/production_control/Controller.h)
+        src/production_control/Controller.h
+        src/production_control/States/BroadCastState.cpp
+        src/production_control/States/BroadCastState.h
+        src/production_control/States/ConnectMachinesState.cpp
+        src/production_control/States/ConnectMachinesState.h
+        src/production_control/States/InitSimulationState.cpp
+        src/production_control/States/InitSimulationState.h
+        src/production_control/States/LoadConfigState.cpp
+        src/production_control/States/LoadConfigState.h
+        src/production_control/States/OperationState.cpp
+        src/production_control/States/OperationState.h
+        src/production_control/States/SimulationBroadcastState.h
+        src/production_control/States/SimulationBroadcastState.cpp
+        src/production_control/States/SimulationWaitForConnectionsState.cpp
+        src/production_control/States/SimulationWaitForConnectionsState.h
+        src/production_control/States/WaitForConnectionsState.h
+        src/production_control/States/WaitForConnectionsState.cpp)
 
 
 add_executable(app_visualizer
@@ -167,7 +183,7 @@ target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
 
 # Production control & test
-target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger lib_patterns)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

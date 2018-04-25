@@ -19,7 +19,7 @@ namespace ProductionStates {
 
         virtual void exitAction() = 0;
 
-        virtual bool handleEvent(const Patterns::Statemachine::Event &e) = 0;
+        virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
 
     protected:
         ProductionState(Patterns::Statemachine::Context& aContext);

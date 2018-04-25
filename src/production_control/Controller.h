@@ -7,9 +7,10 @@
 
 
 #include "Application.h"
+#include "patterns/statemachine/Context.h"
 
 namespace Core {
-    class Controller {
+    class Controller : public Patterns::Statemachine::Context {
     public:
         Controller();
 

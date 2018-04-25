@@ -13,9 +13,11 @@ namespace Core {
     public:
         SimulationController();
 
-        virtual ~SimulationController();
+        virtual ~SimulationController() = default;
 
     private:
+        Network::Manager m;
+        ThreadPtr serverThread;
         Network::ServerPtr server;
     };
 }

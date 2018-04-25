@@ -20,7 +20,12 @@ namespace Models {
 
         void deserialize(YAML::Node &machineNode);
 
+        /**
+        * A function to get the id of the machine
+        * @return The id of the machine
+        */
         uint16_t getId() const;
+
         const std::string &getName() const;
         const std::vector<MachineConfiguration> &getConfigurations() const;
 
