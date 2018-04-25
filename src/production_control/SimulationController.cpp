@@ -20,8 +20,12 @@ Core::SimulationController::SimulationController() {
 void Core::SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
     switch (notification.getEventId()) {
         case SimulationregisterMachine:
-            handleRegisterMachine(notification);
-            break;
+            {
+                auto id = notification.getArgumentAsType<uint16_t>(0);
+                auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
+                handleRegisterMachine(id, connection);
+                break;
+            }
         default:
             break;
     }
@@ -64,6 +68,8 @@ void Core::SimulationController::sendConfigureMachine(uint16_t m, Network::Conne
 }
 
 
+void Core::SimulationController::handleRegisterMachine(uint16_t machineId, Network::ConnectionPtr connection) {
 
-
+    sendConfigureMachine(machineId, connection);
+}
 

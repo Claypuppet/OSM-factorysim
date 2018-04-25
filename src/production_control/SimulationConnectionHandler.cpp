@@ -59,14 +59,8 @@ namespace Simulation {
 
     }
 
+    void handleRegisterMachineMessage(const std::string& messageBody) {
 
-    void
-    SimulationConnectionHandler::onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
-        uint16_t machineId = notification.getArgumentAsType<uint16_t>(0);
-
-        Network::ConnectionPtr connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
-
-        sendConfigureMachine(machineId, connection);
     }
 
 
