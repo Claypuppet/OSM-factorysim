@@ -28,6 +28,11 @@ namespace Models {
         const std::vector<Product> &getProducts() const;
         const std::vector<Machine> &getMachines() const;
 
+    private:
+        std::string name;
+        std::vector<Product> products;
+        std::vector<Machine> machines;
+
         template<class Archive>
         void save(Archive& ar) const
         {
@@ -39,10 +44,8 @@ namespace Models {
         {
             ar(name, products, machines);
         }
-    private:
-        std::string name;
-        std::vector<Product> products;
-        std::vector<Machine> machines;
+
+        friend class cereal::access;
     };
 
 }

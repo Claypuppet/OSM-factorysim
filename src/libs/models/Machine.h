@@ -30,6 +30,11 @@ namespace Models {
         const std::string &getName() const;
         const std::vector<MachineConfiguration> &getConfigurations() const;
 
+    private:
+        uint16_t id;
+        std::string name;
+        std::vector<MachineConfiguration> configurations;
+
         template<class Archive>
         void save(Archive& ar) const
         {
@@ -41,10 +46,7 @@ namespace Models {
             ar(id, name, configurations);
         };
 
-    private:
-        uint16_t id;
-        std::string name;
-        std::vector<MachineConfiguration> configurations;
+        friend class ::cereal::access;
     };
 
 }

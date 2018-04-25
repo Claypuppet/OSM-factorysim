@@ -26,6 +26,12 @@ namespace Models {
         const SimulationInfo &getSimulationInfoConfiguration() const;
         const ProductionLine &getProductionLineConfiguration() const;
 
+
+    private:
+        std::string name;
+        SimulationInfo simulationInfoConfiguration;
+        ProductionLine productionLineConfiguration;
+
         template<class Archive>
         void save(Archive& ar) const
         {
@@ -38,10 +44,7 @@ namespace Models {
             ar(name, simulationInfoConfiguration, productionLineConfiguration);
         }
 
-    private:
-        std::string name;
-        SimulationInfo simulationInfoConfiguration;
-        ProductionLine productionLineConfiguration;
+        friend class ::cereal::access;
     };
 
 }

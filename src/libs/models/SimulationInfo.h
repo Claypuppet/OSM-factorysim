@@ -19,6 +19,9 @@ namespace Models {
 
         uint8_t getDurationInHours() const;
 
+    private:
+        uint8_t durationInHours;
+
         template <class Archive>
         void save(Archive& ar) const
         {
@@ -31,8 +34,7 @@ namespace Models {
             ar(durationInHours);
         }
 
-    private:
-        uint8_t durationInHours;
+        friend class cereal::access;
     };
 
 }

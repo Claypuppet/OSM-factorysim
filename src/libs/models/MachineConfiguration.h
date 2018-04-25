@@ -31,6 +31,11 @@ namespace Models {
         uint16_t getMeanTimeBetweenFailureStddevInHours() const;
         uint16_t getReparationTimeInMinutes() const;
 
+    private:
+        uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
+        uint16_t outputEachMinute, initializationDurationInSeconds, inputBufferSize;
+        uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
+
         template<class Archive>
         void save(Archive &ar) const
         {
@@ -45,10 +50,7 @@ namespace Models {
                inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
         }
 
-    private:
-        uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
-        uint16_t outputEachMinute, initializationDurationInSeconds, inputBufferSize;
-        uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
+        friend class ::cereal::access;
     };
 
 }

@@ -24,6 +24,11 @@ namespace Models {
         const std::string &getName() const;
         uint16_t getProportion() const;
 
+    private:
+        uint16_t id;
+        std::string name;
+        uint16_t proportion;
+
         template <class Archive>
         void save(Archive& ar) const
         {
@@ -36,10 +41,7 @@ namespace Models {
             ar(id, name, proportion);
         }
 
-    private:
-        uint16_t id;
-        std::string name;
-        uint16_t proportion;
+        friend class cereal::access;
     };
 
 }
