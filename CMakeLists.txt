@@ -50,6 +50,8 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
+        src/production_control/ConfigurationReader.cpp
+        src/production_control/ConfigurationReader.h
         src/production_control/AppConnectionHandler.h
         src/production_control/AppConnectionHandler.cpp
         src/production_control/Machine.cpp
@@ -92,6 +94,14 @@ file(GLOB lib_network_SRC
 add_library(lib_network SHARED
         ${lib_network_SRC})
 
+# Lib Models
+file(GLOB lib_models_SRC
+        "src/libs/models/**.h"
+        "src/libs/models/**.cpp")
+
+add_library(lib_models SHARED
+        ${lib_models_SRC})
+
 # Lib Patterns
 file(GLOB lib_patterns_SRC
         "src/libs/patterns/statemachine/**.h"
@@ -103,6 +113,14 @@ file(GLOB lib_patterns_SRC
 
 add_library(lib_patterns SHARED
         ${lib_patterns_SRC})
+
+# Lib yaml-cpp
+file(GLOB lib_yaml_SRC
+        "src/libs/yaml-cpp/include/yaml-cpp/**.h"
+        "src/libs/yaml-cpp/src/**.cpp")
+
+add_library(lib_yaml-cpp SHARED
+        ${lib_yaml_SRC})
 
 # Lib Cereal
 file(GLOB lib_cereal_SRC
@@ -133,6 +151,8 @@ install(TARGETS
         lib_silly_objects
         lib_network
         lib_patterns
+        lib_yaml-cpp
+        lib_models
         lib_logger
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
@@ -146,7 +166,7 @@ target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
 
 # Production control & test
-target_link_libraries(app_production_control lib_network lib_silly_objects lib_logger)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

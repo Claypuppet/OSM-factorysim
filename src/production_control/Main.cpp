@@ -1,11 +1,5 @@
-/*
- * Copyright (c) 2015-2016 Joost Kraaijeveld. See license.txt for details.
- * For information, bug reports and additions send an e-mail to ProjectTemplate@Askesis.nl.
- *
- * Author: jkr
- */
-
-
+#include "ConfigurationReader.h"
+#include <models/Configuration.h>
 #include <iostream>
 #include <memory>
 #include <Logger/Logger.h>
@@ -17,13 +11,17 @@
 #include "network/Protocol.h"
 #include "TestConnectionHandler.h"
 
+//#include "ConfigurationReader.h"
+
 int main( 	int argc,
 			char** argv)
 {
 	Core::Application app;
 	app.startServer();
 
-
+//    std::string fileName = argv[1];
+//    Models::Configuration configuration;
+//    ConfigLoader::ConfigurationReader::getInstance().readConfigurationFile(fileName, configuration);
 
 	Network::Manager clientManager;
 	ThreadPtr clientThread = clientManager.runServiceThread();
@@ -53,5 +51,6 @@ int main( 	int argc,
 	clientThread->join();
 
 	app.joinServerThread();
+
 	return 0;
 }
