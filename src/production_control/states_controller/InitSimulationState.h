@@ -6,27 +6,18 @@
 #define PRODUCTION_LINE_CONTROL_INITSIMULATIONSTATE_H
 
 
-#include <patterns/statemachine/State.h>
-#include "patterns/statemachine/Context.h"
+#include "ControllerState.h"
 
 namespace States {
-    class InitSimulationContext : public Patterns::Statemachine::Context {
+    class InitSimulationState : public ControllerState {
     public:
-        InitSimulationContext() = default;
-
-        ~InitSimulationContext() = default;
-    };
-
-    class InitSimulationState : public Patterns::Statemachine::State {
-    public:
-        InitSimulationState();
-
+		InitSimulationState(Core::SimulationController &context) : ControllerState(context){};
         /**
          * Handles the doActivity of the contexts state
          */
         void doActivity() override;
 
-        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
+        bool handleEvent(const EventPtr &e) override;
 
         /**
          * Sets state to SimulationBroadcastState
@@ -35,8 +26,6 @@ namespace States {
 
         void exitAction() override;
 
-    private:
-        InitSimulationContext context;
     };
 }
 

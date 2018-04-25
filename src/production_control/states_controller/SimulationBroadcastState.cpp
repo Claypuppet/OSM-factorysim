@@ -16,6 +16,6 @@ void States::SimulationBroadcastState::exitAction() {
 
 }
 
-bool States::SimulationBroadcastState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool States::SimulationBroadcastState::handleEvent(const EventPtr &e) {
     return false;
 }

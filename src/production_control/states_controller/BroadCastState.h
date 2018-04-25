@@ -6,19 +6,19 @@
 #define PRODUCTION_LINE_CONTROL_BROADCASTSTATE_H
 
 
-#include <patterns/statemachine/State.h>
+#include "ControllerState.h"
 
 namespace States {
-    class BroadCastState : public Patterns::Statemachine::State {
+    class BroadCastState : public ControllerState {
     public:
-        BroadCastState() = default;
+        BroadCastState(Core::SimulationController &context) : ControllerState(context){};
 
         /**
          * Broadcasts the ip and port of the Application over the network
          */
         void doActivity() override;
 
-        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
+        bool handleEvent(const EventPtr &e) override;
 
         void entryAction() override;
 

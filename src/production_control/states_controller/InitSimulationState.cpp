@@ -19,12 +19,6 @@ void States::InitSimulationState::exitAction() {
 
 }
 
-bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool States::InitSimulationState::handleEvent(const EventPtr &e) {
     return false;
-}
-
-States::InitSimulationState::InitSimulationState()
-        :context(States::InitSimulationContext())
-{
-
 }

@@ -6,7 +6,7 @@
 #include "../ConfigurationReader.h"
 #include <iostream>
 
-bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool States::LoadConfigState::handleEvent(const EventPtr &e) {
     return false;
 }
 
@@ -16,7 +16,7 @@ void States::LoadConfigState::entryAction() {
 
 void States::LoadConfigState::doActivity() {
     ConfigLoader::ConfigurationReader reader;
-    Models::Configuration model;;
+    Models::Configuration model;
     reader.readConfigurationFile("path/to/config/file", model);
 
     Models::ProductionLine productionline = model.getProductionLineConfiguration();
@@ -27,13 +27,6 @@ void States::LoadConfigState::doActivity() {
     {
         //Add to SimulationController and Application
     }
-
-    while(1 == 1 /* Not done adding machines */)
-    {
-
-    }
-
-    // Switch state to InitSimulationState
 }
 
 void States::LoadConfigState::exitAction() {

@@ -6,14 +6,14 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONWAITFORCONNECTIONSSTATE_H
 
 
-#include <patterns/statemachine/State.h>
+#include "ControllerState.h"
 
 namespace States {
-    class SimulationWaitForConnectionsState : public Patterns::Statemachine::State {
+    class SimulationWaitForConnectionsState : public ControllerState {
     public:
-        SimulationWaitForConnectionsState() = default;
+        SimulationWaitForConnectionsState(Core::SimulationController &context) : ControllerState(context){};
 
-        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
+        bool handleEvent(const EventPtr &e) override;
 
         /**
          * Waits for machines to connect to the Application and sends relevant config data

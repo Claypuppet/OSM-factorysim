@@ -20,6 +20,6 @@ void States::WaitForConnectionsState::exitAction() {
 
 }
 
-bool States::WaitForConnectionsState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool States::WaitForConnectionsState::handleEvent(const EventPtr &e) {
     return false;
 }
