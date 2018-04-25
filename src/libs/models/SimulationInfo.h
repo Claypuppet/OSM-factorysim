@@ -4,8 +4,12 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
+#include <memory>
 
 namespace Models {
+
+    class SimulationInfo;
+    typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 
     class SimulationInfo {
     public:

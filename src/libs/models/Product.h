@@ -3,12 +3,16 @@
 
 #include <string>
 #include <cstdint>
+#include <memory>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
 
 namespace Models {
+
+    class Product;
+    typedef std::shared_ptr<Product> ProductPtr;
 
     class Product {
     public:
