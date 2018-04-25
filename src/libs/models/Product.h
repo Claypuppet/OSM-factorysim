@@ -15,6 +15,8 @@ namespace Models {
         Product(const Product &other);
         virtual ~Product();
 
+        Product& operator=(const Product& other);
+
         void deserialize(YAML::Node &productNode);
 
         uint16_t getId() const;

@@ -11,7 +11,7 @@
 namespace States {
     class OperationState : public Patterns::Statemachine::State {
     public:
-        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+        OperationState() = default;
 
         /**
          * Runs the simulation
@@ -19,6 +19,8 @@ namespace States {
         void doActivity() override;
 
         void entryAction() override;
+
+        bool handleEvent(const Patterns::Statemachine::Event &e) override;
 
         void exitAction() override;
     };

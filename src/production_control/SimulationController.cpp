@@ -6,5 +6,5 @@
 #include "States/LoadConfigState.h"
 
 Core::SimulationController::SimulationController() {
-    setCurrentState(std::make_shared<LoadConfigState>());
+    setCurrentState(std::make_shared<States::LoadConfigState>());
 }

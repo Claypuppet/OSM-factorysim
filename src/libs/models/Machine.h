@@ -2,7 +2,6 @@
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATION_H
 
 #include <string>
-#include <vector>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
@@ -14,10 +13,10 @@ namespace Models {
     class Machine {
     public:
         Machine();
-
         Machine(const Machine &other);
-
         virtual ~Machine();
+
+        Machine& operator=(const Machine& other);
 
         void deserialize(YAML::Node &machineNode);
 

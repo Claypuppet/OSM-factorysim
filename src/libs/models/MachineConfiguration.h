@@ -1,6 +1,8 @@
 #ifndef PRODUCTION_LINE_CONTROL_MACHINECONFIGURATIONCONFIGURATION_H
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATIONCONFIGURATION_H
 
+#include <iostream> // TODO : remove line
+
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 
@@ -12,6 +14,8 @@ namespace Models {
         MachineConfiguration(const MachineConfiguration &other);
         virtual ~MachineConfiguration();
 
+        MachineConfiguration& operator=(const MachineConfiguration& other);
+
         void deserialize(YAML::Node &machineConfigurationNode);
 
         uint16_t getProductId() const;
@@ -20,7 +24,6 @@ namespace Models {
         uint16_t getOutputEachMinute() const;
         uint16_t getInitializationDurationInSeconds() const;
         uint16_t getInputBufferSize() const;
-        uint16_t getTurnAroundTimeInSeconds() const;
         uint16_t getMeanTimeBetweenFailureInHours() const;
         uint16_t getMeanTimeBetweenFailureStddevInHours() const;
         uint16_t getReparationTimeInMinutes() const;
@@ -28,8 +31,7 @@ namespace Models {
     private:
         uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
         uint16_t outputEachMinute, initializationDurationInSeconds, inputBufferSize;
-        uint16_t turnAroundTimeInSeconds, meanTimeBetweenFailureInHours;
-        uint16_t meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
+        uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
     };
 
 }

@@ -14,6 +14,16 @@ namespace Models {
     Configuration::~Configuration() {
     }
 
+    Configuration& Configuration::operator=(const Configuration &other) {
+        if (this != &other) {
+            this->name = other.name;
+            this->simulationInfoConfiguration = other.simulationInfoConfiguration;
+            this->productionLineConfiguration = other.productionLineConfiguration;
+        }
+
+        return *this;
+    }
+
     void Configuration::deserialize(YAML::Node &configurationNode) {
         name = configurationNode["name"].as<std::string>();
 

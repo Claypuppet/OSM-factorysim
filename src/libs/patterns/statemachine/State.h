@@ -36,6 +36,7 @@ namespace Patterns {
             State() {};
 
             virtual ~State() {};
+
         };
     }
 }

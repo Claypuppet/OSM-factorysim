@@ -12,18 +12,18 @@ States::ConnectMachinesState::ConnectMachinesState()
 
 }
 
-bool States::ConnectMachinesState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
-    return false;
-}
-
 void States::ConnectMachinesState::doActivity() {
     context.run();
 }
 
 void States::ConnectMachinesState::entryAction() {
-    context.setCurrentState(std::make_shared<States::BroadCastState>());
+    context.setCurrentState(std::make_shared<States::BroadCastState>(States::BroadCastState()));
 }
 
 void States::ConnectMachinesState::exitAction() {
 
+}
+
+bool States::ConnectMachinesState::handleEvent(const Patterns::Statemachine::Event &e) {
+    return false;
 }

@@ -19,6 +19,20 @@ namespace Models {
     ProductionLine::~ProductionLine() {
     }
 
+    ProductionLine& ProductionLine::operator=(const ProductionLine& other) {
+        if (this != &other) {
+            name = other.name;
+
+            for (uint16_t i = 0; i < other.products.size(); ++i) {
+                products.push_back(other.products[i]);
+            }
+
+            for (uint16_t i = 0; i < other.machines.size(); ++i) {
+                machines.push_back(other.machines[i]);
+            }
+        }
+    }
+
     void ProductionLine::deserialize(YAML::Node &productionLineNode) {
         name = productionLineNode["name"].as<std::string>();
 

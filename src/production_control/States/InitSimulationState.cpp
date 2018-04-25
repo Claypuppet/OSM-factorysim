@@ -6,9 +6,6 @@
 #include "InitSimulationState.h"
 #include "SimulationBroadcastState.h"
 
-bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
-    return false;
-}
 
 void States::InitSimulationState::doActivity() {
     context.run();
@@ -22,8 +19,12 @@ void States::InitSimulationState::exitAction() {
 
 }
 
-InitSimulationState::InitSimulationState()
-    :context(States::InitSimulationContext())
+bool States::InitSimulationState::handleEvent(const Patterns::Statemachine::Event &e) {
+    return false;
+}
+
+States::InitSimulationState::InitSimulationState()
+        :context(States::InitSimulationContext())
 {
 
 }

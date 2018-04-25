@@ -21,12 +21,12 @@ namespace States {
     public:
         InitSimulationState();
 
-        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
-
         /**
          * Handles the doActivity of the contexts state
          */
         void doActivity() override;
+
+        bool handleEvent(const Patterns::Statemachine::Event &e) override;
 
         /**
          * Sets state to SimulationBroadcastState

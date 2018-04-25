@@ -22,12 +22,12 @@ namespace States {
     public:
         ConnectMachinesState();
 
-        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
-
         /**
          * Handles the doActivity of the context state
          */
         void doActivity() override;
+
+        bool handleEvent(const Patterns::Statemachine::Event &e) override;
 
         /**
          * Sets the state of context to BroadcastState

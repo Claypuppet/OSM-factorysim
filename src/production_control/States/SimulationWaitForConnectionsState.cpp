@@ -4,11 +4,6 @@
 
 #include "SimulationWaitForConnectionsState.h"
 
-bool States::SimulationWaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e,
-                                                    Patterns::Statemachine::Context &c) {
-    return false;
-}
-
 void States::SimulationWaitForConnectionsState::doActivity() {
 
 }
@@ -19,4 +14,8 @@ void States::SimulationWaitForConnectionsState::entryAction() {
 
 void States::SimulationWaitForConnectionsState::exitAction() {
 
+}
+
+bool States::SimulationWaitForConnectionsState::handleEvent(const Patterns::Statemachine::Event &e) {
+    return false;
 }

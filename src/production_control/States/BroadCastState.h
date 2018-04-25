@@ -11,12 +11,14 @@
 namespace States {
     class BroadCastState : public Patterns::Statemachine::State {
     public:
-        bool handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) override;
+        BroadCastState() = default;
 
         /**
          * Broadcasts the ip and port of the Application over the network
          */
         void doActivity() override;
+
+        bool handleEvent(const Patterns::Statemachine::Event &e) override;
 
         void entryAction() override;
 

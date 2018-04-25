@@ -10,8 +10,9 @@ namespace Models {
     public:
         SimulationInfo();
         SimulationInfo(const SimulationInfo &other);
-
         virtual ~SimulationInfo();
+
+        SimulationInfo& operator=(const SimulationInfo& other);
 
         void deserialize(YAML::Node &simulationInfoNode);
 

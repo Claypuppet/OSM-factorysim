@@ -14,6 +14,16 @@ namespace Models {
     Product::~Product() {
     }
 
+    Product& Product::operator=(const Product& other) {
+        if (this != &other) {
+            id = other.id;
+            name = other.name;
+            proportion = other.proportion;
+        }
+
+        return *this;
+    }
+
     void Product::deserialize(YAML::Node &productNode) {
         id = productNode["id"].as<uint16_t>();
         name = productNode["name"].as<std::string>();

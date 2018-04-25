@@ -6,7 +6,7 @@
 #include "../ConfigurationReader.h"
 #include <iostream>
 
-bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::Event &e, Patterns::Statemachine::Context &c) {
+bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::Event &e) {
     return false;
 }
 
@@ -15,7 +15,7 @@ void States::LoadConfigState::entryAction() {
 }
 
 void States::LoadConfigState::doActivity() {
-    ConfigurationReader reader;
+    ConfigLoader::ConfigurationReader reader;
     Models::Configuration model;;
     reader.readConfigurationFile("path/to/config/file", model);
 
