@@ -2,6 +2,7 @@
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATIONCONFIGURATION_H
 
 #include <iostream> // TODO : remove line
+#include <memory>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
@@ -10,6 +11,9 @@
 #include <cereal/types/vector.hpp>
 
 namespace Models {
+
+    class MachineConfiguration;
+    typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
 
     class MachineConfiguration {
     public:

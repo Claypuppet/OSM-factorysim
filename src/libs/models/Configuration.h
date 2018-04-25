@@ -2,6 +2,7 @@
 #define PRODUCTION_LINE_CONTROL_CONFIG_H
 
 #include <string>
+#include <memory>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
@@ -11,6 +12,9 @@
 #include "ProductionLine.h"
 
 namespace Models {
+
+    class Configuration;
+    typedef std::shared_ptr<Configuration> ConfigurationPtr;
 
     class Configuration {
     public:

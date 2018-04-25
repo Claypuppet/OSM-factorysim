@@ -12,7 +12,7 @@ namespace SimulationStates {
 
 	class FindProductControlState : public SimulationState {
 	public:
-		FindProductControlState(Simulator::SimulationController &context) : SimulationState(context){};
+		FindProductControlState(Simulator::SimulationController &context) : SimulationState(context) {};
 		virtual ~FindProductControlState() = default;
 
 		void entryAction() override;

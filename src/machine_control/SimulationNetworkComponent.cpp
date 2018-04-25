@@ -1,17 +1,15 @@
-//
-// Created by hqnders on 20/04/18.
-//
 
-
+// standard libraries
 #include <iostream>
-
-#include <network/Protocol.h>
-
 #include <cereal/archives/portable_binary.hpp>
 #include <cereal/types/vector.hpp>
 
-#include "SimulationNetworkComponent.h"
+// libraries
+#include <network/Protocol.h>
 
+// other
+#include "SimulationNetworkComponent.h"
+#include "ControllerNotificationEventIds.h"
 
 
 namespace SimulationCommunication {
@@ -35,42 +33,47 @@ namespace SimulationCommunication {
 	void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
 		std::cout << message.mBody << std::endl;
 		switch(message.getMessageType()){
-			case Network::Protocol::kSimMessageTypeConfig :
-//				Model::MachinePtr machine;
-//				if (deserializeSimulationMachineInfo(message.mBody, machine)){
-//					onSimulationMachineInfoReceived(machine);
-//				}
-				break;
-			case Network::Protocol::kSimMessageTypeTurnOn :
-				onTurnOnReceived();
-				break;
-			case Network::Protocol::kSimMessageTypeTurnOff :
-				onTurnOffReceived();
-				break;
-			default:
-				break;
+			case Network::Protocol::kSimMessageTypeConfig : {
+                Models::MachinePtr machinePtr;
+
+                if (deserializeSimulationMachineInfo(message.mBody, machinePtr)) {
+                    onSimulationMachineInfoReceived(machinePtr);
+                }
+
+                break;
+            } case Network::Protocol::kSimMessageTypeTurnOn : {
+                onTurnOnReceived();
+                break;
+            } case Network::Protocol::kSimMessageTypeTurnOff : {
+                onTurnOffReceived();
+                break;
+            } default : {
+                break;
+            }
 		}
 	}
 
-	bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string, Model::MachinePtr machine) {
-//		std::stringstream binaryStream((std::ios::in | std::ios::binary));
-//		binaryStream.str(string);
-//		cereal::PortableBinaryInputArchive archive(binaryStream);
-//		archive(machine);
-		return !!machine;
+	bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string, Models::MachinePtr machinePtr) {
+		std::stringstream binaryStream((std::ios::in | std::ios::binary));
+		binaryStream.str(string);
+		cereal::PortableBinaryInputArchive archive(binaryStream);
+		archive(*machinePtr);
+		return true; // TODO : implement boolean
 	}
 
-	void SimulationNetworkComponent::onSimulationMachineInfoReceived(const Model::Machine &machine) {
-//		auto machinePtr = std::make_shared<Model::Machine>(machine);
-
-		
+	void SimulationNetworkComponent::onSimulationMachineInfoReceived(Models::MachinePtr machinePtr) {
+		auto event = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
+		event.addArgument(machinePtr);
+		notifyObservers(event);
 	}
 
 	void SimulationNetworkComponent::onTurnOffReceived() {
-
+        auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+        notifyObservers(notification);
 	}
 
 	void SimulationNetworkComponent::onTurnOnReceived() {
-
+        auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+        notifyObservers(notification);
 	}
 }

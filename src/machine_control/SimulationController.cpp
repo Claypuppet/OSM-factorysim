@@ -1,10 +1,6 @@
-//
-// Created by hqnders on 20/04/18.
-//
-
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
-#include <network/Client.h>
+#include "ControllerNotificationEventIds.h"
 
 namespace Models {
     typedef std::shared_ptr<Machine> MachinePtr;
@@ -28,7 +24,7 @@ namespace Simulator {
 		void onServiceError(Network::ServicePtr service, const std::string &message) override {
 		    //TODO: Add eventId
 		    //Set up the Connection Failed state event to send to the observers.
-            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), 99);
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeServiceError);
 
             //Notify observers of the error
 			notifyObservers(event);
@@ -44,7 +40,7 @@ namespace Simulator {
 		 */
 		void onServiceStarted(Network::ServicePtr service) override {
 		    //Set up an event to let the observers know that connection was successful
-            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), 99);
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeServiceStarted);
 
 			//Notify observers of connection success
             notifyObservers(event);
@@ -58,18 +54,17 @@ namespace Simulator {
 	 */
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 	    switch(notification.getEventId()){
-	        //TODO: Add eventId support when available
-            case 0: {
+            case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
                 application.setMachineInfo(*notification.getFirstArgumentAsType<Models::MachinePtr>());
                 auto e = std::make_shared<SimulationStates::Event>(SimulationStates::kEventTypeConfigReceived);
                 scheduleEvent(e);
                 break;
             }
 
-            case 1:
+            case ControllerEvents::kNotifyEventTypeTurnOnReceived :
                 break;
 
-            case 2:
+            case ControllerEvents::kNotifyEventTypeTurnOffReceived:
                 break;
 
             default:
@@ -96,8 +91,7 @@ namespace Simulator {
 		client->start();
 	}
 
-	void SimulationController::setStartState()
-	{
+	void SimulationController::setStartState() {
 		auto startState = std::make_shared<SimulationStates::FindProductControlState>(*this);
 		setCurrentState(startState);
 	}
@@ -111,7 +105,7 @@ namespace Simulator {
 		}
 	}
 
-	void SimulationController::stop(){
+	void SimulationController::stop() {
 		executing = false;
 		networkManager.stop();
 		clientThread->join();

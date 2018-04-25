@@ -1,13 +1,15 @@
-//
-// Created by hqnders on 20/04/18.
-//
-
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 
+// standard libraries
+// ...
+
+// libraries
 #include <network/Manager.h>
 #include <network/Client.h>
 #include <patterns/notifyobserver/Observer.hpp>
+
+// other
 #include "SimulationNetworkComponent.h"
 #include "Controller.h"
 #include "SimulationApplication.h"

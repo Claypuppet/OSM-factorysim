@@ -47,7 +47,7 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/FindProductControlState.h
         src/machine_control/states_simulation/ConnectSimulationState.cpp
         src/machine_control/states_simulation/ConnectSimulationState.h
-        src/machine_control/config.h )
+        src/machine_control/config.h src/machine_control/ControllerNotificationEventIds.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp

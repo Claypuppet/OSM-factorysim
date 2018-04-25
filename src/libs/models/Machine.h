@@ -1,15 +1,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_MACHINECONFIGURATION_H
 #define PRODUCTION_LINE_CONTROL_MACHINECONFIGURATION_H
 
+// standard includes
+#include <memory>
 #include <string>
 
+// library includes
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
 
+// other includes
 #include "MachineConfiguration.h"
 
 namespace Models {
+
+    class Machine;
+    typedef std::shared_ptr<Machine> MachinePtr;
 
     class Machine {
     public:
