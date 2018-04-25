@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/cereal.hpp>
 
 #include "MachineConfiguration.h"
 
@@ -33,6 +34,19 @@ namespace Models {
         uint16_t id;
         std::string name;
         std::vector<MachineConfiguration> configurations;
+
+        template<class Archive>
+        void save(Archive& ar) const
+        {
+            ar(id, name, configurations);
+        }
+
+        template<class Archive>
+        void load(Archive& ar){
+            ar(id, name, configurations);
+        };
+
+        friend class ::cereal::access;
     };
 
 }

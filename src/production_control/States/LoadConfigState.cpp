@@ -5,6 +5,7 @@
 #include "LoadConfigState.h"
 #include "../ConfigurationReader.h"
 #include <iostream>
+#include <Logger/Logger.h>
 
 bool States::LoadConfigState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     return false;
@@ -16,8 +17,8 @@ void States::LoadConfigState::entryAction() {
 
 void States::LoadConfigState::doActivity() {
     ConfigLoader::ConfigurationReader reader;
-    Models::Configuration model;;
-    reader.readConfigurationFile("path/to/config/file", model);
+    Models::Configuration model;
+    reader.readConfigurationFile("../configs/configfile.yaml", model);
 
     Models::ProductionLine productionline = model.getProductionLineConfiguration();
     Models::SimulationInfo simInfo = model.getSimulationInfoConfiguration();

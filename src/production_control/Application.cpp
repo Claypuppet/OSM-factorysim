@@ -8,12 +8,15 @@
 #include "network/Server.h"
 #include "network/Client.h"
 #include "TestConnectionHandler.h"
+#include "NotificationTypes.h"
 
 
 Core::Application::Application()
 {
 	serverThread = m.runServiceThread();
-	server = m.createServer(std::make_shared<AppConnectionHandler>(this), 50);
+	Core::AppConnectionHandler handler;
+	//handler.addObserver(*this);
+	server = m.createServer(std::make_shared<AppConnectionHandler>(handler), 50);
 }
 
 void Core::Application::addMachine(const Machine &aMachine) {
@@ -48,4 +51,16 @@ bool Core::Application::isServerRunning() {
 
 Network::ServerPtr Core::Application::getServer() {
     return Network::ServerPtr();
+}
+
+void Core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+//    switch(notification.getEventId())
+//    {
+//        case ApplicationRegisterMachine:
+//            if(notification.getArgument(0).type() == )
+//            {
+//
+//            }
+//            break;
+//    }
 }
