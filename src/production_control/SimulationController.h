@@ -30,7 +30,8 @@ namespace Core {
         Network::ServerPtr server;
         std::vector<Core::Machine> machines;
 
-        void handleRegisterMachine(uint16_t machineId, const Network::ConnectionPtr connection);
+        void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void registerMachine(uint16_t machineId, const Network::ConnectionPtr connection);
 
         void sendTurnOnMachine(uint16_t m);
 
