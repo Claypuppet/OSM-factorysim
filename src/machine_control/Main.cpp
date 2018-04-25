@@ -10,10 +10,38 @@
 #include <network/Server.h>
 
 
+
+int main( 	int argc,
+			char** argv)
+{
+	std::cout << "Hello from app machine simulator!" << std::endl;
+
+	// Temp server production control
+
+//	Network::Manager serverManager;
+//	auto serverThread = serverManager.runServiceThread();
+//	TempProdControlServer serverController;
+//	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
+//	server->start();
+
+
+
+	// This machine controller
+
+	Simulator::SimulationController controller;
+
+	controller.execute();
+
+	return 0;
+}
+
+/**
+ * Temporary class to start a server for testing purposes
+ */
 class TempProdControlServer : public Network::IConnectionHandler {
 public:
 	TempProdControlServer() = default;
-	~TempProdControlServer() = default;
+	virtual ~TempProdControlServer() = default;
 protected:
 
 	void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
@@ -37,26 +65,3 @@ protected:
 	}
 
 };
-
-int main( 	int argc,
-			char** argv)
-{
-	std::cout << "Hello from app machine simulator!" << std::endl;
-
-	// Temp server production control
-	Network::Manager serverManager;
-	auto serverThread = serverManager.runServiceThread();
-	TempProdControlServer serverController;
-	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
-	server->start();
-
-
-
-	// This machine controller
-
-	Simulator::SimulationController controller;
-
-	controller.execute();
-
-	return 0;
-}

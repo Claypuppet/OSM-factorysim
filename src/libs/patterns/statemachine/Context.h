@@ -28,7 +28,7 @@ namespace Patterns {
 			 * Add event to the event queue.
 			 * @param e : Event to add
 			 */
-            void scheduleEvent(Event e);
+            void scheduleEvent(EventPtr e);
 
             /**
              * Set a new state
@@ -40,7 +40,7 @@ namespace Patterns {
             Context() = default;
 
             StatePtr currentState;
-            std::queue<Event> events;
+            std::queue<EventPtr> events;
         };
     }
 }

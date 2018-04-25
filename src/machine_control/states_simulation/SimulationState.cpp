@@ -6,9 +6,16 @@
 
 namespace SimulationStates {
 
-SimulationState::SimulationState(SimulationCommunication::SimulationNetworkComponent &aContext)
-	: context(aContext){
+	SimulationState::SimulationState(Simulator::SimulationController &aContext)
+		: context(aContext){
 
-}
+	}
+
+	bool SimulationState::handleEvent(const EventPtr &e) {
+		switch(e->getId()){
+			default:
+				return false;
+		}
+	}
 
 }

@@ -12,13 +12,14 @@ namespace Patterns {
 
         typedef std::shared_ptr<Event> EventPtr;
 
-        class Event {
+        class Event : public std::enable_shared_from_this<Event> {
         public:
 			/**
 			 * Create new event
 			 * @param id
 			 */
-            Event(uint32_t id) : id(id){}
+            explicit Event(uint32_t aId) : id(aId){}
+
             Event(const Event& event) : id(event.id){}
             virtual ~Event() = default;
 
