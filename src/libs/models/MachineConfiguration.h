@@ -6,6 +6,8 @@
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 #include <cereal/archives/portable_binary.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 
 namespace Models {
 
@@ -30,10 +32,18 @@ namespace Models {
         uint16_t getReparationTimeInMinutes() const;
 
         template<class Archive>
-        void save(Archive &ar) const;
+        void save(Archive &ar) const
+        {
+            ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
+               inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+        }
 
         template<class Archive>
-        void load(Archive& ar);
+        void load(Archive& ar)
+        {
+            ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
+               inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+        }
 
     private:
         uint16_t productId, nextMachineId, inputMaterialsForEachProduct;

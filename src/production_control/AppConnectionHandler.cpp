@@ -85,4 +85,5 @@ void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBod
 //    notification.addArgument(machineId);
 //    notification.addArgument(connection);
 //    notifyObservers(notification);
+
 }

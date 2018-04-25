@@ -6,6 +6,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 namespace Models {
 
@@ -22,6 +23,18 @@ namespace Models {
         uint16_t getId() const;
         const std::string &getName() const;
         uint16_t getProportion() const;
+
+        template <class Archive>
+        void save(Archive& ar) const
+        {
+            ar(id, name, proportion);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(id, name, proportion);
+        }
 
     private:
         uint16_t id;

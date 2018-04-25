@@ -7,6 +7,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 #include "Product.h"
 #include "Machine.h"
@@ -27,6 +28,17 @@ namespace Models {
         const std::vector<Product> &getProducts() const;
         const std::vector<Machine> &getMachines() const;
 
+        template<class Archive>
+        void save(Archive& ar) const
+        {
+            ar(name, products, machines);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(name, products, machines);
+        }
     private:
         std::string name;
         std::vector<Product> products;

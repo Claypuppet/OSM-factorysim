@@ -4,10 +4,6 @@
 
 #include "Machine.h"
 
-uint8_t Core::Machine::getId() {
-    return id;
-}
-
 bool Core::Machine::isConnected() {
     if(connection != nullptr){
         return true;
@@ -19,14 +15,13 @@ void Core::Machine::sendMessage(Network::Message &msg) {
     connection->writeMessage(msg);
 }
 
-Core::Machine::Machine(uint8_t anId)
-    :id(anId),connection(nullptr)
+Core::Machine::Machine(Models::Machine aMachine)
+    :Models::Machine(aMachine),connection(nullptr)
 {
 
 }
 
 Core::Machine::Machine(const Machine &aMachine)
-    :id(aMachine.id),connection(aMachine.connection)
 {
 
 }
@@ -34,7 +29,7 @@ Core::Machine::Machine(const Machine &aMachine)
 Core::Machine& Core::Machine::operator=(const Machine& rhs) {
     if(this != &rhs)
     {
-        id = rhs.id;
+        Models::Machine::operator=(rhs);
         connection = rhs.connection;
     }
     return *this;

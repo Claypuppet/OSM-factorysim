@@ -14,11 +14,13 @@ namespace Core {
     public:
         SimulationController();
 
-        virtual ~SimulationController();
+        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+
+        virtual ~SimulationController() = default;
 
     private:
-        ThreadPtr serverThread;
         Network::Manager m;
+        ThreadPtr serverThread;
         Network::ServerPtr server;
     };
 }

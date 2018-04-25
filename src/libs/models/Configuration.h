@@ -5,6 +5,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 #include "SimulationInfo.h"
 #include "ProductionLine.h"
@@ -24,6 +25,18 @@ namespace Models {
         const std::string &getName() const;
         const SimulationInfo &getSimulationInfoConfiguration() const;
         const ProductionLine &getProductionLineConfiguration() const;
+
+        template<class Archive>
+        void save(Archive& ar) const
+        {
+            ar(name, simulationInfoConfiguration, productionLineConfiguration);
+        }
+
+        template<class Archive>
+        void load(Archive& ar)
+        {
+            ar(name, simulationInfoConfiguration, productionLineConfiguration);
+        }
 
     private:
         std::string name;

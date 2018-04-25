@@ -3,6 +3,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
+#include <cereal/archives/portable_binary.hpp>
 
 namespace Models {
 
@@ -17,6 +18,18 @@ namespace Models {
         void deserialize(YAML::Node &simulationInfoNode);
 
         uint8_t getDurationInHours() const;
+
+        template <class Archive>
+        void save(Archive& ar) const
+        {
+            ar(durationInHours);
+        }
+
+        template <class Archive>
+        void load(Archive& ar)
+        {
+            ar(durationInHours);
+        }
 
     private:
         uint8_t durationInHours;

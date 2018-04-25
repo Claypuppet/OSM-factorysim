@@ -84,16 +84,4 @@ namespace Models {
         return reparationTimeInMinutes;
     }
 
-    template<class Archive>
-    void MachineConfiguration::save(Archive &ar) const {
-        ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
-        inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
-    }
-
-    template<class Archive>
-    void MachineConfiguration::load(Archive &ar) {
-        ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
-           inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
-    }
-
 }

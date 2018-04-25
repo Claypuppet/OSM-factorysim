@@ -32,7 +32,7 @@ namespace Core {
         * @param machineId The ID of the machine you are looking for
         * @return The machine with the requested ID or a nullptr when the machine doesn't exist
         */
-        MachinePtr getMachine(uint8_t machineId);
+        MachinePtr getMachine(uint16_t machineId);
 
         Network::ServerPtr getServer();
 

@@ -8,15 +8,17 @@
 
 #include <cstdint>
 #include <network/Connection.h>
+#include <models/Machine.h>
 
 namespace Core {
-    class Machine {
+    class Machine : public Models::Machine {
     public:
+
         /**
-        * Constructor
-        * @param anId The id of the machine
-        */
-        Machine(uint8_t anId);
+         * Constructs a machine
+         * @param aMachine
+         */
+        Machine(Models::Machine aMachine);
 
         /**
         * Copy constructor
@@ -51,14 +53,7 @@ namespace Core {
         */
         void setConnection(Network::ConnectionPtr aConnection);
 
-        /**
-        * A function to get the id of the machine
-        * @return The id of the machine
-        */
-        uint8_t getId();
-
     private:
-        uint8_t id;
         Network::ConnectionPtr connection;
     };
 
