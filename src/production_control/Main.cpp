@@ -1,5 +1,6 @@
 #include <models/Configuration.h>
 #include <models/MachineConfiguration.h>
+#include <cereal/archives/portable_binary.hpp>
 #include "SimulationController.h"
 #include "ConfigurationReader.h"
 

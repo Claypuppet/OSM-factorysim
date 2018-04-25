@@ -6,7 +6,7 @@
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
-#include <cereal/archives/portable_binary.hpp>
+#include <cereal/cereal.hpp>
 
 namespace Models {
 
