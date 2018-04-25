@@ -5,11 +5,11 @@
 #ifndef PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
 #define PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
 
+#include <patterns/notifyobserver/Notifier.hpp>
 #include "network/Connection.h"
 
 namespace Communication {
-
-	class NetworkComponent : public Network::IConnectionHandler {
+	class NetworkComponent : public Network::IConnectionHandler, public Patterns::NotifyObserver::Notifier {
 	public:
 		NetworkComponent();
 		~NetworkComponent() = default;

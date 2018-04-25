@@ -14,7 +14,7 @@
 namespace Simulator {
 
     class SimulationController
-            : public Core::Controller,
+            : public MachineCore::Controller,
               public Patterns::Statemachine::Context,
               public Patterns::NotifyObserver::Observer {
     public:

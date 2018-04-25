@@ -8,7 +8,7 @@
 #include "Application.h"
 
 namespace Simulator {
-    class SimulationApplication : public Core::Application {
+    class SimulationApplication : public MachineCore::Application {
         SimulationApplication() = default;
         virtual ~SimulationApplication() = default;
     };
