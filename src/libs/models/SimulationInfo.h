@@ -1,10 +1,16 @@
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONINFOCONFIG_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONINFOCONFIG_H
 
+// standard library includes
+#include <memory>
+
+// library includes
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
-#include <memory>
+
+// other includes
+// -
 
 namespace Models {
 

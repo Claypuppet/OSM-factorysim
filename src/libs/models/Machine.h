@@ -3,6 +3,7 @@
 
 // standard includes
 #include <memory>
+#include <string>
 
 // library includes
 #include <yaml-cpp/yaml.h>
