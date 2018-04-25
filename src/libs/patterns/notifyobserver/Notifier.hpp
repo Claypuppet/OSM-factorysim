@@ -84,7 +84,7 @@ namespace Patterns {
 			NotifyEvent();
 
 			Notifier* getNotifier() const;
-			NotifyEventId getEventId() const { return mEventId;}
+			NotifyEventId getEventId() const;
 			const NotifyTrigger& getTrigger() const;
 
 			NotifyEvent& setEvent(NotifyEventId event);
