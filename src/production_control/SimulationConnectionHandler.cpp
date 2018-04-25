@@ -25,6 +25,7 @@ namespace Simulation {
 
     }
 
+
     void SimulationConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
                                                                   Network::Message &message) {
         std::cout << message.mBody << std::endl;
@@ -35,7 +36,6 @@ namespace Simulation {
                                                     SimulationregisterMachine);
 
                 uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
-
                 notification.setArgument(0, machineId);
                 notification.setArgument(1, connection);
 
