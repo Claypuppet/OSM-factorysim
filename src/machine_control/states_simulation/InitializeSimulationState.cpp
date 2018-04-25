@@ -1,10 +1,6 @@
-//
-// Created by klei on 4/23/18.
-//
 
 #include "InitializeSimulationState.h"
 #include "OffState.h"
-
 
 namespace SimulationStates {
 	void InitializeSimulationState::entryAction() {

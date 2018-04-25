@@ -1,10 +1,5 @@
-//
-// Created by hqnders on 20/04/18.
-//
-
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
-#include <network/Client.h>
 
 namespace Simulator {
 
@@ -31,15 +26,14 @@ namespace Simulator {
 
 	};
 
+    SimulationController::SimulationController() : executing(false) {
+    }
 
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-		// TODO: add notification (state event) to event queue
-	}
+        // TODO: add notification (state event) to event queue
+    }
 
-	SimulationController::SimulationController() : executing(false) {
-	}
-
-	void SimulationController::setupNetwork(){
+	void SimulationController::setupNetwork() {
 		clientThread = networkManager.runServiceThread();
 
 		SimulationCommunication::SimulationNetworkComponent connectionHandler;
@@ -49,8 +43,7 @@ namespace Simulator {
 		client->start();
 	}
 
-	void SimulationController::setStartState()
-	{
+	void SimulationController::setStartState() {
 		auto startState = std::make_shared<SimulationStates::FindProductControlState>(*this);
 		setCurrentState(startState);
 	}
@@ -64,7 +57,7 @@ namespace Simulator {
 		}
 	}
 
-	void SimulationController::stop(){
+	void SimulationController::stop() {
 		executing = false;
 		networkManager.stop();
 		clientThread->join();

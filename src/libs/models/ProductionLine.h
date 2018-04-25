@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <memory>
 
 #include <yaml-cpp/yaml.h>
 #include <yaml-cpp/node/node.h>
@@ -13,6 +14,9 @@
 #include "Machine.h"
 
 namespace Models {
+
+    class ProductionLine;
+    typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
     class ProductionLine {
     public:

@@ -1,8 +1,11 @@
-//
-// Created by klei on 4/24/18.
-//
 
+// standard libraries
 #include <memory>
+
+// libraries
+#include <patterns/statemachine/Event.h>
+
+// other
 #include "FindProductControlState.h"
 #include "ConnectSimulationState.h"
 
@@ -18,7 +21,6 @@ namespace SimulationStates {
 	}
 
 	void FindProductControlState::exitAction() {
-
 	}
 
 	bool FindProductControlState::handleEvent(const EventPtr &e) {
