@@ -47,7 +47,7 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/FindProductControlState.h
         src/machine_control/states_simulation/ConnectSimulationState.cpp
         src/machine_control/states_simulation/ConnectSimulationState.h
-        src/machine_control/config.h )
+        src/machine_control/config.h src/machine_control/ControllerNotificationEventIds.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp
@@ -181,13 +181,14 @@ install(TARGETS
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
 target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(lib_models lib_yaml-cpp)
 
 # Production control & test
 target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger lib_patterns)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test
-target_link_libraries(app_machine_control lib_network lib_patterns)
+target_link_libraries(app_machine_control lib_network lib_patterns lib_models)
 target_link_libraries(app_machine_control lib_network lib_silly_objects lib_logger)
 target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 

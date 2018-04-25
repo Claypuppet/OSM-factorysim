@@ -22,7 +22,7 @@ void Patterns::Statemachine::Context::scheduleEvent(EventPtr e){
 }
 
 void Patterns::Statemachine::Context::run(){
-	while(!events.empty()){
+	while(!events.empty()) {
 		EventPtr e = events.front();
 		events.pop();
 		auto handled = currentState->handleEvent(e);

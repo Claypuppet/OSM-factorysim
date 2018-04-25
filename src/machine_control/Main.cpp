@@ -1,35 +1,32 @@
-/*
- * Author: OSM Projectteam 3
- */
-
-
 #include <iostream>
 #include <memory>
-#include "SimulationController.h"
 
 #include <network/Server.h>
 
+#include "SimulationController.h"
 
-
-int main( 	int argc,
-			char** argv)
-{
-	std::cout << "Hello from app machine simulator!" << std::endl;
+int main(int argc, char** argv) {
 
 	// Temp server production control
-
 //	Network::Manager serverManager;
 //	auto serverThread = serverManager.runServiceThread();
 //	TempProdControlServer serverController;
 //	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
 //	server->start();
 
-
-
 	// This machine controller
 
-	Simulator::SimulationController controller;
+	uint16_t machineId;
+	std::string machineName;
 
+	std::cout << "What is the machine's ID?" << std::endl;
+	std::cin >> machineId;
+
+	std::cout << "What is the machine's name?" << std::endl;
+	std::cin >> machineName;
+
+	Simulator::SimulationController controller(Models::Machine(machineId, machineName));
+	
 	controller.execute();
 
 	return 0;

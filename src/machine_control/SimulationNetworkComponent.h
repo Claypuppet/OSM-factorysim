@@ -1,25 +1,20 @@
-//
-// Created by hqnders on 20/04/18.
-//
-
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H
 
+// standard library includes
+// -
+
+// libary includes
 #include <patterns/notifyobserver/Notifier.hpp>
 #include <network/Connection.h>
+#include <models/Machine.h>
 
-
-namespace Model {
-	class Machine;
-	class MachineConfiguration;
-	typedef std::shared_ptr<Machine> MachinePtr;
-	typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
-}
+// other includes
+// -
 
 namespace SimulationCommunication {
 
 	class SimulationNetworkComponent;
-
 	typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
 
     class SimulationNetworkComponent :
@@ -44,13 +39,13 @@ namespace SimulationCommunication {
          * @param machine : machine model to fill
          * @return bool : success
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Model::MachinePtr machine);
+        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machinePtr);
 
         /**
          * Handles new machine info receive
          * @param machine
          */
-        void onSimulationMachineInfoReceived(const Model::Machine &machine);
+        void onSimulationMachineInfoReceived(Models::MachinePtr machinePtr);
 
         /**
          * Handles machine turn on command

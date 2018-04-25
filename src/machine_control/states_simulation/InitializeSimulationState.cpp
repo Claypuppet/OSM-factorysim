@@ -1,14 +1,11 @@
-//
-// Created by klei on 4/23/18.
-//
 
 #include "InitializeSimulationState.h"
 #include "OffState.h"
 
-
 namespace SimulationStates {
 	void InitializeSimulationState::entryAction() {
 		// TODO: Register machine
+        context.registerMachine();
 	}
 
 	void InitializeSimulationState::doActivity() {
@@ -22,6 +19,7 @@ namespace SimulationStates {
 		switch (e->getId()){
 			case kEventTypeConfigReceived:
 				context.setCurrentState(std::make_shared<OffState>(context));
+				return true;
 			default:
 				return SimulationState::handleEvent(e);
 		}

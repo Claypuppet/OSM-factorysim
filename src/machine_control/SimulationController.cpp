@@ -1,10 +1,10 @@
-//
-// Created by hqnders on 20/04/18.
-//
-
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
-#include <network/Client.h>
+#include "ControllerNotificationEventIds.h"
+
+namespace Models {
+    typedef std::shared_ptr<Machine> MachinePtr;
+}
 
 namespace Simulator {
 
@@ -16,41 +16,82 @@ namespace Simulator {
 		NetworkEventDispatcher() = default;
 		~NetworkEventDispatcher() override = default;
 	private:
+        /**
+         * Handles errors sent by services.
+         * @param service The service which reported the error.
+         * @param message The error message.
+         */
 		void onServiceError(Network::ServicePtr service, const std::string &message) override {
-			// TODO: event - could not connect, notify observer
-			auto e = std::make_shared<SimulationStates::Event>(SimulationStates::Event(SimulationStates::kEventTypeConnectionFailed));
+		    //TODO: Add eventId
+		    //Set up the Connection Failed state event to send to the observers.
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeServiceError);
+
+            //Notify observers of the error
+			notifyObservers(event);
 		}
 
 		void onServiceStopped(Network::ServicePtr service) override {
 			// TODO: check if this is needed
 		}
 
+		/**
+		 * Called on successful service connection.
+		 * @param service The service which connected.
+		 */
 		void onServiceStarted(Network::ServicePtr service) override {
-			// TODO: Event -
+		    //Set up an event to let the observers know that connection was successful
+            auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeServiceStarted);
+
+			//Notify observers of connection success
+            notifyObservers(event);
 		}
 
 	};
 
-
+	/**
+	 * Handler of every notification.
+	 * @param notification The received notification.
+	 */
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-		// TODO: add notification (state event) to event queue
+	    switch(notification.getEventId()){
+            case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
+                application.setMachineInfo(*notification.getFirstArgumentAsType<Models::MachinePtr>());
+                auto e = std::make_shared<SimulationStates::Event>(SimulationStates::kEventTypeConfigReceived);
+                scheduleEvent(e);
+                break;
+            }
+
+            case ControllerEvents::kNotifyEventTypeTurnOnReceived :
+                break;
+
+            case ControllerEvents::kNotifyEventTypeTurnOffReceived:
+                break;
+
+            default:
+                break;
+	    }
 	}
 
-	SimulationController::SimulationController() : executing(false) {
+	SimulationController::SimulationController(const Models::Machine& aMachineInfo)
+            : Controller(aMachineInfo), executing(false) {
 	}
 
-	void SimulationController::setupNetwork(){
+    void SimulationController::setupNetwork(){
 		clientThread = networkManager.runServiceThread();
 
 		SimulationCommunication::SimulationNetworkComponent connectionHandler;
 		handleNotificationsFor(connectionHandler);
 
 		client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(connectionHandler));
+
+		auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
+		client->setServiceEventListener(eventDispatcherPtr);
+		handleNotificationsFor(*eventDispatcherPtr);
+
 		client->start();
 	}
 
-	void SimulationController::setStartState()
-	{
+	void SimulationController::setStartState() {
 		auto startState = std::make_shared<SimulationStates::FindProductControlState>(*this);
 		setCurrentState(startState);
 	}
@@ -64,11 +105,16 @@ namespace Simulator {
 		}
 	}
 
-	void SimulationController::stop(){
+	void SimulationController::stop() {
 		executing = false;
 		networkManager.stop();
 		clientThread->join();
 	}
+
+    void SimulationController::registerMachine() {
+	    //TODO: Implementeer functionaliteit om te registreren hier
+        //MachineID is opgehaald door application.getMachineInfo().getId()
+    }
 
 	void SimulationController::setRemoteHost(const std::string &remoteHost) {
 		networkManager.setRemoteHost(remoteHost);
