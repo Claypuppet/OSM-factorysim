@@ -1,10 +1,5 @@
 #include "Notifier.hpp"
 #include <boost/foreach.hpp>
-#include <sstream>
-#include <typeinfo>
-#include "Observer.hpp"
-#include <algorithm>
-#include <patterns/statemachine/Event.h>
 
 namespace Patterns {
 	namespace NotifyObserver {
@@ -45,9 +40,13 @@ namespace Patterns {
 			return mNotifier = notifier, *this;
 		}
 
+		NotifyEventId NotifyEvent::getEventId() const {
+			return mEventId;
+		}
+
 		/**
-		 *
-		 */
+         *
+         */
 		Notifier::Notifier(bool enable /*= true*/) :
 				notify(enable) {
 		}
