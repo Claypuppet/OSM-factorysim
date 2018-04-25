@@ -4,6 +4,8 @@
 
 #include "LoadConfigState.h"
 #include "../ConfigurationReader.h"
+#include "SimulationBroadcastState.h"
+#include "BroadCastState.h"
 #include <iostream>
 
 bool States::LoadConfigState::handleEvent(const EventPtr &e) {
@@ -12,11 +14,11 @@ bool States::LoadConfigState::handleEvent(const EventPtr &e) {
             // TODO: read config on context
             auto fileLocation = e->getArgumentAsType<std::string>();
             break;
-        case kEventTypeProductionConfigLoaded:
-            context.setCurrentState(std::make_shared<>(context));
-            break;
         case kEventTypeSimulationConfigLoaded:
-            context.setCurrentState(std::make_shared<>(context));
+            context.setCurrentState(std::make_shared<SimulationBroadcastState>(context));
+            break;
+        case kEventTypeProductionConfigLoaded:
+            context.setCurrentState(std::make_shared<BroadCastState>(context));
             break;
         default:
             return ControllerState::handleEvent(e);
