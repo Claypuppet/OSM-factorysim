@@ -10,4 +10,8 @@ namespace MachineCore {
             : application(aMachineInfo){
 
     }
+
+    Application &Controller::getApplication() {
+        return application;
+    }
 }

@@ -13,6 +13,8 @@ namespace MachineCore{
         Controller(const Models::Machine& aMachineInfo);
         virtual ~Controller() = default;
 
+        Application &getApplication();
+
     protected:
         Application application;
     };
