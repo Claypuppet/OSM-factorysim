@@ -61,7 +61,27 @@ void Core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
     switch(messageType)
     {
         case Network::Protocol::kAppMessageTypeRegisterMachine:
-            handleRegisterMachine(message.getBody(), connection);
+            handleRegisterMachine(connection, message);
+            break;
+        case Network::Protocol::kAppMessageTypeInitialConfigure:
+            handleStartInit(message);
+            break;
+        case Network::Protocol::kAppMessageTypeOK:
+            handleOK(message);
+            break;
+        case Network::Protocol::kAppMessageTypeNOK:
+            handleNOK(message);
+            break;
+        case Network::Protocol::kAppMessageTypeDoneProcessing:
+            handleDoneProcesssing(message);
+            break;
+        case Network::Protocol::kAppMessageTypeStartedProcessing:
+            handleStartProcessing(message);
+            break;
+        case Network::Protocol::kAppMessageTypeReady:
+            handleMachineReady(message);
+            break;
+        default:
             break;
     }
 }
@@ -78,12 +98,66 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 }
 
 
-void Core::AppConnectionHandler::handleRegisterMachine(const std::string &msgBody, Network::ConnectionPtr connection) {
-//    uint8_t machineId = std::strtoul(msgBody.c_str(), nullptr, 10);
-//    Patterns::NotifyObserver::NotifyEvent notification;
-//    notification.setEvent(ApplicationRegisterMachine);
-//    notification.addArgument(machineId);
-//    notification.addArgument(connection);
-//    notifyObservers(notification);
+void Core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationRegisterMachine);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
 
+    notification.setArgument(0, machineId);
+    notification.setArgument(1, connection);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationMachineReady);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleStartInit(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationStartInit);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleStartProcessing(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationStartProcessing);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleDoneProcesssing(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationDoneProcessing);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleOK(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationOK);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
+}
+
+void Core::AppConnectionHandler::handleNOK(Network::Message &message) {
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationNOK);
+    uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
+
+    notification.setArgument(0, machineId);
+
+    notifyObservers(notification);
 }
