@@ -38,7 +38,7 @@ Core::MachinePtr Core::SimulationController::getMachine(uint16_t machineId) {
 
 
 void Core::SimulationController::addMachine(Core::Machine &m) {
-
+//TODO Add simulated machine to list of simulated machines ???
 }
 
 

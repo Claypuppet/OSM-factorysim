@@ -42,6 +42,14 @@ namespace Simulation {
         void
         onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
+
+        /**
+       * If message is received check for type and tries to fire an event with messageBody and connectionPointer
+         * Possible Events:
+         * MCsim -> PCsim kSimMessageTypeRegister: Register external simulationmachine to receive future data for simulations
+       * @param connection : connection to listen to
+       * @param message : incomming message
+       */
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
 
