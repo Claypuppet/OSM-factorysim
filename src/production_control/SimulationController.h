@@ -25,6 +25,7 @@ namespace Core {
         Core::MachinePtr getMachine(uint16_t id);
 
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
+        void turnOnSimulationMachines();
 
 		void setupNetwork();
 		void execute();
@@ -44,7 +45,6 @@ namespace Core {
         ThreadPtr serverThread;
         Network::ServerPtr server;
         std::vector<Core::Machine> machines;
-        bool executing;
         std::string configFile;
 
 

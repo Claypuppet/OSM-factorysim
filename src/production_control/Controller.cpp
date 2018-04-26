@@ -5,10 +5,14 @@
 #include "Controller.h"
 
 
-Core::Controller::Controller() {
+Core::Controller::Controller() : executing(false) {
 
 }
 
-Core::Controller::~Controller() {
+void Core::Controller::execute() {
+	executing = true;
+	while(executing){
+		run();
+	}
 
 }
