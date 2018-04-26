@@ -12,9 +12,11 @@
 #include "NotificationTypes.h"
 #include "ConfigurationReader.h"
 
+//No simulation start normal production control
 Core::SimulationController::SimulationController() : Core::Controller() {
 }
 
+//This is a simulation, parse configfile
 Core::SimulationController::SimulationController(const std::string &aConfigFile) : configFile(aConfigFile) {
 
 }
@@ -87,7 +89,6 @@ void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObs
 
 void Core::SimulationController::execute() {
     setStartState();
-
     Core::Controller::execute();
 }
 

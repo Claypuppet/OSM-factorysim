@@ -15,7 +15,7 @@ namespace Core {
     public:
 
         /**
-         * makes instantiation of Simulationcontroller but does not start execution???
+         * executes productioncontrol, because no configfile was given
         */
         SimulationController();
 
@@ -55,7 +55,7 @@ namespace Core {
         void setupNetwork();
 
         /**
-         * sets start state and makes sure that it stays in execution loop while executing == true
+         * sets start state and start sure that it stays in execution loop while executing == trues production control
         */
         void execute();
 
