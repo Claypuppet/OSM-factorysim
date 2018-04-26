@@ -12,11 +12,8 @@
 #include "NotificationTypes.h"
 #include "ConfigurationReader.h"
 
-
-Core::SimulationController::SimulationController() : executing(false){
-
+Core::SimulationController::SimulationController() : Core::Controller() {
 }
-
 
 Core::SimulationController::SimulationController(const std::string &aConfigFile) : configFile(aConfigFile) {
 
@@ -58,7 +55,6 @@ void Core::SimulationController::setupNetwork(){
     server->start();
 }
 
-
 void Core::SimulationController::sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection) {
     Core::MachinePtr machine = Core::SimulationController::getMachine(m);
     if (machine) {
@@ -89,16 +85,10 @@ void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObs
 
 }
 
-
-
-
 void Core::SimulationController::execute() {
     setStartState();
 
-    executing = true;
-    while(executing){
-        run();
-    }
+    Core::Controller::execute();
 }
 
 
@@ -111,6 +101,7 @@ void Core::SimulationController::setStartState() {
 	e->setArgument<std::string>(configFile);
 	scheduleEvent(e);
 }
+
 
 
 void Core::SimulationController::setConfigFromFile(const std::string &configFile) {
@@ -138,5 +129,9 @@ void Core::SimulationController::setConfigFromFile(const std::string &configFile
 //		scheduleEvent(e);
 //	}
 
+}
+
+void Core::SimulationController::turnOnSimulationMachines() {
+	// TODO: send turn on to connected sim machines
 }
 

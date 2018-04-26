@@ -50,6 +50,7 @@ namespace Core {
         * @return  : Pointer of requested machine
         */
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
+        void turnOnSimulationMachines();
 
         void setupNetwork();
 
@@ -87,7 +88,6 @@ namespace Core {
         ThreadPtr serverThread;
         Network::ServerPtr server;
         std::vector<Core::Machine> machines;
-        bool executing;
         std::string configFile;
 
 

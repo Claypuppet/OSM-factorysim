@@ -14,10 +14,13 @@ namespace Core {
     public:
         Controller();
 
-        virtual ~Controller();
+        virtual ~Controller() = default;
+
+        virtual void execute();
 
     private:
         Application application;
+        bool executing;
     };
 }
 
