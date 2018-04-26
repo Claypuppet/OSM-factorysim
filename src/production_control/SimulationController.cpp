@@ -85,7 +85,6 @@ void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObs
 
     auto id = notification.getArgumentAsType<uint16_t>(0);
     auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
-    registerMachine(id, connection);
     sendConfigureMachine(id, connection);
 
 }
