@@ -13,49 +13,71 @@
 namespace Core {
     class SimulationController : public Controller, public Patterns::NotifyObserver::Observer {
     public:
+
+        /**
+         * makes instantiation of Simulationcontroller but does not start execution???
+        */
         SimulationController();
 
         virtual ~SimulationController() = default;
 
+        /**
+         * start simulation by reading config file
+         * @param aConfigFile : path to YAML config file
+        */
         SimulationController(const std::string &);
 
-/**
-     * checks if Event has defined action in this controller and tries to execute this, fires StateEvent or/and changes state
-     * Supported Events
-       * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
-     * @param &notification : NotifyEvent implementation
-     */
+        /**
+        * checks if Event has defined action in this controller and tries to execute this, fires StateEvent or/and changes state
+        * ---Supported Events---
+        * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
+        * @param &notification : NotifyEvent implementation
+        */
         void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
 
         void addMachine(Core::Machine &m);
 
         /**
-     * @param machineId : Id of given machine
-     * @return machinePointer : Pointer of requested machine
-     */
+         * @param machineId : Id of given machine
+         * @return machinePointer : Pointer of requested machine
+         */
         Core::MachinePtr getMachine(uint16_t id);
 
+        /**
+        * @param m : Id of given machine
+        * @param connection : Connectionpointer to connection.
+        * @return  : Pointer of requested machine
+        */
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
 
         void setupNetwork();
 
+        /**
+         * sets start state and makes sure that it stays in execution loop while executing == true
+        */
         void execute();
 
-
+        /**
+         * parses config file and sets to local variable model,
+         * After that it will push imported machines into vector of machines
+         *
+        */
         void setConfigFromFile(const std::string &);
 
     private:
+        /**
+         * sets start state and fires event to read config file
+        */
         void setStartState();
 
         /**
-         * registers machine
- * @param machineId : Id of given machine
- * @return machinePointer : Pointer of requested machine
- */
+         * registers machine to vector of machines.
+         * @param machineId : Id of given machine
+         * @return machinePointer : Pointer of requested machine
+         */
         void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
 
-        void registerMachine(uint16_t machineId, const Network::ConnectionPtr connection);
 
         void sendTurnOnMachine(uint16_t m);
 

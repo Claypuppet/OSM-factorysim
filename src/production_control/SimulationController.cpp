@@ -12,7 +12,14 @@
 #include "NotificationTypes.h"
 #include "ConfigurationReader.h"
 
+
 Core::SimulationController::SimulationController() : executing(false){
+
+}
+
+
+Core::SimulationController::SimulationController(const std::string &aConfigFile) : configFile(aConfigFile) {
+
 }
 
 void Core::SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
@@ -51,6 +58,7 @@ void Core::SimulationController::setupNetwork(){
     server->start();
 }
 
+
 void Core::SimulationController::sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection) {
     Core::MachinePtr machine = Core::SimulationController::getMachine(m);
     if (machine) {
@@ -78,13 +86,11 @@ void Core::SimulationController::handleRegisterMachine(const Patterns::NotifyObs
     auto id = notification.getArgumentAsType<uint16_t>(0);
     auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
     registerMachine(id, connection);
+    sendConfigureMachine(id, connection);
+
 }
 
 
-void Core::SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
-
-    sendConfigureMachine(machineId, connection);
-}
 
 
 void Core::SimulationController::execute() {
@@ -96,6 +102,7 @@ void Core::SimulationController::execute() {
     }
 }
 
+
 void Core::SimulationController::setStartState() {
     auto startState = std::make_shared<States::LoadConfigState>(*this);
     setCurrentState(startState);
@@ -106,9 +113,6 @@ void Core::SimulationController::setStartState() {
 	scheduleEvent(e);
 }
 
-Core::SimulationController::SimulationController(const std::string &aConfigFile) : configFile(aConfigFile) {
-
-}
 
 void Core::SimulationController::setConfigFromFile(const std::string &configFile) {
 
@@ -119,8 +123,8 @@ void Core::SimulationController::setConfigFromFile(const std::string &configFile
 	Models::ProductionLine productionline = model.getProductionLineConfiguration();
 	Models::SimulationInfo simInfo = model.getSimulationInfoConfiguration();
 
-	std::vector<Models::Machine> machines = productionline.getMachines();
-	for(Models::Machine m : machines)
+    std::vector<Models::Machine> ModelMachines = productionline.getMachines();
+    for (Models::Machine m : ModelMachines)
 	{
 		machines.push_back(m);
 	}
