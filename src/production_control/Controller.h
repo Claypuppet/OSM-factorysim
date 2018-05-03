@@ -10,15 +10,23 @@
 #include "patterns/statemachine/Context.h"
 
 namespace Core {
-    class Controller : public Patterns::Statemachine::Context {
+    class Controller {
     public:
         Controller();
 
         virtual ~Controller() = default;
 
+        /**
+         * Execute main loop
+         */
         virtual void execute();
 
-    private:
+        /**
+         * Stop the execution.
+         */
+        virtual void stop();
+
+    protected:
         Application application;
         bool executing;
     };

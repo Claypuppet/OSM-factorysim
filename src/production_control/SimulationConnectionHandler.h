@@ -8,17 +8,11 @@
 
 #include <network/Connection.h>
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <models/Configuration.h>
+#include <models/Machine.h>
+
 #include "SimulationController.h"
 
-
-namespace Model {
-    class Machine;
-
-    class MachineConfiguration;
-
-    typedef std::shared_ptr<Machine> MachinePtr;
-    typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
-}
 
 namespace Simulation {
 
@@ -61,13 +55,13 @@ namespace Simulation {
          * @param machine : machine model to fill
          * @return bool : success
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Model::MachinePtr machine);
+        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machine);
 
         /**
          * Handles new machine info receive
          * @param machine
          */
-        void onSimulationMachineInfoReceived(const Model::Machine &machine);
+        void onSimulationMachineInfoReceived(const Models::Machine &machine);
 
 
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);

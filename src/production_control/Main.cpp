@@ -11,13 +11,13 @@ int main(int argc, char** argv)
 //	CommandLineArguments::i().setCommandlineArguments(argc, argv);
 	if(argc == 2){
 		std::string simFile(argv[1]);
-		Core::SimulationController controller(simFile);
+		Simulation::SimulationController controller(simFile);
 		controller.execute();
 
 	}
 
 
-	// TODO : unit test?
+	// TODO : move to unit test?
 
 //	ConfigLoader::ConfigurationReader reader;
 //	Models::Configuration inputConfig;

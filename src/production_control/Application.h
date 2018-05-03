@@ -11,7 +11,7 @@
 
 namespace Core {
 
-    class Application : public Patterns::NotifyObserver::Observer{
+    class Application : public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
     public:
         /**
         * Default Constructor

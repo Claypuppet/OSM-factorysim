@@ -22,6 +22,8 @@ link_directories(${Boost_LIBRARY_DIR} )
 
 add_executable(app_machine_control
         src/machine_control/Main.cpp
+        src/machine_control/config.h
+        src/machine_control/ControllerNotificationEventIds.h
         src/machine_control/SimulationNetworkComponent.cpp
         src/machine_control/SimulationNetworkComponent.h
         src/machine_control/Controller.cpp
@@ -33,8 +35,27 @@ add_executable(app_machine_control
         src/machine_control/SimulationApplication.cpp
         src/machine_control/SimulationApplication.h
         src/machine_control/NetworkComponent.cpp
-        src/machine_control/states_production/Broken/BrokenState.cpp src/machine_control/states_production/Broken/BrokenState.h src/machine_control/states_production/ProductionState.cpp src/machine_control/states_production/ProductionState.h src/machine_control/states_production/Broken/RepairingState.cpp src/machine_control/states_production/Broken/RepairingState.h src/machine_control/states_production/Inititalization/ConfigureState.cpp src/machine_control/states_production/Inititalization/ConfigureState.h src/machine_control/states_production/Inititalization/SelfTestState.cpp src/machine_control/states_production/Inititalization/SelfTestState.h src/machine_control/states_production/ConnectState.cpp src/machine_control/states_production/ConnectState.h src/machine_control/states_production/InOperation/IdleState.cpp src/machine_control/states_production/InOperation/IdleState.h src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.cpp src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.cpp src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.h src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.cpp src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.h
         src/machine_control/NetworkComponent.h
+        src/machine_control/states_production/Broken/BrokenState.cpp
+        src/machine_control/states_production/Broken/BrokenState.h
+        src/machine_control/states_production/ProductionState.cpp
+        src/machine_control/states_production/ProductionState.h
+        src/machine_control/states_production/Broken/RepairingState.cpp
+        src/machine_control/states_production/Broken/RepairingState.h
+        src/machine_control/states_production/Inititalization/ConfigureState.cpp
+        src/machine_control/states_production/Inititalization/ConfigureState.h
+        src/machine_control/states_production/Inititalization/SelfTestState.cpp
+        src/machine_control/states_production/Inititalization/SelfTestState.h
+        src/machine_control/states_production/ConnectState.cpp
+        src/machine_control/states_production/ConnectState.h
+        src/machine_control/states_production/InOperation/IdleState.cpp
+        src/machine_control/states_production/InOperation/IdleState.h
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.cpp 
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h 
+        src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.cpp
+        src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.h
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.cpp
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.h
         src/machine_control/states_simulation/SimulationState.cpp
         src/machine_control/states_simulation/SimulationState.h
         src/machine_control/states_simulation/InitializeSimulationState.cpp
@@ -46,8 +67,7 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/FindProductControlState.cpp
         src/machine_control/states_simulation/FindProductControlState.h
         src/machine_control/states_simulation/ConnectSimulationState.cpp
-        src/machine_control/states_simulation/ConnectSimulationState.h
-        src/machine_control/config.h src/machine_control/ControllerNotificationEventIds.h)
+        src/machine_control/states_simulation/ConnectSimulationState.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp
@@ -63,12 +83,10 @@ add_executable(app_production_control
         src/production_control/SimulationConnectionHandler.h
         src/production_control/SimulationController.cpp
         src/production_control/SimulationController.h
+        src/production_control/SimulationMachine.cpp
+        src/production_control/SimulationMachine.h
         src/production_control/Controller.cpp
         src/production_control/Controller.h
-        src/production_control/states_controller/BroadCastState.cpp
-        src/production_control/states_controller/BroadCastState.h
-        src/production_control/states_controller/ConnectMachinesState.cpp
-        src/production_control/states_controller/ConnectMachinesState.h
         src/production_control/states_controller/LoadConfigState.cpp
         src/production_control/states_controller/LoadConfigState.h
         src/production_control/states_controller/OperationState.cpp
@@ -77,8 +95,16 @@ add_executable(app_production_control
         src/production_control/states_controller/SimulationBroadcastState.cpp
         src/production_control/states_controller/SimulationWaitForConnectionsState.cpp
         src/production_control/states_controller/SimulationWaitForConnectionsState.h
-        src/production_control/states_controller/WaitForConnectionsState.h
-        src/production_control/states_controller/WaitForConnectionsState.cpp src/production_control/states_controller/ControllerState.cpp src/production_control/states_controller/ControllerState.h)
+        src/production_control/states_controller/ControllerState.cpp
+        src/production_control/states_controller/ControllerState.h
+        src/production_control/states_application/BroadCastState.cpp
+        src/production_control/states_application/BroadCastState.h
+        src/production_control/states_application/ConnectMachinesState.cpp
+        src/production_control/states_application/ConnectMachinesState.h
+        src/production_control/states_application/WaitForConnectionsState.h
+        src/production_control/states_application/WaitForConnectionsState.cpp
+        src/production_control/states_application/ApplicationState.cpp
+        src/production_control/states_application/ApplicationState.h)
 
 
 add_executable(app_visualizer

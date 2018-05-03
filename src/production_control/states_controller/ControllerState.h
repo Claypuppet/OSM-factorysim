@@ -28,13 +28,14 @@ namespace States {
 
 	public:
 		virtual ~ControllerState() = default;
-		virtual bool handleEvent(const EventPtr &e);
+		virtual bool handleEvent(const EventPtr &e) override;
 		virtual void entryAction() = 0;
 		virtual void doActivity() = 0;
 		virtual void exitAction() = 0;
+
 	protected:
-		ControllerState(Core::SimulationController &);
-		Core::SimulationController& context;
+		ControllerState(Simulation::SimulationController &);
+		Simulation::SimulationController& context;
 
 	};
 

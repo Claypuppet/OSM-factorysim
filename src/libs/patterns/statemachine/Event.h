@@ -38,25 +38,85 @@ namespace Patterns {
 			 * @return T : argument of type T, or nullptr if cast failed
 			 */
 			template<typename T>
-			T getArgumentAsType() const
+			T getArgumentAsType(uint32_t index) const
 			{
-				return boost::any_cast<T>(argument);
+				return boost::any_cast<T>(mArguments[index]);
 			}
 
 			/**
-			 * Add argument
-			 * @tparam T : type of the argument
-			 * @param value : Argument value to add
+			 * Get first argument, will be casted to T
+			 * @tparam T : type to cast the argument to
+			 * @return T : argument of type T, or nullptr if cast failed
 			 */
-			template <typename T>
-			void setArgument(const T& value)
+			template<typename T>
+			T getArgumentAsType() const
 			{
-				argument = value;
+				return boost::any_cast<T>(mArguments.front());
 			}
 
-        private:
-            uint32_t id;
-			boost::any argument;
+			/**
+			 * get number of arguments
+			 * @return : number of arguments
+			 */
+			uint32_t getNumberOfArguments() {
+				return static_cast<uint32_t>(mArguments.size());
+			}
+
+
+			/**
+			 * Append argument
+			 * @tparam T : type of the argument
+			 * @param value : Argument value to add to argument list
+			 */
+			template <typename T>
+			void addArgument(const T& value)
+			{
+				mArguments.push_back(value);
+			}
+
+			/**
+			 * Set argument on index 0
+			 * @tparam T : type of the argument
+			 * @param value : Argument value to set
+			 */
+			template<typename T>
+			void setArgument(const T& value)
+			{
+				// set on first
+				uint32_t index = 0;
+				if(index > mArguments.size())
+					throw new std::out_of_range("index > size()");
+				if(index == mArguments.size())
+					mArguments.push_back(value);
+				else
+					mArguments[index] = value;
+			}
+
+			/**
+			 *
+			 * Set argument on given index
+			 * @tparam T : type of the argument
+			 * @param index : Argument index
+			 * @param value : Argument value to set
+			 */
+			template<typename T>
+			void setArgument(uint32_t index, const T& value)
+			{
+				if(index > mArguments.size())
+					throw new std::out_of_range("index > size()");
+				if(index == mArguments.size())
+					mArguments.push_back(value);
+				else
+					mArguments[index] = value;
+			}
+
+
+
+		protected:
+			using Arguments = std::vector<boost::any>;
+
+			uint32_t		id;
+			Arguments		mArguments;
         };
     }
 }

@@ -4,18 +4,24 @@
 
 #include "OperationState.h"
 
-void States::OperationState::doActivity() {
+namespace States {
 
-}
+	OperationState::OperationState(Simulation::SimulationController &context) : ControllerState(context) {}
 
-void States::OperationState::entryAction() {
+	void OperationState::entryAction() {
+//	    context.application->setStartState();
+	}
 
-}
+	void OperationState::doActivity() {
+//	    context.application->run();
+	}
 
-void States::OperationState::exitAction() {
+	void OperationState::exitAction() {
+//		context.application.stop()
+	}
 
-}
+	bool OperationState::handleEvent(const EventPtr &e) {
+		return false;
+	}
 
-bool States::OperationState::handleEvent(const EventPtr &e) {
-    return false;
 }

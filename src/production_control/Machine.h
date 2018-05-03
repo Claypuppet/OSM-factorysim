@@ -15,10 +15,10 @@ namespace Core {
     public:
 
         /**
-         * Constructs a machine
+         * Constructs a machine from existing machine information
          * @param aMachine
          */
-        Machine(Models::Machine aMachine);
+        explicit Machine(const Models::Machine &aMachine);
 
         /**
         * Copy constructor
@@ -33,7 +33,7 @@ namespace Core {
         */
         Machine &operator=(const Machine &rhs);
 
-        ~Machine() = default;
+        virtual ~Machine() = default;
 
         /**
         * A function to send a message to this machine

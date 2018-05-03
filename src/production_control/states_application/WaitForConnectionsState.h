@@ -6,12 +6,12 @@
 #define PRODUCTION_LINE_CONTROL_WAITFORCONNECTIONSSTATE_H
 
 
-#include "ControllerState.h"
+#include "ApplicationState.h"
 
-namespace States {
-    class WaitForConnectionsState : public ControllerState {
+namespace ApplicationStates {
+    class WaitForConnectionsState : public ApplicationState {
     public:
-        WaitForConnectionsState(Core::SimulationController &context) : ControllerState(context){};
+        WaitForConnectionsState(Core::Application &context);
 
         bool handleEvent(const EventPtr &e) override;
 

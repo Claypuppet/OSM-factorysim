@@ -12,7 +12,10 @@ Core::Controller::Controller() : executing(false) {
 void Core::Controller::execute() {
 	executing = true;
 	while(executing){
-		run();
+		application.run();
 	}
+}
 
+void Core::Controller::stop() {
+	executing = false;
 }

@@ -5,6 +5,12 @@
 #include "SimulationBroadcastState.h"
 #include "SimulationWaitForConnectionsState.h"
 
+
+States::SimulationBroadcastState::SimulationBroadcastState(Simulation::SimulationController &context) :
+		ControllerState(context)
+{
+}
+
 void States::SimulationBroadcastState::doActivity() {
 
     // temp move directly to next state

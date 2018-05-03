@@ -11,7 +11,7 @@
 namespace States {
     class SimulationWaitForConnectionsState : public ControllerState {
     public:
-        SimulationWaitForConnectionsState(Core::SimulationController &context) : ControllerState(context){};
+        SimulationWaitForConnectionsState(Simulation::SimulationController &context);
 
         bool handleEvent(const EventPtr &e) override;
 

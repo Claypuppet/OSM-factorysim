@@ -6,13 +6,13 @@
 #define PRODUCTION_LINE_CONTROL_CONNECTMACHINESSTATE_H
 
 
-#include "ControllerState.h"
+#include "ApplicationState.h"
 
-namespace States {
+namespace ApplicationStates {
 
-    class ConnectMachinesState : public ControllerState {
+    class ConnectMachinesState : public ApplicationState {
     public:
-        ConnectMachinesState(Core::SimulationController &context) : ControllerState(context){};
+        ConnectMachinesState(Core::Application &context);
 
         /**
          * Handles the doActivity of the context state

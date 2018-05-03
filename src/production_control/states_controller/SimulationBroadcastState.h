@@ -11,10 +11,10 @@
 namespace States {
     class SimulationBroadcastState : public ControllerState {
     public:
-        SimulationBroadcastState(Core::SimulationController &context) : ControllerState(context){};
+        SimulationBroadcastState(Simulation::SimulationController &context);
 
         /**
-         * Broadcasts the ip and port of the SimulationControll component over the network
+         * Broadcasts the ip and port over the network
          */
         void doActivity() override;
 
