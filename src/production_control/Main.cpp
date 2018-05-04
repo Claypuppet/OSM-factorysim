@@ -1,23 +1,21 @@
-#include <models/Configuration.h>
-#include <models/MachineConfiguration.h>
-#include <cereal/archives/portable_binary.hpp>
+
+
 #include "SimulationController.h"
-#include "ConfigurationReader.h"
-//#include "command_line/CommandLineArguments.h"
+#include "utils/CommandLineArguments.h"
+
 
 int main(int argc, char** argv)
 {
-	// TODO, set command line arguments
-//	CommandLineArguments::i().setCommandlineArguments(argc, argv);
-	if(argc == 2){
-		std::string simFile(argv[1]);
-		Simulation::SimulationController controller(simFile);
-		controller.execute();
+	Utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
-	}
+	Simulation::SimulationController controller;
+	controller.execute();
+
+	return 0;
+}
 
 
-	// TODO : move to unit test?
+// TODO : move to unit test?
 
 //	ConfigLoader::ConfigurationReader reader;
 //	Models::Configuration inputConfig;
@@ -40,6 +38,3 @@ int main(int argc, char** argv)
 //	inputArchive(outputConfig);
 //
 //	std::cout << outputConfig.getName() << std::endl;
-
-	return 0;
-}

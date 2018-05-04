@@ -48,6 +48,12 @@ namespace Core {
         bool isServerRunning();
 
         /**
+         * Setup server connections for application
+         */
+        void setupNetwork();
+
+
+        /**
         *  Start the server if it's not running
         */
         void startServer();

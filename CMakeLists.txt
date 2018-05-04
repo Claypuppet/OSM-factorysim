@@ -179,13 +179,13 @@ file(GLOB lib_silly_objects_SRC
 add_library(lib_silly_objects SHARED
         ${lib_silly_objects_SRC})
 
-# Lib logger
-file(GLOB lib_logger_SRC
-        "src/libs/Logger/**.h"
-        "src/libs/Logger/**.cpp")
+# Lib utils
+file(GLOB lib_utils_SRC
+        "src/libs/utils/**.h"
+        "src/libs/utils/**.cpp")
 
-add_library(lib_logger SHARED
-        ${lib_logger_SRC})
+add_library(lib_utils SHARED
+        ${lib_utils_SRC})
 
 
 install(TARGETS
@@ -194,7 +194,7 @@ install(TARGETS
         lib_patterns
         lib_yaml-cpp
         lib_models
-        lib_logger
+        lib_utils
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
@@ -203,12 +203,13 @@ install(TARGETS
 
 # Libs
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
-target_link_libraries(lib_network lib_logger ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(lib_utils lib_patterns)
+target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_models lib_yaml-cpp)
 
 # Production control & test
-target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_logger lib_patterns)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
 target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 
 # Machine control & test

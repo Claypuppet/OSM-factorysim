@@ -31,12 +31,6 @@ namespace Simulation {
         SimulationController() = default;
 
 		/**
-		 * !! Temporary constructor with config file. command line argument object will be used in future.
-		 * @param configFile: path to config file
-		 */
-		SimulationController(const std::string &configFile);
-
-		/**
 		 * Destruct
 		 */
 		virtual ~SimulationController() = default;

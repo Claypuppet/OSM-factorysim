@@ -4,7 +4,7 @@
 
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
-#include <command_line/CommandLineArguments.h>
+#include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
 
 #include "SimulationController.h"
@@ -15,10 +15,6 @@
 
 
 namespace Simulation {
-
-	SimulationController::SimulationController(const std::string &aConfigFile) : configPath(aConfigFile) {
-	}
-
 
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
@@ -87,6 +83,11 @@ namespace Simulation {
 		setCurrentState(startState);
 
 		// TEMP!!!!? set first config file as event for LoadConfigState
+		configPath = Utils::CommandLineArguments::i().getArg(0);
+		if (configPath.empty()){
+			// throw exception when no argument is given.
+			throw std::runtime_error("No configuration file argument found!");
+		}
 		auto e = std::make_shared<States::Event>(States::kEventTypeReadConfigFile);
 		e->setArgument<std::string>(configPath);
 		scheduleEvent(e);
