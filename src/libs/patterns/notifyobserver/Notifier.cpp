@@ -14,13 +14,13 @@ namespace Patterns {
 		}
 
 
-		NotifyEvent::NotifyEvent(const NotifyTrigger& trigger)
-				: NotifyEvent(trigger, nullptr, 0)
+		NotifyEvent::NotifyEvent(Notifier* notifier, NotifyEventId eventId)
+				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), notifier, eventId)
 		{
 		}
 
-		NotifyEvent::NotifyEvent()
-				: NotifyEvent(NotifyTrigger(kNotifyTriggerId_Unspecified), nullptr, 0)
+		NotifyEvent::NotifyEvent(NotifyEventId triggerId)
+				: NotifyEvent(nullptr, triggerId)
 		{
 		}
 
@@ -32,12 +32,12 @@ namespace Patterns {
 			return mTrigger;
 		}
 
-		NotifyEvent &NotifyEvent::setTrigger(NotifyTrigger &trigger) {
-			return mTrigger = trigger, *this;
+		void NotifyEvent::setTrigger(NotifyTrigger &trigger) {
+			mTrigger = trigger;
 		}
 
-		NotifyEvent &NotifyEvent::setNotifier(Notifier *notifier) {
-			return mNotifier = notifier, *this;
+		void NotifyEvent::setNotifier(Notifier *notifier) {
+			mNotifier = notifier;
 		}
 
 		NotifyEventId NotifyEvent::getEventId() const {

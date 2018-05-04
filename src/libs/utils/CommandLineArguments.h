@@ -27,7 +27,7 @@ namespace Utils {
 		explicit operator const std::string&() const;
 
 		/**
-		 *
+		 * create new command line argument with id, the name (variable) and the value
 		 * @param anArgumentNumber
 		 * @param aVariable
 		 * @param aValue
@@ -37,51 +37,36 @@ namespace Utils {
 								const std::string& aValue);
 
 		/**
-		 *
+		 *copy constructor
 		 * @param aCommandlineArgument
 		 */
 		CommandlineArgument( const CommandlineArgument& aCommandlineArgument);
 		/**
-		 *
+		 * destruct
 		 */
 		virtual ~CommandlineArgument() = default;
 
 
-		/**
-		 *
-		 */
 		CommandlineArgument& operator=( const CommandlineArgument& aCommandlineArgument);
-
-		/**
-		 *
-		 */
 		bool operator==( uint16_t anArgumentNumber) const;
-
-		/**
-		 *
-		 */
 		bool operator==( const std::string& aVariable) const;
-
-		/**
-		 *
-		 */
 		bool operator==( const CommandlineArgument& other) const;
-
-		/**
-		 *	Only compares the argument number.
-		 */
 		bool operator<( const CommandlineArgument& aCommandlineArgument) const;
 
-
+		/**
+		 * get the default empty argument
+		 * @return
+		 */
 		static const CommandlineArgument& getNone();
-		uint16_t argumentNumber;
-		std::string variable;
-		std::string value;
+
+		uint16_t argumentNumber;	// argument index
+		std::string variable;		// argument variable name
+		std::string value;			// argument value
 	};
 
 	/**
 	 * Holds all command line arguments, copied from Robotworld
-	 * named:  -x value
+	 * named:  -x value, -x=value
 	 *  Will be stored in CommandLineArgument vector
 	 * unnamed:  value
 	 * 	Will be stored in string vector

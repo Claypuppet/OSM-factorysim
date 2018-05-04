@@ -92,7 +92,7 @@ void Core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 }
 
 void Core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationRegisterMachine);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -102,7 +102,7 @@ void Core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
 }
 
 void Core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationMachineReady);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -111,7 +111,7 @@ void Core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
 }
 
 void Core::AppConnectionHandler::handleStartInit(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationStartInit);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -120,7 +120,7 @@ void Core::AppConnectionHandler::handleStartInit(Network::Message &message) {
 }
 
 void Core::AppConnectionHandler::handleStartProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationStartProcessing);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -129,7 +129,7 @@ void Core::AppConnectionHandler::handleStartProcessing(Network::Message &message
 }
 
 void Core::AppConnectionHandler::handleDoneProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationDoneProcessing);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -138,7 +138,7 @@ void Core::AppConnectionHandler::handleDoneProcessing(Network::Message &message)
 }
 
 void Core::AppConnectionHandler::handleOK(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationOK);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -147,7 +147,7 @@ void Core::AppConnectionHandler::handleOK(Network::Message &message) {
 }
 
 void Core::AppConnectionHandler::handleNOK(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ApplicationNotificationTypes::ApplicationNOK);
+    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);

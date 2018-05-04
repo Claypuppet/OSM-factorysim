@@ -33,15 +33,29 @@ namespace Patterns {
 			kNotifyTriggerId_Other
 		};
 
-
+		/**
+		 * NotifyTrigger can be used to let the observer know what triggered this event
+		 * triggerId: where did the trigger come from? (network, model, etc)
+		 * triggerObject: What object initiated the trigger?
+		 */
 		class NotifyTrigger {
 		public:
 			static const NotifyTrigger DoNotNotify;
 
+			/**
+			 * Create trigger with both trigger id and trigger object
+			 * @param triggerId
+			 * @param triggerObject
+			 */
 			NotifyTrigger(NotifyTriggerId triggerId, void *triggerObject)
-					: mTriggerId(triggerId), mTriggerObject(triggerObject) {}
+					: mTriggerId(triggerId), mTriggerObject(triggerObject)
+			{}
 
-			NotifyTrigger(NotifyTriggerId triggerId) : NotifyTrigger(triggerId, nullptr) {};
+			/**
+			 * Create trigger with just triggerId
+			 * @param triggerId
+			 */
+			explicit NotifyTrigger(NotifyTriggerId triggerId) : NotifyTrigger(triggerId, nullptr) {};
 
 			NotifyTrigger() : NotifyTrigger(kNotifyTriggerId_Unspecified, nullptr) {}
 
@@ -77,50 +91,102 @@ namespace Patterns {
 		};
 
 
+		/**
+		 * NotifyEvent holds the information of the notification.
+		 * trigger: NotifyTrigger object (see above)
+		 * notifier: the notifier who notified the observer
+		 * eventId: unique id of the event to let the observer know what kind of event it is.
+		 */
 		class NotifyEvent {
 		public:
-			NotifyEvent(const NotifyTrigger& trigger, Notifier* notifier, NotifyEventId event);
-			NotifyEvent(const NotifyTrigger& trigger);
-			NotifyEvent();
+			/**
+			 * Create full notify event
+			 * @param trigger : trigger object, triggered the event
+			 * @param notifier : the object that notified the event
+			 * @param eventId : Unique identifier for the event type
+			 */
+			NotifyEvent(const NotifyTrigger& trigger, Notifier* notifier, NotifyEventId eventId);
 
+			/**
+			 * Create notify event (without trigger)
+			 * @param notifier : the object that notified the event
+			 * @param eventId : Unique identifier for the event type
+			 */
+			NotifyEvent(Notifier* notifier, NotifyEventId eventId);
+
+			/**
+			 * Create notify event with just an id
+			 * @param eventId : Unique identifier for the event type
+			 */
+			explicit NotifyEvent(NotifyEventId eventId);
+
+			virtual ~NotifyEvent() = default;
+
+			// Getters and setters
 			Notifier* getNotifier() const;
 			NotifyEventId getEventId() const;
 			const NotifyTrigger& getTrigger() const;
+			void setTrigger(NotifyTrigger& trigger);
 
-			NotifyEvent& setEvent(NotifyEventId event);
-			NotifyEvent& setTrigger(NotifyTrigger& trigger);
-
-
+			/**
+			 * get argument on given index
+			 * @param index :
+			 * @return : boost::any so you can cast it yourself
+			 */
 			boost::any getArgument(uint32_t index) const {
 				return mArguments[index];
 			}
 
+			/**
+			 * get an argument as given type
+			 * @tparam T : Type to cast to
+			 * @param index :
+			 * @return : object on given index as given type
+			 */
 			template<typename T>
 			T getArgumentAsType(uint32_t index) const
 			{
 				return boost::any_cast<T>(mArguments[index]);
 			}
 
+			/**
+			 * get first argument as type
+			 * @tparam T : Type to cast to
+			 * @return : object on index 0 as given type
+			 */
 			template<typename T>
 			T getFirstArgumentAsType() const
 			{
 				return boost::any_cast<T>(mArguments.front());
 			}
 
+			/**
+			 * get number of arguments
+			 * @return : number of arguments
+			 */
 			uint32_t getNumberOfArguments() {
 				return static_cast<uint32_t>(mArguments.size());
 			}
 
-
+			/**
+			 * add argument
+			 * @tparam T : type of value
+			 * @param value : value to add
+			 */
 			template <typename T>
-			NotifyEvent& addArgument(const T& value)
+			void addArgument(const T& value)
 			{
 				mArguments.push_back(value);
-				return *this;
 			}
 
+			/**
+			 * set argument
+			 * @tparam T : type of value
+			 * @param index : index to set on
+			 * @param value : value to set
+			 */
 			template<typename T>
-			NotifyEvent& setArgument(uint32_t index, const T& value)
+			void setArgument(uint32_t index, const T& value)
 			{
 				if(index > mArguments.size())
 					throw new std::out_of_range("index > size()");
@@ -128,14 +194,13 @@ namespace Patterns {
 					mArguments.push_back(value);
 				else
 					mArguments[index] = value;
-				return *this;
 			}
 
 		protected:
 
 			friend class Notifier;
 
-			NotifyEvent &setNotifier(Notifier *notifier);
+			void setNotifier(Notifier *notifier);
 
 
 		protected:

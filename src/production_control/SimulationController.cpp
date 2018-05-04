@@ -18,7 +18,7 @@ namespace Simulation {
 
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
-			case SimulationregisterMachine:
+			case NotifyEventIds::eControllerRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
 			default:
