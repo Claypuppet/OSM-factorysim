@@ -20,7 +20,7 @@ namespace Patterns {
         class State {
         public:
             /**
-             * Function that is called when an event is received
+             * Function that handles events
              * @param e : Event to handle
              * @return bool : True when the event is handled
              */
