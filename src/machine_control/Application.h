@@ -17,12 +17,29 @@ namespace MachineCore {
             : public Patterns::Statemachine::Context,
               public Patterns::NotifyObserver::Observer{
     public:
-        virtual void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
-        Application(const Models::Machine& aMachineInfo);
-        virtual ~Application() = default;
+        /**
+         * Constructor
+         * @param aMachineInfo : The value for machineInfo
+         */
+        explicit Application(const Models::Machine& aMachineInfo);
 
+        /**
+         * The destructor
+         */
+        ~Application() override = default;
+
+        /**
+         * Getter for machineInfo
+         * @return machineInfo
+         */
         const Models::Machine &getMachineInfo() const;
+
+        /**
+         * Setter for machineInfo
+         * @param machineInfo : New value for machineInfo
+         */
         void setMachineInfo(const Models::Machine &machineInfo);
 
     private:

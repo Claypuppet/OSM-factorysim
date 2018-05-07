@@ -20,16 +20,25 @@ namespace Patterns {
         class State {
         public:
             /**
-             *
+             * Function that is called when an event is received
              * @param e : Event to handle
-             * @return bool : handled the event
+             * @return bool : True when the event is handled
              */
             virtual bool handleEvent(const EventPtr &e) = 0;
 
+            /**
+             * Function to loop through while the state is active
+             */
             virtual void doActivity() = 0;
 
+            /**
+             * Function that is called when the state is entered
+             */
             virtual void entryAction() = 0;
 
+            /**
+             * Function that is called when leaving a state
+             */
             virtual void exitAction() = 0;
 
         protected:

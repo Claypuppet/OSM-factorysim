@@ -66,6 +66,10 @@ namespace Simulation {
 
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
 
+        /**
+         * Function that handles notifications for registering machines
+         * @param notification : A notification for registering a machine
+         */
         void onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
     };
 }

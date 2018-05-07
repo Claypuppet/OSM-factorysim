@@ -57,25 +57,49 @@ namespace Patterns {
 			 */
 			explicit NotifyTrigger(NotifyTriggerId triggerId) : NotifyTrigger(triggerId, nullptr) {};
 
+			/**
+			 * Default constructor
+			 */
 			NotifyTrigger() : NotifyTrigger(kNotifyTriggerId_Unspecified, nullptr) {}
 
-
+			/**
+			 * Returns the id of the trigger
+			 * @return mTriggerId
+			 */
 			NotifyTriggerId getId() const {
 				return mTriggerId;
 			}
 
+			/**
+			 * Sets a new trigger id
+			 * @param id : The new trigger id
+			 * @return Instance of itself
+			 */
 			NotifyTrigger &setId(NotifyTriggerId id) {
 				return mTriggerId = id, *this;
 			}
 
+			/**
+			 * Returns the trigger object
+			 * @return mTriggerObject
+			 */
 			void *getTriggerObject() const {
 				return mTriggerObject;
 			}
 
+			/**
+			 * Sets a new trigger object
+			 * @param object : The new trigger object
+			 * @return Instance of itseld
+			 */
 			NotifyTrigger &setObject(void *object) {
 				return mTriggerObject = object, *this;
 			}
 
+			/**
+			 * Returns the object as string
+			 * @return NotifyTrigger{id=<mTriggerId>,object=<mTriggerObject>}
+			 */
 			std::string asString() const {
 				std::stringstream ss;
 				ss << "NotifyTrigger{id=" << mTriggerId << ',' << "object=" << mTriggerObject << '}';
@@ -120,12 +144,34 @@ namespace Patterns {
 			 */
 			explicit NotifyEvent(NotifyEventId eventId);
 
+			/**
+			 * The destructor
+			 */
 			virtual ~NotifyEvent() = default;
 
 			// Getters and setters
+			        /**
+			         * Returns the notifier of the event
+			         * @return mNotifier
+			         */
 			Notifier* getNotifier() const;
+
+			/**
+			 * Returns the id of the event
+			 * @return mEventId
+			 */
 			NotifyEventId getEventId() const;
+
+			/**
+			 * Returns the notify trigger
+			 * @return mTrigger
+			 */
 			const NotifyTrigger& getTrigger() const;
+
+			/**
+			 * Sets new notify trigger
+			 * @param trigger : the new trigger
+			 */
 			void setTrigger(NotifyTrigger& trigger);
 
 			/**
@@ -293,8 +339,24 @@ namespace Patterns {
 			virtual void notifyObservers(const NotifyEvent &notification);
 
 
+			/**
+			 * Creates a notification for a notifier
+			 * @param notifier : A pointer to the notifier
+			 * @param trigger : A trigger
+			 * @param eventId : Id for the notify event
+			 * @return The created NotifyEvent
+			 */
 			static NotifyEvent makeNotificationForNotifier(Notifier* notifier, const NotifyTrigger& trigger, NotifyEventId eventId);
 
+			/**
+			 * Creates a notification for a notifier
+			 * @tparam Args
+			 * @param notifier : Pointer to the notifier
+			 * @param trigger : Trigger of the event
+			 * @param eventId : Id of the event
+			 * @param args : Arguments for the event
+			 * @return The created NotifyEvent
+			 */
 			template<typename ...Args>
 			static NotifyEvent makeNotificationForNotifier(Notifier* notifier, const NotifyTrigger& trigger, NotifyEventId eventId, Args&&... args)
 			{
@@ -304,8 +366,22 @@ namespace Patterns {
 			}
 
 
+			/**
+			 * Creates a notification
+			 * @param trigger : Trigger of the notification
+			 * @param event : The id of the notification
+			 * @return The created NotifyEvent
+			 */
 			NotifyEvent makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event);
 
+			/**
+			 * Creates a notification
+			 * @tparam Args
+			 * @param trigger : The trigger of the notification
+			 * @param eventId : The id of the notification
+			 * @param args : The arguments to add to the notification
+			 * @return The created NotifyEvent
+			 */
 			template<typename ...Args>
 			NotifyEvent makeNotificationWithArgs(const NotifyTrigger& trigger, NotifyEventId eventId, Args&&... args)
 			{

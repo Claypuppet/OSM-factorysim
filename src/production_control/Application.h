@@ -23,17 +23,21 @@ namespace Core {
 
         /**
         * A function to add a machine to the machines vector
-        * @param aMachine the machine to add
+        * @param aMachine : The machine to add
         */
         void addMachine(const Machine &aMachine);
 
         /**
         * A function to get a machine by its ID
-        * @param machineId The ID of the machine you are looking for
+        * @param machineId : The ID of the machine you are looking for
         * @return The machine with the requested ID or a nullptr when the machine doesn't exist
         */
         MachinePtr getMachine(uint16_t machineId);
 
+        /**
+         * Getter for server
+         * @return server
+         */
         Network::ServerPtr getServer();
 
         /**
@@ -58,6 +62,10 @@ namespace Core {
         */
         void startServer();
 
+        /**
+         * Function that handles incoming notifications
+         * @param notification : The notification to handle
+         */
         void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
     private:

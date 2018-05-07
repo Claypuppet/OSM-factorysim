@@ -38,17 +38,50 @@ namespace Network
 		typedef tcp::socket SocketType;
 
 	public:
+		/**
+		 * The constuctor
+		 * @param handler : The connection handler
+		 * @param socket : The socket
+		 */
 		Connection(IConnectionHandler* handler, SocketType socket);
 
+		/**
+		 * The destructor
+		 */
 		virtual ~Connection();
 
+		/**
+		 * A function to check if the connection is connected to its endpoint
+		 * @return true when connected to its endpoint
+		 */
 		virtual bool isConnected() const;
 
+		/**
+		 * This function is called when the connection is established
+		 */
 		void established();
+
+		/**
+		 * This function is called when the connction failed to connect
+		 * @param error : The error why the connection failed to connect
+		 */
 		void failed(const error_code& error);
+
+		/**
+		 * Closes the connection
+		 */
 		void close();
 
+		/**
+		 * Getter for the session id
+		 * @return mSessionId
+		 */
 		int getSessionId();
+
+		/**
+		 * Getter for the socket
+		 * @return mSocket
+		 */
 		const SocketType& getSocket() const;
 
 		/**
@@ -65,6 +98,9 @@ namespace Network
 
 	private:
 
+	    /**
+	     * Writes the next message in the mOutMessageQueue
+	     */
 		void writeNextQueuedMessage();
 
 		// The following functions should be protected or private
@@ -119,7 +155,10 @@ namespace Network
 
 		void handleMessageWritten(MessagePtr message);
 
-
+        /**
+         * This function is called when the connection disconnected
+         * @param error : The errot why the connection was disconnected
+         */
 		void disconnected(const error_code& error);
 
 

@@ -20,11 +20,24 @@ namespace Patterns {
 			 */
             explicit Event(uint32_t aId) : id(aId){}
 
+            /**
+             * Copy constructor
+             * @param event : The event to copy
+             */
             Event(const Event& event) : id(event.id){}
             virtual ~Event() = default;
 
+            /**
+             * Returns the id of the event
+             * @return id
+             */
             uint32_t getId() const { return id; };
 
+            /**
+             * Assignment operator
+             * @param e : The assigned Event
+             * @return The new Event
+             */
             Event& operator=(const Event &e){
 				if(this != &e){
 					id = e.id;
