@@ -7,35 +7,116 @@
 
 #include <network/Server.h>
 #include <patterns/notifyobserver/Observer.hpp>
+#include <models/Configuration.h>
 #include "Controller.h"
+#include "SimulationMachine.h"
 
 
+namespace Simulation {
 
-namespace Core {
-    class SimulationController : public Controller, public Patterns::NotifyObserver::Observer {
+    /**
+     * Simualtion controller is the class that controls the application. As for the simualtion part, it will implement
+     * a state machine, and control the application in a way that the machine control can be simulated.
+     * Inherits Controller: as subclass of controller
+     * Inherits Observer (notifier/observer pattern): To subscribe to network component event
+     * Inherits Context (state machine pattern): To define simualtion states (connect to  sim. production control, turn
+     *  machine on/off.
+     */
+    class SimulationController : public Core::Controller, public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
     public:
-        SimulationController();
 
+        /**
+         *
+        */
+        SimulationController() = default;
+
+		/**
+		 * Destruct
+		 */
+		virtual ~SimulationController() = default;
+
+
+        /**
+        * checks if Event has defined action in this controller and tries to execute this, fires StateEvent or/and changes state
+        * ---Supported Events---
+        * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
+        * @param &notification : NotifyEvent implementation
+        */
         void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
-        virtual ~SimulationController() = default;
+        /**
+         * Get machine by id
+         * @param machineId : Id of machine
+         * @return machinePointer : Machine if found else nullptr
+         */
+		SimulationMachinePtr getMachine(uint16_t id);
 
-        void addMachine(Core::Machine& m);
-        Core::MachinePtr getMachine(uint16_t id);
+        /**
+         * Send message to all connected simulation machines to turn on
+         */
+        void turnOnSimulationMachines();
 
-        void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
+        /**
+         * Send message to all connected simulation machines to turn on
+         */
+        void turnOffSimulationMachines();
+
+        /**
+         * Setup simulation network communications
+         */
+        void setupNetwork();
+
+        /**
+         * sets start state and start sure that it stays in execution loop while executing == trues production control
+         */
+        virtual void execute() override;
+
+        /**
+         * Stops all services and ends the execution.
+         */
+        virtual void stop() override;
+
+        /**
+         * parses config file and sets to local variable model,
+         * After that it will push imported machines into vector of machine
+         * @param filePath : location of config file
+         */
+        void setConfigFromFile(const std::string &filePath);
+
+		/**
+		 *
+         * Saves connection in machines vector (if exists) and sends configuration to machine.
+		 * @param machineId : Id of given machine
+		 * @param connection : Network connection to the machine (session)
+		 */
+		void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
+
     private:
-        Network::Manager m;
-        ThreadPtr serverThread;
-        Network::ServerPtr server;
-        std::vector<Core::Machine> machines;
+
+        /**
+         * sets start state and fires event to read config file
+        */
+        void setStartState();
 
         void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
-        void registerMachine(uint16_t machineId, const Network::ConnectionPtr connection);
 
-        void sendTurnOnMachine(uint16_t m);
+        /**
+         * Network properties
+         */
+        Network::Manager networkManager;
+        ThreadPtr serverThread;
+        Network::ServerPtr server;
 
-        void sendTurnOffMachine(uint16_t m);
+        /**
+         * SimulationMachines
+         */
+        std::vector<SimulationMachinePtr> machines;
+
+        /**
+         * Config properties
+         */
+        std::string configPath;
+		Models::Configuration configuration;
 
 
     };

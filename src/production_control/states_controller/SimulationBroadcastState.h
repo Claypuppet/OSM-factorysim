@@ -6,18 +6,19 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONBROADCASTSTATE_H
 
 
-#include <patterns/statemachine/State.h>
+#include "ControllerState.h"
 
 namespace States {
-    class SimulationBroadcastState : public Patterns::Statemachine::State {
+    class SimulationBroadcastState : public ControllerState {
     public:
+        SimulationBroadcastState(Simulation::SimulationController &context);
 
         /**
-         * Broadcasts the ip and port of the SimulationControll component over the network
+         * Broadcasts the ip and port over the network
          */
         void doActivity() override;
 
-        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
+        bool handleEvent(const EventPtr &e) override;
 
         void entryAction() override;
 

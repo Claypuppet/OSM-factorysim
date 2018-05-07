@@ -9,8 +9,7 @@
 
 Core::Application::Application()
 {
-	serverThread = m.runServiceThread();
-    server = m.createServer(std::make_shared<AppConnectionHandler>(), 50);
+
 }
 
 void Core::Application::addMachine(const Machine &aMachine) {
@@ -26,6 +25,19 @@ Core::MachinePtr Core::Application::getMachine(uint16_t machineId) {
         }
     }
     return nullptr;
+}
+
+void Core::Application::setupNetwork(){
+	if(server && server->isRunning()){
+		return;
+	}
+
+	AppConnectionHandler connectionHandler;
+//	handleNotificationsFor(connectionHandler);
+
+	serverThread = m.runServiceThread();
+	server = m.createServer(std::make_shared<AppConnectionHandler>(connectionHandler), 50);
+	server->start();
 }
 
 void Core::Application::joinServerThread() {

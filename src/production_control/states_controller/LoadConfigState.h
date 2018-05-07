@@ -6,13 +6,13 @@
 #define PRODUCTION_LINE_CONTROL_LOADCONFIGSTATE_H
 
 
-#include <patterns/statemachine/State.h>
+#include "ControllerState.h"
 
 namespace States {
-    class LoadConfigState : public Patterns::Statemachine::State {
+    class LoadConfigState : public ControllerState {
     public:
-        LoadConfigState() = default;
-        bool handleEvent(const Patterns::Statemachine::EventPtr &e) override;
+        LoadConfigState(Simulation::SimulationController &context);
+        bool handleEvent(const EventPtr &e) override;
 
         /**
          * Loads configuration and creates machine objects for the Application and SimulationController class

@@ -1406,7 +1406,7 @@ private:
 
     // Iterative Parsing
 
-    // States
+    // states_controller
     enum IterativeParsingState {
         IterativeParsingStartState = 0,
         IterativeParsingFinishState,

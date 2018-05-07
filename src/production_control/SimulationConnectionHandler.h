@@ -8,17 +8,11 @@
 
 #include <network/Connection.h>
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <models/Configuration.h>
+#include <models/Machine.h>
+
 #include "SimulationController.h"
 
-
-namespace Model {
-    class Machine;
-
-    class MachineConfiguration;
-
-    typedef std::shared_ptr<Machine> MachinePtr;
-    typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
-}
 
 namespace Simulation {
 
@@ -42,6 +36,14 @@ namespace Simulation {
         void
         onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
+
+        /**
+       * If message is received check for type and tries to fire an event with messageBody and connectionPointer
+         * Possible Events:
+         * MCsim -> PCsim kSimMessageTypeRegister: Register external simulationmachine to receive future data for simulations
+       * @param connection : connection to listen to
+       * @param message : incomming message
+       */
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
 
@@ -53,13 +55,13 @@ namespace Simulation {
          * @param machine : machine model to fill
          * @return bool : success
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Model::MachinePtr machine);
+        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machine);
 
         /**
          * Handles new machine info receive
          * @param machine
          */
-        void onSimulationMachineInfoReceived(const Model::Machine &machine);
+        void onSimulationMachineInfoReceived(const Models::Machine &machine);
 
 
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);

@@ -5,20 +5,25 @@
 #ifndef PRODUCTION_LINE_CONTROL_NOTIFICATIONTYPES_H
 #define PRODUCTION_LINE_CONTROL_NOTIFICATIONTYPES_H
 
-enum ApplicationNotificationTypes
-{
-    ApplicationRegisterMachine = 0,
-    ApplicationStartInit,
-    ApplicationStartProcessing,
-    ApplicationDoneProcessing,
-    ApplicationMachineReady,
-    ApplicationOK,
-    ApplicationNOK
-};
+namespace NotifyEventIds {
 
-enum SimulationNotificationTypes
-{
-    SimulationregisterMachine = 100
-};
+	enum ApplicationNotificationTypes
+	{
+		eApplicationRegisterMachine = 0,
+		eApplicationStartInit,
+		eApplicationStartProcessing,
+		eApplicationDoneProcessing,
+		eApplicationMachineReady,
+		eApplicationOK,
+		eApplicationNOK
+	};
+
+	enum ControllerNotificationTypes
+	{
+		eControllerRegisterMachine = 100
+
+	};
+
+}
 
 #endif //PRODUCTION_LINE_CONTROL_NOTIFICATIONTYPES_H

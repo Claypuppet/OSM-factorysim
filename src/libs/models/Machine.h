@@ -38,11 +38,12 @@ namespace Models {
         const std::string &getName() const;
         const std::vector<MachineConfiguration> &getConfigurations() const;
 
-    private:
+    protected:
         uint16_t id;
         std::string name;
         std::vector<MachineConfiguration> configurations;
 
+    private:
         template<class Archive>
         void save(Archive& ar) const
         {

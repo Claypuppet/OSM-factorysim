@@ -11,7 +11,7 @@
 
 namespace Core {
 
-    class Application : public Patterns::NotifyObserver::Observer{
+    class Application : public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
     public:
         /**
         * Default Constructor
@@ -46,6 +46,12 @@ namespace Core {
         * @return True when the server is running
         */
         bool isServerRunning();
+
+        /**
+         * Setup server connections for application
+         */
+        void setupNetwork();
+
 
         /**
         *  Start the server if it's not running

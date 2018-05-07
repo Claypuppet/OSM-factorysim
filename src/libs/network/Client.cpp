@@ -14,7 +14,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
-#include <Logger/Logger.h>
+#include <utils/Logger.h>
 
 
 namespace Network {
@@ -87,7 +87,7 @@ namespace Network {
 
 		std::stringstream message;
 		message << "Client: resolved host: '" << entry.host_name() << "' to: '" << endpoint << '\'' << std::endl;
-		Logger::log(message.str());
+		Logger::i().log(message.str());
 
 		asyncConnect(endpoint);
 
@@ -140,7 +140,7 @@ namespace Network {
 		auto self = shared_from_this();
 		std::stringstream message;
 		message << "Client: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
-		Logger::log(message.str());
+		Logger::i().log(message.str());
 		if(auto h = mConnectionHandler)
 			mConnectionHandler->onConnectionEstablished(connection);
 		if(auto l = mServiceEventLister)
@@ -155,7 +155,7 @@ namespace Network {
 		message << "Client: connection with: " << connection->getSocket().remote_endpoint() <<
 				  " disconnected (" << error.message() << ")" << std::endl;
 
-		Logger::log(message.str());
+		Logger::i().log(message.str());
 		if(auto h = mConnectionHandler)
 			h->onConnectionDisconnected(connection, error);
 		stop();
