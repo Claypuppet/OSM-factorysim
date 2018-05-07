@@ -3,22 +3,18 @@
 //
 
 #include "TakeOutProductState.h"
-
 namespace ProductionStates {
-    namespace InOperation {
-        namespace ProcessProduct {
-            void TakeOutProductState::entryAction() {
 
-            }
+void TakeOutProductState::entryAction() {
 
-            void TakeOutProductState::doActivity() {
+}
 
-            }
+void TakeOutProductState::doActivity() {
 
-            void TakeOutProductState::exitAction() {
+}
 
-            }
+void TakeOutProductState::exitAction() {
 
-        }
-    }
+}
+
 }

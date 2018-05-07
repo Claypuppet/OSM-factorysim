@@ -5,27 +5,24 @@
 #ifndef PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H
 
-
 #include "../../ProductionState.h"
+#include "../InOperationState.h"
 
 namespace ProductionStates {
-    namespace InOperation {
-        namespace ProcessProduct {
-            class TakeOutProductState : public ProductionState {
-            public:
-                TakeOutProductState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-                virtual ~TakeOutProductState() = default;
+class TakeOutProductState : public InOperationState {
+ public:
+  TakeOutProductState(MachineCore::Application &aContext) : InOperationState(aContext) {};
 
-                virtual void entryAction();
+  virtual ~TakeOutProductState() = default;
 
+  virtual void entryAction();
 
-                virtual void doActivity();
+  virtual void doActivity();
 
-                virtual void exitAction();
-            };
-        }
-    }
+  virtual void exitAction();
+};
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H

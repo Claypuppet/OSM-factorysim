@@ -7,6 +7,15 @@
 
 #include <patterns/statemachine/State.h>
 #include "../NetworkComponent.h"
+#include "../Application.h"
+
+enum EventType {
+  kMachineBrokeDown,
+};
+
+typedef Patterns::Statemachine::Event Event;
+typedef Patterns::Statemachine::EventPtr EventPtr;
+
 
 namespace ProductionStates {
     class ProductionState : public Patterns::Statemachine::State {
@@ -22,9 +31,9 @@ namespace ProductionStates {
         virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
 
     protected:
-        ProductionState(Patterns::Statemachine::Context& aContext);
+      ProductionState(MachineCore::Application &aContext);
 
-        Patterns::Statemachine::Context& context;
+      MachineCore::Application &context;
     };
 
 }

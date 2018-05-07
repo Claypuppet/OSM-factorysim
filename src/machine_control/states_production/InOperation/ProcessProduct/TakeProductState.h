@@ -5,29 +5,26 @@
 #ifndef PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H
 
-
 #include "../../../NetworkComponent.h"
 #include "../../ProductionState.h"
+#include "../InOperationState.h"
 
 namespace ProductionStates {
-    namespace InOperation {
-        namespace ProcessProduct {
-            class TakeProductState : public ProductionState {
-            public:
-                TakeProductState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
 
-                virtual ~TakeProductState() = default;
+class TakeProductState : public InOperationState {
+ public:
+  TakeProductState(MachineCore::Application &aContext) : InOperationState(aContext) {};
 
-                virtual void entryAction();
+  virtual ~TakeProductState() = default;
 
-                virtual void doActivity();
+  virtual void entryAction();
 
-                virtual void exitAction();
+  virtual void doActivity();
 
-            };
-        }
-    }
+  virtual void exitAction();
+
+};
+        
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H

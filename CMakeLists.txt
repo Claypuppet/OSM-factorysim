@@ -50,8 +50,8 @@ add_executable(app_machine_control
         src/machine_control/states_production/ConnectState.h
         src/machine_control/states_production/InOperation/IdleState.cpp
         src/machine_control/states_production/InOperation/IdleState.h
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.cpp 
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h 
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.cpp
+        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h
         src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.cpp
         src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.h
         src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.cpp
@@ -67,7 +67,7 @@ add_executable(app_machine_control
         src/machine_control/states_simulation/FindProductControlState.cpp
         src/machine_control/states_simulation/FindProductControlState.h
         src/machine_control/states_simulation/ConnectSimulationState.cpp
-        src/machine_control/states_simulation/ConnectSimulationState.h)
+        src/machine_control/states_simulation/ConnectSimulationState.h src/machine_control/states_production/InOperation/InOperationState.cpp src/machine_control/states_production/InOperation/InOperationState.h)
 
 add_executable(app_production_control
         src/production_control/Main.cpp
