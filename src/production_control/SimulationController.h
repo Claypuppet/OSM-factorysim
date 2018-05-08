@@ -83,12 +83,14 @@ namespace Simulation {
          */
         void setConfigFromFile(const std::string &filePath);
 
-		/**
-		 *
-         * Saves connection in machines vector (if exists) and sends configuration to machine.
-		 * @param machineId : Id of given machine
-		 * @param connection : Network connection to the machine (session)
-		 */
+      /**
+       *
+       * Saves connection in machines vector (if exists) and sends configuration to machine.
+       * if there is not yet a connection it will count the machine as machineCount
+       * if machineCount has same number as machinevector size it will fire the kEventTypeSimulationConfigLoaded event
+       * @param machineId : Id of given machine
+       * @param connection : Network connection to the machine (session)
+       */
 		void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
     private:
@@ -115,7 +117,7 @@ namespace Simulation {
          * SimulationMachines
          */
         std::vector<SimulationMachinePtr> machines;
-
+      u_int16_t simMachineCount;
         /**
          * Config properties
          */
