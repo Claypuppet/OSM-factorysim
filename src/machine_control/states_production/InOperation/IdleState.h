@@ -5,26 +5,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_IDLESTATE_H
 #define PRODUCTION_LINE_CONTROL_IDLESTATE_H
 
-
 #include "../ProductionState.h"
+#include "InOperationState.h"
 
 namespace ProductionStates {
-    namespace InOperation {
-        class IdleState : public ProductionState {
-        public:
-            IdleState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
+class IdleState : public InOperationState {
+ public:
+  IdleState(MachineCore::Application &aContext) : InOperationState(aContext) {};
 
-            virtual ~IdleState() = default;
+  virtual ~IdleState() = default;
 
-            virtual void entryAction();
+  virtual void entryAction();
 
+  virtual void doActivity();
 
-            virtual void doActivity();
-
-            virtual void exitAction();
-        };
-    }
+  virtual void exitAction();
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_IDLESTATE_H

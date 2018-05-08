@@ -3,13 +3,12 @@
 //
 
 #include "OnState.h"
-#include "../states_production/ConnectState.h"
 #include "OffState.h"
 
 
 namespace SimulationStates {
 	void OnState::entryAction() {
-	    context.getApplication().setCurrentState(std::make_shared<ProductionStates::ConnectState>(context));
+      context.getApplication().setStartState();
 	}
 
 	void OnState::doActivity() {

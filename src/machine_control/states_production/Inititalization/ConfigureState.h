@@ -5,26 +5,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_CONFIGURESTATE_H
 #define PRODUCTION_LINE_CONTROL_CONFIGURESTATE_H
 
-
 #include "../ProductionState.h"
 
 namespace ProductionStates {
-     namespace Initialization {
-         class ConfigureState : public ProductionState {
-         public:
-             ConfigureState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
+class ConfigureState : public ProductionState {
+ public:
+  ConfigureState(MachineCore::Application &aContext) : ProductionState(aContext) {};
 
-             virtual ~ConfigureState() = default;
+  virtual ~ConfigureState() = default;
 
-             virtual void entryAction();
+  virtual void entryAction();
 
+  virtual void doActivity();
 
-             virtual void doActivity();
+  virtual void exitAction();
+};
 
-             virtual void exitAction();
-         };
-     }
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_CONFIGURESTATE_H
