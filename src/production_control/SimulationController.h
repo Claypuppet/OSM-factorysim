@@ -98,6 +98,10 @@ namespace Simulation {
         */
         void setStartState();
 
+        /**
+         * Function that handles notifications for registering machines
+         * @param notification : A notification for registering a machine
+         */
         void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
 
         /**

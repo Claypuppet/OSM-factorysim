@@ -16,16 +16,51 @@ namespace Models {
 
     class Product {
     public:
+        /**
+         * Default constructor
+         */
         Product();
+
+        /**
+         * Copy constructor
+         * @param other : The object to copy
+         */
         Product(const Product &other);
+
+        /**
+         * The destructor
+         */
         virtual ~Product();
 
+        /**
+         * Assignment operator
+         * @param other : The object to assign
+         * @return The new object
+         */
         Product& operator=(const Product& other);
 
+        /**
+         * A function to deserialize a product node
+         * @param productNode : The node to deserialize
+         */
         void deserialize(YAML::Node &productNode);
 
+        /**
+         * Getter for id
+         * @return id
+         */
         uint16_t getId() const;
+
+        /**
+         * Getter for name
+         * @return name
+         */
         const std::string &getName() const;
+
+        /**
+         * Getter for proportion
+         * @return proportion
+         */
         uint16_t getProportion() const;
 
     private:
@@ -33,12 +68,22 @@ namespace Models {
         std::string name;
         uint16_t proportion;
 
+        /**
+         * A function to save a Product object in an archive
+         * @tparam Archive
+         * @param ar : The archive to save the objct in
+         */
         template <class Archive>
         void save(Archive& ar) const
         {
             ar(id, name, proportion);
         }
 
+        /**
+         * A function to load a Product object from an archive
+         * @tparam Archive
+         * @param ar : The archive to load
+         */
         template<class Archive>
         void load(Archive& ar)
         {
