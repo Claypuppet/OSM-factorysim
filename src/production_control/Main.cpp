@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv)
 {
-	Utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
+	utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
 	Simulation::SimulationController controller;
 	controller.execute();
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 // TODO : move to unit test?
 
 //	ConfigLoader::ConfigurationReader reader;
-//	Models::Configuration inputConfig;
+//	models::Configuration inputConfig;
 //	reader.readConfigurationFile("../../configs/configfile.yaml", inputConfig);
 //
 //	std::string string;
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 //
 //	std::cout << string << std::endl;
 //
-//	Models::Configuration outputConfig;
+//	models::Configuration outputConfig;
 //
 //	std::stringstream binaryStream2((std::ios::in | std::ios::binary));
 //	binaryStream2.str(string);

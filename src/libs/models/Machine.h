@@ -13,7 +13,7 @@
 // other includes
 #include "MachineConfiguration.h"
 
-namespace Models {
+namespace models {
 
     class Machine;
     typedef std::shared_ptr<Machine> MachinePtr;

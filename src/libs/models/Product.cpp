@@ -1,6 +1,6 @@
 #include "Product.h"
 
-namespace Models {
+namespace models {
 
     Product::Product() {
     }

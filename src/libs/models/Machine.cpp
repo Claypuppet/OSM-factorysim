@@ -1,6 +1,6 @@
 #include "Machine.h"
 
-namespace Models {
+namespace models {
 
     Machine::Machine() {
     }

@@ -8,7 +8,7 @@
 
 namespace Simulation {
 
-	SimulationMachine::SimulationMachine(const Models::Machine &aMachine) :
+	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
 			Core::Machine(aMachine), simConnection(nullptr)
 	{
 	}
@@ -43,7 +43,7 @@ namespace Simulation {
 
 	void SimulationMachine::sendSimulationConfiguration() {
 
-		std::vector<Models::MachineConfiguration> config;
+		std::vector<models::MachineConfiguration> config;
 
 		std::string binaryStream;
 

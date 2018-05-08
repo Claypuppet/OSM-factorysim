@@ -7,10 +7,10 @@
 
 #include "Application.h"
 
-namespace Simulator {
+namespace simulator {
     class SimulationApplication : public MachineCore::Application {
     public:
-        SimulationApplication(const Models::Machine& aMachineInfo);
+        SimulationApplication(const models::Machine& aMachineInfo);
         virtual ~SimulationApplication() = default;
     };
 }

@@ -14,14 +14,14 @@
 #include "Controller.h"
 #include "SimulationApplication.h"
 
-namespace Simulator {
+namespace simulator {
 
     class SimulationController
             : public MachineCore::Controller,
               public Patterns::Statemachine::Context,
               public Patterns::NotifyObserver::Observer {
     public:
-        SimulationController(const Models::Machine& aMachineInfo);
+        SimulationController(const models::Machine& aMachineInfo);
         virtual ~SimulationController() = default;
 
 		void execute();

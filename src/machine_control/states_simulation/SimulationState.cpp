@@ -4,9 +4,9 @@
 
 #include "SimulationState.h"
 
-namespace SimulationStates {
+namespace simulationstates {
 
-	SimulationState::SimulationState(Simulator::SimulationController &aContext)
+	SimulationState::SimulationState(simulator::SimulationController &aContext)
 		: context(aContext){
 
 	}

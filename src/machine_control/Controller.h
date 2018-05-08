@@ -14,7 +14,7 @@ namespace MachineCore{
          * Constructor
          * @param aMachineInfo : The machineInfo for application
          */
-        explicit Controller(const Models::Machine& aMachineInfo);
+        explicit Controller(const models::Machine& aMachineInfo);
 
         /**
          * The destructor

@@ -83,7 +83,7 @@ namespace Simulation {
 		setCurrentState(startState);
 
 		// TEMP!!!!? set first config file as event for LoadConfigState
-		configPath = Utils::CommandLineArguments::i().getArg(0);
+		configPath = utils::CommandLineArguments::i().getArg(0);
 		if (configPath.empty()){
 			// throw exception when no argument is given.
 			throw std::runtime_error("No configuration file argument found!");
@@ -103,7 +103,7 @@ namespace Simulation {
 		auto productionline = configuration.getProductionLineConfiguration();
 		auto machineInfos = productionline.getMachines();
 
-		for (const Models::Machine &m : machineInfos)
+		for (const models::Machine &m : machineInfos)
 		{
 			SimulationMachine machine(m);
 			machines.emplace_back(std::make_shared<SimulationMachine>(machine));

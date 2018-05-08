@@ -7,26 +7,24 @@
 
 #include "SimulationState.h"
 
-namespace SimulationStates {
+namespace simulationstates {
 
+class FindProductControlState : public SimulationState {
+ public:
+  FindProductControlState(simulator::SimulationController &context) : SimulationState(context) {};
+  virtual ~FindProductControlState() = default;
 
-	class FindProductControlState : public SimulationState {
-	public:
-		FindProductControlState(Simulator::SimulationController &context) : SimulationState(context) {};
-		virtual ~FindProductControlState() = default;
+  void entryAction() override;
 
-		void entryAction() override;
+  void doActivity() override;
 
-		void doActivity() override;
+  void exitAction() override;
 
-		void exitAction() override;
+  bool handleEvent(const EventPtr &e) override;
 
-		bool handleEvent(const EventPtr &e) override;
-
-	};
-
+ private:
+  void onReceivedPCIP(const EventPtr &e);
+};
 }
-
-
 
 #endif //PRODUCTION_LINE_CONTROL_FINDPRODUCTCONTROLSTATE_H

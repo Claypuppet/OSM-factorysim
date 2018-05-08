@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 	std::cout << "What is the machine's name?" << std::endl;
 	std::cin >> machineName;
 
-	Simulator::SimulationController controller(Models::Machine(machineId, machineName));
+	simulator::SimulationController controller(models::Machine(machineId, machineName));
 	
 	controller.execute();
 

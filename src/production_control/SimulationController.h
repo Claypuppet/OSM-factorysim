@@ -120,7 +120,7 @@ namespace Simulation {
          * Config properties
          */
         std::string configPath;
-		Models::Configuration configuration;
+		models::Configuration configuration;
 
 
     };

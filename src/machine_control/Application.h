@@ -23,7 +23,7 @@ namespace MachineCore {
          * Constructor
          * @param aMachineInfo : The value for machineInfo
          */
-        explicit Application(const Models::Machine& aMachineInfo);
+        explicit Application(const models::Machine& aMachineInfo);
 
         /**
          * The destructor
@@ -34,20 +34,20 @@ namespace MachineCore {
          * Getter for machineInfo
          * @return machineInfo
          */
-        const Models::Machine &getMachineInfo() const;
+        const models::Machine &getMachineInfo() const;
 
         /**
          * Setter for machineInfo
          * @param machineInfo : New value for machineInfo
          */
-        void setMachineInfo(const Models::Machine &machineInfo);
+        void setMachineInfo(const models::Machine &machineInfo);
       void setStartState();
     private:
         Network::Manager manager;
         Network::ClientPtr client;
         ThreadPtr clientThread;
 
-        Models::Machine machineInfo;
+        models::Machine machineInfo;
     };
 }
 
