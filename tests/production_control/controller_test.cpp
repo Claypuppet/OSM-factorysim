@@ -51,9 +51,61 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   Simulation::SimulationController controller;
-  // TODO: test config file toevoegen aan build (dat na compile naast de executable staat)
-  controller.setConfigFromFile("../../configs/configfile.yaml");
+  controller.setConfigFromFile("../tests/production_control/testconfig.yaml");
+  auto machine1 = controller.getMachine(15);
+  auto machine2 = controller.getMachine(75);
 
+  BOOST_REQUIRE(machine1);
+  BOOST_REQUIRE(machine2);
+
+  BOOST_CHECK(machine1->getName() == "Testmachine15");
+  BOOST_CHECK(machine2->getName() == "Testmachine75");
+
+  auto m1config = machine1->getConfigurations()[0];
+  auto m2config = machine2->getConfigurations()[0];
+
+  BOOST_CHECK(m1config.getNextMachineId() == 75);
+  BOOST_CHECK(m1config.getInitializationDurationInSeconds() == 6);
+  BOOST_CHECK(m1config.getInputBufferSize() == 68);
+  BOOST_CHECK(m1config.getInputMaterialsForEachProduct() == 1);
+  BOOST_CHECK(m1config.getMeanTimeBetweenFailureInHours()== 8800);
+  BOOST_CHECK(m1config.getMeanTimeBetweenFailureStddevInHours() == 30);
+  BOOST_CHECK(m1config.getOutputEachMinute() == 12);
+  BOOST_CHECK(m1config.getReparationTimeInMinutes() == 24);
+  BOOST_CHECK(m1config.getProductId() == 12);
+
+  BOOST_CHECK(m2config.getNextMachineId() == 0);
+  BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 7);
+  BOOST_CHECK(m2config.getInputBufferSize() == 69);
+  BOOST_CHECK(m2config.getInputMaterialsForEachProduct() == 2);
+  BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 8801);
+  BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 31);
+  BOOST_CHECK(m2config.getOutputEachMinute() == 13);
+  BOOST_CHECK(m2config.getReparationTimeInMinutes() == 25);
+  BOOST_CHECK(m2config.getProductId() == 88);
+
+  m1config = machine1->getConfigurations()[1];
+  m2config = machine2->getConfigurations()[1];
+
+  BOOST_CHECK(m1config.getNextMachineId() == 2);
+  BOOST_CHECK(m1config.getInitializationDurationInSeconds() == 9);
+  BOOST_CHECK(m1config.getInputBufferSize() == 68);
+  BOOST_CHECK(m1config.getInputMaterialsForEachProduct() == 3);
+  BOOST_CHECK(m1config.getMeanTimeBetweenFailureInHours()== 9800);
+  BOOST_CHECK(m1config.getMeanTimeBetweenFailureStddevInHours() == 36);
+  BOOST_CHECK(m1config.getOutputEachMinute() == 8);
+  BOOST_CHECK(m1config.getReparationTimeInMinutes() == 27);
+  BOOST_CHECK(m1config.getProductId() == 12);
+
+  BOOST_CHECK(m2config.getNextMachineId() == 0);
+  BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 10);
+  BOOST_CHECK(m2config.getInputBufferSize() == 69);
+  BOOST_CHECK(m2config.getInputMaterialsForEachProduct() == 4);
+  BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 9801);
+  BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 37);
+  BOOST_CHECK(m2config.getOutputEachMinute() == 9);
+  BOOST_CHECK(m2config.getReparationTimeInMinutes() == 28);
+  BOOST_CHECK(m2config.getProductId() == 88);
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
