@@ -8,21 +8,20 @@
 #include "../ProductionState.h"
 
 namespace ProductionStates {
-    namespace Broken {
-        class BrokenState : public ProductionState {
-        public:
-            BrokenState(Patterns::Statemachine::Context &aContext);
+class BrokenState : public ProductionState {
+ public:
+  BrokenState(MachineCore::Application &aContext);
+  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
 
-            virtual ~BrokenState() = default;
+  virtual ~BrokenState() = default;
 
-            virtual void entryAction();
+  virtual void entryAction();
 
+  virtual void doActivity();
 
-            virtual void doActivity();
+  virtual void exitAction();
+};
 
-            virtual void exitAction();
-        };
-    }
 }
 
 #endif //PRODUCTION_LINE_CONTROL_BROKENSTATE_H

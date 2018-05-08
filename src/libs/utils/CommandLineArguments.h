@@ -10,6 +10,7 @@
 #include <string>
 #include <cstring>
 #include <algorithm>
+#include <vector>
 
 namespace Utils {
 

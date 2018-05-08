@@ -5,20 +5,16 @@
 #include "TakeProductState.h"
 
 namespace ProductionStates {
-    namespace InOperation {
-        namespace ProcessProduct {
-            void TakeProductState::entryAction() {
 
-            }
+void TakeProductState::entryAction() {
 
-            void TakeProductState::doActivity() {
+}
 
-            }
+void TakeProductState::doActivity() {
 
-            void TakeProductState::exitAction() {
+}
 
-            }
+void TakeProductState::exitAction() {
 
-        }
-    }
+}
 }

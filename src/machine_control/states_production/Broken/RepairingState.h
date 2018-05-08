@@ -5,25 +5,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H
 #define PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H
 
-
 #include "../ProductionState.h"
 
 namespace ProductionStates {
-    namespace Broken {
-        class RepairingState : public ProductionState {
-        public:
-            RepairingState(Patterns::Statemachine::Context &aContext) : ProductionState(aContext) {};
+class RepairingState : public ProductionState {
+ public:
+  RepairingState(MachineCore::Application &aContext) : ProductionState(aContext) {};
 
-            virtual ~RepairingState() = default;
+  virtual ~RepairingState() = default;
 
-            virtual void entryAction();
+  virtual void entryAction();
 
+  virtual void doActivity();
 
-            virtual void doActivity();
+  virtual void exitAction();
+};
 
-            virtual void exitAction();
-        };
-    }
 }
 
 #endif //PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H

@@ -5,6 +5,6 @@
 #include "ProductionState.h"
 
 namespace ProductionStates {
-    ProductionState::ProductionState(Patterns::Statemachine::Context &aContext)
+ProductionState::ProductionState(MachineCore::Application &aContext)
             : context(aContext) {}
 }

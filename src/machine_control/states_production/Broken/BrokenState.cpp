@@ -4,24 +4,25 @@
 
 #include "BrokenState.h"
 
-
 namespace ProductionStates {
-    namespace Broken {
-        BrokenState::BrokenState(Patterns::Statemachine::Context& aContext)
-            : ProductionState(aContext){
+BrokenState::BrokenState(MachineCore::Application &aContext)
+    : ProductionState(aContext) {
 
-        }
+}
 
-        void BrokenState::entryAction() {
+void BrokenState::entryAction() {
 
-        }
+}
 
-        void BrokenState::doActivity() {
+void BrokenState::doActivity() {
 
-        }
+}
 
-        void BrokenState::exitAction() {
+void BrokenState::exitAction() {
 
-        }
-    }
+}
+bool BrokenState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+  return false;
+}
+
 }

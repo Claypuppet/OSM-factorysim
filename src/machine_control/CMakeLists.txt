@@ -1,5 +1,5 @@
 
-set(app_machine_control_SOURCES
+set(app_machine_control_SOURCES        
         ${CMAKE_CURRENT_SOURCE_DIR}/config.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ControllerNotificationEventIds.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationNetworkComponent.cpp
@@ -45,5 +45,7 @@ set(app_machine_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/FindProductControlState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/FindProductControlState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/ConnectSimulationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/ConnectSimulationState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/ConnectSimulationState.h 
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_production/InOperation/InOperationState.cpp 
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_production/InOperation/InOperationState.h
         PARENT_SCOPE)

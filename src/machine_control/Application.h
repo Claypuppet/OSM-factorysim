@@ -24,7 +24,7 @@ namespace MachineCore {
 
         const Models::Machine &getMachineInfo() const;
         void setMachineInfo(const Models::Machine &machineInfo);
-
+      void setStartState();
     private:
         Network::Manager manager;
         Network::ClientPtr client;

@@ -29,4 +29,7 @@ namespace MachineCore {
     void Application::setMachineInfo(const Models::Machine &machineInfo) {
         Application::machineInfo = machineInfo;
     }
+void Application::setStartState() {
+  setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
+}
 }
