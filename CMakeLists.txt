@@ -18,110 +18,44 @@ link_directories(${Boost_LIBRARY_DIR} )
 
 ### SET APPLICATION EXECUTABLES ###
 
-# Add
+# Add CMakeLists from sub directories
+
+add_subdirectory(src/visualizer)
+add_subdirectory(src/machine_control)
+add_subdirectory(src/production_control)
+
+# Add executables
 
 add_executable(app_machine_control
         src/machine_control/Main.cpp
-        src/machine_control/config.h
-        src/machine_control/ControllerNotificationEventIds.h
-        src/machine_control/SimulationNetworkComponent.cpp
-        src/machine_control/SimulationNetworkComponent.h
-        src/machine_control/Controller.cpp
-        src/machine_control/Controller.h
-        src/machine_control/Application.cpp
-        src/machine_control/Application.h
-        src/machine_control/SimulationController.cpp
-        src/machine_control/SimulationController.h
-        src/machine_control/SimulationApplication.cpp
-        src/machine_control/SimulationApplication.h
-        src/machine_control/NetworkComponent.cpp
-        src/machine_control/NetworkComponent.h
-        src/machine_control/states_production/Broken/BrokenState.cpp
-        src/machine_control/states_production/Broken/BrokenState.h
-        src/machine_control/states_production/ProductionState.cpp
-        src/machine_control/states_production/ProductionState.h
-        src/machine_control/states_production/Broken/RepairingState.cpp
-        src/machine_control/states_production/Broken/RepairingState.h
-        src/machine_control/states_production/Inititalization/ConfigureState.cpp
-        src/machine_control/states_production/Inititalization/ConfigureState.h
-        src/machine_control/states_production/Inititalization/SelfTestState.cpp
-        src/machine_control/states_production/Inititalization/SelfTestState.h
-        src/machine_control/states_production/ConnectState.cpp
-        src/machine_control/states_production/ConnectState.h
-        src/machine_control/states_production/InOperation/IdleState.cpp
-        src/machine_control/states_production/InOperation/IdleState.h
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.cpp 
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h 
-        src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.cpp
-        src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.h
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.cpp
-        src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.h
-        src/machine_control/states_simulation/SimulationState.cpp
-        src/machine_control/states_simulation/SimulationState.h
-        src/machine_control/states_simulation/InitializeSimulationState.cpp
-        src/machine_control/states_simulation/InitializeSimulationState.h
-        src/machine_control/states_simulation/OffState.cpp
-        src/machine_control/states_simulation/OffState.h
-        src/machine_control/states_simulation/OnState.cpp
-        src/machine_control/states_simulation/OnState.h
-        src/machine_control/states_simulation/FindProductControlState.cpp
-        src/machine_control/states_simulation/FindProductControlState.h
-        src/machine_control/states_simulation/ConnectSimulationState.cpp
-        src/machine_control/states_simulation/ConnectSimulationState.h)
+        ${app_machine_control_SOURCES})
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        src/production_control/ConfigurationReader.cpp
-        src/production_control/ConfigurationReader.h
-        src/production_control/AppConnectionHandler.h
-        src/production_control/AppConnectionHandler.cpp
-        src/production_control/Machine.cpp
-        src/production_control/Machine.h
-        src/production_control/Application.cpp
-        src/production_control/Application.h
-        src/production_control/SimulationConnectionHandler.cpp
-        src/production_control/SimulationConnectionHandler.h
-        src/production_control/SimulationController.cpp
-        src/production_control/SimulationController.h
-        src/production_control/SimulationMachine.cpp
-        src/production_control/SimulationMachine.h
-        src/production_control/Controller.cpp
-        src/production_control/Controller.h
-        src/production_control/states_controller/LoadConfigState.cpp
-        src/production_control/states_controller/LoadConfigState.h
-        src/production_control/states_controller/OperationState.cpp
-        src/production_control/states_controller/OperationState.h
-        src/production_control/states_controller/SimulationBroadcastState.h
-        src/production_control/states_controller/SimulationBroadcastState.cpp
-        src/production_control/states_controller/SimulationWaitForConnectionsState.cpp
-        src/production_control/states_controller/SimulationWaitForConnectionsState.h
-        src/production_control/states_controller/ControllerState.cpp
-        src/production_control/states_controller/ControllerState.h
-        src/production_control/states_application/BroadCastState.cpp
-        src/production_control/states_application/BroadCastState.h
-        src/production_control/states_application/ConnectMachinesState.cpp
-        src/production_control/states_application/ConnectMachinesState.h
-        src/production_control/states_application/WaitForConnectionsState.h
-        src/production_control/states_application/WaitForConnectionsState.cpp
-        src/production_control/states_application/ApplicationState.cpp
-        src/production_control/states_application/ApplicationState.h)
+        ${app_production_control_SOURCES})
 
 
 add_executable(app_visualizer
-        src/visualizer/Main.cpp)
+        src/visualizer/Main.cpp
+        ${app_visualizer_SOURCES})
 
 
 ### SET APPLICATION TEST EXECUTABLES ###
 
+# Add tests, including the sources of the executable
+
 add_executable(test_machine_control
+        ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp)
 
 add_executable(test_production_control
+        ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
-        tests/production_control/Object_test.cpp)
+        tests/production_control/controller_test.cpp)
 
 add_executable(test_visualizer
+        ${app_visualizer_SOURCES}
         tests/visualizer/Main.cpp
         tests/visualizer/Object_test.cpp)
 
@@ -208,15 +142,13 @@ target_link_libraries(lib_utils lib_patterns)
 target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_models lib_yaml-cpp)
 
-# Production control & test
+# Applications
 target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
-target_link_libraries(test_production_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
-
-# Machine control & test
 target_link_libraries(app_machine_control lib_network lib_patterns lib_models)
-target_link_libraries(test_machine_control ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
-
-# Visualizer & test
 target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects)
-target_link_libraries(test_visualizer ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${wxWidgets_LIBRARIES} lib_silly_objects)
+
+# Tests
+target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
+target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
