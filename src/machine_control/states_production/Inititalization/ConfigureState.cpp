@@ -17,4 +17,8 @@ void ConfigureState::exitAction() {
 
 }
 
+bool ConfigureState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+  return false;
+}
+
 }

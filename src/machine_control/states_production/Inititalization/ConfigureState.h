@@ -19,6 +19,7 @@ class ConfigureState : public ProductionState {
   virtual void doActivity();
 
   virtual void exitAction();
+  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
 };
 
 }

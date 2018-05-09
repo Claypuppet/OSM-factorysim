@@ -9,32 +9,33 @@
 #include "../NetworkComponent.h"
 #include "../Application.h"
 
+namespace ProductionStates {
 enum EventType {
   kMachineBrokeDown,
+  kEventTypeConnected,
+  kEventTypeConnectionFailed
 };
 
 typedef Patterns::Statemachine::Event Event;
 typedef Patterns::Statemachine::EventPtr EventPtr;
 
+class ProductionState : public Patterns::Statemachine::State {
+ public:
+  virtual ~ProductionState() = default;
 
-namespace ProductionStates {
-    class ProductionState : public Patterns::Statemachine::State {
-    public:
-        virtual ~ProductionState() = default;
+  virtual void entryAction() = 0;
 
-        virtual void entryAction() = 0;
+  virtual void doActivity() = 0;
 
-        virtual void doActivity() = 0;
+  virtual void exitAction() = 0;
 
-        virtual void exitAction() = 0;
+  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
 
-        virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
+ protected:
+  ProductionState(MachineCore::Application &aContext);
 
-    protected:
-      ProductionState(MachineCore::Application &aContext);
-
-      MachineCore::Application &context;
-    };
+  MachineCore::Application &context;
+};
 
 }
 

@@ -3,24 +3,28 @@
 //
 
 #include "ConnectState.h"
+#include "Inititalization/ConfigureState.h"
 
 namespace ProductionStates {
-    void ConnectState::entryAction() {
-        //TODO: START CLIENT AND CONNECT TO PRODUCTION CONTROL
-    }
+void ConnectState::entryAction() {
+  context.setupNetwork();
+}
 
-    void ConnectState::doActivity() {
+void ConnectState::doActivity() {
 
-    }
+}
 
-    void ConnectState::exitAction() {
-        //TODO: START CONFIGURESTATE
-    }
+void ConnectState::exitAction() {
 
-    bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
-        switch(e->getId()){
-            default:
-                return false;
-        }
+}
+
+bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+  switch (e->getId()) {
+    case kEventTypeConnected: {
+      context.setCurrentState(std::make_shared<ConfigureState>(context));
+      break;
     }
+    default:return false;
+  }
+}
 }
