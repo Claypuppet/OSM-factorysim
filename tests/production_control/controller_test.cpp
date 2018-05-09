@@ -11,11 +11,14 @@
 #include <network/Client.h>
 
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <network/Protocol.h>
 
 #include "../test_helpers/MockNetwork.h"
 #include "../production_control/SimulationController.h"
 #include "../production_control/NotificationTypes.h"
 #include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
+#include "../test_helpers/MockObserver.h"
+#include "../../src/production_control/SimulationConnectionHandler.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
@@ -24,7 +27,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
   Simulation::SimulationController controller;
 
-  controller.setConfigFromFile("test_configs/test_config_one_machine.yaml");
+  BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
 
   // Machine 1 should be loaded
   BOOST_CHECK_EQUAL(!!controller.getMachine(1), true);
@@ -64,14 +67,56 @@ BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
 // Einde state tests
 BOOST_AUTO_TEST_SUITE_END()
 
+BOOST_AUTO_TEST_SUITE(ProductionControlSimulationNetwork)
+
+BOOST_AUTO_TEST_CASE(RegisterSimulationMachine)
+{
+  testUtils::NotificationHandlerFn fn = [](const Patterns::NotifyObserver::NotifyEvent &notification){
+    std::cout << "========Running checks!==========" << std::endl;
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t >(0) == 1);
+    BOOST_CHECK(notification.getArgumentAsType<Network::ConnectionPtr>(1) != nullptr);
+  };
+
+  testUtils::MockObserver observer;
+  observer.setHandleNotificationFn(fn);
+
+  Network::Manager serverManager;
+  serverManager.setLocalPort(Network::Protocol::kPortSimulationCommunication);
+
+  Simulation::SimulationConnectionHandler handler;
+
+  handler.addObserver(observer);
+
+  auto serverThread = serverManager.runServiceThread();
+  auto server = serverManager.createServer(std::make_shared<Simulation::SimulationConnectionHandler>(handler), 10);
+
+  server->start();
+  auto clientMock = std::make_shared<testUtils::MockNetwork>();
+  clientMock->startMockMCClientController();
+
+  Network::Message msg;
+
+  msg.setMessageType(Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+  msg.setBody("1");
+
+  clientMock->sendMessage(msg);
+
+  sleep(1);
+
+  serverManager.stop();
+  serverThread->join();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 // Testen van public methods van controller
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   Simulation::SimulationController controller;
   // TODO: test config file toevoegen aan build (dat na compile naast de executable staat)
-  controller.setConfigFromFile("../../configs/configfile.yaml");
-
+  //controller.setConfigFromFile("../../configs/configfile.yaml");
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {

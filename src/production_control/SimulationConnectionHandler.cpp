@@ -51,9 +51,9 @@ void SimulationConnectionHandler::onSimulationMachineInfoReceived(const Models::
 }
 
 void SimulationConnectionHandler::handleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection) {
-  auto notification = makeNotifcation(nullptr, NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
-  notification.addArgument(static_cast<uint16_t >(std::stoi(messageBody, nullptr)));
-  notification.addArgument(connection);
+  Patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
+  notification.setArgument(0, static_cast<uint16_t >(std::stoi(messageBody, nullptr)));
+  notification.setArgument(1, connection);
   notifyObservers(notification);
 }
 
