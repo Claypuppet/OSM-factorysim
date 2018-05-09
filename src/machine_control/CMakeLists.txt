@@ -48,4 +48,6 @@ set(app_machine_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/ConnectSimulationState.h 
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/InOperation/InOperationState.cpp 
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/InOperation/InOperationState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/WaitForProductControlState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation/WaitForProductControlState.h
         PARENT_SCOPE)

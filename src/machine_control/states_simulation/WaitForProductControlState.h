@@ -13,7 +13,7 @@ namespace simulationstates {
 class WaitForProductControlState : public SimulationState {
  public:
   WaitForProductControlState(simulator::SimulationController &context) : SimulationState(context) {};
-  virtual ~WaitForProductControlState() = default;
+  ~WaitForProductControlState() override = default;
 
   void entryAction() override;
 
