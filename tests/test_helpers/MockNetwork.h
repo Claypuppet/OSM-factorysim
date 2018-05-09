@@ -11,6 +11,10 @@
 
 namespace testUtils{
 
+typedef std::function<void(const Network::Message&)> OnMessageFn;
+typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
+
+
 /**
  * The MockNetwork class can be used to create a dummy network component. Can be used to make connection for both
  * machine control and production control. Has access to an onMessage and onConnection callback
@@ -59,14 +63,14 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * example argument: [](Network::Message& message){std::cout << message.mBody << std::endl;}
    * @param aHandleMessageFn : lambda to be called when message is received
    */
-  void setOnMessageFn(std::function<void(Network::Message&)>& aOnMessageFn);
+  void setOnMessageFn(OnMessageFn& aOnMessageFn);
 
   /**
    * set on connection established callback
    * example argument: [](Network::ConnectionPtr& connection){write some message to connection}
    * @param aHandleMessageFn : lambda to be called when message is received
    */
-  void setOnConnectionFn(std::function<void(Network::ConnectionPtr&)>& aOnConnectionFn);
+  void setOnConnectionFn(OnConnectionFn& aOnConnectionFn);
 
   /**
    * get connection
@@ -95,8 +99,8 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   ThreadPtr networkThread;
   Network::Manager networkManager;
   Network::ConnectionPtr connection;
-  std::function<void(Network::Message&)> onMessageFn;
-  std::function<void(Network::ConnectionPtr&)> onConnectionFn;
+  OnMessageFn onMessageFn;
+  OnConnectionFn onConnectionFn;
 
   Network::ServerPtr server;
   Network::ClientPtr client;

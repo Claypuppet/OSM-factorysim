@@ -9,7 +9,7 @@
 
 namespace testUtils {
 
-MockNetwork::MockNetwork() : status(kDisconnected), onMessageFn([](Network::Message& m){}), onConnectionFn([](Network::ConnectionPtr& c){}){
+MockNetwork::MockNetwork() : status(kDisconnected), onMessageFn([](const Network::Message& m){}), onConnectionFn([](const Network::ConnectionPtr& c){}){
   networkThread = networkManager.runServiceThread();
 }
 
@@ -68,11 +68,11 @@ void MockNetwork::sendMessage(Network::Message &msg) {
   }
 }
 
-void MockNetwork::setOnMessageFn(std::function<void(Network::Message &)>& aOnMessageFn) {
+void MockNetwork::setOnMessageFn(OnMessageFn &aOnMessageFn) {
   onMessageFn = aOnMessageFn;
 }
 
-void MockNetwork::setOnConnectionFn(std::function<void(Network::ConnectionPtr &)> &aOnConnectionFn) {
+void MockNetwork::setOnConnectionFn(OnConnectionFn &aOnConnectionFn) {
   onConnectionFn = aOnConnectionFn;
 }
 
