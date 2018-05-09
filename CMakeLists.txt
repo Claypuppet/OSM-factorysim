@@ -45,17 +45,22 @@ add_executable(app_visualizer
 
 # Add tests, including the sources of the executable
 
+add_subdirectory(tests/test_helpers)
+
 add_executable(test_machine_control
+        ${test_helpers_SOURCES}
         ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp)
 
 add_executable(test_production_control
+        ${test_helpers_SOURCES}
         ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
         tests/production_control/controller_test.cpp)
 
 add_executable(test_visualizer
+#        ${test_helpers_SOURCES}
         ${app_visualizer_SOURCES}
         tests/visualizer/Main.cpp
         tests/visualizer/Object_test.cpp)
@@ -153,3 +158,14 @@ target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_networ
 target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
+### Move config files
+
+# For production control, move configuration dir to bin dir
+add_custom_command(TARGET app_production_control POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
+
+# For testing prod control, move test configs to bin dir
+add_custom_command(TARGET test_production_control POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/tests/production_control/test_configs" $<TARGET_FILE_DIR:test_production_control>/test_configs)
