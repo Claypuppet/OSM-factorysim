@@ -19,7 +19,7 @@ void FindProductControlState::entryAction() {
   EventPtr event = std::make_shared<Event>(Event(kEventTypeReceivedPCIP));
 
   // Get the "pcip" commandline argument from the given commandline arguments
-  const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("pcip");
+  const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
 
   // Set the pcip value as the event's argument
   event->setArgument<std::string>(pcip.value);
