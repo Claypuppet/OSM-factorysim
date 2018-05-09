@@ -5,8 +5,12 @@
 #ifndef PRODUCTION_LINE_CONTROL_PROTOCOL_H
 #define PRODUCTION_LINE_CONTROL_PROTOCOL_H
 
+#include <cstdint>
+
 namespace Network {
 	namespace Protocol {
+	  	constexpr uint16_t kPortSimulationCommunication = 54321;
+	  	constexpr uint16_t kPortProductionCommunication = 12345;
 
 		enum DiscoverMessageType {
 //			For UPD connection
