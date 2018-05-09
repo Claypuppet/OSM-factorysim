@@ -10,9 +10,21 @@
 namespace MachineCore{
     class Controller {
     public:
-        Controller(const Models::Machine& aMachineInfo);
+        /**
+         * Constructor
+         * @param aMachineInfo : The machineInfo for application
+         */
+        explicit Controller(const Models::Machine& aMachineInfo);
+
+        /**
+         * The destructor
+         */
         virtual ~Controller() = default;
 
+        /**
+         * Getter for application
+         * @return application
+         */
         Application &getApplication();
 
     protected:

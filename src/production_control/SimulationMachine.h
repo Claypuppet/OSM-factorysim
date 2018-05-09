@@ -21,19 +21,19 @@ namespace Simulation {
 
         /**
          * Constructs a machine with existing machine information (Models::Machine)
-         * @param aMachine
+         * @param aMachine : A machine model
          */
 		SimulationMachine(const Models::Machine &aMachine);
 
         /**
         * Copy constructor
-        * @param aMachine The machine to copy
+        * @param aMachine : The machine to copy
         */
 		SimulationMachine(const SimulationMachine &aMachine);
 
         /**
         * Assignment operator
-        * @param rhs The machine to copy
+        * @param rhs : The machine to copy
         * @return The new machine
         */
 		SimulationMachine &operator=(const SimulationMachine &rhs);
@@ -45,7 +45,7 @@ namespace Simulation {
 
         /**
         * A function to send a message to this machine
-        * @param msg The message to send to this machine
+        * @param msg : The message to send to this machine
         */
         void sendSimulationMessage(Network::Message &msg);
 
@@ -57,7 +57,7 @@ namespace Simulation {
 
         /**
         * A function that sets the connection with this machine
-        * @param aConnection The connection with this machine
+        * @param aConnection : The connection with this machine
         */
         void setSimulationConnection(Network::ConnectionPtr &aConnection);
 

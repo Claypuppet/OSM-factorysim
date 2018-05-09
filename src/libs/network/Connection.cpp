@@ -44,17 +44,6 @@ namespace Network
 		catch(std::bad_weak_ptr& e){} // nothing we can do...
 	}
 
-
-	/**
-	 * readMessage will read the message in 2 a-sync reads, 1 for the header and 1 for the body.
-	 * After each read a callback will be called that should handle the stuff just read.
-	 * After reading the full message handleMessageRead will be called
-	 * whose responsibilty it is to handle the message as a whole.
-	 *
-	 * @see handle_header_read
-	 * @see handle_body_read
-	 * @see handleMessageRead
-	 */
 	void Connection::readMessage()
 	{
 		mRecvMsg.clear();
@@ -65,9 +54,6 @@ namespace Network
 		});
 	}
 
-	/**
-	 * This function is called after the header bytes are read.
-	 */
 	void Connection::handleHeaderRead(const error_code& error, size_t bytes_transferred)
 	{
 		auto self = shared_from_this();
@@ -94,11 +80,6 @@ namespace Network
 		});
 	}
 
-	/**
-	 * This function as called after the body bytes are read.
-	 * Any error handling (throwing an exception ;-)) is done in this function and
-	 * than the function with the same name but without the error is called.
-	 */
 	void Connection::handleBodyRead(const error_code& error, size_t bytes_transferred)
 	{
 		auto self = shared_from_this();
@@ -116,9 +97,6 @@ namespace Network
 		handleMessageRead();
 	}
 
-	/**
-	 * This function is called after both the header and body bytes are read.
-	 */
 	void Connection::handleMessageRead()
 	{
 		auto self = shared_from_this();
@@ -153,15 +131,6 @@ namespace Network
 		}
 	}
 
-	/**
-	 * writeMessage will write the message in 2 a-sync writes, 1 for the header and 1 for the body.
-	 * After each write a callback will be called that should handle the stuff just read.
-	 * After writing the full message handleMessageWritten will be called.
-	 *
-	 * @see handle_header_written
-	 * @see handle_body_written
-	 * @see handleMessageWritten
-	 */
 	void Connection::writeMessage(Message& aMessage)
 	{
 		auto messagePtr = std::make_shared<Message>(aMessage);
@@ -170,9 +139,6 @@ namespace Network
 		writeNextQueuedMessage();
 	}
 
-	/**
-	 * This function is called after the header bytes are written.
-	 */
 	void Connection::handleHeaderWritten(MessagePtr message, const error_code& error, size_t bytes_transferred)
 	{
 		auto self = shared_from_this();
@@ -195,9 +161,6 @@ namespace Network
 
 	}
 
-	/**
-	 * This function is called after the body bytes are written.
-	 */
 	void Connection::handleBodyWritten(MessagePtr message, const error_code& error, size_t bytes_transferred)
 	{
 		auto self = shared_from_this();
@@ -212,12 +175,6 @@ namespace Network
 
 		handleMessageWritten(message);
 	}
-
-	/**
-	 * This function is called after both the header and body bytes are written.
-	 * Any error handling (throwing an exception ;-)) is done in this function and
-	 * than the function with the same name but without the error is called.
-	 */
 
 	void Connection::handleMessageWritten(MessagePtr message)
 	{

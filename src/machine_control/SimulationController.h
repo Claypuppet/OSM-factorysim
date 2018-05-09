@@ -30,6 +30,10 @@ namespace Simulator {
 
 		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
+		/**
+		 * Sets the ip address of the production control
+		 * @param setRemoteHost : The new ip-address of the host
+		 */
 		void setRemoteHost(const std::string &setRemoteHost);
 		void setupNetwork();
 

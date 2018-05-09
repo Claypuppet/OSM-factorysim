@@ -1,3 +1,4 @@
+#include <network/Protocol.h>
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
@@ -8,19 +9,13 @@ namespace Models {
 
 namespace Simulator {
 
-	/**
-	 * Network service event dispatcher, handles service callbacks
-	 */
+
 	class NetworkEventDispatcher : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
 	public:
 		NetworkEventDispatcher() = default;
 		~NetworkEventDispatcher() override = default;
 	private:
-        /**
-         * Handles errors sent by services.
-         * @param service The service which reported the error.
-         * @param message The error message.
-         */
+
 		void onServiceError(Network::ServicePtr service, const std::string &message) override {
 		    //TODO: Add eventId
 		    //Set up the Connection Failed state event to send to the observers.
@@ -34,10 +29,6 @@ namespace Simulator {
 			// TODO: check if this is needed
 		}
 
-		/**
-		 * Called on successful service connection.
-		 * @param service The service which connected.
-		 */
 		void onServiceStarted(Network::ServicePtr service) override {
 		    //Set up an event to let the observers know that connection was successful
             auto event = makeNotificationForNotifier(this, Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeServiceStarted);
@@ -48,10 +39,6 @@ namespace Simulator {
 
 	};
 
-	/**
-	 * Handler of every notification.
-	 * @param notification The received notification.
-	 */
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 	    switch(notification.getEventId()){
             case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
@@ -77,6 +64,7 @@ namespace Simulator {
 	}
 
     void SimulationController::setupNetwork(){
+	    networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
 		clientThread = networkManager.runServiceThread();
 
 		SimulationCommunication::SimulationNetworkComponent connectionHandler;
