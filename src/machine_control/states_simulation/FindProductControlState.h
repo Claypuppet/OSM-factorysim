@@ -12,7 +12,7 @@ namespace simulationstates {
 class FindProductControlState : public SimulationState {
  public:
   FindProductControlState(simulator::SimulationController &context) : SimulationState(context) {};
-  virtual ~FindProductControlState() = default;
+  ~FindProductControlState() override = default;
 
   void entryAction() override;
 
@@ -23,7 +23,8 @@ class FindProductControlState : public SimulationState {
   bool handleEvent(const EventPtr &e) override;
 
  private:
-  void onReceivedPCIP(const EventPtr &e);
+  void onReceivedPCIP(const EventPtr &event);
+  void onFailedToReceivePCIP(const EventPtr &event);
 };
 }
 

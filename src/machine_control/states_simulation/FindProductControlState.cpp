@@ -9,6 +9,7 @@
 #include "utils/CommandLineArguments.h"
 #include "FindProductControlState.h"
 #include "ConnectSimulationState.h"
+#include "WaitForProductControlState.h"
 
 namespace simulationstates {
 
@@ -21,7 +22,7 @@ void FindProductControlState::entryAction() {
   const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("pcip");
 
   // Set the pcip value as the event's argument
-  event->setArgument<std::string>(pcip.value)
+  event->setArgument<std::string>(pcip.value);
 
   // Schedule the event to continue through the statemachine
   context.scheduleEvent(event);
@@ -38,7 +39,9 @@ bool FindProductControlState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
     case kEventTypeReceivedPCIP:onReceivedPCIP(e);
       return true;
-    default: return SimulationState::handleEvent(e);
+    case kEventTypeFailedToReceivePCIP:onFailedToReceivePCIP(e);
+      return true;
+    default:return SimulationState::handleEvent(e);
   }
 }
 
@@ -48,5 +51,11 @@ void FindProductControlState::onReceivedPCIP(const EventPtr &e) {
 
   // Set context's current state to ConnectSimulation
   context.setCurrentState(std::make_shared<ConnectSimulationState>(context));
+}
+
+void FindProductControlState::onFailedToReceivePCIP(const EventPtr &e) {
+
+  // Set context's current state to WaitForProductControl
+  context.setCurrentState(std::make_shared<WaitForProductControlState>(context));
 }
 } // namespace simulationstates

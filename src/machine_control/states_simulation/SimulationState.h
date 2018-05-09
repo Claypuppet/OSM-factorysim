@@ -13,6 +13,7 @@ namespace simulationstates {
 
 enum EventType {
   kEventTypeReceivedPCIP,
+  kEventTypeFailedToReceivePCIP,
   kEventTypeConnected,
   kEventTypeConnectionFailed,
   kEventTypeConfigReceived,

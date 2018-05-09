@@ -28,7 +28,7 @@ add_subdirectory(src/production_control)
 
 add_executable(app_machine_control
         src/machine_control/Main.cpp
-        ${app_machine_control_SOURCES})
+        ${app_machine_control_SOURCES} src/machine_control/states_simulation/WaitForProductControlState.cpp src/machine_control/states_simulation/WaitForProductControlState.h)
 
 
 add_executable(app_production_control
