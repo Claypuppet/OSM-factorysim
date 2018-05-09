@@ -2,11 +2,6 @@
  * Test Production Control - Controller
  */
 
-#include <patterns/notifyobserver/Notifier.hpp>
-
-#include "../production_control/SimulationController.h"
-#include "../production_control/NotificationTypes.h"
-#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
 
 // http://www.boost.org/doc/libs/1_60_0/libs/test/doc/html/boost_test/adv_scenarios/shared_lib_customizations/entry_point.html
 
@@ -15,18 +10,37 @@
 #include <boost/test/unit_test.hpp>
 #include <network/Client.h>
 
+#include <patterns/notifyobserver/Notifier.hpp>
+
+#include "../test_helpers/MockNetwork.h"
+#include "../production_control/SimulationController.h"
+#include "../production_control/NotificationTypes.h"
+#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
+
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
+  auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
   Simulation::SimulationController controller;
+
+  controller.setConfigFromFile("test_configs/test_config_one_machine.yaml");
+
+  // Machine 1 should be loaded
+  BOOST_CHECK_EQUAL(!!controller.getMachine(1), true);
+
+  // Setting this state will setup the server
   auto state = States::SimulationWaitForConnectionsState(controller);
   controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state));
+
+  BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
+
+  // Connect a machine
+  machineNetwork->startMockMCClientController();
+
   Patterns::NotifyObserver::NotifyEvent e(NotifyEventIds::eControllerRegisterMachine);
   e.setArgument(0, (uint16_t) 1);
-
-  // TODO: get real connection, else boost throws error because its currently a nullptr
-  e.setArgument(1, std::shared_ptr<Network::ConnectionPtr>());
+  e.setArgument(1, machineNetwork->getConnection());
 
   // Notify controller of new event, creates new state event
   BOOST_CHECK_NO_THROW(controller.handleNotification(e));
@@ -34,7 +48,11 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Run context to handle the state event
   BOOST_CHECK_NO_THROW(controller.run());
 
-  // TODO: check current state
+  BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), true);
+
+
+  machineNetwork->stop();
+  controller.stop();
 
 }
 
