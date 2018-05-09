@@ -25,18 +25,30 @@ void States::SimulationWaitForConnectionsState::exitAction() {
 bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
     case kEventTypeMachineReady: {
-      context.machineReady(e->getArgumentAsType<u_int16_t>(0));
+      onMachineReady(e);
       break;
     }
     case kEventTypeMachineConnected: {
-      context.registerMachine(e->getArgumentAsType<u_int16_t>(0), e->getArgumentAsType<Network::ConnectionPtr>(1));
+      onMachineConnected(e);
       break;
     }
     case kEventTypeAllMachinesReadyForSimulation: {
-      context.setCurrentState(std::make_shared<OperationState>(context));
+      onAllMachinesReadyForSimulation();
       break;
     }
 
     default:return ControllerState::handleEvent(e);
   }
+}
+
+void States::SimulationWaitForConnectionsState::onMachineReady(const States::EventPtr &e) {
+  context.machineReady(e->getArgumentAsType<u_int16_t>(0));
+}
+
+void States::SimulationWaitForConnectionsState::onMachineConnected(const States::EventPtr &e) {
+  context.registerMachine(e->getArgumentAsType<u_int16_t>(0), e->getArgumentAsType<Network::ConnectionPtr>(1));
+}
+
+void States::SimulationWaitForConnectionsState::onAllMachinesReadyForSimulation() {
+  context.setCurrentState(std::make_shared<OperationState>(context));
 }

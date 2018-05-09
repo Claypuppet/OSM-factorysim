@@ -23,6 +23,22 @@ namespace States {
         void entryAction() override;
 
         void exitAction() override;
+
+     private:
+      /**
+       * handle event with id kEventTypeMachineReady
+       * @param e : event
+       */
+       void onMachineReady(const EventPtr &e);
+       /**
+        * handle event with id kEventTypeMachineConnected
+       * @param e : event
+        */
+       void onMachineConnected(const EventPtr &e);
+       /**
+        * handle event with id kEventTypeAllMachinesReadyForSimulation
+        */
+       void onAllMachinesReadyForSimulation();
     };
 }
 
