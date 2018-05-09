@@ -1,3 +1,4 @@
+#include <network/Protocol.h>
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
@@ -63,6 +64,7 @@ namespace Simulator {
 	}
 
     void SimulationController::setupNetwork(){
+	    networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
 		clientThread = networkManager.runServiceThread();
 
 		SimulationCommunication::SimulationNetworkComponent connectionHandler;

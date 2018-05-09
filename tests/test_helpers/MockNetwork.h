@@ -1,0 +1,108 @@
+//
+// Created by klei on 5/8/18.
+//
+
+#ifndef PRODUCTION_LINE_CONTROL_MOCKNETWORK_H
+#define PRODUCTION_LINE_CONTROL_MOCKNETWORK_H
+
+#include <network/Manager.h>
+#include <network/Connection.h>
+#include <network/Message.h>
+
+namespace testUtils{
+
+/**
+ * The MockNetwork class can be used to create a dummy network component. Can be used to make connection for both
+ * machine control and production control. Has access to an onMessage and onConnection callback
+ */
+class MockNetwork : public Network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
+ public:
+  MockNetwork();
+  virtual ~MockNetwork() = default;
+
+  /**
+   * Start client to connect to production control over simulation port
+   * @param waitForConnected : wait for connection to establish, default true
+   */
+  void startMockMCClientController(bool waitForConnected = true);
+  /**
+   * Start client to connect to production control over production port
+   * @param waitForConnected : wait for connection to establish, default true
+   */
+  void startMockMCClientApplication(bool waitForConnected = true);
+
+  /**
+   * Start server to listen to machine control over simulation port
+   */
+  void startMockPCServerController();
+  /**
+   * Start server to listen to machine control over production port
+   */
+  void startMockPCServerApplication();
+  /**
+   * Wait for the connection to establish or disconnect
+   */
+  void awaitConnection();
+  /**
+   * Stop network
+   */
+  void stop();
+
+  /**
+   * Send message to the other side (the one you're testing)
+   * @param msg : Message to send
+   */
+  void sendMessage(Network::Message& msg);
+
+  /**
+   * set on receive callback
+   * example argument: [](Network::Message& message){std::cout << message.mBody << std::endl;}
+   * @param aHandleMessageFn : lambda to be called when message is received
+   */
+  void setOnMessageFn(std::function<void(Network::Message&)>& aOnMessageFn);
+
+  /**
+   * set on connection established callback
+   * example argument: [](Network::ConnectionPtr& connection){write some message to connection}
+   * @param aHandleMessageFn : lambda to be called when message is received
+   */
+  void setOnConnectionFn(std::function<void(Network::ConnectionPtr&)>& aOnConnectionFn);
+
+  /**
+   * get connection
+   * @return : connection
+   */
+  const Network::ConnectionPtr &getConnection() const;
+  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+
+ private:
+
+  friend Network::Server;
+  friend Network::Client;
+
+  // IConnectionHandler callbacks
+  void onConnectionEstablished(Network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+
+  enum ConnectionStatus {
+    kDisconnected,
+    kConnected,
+    kConnecting
+  };
+
+  ConnectionStatus status;
+  ThreadPtr networkThread;
+  Network::Manager networkManager;
+  Network::ConnectionPtr connection;
+  std::function<void(Network::Message&)> onMessageFn;
+  std::function<void(Network::ConnectionPtr&)> onConnectionFn;
+
+  Network::ServerPtr server;
+  Network::ClientPtr client;
+
+};
+
+}
+
+#endif //PRODUCTION_LINE_CONTROL_MOCKNETWORK_H
