@@ -25,14 +25,14 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
   Simulation::SimulationController controller;
 
-  controller.setConfigFromFile("test_configs/test_config_one_machine.yaml");
+  BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
 
   // Machine 1 should be loaded
   BOOST_CHECK(!!controller.getMachine(1));
 
   // Setting this state will setup the server
   auto state = States::SimulationWaitForConnectionsState(controller);
-  controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state));
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state)));
 
   BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
 
@@ -52,15 +52,15 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK(controller.getMachine(1)->isSimulationConnected());
 
   // set machine ready, to "mock" that he received config
-  controller.machineReady(1);
+  BOOST_CHECK_NO_THROW(controller.machineReady(1));
 
   BOOST_CHECK(controller.allMachinesReady());
 
   BOOST_CHECK_NO_THROW(controller.run());
 
-  auto newState = controller.getCurrentState();
-
-  BOOST_CHECK(!!std::dynamic_pointer_cast<States::OperationState>(newState));
+  // Get current state and check if we are in the next
+  auto currentState = controller.getCurrentState();
+  BOOST_CHECK(!!std::dynamic_pointer_cast<States::OperationState>(currentState));
 
   machineNetwork->stop();
   controller.stop();
