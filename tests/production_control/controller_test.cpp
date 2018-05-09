@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   controller.setConfigFromFile("test_configs/test_config_one_machine.yaml");
 
   // Machine 1 should be loaded
-  BOOST_CHECK_EQUAL(!!controller.getMachine(1), true);
+  BOOST_CHECK(!!controller.getMachine(1));
 
   // Setting this state will setup the server
   auto state = States::SimulationWaitForConnectionsState(controller);
@@ -49,15 +49,15 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Run context to handle the state event
   BOOST_CHECK_NO_THROW(controller.run());
 
-  BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), true);
+  BOOST_CHECK(controller.getMachine(1)->isSimulationConnected());
 
-  BOOST_CHECK_EQUAL(controller.allMachinesConnected(), true);
+  BOOST_CHECK(controller.allMachinesConnected());
 
   BOOST_CHECK_NO_THROW(controller.run());
 
   auto newState = controller.getCurrentState();
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<States::OperationState>(newState), true);
+  BOOST_CHECK(!!std::dynamic_pointer_cast<States::OperationState>(newState));
 
   machineNetwork->stop();
   controller.stop();
