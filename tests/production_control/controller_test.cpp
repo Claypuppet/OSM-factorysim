@@ -51,7 +51,10 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
 
   BOOST_CHECK(controller.getMachine(1)->isSimulationConnected());
 
-  BOOST_CHECK(controller.allMachinesConnected());
+  // set machine ready, to "mock" that he received config
+  controller.machineReady(1);
+
+  BOOST_CHECK(controller.allMachinesReady());
 
   BOOST_CHECK_NO_THROW(controller.run());
 

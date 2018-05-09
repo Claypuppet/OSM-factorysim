@@ -137,23 +137,29 @@ namespace Simulation {
 		if(m){
 			m->setSimulationConnection(connection);
 			m->sendSimulationConfiguration();
-
-			// Add new event if all machines are now connected
-			if (allMachinesConnected()) {
-			  	auto e = std::make_shared<States::Event>(States::kEventTypeAllMachinesConnected);
-			  	scheduleEvent(e);
-			}
 		}
-
 	}
 
-	bool SimulationController::allMachinesConnected() {
+	bool SimulationController::allMachinesReady() {
 	  	for (const auto &machine : machines){
-	    	if (!machine->isSimulationConnected()){
+	    	if (!machine->isReadyForSimulation()){
 	      		return false;
 	    	}
 	  	}
 	  	return true;
+	}
+
+	void SimulationController::machineReady(uint16_t machineId) {
+		auto machine = getMachine(machineId);
+		if(machine){
+		  	machine->setConfigured(true);
+
+			// Add new event if all machines are now connected
+			if (allMachinesReady()) {
+				auto e = std::make_shared<States::Event>(States::kEventTypeAllMachinesReadyForSimulation);
+				scheduleEvent(e);
+			}
+		}
 	}
 }
 
