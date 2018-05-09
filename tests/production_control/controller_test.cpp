@@ -16,6 +16,7 @@
 #include "../production_control/SimulationController.h"
 #include "../production_control/NotificationTypes.h"
 #include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
+#include "../../src/production_control/states_controller/OperationState.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
@@ -50,6 +51,13 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
 
   BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), true);
 
+  BOOST_CHECK_EQUAL(controller.allMachinesConnected(), true);
+
+  BOOST_CHECK_NO_THROW(controller.run());
+
+  auto newState = controller.getCurrentState();
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<States::OperationState>(newState), true);
 
   machineNetwork->stop();
   controller.stop();

@@ -140,7 +140,7 @@ namespace Simulation {
 
 			// Add new event if all machines are now connected
 			if (allMachinesConnected()) {
-			  	auto e = std::make_shared<States::Event>(States::kEventTypeSimulationConfigLoaded);
+			  	auto e = std::make_shared<States::Event>(States::kEventTypeAllMachinesConnected);
 			  	scheduleEvent(e);
 			}
 		}
@@ -153,6 +153,7 @@ namespace Simulation {
 	      		return false;
 	    	}
 	  	}
+	  	return true;
 	}
 }
 
