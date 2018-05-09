@@ -64,6 +64,10 @@ SimulationController::SimulationController(const models::Machine &aMachineInfo)
     : Controller(aMachineInfo), executing(false) {
 }
 
+SimulationController::~SimulationController(){
+  stop();
+}
+
 void SimulationController::setupNetwork() {
   networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
   clientThread = networkManager.runServiceThread();
@@ -96,9 +100,16 @@ void SimulationController::execute() {
 }
 
 void SimulationController::stop() {
+  // Set the controller to inactive
   executing = false;
+
+  // Stop the network manager
   networkManager.stop();
-  clientThread->join();
+
+  // Join the client thread
+  if(clientThread->joinable()){
+    clientThread->join();
+  }
 }
 
 void SimulationController::registerMachine() {

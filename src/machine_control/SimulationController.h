@@ -22,7 +22,7 @@ namespace simulator {
               public Patterns::NotifyObserver::Observer {
     public:
         SimulationController(const models::Machine& aMachineInfo);
-        virtual ~SimulationController() = default;
+        virtual ~SimulationController();
 
 		void execute();
 		void stop();

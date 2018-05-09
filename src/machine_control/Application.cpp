@@ -6,30 +6,46 @@
 #include "states_production/ConnectState.h"
 
 namespace MachineCore {
-    Application::Application(const models::Machine& aMachineInfo)
-            : Patterns::Statemachine::Context(), machineInfo(aMachineInfo)
-    {
-        clientThread = manager.runServiceThread();
 
-        Communication::NetworkComponent connectionHandler;
-        handleNotificationsFor(connectionHandler);
+Application::Application(const models::Machine &aMachineInfo)
+    : Patterns::Statemachine::Context(), machineInfo(aMachineInfo) {
 
-        client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+  clientThread = manager.runServiceThread();
 
-        setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
-    }
+  Communication::NetworkComponent connectionHandler;
+  handleNotificationsFor(connectionHandler);
 
-    void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-    }
+  client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
 
-    const models::Machine &Application::getMachineInfo() const {
-        return machineInfo;
-    }
+  setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
+}
 
-    void Application::setMachineInfo(const models::Machine &machineInfo) {
-        Application::machineInfo = machineInfo;
-    }
+Application::~Application() {
+  stop();
+}
+
+void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+}
+
+const models::Machine &Application::getMachineInfo() const {
+  return machineInfo;
+}
+
+void Application::setMachineInfo(const models::Machine &machineInfo) {
+  Application::machineInfo = machineInfo;
+}
+
 void Application::setStartState() {
   setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
 }
+
+void Application::stop() {
+  // Stop the manager
+  manager.stop();
+
+  // Join the client thread
+  if (clientThread->joinable()) {
+    clientThread->join();
+  }
 }
+} // namespace MachineCore

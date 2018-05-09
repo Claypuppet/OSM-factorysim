@@ -13,43 +13,52 @@
 
 //TODO: Implement Observer
 namespace MachineCore {
-    class Application
-            : public Patterns::Statemachine::Context,
-              public Patterns::NotifyObserver::Observer{
-    public:
-        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+class Application
+    : public Patterns::Statemachine::Context,
+      public Patterns::NotifyObserver::Observer {
+ public:
+  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
-        /**
-         * Constructor
-         * @param aMachineInfo : The value for machineInfo
-         */
-        explicit Application(const models::Machine& aMachineInfo);
+  /**
+   * Constructor
+   * @param aMachineInfo : The value for machineInfo
+   */
+  explicit Application(const models::Machine &aMachineInfo);
 
-        /**
-         * The destructor
-         */
-        ~Application() override = default;
+  /**
+   * The destructor
+   */
+  ~Application() override;
 
-        /**
-         * Getter for machineInfo
-         * @return machineInfo
-         */
-        const models::Machine &getMachineInfo() const;
+  /**
+   * Getter for machineInfo
+   * @return machineInfo
+   */
+  const models::Machine &getMachineInfo() const;
 
-        /**
-         * Setter for machineInfo
-         * @param machineInfo : New value for machineInfo
-         */
-        void setMachineInfo(const models::Machine &machineInfo);
-      void setStartState();
-    private:
-        Network::Manager manager;
-        Network::ClientPtr client;
-        ThreadPtr clientThread;
+  /**
+   * Setter for machineInfo
+   * @param machineInfo : New value for machineInfo
+   */
+  void setMachineInfo(const models::Machine &machineInfo);
 
-        models::Machine machineInfo;
-    };
+  /**
+   * Sets the starting state for the application's statemachine context
+   */
+  void setStartState();
+
+  /**
+   * Stops the network manager and joins the client thread
+   */
+  void stop();
+
+ private:
+  Network::Manager manager;
+  Network::ClientPtr client;
+  ThreadPtr clientThread;
+
+  models::Machine machineInfo;
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_APPLICATION_H

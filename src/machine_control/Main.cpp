@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include <network/Server.h>
 #include <cstdint>
@@ -16,11 +17,19 @@ int main(int argc, char **argv) {
 //	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
 //	server->start();
 
+  // Ready commandline arguments
   utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
-  models::Machine machine;
+  // Get the machine's ID from the commandline arguments
+  utils::CommandlineArgument machineId = utils::CommandLineArguments::getInstance().getKwarg("-machine_id");
+
+  // Set up the machine which is being controlled
+  models::Machine machine(std::stoi(machineId.value), "");
+
+  // Create the controller, which is set to the previously created machine
   simulator::SimulationController controller(machine);
 
+  // Start up the controller
   controller.execute();
 
   return 0;
