@@ -34,3 +34,6 @@ void Patterns::Statemachine::Context::run(){
 	}
 	currentState->doActivity();
 }
+const Patterns::Statemachine::StatePtr &Patterns::Statemachine::Context::getCurrentState() const {
+  return currentState;
+}

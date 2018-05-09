@@ -36,11 +36,16 @@ namespace Patterns {
              */
             void setCurrentState(StatePtr currentState);
 
+			/**
+			 * Get the current state
+			 */
+			const StatePtr &getCurrentState() const;
+
         protected:
             Context() = default;
 
             StatePtr currentState;
-            std::queue<EventPtr> events;
+		    std::queue<EventPtr> events;
         };
     }
 }

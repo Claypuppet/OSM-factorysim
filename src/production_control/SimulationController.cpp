@@ -133,19 +133,24 @@ namespace Simulation {
 	void SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
 		auto m = getMachine(machineId);
 		if(m){
-			if (!m->isConnected()) {
-				simMachineCount++;
-			}
-
 			m->setSimulationConnection(connection);
 			m->sendSimulationConfiguration();
 
-			if (simMachineCount == machines.size()) {
-				auto e = std::make_shared<States::Event>(States::kEventTypeSimulationConfigLoaded);
-				scheduleEvent(e);
+			// Add new event if all machines are now connected
+			if (allMachinesConnected()) {
+			  	auto e = std::make_shared<States::Event>(States::kEventTypeSimulationConfigLoaded);
+			  	scheduleEvent(e);
 			}
 		}
 
+	}
+
+	bool SimulationController::allMachinesConnected() {
+	  	for (const auto &machine : machines){
+	    	if (!machine->isSimulationConnected()){
+	      		return false;
+	    	}
+	  	}
 	}
 }
 

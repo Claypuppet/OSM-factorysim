@@ -93,6 +93,12 @@ namespace Simulation {
        */
 		void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
+		/**
+		 * check if all machines are connected
+		 * @return : true if all machines are connected
+		 */
+		bool allMachinesConnected();
+
     private:
 
         /**
@@ -117,7 +123,7 @@ namespace Simulation {
          * SimulationMachines
          */
         std::vector<SimulationMachinePtr> machines;
-      u_int16_t simMachineCount;
+
         /**
          * Config properties
          */
