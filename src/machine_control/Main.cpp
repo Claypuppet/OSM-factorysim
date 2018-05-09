@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   utils::CommandlineArgument machineId = utils::CommandLineArguments::getInstance().getKwarg("-machine_id");
 
   // Create the controller, which is set to the previously created machine
-  simulator::SimulationController controller(std::stoi(machineId.value), simulator::SimulationMachine());
+  simulator::SimulationController controller(std::stoi(machineId.value));
 
   // Start up the controller
   controller.execute();

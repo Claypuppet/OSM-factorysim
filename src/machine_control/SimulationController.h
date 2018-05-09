@@ -23,7 +23,7 @@ class SimulationController
       public Patterns::NotifyObserver::Observer {
 
  public:
-  SimulationController(uint16_t aMachineId, const SimulationMachine &aMachine);
+  SimulationController(uint16_t aMachineId);
   ~SimulationController() override;
 
   void execute();
@@ -49,6 +49,7 @@ class SimulationController
   ThreadPtr clientThread;
   Network::Manager networkManager;
   Network::ClientPtr client;
+  SimulationApplication application;
 };
 }
 

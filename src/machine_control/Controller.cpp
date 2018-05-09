@@ -6,8 +6,8 @@
 
 namespace machinecore {
 
-Controller::Controller(uint16_t aMachineId, const Machine &aMachine)
-    : application(aMachineId, aMachine) {
+Controller::Controller(uint16_t aMachineId)
+    : application(aMachineId) {
 
 }
 

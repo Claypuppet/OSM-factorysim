@@ -77,8 +77,8 @@ void SimulationController::onMachineInfoReceived(const Patterns::NotifyObserver:
   scheduleEvent(e);
 }
 
-SimulationController::SimulationController(uint16_t aMachineId, const SimulationMachine &aMachine)
-    : Controller(aMachineId, aMachine), executing(false) {
+SimulationController::SimulationController(uint16_t aMachineId)
+    : Controller(aMachineId), executing(false) {
 }
 
 SimulationController::~SimulationController() {

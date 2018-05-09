@@ -7,8 +7,8 @@
 
 namespace machinecore {
 
-Application::Application(uint16_t aMachineId, Machine aMachine)
-    : Patterns::Statemachine::Context(), id(aMachineId), machine(aMachine) {
+Application::Application(uint16_t aMachineId)
+    : Patterns::Statemachine::Context(), id(aMachineId), machine() {
 
   clientThread = manager.runServiceThread();
 

@@ -11,8 +11,11 @@
 namespace simulator {
 class SimulationApplication : public machinecore::Application {
  public:
-  SimulationApplication(uint16_t aMachineId, const SimulationMachine &aMachine);
+  SimulationApplication(uint16_t aMachineId);
   virtual ~SimulationApplication() = default;
+
+ private:
+  SimulationMachine machine;
 };
 }
 

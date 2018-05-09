@@ -15,7 +15,7 @@ class Controller {
    * Constructor
    * @param aMachineInfo : The machineInfo for application
    */
-  explicit Controller(uint16_t aMachineId, const Machine &aMachine);
+  explicit Controller(uint16_t aMachineId);
 
   /**
    * The destructor

@@ -24,7 +24,7 @@ class Application
    * Constructor
    * @param aMachineInfo : The value for machineInfo
    */
-  explicit Application(uint16_t aMachineId, Machine aMachine);
+  explicit Application(uint16_t aMachineId);
 
   /**
    * The destructor

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
   auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
 
-  simulator::SimulationController controller(1, simulator::SimulationMachine());
+  simulator::SimulationController controller(1);
 
   BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::FindProductControlState>(controller)));
 
