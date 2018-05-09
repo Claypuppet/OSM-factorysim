@@ -16,6 +16,12 @@ namespace Communication {
 
 		const void sendHello();
 
+		/**
+		 * A function that sends a message to production control to register this machine
+		 * @param machineId : The id of the machine
+		 */
+		void sendRegisterMessage(const uint16_t machineId);
+
 		Network::ConnectionPtr getConnection();
 
 	private:

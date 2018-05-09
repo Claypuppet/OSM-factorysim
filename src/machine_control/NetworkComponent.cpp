@@ -8,42 +8,51 @@
 
 namespace Communication {
 
-	NetworkComponent::NetworkComponent() {
+NetworkComponent::NetworkComponent() {
 
-	}
+}
 
-	void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-		IConnectionHandler::onConnectionFailed(connection, error);
-	}
+void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+  IConnectionHandler::onConnectionFailed(connection, error);
+}
 
-	void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
-		mConnection = connection;
+void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+  mConnection = connection;
 
-		sendHello();
-	}
+  sendHello();
+}
 
-	void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-		std::cout << "dc" << std::endl;
-	}
+void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
+                                                const boost::system::error_code &error) {
+  std::cout << "dc" << std::endl;
+}
 
-	void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-		std::cout << message.mBody << std::endl;
-	}
+void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+  std::cout << message.mBody << std::endl;
+}
 
-	void NetworkComponent::handleProcessProductMessage() {
+void NetworkComponent::handleProcessProductMessage() {
 
-	}
+}
 
-	void NetworkComponent::handleReconfigureMessage() {
+void NetworkComponent::handleReconfigureMessage() {
 
-	}
+}
 
-	const void NetworkComponent::sendHello() {
-		Network::Message msg(1, "1");
-		mConnection->writeMessage(msg);
-	}
+const void NetworkComponent::sendHello() {
+  Network::Message msg(1, "1");
+  mConnection->writeMessage(msg);
+}
 
-	Network::ConnectionPtr NetworkComponent::getConnection() {
-		return mConnection;
-	}
+Network::ConnectionPtr NetworkComponent::getConnection() {
+  return mConnection;
+}
+
+void NetworkComponent::sendRegisterMessage(const uint16_t machineId) {
+  Network::Message message;
+  message.setBody(std::to_string(machineId));
+  message.setMessageType(Network::Protocol::AppMessageType::kAppMessageTypeRegisterMachine);
+  mConnection->writeMessage(message);
+}
+
 }
