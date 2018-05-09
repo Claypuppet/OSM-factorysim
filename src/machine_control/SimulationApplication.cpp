@@ -5,7 +5,7 @@
 #include "SimulationApplication.h"
 
 namespace simulator {
-    SimulationApplication::SimulationApplication(const models::Machine &aMachineInfo)
-            : Application(aMachineInfo) {
+    SimulationApplication::SimulationApplication(uint16_t aMachineId, const SimulationMachine &aMachine)
+            : Application(aMachineId, aMachine) {
     }
 }

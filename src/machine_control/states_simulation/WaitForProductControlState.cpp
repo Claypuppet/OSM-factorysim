@@ -14,8 +14,8 @@ void WaitForProductControlState::doActivity() {
 void WaitForProductControlState::exitAction() {
 
 }
-bool WaitForProductControlState::handleEvent(const EventPtr &e) {
-  return SimulationState::handleEvent(e);
+bool WaitForProductControlState::handleEvent(const EventPtr &event) {
+  return SimulationState::handleEvent(event);
 }
 
 } // namespace simulationstates

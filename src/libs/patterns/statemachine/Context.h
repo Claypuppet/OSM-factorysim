@@ -26,9 +26,9 @@ class Context {
 
   /**
    * Add event to the event queue.
-   * @param e : Event to add
+   * @param event : Event to add
    */
-  void scheduleEvent(EventPtr e);
+  void scheduleEvent(EventPtr event);
 
   /**
    * Set a new state

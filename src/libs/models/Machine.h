@@ -21,9 +21,6 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 class Machine {
  public:
-  /**
-   * Default constructor
-   */
   Machine() = default;
 
   /**
@@ -31,24 +28,11 @@ class Machine {
    * @param aId : Id of the machine
    * @param aName : Name of the machine
    */
-  Machine(uint16_t aId, std::string aName);
-
-  /**
-   * Copy constructor
-   * @param other : The Machine to copy
-   */
+  Machine(uint16_t aId, const std::string &aName = "");
   Machine(const Machine &other);
 
-  /**
-   * The destructor
-   */
-  virtual ~Machine();
+  virtual ~Machine() = default;
 
-  /**
-   * Asignment operator
-   * @param other : The Machine object to assign
-   * @return The new Machine object
-   */
   Machine &operator=(const Machine &other);
 
   /**
@@ -57,22 +41,8 @@ class Machine {
    */
   void deserialize(YAML::Node &machineNode);
 
-  /**
-  * Getter for id
-  * @return id
-  */
   uint16_t getId() const;
-
-  /**
-   * Getter for name
-   * @return name
-   */
   const std::string &getName() const;
-
-  /**
-   * Getter for configurations
-   * @return configurations
-   */
   const std::vector<MachineConfiguration> &getConfigurations() const;
 
  protected:

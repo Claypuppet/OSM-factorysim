@@ -2,29 +2,20 @@
 
 namespace models {
 
-Machine::Machine(uint16_t aId, std::string aName)
+Machine::Machine(uint16_t aId, const std::string &aName)
     : id(aId), name(aName) {
 }
 
 Machine::Machine(const Machine &other)
-    : id(other.id),
-      name(other.name) {
-  for (uint16_t i = 0; i < other.configurations.size(); ++i) {
-    configurations.push_back(other.configurations[i]);
-  }
-}
-
-Machine::~Machine() {
+    : id(other.id), name(other.name), configurations(other.configurations) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
+
   if (this != &other) {
     id = other.id;
     name = other.name;
-
-    for (uint16_t i = 0; i < other.configurations.size(); ++i) {
-      configurations.push_back(other.configurations[i]);
-    }
+    configurations = other.configurations;
   }
 
   return *this;

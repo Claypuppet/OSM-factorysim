@@ -6,30 +6,31 @@
 #define PRODUCTION_LINE_CONTROL_CONTROLLER_H
 
 #include "Application.h"
+#include "Machine.h"
 
-namespace MachineCore{
-    class Controller {
-    public:
-        /**
-         * Constructor
-         * @param aMachineInfo : The machineInfo for application
-         */
-        explicit Controller(const models::Machine& aMachineInfo);
+namespace machinecore{
+class Controller {
+ public:
+  /**
+   * Constructor
+   * @param aMachineInfo : The machineInfo for application
+   */
+  explicit Controller(uint16_t aMachineId, const Machine &aMachine);
 
-        /**
-         * The destructor
-         */
-        virtual ~Controller() = default;
+  /**
+   * The destructor
+   */
+  virtual ~Controller() = default;
 
-        /**
-         * Getter for application
-         * @return application
-         */
-        Application &getApplication();
+  /**
+   * Getter for application
+   * @return application
+   */
+  Application &getApplication();
 
-    protected:
-        Application application;
-    };
+ protected:
+  Application application;
+};
 }
 
 #endif //PRODUCTION_LINE_CONTROL_CONTROLLER_H

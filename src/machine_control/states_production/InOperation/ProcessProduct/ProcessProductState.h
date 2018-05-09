@@ -11,7 +11,7 @@
 namespace ProductionStates {
 class ProcessProductState : public InOperationState {
  public:
-  ProcessProductState(MachineCore::Application &aContext) : InOperationState(aContext) {};
+  ProcessProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
 
   virtual ~ProcessProductState() = default;
 

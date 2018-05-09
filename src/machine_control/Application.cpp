@@ -5,10 +5,10 @@
 #include "Application.h"
 #include "states_production/ConnectState.h"
 
-namespace MachineCore {
+namespace machinecore {
 
-Application::Application(const models::Machine &aMachineInfo)
-    : Patterns::Statemachine::Context(), machineInfo(aMachineInfo) {
+Application::Application(uint16_t aMachineId, Machine aMachine)
+    : Patterns::Statemachine::Context(), id(aMachineId), machine(aMachine) {
 
   clientThread = manager.runServiceThread();
 
@@ -27,14 +27,6 @@ Application::~Application() {
 void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 }
 
-const models::Machine &Application::getMachineInfo() const {
-  return machineInfo;
-}
-
-void Application::setMachineInfo(const models::Machine &machineInfo) {
-  Application::machineInfo = machineInfo;
-}
-
 void Application::setStartState() {
   setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
 }
@@ -48,4 +40,4 @@ void Application::stop() {
     clientThread->join();
   }
 }
-} // namespace MachineCore
+} // namespace machinecore

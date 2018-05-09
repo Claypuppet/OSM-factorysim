@@ -34,26 +34,26 @@ void FindProductControlState::doActivity() {
 void FindProductControlState::exitAction() {
 }
 
-bool FindProductControlState::handleEvent(const EventPtr &e) {
+bool FindProductControlState::handleEvent(const EventPtr &event) {
 
-  switch (e->getId()) {
-    case kEventTypeReceivedPCIP:onReceivedPCIP(e);
+  switch (event->getId()) {
+    case kEventTypeReceivedPCIP:onReceivedPCIP(event);
       return true;
-    case kEventTypeFailedToReceivePCIP:onFailedToReceivePCIP(e);
+    case kEventTypeFailedToReceivePCIP:onFailedToReceivePCIP();
       return true;
-    default:return SimulationState::handleEvent(e);
+    default:return SimulationState::handleEvent(event);
   }
 }
 
-void FindProductControlState::onReceivedPCIP(const EventPtr &e) {
+void FindProductControlState::onReceivedPCIP(const EventPtr &event) {
   // Set remoteHost of context to the event's argument
-  context.setRemoteHost(e->getArgumentAsType<std::string>());
+  context.setRemoteHost(event->getArgumentAsType<std::string>());
 
   // Set context's current state to ConnectSimulation
   context.setCurrentState(std::make_shared<ConnectSimulationState>(context));
 }
 
-void FindProductControlState::onFailedToReceivePCIP(const EventPtr &e) {
+void FindProductControlState::onFailedToReceivePCIP() {
 
   // Set context's current state to WaitForProductControl
   context.setCurrentState(std::make_shared<WaitForProductControlState>(context));

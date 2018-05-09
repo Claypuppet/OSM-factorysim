@@ -4,14 +4,14 @@
 
 #include "Controller.h"
 
-namespace MachineCore {
+namespace machinecore {
 
-    Controller::Controller(const models::Machine& aMachineInfo)
-            : application(aMachineInfo){
+Controller::Controller(uint16_t aMachineId, const Machine &aMachine)
+    : application(aMachineId, aMachine) {
 
-    }
+}
 
-    Application &Controller::getApplication() {
-        return application;
-    }
+Application &Controller::getApplication() {
+  return application;
+}
 }

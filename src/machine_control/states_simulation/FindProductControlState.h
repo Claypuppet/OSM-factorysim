@@ -20,11 +20,11 @@ class FindProductControlState : public SimulationState {
 
   void exitAction() override;
 
-  bool handleEvent(const EventPtr &e) override;
+  bool handleEvent(const EventPtr &event) override;
 
  private:
   void onReceivedPCIP(const EventPtr &event);
-  void onFailedToReceivePCIP(const EventPtr &event);
+  void onFailedToReceivePCIP();
 };
 }
 

@@ -2,7 +2,7 @@
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
-#include "models/Machine.h"
+#include "SimulationMachine.h"
 
 namespace models {
 typedef std::shared_ptr<Machine> MachinePtr;
@@ -46,9 +46,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public Pat
 void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
     case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
-      application.setMachineInfo(*notification.getFirstArgumentAsType<models::MachinePtr>());
-      auto e = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeConfigReceived);
-      scheduleEvent(e);
+      onMachineInfoReceived(notification);
       break;
     }
 
@@ -60,11 +58,30 @@ void SimulationController::handleNotification(const Patterns::NotifyObserver::No
   }
 }
 
-SimulationController::SimulationController(const models::Machine &aMachineInfo)
-    : Controller(aMachineInfo), executing(false) {
+/**
+ * Executed on receiving new machine configurations
+ * @param notification Notification containing the new configuration(s)
+ */
+void SimulationController::onMachineInfoReceived(const Patterns::NotifyObserver::NotifyEvent &notification) {
+
+  // Get the machien model from the notification's arguments
+  models::Machine &machineModel = *notification.getFirstArgumentAsType<models::MachinePtr>();
+
+  // Set the application's configurations to the machine model's configurations
+  application.setConfigurations(machineModel.getConfigurations());
+
+  // Create a state event to advance to the next state
+  auto e = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeConfigReceived);
+
+  // Schedule the event in the context
+  scheduleEvent(e);
 }
 
-SimulationController::~SimulationController(){
+SimulationController::SimulationController(uint16_t aMachineId, const SimulationMachine &aMachine)
+    : Controller(aMachineId, aMachine), executing(false) {
+}
+
+SimulationController::~SimulationController() {
   stop();
 }
 
@@ -107,7 +124,7 @@ void SimulationController::stop() {
   networkManager.stop();
 
   // Join the client thread
-  if(clientThread->joinable()){
+  if (clientThread->joinable()) {
     clientThread->join();
   }
 }

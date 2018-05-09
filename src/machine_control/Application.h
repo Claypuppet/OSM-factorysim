@@ -5,14 +5,15 @@
 #ifndef PRODUCTION_LINE_CONTROL_APPLICATION_H
 #define PRODUCTION_LINE_CONTROL_APPLICATION_H
 
-#include <models/Machine.h>
 #include "patterns/statemachine/Context.h"
 #include "patterns/notifyobserver/Observer.hpp"
 #include "network/Manager.h"
 #include "NetworkComponent.h"
+#include "Machine.h"
+#include "models/MachineConfiguration.h"
 
 //TODO: Implement Observer
-namespace MachineCore {
+namespace machinecore {
 class Application
     : public Patterns::Statemachine::Context,
       public Patterns::NotifyObserver::Observer {
@@ -23,24 +24,36 @@ class Application
    * Constructor
    * @param aMachineInfo : The value for machineInfo
    */
-  explicit Application(const models::Machine &aMachineInfo);
+  explicit Application(uint16_t aMachineId, Machine aMachine);
 
   /**
    * The destructor
    */
   ~Application() override;
 
-  /**
-   * Getter for machineInfo
-   * @return machineInfo
-   */
-  const models::Machine &getMachineInfo() const;
+  const Machine &getMachine() const {
+    return machine;
+  }
 
-  /**
-   * Setter for machineInfo
-   * @param machineInfo : New value for machineInfo
-   */
-  void setMachineInfo(const models::Machine &machineInfo);
+  void setMachine(const Machine &machine) {
+    Application::machine = machine;
+  }
+
+  uint16_t getId() const {
+    return id;
+  }
+
+  void setId(uint16_t id) {
+    Application::id = id;
+  }
+
+  const std::vector<models::MachineConfiguration> &getConfigurations() const {
+    return configurations;
+  }
+
+  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
+    Application::configurations = configurations;
+  }
 
   /**
    * Sets the starting state for the application's statemachine context
@@ -57,7 +70,13 @@ class Application
   Network::ClientPtr client;
   ThreadPtr clientThread;
 
-  models::Machine machineInfo;
+  Machine machine;
+
+  // Id of the machine
+  uint16_t id;
+
+  // Vector of possible configurations
+  std::vector<models::MachineConfiguration> configurations;
 };
 }
 

@@ -13,40 +13,43 @@
 #include "SimulationNetworkComponent.h"
 #include "Controller.h"
 #include "SimulationApplication.h"
+#include "SimulationMachine.h"
 
 namespace simulator {
 
-    class SimulationController
-            : public MachineCore::Controller,
-              public Patterns::Statemachine::Context,
-              public Patterns::NotifyObserver::Observer {
-    public:
-        SimulationController(const models::Machine& aMachineInfo);
-        virtual ~SimulationController();
+class SimulationController
+    : public machinecore::Controller,
+      public Patterns::Statemachine::Context,
+      public Patterns::NotifyObserver::Observer {
 
-		void execute();
-		void stop();
-		void registerMachine();
+ public:
+  SimulationController(uint16_t aMachineId, const SimulationMachine &aMachine);
+  ~SimulationController() override;
 
-		void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+  void execute();
+  void stop();
+  void registerMachine();
 
-		/**
-		 * Sets the ip address of the production control
-		 * @param setRemoteHost : The new ip-address of the host
-		 */
-		void setRemoteHost(const std::string &setRemoteHost);
-		void setupNetwork();
+  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
 
-	private:
-		void setStartState();
+  /**
+   * Sets the ip address of the production control
+   * @param setRemoteHost : The new ip-address of the host
+   */
+  void setRemoteHost(const std::string &setRemoteHost);
+  void setupNetwork();
 
-		bool executing;
+ private:
+  void setStartState();
 
-		ThreadPtr clientThread;
-		Network::Manager networkManager;
-        Network::ClientPtr client;
-	};
+  void onMachineInfoReceived(const Patterns::NotifyObserver::NotifyEvent &notification);
+
+  bool executing;
+
+  ThreadPtr clientThread;
+  Network::Manager networkManager;
+  Network::ClientPtr client;
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H

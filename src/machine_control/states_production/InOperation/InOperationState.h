@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class InOperationState : public ProductionState {
  public:
-  InOperationState(MachineCore::Application &aContext) : ProductionState(aContext) {};
+  InOperationState(machinecore::Application &aContext) : ProductionState(aContext) {};
   bool handleEvent(const EventPtr &e) override;
 };
 }
