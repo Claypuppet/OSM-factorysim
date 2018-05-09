@@ -2,11 +2,6 @@
  * Test Production Control - Controller
  */
 
-#include <patterns/notifyobserver/Notifier.hpp>
-
-#include "../production_control/SimulationController.h"
-#include "../production_control/NotificationTypes.h"
-#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
 
 // http://www.boost.org/doc/libs/1_60_0/libs/test/doc/html/boost_test/adv_scenarios/shared_lib_customizations/entry_point.html
 
@@ -14,7 +9,13 @@
 
 #include <boost/test/unit_test.hpp>
 #include <network/Client.h>
+
+#include <patterns/notifyobserver/Notifier.hpp>
+
 #include "../test_helpers/MockNetwork.h"
+#include "../production_control/SimulationController.h"
+#include "../production_control/NotificationTypes.h"
+#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
