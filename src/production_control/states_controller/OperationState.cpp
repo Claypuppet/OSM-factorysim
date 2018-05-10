@@ -3,22 +3,25 @@
 
 namespace States {
 
-	OperationState::OperationState(simulation::SimulationController &context) : ControllerState(context) {}
+OperationState::OperationState(simulation::SimulationController &aContext)
+    : ControllerState(aContext) {
 
-	void OperationState::entryAction() {
-	  context.getApplication().setStartState();
-	}
+}
 
-	void OperationState::doActivity() {
-		context.getApplication().run();
-	}
+void OperationState::entryAction() {
+  context.getApplication().setStartState();
+}
 
-	void OperationState::exitAction() {
-//		context.application.stop()
-	}
+void OperationState::doActivity() {
+  context.getApplication().run();
+}
 
-	bool OperationState::handleEvent(const EventPtr &event) {
-		return false;
-	}
+void OperationState::exitAction() {
+  // stop application
+}
+
+bool OperationState::handleEvent(const EventPtr &event) {
+  return false;
+}
 
 }
