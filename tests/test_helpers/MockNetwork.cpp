@@ -10,7 +10,7 @@
 #include <network/Client.h>
 #include <network/Server.h>
 
-namespace testUtils {
+namespace testutils {
 
 MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageStatus(kMessageIdle),
                              onMessageFn([](const Network::Message& m){}), onConnectionFn([](const Network::ConnectionPtr& c){}){
@@ -94,13 +94,13 @@ void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const bo
   connectionStatus = kConnectionDisconnected;
 }
 void MockNetwork::awaitConnection(uint32_t timeout) {
-  testUtils::Predicate predicate = [this](){return connectionStatus != kConnectionConnecting;};
-  testUtils::HelperFunctions::waitForPredicate(predicate, timeout);
+  Predicate predicate = [this](){return connectionStatus != kConnectionConnecting;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
 
 }
 void MockNetwork::awaitMessageReceived(uint32_t timeout) {
-  testUtils::Predicate predicate = [this](){return messageStatus != kMessageWaiting;};
-  testUtils::HelperFunctions::waitForPredicate(predicate, timeout);
+  Predicate predicate = [this](){return messageStatus != kMessageWaiting;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
   // Message has been received or it timed out.
   messageStatus = kMessageIdle;
 }

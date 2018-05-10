@@ -6,7 +6,9 @@
 #define PRODUCTION_LINE_CONTROL_HELPERFUNCTIONS_H
 
 #include <functional>
-namespace testUtils{
+#include <cstdint>
+
+namespace testutils{
 
 typedef std::function<bool()> Predicate;
 

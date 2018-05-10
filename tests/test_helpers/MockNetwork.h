@@ -8,8 +8,9 @@
 #include <network/Manager.h>
 #include <network/Connection.h>
 #include <network/Message.h>
+#include <cstdint>
 
-namespace testUtils{
+namespace testutils{
 
 typedef std::function<void(const Network::Message&)> OnMessageFn;
 typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
