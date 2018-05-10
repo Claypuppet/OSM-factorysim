@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class SelfTestState : public ProductionState {
  public:
-  SelfTestState(MachineCore::Application &aContext) : ProductionState(aContext) {};
+  SelfTestState(machinecore::Application &aContext) : ProductionState(aContext) {};
 
   virtual ~SelfTestState() = default;
 

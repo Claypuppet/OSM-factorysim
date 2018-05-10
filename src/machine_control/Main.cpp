@@ -1,64 +1,34 @@
 #include <iostream>
 #include <memory>
+#include <string>
 
 #include <network/Server.h>
+#include <cstdint>
 
 #include "SimulationController.h"
+#include "utils/CommandLineArguments.h"
+#include "SimulationMachine.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
-	// Temp server production control
+  // Temp server production control
 //	Network::Manager serverManager;
 //	auto serverThread = serverManager.runServiceThread();
 //	TempProdControlServer serverController;
 //	auto server = serverManager.createServer(std::make_shared<TempProdControlServer>(serverController), 32);
 //	server->start();
 
-	// This machine controller
+  // Ready commandline arguments
+  utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
-	uint16_t machineId;
-	std::string machineName;
+  // Get the machine's ID from the commandline arguments
+  utils::CommandlineArgument machineId = utils::CommandLineArguments::getInstance().getKwarg("-machine_id");
 
-	std::cout << "What is the machine's ID?" << std::endl;
-	std::cin >> machineId;
+  // Create the controller, which is set to the previously created machine
+  simulator::SimulationController controller(std::stoi(machineId.value));
 
-	std::cout << "What is the machine's name?" << std::endl;
-	std::cin >> machineName;
+  // Start up the controller
+  controller.execute();
 
-	Simulator::SimulationController controller(Models::Machine(machineId, machineName));
-	
-	controller.execute();
-
-	return 0;
+  return 0;
 }
-
-/**
- * Temporary class to start a server for testing purposes
- */
-class TempProdControlServer : public Network::IConnectionHandler {
-public:
-	TempProdControlServer() = default;
-	virtual ~TempProdControlServer() = default;
-protected:
-
-	void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
-		IConnectionHandler::onConnectionFailed(connection, error);
-	}
-
-	void onConnectionEstablished(Network::ConnectionPtr connection) override {
-
-	}
-
-	void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override {
-
-	}
-
-	void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override {
-		std::cout << "Server recieved: " << message.mBody << std::endl;
-	}
-
-	void onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) override {
-		IConnectionHandler::onConnectionMessageSent(connection, message);
-	}
-
-};

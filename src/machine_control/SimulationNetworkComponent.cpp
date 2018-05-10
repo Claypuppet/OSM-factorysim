@@ -34,7 +34,7 @@ namespace SimulationCommunication {
 		std::cout << message.mBody << std::endl;
 		switch(message.getMessageType()){
 			case Network::Protocol::kSimMessageTypeConfig : {
-                Models::MachinePtr machinePtr;
+                models::MachinePtr machinePtr;
 
                 if (deserializeSimulationMachineInfo(message.mBody, machinePtr)) {
                     onSimulationMachineInfoReceived(machinePtr);
@@ -53,7 +53,7 @@ namespace SimulationCommunication {
 		}
 	}
 
-	bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string, Models::MachinePtr machinePtr) {
+	bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string, models::MachinePtr machinePtr) {
 		std::stringstream binaryStream((std::ios::in | std::ios::binary));
 		binaryStream.str(string);
 		cereal::PortableBinaryInputArchive archive(binaryStream);
@@ -61,7 +61,7 @@ namespace SimulationCommunication {
 		return true; // TODO : implement boolean
 	}
 
-	void SimulationNetworkComponent::onSimulationMachineInfoReceived(Models::MachinePtr machinePtr) {
+	void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
 		auto event = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
 		event.addArgument(machinePtr);
 		notifyObservers(event);

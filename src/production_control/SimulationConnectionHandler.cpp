@@ -45,7 +45,7 @@ namespace Simulation {
 	}
 
 	bool SimulationConnectionHandler::deserializeSimulationMachineInfo(const std::string &string,
-																	   Models::MachinePtr machine) {
+																	   models::MachinePtr machine) {
 //		std::stringstream binaryStream((std::ios::in | std::ios::binary));
 //		binaryStream.str(string);
 //		cereal::PortableBinaryInputArchive archive(binaryStream);
@@ -53,7 +53,7 @@ namespace Simulation {
 		return !!machine;
 	}
 
-	void SimulationConnectionHandler::onSimulationMachineInfoReceived(const Models::Machine &machine) {
+	void SimulationConnectionHandler::onSimulationMachineInfoReceived(const models::Machine &machine) {
 //		auto machinePtr = std::make_shared<Model::Machine>(machine);
 
 

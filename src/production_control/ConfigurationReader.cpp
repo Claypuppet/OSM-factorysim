@@ -8,7 +8,7 @@ namespace ConfigLoader {
     ConfigurationReader::~ConfigurationReader() {
     }
 
-    void ConfigurationReader::readConfigurationFile(std::string filePath, Models::Configuration &configuration) {
+    void ConfigurationReader::readConfigurationFile(std::string filePath, models::Configuration &configuration) {
         YAML::Node yamlFileNode = YAML::LoadFile(filePath);
         configuration.deserialize(yamlFileNode);
     }
