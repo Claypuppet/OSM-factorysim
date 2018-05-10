@@ -25,6 +25,7 @@ namespace core {
          * Stop the execution.
          */
         virtual void stop();
+      Application &getApplication();
 
     protected:
         Application application;

@@ -7,6 +7,8 @@
 #include "network/Server.h"
 #include "network/Client.h"
 
+#include "states_application/BroadCastState.h"
+
 core::Application::Application()
 {
 
@@ -61,4 +63,9 @@ Network::ServerPtr core::Application::getServer() {
 
 void core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 
+}
+
+void core::Application::setStartState() {
+  auto startState = std::make_shared<ApplicationStates::BroadCastState>(*this);
+  setCurrentState(startState);
 }

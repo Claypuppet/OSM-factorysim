@@ -19,3 +19,7 @@ void core::Controller::execute() {
 void core::Controller::stop() {
 	executing = false;
 }
+
+core::Application &core::Controller::getApplication() {
+	return application;
+}

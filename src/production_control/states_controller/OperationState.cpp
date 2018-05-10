@@ -1,6 +1,3 @@
-//
-// Created by don on 24-4-18.
-//
 
 #include "OperationState.h"
 
@@ -9,18 +6,18 @@ namespace States {
 	OperationState::OperationState(simulation::SimulationController &context) : ControllerState(context) {}
 
 	void OperationState::entryAction() {
-//	    context.application->setStartState();
+	  context.getApplication().setStartState();
 	}
 
 	void OperationState::doActivity() {
-//	    context.application->run();
+		context.getApplication().run();
 	}
 
 	void OperationState::exitAction() {
 //		context.application.stop()
 	}
 
-	bool OperationState::handleEvent(const EventPtr &e) {
+	bool OperationState::handleEvent(const EventPtr &event) {
 		return false;
 	}
 

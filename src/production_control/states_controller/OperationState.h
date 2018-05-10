@@ -20,7 +20,7 @@ namespace States {
 
         void entryAction() override;
 
-        bool handleEvent(const EventPtr &e) override;
+        bool handleEvent(const EventPtr &event) override;
 
         void exitAction() override;
     };

@@ -67,6 +67,7 @@ namespace core {
          * @param notification : The notification to handle
          */
         void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+      void setStartState();
 
     private:
         std::vector<Machine> machines;
