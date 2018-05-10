@@ -29,6 +29,7 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * @param waitForConnected : wait for connection to establish, default true
    */
   void startMockMCClientController(bool waitForConnected = true);
+
   /**
    * Start client to connect to production control over production port
    * @param waitForConnected : wait for connection to establish, default true
@@ -39,14 +40,25 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * Start server to listen to machine control over simulation port
    */
   void startMockPCServerController();
+
   /**
    * Start server to listen to machine control over production port
    */
   void startMockPCServerApplication();
+
   /**
-   * Wait for the connection to establish or disconnect
+   * Wait for the connection to establish or disconnect. Timeout is 100 milliseconds by default.
+   * @param timeout : max time to wait in milliseconds
    */
-  void awaitConnection();
+  void awaitConnection(uint32_t timeout = 100);
+
+  /**
+   * Call this when you send a message to the mock network. It will wait till the message is received. Timeout is
+   * 100 milliseconds by default.
+   * @param timeout : max time to wait in milliseconds
+   */
+  void awaitMessageReceived(uint32_t timeout = 100);
+
   /**
    * Stop network
    */
@@ -77,25 +89,30 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * @return : connection
    */
   const Network::ConnectionPtr &getConnection() const;
+
+  // IConnectionHandler callbacks
   void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(Network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
  private:
 
   friend Network::Server;
   friend Network::Client;
 
-  // IConnectionHandler callbacks
-  void onConnectionEstablished(Network::ConnectionPtr connection) override;
-  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
-
   enum ConnectionStatus {
-    kDisconnected,
-    kConnected,
-    kConnecting
+    kConnectionDisconnected,
+    kConnectionConnected,
+    kConnectionConnecting
+  };
+  enum MessageStatus {
+	kMessageIdle,
+    kMessageWaiting,
   };
 
-  ConnectionStatus status;
+  ConnectionStatus connectionStatus;
+  MessageStatus messageStatus;
   ThreadPtr networkThread;
   Network::Manager networkManager;
   Network::ConnectionPtr connection;
