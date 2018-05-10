@@ -9,7 +9,7 @@
 namespace simulation {
 
 	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-			Core::Machine(aMachine), simConnection(nullptr)
+			core::Machine(aMachine), simConnection(nullptr)
 	{
 	}
 
