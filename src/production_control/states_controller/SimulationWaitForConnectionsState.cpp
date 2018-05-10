@@ -23,14 +23,14 @@ void States::SimulationWaitForConnectionsState::exitAction() {
   context.turnOnSimulationMachines();
 }
 
-bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
-  switch (e->getId()) {
+bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
     case kEventTypeMachineReady: {
-      onMachineReady(e);
+      onMachineReady(event);
       break;
     }
     case kEventTypeMachineConnected: {
-      onMachineConnected(e);
+      onMachineConnected(event);
       break;
     }
     case kEventTypeAllMachinesReadyForSimulation: {
@@ -38,16 +38,16 @@ bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
       break;
     }
 
-    default:return ControllerState::handleEvent(e);
+    default:return ControllerState::handleEvent(event);
   }
 }
 
-void States::SimulationWaitForConnectionsState::onMachineReady(const States::EventPtr &e) {
-  context.machineReady(e->getArgumentAsType<u_int16_t>(0));
+void States::SimulationWaitForConnectionsState::onMachineReady(const States::EventPtr &event) {
+  context.machineReady(event->getArgumentAsType<u_int16_t>(0));
 }
 
-void States::SimulationWaitForConnectionsState::onMachineConnected(const States::EventPtr &e) {
-  context.registerMachine(e->getArgumentAsType<u_int16_t>(0), e->getArgumentAsType<Network::ConnectionPtr>(1));
+void States::SimulationWaitForConnectionsState::onMachineConnected(const States::EventPtr &event) {
+  context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
 }
 
 void States::SimulationWaitForConnectionsState::onAllMachinesReadyForSimulation() {

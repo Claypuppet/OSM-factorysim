@@ -13,7 +13,7 @@ namespace States {
     public:
         SimulationWaitForConnectionsState(simulation::SimulationController &context);
 
-        bool handleEvent(const EventPtr &e) override;
+        bool handleEvent(const EventPtr &event) override;
 
         /**
          * Waits for machines to connect to the Application and sends relevant config data
@@ -27,14 +27,14 @@ namespace States {
      private:
       /**
        * handle event with id kEventTypeMachineReady
-       * @param e : event
+       * @param event : event
        */
-       void onMachineReady(const EventPtr &e);
+       void onMachineReady(const EventPtr &event);
        /**
         * handle event with id kEventTypeMachineConnected
-       * @param e : event
+       * @param event : event
         */
-       void onMachineConnected(const EventPtr &e);
+       void onMachineConnected(const EventPtr &event);
        /**
         * handle event with id kEventTypeAllMachinesReadyForSimulation
         */
