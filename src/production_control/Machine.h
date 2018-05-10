@@ -18,7 +18,7 @@ namespace core {
          * Constructs a machine from existing machine information
          * @param aMachine : A machine model
          */
-        explicit Machine(const Models::Machine &aMachine);
+        explicit Machine(const models::Machine &aMachine);
 
         /**
         * Copy constructor

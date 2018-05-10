@@ -13,7 +13,7 @@
 #include "Product.h"
 #include "Machine.h"
 
-namespace Models {
+namespace models {
 
     class ProductionLine;
     typedef std::shared_ptr<ProductionLine> ProductionLinePtr;

@@ -9,35 +9,35 @@
 #include <patterns/statemachine/Event.h>
 #include "../SimulationController.h"
 
-namespace SimulationStates {
+namespace simulationstates {
 
-	enum EventType {
-		kEventTypeReceivedPCIP,
-		kEventTypeConnected,
-		kEventTypeConnectionFailed,
-		kEventTypeConfigReceived,
-		kEventTypePowerOn,
-		kEventTypePowerOff,
+enum EventType {
+  kEventTypeReceivedPCIP,
+  kEventTypeFailedToReceivePCIP,
+  kEventTypeConnected,
+  kEventTypeConnectionFailed,
+  kEventTypeConfigReceived,
+  kEventTypePowerOn,
+  kEventTypePowerOff,
 //			kEventType,
-	};
+};
 
-	typedef Patterns::Statemachine::Event Event;
-	typedef Patterns::Statemachine::EventPtr EventPtr;
+typedef Patterns::Statemachine::Event Event;
+typedef Patterns::Statemachine::EventPtr EventPtr;
 
-	class SimulationState : public Patterns::Statemachine::State {
+class SimulationState : public Patterns::Statemachine::State {
 
-	public:
-		virtual ~SimulationState() = default;
-		virtual bool handleEvent(const EventPtr &e);
-		virtual void entryAction() = 0;
-		virtual void doActivity() = 0;
-		virtual void exitAction() = 0;
-	protected:
-		SimulationState(Simulator::SimulationController&);
-		Simulator::SimulationController& context;
+ public:
+  virtual ~SimulationState() = default;
+  virtual bool handleEvent(const EventPtr &e);
+  virtual void entryAction() = 0;
+  virtual void doActivity() = 0;
+  virtual void exitAction() = 0;
+ protected:
+  SimulationState(simulator::SimulationController &);
+  simulator::SimulationController &context;
 
-	};
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONSTATE_H

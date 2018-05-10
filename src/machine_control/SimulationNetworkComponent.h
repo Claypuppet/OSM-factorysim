@@ -39,13 +39,13 @@ namespace SimulationCommunication {
          * @param machine : machine model to fill
          * @return bool : success
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machinePtr);
+        bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machinePtr);
 
         /**
          * Handles new machine info receive
          * @param machine
          */
-        void onSimulationMachineInfoReceived(Models::MachinePtr machinePtr);
+        void onSimulationMachineInfoReceived(models::MachinePtr machinePtr);
 
         /**
          * Handles machine turn on command

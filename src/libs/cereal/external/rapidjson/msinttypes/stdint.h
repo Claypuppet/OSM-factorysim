@@ -1,4 +1,4 @@
-// ISO C9x  compliant stdint.h for Microsoft Visual Studio
+// ISO C9x  compliant cstdint for Microsoft Visual Studio
 // Based on ISO/IEC 9899:TC2 Committee draft (May 6, 2005) WG14/N1124 
 // 
 //  Copyright (c) 2006-2013 Alexander Chemeris
@@ -45,9 +45,9 @@
 #pragma once
 #endif
 
-// miloyip: Originally Visual Studio 2010 uses its own stdint.h. However it generates warning with INT64_C(), so change to use this file for vs2010.
+// miloyip: Originally Visual Studio 2010 uses its own cstdint. However it generates warning with INT64_C(), so change to use this file for vs2010.
 #if _MSC_VER >= 1600 // [
-#include <stdint.h>
+#include <cstdint>
 
 #if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS) // [   See footnote 224 at page 260
 
@@ -73,7 +73,7 @@
 #define UINT64_C(val) val##ui64
 
 // 7.18.4.2 Macros for greatest-width integer constants
-// These #ifndef's are needed to prevent collisions with <boost/cstdint.hpp>.
+// These #ifndef's are needed to prevent collisions with <boost/ccstdintpp>.
 // Check out Issue 9 for the details.
 #ifndef INTMAX_C //   [
 #  define INTMAX_C   INT64_C
@@ -284,7 +284,7 @@ typedef uint64_t  uintmax_t;
 #define UINT64_C(val) val##ui64
 
 // 7.18.4.2 Macros for greatest-width integer constants
-// These #ifndef's are needed to prevent collisions with <boost/cstdint.hpp>.
+// These #ifndef's are needed to prevent collisions with <boost/ccstdintpp>.
 // Check out Issue 9 for the details.
 #ifndef INTMAX_C //   [
 #  define INTMAX_C   INT64_C

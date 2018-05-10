@@ -20,7 +20,7 @@ class NetworkMapper {
  public:
   NetworkMapper() = default;
   virtual ~NetworkMapper() = default;
-  
+
  protected:
   /**
    * Set connection / machine id pair. (should be called in machine register received for example)

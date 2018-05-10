@@ -32,7 +32,7 @@ namespace ConfigLoader {
          * @param filePath : The path the config file
          * @param configuration : The configuration object
          */
-        void readConfigurationFile(std::string filePath, Models::Configuration &configuration);
+        void readConfigurationFile(std::string filePath, models::Configuration &configuration);
     };
 
 }

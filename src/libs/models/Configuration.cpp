@@ -1,6 +1,6 @@
 #include "Configuration.h"
 
-namespace Models {
+namespace models {
 
     Configuration::Configuration() {
     }

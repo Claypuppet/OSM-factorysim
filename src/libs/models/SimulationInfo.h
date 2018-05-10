@@ -12,7 +12,7 @@
 // other includes
 // -
 
-namespace Models {
+namespace models {
 
     class SimulationInfo;
     typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;

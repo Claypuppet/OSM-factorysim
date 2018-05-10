@@ -23,7 +23,7 @@ namespace simulation {
          * Constructs a machine with existing machine information (Models::Machine)
          * @param aMachine : A machine model
          */
-		SimulationMachine(const Models::Machine &aMachine);
+		SimulationMachine(const models::Machine &aMachine);
 
         /**
         * Copy constructor
