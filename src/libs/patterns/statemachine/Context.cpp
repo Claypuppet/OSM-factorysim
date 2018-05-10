@@ -17,8 +17,8 @@ void Patterns::Statemachine::Context::setCurrentState(const StatePtr newState) {
 	currentState->doActivity();
 }
 
-void Patterns::Statemachine::Context::scheduleEvent(EventPtr e){
-	events.push(e);
+void Patterns::Statemachine::Context::scheduleEvent(EventPtr event){
+	events.push(event);
 }
 
 void Patterns::Statemachine::Context::run(){

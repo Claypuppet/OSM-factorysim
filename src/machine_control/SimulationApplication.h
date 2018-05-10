@@ -6,13 +6,17 @@
 #define PRODUCTION_LINE_CONTROL_SIMULATIONAPPLICATION_H
 
 #include "Application.h"
+#include "SimulationMachine.h"
 
-namespace Simulator {
-    class SimulationApplication : public MachineCore::Application {
-    public:
-        SimulationApplication(const Models::Machine& aMachineInfo);
-        virtual ~SimulationApplication() = default;
-    };
+namespace simulator {
+class SimulationApplication : public machinecore::Application {
+ public:
+  SimulationApplication(uint16_t aMachineId);
+  virtual ~SimulationApplication() = default;
+
+ private:
+  SimulationMachine machine;
+};
 }
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONAPPLICATION_H

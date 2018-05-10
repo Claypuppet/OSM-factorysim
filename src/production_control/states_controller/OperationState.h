@@ -11,7 +11,7 @@
 namespace States {
     class OperationState : public ControllerState {
     public:
-        OperationState(Simulation::SimulationController &context);
+        OperationState(simulation::SimulationController &context);
 
         /**
          * Runs the simulation

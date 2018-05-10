@@ -8,7 +8,7 @@
 #ifndef NETWORK_MANAGER_H_
 #define NETWORK_MANAGER_H_
 
-#include <stdint.h>
+#include <cstdint>
 #include <string.h>
 #include <string>
 #include <memory>

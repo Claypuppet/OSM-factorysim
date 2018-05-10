@@ -5,17 +5,17 @@
 #include "Controller.h"
 
 
-Core::Controller::Controller() : executing(false) {
+core::Controller::Controller() : executing(false) {
 
 }
 
-void Core::Controller::execute() {
+void core::Controller::execute() {
 	executing = true;
 	while(executing){
 		application.run();
 	}
 }
 
-void Core::Controller::stop() {
+void core::Controller::stop() {
 	executing = false;
 }

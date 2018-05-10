@@ -177,7 +177,7 @@ local.properties
 .worksheet
 
 ### Eclipse Patch ###
-# Eclipse Core
+# Eclipse core
 .project
 
 # JDT-specific (Eclipse Java Development Tools)
@@ -236,7 +236,7 @@ TestResult.xml
 [Rr]eleasePS/
 dlldata.c
 
-# .NET Core
+# .NET core
 project.lock.json
 project.fragment.lock.json
 artifacts/

@@ -1,6 +1,6 @@
 #include "SimulationInfo.h"
 
-namespace Models {
+namespace models {
 
     SimulationInfo::SimulationInfo() {
     }

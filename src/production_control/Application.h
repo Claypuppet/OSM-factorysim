@@ -9,7 +9,7 @@
 #include "Machine.h"
 #include "network/Manager.h"
 
-namespace Core {
+namespace core {
 
     class Application : public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
     public:

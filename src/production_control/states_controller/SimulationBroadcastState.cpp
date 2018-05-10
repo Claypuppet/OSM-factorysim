@@ -6,7 +6,7 @@
 #include "SimulationWaitForConnectionsState.h"
 
 
-States::SimulationBroadcastState::SimulationBroadcastState(Simulation::SimulationController &context) :
+States::SimulationBroadcastState::SimulationBroadcastState(simulation::SimulationController &context) :
 		ControllerState(context)
 {
 }

@@ -6,7 +6,7 @@
 
 namespace States {
 
-	OperationState::OperationState(Simulation::SimulationController &context) : ControllerState(context) {}
+	OperationState::OperationState(simulation::SimulationController &context) : ControllerState(context) {}
 
 	void OperationState::entryAction() {
 //	    context.application->setStartState();

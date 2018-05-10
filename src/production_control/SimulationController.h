@@ -12,7 +12,7 @@
 #include "SimulationMachine.h"
 
 
-namespace Simulation {
+namespace simulation {
 
     /**
      * Simualtion controller is the class that controls the application. As for the simualtion part, it will implement
@@ -22,7 +22,7 @@ namespace Simulation {
      * Inherits Context (state machine pattern): To define simualtion states (connect to  sim. production control, turn
      *  machine on/off.
      */
-    class SimulationController : public Core::Controller, public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
+    class SimulationController : public core::Controller, public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
     public:
 
         /**
@@ -133,7 +133,7 @@ namespace Simulation {
          * Config properties
          */
         std::string configPath;
-		Models::Configuration configuration;
+		models::Configuration configuration;
 
 
     };

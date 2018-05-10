@@ -6,8 +6,9 @@
 #include "SimulationWaitForConnectionsState.h"
 #include "OperationState.h"
 
-States::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(Simulation::SimulationController &context)
-    : ControllerState(context) {
+States::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
+        ControllerState(context)
+{
 }
 
 void States::SimulationWaitForConnectionsState::entryAction() {
