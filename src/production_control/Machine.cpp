@@ -4,7 +4,7 @@
 
 #include "Machine.h"
 
-namespace Core {
+namespace core {
 
     Machine::Machine(const Models::Machine &aMachine) :
             Models::Machine(aMachine)

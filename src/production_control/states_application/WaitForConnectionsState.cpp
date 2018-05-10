@@ -5,7 +5,7 @@
 #include "WaitForConnectionsState.h"
 
 
-ApplicationStates::WaitForConnectionsState::WaitForConnectionsState(Core::Application &context) :
+ApplicationStates::WaitForConnectionsState::WaitForConnectionsState(core::Application &context) :
         ApplicationState(context)
 {
 }

@@ -10,13 +10,13 @@
 #include <models/Machine.h>
 #include "Machine.h"
 
-namespace Simulation {
+namespace simulation {
 
 	/**
 	 * Machine used in simulations, adds a simulation connection.
 	 * Inherits Core::Machine : Core machine is used in the application, this simualtion class adds sim connection
 	 */
-    class SimulationMachine : public Core::Machine {
+    class SimulationMachine : public core::Machine {
     public:
 
         /**

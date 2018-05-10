@@ -9,7 +9,7 @@
 #include "Application.h"
 #include "patterns/statemachine/Context.h"
 
-namespace Core {
+namespace core {
     class Controller {
     public:
         Controller();

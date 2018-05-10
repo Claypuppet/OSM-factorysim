@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 {
 	Utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
-	Simulation::SimulationController controller;
+	simulation::SimulationController controller;
 	controller.execute();
 
 	return 0;
