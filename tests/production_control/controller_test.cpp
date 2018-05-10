@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
-  Simulation::SimulationController controller;
+  simulation::SimulationController controller;
 
   controller.setConfigFromFile("test_configs/test_config_one_machine.yaml");
 
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
-  Simulation::SimulationController controller;
+  simulation::SimulationController controller;
   // TODO: test config file toevoegen aan build (dat na compile naast de executable staat)
   controller.setConfigFromFile("../../configs/configfile.yaml");
 

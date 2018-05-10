@@ -78,7 +78,7 @@ void SimulationController::onMachineInfoReceived(const Patterns::NotifyObserver:
 }
 
 SimulationController::SimulationController(uint16_t aMachineId)
-    : Controller(aMachineId), executing(false) {
+    : Controller(aMachineId), application(aMachineId), executing(false) {
 }
 
 SimulationController::~SimulationController() {

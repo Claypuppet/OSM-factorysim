@@ -10,7 +10,7 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 
-namespace Core {
+namespace core {
     class Machine : public models::Machine {
     public:
 

@@ -14,7 +14,7 @@
 #include "ConfigurationReader.h"
 
 
-namespace Simulation {
+namespace simulation {
 
 	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {

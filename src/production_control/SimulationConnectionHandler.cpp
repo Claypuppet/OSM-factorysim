@@ -7,7 +7,7 @@
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
-namespace Simulation {
+namespace simulation {
 	void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
 														 const boost::system::error_code &error) {
 		IConnectionHandler::onConnectionFailed(connection, error);
@@ -15,7 +15,7 @@ namespace Simulation {
 	}
 
 	void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
-		mConnection = connection;
+		// No implementation needed, machine should register for connection to be used.
 	}
 
 	void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,

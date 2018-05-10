@@ -5,7 +5,7 @@
 #include "ControllerState.h"
 
 namespace States {
-	ControllerState::ControllerState(Simulation::SimulationController &context) : context(context) {}
+	ControllerState::ControllerState(simulation::SimulationController &context) : context(context) {}
 
 	bool ControllerState::handleEvent(const States::EventPtr &e) {
 		return false;

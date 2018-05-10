@@ -7,16 +7,16 @@
 #include "network/Server.h"
 #include "network/Client.h"
 
-Core::Application::Application()
+core::Application::Application()
 {
 
 }
 
-void Core::Application::addMachine(const Machine &aMachine) {
+void core::Application::addMachine(const Machine &aMachine) {
     machines.push_back(aMachine);
 }
 
-Core::MachinePtr Core::Application::getMachine(uint16_t machineId) {
+core::MachinePtr core::Application::getMachine(uint16_t machineId) {
     for(Machine& m : machines)
     {
         if(m.getId() == machineId)
@@ -27,7 +27,7 @@ Core::MachinePtr Core::Application::getMachine(uint16_t machineId) {
     return nullptr;
 }
 
-void Core::Application::setupNetwork(){
+void core::Application::setupNetwork(){
 	if(server && server->isRunning()){
 		return;
 	}
@@ -40,25 +40,25 @@ void Core::Application::setupNetwork(){
 	server->start();
 }
 
-void Core::Application::joinServerThread() {
+void core::Application::joinServerThread() {
     serverThread->join();
 }
 
-void Core::Application::startServer(){
+void core::Application::startServer(){
 	if(!isServerRunning()){
 		server->start();
 	}
 
 }
 
-bool Core::Application::isServerRunning() {
+bool core::Application::isServerRunning() {
     return server->isRunning();
 }
 
-Network::ServerPtr Core::Application::getServer() {
+Network::ServerPtr core::Application::getServer() {
     return Network::ServerPtr();
 }
 
-void Core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+void core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
 
 }

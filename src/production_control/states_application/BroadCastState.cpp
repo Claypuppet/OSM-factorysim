@@ -4,6 +4,11 @@
 
 #include "BroadCastState.h"
 
+
+ApplicationStates::BroadCastState::BroadCastState(core::Application &context) : ApplicationState(context) {
+
+}
+
 void ApplicationStates::BroadCastState::doActivity() {
 
 }
