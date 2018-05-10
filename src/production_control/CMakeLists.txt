@@ -15,6 +15,8 @@ set(app_production_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Controller.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Controller.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMapper.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMapper.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/LoadConfigState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/LoadConfigState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/OperationState.cpp

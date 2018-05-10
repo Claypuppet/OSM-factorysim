@@ -30,8 +30,8 @@ namespace ApplicationStates {
 		virtual void exitAction() = 0;
 
 	protected:
-		ApplicationState(Core::Application &application);
-		Core::Application& context;
+		ApplicationState(core::Application &application);
+		core::Application& context;
 
 	};
 

@@ -12,7 +12,7 @@ namespace ApplicationStates {
 
     class ConnectMachinesState : public ApplicationState {
     public:
-        ConnectMachinesState(Core::Application &context);
+        ConnectMachinesState(core::Application &context);
 
         /**
          * Handles the doActivity of the context state

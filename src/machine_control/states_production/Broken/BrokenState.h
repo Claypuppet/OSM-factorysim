@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class BrokenState : public ProductionState {
  public:
-  BrokenState(MachineCore::Application &aContext);
+  BrokenState(machinecore::Application &aContext);
   virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
 
   virtual ~BrokenState() = default;

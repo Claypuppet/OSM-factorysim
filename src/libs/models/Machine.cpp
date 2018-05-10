@@ -1,60 +1,47 @@
 #include "Machine.h"
 
-namespace Models {
+namespace models {
 
-    Machine::Machine() {
-    }
+Machine::Machine(uint16_t aId, const std::string &aName)
+    : id(aId), name(aName) {
+}
 
-    Machine::Machine(uint16_t aId, std::string aName)
-            : id(aId), name(aName){
-    }
+Machine::Machine(const Machine &other)
+    : id(other.id), name(other.name), configurations(other.configurations) {
+}
 
-    Machine::Machine(const Machine &other)
-            : id(other.id),
-              name(other.name) {
-        for (uint16_t i = 0; i < other.configurations.size(); ++i) {
-            configurations.push_back(other.configurations[i]);
-        }
-    }
+Machine &Machine::operator=(const Machine &other) {
 
-    Machine::~Machine() {
-    }
+  if (this != &other) {
+    id = other.id;
+    name = other.name;
+    configurations = other.configurations;
+  }
 
-    Machine& Machine::operator=(const Machine& other) {
-        if (this != &other) {
-            id = other.id;
-            name = other.name;
+  return *this;
+}
 
-            for (uint16_t i = 0; i < other.configurations.size(); ++i) {
-                configurations.push_back(other.configurations[i]);
-            }
-        }
+void Machine::deserialize(YAML::Node &machineNode) {
+  id = machineNode["id"].as<uint16_t>();
+  name = machineNode["name"].as<std::string>();
 
-        return *this;
-    }
+  for (uint16_t i = 0; i < machineNode["configurations"].size(); ++i) {
+    configurations.push_back(MachineConfiguration());
+    auto machineConfigurationNode = machineNode["configurations"][i];
+    configurations.back().deserialize(machineConfigurationNode);
+  }
+}
 
-    void Machine::deserialize(YAML::Node &machineNode) {
-        id = machineNode["id"].as<uint16_t>();
-        name = machineNode["name"].as<std::string>();
+uint16_t Machine::getId() const {
+  return id;
+}
 
-        for (uint16_t i = 0; i < machineNode["configurations"].size(); ++i) {
-            configurations.push_back(MachineConfiguration());
-            auto machineConfigurationNode = machineNode["configurations"][i];
-            configurations.back().deserialize(machineConfigurationNode);
-        }
-    }
+const std::string &Machine::getName() const {
+  return name;
+}
 
-    uint16_t Machine::getId() const {
-        return id;
-    }
-
-    const std::string &Machine::getName() const {
-        return name;
-    }
-
-    const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
-        return configurations;
-    }
-
+const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
+  return configurations;
+}
 
 }

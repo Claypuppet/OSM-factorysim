@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace Utils {
+namespace utils {
 
 	/**
 	 * Command line argument class from Robotworld.
@@ -42,6 +42,7 @@ namespace Utils {
 		 * @param aCommandlineArgument
 		 */
 		CommandlineArgument( const CommandlineArgument& aCommandlineArgument);
+
 		/**
 		 * destruct
 		 */
@@ -111,6 +112,6 @@ namespace Utils {
 
 	};
 
-} // namespace Utils
+} // namespace utils
 
 #endif //PRODUCTION_LINE_CONTROL_COMMANDLINEARGUMENTS_H

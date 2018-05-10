@@ -34,8 +34,8 @@ namespace States {
 		virtual void exitAction() = 0;
 
 	protected:
-		ControllerState(Simulation::SimulationController &);
-		Simulation::SimulationController& context;
+		ControllerState(simulation::SimulationController &);
+		simulation::SimulationController& context;
 
 	};
 

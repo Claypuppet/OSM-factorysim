@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
-  Simulation::SimulationController controller;
+  simulation::SimulationController controller;
   // TODO: test config file toevoegen aan build (dat na compile naast de executable staat)
   controller.setConfigFromFile("../../configs/configfile.yaml");
 

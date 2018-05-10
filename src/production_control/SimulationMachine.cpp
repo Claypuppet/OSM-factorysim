@@ -6,22 +6,22 @@
 #include <network/Protocol.h>
 #include "SimulationMachine.h"
 
-namespace Simulation {
+namespace simulation {
 
-	SimulationMachine::SimulationMachine(const Models::Machine &aMachine) :
-			Core::Machine(aMachine), simConnection(nullptr)
+	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
+			core::Machine(aMachine), simConnection(nullptr)
 	{
 	}
 
 	SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-			Core::Machine(aMachine), simConnection(nullptr)
+			core::Machine(aMachine), simConnection(nullptr)
 	{
 	}
 
 	SimulationMachine& SimulationMachine::operator=(const SimulationMachine& rhs) {
 		if(this != &rhs)
 		{
-			Core::Machine::operator=(rhs);
+			core::Machine::operator=(rhs);
 			simConnection = rhs.simConnection;
 		}
 		return *this;
@@ -43,7 +43,7 @@ namespace Simulation {
 
 	void SimulationMachine::sendSimulationConfiguration() {
 
-		std::vector<Models::MachineConfiguration> config;
+		std::vector<models::MachineConfiguration> config;
 
 		std::string binaryStream;
 
