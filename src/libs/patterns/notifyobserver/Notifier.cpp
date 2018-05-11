@@ -138,6 +138,11 @@ namespace Patterns {
 			return NotifyEvent(trigger, this, event);
 		}
 
+		NotifyEvent Notifier::makeNotifcation(NotifyEventId event)
+		{
+			return NotifyEvent(NotifyTrigger(), this, event);
+		}
+
 
 	} // namespace NotifyObserver
 

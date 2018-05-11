@@ -31,37 +31,32 @@ namespace simulation {
 		std::cout << message.mBody << std::endl;
 		switch (message.getMessageType()) {
 			case Network::Protocol::kSimMessageTypeRegister:
-				//TODO set right event id
-				auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(),
-													NotifyEventIds::eControllerRegisterMachine);
-
-				uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);
-				notification.setArgument(0, machineId);
-				notification.setArgument(1, connection);
-
-				notifyObservers(notification);
 				break;
+			case Network::Protocol::kSimMessageTypeReadyForSim:
+			  	handleMachineReady(connection);
+				break;
+		  default:
+		    break;
 		}
 	}
 
-	bool SimulationConnectionHandler::deserializeSimulationMachineInfo(const std::string &string,
-																	   models::MachinePtr machine) {
-//		std::stringstream binaryStream((std::ios::in | std::ios::binary));
-//		binaryStream.str(string);
-//		cereal::PortableBinaryInputArchive archive(binaryStream);
-//		archive(machine);
-		return !!machine;
+	void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr connection) {
+	  	auto machineId = getMachineIdForConnection(connection);
+		auto notification = makeNotifcation(NotifyEventIds::eControllerMachineReady);
+		notification.setArgument(0, machineId);
+		notifyObservers(notification);
 	}
 
-	void SimulationConnectionHandler::onSimulationMachineInfoReceived(const models::Machine &machine) {
-//		auto machinePtr = std::make_shared<Model::Machine>(machine);
+	void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection) {
+		auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(),
+											NotifyEventIds::eControllerRegisterMachine);
 
+		uint16_t machineId = std::strtoul(messageBody.c_str(), nullptr, 10);
+		notification.setArgument(0, machineId);
+		notification.setArgument(1, connection);
+
+		notifyObservers(notification);
 
 	}
-
-	void handleRegisterMachineMessage(const std::string &messageBody) {
-
-	}
-
 
 }
