@@ -5,7 +5,7 @@
 // project file includes
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
     class OperationState : public ControllerState {
     public:
         OperationState(simulation::SimulationController &aContext);

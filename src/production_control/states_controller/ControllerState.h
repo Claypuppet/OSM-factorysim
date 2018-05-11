@@ -4,7 +4,7 @@
 
 #include "../SimulationController.h"
 
-namespace States {
+namespace states {
 
 	enum EventType {
 		kEventTypeReadConfigFile,

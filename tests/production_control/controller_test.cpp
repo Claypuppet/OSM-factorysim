@@ -30,8 +30,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK_EQUAL(!!controller.getMachine(1), true);
 
   // Setting this state will setup the server
-  auto state = States::SimulationWaitForConnectionsState(controller);
-  controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state));
+  auto state = states::SimulationWaitForConnectionsState(controller);
+  controller.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(state));
 
   BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
 

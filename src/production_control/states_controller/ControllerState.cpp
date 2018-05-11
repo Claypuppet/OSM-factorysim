@@ -1,14 +1,14 @@
 
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
 
 ControllerState::ControllerState(simulation::SimulationController &aContext)
     : context(aContext) {
 
 }
 
-bool ControllerState::handleEvent(const States::EventPtr &event) {
+bool ControllerState::handleEvent(const states::EventPtr &event) {
   return false;
 }
 

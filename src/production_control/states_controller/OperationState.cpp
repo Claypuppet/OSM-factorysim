@@ -1,7 +1,7 @@
 
 #include "OperationState.h"
 
-namespace States {
+namespace states {
 
 OperationState::OperationState(simulation::SimulationController &aContext)
     : ControllerState(aContext) {
