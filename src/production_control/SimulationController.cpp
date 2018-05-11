@@ -21,8 +21,11 @@ namespace simulation {
 			case NotifyEventIds::eControllerRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
+			case NotifyEventIds::eControllerMachineReady:
+				handleMachineReady(notification);
+				break;
 			default:
-				std::cerr << "unhandled event with id " << notification.getEventId() << std::endl;
+				std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
 				break;
 		}
 
@@ -52,14 +55,21 @@ namespace simulation {
 	}
 
 	void SimulationController::handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
-		// TODO: Integrate with state event
 		auto id = notification.getArgumentAsType<uint16_t>(0);
 		auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
 
-		auto e = std::make_shared<States::Event>(States::kEventTypeMachineConnected);
-		e->addArgument(id);
-		e->addArgument(connection);
-		scheduleEvent(e);
+		auto event = std::make_shared<States::Event>(States::kEventTypeMachineConnected);
+		event->addArgument(id);
+		event->addArgument(connection);
+		scheduleEvent(event);
+	}
+
+	void SimulationController::handleMachineReady(const Patterns::NotifyObserver::NotifyEvent &notification) {
+		auto id = notification.getArgumentAsType<uint16_t>(0);
+
+		auto event = std::make_shared<States::Event>(States::kEventTypeMachineReady);
+		event->addArgument(id);
+		scheduleEvent(event);
 	}
 
 	void SimulationController::execute() {

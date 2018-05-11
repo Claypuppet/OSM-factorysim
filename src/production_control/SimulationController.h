@@ -113,9 +113,15 @@ namespace simulation {
 
         /**
          * Function that handles notifications for registering machines
-         * @param notification : A notification for registering a machine
+         * @param notification : NotifyEvent from notifier
          */
         void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+
+        /**
+         * Function that handles notifications for readying a machine
+         * @param notification : NotifyEvent from notifier
+         */
+        void handleMachineReady(const Patterns::NotifyObserver::NotifyEvent &notification);
 
         /**
          * Network properties
