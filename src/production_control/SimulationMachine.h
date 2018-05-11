@@ -75,10 +75,13 @@ namespace simulation {
 		*/
 		void sendSimulationConfiguration();
 
-		void setConfigured(bool configured);
+		/**
+		 * Sets the machine ready
+		 */
+		void setReady(bool aReady);
 
     private:
-	  	bool configured;
+	  	bool ready;
 	  	Network::ConnectionPtr simConnection;
     };
 

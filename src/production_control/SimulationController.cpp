@@ -162,7 +162,7 @@ namespace simulation {
 	void SimulationController::machineReady(uint16_t machineId) {
 		auto machine = getMachine(machineId);
 		if(machine){
-		  	machine->setConfigured(true);
+		  machine->setReady(true);
 
 			// Add new event if all machines are now connected
 			if (allMachinesReady()) {

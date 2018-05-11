@@ -9,12 +9,12 @@
 namespace simulation {
 
 	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-			core::Machine(aMachine), simConnection(nullptr), configured(false)
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
 	SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-			core::Machine(aMachine), simConnection(nullptr), configured(false)
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
@@ -58,11 +58,11 @@ namespace simulation {
 	}
 
 	bool SimulationMachine::isReadyForSimulation() const {
-	  return isSimulationConnected() && configured;
+	  return isSimulationConnected() && ready;
 	}
 
-	void SimulationMachine::setConfigured(bool configured) {
-	  SimulationMachine::configured = configured;
+	void SimulationMachine::setReady(bool aReady) {
+	  SimulationMachine::ready = true;
 	}
 
 }
