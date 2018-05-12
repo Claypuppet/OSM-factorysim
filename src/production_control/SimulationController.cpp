@@ -45,7 +45,7 @@ namespace simulation {
 		SimulationConnectionHandler connectionHandler;
 		handleNotificationsFor(connectionHandler);
 
-		networkManager.setLocalPort(Network::Protocol::kPortSimulationCommunication);
+		networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
 		serverThread = networkManager.runServiceThread();
 		server = networkManager.createServer(std::make_shared<SimulationConnectionHandler>(connectionHandler), 50);
 		server->start();

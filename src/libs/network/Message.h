@@ -11,6 +11,10 @@
 #include <string>
 #include <memory>
 
+#include <cereal/types/memory.hpp>
+
+#include "Protocol.h"
+
 namespace Network
 {
 	typedef std::size_t size_t;
@@ -171,6 +175,42 @@ namespace Network
 			void setBody( const std::string& aBody)
 			{
 				mBody = aBody;
+				mHeader.mLength = length();
+			}
+
+			/**
+			 * Set the body as object, will serialize it right away!
+			 * @tparam T : Type of object to serialze
+			 * @param aObject : Object to serialize in the body
+			 */
+	  		template<typename T>
+			void setBody(const T& aObject)
+			{
+
+				std::string binaryStream;
+				std::stringstream outputBinary((std::ios::out | std::ios::binary));
+				Protocol::OutputArchive archive(outputBinary);
+				archive(aObject);
+				binaryStream = outputBinary.str();
+
+				setBody(binaryStream);
+			}
+
+			/**
+			 * Set the body as object, will serialize it right away!
+			 * @tparam T : Type of object to serialze
+			 * @param aObject : Object to serialize in the body
+			 */
+	  		template<typename T>
+			T getBodyObject()
+			{
+				T object;
+				std::stringstream binaryStream((std::ios::in | std::ios::binary));
+				binaryStream.str(mBody);
+				Protocol::InputArchive archive(binaryStream);
+				archive(object);
+
+				return object;
 			}
 
 			/**
