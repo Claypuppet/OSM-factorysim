@@ -197,9 +197,9 @@ namespace Network
 			}
 
 			/**
-			 * Set the body as object, will serialize it right away!
-			 * @tparam T : Type of object to serialze
-			 * @param aObject : Object to serialize in the body
+			 * Get object from message body
+			 * @tparam T : type of the object
+			 * @return : deserialized object
 			 */
 	  		template<typename T>
 			T getBodyObject()
