@@ -2,6 +2,8 @@
 // Created by sven on 22-4-18.
 //
 
+#include <cstdint>
+
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
@@ -58,7 +60,7 @@ namespace simulation {
 		auto id = notification.getArgumentAsType<uint16_t>(0);
 		auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
 
-		auto event = std::make_shared<States::Event>(States::kEventTypeMachineConnected);
+		auto event = std::make_shared<states::Event>(states::kEventTypeMachineConnected);
 		event->addArgument(id);
 		event->addArgument(connection);
 		scheduleEvent(event);
@@ -67,7 +69,7 @@ namespace simulation {
 	void SimulationController::handleMachineReady(const Patterns::NotifyObserver::NotifyEvent &notification) {
 		auto id = notification.getArgumentAsType<uint16_t>(0);
 
-		auto event = std::make_shared<States::Event>(States::kEventTypeMachineReady);
+		auto event = std::make_shared<states::Event>(states::kEventTypeMachineReady);
 		event->addArgument(id);
 		scheduleEvent(event);
 	}
@@ -91,7 +93,7 @@ namespace simulation {
 	}
 
 	void SimulationController::setStartState() {
-		auto startState = std::make_shared<States::LoadConfigState>(*this);
+		auto startState = std::make_shared<states::LoadConfigState>(*this);
 		setCurrentState(startState);
 
 		// TEMP!!!!? set first config file as event for LoadConfigState
@@ -100,7 +102,7 @@ namespace simulation {
 			// throw exception when no argument is given.
 			throw std::runtime_error("No configuration file argument found!");
 		}
-		auto e = std::make_shared<States::Event>(States::kEventTypeReadConfigFile);
+		auto e = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
 		e->setArgument<std::string>(configPath);
 		scheduleEvent(e);
 	}
@@ -123,11 +125,11 @@ namespace simulation {
 
 		// If simulation, add sim state event
 		if (true){ // For now always true till we support non-simulations
-		auto e = std::make_shared<States::Event>(States::kEventTypeSimulationConfigLoaded);
+		auto e = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
 		scheduleEvent(e);
 		}
 		else{
-			auto e = std::make_shared<States::Event>(States::kEventTypeProductionConfigLoaded);
+			auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
 			scheduleEvent(e);
 		}
 
@@ -166,7 +168,7 @@ namespace simulation {
 
 			// Add new event if all machines are now connected
 			if (allMachinesReady()) {
-				auto e = std::make_shared<States::Event>(States::kEventTypeAllMachinesReadyForSimulation);
+				auto e = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
 				scheduleEvent(e);
 			}
 		}

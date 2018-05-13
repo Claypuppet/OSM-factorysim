@@ -1,13 +1,10 @@
-//
-// Created by klei on 4/25/18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_CONTROLLERSTATE_H
 #define PRODUCTION_LINE_CONTROL_CONTROLLERSTATE_H
 
 #include "../SimulationController.h"
 
-namespace States {
+namespace states {
 
 	enum EventType {
 		kEventTypeReadConfigFile,
@@ -28,13 +25,13 @@ namespace States {
 
 	public:
 		virtual ~ControllerState() = default;
-		virtual bool handleEvent(const EventPtr &e) override;
+		virtual bool handleEvent(const EventPtr &event) override;
 		virtual void entryAction() = 0;
 		virtual void doActivity() = 0;
 		virtual void exitAction() = 0;
 
 	protected:
-		ControllerState(simulation::SimulationController &);
+		ControllerState(simulation::SimulationController &aContext);
 		simulation::SimulationController& context;
 
 	};

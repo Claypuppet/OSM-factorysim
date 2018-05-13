@@ -8,7 +8,7 @@
 
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
     class SimulationWaitForConnectionsState : public ControllerState {
     public:
         SimulationWaitForConnectionsState(simulation::SimulationController &context);

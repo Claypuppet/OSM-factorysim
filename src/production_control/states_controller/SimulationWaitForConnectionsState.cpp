@@ -6,24 +6,24 @@
 #include "SimulationWaitForConnectionsState.h"
 #include "OperationState.h"
 
-States::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
+states::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
         ControllerState(context)
 {
 }
 
-void States::SimulationWaitForConnectionsState::entryAction() {
-  context.setupNetwork();
+void states::SimulationWaitForConnectionsState::entryAction() {
+    context.setupNetwork();
 }
 
-void States::SimulationWaitForConnectionsState::doActivity() {
+void states::SimulationWaitForConnectionsState::doActivity() {
 
 }
 
-void States::SimulationWaitForConnectionsState::exitAction() {
+void states::SimulationWaitForConnectionsState::exitAction() {
   context.turnOnSimulationMachines();
 }
 
-bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {
+bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeMachineReady: {
       onMachineReady(event);
@@ -42,14 +42,14 @@ bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &even
   }
 }
 
-void States::SimulationWaitForConnectionsState::onMachineReady(const States::EventPtr &event) {
+void states::SimulationWaitForConnectionsState::onMachineReady(const states::EventPtr &event) {
   context.machineReady(event->getArgumentAsType<u_int16_t>(0));
 }
 
-void States::SimulationWaitForConnectionsState::onMachineConnected(const States::EventPtr &event) {
+void states::SimulationWaitForConnectionsState::onMachineConnected(const states::EventPtr &event) {
   context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
 }
 
-void States::SimulationWaitForConnectionsState::onAllMachinesReadyForSimulation() {
+void states::SimulationWaitForConnectionsState::onAllMachinesReadyForSimulation() {
   context.setCurrentState(std::make_shared<OperationState>(context));
 }

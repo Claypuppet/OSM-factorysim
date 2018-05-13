@@ -8,7 +8,7 @@
 
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
     class SimulationBroadcastState : public ControllerState {
     public:
         SimulationBroadcastState(simulation::SimulationController &context);
