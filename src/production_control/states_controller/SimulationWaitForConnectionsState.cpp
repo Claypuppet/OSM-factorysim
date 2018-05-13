@@ -7,24 +7,24 @@
 #include "OperationState.h"
 
 
-States::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
+states::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
         ControllerState(context)
 {
 }
 
-void States::SimulationWaitForConnectionsState::entryAction() {
+void states::SimulationWaitForConnectionsState::entryAction() {
     context.setupNetwork();
 }
 
-void States::SimulationWaitForConnectionsState::doActivity() {
+void states::SimulationWaitForConnectionsState::doActivity() {
 
 }
 
-void States::SimulationWaitForConnectionsState::exitAction() {
+void states::SimulationWaitForConnectionsState::exitAction() {
     context.turnOnSimulationMachines();
 }
 
-bool States::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
+bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
     switch (e->getId()){
         case kEventTypeMachineConnected:
             context.registerMachine(e->getArgumentAsType<uint16_t>(0), e->getArgumentAsType<Network::ConnectionPtr>(1));
