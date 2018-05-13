@@ -2,7 +2,7 @@
 #include "InitializeSimulationState.h"
 #include "OffState.h"
 
-namespace SimulationStates {
+namespace simulationstates {
 	void InitializeSimulationState::entryAction() {
 		// TODO: Register machine
         context.registerMachine();

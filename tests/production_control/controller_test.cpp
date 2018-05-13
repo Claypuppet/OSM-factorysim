@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
-  Simulation::SimulationController controller;
+  simulation::SimulationController controller;
   controller.setConfigFromFile("../tests/production_control/testconfig.yaml");
   auto machine1 = controller.getMachine(15);
   auto machine2 = controller.getMachine(75);

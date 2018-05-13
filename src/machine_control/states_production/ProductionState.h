@@ -31,9 +31,9 @@ namespace ProductionStates {
         virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
 
     protected:
-      ProductionState(MachineCore::Application &aContext);
+      ProductionState(machinecore::Application &aContext);
 
-      MachineCore::Application &context;
+      machinecore::Application &context;
     };
 
 }

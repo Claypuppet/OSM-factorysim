@@ -11,10 +11,10 @@
 #include <models/Configuration.h>
 #include <models/Machine.h>
 
-#include "SimulationController.h"
+#include "NetworkMapper.h"
 
 
-namespace Simulation {
+namespace simulation {
 
     class SimulationConnectionHandler;
 
@@ -22,7 +22,8 @@ namespace Simulation {
 
     class SimulationConnectionHandler :
             public Network::IConnectionHandler,
-            public Patterns::NotifyObserver::Notifier {
+            public Patterns::NotifyObserver::Notifier,
+            public core::NetworkMapper {
     public:
         SimulationConnectionHandler() = default;
 
@@ -46,22 +47,19 @@ namespace Simulation {
        */
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-
-        Network::ConnectionPtr mConnection;
-
         /**
          * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
          * @param body : body string from message
          * @param machine : machine model to fill
          * @return bool : success
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machine);
+        bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machine);
 
         /**
          * Handles new machine info receive
          * @param machine
          */
-        void onSimulationMachineInfoReceived(const Models::Machine &machine);
+        void onSimulationMachineInfoReceived(const models::Machine &machine);
 
 
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
@@ -71,6 +69,8 @@ namespace Simulation {
          * @param notification : A notification for registering a machine
          */
         void onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+
+
     };
 }
 
