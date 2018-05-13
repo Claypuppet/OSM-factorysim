@@ -8,7 +8,7 @@
 
 namespace testutils {
 
-void HelperFunctions::waitForPredicate(Predicate predicate, uint32_t timeout) {
+/* static */ void HelperFunctions::waitForPredicate(Predicate predicate, uint32_t timeout) {
   auto startTime = std::clock();
   while(!predicate() && std::difftime(std::clock(), startTime) < timeout){
 	// Wait
