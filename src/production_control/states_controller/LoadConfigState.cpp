@@ -11,7 +11,7 @@
 #include "SimulationBroadcastState.h"
 #include "OperationState.h"
 
-namespace States {
+namespace states {
     LoadConfigState::LoadConfigState(simulation::SimulationController &context) : ControllerState(context) {}
 
 
