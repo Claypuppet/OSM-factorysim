@@ -90,7 +90,9 @@ file(GLOB lib_patterns_SRC
         "src/libs/patterns/singleton/**.h"
         "src/libs/patterns/singleton/**.cpp"
         "src/libs/patterns/notifyobserver/**.h"
-        "src/libs/patterns/notifyobserver/**.cpp")
+        "src/libs/patterns/notifyobserver/**.cpp"
+        "src/libs/patterns/producerconsumer/**.h"
+        "src/libs/patterns/producerconsumer/**.cpp")
 
 add_library(lib_patterns SHARED
         ${lib_patterns_SRC})

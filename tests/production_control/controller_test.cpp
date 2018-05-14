@@ -65,9 +65,6 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto currentState = controller.getCurrentState();
   BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
-  machineNetwork->stop();
-  controller.stop();
-
 }
 
 // Einde state tests
@@ -165,44 +162,28 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerNetwork)
 
 BOOST_AUTO_TEST_CASE(SendTurnOn) {
+  // Create server and client
   auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
-  simulation::SimulationController controller;
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
 
-  BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
-
-  // Machine 1 should be loaded
-  auto machine = controller.getMachine(1);
-  BOOST_CHECK(machine);
-
-  // Setting this state will setup the server
-  auto state = states::SimulationWaitForConnectionsState(controller);
-  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(state)));
-
-  // Connect a machine
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerController();
   machineEndpoint->startMockMCClientController();
+  productionServer->awaitClientConnecting();
 
-  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eControllerRegisterMachine);
-  event.setArgument(0, (uint16_t) 1);
-  event.setArgument(1, machineEndpoint->getConnection());
+  // Create machine with connection (in production control)
+  auto machine = simulation::SimulationMachine(1);
+  machine.setSimulationConnection(productionServer->getConnection());
 
-  // Notify controller of new event, creates new state event
-  BOOST_CHECK_NO_THROW(controller.handleNotification(event));
-
-  // Run context to handle the state event
-  BOOST_CHECK_NO_THROW(controller.run());
-
-  BOOST_REQUIRE(controller.getMachine(1)->isSimulationConnected());
-
+  // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](const Network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOn);
   };
-
   machineEndpoint->setOnMessageFn(callback);
+  machine.sendTurnOnCommand();
 
-  machine->sendTurnOnCommand();
-
+  // wait for the message received
   machineEndpoint->awaitMessageReceived();
-
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
