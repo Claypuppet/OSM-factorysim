@@ -40,7 +40,7 @@ void SimulationConnectionHandler::onConnectionMessageReceived(Network::Connectio
 
 void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr connection) {
   auto machineId = getMachineIdForConnection(connection);
-  auto notification = makeNotifcation(NotifyEventIds::eControllerMachineReady);
+  auto notification = makeNotifcation(NotifyEventIds::eSimMachineReady);
   notification.setArgument(0, machineId);
   notifyObservers(notification);
 }

@@ -17,13 +17,9 @@ enum ApplicationNotificationTypes {
   eApplicationNOK
 };
 
-enum ControllerNotificationTypes {
-  eControllerMachineReady = 100
-
-};
-
 enum SimulationNotificationTypes {
-  eSimRegisterMachine = 150
+  eSimRegisterMachine = 150,
+  eSimMachineReady
 };
 
 }
