@@ -20,8 +20,8 @@ Application::~Application() {
 void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
     case NotifyEventType::kNotifyEventTypeServiceStarted: {
-      auto e = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);
-      scheduleEvent(e);
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);
+      scheduleEvent(event);
       break;
     }
 

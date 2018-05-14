@@ -23,10 +23,10 @@ class ConnectState : public ProductionState {
 /**
  * This function handles incoming state events
  * for example: conection is ready makes does mean that it switches to another state
- * @param e: incomming event as eventPointer
+ * @param event: incomming event as eventPointer
  * @return
  */
-  virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &event);
 };
 }
 
