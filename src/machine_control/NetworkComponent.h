@@ -22,8 +22,6 @@ namespace Communication {
 		 */
 		void sendRegisterMessage(const uint16_t machineId);
 
-		Network::ConnectionPtr getConnection();
-
 	private:
 		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 		void onConnectionEstablished(Network::ConnectionPtr connection) override;

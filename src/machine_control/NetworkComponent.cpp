@@ -44,14 +44,9 @@ const void NetworkComponent::sendHello() {
   mConnection->writeMessage(msg);
 }
 
-Network::ConnectionPtr NetworkComponent::getConnection() {
-  return mConnection;
-}
-
 void NetworkComponent::sendRegisterMessage(const uint16_t machineId) {
-  Network::Message message;
-  message.setBody(std::to_string(machineId));
-  message.setMessageType(Network::Protocol::AppMessageType::kAppMessageTypeRegisterMachine);
+  Network::Message
+      message(Network::Protocol::AppMessageType::kAppMessageTypeRegisterMachine, std::to_string(machineId));
   mConnection->writeMessage(message);
 }
 
