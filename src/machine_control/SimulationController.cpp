@@ -129,11 +129,6 @@ void SimulationController::stop() {
   }
 }
 
-void SimulationController::registerMachine() {
-  //TODO: Implementeer functionaliteit om te registreren hier
-  //MachineID is opgehaald door application.getMachineInfo().getId()
-}
-
 void SimulationController::setRemoteHost(const std::string &remoteHost) {
   networkManager.setRemoteHost(remoteHost);
 }

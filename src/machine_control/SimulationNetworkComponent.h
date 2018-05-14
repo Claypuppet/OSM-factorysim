@@ -14,51 +14,53 @@
 
 namespace SimulationCommunication {
 
-	class SimulationNetworkComponent;
-	typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
+class SimulationNetworkComponent;
+typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
 
-    class SimulationNetworkComponent :
-			public Network::IConnectionHandler,
-			public patterns::NotifyObserver::Notifier
-	{
-    public:
-        SimulationNetworkComponent() = default;
-        virtual ~SimulationNetworkComponent() = default;
+class SimulationNetworkComponent :
+    public Network::IConnectionHandler,
+    public patterns::NotifyObserver::Notifier {
+ public:
+  SimulationNetworkComponent() = default;
+  virtual ~SimulationNetworkComponent() = default;
+  /**
+   * A function that sends a message to production control to register this machine
+   * @param machineId : The id of the machine
+   */
+  void sendRegisterMessage(const uint16_t machineId);
 
-    private:
-        void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-        void onConnectionEstablished(Network::ConnectionPtr connection) override;
-        void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-        void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+ private:
+  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(Network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-        Network::ConnectionPtr mConnection;
+  Network::ConnectionPtr mConnection;
 
-        /**
-         * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
-         * @param body : body string from message
-         * @param machine : machine model to fill
-         * @return bool : success
-         */
-        bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machinePtr);
+  /**
+   * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
+   * @param body : body string from message
+   * @param machine : machine model to fill
+   * @return bool : success
+   */
+  bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machinePtr);
 
-        /**
-         * Handles new machine info receive
-         * @param machine
-         */
-        void onSimulationMachineInfoReceived(models::MachinePtr machinePtr);
+  /**
+   * Handles new machine info receive
+   * @param machine
+   */
+  void onSimulationMachineInfoReceived(models::MachinePtr machinePtr);
 
-        /**
-         * Handles machine turn on command
-         */
-        void onTurnOnReceived();
+  /**
+   * Handles machine turn on command
+   */
+  void onTurnOnReceived();
 
-		/**
-		 * Handles machine turn off command
-		 */
-        void onTurnOffReceived();
-    };
+  /**
+   * Handles machine turn off command
+   */
+  void onTurnOffReceived();
+};
 }
-
-
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H

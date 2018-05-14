@@ -28,7 +28,6 @@ class SimulationController
 
   void execute();
   void stop();
-  void registerMachine();
 
   void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
