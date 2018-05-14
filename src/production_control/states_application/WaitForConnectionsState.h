@@ -27,7 +27,7 @@ namespace ApplicationStates {
         void exitAction() override;
 
      private:
-      void onMachineRegistered(const ApplicationStates::EventPtr &event);
+      void onMachineReady(const ApplicationStates::EventPtr &event);
       void onAllMachinesReady();
     };
 }

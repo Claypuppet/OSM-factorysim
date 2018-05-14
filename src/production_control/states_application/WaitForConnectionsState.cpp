@@ -20,7 +20,7 @@ void ApplicationStates::WaitForConnectionsState::exitAction() {
 bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeMachineReady:
-      onMachineRegistered(event);
+      onMachineReady(event);
       break;
 
     case kEventTypeAllMachinesReady:
@@ -32,7 +32,7 @@ bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &eve
   }
 }
 
-void ApplicationStates::WaitForConnectionsState::onMachineRegistered(const EventPtr &event) {
+void ApplicationStates::WaitForConnectionsState::onMachineReady(const EventPtr &event) {
   context.setMachineStatusReady(event->getArgumentAsType<u_int16_t>(0));
 
   if (context.allMachinesReady()) {
@@ -42,5 +42,5 @@ void ApplicationStates::WaitForConnectionsState::onMachineRegistered(const Event
 }
 
 void ApplicationStates::WaitForConnectionsState::onAllMachinesReady() {
-  // set new state...
+  // TODO : set the next state "InOperation.cpp" but this state has to be implemented first...
 }
