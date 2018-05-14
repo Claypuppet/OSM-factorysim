@@ -29,8 +29,6 @@ set(app_production_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/ControllerState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/BroadCastState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/BroadCastState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ConnectMachinesState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ConnectMachinesState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/WaitForConnectionsState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/WaitForConnectionsState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.cpp

@@ -1,26 +1,18 @@
-//
-// Created by don on 20-4-18.
-//
 
 #include "Machine.h"
 
 namespace core {
 
     Machine::Machine(const models::Machine &aMachine) :
-            models::Machine(aMachine)
-    {
-
+            models::Machine(aMachine) {
     }
 
     Machine::Machine(const Machine &aMachine) :
-            models::Machine(aMachine)
-    {
-
+            models::Machine(aMachine) {
     }
 
     Machine& Machine::operator=(const Machine& rhs) {
-        if(this != &rhs)
-        {
+        if(this != &rhs) {
             models::Machine::operator=(rhs);
             connection = rhs.connection;
         }
@@ -31,7 +23,7 @@ namespace core {
         connection = aConnection;
     }
 
-    bool Machine::isConnected() {
+    bool Machine::isConnected() const {
         return !!connection;
     }
 
@@ -40,6 +32,5 @@ namespace core {
             connection->writeMessage(msg);
         }
     }
-
 
 }
