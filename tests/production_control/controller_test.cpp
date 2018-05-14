@@ -31,8 +31,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK(!!controller.getMachine(1));
 
   // Setting this state will setup the server
-  auto state = States::SimulationWaitForConnectionsState(controller);
-  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state)));
+  auto state = states::SimulationWaitForConnectionsState(controller);
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(state)));
 
   BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
 
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
 
   // Get current state and check if we are in the next
   auto currentState = controller.getCurrentState();
-  BOOST_CHECK(!!std::dynamic_pointer_cast<States::OperationState>(currentState));
+  BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
   machineNetwork->stop();
   controller.stop();
