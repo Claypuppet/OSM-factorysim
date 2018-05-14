@@ -48,28 +48,18 @@ namespace simulation {
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
         /**
-         * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
-         * @param body : body string from message
-         * @param machine : machine model to fill
-         * @return bool : success
+         * Function that handles message for machine ready for simulation
+         * creates a notify even with id eControllerMachineReady and notifies observers
+         * @param notification : NotifyEvent
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machine);
+        void handleMachineReady(Network::ConnectionPtr);
 
         /**
-         * Handles new machine info receive
-         * @param machine
+         * handle register machine message, creates a eControllerRegisterMachine notify event to notify the controller
+         * @param messageBody : content of the message
+         * @param connection : connection to the machine
          */
-        void onSimulationMachineInfoReceived(const models::Machine &machine);
-
-
-        void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
-
-        /**
-         * Function that handles notifications for registering machines
-         * @param notification : A notification for registering a machine
-         */
-        void onHandleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification);
-
+        void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
 
     };
 }

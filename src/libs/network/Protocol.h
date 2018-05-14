@@ -38,9 +38,10 @@ namespace Network {
 //			103 - PC - MC - Shutdown machine
 
             kSimMessageTypeRegister = 100,
-			kSimMessageTypeConfig = 101,
-            kSimMessageTypeTurnOn = 102,
-            kSimMessageTypeTurnOff = 103,
+			kSimMessageTypeReadyForSim,
+			kSimMessageTypeConfig,
+            kSimMessageTypeTurnOn,
+            kSimMessageTypeTurnOff,
 
 
 		};

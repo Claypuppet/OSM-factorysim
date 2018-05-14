@@ -51,14 +51,14 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * Wait for the connection to establish or disconnect. Timeout is 100 milliseconds by default.
    * @param timeout : max time to wait in milliseconds
    */
-  void awaitConnection(uint32_t timeout = 100);
+  void awaitConnection(uint32_t timeout = 1000);
 
   /**
    * Call this when you send a message to the mock network. It will wait till the message is received. Timeout is
    * 100 milliseconds by default.
    * @param timeout : max time to wait in milliseconds
    */
-  void awaitMessageReceived(uint32_t timeout = 100);
+  void awaitMessageReceived(uint32_t timeout = 1000);
 
   /**
    * Stop network
