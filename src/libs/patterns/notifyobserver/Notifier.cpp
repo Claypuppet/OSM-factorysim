@@ -1,7 +1,7 @@
 #include "Notifier.hpp"
 #include <boost/foreach.hpp>
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		const NotifyTrigger NotifyTrigger::DoNotNotify(kNotifyTriggerId_DoNotNotify);
@@ -136,6 +136,11 @@ namespace Patterns {
 		NotifyEvent Notifier::makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event)
 		{
 			return NotifyEvent(trigger, this, event);
+		}
+
+		NotifyEvent Notifier::makeNotifcation(NotifyEventId event)
+		{
+			return NotifyEvent(NotifyTrigger(), this, event);
 		}
 
 

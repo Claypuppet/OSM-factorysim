@@ -5,7 +5,7 @@
 #include "OffState.h"
 #include "OnState.h"
 
-namespace SimulationStates {
+namespace simulationstates {
 	void OffState::entryAction() {
 
 	}

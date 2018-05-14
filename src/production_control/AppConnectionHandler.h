@@ -8,9 +8,13 @@
 #include <patterns/notifyobserver/Notifier.hpp>
 #include "network/Connection.h"
 #include "Application.h"
+#include "NetworkMapper.h"
 
-namespace Core {
-    class AppConnectionHandler : public Network::IConnectionHandler, Patterns::NotifyObserver::Notifier {
+namespace core {
+    class AppConnectionHandler :
+        public Network::IConnectionHandler,
+        public patterns::NotifyObserver::Notifier,
+        public NetworkMapper{
     public:
         AppConnectionHandler();
 

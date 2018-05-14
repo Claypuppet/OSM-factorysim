@@ -35,7 +35,7 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
   std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeConfig : {
-      Models::MachinePtr machinePtr;
+      models::MachinePtr machinePtr;
 
       if (deserializeSimulationMachineInfo(message.mBody, machinePtr)) {
         onSimulationMachineInfoReceived(machinePtr);
@@ -58,7 +58,7 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
 }
 
 bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string,
-                                                                  Models::MachinePtr machinePtr) {
+                                                                  models::MachinePtr machinePtr) {
   std::stringstream binaryStream((std::ios::in | std::ios::binary));
   binaryStream.str(string);
   cereal::PortableBinaryInputArchive archive(binaryStream);
@@ -66,22 +66,22 @@ bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::str
   return true; // TODO : implement boolean
 }
 
-void SimulationNetworkComponent::onSimulationMachineInfoReceived(Models::MachinePtr machinePtr) {
+void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
   auto event =
-      makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
   event.addArgument(machinePtr);
   notifyObservers(event);
 }
 
 void SimulationNetworkComponent::onTurnOffReceived() {
   auto notification =
-      makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
   notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOnReceived() {
   auto notification =
-      makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
 }
 

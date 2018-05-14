@@ -1,6 +1,6 @@
 #include "MachineConfiguration.h"
 
-namespace Models {
+namespace models {
 
     MachineConfiguration::MachineConfiguration() {
     }

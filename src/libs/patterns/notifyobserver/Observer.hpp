@@ -1,9 +1,9 @@
 #ifndef OBSERVER_HPP_
 #define OBSERVER_HPP_
 
-#include <stdint.h>
+#include <cstdint>
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		class Notifier;

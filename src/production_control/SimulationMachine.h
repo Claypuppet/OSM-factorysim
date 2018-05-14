@@ -10,20 +10,20 @@
 #include <models/Machine.h>
 #include "Machine.h"
 
-namespace Simulation {
+namespace simulation {
 
 	/**
 	 * Machine used in simulations, adds a simulation connection.
 	 * Inherits Core::Machine : Core machine is used in the application, this simualtion class adds sim connection
 	 */
-    class SimulationMachine : public Core::Machine {
+    class SimulationMachine : public core::Machine {
     public:
 
         /**
          * Constructs a machine with existing machine information (Models::Machine)
          * @param aMachine : A machine model
          */
-		SimulationMachine(const Models::Machine &aMachine);
+		SimulationMachine(const models::Machine &aMachine);
 
         /**
         * Copy constructor
@@ -53,7 +53,13 @@ namespace Simulation {
         * A function to check if a connection is established with the machine
         * @return True if theres a connection establised with the machine
         */
-        bool isSimulationConnected();
+        bool isSimulationConnected() const;
+
+        /**
+        * A function to check if the machine is ready for configuration
+        * @return True if theres a connection establised with the machine and its configured
+        */
+		bool isReadyForSimulation() const;
 
         /**
         * A function that sets the connection with this machine
@@ -69,9 +75,14 @@ namespace Simulation {
 		*/
 		void sendSimulationConfiguration();
 
+		/**
+		 * Sets the machine ready
+		 */
+		void setReady(bool aReady);
 
     private:
-        Network::ConnectionPtr simConnection;
+	  	bool ready;
+	  	Network::ConnectionPtr simConnection;
     };
 
     typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
