@@ -7,6 +7,8 @@
 #include "../production_control/SimulationController.h"
 #include "../production_control/NotificationTypes.h"
 #include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
+#include "../../src/production_control/states_controller/LoadConfigState.h"
+#include "../../src/production_control/states_controller/SimulationBroadcastState.h"
 
 // http://www.boost.org/doc/libs/1_60_0/libs/test/doc/html/boost_test/adv_scenarios/shared_lib_customizations/entry_point.html
 
@@ -46,7 +48,30 @@ BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
 // Einde state tests
 BOOST_AUTO_TEST_SUITE_END()
 
-// Testen van public methods van controller
+BOOST_AUTO_TEST_SUITE(ProductionControlControllerStates)
+
+BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
+{
+  simulation::SimulationController controller;
+  //Set load config state
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::LoadConfigState>(controller)));
+
+  //Schedule load config event
+  Patterns::Statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
+  event->setArgument<std::string>("test_configs/test_config_one_machine.yaml");
+  BOOST_CHECK_NO_THROW(controller.scheduleEvent(event));
+
+  //Run the state
+  BOOST_CHECK_NO_THROW(controller.run());
+
+  //Loadconfig state should go to the SimulationBroadcastState but that state instantly switches to SimulationWaitForConnectionsState
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::SimulationWaitForConnectionsState>(controller.getCurrentState()), true);
+  controller.stop();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+// Testen van public methods van controllerAdded test case and testconfig.yaml
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
