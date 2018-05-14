@@ -14,7 +14,7 @@ namespace states {
 		kEventTypeMachineConnected,
 		kEventTypeAllMachinesReadyForSimulation,
 		kEventTypeMachineReady,
-//		kEventType,
+		kEventTypeDoneBroadcasting,
 //		kEventType,
 	};
 
