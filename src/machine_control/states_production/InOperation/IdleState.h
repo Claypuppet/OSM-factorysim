@@ -11,7 +11,7 @@
 namespace ProductionStates {
 class IdleState : public InOperationState {
  public:
-  IdleState(MachineCore::Application &aContext) : InOperationState(aContext) {};
+  IdleState(machinecore::Application &aContext) : InOperationState(aContext) {};
 
   virtual ~IdleState() = default;
 

@@ -7,10 +7,19 @@
 
 #include <cstdint>
 
+#include <cereal/archives/portable_binary.hpp>
+
 namespace Network {
 	namespace Protocol {
-	  	constexpr uint16_t kPortSimulationCommunication = 54321;
-	  	constexpr uint16_t kPortProductionCommunication = 12345;
+
+		// Serializer strategy defines
+		using InputArchive = cereal::PortableBinaryInputArchive;
+		using OutputArchive = cereal::PortableBinaryOutputArchive;
+
+		// Communication ports
+		const uint16_t PORT_UDP_DISCOVERY = 12321;
+	  	const uint16_t PORT_SIMULATION_COMMUNICATION = 54321;
+	  	const uint16_t PORT_PRODUCTION_COMMUNICATION = 12345;
 
 		enum DiscoverMessageType {
 //			For UPD connection
@@ -29,9 +38,10 @@ namespace Network {
 //			103 - PC - MC - Shutdown machine
 
             kSimMessageTypeRegister = 100,
-			kSimMessageTypeConfig = 101,
-            kSimMessageTypeTurnOn = 102,
-            kSimMessageTypeTurnOff = 103,
+			kSimMessageTypeReadyForSim,
+			kSimMessageTypeConfig,
+            kSimMessageTypeTurnOn,
+            kSimMessageTypeTurnOff,
 
 
 		};

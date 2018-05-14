@@ -5,31 +5,39 @@
 #include "Application.h"
 #include "states_production/ConnectState.h"
 
-namespace MachineCore {
-    Application::Application(const Models::Machine& aMachineInfo)
-            : Patterns::Statemachine::Context(), machineInfo(aMachineInfo)
-    {
-        clientThread = manager.runServiceThread();
+namespace machinecore {
 
-        Communication::NetworkComponent connectionHandler;
-        handleNotificationsFor(connectionHandler);
+Application::Application(uint16_t aMachineId)
+    : patterns::statemachine::Context(), id(aMachineId), machine() {
 
-        client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+  clientThread = manager.runServiceThread();
 
-        setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
-    }
+  Communication::NetworkComponent connectionHandler;
+  handleNotificationsFor(connectionHandler);
 
-    void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
-    }
+  client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
 
-    const Models::Machine &Application::getMachineInfo() const {
-        return machineInfo;
-    }
+  setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
+}
 
-    void Application::setMachineInfo(const Models::Machine &machineInfo) {
-        Application::machineInfo = machineInfo;
-    }
+Application::~Application() {
+  stop();
+}
+
+void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+}
+
 void Application::setStartState() {
   setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
 }
+
+void Application::stop() {
+  // Stop the manager
+  manager.stop();
+
+  // Join the client thread
+  if (clientThread->joinable()) {
+    clientThread->join();
+  }
 }
+} // namespace machinecore

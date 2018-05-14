@@ -9,7 +9,7 @@
 #include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
 
-namespace Models {
+namespace models {
 
     class Product;
     typedef std::shared_ptr<Product> ProductPtr;

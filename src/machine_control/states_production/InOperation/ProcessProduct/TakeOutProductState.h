@@ -12,7 +12,7 @@ namespace ProductionStates {
 
 class TakeOutProductState : public InOperationState {
  public:
-  TakeOutProductState(MachineCore::Application &aContext) : InOperationState(aContext) {};
+  TakeOutProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
 
   virtual ~TakeOutProductState() = default;
 

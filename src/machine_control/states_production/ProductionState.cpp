@@ -5,6 +5,6 @@
 #include "ProductionState.h"
 
 namespace ProductionStates {
-ProductionState::ProductionState(MachineCore::Application &aContext)
+ProductionState::ProductionState(machinecore::Application &aContext)
             : context(aContext) {}
 }

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <mutex>
 
-class Logger : public Patterns::Singleton::Singleton<Logger> {
+class Logger : public patterns::Singleton::Singleton<Logger> {
 public:
 	Logger() = default;
 	virtual ~Logger() = default;

@@ -29,14 +29,14 @@ namespace Network
 	{
 	}
 
-//	Manager::Manager(const Manager& m)
+//	Manager::Manager(const Manager& manager)
 //	: mServicePtr(std::make_shared<io_service>())
 //	, mServicerWorkPtr(std::unique_ptr<io_service::work>(new io_service::work(*mServicePtr)))
 //	, mFStopping(false)
 //	, mFStopped(false)
-//	, mRemoteHost(m.mRemoteHost)
-//	, mRemotePort(m.mRemotePort)
-//	, mLocalPort(m.mLocalPort)
+//	, mRemoteHost(manager.mRemoteHost)
+//	, mRemotePort(manager.mRemotePort)
+//	, mLocalPort(manager.mLocalPort)
 //	{
 //	}
 

@@ -11,7 +11,7 @@
 #include "SimulationInfo.h"
 #include "ProductionLine.h"
 
-namespace Models {
+namespace models {
 
     class Configuration;
     typedef std::shared_ptr<Configuration> ConfigurationPtr;
