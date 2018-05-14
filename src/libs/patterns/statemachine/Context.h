@@ -14,7 +14,7 @@
 #include "State.h"
 
 namespace patterns {
-    namespace statemachine {
+namespace statemachine {
         class Context {
         public:
 			virtual ~Context() = default;
@@ -24,11 +24,11 @@ namespace patterns {
 			 */
 			virtual void run();
 
-			/**
-			 * Add event to the event queue.
-			 * @param event : Event to add
-			 */
-            void scheduleEvent(EventPtr event);
+          /**
+           * Add event to the event queue.
+           * @param event : Event to add
+           */
+          void scheduleEvent(EventPtr event);
 
             /**
              * Set a new state
@@ -36,16 +36,16 @@ namespace patterns {
              */
             void setCurrentState(StatePtr currentState);
 
-			/**
-			 * Get the current state
-			 */
-			const StatePtr &getCurrentState() const;
+          /**
+           * Get the current state
+           */
+          const StatePtr &getCurrentState() const;
 
         protected:
             Context() = default;
 
             StatePtr currentState;
-		    std::queue<EventPtr> events;
+          std::queue<EventPtr> events;
         };
     }
 }

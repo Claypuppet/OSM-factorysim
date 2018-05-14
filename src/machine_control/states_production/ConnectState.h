@@ -7,7 +7,7 @@
 
 #include "ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class ConnectState : public ProductionState {
  public:
   ConnectState(machinecore::Application &aContext)

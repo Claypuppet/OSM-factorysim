@@ -11,7 +11,7 @@
 namespace ApplicationStates {
     class WaitForConnectionsState : public ApplicationState {
     public:
-        WaitForConnectionsState(core::Application &context);
+      WaitForConnectionsState(core::Application &context);
 
         bool handleEvent(const EventPtr &e) override;
 

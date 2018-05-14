@@ -7,7 +7,7 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class BrokenState : public ProductionState {
  public:
   BrokenState(machinecore::Application &aContext);

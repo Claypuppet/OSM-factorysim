@@ -5,7 +5,7 @@
 #include "ConnectState.h"
 #include "Inititalization/ConfigureState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 void ConnectState::entryAction() {
   context.setupNetwork();
 }
@@ -26,4 +26,5 @@ bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
     }
     default:return false;
   }
+}
 }

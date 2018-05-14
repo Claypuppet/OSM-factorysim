@@ -9,7 +9,7 @@
 #include "../NetworkComponent.h"
 #include "../Application.h"
 
-namespace ProductionStates {
+namespace productionstates {
 enum EventType {
   kMachineBrokeDown,
   kEventTypeConnected,
@@ -41,8 +41,8 @@ class ProductionState : public patterns::statemachine::State {
  protected:
   ProductionState(machinecore::Application &aContext);
 
-      machinecore::Application &context;
-    };
+  machinecore::Application &context;
+};
 
 }
 

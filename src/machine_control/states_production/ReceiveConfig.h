@@ -7,13 +7,13 @@
 
 #include "ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 /**
  * Sends machine number and receives initial config
  */
 class ReceiveConfig : public ProductionState {
  public:
-  ReceiveConfig(MachineCore::Application &aContext)
+  ReceiveConfig(machinecore::Application &aContext)
       : ProductionState(aContext) {};
 
   virtual ~ReceiveConfig() = default;
@@ -28,7 +28,7 @@ class ReceiveConfig : public ProductionState {
  * @param e: incomming event as eventPointer
  * @return
  */
-  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
 };
 }
 #endif //PRODUCTION_LINE_CONTROL_RECEIVECONFIG_H

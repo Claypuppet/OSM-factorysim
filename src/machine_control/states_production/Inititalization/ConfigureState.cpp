@@ -4,7 +4,7 @@
 
 #include "ConfigureState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 void ConfigureState::entryAction() {
 
 }
@@ -17,7 +17,7 @@ void ConfigureState::exitAction() {
 
 }
 
-bool ConfigureState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool ConfigureState::handleEvent(const patterns::statemachine::EventPtr &e) {
   return false;
 }
 

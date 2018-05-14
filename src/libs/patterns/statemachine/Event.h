@@ -7,7 +7,7 @@
 #include <vector>
 
 namespace patterns {
-    namespace statemachine {
+namespace statemachine {
 
         class Event;
 

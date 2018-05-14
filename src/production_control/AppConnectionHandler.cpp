@@ -3,7 +3,6 @@
 //
 
 #include "AppConnectionHandler.h"
-#include "network/Protocol.h"
 #include "NotificationTypes.h"
 
 /**
@@ -19,7 +18,8 @@ core::AppConnectionHandler::AppConnectionHandler() {}
  * @param error
  */
 
-void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
+                                                    const boost::system::error_code &error) {
     Network::IConnectionHandler::onConnectionFailed(connection, error);
     std::cout << "Connection failed!" << std::endl;
 }
@@ -39,7 +39,8 @@ void core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr 
  * @param error
  */
 
-void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
+                                                          const boost::system::error_code &error) {
     std::cout << "Disconnected!" << std::endl;
 }
 
@@ -49,7 +50,8 @@ void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr
  * @param message
  */
 
-void core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+void core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
+                                                             Network::Message &message) {
     std::cout << "Received a message!" << std::endl;
     uint8_t messageType = message.getMessageType();
     switch(messageType)
@@ -92,7 +94,8 @@ void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 }
 
 void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -102,7 +105,8 @@ void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
 }
 
 void core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -111,7 +115,7 @@ void core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleStartInit(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
+  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -120,7 +124,8 @@ void core::AppConnectionHandler::handleStartInit(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleStartProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -129,7 +134,8 @@ void core::AppConnectionHandler::handleStartProcessing(Network::Message &message
 }
 
 void core::AppConnectionHandler::handleDoneProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -138,7 +144,7 @@ void core::AppConnectionHandler::handleDoneProcessing(Network::Message &message)
 }
 
 void core::AppConnectionHandler::handleOK(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
+  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -147,7 +153,7 @@ void core::AppConnectionHandler::handleOK(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleNOK(Network::Message &message) {
-    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
+  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);

@@ -4,7 +4,7 @@
 
 #include "TakeProductState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 
 void TakeProductState::entryAction() {
 

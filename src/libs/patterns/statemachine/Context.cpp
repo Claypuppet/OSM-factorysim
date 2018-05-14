@@ -17,11 +17,11 @@ void patterns::statemachine::Context::setCurrentState(const StatePtr newState) {
 	currentState->doActivity();
 }
 
-void patterns::statemachine::Context::scheduleEvent(EventPtr event){
-	events.push(event);
+void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
+  events.push(event);
 }
 
-void patterns::statemachine::Context::run(){
+void patterns::statemachine::Context::run() {
 	while(!events.empty()) {
 		EventPtr e = events.front();
 		events.pop();

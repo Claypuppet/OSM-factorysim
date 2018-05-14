@@ -7,7 +7,7 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class ConfigureState : public ProductionState {
  public:
   ConfigureState(machinecore::Application &aContext) : ProductionState(aContext) {};
@@ -19,7 +19,7 @@ class ConfigureState : public ProductionState {
   virtual void doActivity();
 
   virtual void exitAction();
-  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
 };
 
 }

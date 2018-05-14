@@ -11,7 +11,7 @@
 namespace states {
     class SimulationBroadcastState : public ControllerState {
     public:
-        SimulationBroadcastState(simulation::SimulationController &context);
+      SimulationBroadcastState(simulation::SimulationController &context);
 
         /**
          * Broadcasts the ip and port over the network

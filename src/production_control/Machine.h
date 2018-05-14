@@ -11,7 +11,7 @@
 #include <models/Machine.h>
 
 namespace core {
-    class Machine : public models::Machine {
+class Machine : public models::Machine {
     public:
 
         /**

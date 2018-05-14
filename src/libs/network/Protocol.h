@@ -12,14 +12,14 @@
 namespace Network {
 	namespace Protocol {
 
-		// Serializer strategy defines
-		using InputArchive = cereal::PortableBinaryInputArchive;
-		using OutputArchive = cereal::PortableBinaryOutputArchive;
+    // Serializer strategy defines
+    using InputArchive = cereal::PortableBinaryInputArchive;
+    using OutputArchive = cereal::PortableBinaryOutputArchive;
 
-		// Communication ports
-		const uint16_t PORT_UDP_DISCOVERY = 12321;
-	  	const uint16_t PORT_SIMULATION_COMMUNICATION = 54321;
-	  	const uint16_t PORT_PRODUCTION_COMMUNICATION = 12345;
+    // Communication ports
+    const uint16_t PORT_UDP_DISCOVERY = 12321;
+    const uint16_t PORT_SIMULATION_COMMUNICATION = 54321;
+    const uint16_t PORT_PRODUCTION_COMMUNICATION = 12345;
 
 		enum DiscoverMessageType {
 //			For UPD connection
@@ -38,10 +38,10 @@ namespace Network {
 //			103 - PC - MC - Shutdown machine
 
             kSimMessageTypeRegister = 100,
-			kSimMessageTypeReadyForSim,
-			kSimMessageTypeConfig,
-            kSimMessageTypeTurnOn,
-            kSimMessageTypeTurnOff,
+      kSimMessageTypeReadyForSim,
+      kSimMessageTypeConfig,
+      kSimMessageTypeTurnOn,
+      kSimMessageTypeTurnOff,
 
 
 		};

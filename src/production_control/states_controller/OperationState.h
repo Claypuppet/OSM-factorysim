@@ -8,14 +8,14 @@
 namespace states {
     class OperationState : public ControllerState {
     public:
-        OperationState(simulation::SimulationController &aContext);
+      OperationState(simulation::SimulationController &aContext);
 
         /**
          * Runs the simulation
          */
         void doActivity() override;
         void entryAction() override;
-        bool handleEvent(const EventPtr &event) override;
+      bool handleEvent(const EventPtr &event) override;
         void exitAction() override;
     };
 }

@@ -11,10 +11,10 @@
 #include "NetworkMapper.h"
 
 namespace core {
-    class AppConnectionHandler :
-        public Network::IConnectionHandler,
-        public patterns::NotifyObserver::Notifier,
-        public NetworkMapper{
+class AppConnectionHandler :
+    public Network::IConnectionHandler,
+    public patterns::NotifyObserver::Notifier,
+    public NetworkMapper {
     public:
         AppConnectionHandler();
 

@@ -5,7 +5,7 @@
 #include "ReceiveConfig.h"
 #include "Inititalization/ConfigureState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 void ReceiveConfig::entryAction() {
   context.setupNetwork();
 }
@@ -18,7 +18,7 @@ void ReceiveConfig::exitAction() {
 
 }
 
-bool ReceiveConfig::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool ReceiveConfig::handleEvent(const patterns::statemachine::EventPtr &e) {
   switch (e->getId()) {
     case kEventTypeConnected: {
       context.setCurrentState(std::make_shared<ConfigureState>(context));

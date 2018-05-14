@@ -9,12 +9,10 @@
 #include "network/Connection.h"
 
 namespace Communication {
-	class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
+class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
 	public:
 		NetworkComponent();
 		~NetworkComponent() = default;
-
-		const void sendHello();
 
 		Network::ConnectionPtr getConnection();
 

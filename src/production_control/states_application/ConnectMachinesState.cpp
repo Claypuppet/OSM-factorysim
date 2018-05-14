@@ -4,7 +4,6 @@
 
 #include <memory>
 #include "ConnectMachinesState.h"
-#include "BroadCastState.h"
 
 ApplicationStates::ConnectMachinesState::ConnectMachinesState(core::Application &context) : ApplicationState(context) {
 

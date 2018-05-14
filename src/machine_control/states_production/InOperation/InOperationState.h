@@ -7,7 +7,7 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class InOperationState : public ProductionState {
  public:
   InOperationState(machinecore::Application &aContext) : ProductionState(aContext) {};
