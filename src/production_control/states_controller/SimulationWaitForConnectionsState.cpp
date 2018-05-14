@@ -6,7 +6,6 @@
 #include "SimulationWaitForConnectionsState.h"
 #include "OperationState.h"
 
-
 states::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
         ControllerState(context)
 {
@@ -21,18 +20,36 @@ void states::SimulationWaitForConnectionsState::doActivity() {
 }
 
 void states::SimulationWaitForConnectionsState::exitAction() {
-    context.turnOnSimulationMachines();
+  context.turnOnSimulationMachines();
 }
 
-bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &e) {
-    switch (e->getId()){
-        case kEventTypeMachineConnected:
-            context.registerMachine(e->getArgumentAsType<uint16_t>(0), e->getArgumentAsType<Network::ConnectionPtr>(1));
-            break;
-        case kEventTypeAllMachinesConnected:
-//            context.setCurrentState(std::make_shared<OperationState>(context));
-            break;
-        default:
-            return ControllerState::handleEvent(e);
+bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypeMachineReady: {
+      onMachineReady(event);
+      break;
     }
+    case kEventTypeMachineConnected: {
+      onMachineConnected(event);
+      break;
+    }
+    case kEventTypeAllMachinesReadyForSimulation: {
+      onAllMachinesReadyForSimulation();
+      break;
+    }
+
+    default:return ControllerState::handleEvent(event);
+  }
+}
+
+void states::SimulationWaitForConnectionsState::onMachineReady(const states::EventPtr &event) {
+  context.machineReady(event->getArgumentAsType<u_int16_t>(0));
+}
+
+void states::SimulationWaitForConnectionsState::onMachineConnected(const states::EventPtr &event) {
+  context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
+}
+
+void states::SimulationWaitForConnectionsState::onAllMachinesReadyForSimulation() {
+  context.setCurrentState(std::make_shared<OperationState>(context));
 }

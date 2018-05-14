@@ -15,7 +15,7 @@
 
 #define DEFINE_HASHED_ENUM_VALUE(type, name) static const constexpr type name = (type)static_cast<int32_t>(cx::fnv1(#name))
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		class Observer;

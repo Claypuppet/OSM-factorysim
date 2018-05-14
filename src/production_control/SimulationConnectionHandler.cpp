@@ -32,7 +32,7 @@ namespace simulation {
 		switch (message.getMessageType()) {
 			case Network::Protocol::kSimMessageTypeRegister:
 				//TODO set right event id
-				auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(),
+				auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
 													NotifyEventIds::eControllerRegisterMachine);
 
 				uint16_t machineId = std::strtoul(message.getBody().c_str(), nullptr, 10);

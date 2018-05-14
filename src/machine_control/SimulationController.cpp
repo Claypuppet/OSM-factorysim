@@ -10,7 +10,7 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 namespace simulator {
 
-class NetworkEventDispatcher : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
+class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
   ~NetworkEventDispatcher() override = default;
@@ -20,7 +20,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public Pat
     //TODO: Add eventId
     //Set up the Connection Failed state event to send to the observers.
     auto event = makeNotificationForNotifier(this,
-                                             Patterns::NotifyObserver::NotifyTrigger(),
+                                             patterns::NotifyObserver::NotifyTrigger(),
                                              ControllerEvents::kNotifyEventTypeServiceError);
 
     //Notify observers of the error
@@ -34,7 +34,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public Pat
   void onServiceStarted(Network::ServicePtr service) override {
     //Set up an event to let the observers know that connection was successful
     auto event = makeNotificationForNotifier(this,
-                                             Patterns::NotifyObserver::NotifyTrigger(),
+                                             patterns::NotifyObserver::NotifyTrigger(),
                                              ControllerEvents::kNotifyEventTypeServiceStarted);
 
     //Notify observers of connection success
@@ -43,7 +43,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public Pat
 
 };
 
-void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
     case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
       onMachineInfoReceived(notification);
@@ -62,7 +62,7 @@ void SimulationController::handleNotification(const Patterns::NotifyObserver::No
  * Executed on receiving new machine configurations
  * @param notification Notification containing the new configuration(s)
  */
-void SimulationController::onMachineInfoReceived(const Patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
 
   // Get the machien model from the notification's arguments
   models::Machine &machineModel = *notification.getFirstArgumentAsType<models::MachinePtr>();
@@ -86,7 +86,7 @@ SimulationController::~SimulationController() {
 }
 
 void SimulationController::setupNetwork() {
-  networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   clientThread = networkManager.runServiceThread();
 
   SimulationCommunication::SimulationNetworkComponent connectionHandler;

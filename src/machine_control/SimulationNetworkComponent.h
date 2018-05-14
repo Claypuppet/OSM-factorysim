@@ -19,7 +19,7 @@ namespace SimulationCommunication {
 
     class SimulationNetworkComponent :
 			public Network::IConnectionHandler,
-			public Patterns::NotifyObserver::Notifier
+			public patterns::NotifyObserver::Notifier
 	{
     public:
         SimulationNetworkComponent() = default;

@@ -17,10 +17,10 @@ namespace ApplicationStates {
       kEventTypeAllMachinesConnected
 	};
 
-	typedef Patterns::Statemachine::Event Event;
-	typedef Patterns::Statemachine::EventPtr EventPtr;
+	typedef patterns::statemachine::Event Event;
+	typedef patterns::statemachine::EventPtr EventPtr;
 
-	class ApplicationState : public Patterns::Statemachine::State {
+	class ApplicationState : public patterns::statemachine::State {
 
 	public:
 		virtual ~ApplicationState() = default;

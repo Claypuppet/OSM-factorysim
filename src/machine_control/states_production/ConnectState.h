@@ -22,7 +22,7 @@ namespace ProductionStates {
 
         virtual void exitAction();
 
-        virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
+        virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
     };
 }
 
