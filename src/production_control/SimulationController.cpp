@@ -136,7 +136,9 @@ namespace simulation {
 	}
 
 	void SimulationController::turnOnSimulationMachines() {
-		// TODO: send turn on message to connected sim machines
+	  	for(const auto &machine : machines){
+	  	  	machine->sendTurnOnCommand();
+	  	}
 	}
 
 	void SimulationController::turnOffSimulationMachines() {

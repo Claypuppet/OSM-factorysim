@@ -23,7 +23,7 @@ namespace simulation {
          * Constructs a machine with existing machine information (Models::Machine)
          * @param aMachine : A machine model
          */
-		SimulationMachine(const models::Machine &aMachine);
+		explicit SimulationMachine(const models::Machine &aMachine);
 
         /**
         * Copy constructor
@@ -44,12 +44,6 @@ namespace simulation {
         virtual ~SimulationMachine() = default;
 
         /**
-        * A function to send a message to this machine
-        * @param msg : The message to send to this machine
-        */
-        void sendSimulationMessage(Network::Message &msg);
-
-        /**
         * A function to check if a connection is established with the machine
         * @return True if theres a connection establised with the machine
         */
@@ -62,17 +56,15 @@ namespace simulation {
 		bool isReadyForSimulation() const;
 
         /**
-        * A function that sets the connection with this machine
+        * Set the simulation connection wit this machine
         * @param aConnection : The connection with this machine
         */
         void setSimulationConnection(Network::ConnectionPtr &aConnection);
 
 
 		/**
-		* @param m : Id of given machine
-		* @param connection : Connectionpointer to connection.
-		* @return  : Pointer of requested machine
-		*/
+		 * Send the simulation configuration to this machine.
+		 */
 		void sendSimulationConfiguration();
 
 		/**
@@ -80,9 +72,22 @@ namespace simulation {
 		 */
 		void setReady(bool aReady);
 
+		/**
+		 * Send the command to turn on the machine
+		 */
+		void sendTurnOnCommand();
+
+
     private:
 	  	bool ready;
 	  	Network::ConnectionPtr simConnection;
+
+		/**
+		* A function to send a message to this machine
+		* @param msg : The message to send to this machine
+		*/
+		void sendSimulationMessage(Network::Message &msg);
+
     };
 
     typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
