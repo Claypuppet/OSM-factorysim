@@ -17,6 +17,13 @@ MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageS
   networkThread = networkManager.runServiceThread();
 }
 
+MockNetwork::~MockNetwork() {
+  networkManager.stop();
+  if(networkThread && networkThread->joinable()){
+    networkThread->join();
+  }
+}
+
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
@@ -88,7 +95,9 @@ const Network::ConnectionPtr &MockNetwork::getConnection() const {
 
 void MockNetwork::stop() {
   networkManager.stop();
-  networkThread->join();
+  if(networkThread->joinable()){
+    networkThread->join();
+  }
 }
 void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
