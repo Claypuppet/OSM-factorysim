@@ -15,7 +15,7 @@
 
 #define DEFINE_HASHED_ENUM_VALUE(type, name) static const constexpr type name = (type)static_cast<int32_t>(cx::fnv1(#name))
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		class Observer;
@@ -373,6 +373,14 @@ namespace Patterns {
 			 * @return The created NotifyEvent
 			 */
 			NotifyEvent makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event);
+
+
+			/**
+			 * Creates a even simpler notification
+			 * @param event : The id of the notification
+			 * @return The created NotifyEvent
+			 */
+			NotifyEvent makeNotifcation(NotifyEventId event);
 
 			/**
 			 * Creates a notification

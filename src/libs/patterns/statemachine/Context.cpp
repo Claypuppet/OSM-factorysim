@@ -6,7 +6,7 @@
  */
 #include "Context.h"
 
-void Patterns::Statemachine::Context::setCurrentState(const StatePtr newState) {
+void patterns::statemachine::Context::setCurrentState(const StatePtr newState) {
 	if(currentState){
 		currentState->exitAction();
 	}
@@ -17,11 +17,11 @@ void Patterns::Statemachine::Context::setCurrentState(const StatePtr newState) {
 	currentState->doActivity();
 }
 
-void Patterns::Statemachine::Context::scheduleEvent(EventPtr e){
-	events.push(e);
+void patterns::statemachine::Context::scheduleEvent(EventPtr event){
+	events.push(event);
 }
 
-void Patterns::Statemachine::Context::run(){
+void patterns::statemachine::Context::run(){
 	while(!events.empty()) {
 		EventPtr e = events.front();
 		events.pop();
@@ -33,4 +33,7 @@ void Patterns::Statemachine::Context::run(){
 //		}
 	}
 	currentState->doActivity();
+}
+const patterns::statemachine::StatePtr &patterns::statemachine::Context::getCurrentState() const {
+  return currentState;
 }

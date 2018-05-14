@@ -7,7 +7,7 @@
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
-namespace Simulation {
+namespace simulation {
 void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
                                                      const boost::system::error_code &error) {
   IConnectionHandler::onConnectionFailed(connection, error);
@@ -29,14 +29,15 @@ void SimulationConnectionHandler::onConnectionMessageReceived(Network::Connectio
                                                               Network::Message &message) {
   std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
-    case Network::Protocol::kSimMessageTypeRegister:handleRegisterMachine(message.getBody(), connection);
+    case Network::Protocol::kSimMessageTypeRegister:
+      handleRegisterMachine(message.getBody(), connection);
       break;
     default:break;
   }
 }
 
 bool SimulationConnectionHandler::deserializeSimulationMachineInfo(const std::string &string,
-                                                                   Models::MachinePtr machine) {
+                                                                   models::MachinePtr machine) {
 //		std::stringstream binaryStream((std::ios::in | std::ios::binary));
 //		binaryStream.str(string);
 //		cereal::PortableBinaryInputArchive archive(binaryStream);
@@ -44,14 +45,14 @@ bool SimulationConnectionHandler::deserializeSimulationMachineInfo(const std::st
   return !!machine;
 }
 
-void SimulationConnectionHandler::onSimulationMachineInfoReceived(const Models::Machine &machine) {
+void SimulationConnectionHandler::onSimulationMachineInfoReceived(const models::Machine &machine) {
 //		auto machinePtr = std::make_shared<Model::Machine>(machine);
 
 
 }
 
 void SimulationConnectionHandler::handleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection) {
-  Patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
+  patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
   notification.setArgument(0, static_cast<uint16_t >(std::stoi(messageBody, nullptr)));
   notification.setArgument(1, connection);
   notifyObservers(notification);

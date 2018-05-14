@@ -8,12 +8,12 @@
 #include "SimulationState.h"
 
 
-namespace SimulationStates {
+namespace simulationstates {
 
 
 	class OffState : public SimulationState {
 	public:
-		OffState(Simulator::SimulationController &context) : SimulationState(context){};
+		OffState(simulator::SimulationController &context) : SimulationState(context){};
 		virtual ~OffState() = default;
 
 		void entryAction() override;

@@ -2,64 +2,70 @@
 // Created by klei on 5/8/18.
 //
 
+#include <ctime>
+
 #include "MockNetwork.h"
+#include "HelperFunctions.h"
 #include <network/Protocol.h>
 #include <network/Client.h>
 #include <network/Server.h>
 
-namespace testUtils {
+namespace testutils {
 
-MockNetwork::MockNetwork() : status(kDisconnected), onMessageFn([](const Network::Message& m){}), onConnectionFn([](const Network::ConnectionPtr& c){}){
+MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageStatus(kMessageIdle),
+                             onMessageFn([](const Network::Message& m){}), onConnectionFn([](const Network::ConnectionPtr& c){}){
   networkThread = networkManager.runServiceThread();
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
   client->start();
-  status = kConnecting;
+  connectionStatus = kConnectionConnecting;
   if(waitForConnected){
     awaitConnection();
   }
 }
 
 void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::kPortProductionCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
   client->start();
-  status = kConnecting;
+  connectionStatus = kConnectionConnecting;
   if(waitForConnected){
     awaitConnection();
   }
 }
 
 void MockNetwork::startMockPCServerController() {
-  networkManager.setLocalPort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  status = kConnected;
+  connectionStatus = kConnectionConnected;
 }
 
 void MockNetwork::startMockPCServerApplication() {
-  networkManager.setLocalPort(Network::Protocol::kPortProductionCommunication);
+  networkManager.setLocalPort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  status = kConnected;
+  connectionStatus = kConnectionConnected;
 }
 
 void MockNetwork::onConnectionEstablished(Network::ConnectionPtr aConnection) {
   connection = aConnection;
-  status = kConnected;
+  connectionStatus = kConnectionConnected;
 }
 
 void MockNetwork::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-  status = kDisconnected;
+  connectionStatus = kConnectionDisconnected;
 }
 
 void MockNetwork::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
   if(onMessageFn){
     onMessageFn(message);
   }
+  // Message has been handled, set status to idle
+  messageStatus = kMessageIdle;
 }
 
 void MockNetwork::sendMessage(Network::Message &msg) {
@@ -85,10 +91,18 @@ void MockNetwork::stop() {
   networkThread->join();
 }
 void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-  status = kDisconnected;
+  connectionStatus = kConnectionDisconnected;
 }
-void MockNetwork::awaitConnection() {
-  while(status == kConnecting){}
+void MockNetwork::awaitConnection(uint32_t timeout) {
+  Predicate predicate = [this](){return connectionStatus != kConnectionConnecting;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
+
+}
+void MockNetwork::awaitMessageReceived(uint32_t timeout) {
+  Predicate predicate = [this](){return messageStatus != kMessageWaiting;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
+  // Message has been received or it timed out.
+  messageStatus = kMessageIdle;
 }
 
 }

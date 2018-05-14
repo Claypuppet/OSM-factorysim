@@ -1,21 +1,21 @@
-//
-// Created by sven on 22-4-18.
-//
 
 #include "Controller.h"
 
-
-Core::Controller::Controller() : executing(false) {
+core::Controller::Controller() : executing(false) {
 
 }
 
-void Core::Controller::execute() {
-	executing = true;
-	while(executing){
-		application.run();
-	}
+void core::Controller::execute() {
+  executing = true;
+  while (executing) {
+    application.run();
+  }
 }
 
-void Core::Controller::stop() {
-	executing = false;
+void core::Controller::stop() {
+  executing = false;
+}
+
+core::Application &core::Controller::getApplication() {
+  return application;
 }
