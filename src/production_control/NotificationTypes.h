@@ -18,8 +18,7 @@ enum ApplicationNotificationTypes {
 };
 
 enum ControllerNotificationTypes {
-  eControllerRegisterMachine = 100,
-  eControllerMachineReady
+  eControllerMachineReady = 100
 
 };
 
