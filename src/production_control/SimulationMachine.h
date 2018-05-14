@@ -53,7 +53,13 @@ namespace simulation {
         * A function to check if a connection is established with the machine
         * @return True if theres a connection establised with the machine
         */
-        bool isSimulationConnected();
+        bool isSimulationConnected() const;
+
+        /**
+        * A function to check if the machine is ready for configuration
+        * @return True if theres a connection establised with the machine and its configured
+        */
+		bool isReadyForSimulation() const;
 
         /**
         * A function that sets the connection with this machine
@@ -69,9 +75,14 @@ namespace simulation {
 		*/
 		void sendSimulationConfiguration();
 
+		/**
+		 * Sets the machine ready
+		 */
+		void setReady(bool aReady);
 
     private:
-        Network::ConnectionPtr simConnection;
+	  	bool ready;
+	  	Network::ConnectionPtr simConnection;
     };
 
     typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;

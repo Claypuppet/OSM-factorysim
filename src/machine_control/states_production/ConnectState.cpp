@@ -17,7 +17,7 @@ namespace ProductionStates {
         //TODO: START CONFIGURESTATE
     }
 
-    bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+    bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
         switch(e->getId()){
             default:
                 return false;

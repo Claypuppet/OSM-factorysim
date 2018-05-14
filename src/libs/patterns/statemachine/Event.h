@@ -6,8 +6,8 @@
 #include <boost/any.hpp>
 #include <vector>
 
-namespace Patterns {
-    namespace Statemachine {
+namespace patterns {
+    namespace statemachine {
 
         class Event;
 

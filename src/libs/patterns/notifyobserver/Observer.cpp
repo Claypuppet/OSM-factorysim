@@ -1,7 +1,7 @@
 #include "Observer.hpp"
 #include "Notifier.hpp"
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		/**

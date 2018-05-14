@@ -2,6 +2,8 @@
 // Created by sven on 22-4-18.
 //
 
+#include <cstdint>
+
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
@@ -16,13 +18,16 @@
 
 namespace simulation {
 
-	void SimulationController::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+	void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
 			case NotifyEventIds::eControllerRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
+			case NotifyEventIds::eControllerMachineReady:
+				handleMachineReady(notification);
+				break;
 			default:
-				std::cerr << "unhandled event with id " << notification.getEventId() << std::endl;
+				std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
 				break;
 		}
 
@@ -51,15 +56,22 @@ namespace simulation {
 		server->start();
 	}
 
-	void SimulationController::handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification) {
-		// TODO: Integrate with state event
+	void SimulationController::handleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification) {
 		auto id = notification.getArgumentAsType<uint16_t>(0);
 		auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
 
-		auto e = std::make_shared<states::Event>(states::kEventTypeMachineConnected);
-		e->addArgument(id);
-		e->addArgument(connection);
-		scheduleEvent(e);
+		auto event = std::make_shared<states::Event>(states::kEventTypeMachineConnected);
+		event->addArgument(id);
+		event->addArgument(connection);
+		scheduleEvent(event);
+	}
+
+	void SimulationController::handleMachineReady(const patterns::NotifyObserver::NotifyEvent &notification) {
+		auto id = notification.getArgumentAsType<uint16_t>(0);
+
+		auto event = std::make_shared<states::Event>(states::kEventTypeMachineReady);
+		event->addArgument(id);
+		scheduleEvent(event);
 	}
 
 	void SimulationController::execute() {
@@ -133,10 +145,32 @@ namespace simulation {
 
 
 	void SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
-		auto m = getMachine(machineId);
-		if(m){
-			m->setSimulationConnection(connection);
-			m->sendSimulationConfiguration();
+		auto machine = getMachine(machineId);
+		if(machine){
+			machine->setSimulationConnection(connection);
+			machine->sendSimulationConfiguration();
+		}
+	}
+
+	bool SimulationController::allMachinesReady() {
+	  	for (const auto &machine : machines){
+	    	if (!machine->isReadyForSimulation()){
+	      		return false;
+	    	}
+	  	}
+	  	return true;
+	}
+
+	void SimulationController::machineReady(uint16_t machineId) {
+		auto machine = getMachine(machineId);
+		if(machine){
+		  machine->setReady(true);
+
+			// Add new event if all machines are now connected
+			if (allMachinesReady()) {
+				auto event = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
+				scheduleEvent(event);
+			}
 		}
 	}
 }

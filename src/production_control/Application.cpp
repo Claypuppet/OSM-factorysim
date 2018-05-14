@@ -52,7 +52,7 @@ Network::ServerPtr core::Application::getServer() {
   return Network::ServerPtr();
 }
 
-void core::Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+void core::Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 
 }
 
