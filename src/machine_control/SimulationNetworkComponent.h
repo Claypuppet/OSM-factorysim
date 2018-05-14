@@ -24,6 +24,12 @@ class SimulationNetworkComponent :
   SimulationNetworkComponent() = default;
   virtual ~SimulationNetworkComponent() = default;
 
+  /**
+   * Sends a message to the production control to register as simulation machine
+   * @param machineId : The id of the machine to register
+   */
+  void sendRegisterMessage(const uint16_t machineId);
+
  private:
   void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionEstablished(Network::ConnectionPtr connection) override;
@@ -55,12 +61,6 @@ class SimulationNetworkComponent :
    * Handles machine turn off command
    */
   void onTurnOffReceived();
-
-  /**
-   * Sends a message to the production control to register as simulation machine
-   * @param machineId : The id of the machine to register
-   */
-  void sendRegisterMessage(const uint16_t machineId);
 
 };
 }
