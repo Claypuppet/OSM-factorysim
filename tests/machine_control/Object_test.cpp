@@ -27,7 +27,8 @@ BOOST_AUTO_TEST_CASE( MachineControlTest1 ){
 
     //Test slaagt als mijnFunctie() geen throw gooit.
     BOOST_CHECK_NO_THROW(Object());
-    BOOST_CHECK_NO_THROW(Object("test"));
+	BOOST_CHECK_NO_THROW(Object()
+								 "test"));
 }
 
 BOOST_AUTO_TEST_CASE( MachineControlTest2 ) {
