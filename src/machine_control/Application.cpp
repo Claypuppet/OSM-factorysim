@@ -6,11 +6,24 @@
 #include "states_production/ConnectState.h"
 #include "states_production/Inititalization/ConfigureState.h"
 
-namespace MachineCore {
-Application::Application(const Models::Machine &aMachineInfo)
-    : Patterns::Statemachine::Context(), machineInfo(aMachineInfo) {
+namespace machinecore {
+
+Application::Application(uint16_t aMachineId)
+    : patterns::statemachine::Context(), id(aMachineId), machine() {
+
+  clientThread = manager.runServiceThread();
+
+  Communication::NetworkComponent connectionHandler;
+  handleNotificationsFor(connectionHandler);
+
+  client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+
+  setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
 }
 
+Application::~Application() {
+  stop();
+}
 void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
     case NotifyEventType::kNotifyEventTypeServiceStarted: {
@@ -39,20 +52,30 @@ void Application::setStartState() {
   setCurrentState(std::make_shared<ProductionStates::ConnectState>(*this));
 }
 
-void Application::setupNetwork() {
-  clientThread = manager.runServiceThread();
+void Application::stop() {
+  // Stop the manager
+  manager.stop();
 
-  Communication::NetworkComponent connectionHandler;
-  handleNotificationsFor(connectionHandler);
+  // Join the client thread
+  if (clientThread->joinable()) {
+    clientThread->join();
+  }
 
-  std::cout << "application has connection";
-  client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+  void Application::setupNetwork() {
+    clientThread = manager.runServiceThread();
 
-  auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
-  client->setServiceEventListener(eventDispatcherPtr);
-  handleNotificationsFor(*eventDispatcherPtr);
+    Communication::NetworkComponent connectionHandler;
+    handleNotificationsFor(connectionHandler);
 
-  client->start();
+    std::cout << "application has connection";
+    client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+
+    auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
+    client->setServiceEventListener(eventDispatcherPtr);
+    handleNotificationsFor(*eventDispatcherPtr);
+
+    client->start();
 }
 
 }
+} // namespace machinecore

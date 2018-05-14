@@ -1,27 +1,27 @@
-//
-// Created by don on 24-4-18.
-//
 
 #include "OperationState.h"
 
-namespace States {
+namespace states {
 
-	OperationState::OperationState(Simulation::SimulationController &context) : ControllerState(context) {}
+OperationState::OperationState(simulation::SimulationController &aContext)
+    : ControllerState(aContext) {
 
-	void OperationState::entryAction() {
-//	    context.application->setStartState();
-	}
+}
 
-	void OperationState::doActivity() {
-//	    context.application->run();
-	}
+void OperationState::entryAction() {
+  context.getApplication().setStartState();
+}
 
-	void OperationState::exitAction() {
-//		context.application.stop()
-	}
+void OperationState::doActivity() {
+  context.getApplication().run();
+}
 
-	bool OperationState::handleEvent(const EventPtr &e) {
-		return false;
-	}
+void OperationState::exitAction() {
+  // stop application
+}
+
+bool OperationState::handleEvent(const EventPtr &event) {
+  return false;
+}
 
 }

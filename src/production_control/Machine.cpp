@@ -4,16 +4,16 @@
 
 #include "Machine.h"
 
-namespace Core {
+namespace core {
 
-    Machine::Machine(const Models::Machine &aMachine) :
-            Models::Machine(aMachine)
+    Machine::Machine(const models::Machine &aMachine) :
+            models::Machine(aMachine)
     {
 
     }
 
     Machine::Machine(const Machine &aMachine) :
-            Models::Machine(aMachine)
+            models::Machine(aMachine)
     {
 
     }
@@ -21,7 +21,7 @@ namespace Core {
     Machine& Machine::operator=(const Machine& rhs) {
         if(this != &rhs)
         {
-            Models::Machine::operator=(rhs);
+            models::Machine::operator=(rhs);
             connection = rhs.connection;
         }
         return *this;

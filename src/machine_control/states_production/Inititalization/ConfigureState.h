@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class ConfigureState : public ProductionState {
  public:
-  ConfigureState(MachineCore::Application &aContext) : ProductionState(aContext) {};
+  ConfigureState(machinecore::Application &aContext) : ProductionState(aContext) {};
 
   virtual ~ConfigureState() = default;
 

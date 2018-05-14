@@ -51,7 +51,9 @@ add_executable(test_machine_control
         ${test_helpers_SOURCES}
         ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
-        tests/machine_control/Object_test.cpp tests/machine_control/Production_test.cpp)
+        tests/machine_control/Object_test.cpp
+        tests/machine_control/Production_test.cpp)
+        tests/machine_control/Object_test.cpp tests/machine_control/controller_test.cpp)
 
 add_executable(test_production_control
         ${test_helpers_SOURCES}
@@ -139,6 +141,15 @@ install(TARGETS
         ARCHIVE DESTINATION lib)
 
 
+### LIBRARY TESTS ###
+
+
+add_executable(test_network
+        ${test_helpers_SOURCES}
+        tests/network/Main.cpp
+        tests/network/network_test.cpp)
+
+
 ### LINK LIBRARIES ###
 
 # Libs
@@ -158,7 +169,11 @@ target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_networ
 target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
-### Move config files
+# Lib tests
+target_link_libraries(test_network lib_network lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+
+
+### CUSTOM COMMANDS ###
 
 # For production control, move configuration dir to bin dir
 add_custom_command(TARGET app_production_control POST_BUILD

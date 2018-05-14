@@ -5,104 +5,91 @@
 #ifndef PRODUCTION_LINE_CONTROL_APPLICATION_H
 #define PRODUCTION_LINE_CONTROL_APPLICATION_H
 
-#include <models/Machine.h>
 #include "patterns/statemachine/Context.h"
 #include "patterns/notifyobserver/Observer.hpp"
 #include "network/Manager.h"
 #include "NetworkComponent.h"
+#include "Machine.h"
+#include "models/MachineConfiguration.h"
 #include <network/Client.h>
 
 
 
 
+//TODO: Implement Observer
+namespace machinecore {
 
-namespace MachineCore {
 enum NotifyEventType {
   kNotifyEventTypeMachineInfoReceived,
-
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError
 };
 
 class Application
-    : public Patterns::Statemachine::Context,
-      public Patterns::NotifyObserver::Observer {
+    : public patterns::statemachine::Context,
+      public patterns::NotifyObserver::Observer {
  public:
-  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
   /**
    * Constructor
    * @param aMachineInfo : The value for machineInfo
    */
-  explicit Application(const Models::Machine &aMachineInfo);
+  explicit Application(uint16_t aMachineId);
 
   /**
    * The destructor
    */
-  ~Application() override = default;
+  ~Application() override;
+
+  const Machine &getMachine() const {
+    return machine;
+  }
+
+  void setMachine(const Machine &machine) {
+    Application::machine = machine;
+  }
+
+  uint16_t getId() const {
+    return id;
+  }
+
+  void setId(uint16_t id) {
+    Application::id = id;
+  }
+
+  const std::vector<models::MachineConfiguration> &getConfigurations() const {
+    return configurations;
+  }
+
+  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
+    Application::configurations = configurations;
+  }
 
   /**
-   * Getter for machineInfo
-   * @return machineInfo
-   */
-  const Models::Machine &getMachineInfo() const;
-
-  /**
-   * Setter for machineInfo
-   * @param machineInfo : New value for machineInfo
-   */
-  void setMachineInfo(const Models::Machine &machineInfo);
-  /**
-   * This function tries to make a connection, it fires an event.
-   */
-  void setupNetwork();
-
-  /**
-   * Sets start state, this function is called Onstate entry of simulation
+   * Sets the starting state for the application's statemachine context
    */
   void setStartState();
+
+  /**
+   * Stops the network manager and joins the client thread
+   */
+  void stop();
 
  private:
   Network::Manager manager;
   Network::ClientPtr client;
   ThreadPtr clientThread;
-  Models::Machine machineInfo;
 
-/**
- * This class is used to handle possible errors, it also fires events on the Applicationhandler, because this implementation is only used here it is defined inline
- */
-  class NetworkEventDispatcher : public Network::IServiceEventListener, public Patterns::NotifyObserver::Notifier {
-   public:
-    NetworkEventDispatcher() = default;
-    ~NetworkEventDispatcher() override = default;
-   private:
+  Machine machine;
 
-    void onServiceError(Network::ServicePtr service, const std::string &message) override {
-      //TODO: Add eventId
-      //Set up the Connection Failed state event to send to the observers.
-      auto event = makeNotificationForNotifier(this,
-                                               Patterns::NotifyObserver::NotifyTrigger(),
-                                               NotifyEventType::kNotifyEventTypeServiceError);
+  // Id of the machine
+  uint16_t id;
 
-      //Notify observers of the error
-      notifyObservers(event);
-    }
-
-    void onServiceStopped(Network::ServicePtr service) override {
-      // TODO: check if this is needed
-    }
-
-    void onServiceStarted(Network::ServicePtr service) override {
-      //Set up an event to let the observers know that connection was successful
-      auto event = makeNotificationForNotifier(this,
-                                               Patterns::NotifyObserver::NotifyTrigger(),
-                                               NotifyEventType::kNotifyEventTypeServiceStarted);
-
-      //Notify observers of connection success
-      notifyObservers(event);
-    }
-  };
+  // Vector of possible configurations
+  std::vector<models::MachineConfiguration> configurations;
 };
 }
+
 
 #endif //PRODUCTION_LINE_CONTROL_APPLICATION_H

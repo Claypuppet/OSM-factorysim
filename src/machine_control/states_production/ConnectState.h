@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class ConnectState : public ProductionState {
  public:
-  ConnectState(MachineCore::Application &aContext)
+  ConnectState(machinecore::Application &aContext)
       : ProductionState(aContext) {};
 
   virtual ~ConnectState() = default;
@@ -26,7 +26,7 @@ class ConnectState : public ProductionState {
  * @param e: incomming event as eventPointer
  * @return
  */
-  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
 };
 }
 

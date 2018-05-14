@@ -12,7 +12,7 @@
 #include "SimulationMachine.h"
 
 
-namespace Simulation {
+namespace simulation {
 
     /**
      * Simualtion controller is the class that controls the application. As for the simualtion part, it will implement
@@ -22,7 +22,7 @@ namespace Simulation {
      * Inherits Context (state machine pattern): To define simualtion states (connect to  sim. production control, turn
      *  machine on/off.
      */
-    class SimulationController : public Core::Controller, public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
+    class SimulationController : public core::Controller, public patterns::NotifyObserver::Observer, public patterns::statemachine::Context{
     public:
 
         /**
@@ -42,7 +42,7 @@ namespace Simulation {
         * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
         * @param &notification : NotifyEvent implementation
         */
-        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+        void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
         /**
          * Get machine by id
@@ -84,12 +84,25 @@ namespace Simulation {
         void setConfigFromFile(const std::string &filePath);
 
 		/**
-		 *
-         * Saves connection in machines vector (if exists) and sends configuration to machine.
+		 * Saves connection in machines vector (if exists) and sends configuration to machine.
+		 * if there is not yet a connection it will count the machine as machineCount
+		 * if machineCount has same number as machinevector size it will fire the kEventTypeSimulationConfigLoaded event
 		 * @param machineId : Id of given machine
 		 * @param connection : Network connection to the machine (session)
 		 */
 		void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
+
+		/**
+		 * Machine is ready for simulation
+		 * @param machineId
+		 */
+		void machineReady(uint16_t machineId);
+
+		/**
+		 * check if all machines are ready for simulation
+		 * @return : true if all machines are ready
+		 */
+		bool allMachinesReady();
 
     private:
 
@@ -100,9 +113,15 @@ namespace Simulation {
 
         /**
          * Function that handles notifications for registering machines
-         * @param notification : A notification for registering a machine
+         * @param notification : NotifyEvent from notifier
          */
-        void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void handleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification);
+
+        /**
+         * Function that handles notifications for readying a machine
+         * @param notification : NotifyEvent from notifier
+         */
+        void handleMachineReady(const patterns::NotifyObserver::NotifyEvent &notification);
 
         /**
          * Network properties
@@ -120,7 +139,7 @@ namespace Simulation {
          * Config properties
          */
         std::string configPath;
-		Models::Configuration configuration;
+		models::Configuration configuration;
 
 
     };

@@ -1,6 +1,6 @@
 #include "ProductionLine.h"
 
-namespace Models {
+namespace models {
 
     ProductionLine::ProductionLine() {
     }

@@ -18,7 +18,7 @@ void ConnectState::exitAction() {
 
 }
 
-bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
   switch (e->getId()) {
     case kEventTypeConnected: {
       context.setCurrentState(std::make_shared<ConfigureState>(context));
@@ -26,5 +26,4 @@ bool ConnectState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
     }
     default:return false;
   }
-}
 }

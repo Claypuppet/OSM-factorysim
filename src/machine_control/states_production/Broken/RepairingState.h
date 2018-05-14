@@ -10,7 +10,7 @@
 namespace ProductionStates {
 class RepairingState : public ProductionState {
  public:
-  RepairingState(MachineCore::Application &aContext) : ProductionState(aContext) {};
+  RepairingState(machinecore::Application &aContext) : ProductionState(aContext) {};
 
   virtual ~RepairingState() = default;
 

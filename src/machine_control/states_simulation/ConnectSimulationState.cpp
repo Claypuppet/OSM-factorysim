@@ -6,7 +6,7 @@
 #include "InitializeSimulationState.h"
 
 
-namespace SimulationStates {
+namespace simulationstates {
 	void ConnectSimulationState::entryAction() {
 		context.setupNetwork();
 	}
