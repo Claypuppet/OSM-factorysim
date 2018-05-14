@@ -48,7 +48,7 @@ void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr conn
 void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &messageBody,
                                                           Network::ConnectionPtr connection) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
-                                      NotifyEventIds::eControllerRegisterMachine);
+                                      NotifyEventIds::eSimRegisterMachine);
 
   uint16_t machineId = std::strtoul(messageBody.c_str(), nullptr, 10);
   notification.setArgument(0, machineId);
