@@ -7,20 +7,16 @@
 namespace core {
 
     Machine::Machine(const models::Machine &aMachine) :
-            models::Machine(aMachine)
-    {
+            models::Machine(aMachine) {
 
     }
 
     Machine::Machine(const Machine &aMachine) :
-            models::Machine(aMachine)
-    {
-
+            models::Machine(aMachine) {
     }
 
     Machine& Machine::operator=(const Machine& rhs) {
-        if(this != &rhs)
-        {
+        if(this != &rhs) {
             models::Machine::operator=(rhs);
             connection = rhs.connection;
         }
@@ -41,5 +37,12 @@ namespace core {
         }
     }
 
+    void Machine::setMachineStatusReady() {
+        status = kMachineStatusReady;
+    }
+
+    bool Machine::hasStatusReady() const {
+        return status == kMachineStatusReady;
+    }
 
 }

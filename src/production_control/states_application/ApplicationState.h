@@ -13,8 +13,8 @@
 namespace ApplicationStates {
 
 	enum EventType {
-//		kEventType,
-//		kEventType,
+      kEventTypeMachineReady,
+	  kEventTypeAllMachinesReady
 	};
 
 	typedef patterns::statemachine::Event Event;

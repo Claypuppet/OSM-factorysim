@@ -12,8 +12,9 @@ namespace ApplicationStates {
     class WaitForConnectionsState : public ApplicationState {
     public:
         WaitForConnectionsState(core::Application &context);
+        virtual ~WaitForConnectionsState() = default;
 
-        bool handleEvent(const EventPtr &e) override;
+        bool handleEvent(const ApplicationStates::EventPtr &event) override;
 
         /**
          * Waits untill all configured machines are connected to the Application
@@ -24,6 +25,10 @@ namespace ApplicationStates {
         void entryAction() override;
 
         void exitAction() override;
+
+     private:
+      void onMachineRegistered(const ApplicationStates::EventPtr &event);
+      void onAllMachinesReady();
     };
 }
 

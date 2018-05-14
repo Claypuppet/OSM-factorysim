@@ -11,6 +11,11 @@
 #include <models/Machine.h>
 
 namespace core {
+
+  enum MachineStatus {
+    kMachineStatusReady
+  };
+
     class Machine : public models::Machine {
     public:
 
@@ -53,7 +58,19 @@ namespace core {
         */
         void setConnection(Network::ConnectionPtr aConnection);
 
+        /**
+         * Set the machine status on ready
+         */
+        void setMachineStatusReady();
+
+        /**
+         * Check if the machine status is equal to the ready state
+         * @return if the current machine status is equal to the ready state
+         */
+        bool hasStatusReady() const;
+
     private:
+        int status;
         Network::ConnectionPtr connection;
     };
 

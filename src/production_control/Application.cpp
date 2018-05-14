@@ -60,3 +60,20 @@ void core::Application::setStartState() {
   auto startState = std::make_shared<ApplicationStates::BroadCastState>(*this);
   setCurrentState(startState);
 }
+
+void core::Application::setMachineStatusReady(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+
+  if(machine){
+    machine->setMachineStatusReady();
+  }
+}
+
+bool core::Application::allMachinesReady() {
+  for (const auto &machine : machines){
+    if (!machine.hasStatusReady()){
+      return false;
+    }
+  }
+  return true;
+}
