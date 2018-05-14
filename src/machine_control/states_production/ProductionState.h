@@ -13,7 +13,14 @@ namespace ProductionStates {
 enum EventType {
   kMachineBrokeDown,
   kEventTypeConnected,
-  kEventTypeConnectionFailed
+  kEventTypeConnectionFailed,
+  kEventTypeReceivedConfig,
+  kEventTypeConfigured,
+  kEventTypeSelfTestSuccess,
+  kEventTypeSelfTestFailed,
+  kEventTypeTakeProduct,
+  kEventTypeProcessProduct,
+  kEventTypeFinishedProduct
 };
 
 typedef Patterns::Statemachine::Event Event;
