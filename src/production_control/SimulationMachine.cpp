@@ -42,19 +42,20 @@ namespace simulation {
 	}
 
 	void SimulationMachine::sendSimulationConfiguration() {
+		Network::Message message(Network::Protocol::kSimMessageTypeConfig);
+	  	models::Machine machineInfo = static_cast<models::Machine>(*this);
+		message.setBody<models::Machine>(machineInfo);
+		sendSimulationMessage(message);
+	}
 
-		std::vector<models::MachineConfiguration> config;
+	void SimulationMachine::sendTurnOnCommand() {
+	  	Network::Message message(Network::Protocol::kSimMessageTypeTurnOn);
+		sendSimulationMessage(message);
+	}
 
-		std::string binaryStream;
-
-		std::stringstream outputBinary((std::ios::out | std::ios::binary));
-		cereal::PortableBinaryOutputArchive archive(outputBinary);
-		archive(configurations);
-
-		binaryStream = outputBinary.str();
-
-		Network::Message msg(Network::Protocol::SimMessageType::kSimMessageTypeConfig, binaryStream);
-		sendSimulationMessage(msg);
+	void SimulationMachine::sendTurnOffCommand() {
+	  	Network::Message message(Network::Protocol::kSimMessageTypeTurnOff);
+		sendSimulationMessage(message);
 	}
 
 	bool SimulationMachine::isReadyForSimulation() const {
