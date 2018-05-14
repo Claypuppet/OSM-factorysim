@@ -11,7 +11,6 @@ namespace simulation {
 	void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
 														 const boost::system::error_code &error) {
 		IConnectionHandler::onConnectionFailed(connection, error);
-		std::cout << "not connected" << std::endl;
 	}
 
 	void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
@@ -20,15 +19,12 @@ namespace simulation {
 
 	void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
 															   const boost::system::error_code &error) {
-		std::cout << "dc" << std::endl;
-		std::cout << "not connected 2" << std::endl;
 
 	}
 
 
 	void SimulationConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
 																  Network::Message &message) {
-		std::cout << message.mBody << std::endl;
 		switch (message.getMessageType()) {
 			case Network::Protocol::kSimMessageTypeRegister:
 			  	onHandleRegisterMachine(message.getBody(), connection);

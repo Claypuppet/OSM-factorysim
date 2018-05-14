@@ -65,6 +65,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto currentState = controller.getCurrentState();
   BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
+  machineNetwork->stop();
 }
 
 // Einde state tests
