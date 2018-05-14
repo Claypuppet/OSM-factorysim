@@ -86,7 +86,7 @@ SimulationController::~SimulationController() {
 }
 
 void SimulationController::setupNetwork() {
-  networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   clientThread = networkManager.runServiceThread();
 
   SimulationCommunication::SimulationNetworkComponent connectionHandler;
