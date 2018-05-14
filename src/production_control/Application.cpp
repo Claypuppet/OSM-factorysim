@@ -61,19 +61,18 @@ void core::Application::setStartState() {
   setCurrentState(startState);
 }
 
-void core::Application::setMachineStatusReady(uint16_t machineId) {
-  auto machine = getMachine(machineId);
-
-  if(machine){
-    machine->setMachineStatusReady();
-  }
-}
-
-bool core::Application::allMachinesReady() {
+bool core::Application::allMachinesRegistered() {
   for (const auto &machine : machines){
-    if (!machine.hasStatusReady()){
+    if (!machine.isConnected()){
       return false;
     }
   }
   return true;
+}
+
+void core::Application::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->setConnection(connection);
+  }
 }

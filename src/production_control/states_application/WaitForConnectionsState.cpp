@@ -19,11 +19,11 @@ void ApplicationStates::WaitForConnectionsState::exitAction() {
 
 bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeMachineReady:
+    case kEventTypeMachineRegistered:
       onMachineReady(event);
       break;
 
-    case kEventTypeAllMachinesReady:
+    case kEventTypeAllMachinesRegistered:
       onAllMachinesReady();
       break;
 
@@ -33,10 +33,10 @@ bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &eve
 }
 
 void ApplicationStates::WaitForConnectionsState::onMachineReady(const EventPtr &event) {
-  context.setMachineStatusReady(event->getArgumentAsType<u_int16_t>(0));
+  context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
 
-  if (context.allMachinesReady()) {
-    auto event = std::make_shared<Event>(kEventTypeAllMachinesReady);
+  if (context.allMachinesRegistered()) {
+    auto event = std::make_shared<Event>(kEventTypeAllMachinesRegistered);
     context.scheduleEvent(event);
   }
 }

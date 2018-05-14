@@ -1,6 +1,3 @@
-//
-// Created by don on 20-4-18.
-//
 
 #include "Machine.h"
 
@@ -8,7 +5,6 @@ namespace core {
 
     Machine::Machine(const models::Machine &aMachine) :
             models::Machine(aMachine) {
-
     }
 
     Machine::Machine(const Machine &aMachine) :
@@ -27,7 +23,7 @@ namespace core {
         connection = aConnection;
     }
 
-    bool Machine::isConnected() {
+    bool Machine::isConnected() const {
         return !!connection;
     }
 
@@ -35,14 +31,6 @@ namespace core {
         if(isConnected()){
             connection->writeMessage(msg);
         }
-    }
-
-    void Machine::setMachineStatusReady() {
-        status = kMachineStatusReady;
-    }
-
-    bool Machine::hasStatusReady() const {
-        return status == kMachineStatusReady;
     }
 
 }

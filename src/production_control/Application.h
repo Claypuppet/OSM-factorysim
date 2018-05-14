@@ -74,15 +74,16 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   void setStartState();
 
   /**
-   * set the status of a specific machine on ready
-   * @param machineId id of the machine you want to set the status on ready
-   */
-  void setMachineStatusReady(uint16_t machineId);
-
-  /**
    * Check if all machines are ready
    */
-  bool allMachinesReady();
+  bool allMachinesRegistered();
+
+  /**
+   * set the connection of a machine by a specific machineId
+   * @param machineId the id of the machine
+   * @param connection the connection of the machine
+   */
+  void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
  private:
   std::vector<Machine> machines;
