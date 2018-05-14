@@ -26,6 +26,9 @@ enum EventType {
 typedef patterns::statemachine::Event Event;
 typedef patterns::statemachine::EventPtr EventPtr;
 
+/**
+ * Productionstate
+ */
 class ProductionState : public patterns::statemachine::State {
  public:
   virtual ~ProductionState() = default;
