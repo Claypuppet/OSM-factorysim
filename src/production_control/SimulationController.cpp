@@ -18,6 +18,14 @@
 
 namespace simulation {
 
+	SimulationController::~SimulationController() {
+
+	  networkManager.stop();
+	  if(serverThread && serverThread->joinable()){
+		serverThread->join();
+	  }
+	}
+
 	void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
 			case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine:
@@ -136,7 +144,9 @@ namespace simulation {
 	}
 
 	void SimulationController::turnOnSimulationMachines() {
-		// TODO: send turn on message to connected sim machines
+	  	for(const auto &machine : machines){
+	  	  	machine->sendTurnOnCommand();
+	  	}
 	}
 
 	void SimulationController::turnOffSimulationMachines() {

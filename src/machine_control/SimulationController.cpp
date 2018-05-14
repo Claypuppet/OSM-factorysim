@@ -10,6 +10,7 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 namespace simulator {
 
+//TODO: Doxygen
 class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
@@ -40,7 +41,6 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
     //Notify observers of connection success
     notifyObservers(event);
   }
-
 };
 
 void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
@@ -50,9 +50,23 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
       break;
     }
 
-    case ControllerEvents::kNotifyEventTypeTurnOnReceived :break;
+    case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
+      break;
+    }
 
-    case ControllerEvents::kNotifyEventTypeTurnOffReceived:break;
+    case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
+      break;
+    }
+
+    case ControllerEvents::kNotifyEventTypeServiceStarted: {
+      onServiceStarted();
+      break;
+    }
+
+    case ControllerEvents::kNotifyEventTypeServiceError: {
+      onServiceError();
+      break;
+    }
 
     default:break;
   }
@@ -64,17 +78,33 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
  */
 void SimulationController::onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
 
-  // Get the machien model from the notification's arguments
+  // Get the machine model from the notification's arguments
   models::Machine &machineModel = *notification.getFirstArgumentAsType<models::MachinePtr>();
 
   // Set the application's configurations to the machine model's configurations
   application.setConfigurations(machineModel.getConfigurations());
 
   // Create a state event to advance to the next state
-  auto e = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeConfigReceived);
+  auto event = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeConfigReceived);
 
   // Schedule the event in the context
-  scheduleEvent(e);
+  scheduleEvent(event);
+}
+
+void SimulationController::onServiceStarted() {
+  // Create a state event to advance to the next state
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
+
+  // Schedule the event in the context
+  scheduleEvent(event);
+}
+
+void SimulationController::onServiceError() {
+  // Create a state event to advance to the next state
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnectionFailed);
+
+  // Schedule the event in the context
+  scheduleEvent(event);
 }
 
 SimulationController::SimulationController(uint16_t aMachineId)
@@ -86,19 +116,32 @@ SimulationController::~SimulationController() {
 }
 
 void SimulationController::setupNetwork() {
+  // Set the port of the network
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+
+  // Create the thread which the manager will run on
   clientThread = networkManager.runServiceThread();
 
+  // Set up the network component which handles the connection
   SimulationCommunication::SimulationNetworkComponent connectionHandler;
+
+  // Set the controller to handle notifications (notifier observer pattern) for the network
   handleNotificationsFor(connectionHandler);
 
+  // Create the client
   client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(
       connectionHandler));
 
+  // Create and set up the event dispatcher which handles events for the connection service
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
+
+  // Assign the event dispatcher to the client, to handle it's connection service events
   client->setServiceEventListener(eventDispatcherPtr);
+
+  // Set the controller to handle notifications for the event dispatcher
   handleNotificationsFor(*eventDispatcherPtr);
 
+  // Start the client
   client->start();
 }
 

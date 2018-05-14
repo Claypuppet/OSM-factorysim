@@ -23,7 +23,7 @@ typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
 class MockNetwork : public Network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
  public:
   MockNetwork();
-  virtual ~MockNetwork() = default;
+  virtual ~MockNetwork();
 
   /**
    * Start client to connect to production control over simulation port
@@ -61,8 +61,14 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   void awaitMessageReceived(uint32_t timeout = 1000);
 
   /**
-   * Stop network
+   * Waits for the server to start
+   * @param timeout Time before timeout in milliseconds
    */
+  void awaitClientConnecting(uint32_t timeout);
+
+    /**
+     * Stop network
+     */
   void stop();
 
   /**

@@ -17,6 +17,13 @@ MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageS
   networkThread = networkManager.runServiceThread();
 }
 
+MockNetwork::~MockNetwork() {
+  networkManager.stop();
+  if(networkThread && networkThread->joinable()){
+    networkThread->join();
+  }
+}
+
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
@@ -41,14 +48,14 @@ void MockNetwork::startMockPCServerController() {
   networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  connectionStatus = kConnectionConnected;
+  connectionStatus = kConnectionConnecting;
 }
 
 void MockNetwork::startMockPCServerApplication() {
   networkManager.setLocalPort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  connectionStatus = kConnectionConnected;
+  connectionStatus = kConnectionConnecting;
 }
 
 void MockNetwork::onConnectionEstablished(Network::ConnectionPtr aConnection) {
@@ -88,7 +95,9 @@ const Network::ConnectionPtr &MockNetwork::getConnection() const {
 
 void MockNetwork::stop() {
   networkManager.stop();
-  networkThread->join();
+  if(networkThread->joinable()){
+    networkThread->join();
+  }
 }
 void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
@@ -103,6 +112,10 @@ void MockNetwork::awaitMessageReceived(uint32_t timeout) {
   HelperFunctions::waitForPredicate(predicate, timeout);
   // Message has been received or it timed out.
   messageStatus = kMessageIdle;
+}
+void MockNetwork::awaitClientConnecting(uint32_t timeout) {
+  Predicate predicate = [this](){return connectionStatus == kConnectionConnected;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
 }
 
 }

@@ -10,6 +10,7 @@ OperationState::OperationState(simulation::SimulationController &aContext)
 
 void OperationState::entryAction() {
   context.getApplication().setStartState();
+  context.turnOnSimulationMachines();
 }
 
 void OperationState::doActivity() {

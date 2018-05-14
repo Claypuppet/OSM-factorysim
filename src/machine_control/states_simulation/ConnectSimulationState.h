@@ -9,21 +9,23 @@
 
 namespace simulationstates {
 
+/**
+ * Responsible for setting up SimulationController's network and connecting it to Production Control.
+ */
+class ConnectSimulationState : public SimulationState {
+ public:
+  ConnectSimulationState(simulator::SimulationController &context) : SimulationState(context) {};
+  virtual ~ConnectSimulationState() = default;
 
-	class ConnectSimulationState : public SimulationState {
-	public:
-		ConnectSimulationState(simulator::SimulationController &context) : SimulationState(context){};
-		virtual ~ConnectSimulationState() = default;
+  void entryAction() override;
 
-		void entryAction() override;
+  void doActivity() override;
 
-		void doActivity() override;
+  void exitAction() override;
 
-		void exitAction() override;
+  bool handleEvent(const EventPtr &event) override;
 
-		bool handleEvent(const EventPtr &e) override;
-
-	};
+};
 
 }
 
