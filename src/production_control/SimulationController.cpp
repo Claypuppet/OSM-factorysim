@@ -23,7 +23,7 @@ namespace simulation {
 			case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
-			case NotifyEventIds::eControllerMachineReady:
+		  case NotifyEventIds::ControllerNotificationTypes::eControllerMachineReady:
 				handleMachineReady(notification);
 				break;
 			default:
