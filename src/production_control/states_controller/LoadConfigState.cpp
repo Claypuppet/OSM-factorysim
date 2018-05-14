@@ -18,7 +18,6 @@ namespace states {
     bool LoadConfigState::handleEvent(const EventPtr &e) {
         switch (e->getId()){
             case kEventTypeReadConfigFile:
-                // TODO: read config on context
                 context.setConfigFromFile(e->getArgumentAsType<std::string>());
                 break;
             case kEventTypeSimulationConfigLoaded:
