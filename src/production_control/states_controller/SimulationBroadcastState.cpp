@@ -6,25 +6,25 @@
 #include "SimulationWaitForConnectionsState.h"
 
 
-States::SimulationBroadcastState::SimulationBroadcastState(simulation::SimulationController &context) :
+states::SimulationBroadcastState::SimulationBroadcastState(simulation::SimulationController &context) :
 		ControllerState(context)
 {
 }
 
-void States::SimulationBroadcastState::doActivity() {
+void states::SimulationBroadcastState::doActivity() {
 
     // temp move directly to next state
     context.setCurrentState(std::make_shared<SimulationWaitForConnectionsState>(context));
 }
 
-void States::SimulationBroadcastState::entryAction() {
+void states::SimulationBroadcastState::entryAction() {
     // TODO: start UDP server
 }
 
-void States::SimulationBroadcastState::exitAction() {
+void states::SimulationBroadcastState::exitAction() {
 
 }
 
-bool States::SimulationBroadcastState::handleEvent(const EventPtr &e) {
+bool states::SimulationBroadcastState::handleEvent(const EventPtr &e) {
     return false;
 }

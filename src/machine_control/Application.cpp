@@ -8,7 +8,7 @@
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : Patterns::Statemachine::Context(), id(aMachineId), machine() {
+    : patterns::statemachine::Context(), id(aMachineId), machine() {
 
   clientThread = manager.runServiceThread();
 
@@ -24,7 +24,7 @@ Application::~Application() {
   stop();
 }
 
-void Application::handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) {
+void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 }
 
 void Application::setStartState() {

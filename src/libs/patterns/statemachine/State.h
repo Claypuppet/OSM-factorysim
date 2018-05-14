@@ -10,8 +10,8 @@
 
 #include "Event.h"
 
-namespace Patterns {
-    namespace Statemachine {
+namespace patterns {
+    namespace statemachine {
         class Context;
         class State;
 

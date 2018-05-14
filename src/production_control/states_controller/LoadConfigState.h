@@ -8,7 +8,7 @@
 
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
     class LoadConfigState : public ControllerState {
     public:
         LoadConfigState(simulation::SimulationController &context);

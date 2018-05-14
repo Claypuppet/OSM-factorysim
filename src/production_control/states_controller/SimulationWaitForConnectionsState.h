@@ -8,12 +8,12 @@
 
 #include "ControllerState.h"
 
-namespace States {
+namespace states {
     class SimulationWaitForConnectionsState : public ControllerState {
     public:
         SimulationWaitForConnectionsState(simulation::SimulationController &context);
 
-        bool handleEvent(const EventPtr &e) override;
+        bool handleEvent(const EventPtr &event) override;
 
         /**
          * Waits for machines to connect to the Application and sends relevant config data
@@ -23,6 +23,22 @@ namespace States {
         void entryAction() override;
 
         void exitAction() override;
+
+     private:
+      /**
+       * handle event with id kEventTypeMachineReady
+       * @param event : event
+       */
+       void onMachineReady(const EventPtr &event);
+       /**
+        * handle event with id kEventTypeMachineConnected
+       * @param event : event
+        */
+       void onMachineConnected(const EventPtr &event);
+       /**
+        * handle event with id kEventTypeAllMachinesReadyForSimulation
+        */
+       void onAllMachinesReadyForSimulation();
     };
 }
 
