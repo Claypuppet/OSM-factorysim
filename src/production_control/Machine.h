@@ -10,15 +10,15 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 
-namespace Core {
-    class Machine : public Models::Machine {
+namespace core {
+    class Machine : public models::Machine {
     public:
 
         /**
          * Constructs a machine from existing machine information
          * @param aMachine : A machine model
          */
-        explicit Machine(const Models::Machine &aMachine);
+        explicit Machine(const models::Machine &aMachine);
 
         /**
         * Copy constructor

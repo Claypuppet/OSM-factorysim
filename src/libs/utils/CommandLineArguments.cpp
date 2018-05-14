@@ -4,7 +4,7 @@
 
 #include "CommandLineArguments.h"
 
-namespace Utils {
+namespace utils {
 
 	CommandlineArgument::CommandlineArgument()
 			: argumentNumber()

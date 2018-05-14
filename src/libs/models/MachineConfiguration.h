@@ -10,7 +10,7 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 
-namespace Models {
+namespace models {
 
     class MachineConfiguration;
     typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;

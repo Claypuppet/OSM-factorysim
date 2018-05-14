@@ -1,13 +1,10 @@
-//
-// Created by klei on 4/25/18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_CONTROLLERSTATE_H
 #define PRODUCTION_LINE_CONTROL_CONTROLLERSTATE_H
 
 #include "../SimulationController.h"
 
-namespace States {
+namespace states {
 
 	enum EventType {
 		kEventTypeReadConfigFile,
@@ -15,27 +12,27 @@ namespace States {
 		kEventTypeProductionConfigLoaded,
 		kEventTypeServerSetupFailed,
 		kEventTypeMachineConnected,
-		kEventTypeAllMachinesConnected,
+		kEventTypeAllMachinesReadyForSimulation,
 		kEventTypeMachineReady,
-//		kEventType,
+		kEventTypeDoneBroadcasting,
 //		kEventType,
 	};
 
-	typedef Patterns::Statemachine::Event Event;
-	typedef Patterns::Statemachine::EventPtr EventPtr;
+	typedef patterns::statemachine::Event Event;
+	typedef patterns::statemachine::EventPtr EventPtr;
 
-	class ControllerState : public Patterns::Statemachine::State {
+	class ControllerState : public patterns::statemachine::State {
 
 	public:
 		virtual ~ControllerState() = default;
-		virtual bool handleEvent(const EventPtr &e) override;
+		virtual bool handleEvent(const EventPtr &event) override;
 		virtual void entryAction() = 0;
 		virtual void doActivity() = 0;
 		virtual void exitAction() = 0;
 
 	protected:
-		ControllerState(Simulation::SimulationController &);
-		Simulation::SimulationController& context;
+		ControllerState(simulation::SimulationController &aContext);
+		simulation::SimulationController& context;
 
 	};
 

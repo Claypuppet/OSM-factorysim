@@ -6,28 +6,28 @@
 #include <network/Protocol.h>
 #include "SimulationMachine.h"
 
-namespace Simulation {
+namespace simulation {
 
-	SimulationMachine::SimulationMachine(const Models::Machine &aMachine) :
-			Core::Machine(aMachine), simConnection(nullptr)
+	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
 	SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-			Core::Machine(aMachine), simConnection(nullptr)
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
 	SimulationMachine& SimulationMachine::operator=(const SimulationMachine& rhs) {
 		if(this != &rhs)
 		{
-			Core::Machine::operator=(rhs);
+			core::Machine::operator=(rhs);
 			simConnection = rhs.simConnection;
 		}
 		return *this;
 	}
 
-	bool SimulationMachine::isSimulationConnected() {
+	bool SimulationMachine::isSimulationConnected() const{
 		return !!simConnection;
 	}
 
@@ -43,7 +43,7 @@ namespace Simulation {
 
 	void SimulationMachine::sendSimulationConfiguration() {
 
-		std::vector<Models::MachineConfiguration> config;
+		std::vector<models::MachineConfiguration> config;
 
 		std::string binaryStream;
 
@@ -55,6 +55,14 @@ namespace Simulation {
 
 		Network::Message msg(Network::Protocol::SimMessageType::kSimMessageTypeConfig, binaryStream);
 		sendSimulationMessage(msg);
+	}
+
+	bool SimulationMachine::isReadyForSimulation() const {
+	  return isSimulationConnected() && ready;
+	}
+
+	void SimulationMachine::setReady(bool aReady) {
+	  SimulationMachine::ready = true;
 	}
 
 }

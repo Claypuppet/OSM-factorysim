@@ -5,7 +5,7 @@
 #include "BrokenState.h"
 
 namespace ProductionStates {
-BrokenState::BrokenState(MachineCore::Application &aContext)
+BrokenState::BrokenState(machinecore::Application &aContext)
     : ProductionState(aContext) {
 
 }
@@ -21,7 +21,7 @@ void BrokenState::doActivity() {
 void BrokenState::exitAction() {
 
 }
-bool BrokenState::handleEvent(const Patterns::Statemachine::EventPtr &e) {
+bool BrokenState::handleEvent(const patterns::statemachine::EventPtr &e) {
   return false;
 }
 

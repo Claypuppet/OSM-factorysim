@@ -11,10 +11,10 @@
 #include <models/Configuration.h>
 #include <models/Machine.h>
 
-#include "SimulationController.h"
+#include "NetworkMapper.h"
 
 
-namespace Simulation {
+namespace simulation {
 
     class SimulationConnectionHandler;
 
@@ -22,7 +22,8 @@ namespace Simulation {
 
     class SimulationConnectionHandler :
             public Network::IConnectionHandler,
-            public Patterns::NotifyObserver::Notifier {
+            public patterns::NotifyObserver::Notifier,
+            public core::NetworkMapper {
     public:
         SimulationConnectionHandler() = default;
 
@@ -46,32 +47,21 @@ namespace Simulation {
        */
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-
-        Network::ConnectionPtr mConnection;
+        /**
+         * Function that handles message for machine ready for simulation
+         * creates a notify even with id eControllerMachineReady and notifies observers
+         * @param notification : NotifyEvent
+         */
+        void handleMachineReady(Network::ConnectionPtr);
 
         /**
-         * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
-         * @param body : body string from message
-         * @param machine : machine model to fill
-         * @return bool : success
+         * handle register machine message, creates a eControllerRegisterMachine notify event to notify the controller
+         * @param messageBody : content of the message
+         * @param connection : connection to the machine
          */
-        bool deserializeSimulationMachineInfo(const std::string &body, Models::MachinePtr machine);
-
-        /**
-         * Handles new machine info receive
-         * @param machine
-         */
-        void onSimulationMachineInfoReceived(const Models::Machine &machine);
-
-
+        void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
+        
         void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
-
-        /**
-         * Handles incomming messages for registering machines
-         * @param message : The body of the incomming message
-         * @param connection : The connection that send the message
-         */
-        void handleRegisterMachine(const std::string& message, Network::ConnectionPtr connection);
     };
 }
 

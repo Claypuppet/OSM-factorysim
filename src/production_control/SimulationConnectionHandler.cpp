@@ -7,7 +7,8 @@
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
-namespace Simulation {
+namespace simulation {
+
 void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
                                                      const boost::system::error_code &error) {
   IConnectionHandler::onConnectionFailed(connection, error);
@@ -15,7 +16,7 @@ void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr conn
 }
 
 void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
-  mConnection = connection;
+  // No implementation needed, machine should register for connection to be used.
 }
 
 void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
@@ -29,31 +30,33 @@ void SimulationConnectionHandler::onConnectionMessageReceived(Network::Connectio
                                                               Network::Message &message) {
   std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
-    case Network::Protocol::kSimMessageTypeRegister:handleRegisterMachine(message.getBody(), connection);
+    case Network::Protocol::kSimMessageTypeRegister: onHandleRegisterMachine(message.getBody(), connection);
       break;
-    default:break;
+    case Network::Protocol::kSimMessageTypeReadyForSim: handleMachineReady(connection);
+      break;
+    default: break;
   }
 }
 
-bool SimulationConnectionHandler::deserializeSimulationMachineInfo(const std::string &string,
-                                                                   Models::MachinePtr machine) {
-//		std::stringstream binaryStream((std::ios::in | std::ios::binary));
-//		binaryStream.str(string);
-//		cereal::PortableBinaryInputArchive archive(binaryStream);
-//		archive(machine);
-  return !!machine;
+void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr connection) {
+  auto machineId = getMachineIdForConnection(connection);
+  auto notification = makeNotifcation(NotifyEventIds::eControllerMachineReady);
+  notification.setArgument(0, machineId);
+  notifyObservers(notification);
 }
 
-void SimulationConnectionHandler::onSimulationMachineInfoReceived(const Models::Machine &machine) {
-//		auto machinePtr = std::make_shared<Model::Machine>(machine);
+void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &messageBody,
+                                                          Network::ConnectionPtr connection) {
+  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
+                                      NotifyEventIds::eControllerRegisterMachine);
 
-
-}
-
-void SimulationConnectionHandler::handleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection) {
-  Patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine);
-  notification.setArgument(0, static_cast<uint16_t >(std::stoi(messageBody, nullptr)));
+  uint16_t machineId = std::strtoul(messageBody.c_str(), nullptr, 10);
+  notification.setArgument(0, machineId);
   notification.setArgument(1, connection);
+
+  // Register the machine as connection in this component
+  registerMachineConnection(connection, machineId);
+
   notifyObservers(notification);
 }
 
