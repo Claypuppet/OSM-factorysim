@@ -20,11 +20,13 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
   machinecore::Application application(1);
   BOOST_CHECK_NO_THROW(application.setStartState());
 
-  auto switchevent = std::make_shared<productionstates::Event>(machinecore::kNotifyEventTypeServiceStarted);
+  auto switchevent = std::make_shared<productionstates::Event>(productionstates::kEventTypeConnected);
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConnectState>(application.getCurrentState()), true);
 
   BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent));
+
+  BOOST_CHECK_NO_THROW(application.run());
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
 

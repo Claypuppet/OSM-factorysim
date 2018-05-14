@@ -3,7 +3,7 @@
 //
 
 #include "ConnectState.h"
-#include "Inititalization/ConfigureState.h"
+#include "ReceiveConfig.h"
 
 namespace productionstates {
 void ConnectState::entryAction() {
@@ -21,7 +21,7 @@ void ConnectState::exitAction() {
 bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeConnected: {
-      context.setCurrentState(std::make_shared<ConfigureState>(context));
+      context.setCurrentState(std::make_shared<ReceiveConfig>(context));
       break;
     }
     default:return false;
