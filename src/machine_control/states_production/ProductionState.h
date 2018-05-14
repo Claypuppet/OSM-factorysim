@@ -13,12 +13,12 @@ enum EventType {
   kMachineBrokeDown,
 };
 
-typedef Patterns::Statemachine::Event Event;
-typedef Patterns::Statemachine::EventPtr EventPtr;
+typedef patterns::statemachine::Event Event;
+typedef patterns::statemachine::EventPtr EventPtr;
 
 
 namespace ProductionStates {
-    class ProductionState : public Patterns::Statemachine::State {
+    class ProductionState : public patterns::statemachine::State {
     public:
         virtual ~ProductionState() = default;
 
@@ -28,7 +28,7 @@ namespace ProductionStates {
 
         virtual void exitAction() = 0;
 
-        virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e) = 0;
+        virtual bool handleEvent(const patterns::statemachine::EventPtr &e) = 0;
 
     protected:
       ProductionState(machinecore::Application &aContext);

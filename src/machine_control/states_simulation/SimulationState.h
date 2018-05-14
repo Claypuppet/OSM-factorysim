@@ -22,10 +22,10 @@ enum EventType {
 //			kEventType,
 };
 
-typedef Patterns::Statemachine::Event Event;
-typedef Patterns::Statemachine::EventPtr EventPtr;
+typedef patterns::statemachine::Event Event;
+typedef patterns::statemachine::EventPtr EventPtr;
 
-class SimulationState : public Patterns::Statemachine::State {
+class SimulationState : public patterns::statemachine::State {
 
  public:
   virtual ~SimulationState() = default;

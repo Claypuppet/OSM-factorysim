@@ -15,10 +15,10 @@
 //TODO: Implement Observer
 namespace machinecore {
 class Application
-    : public Patterns::Statemachine::Context,
-      public Patterns::NotifyObserver::Observer {
+    : public patterns::statemachine::Context,
+      public patterns::NotifyObserver::Observer {
  public:
-  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
   /**
    * Constructor

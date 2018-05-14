@@ -13,40 +13,41 @@
 
 #include "State.h"
 
-namespace Patterns {
-namespace Statemachine {
-class Context {
- public:
-  virtual ~Context() = default;
+namespace patterns {
+    namespace statemachine {
+        class Context {
+        public:
+			virtual ~Context() = default;
 
-  /**
-   * Run context once. Will handle events in the event queue and apply doAction in currentState.
-   */
-  virtual void run();
+			/**
+			 * Run context once. Will handle events in the event queue and apply doAction in currentState.
+			 */
+			virtual void run();
 
-  /**
-   * Add event to the event queue.
-   * @param event : Event to add
-   */
-  void scheduleEvent(EventPtr event);
+			/**
+			 * Add event to the event queue.
+			 * @param event : Event to add
+			 */
+            void scheduleEvent(EventPtr event);
 
-  /**
-   * Set a new state
-   * @param currentState : State to set
-   */
-  void setCurrentState(StatePtr currentState);
+            /**
+             * Set a new state
+             * @param currentState : State to set
+             */
+            void setCurrentState(StatePtr currentState);
 
-  const StatePtr &getCurrentState() const {
-    return currentState;
-  }
+			/**
+			 * Get the current state
+			 */
+			const StatePtr &getCurrentState() const;
 
- protected:
-  Context() = default;
+        protected:
+            Context() = default;
 
-  StatePtr currentState;
-  std::queue<EventPtr> events;
-};
-}
+            StatePtr currentState;
+		    std::queue<EventPtr> events;
+        };
+    }
 }
 
 #endif /* CONTEXT_H_ */

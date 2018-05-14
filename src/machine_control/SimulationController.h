@@ -19,8 +19,8 @@ namespace simulator {
 
 class SimulationController
     : public machinecore::Controller,
-      public Patterns::Statemachine::Context,
-      public Patterns::NotifyObserver::Observer {
+      public patterns::statemachine::Context,
+      public patterns::NotifyObserver::Observer {
 
  public:
   SimulationController(uint16_t aMachineId);
@@ -30,7 +30,7 @@ class SimulationController
   void stop();
   void registerMachine();
 
-  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
   /**
    * Sets the ip address of the production control
@@ -42,7 +42,7 @@ class SimulationController
  private:
   void setStartState();
 
-  void onMachineInfoReceived(const Patterns::NotifyObserver::NotifyEvent &notification);
+  void onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification);
 
   bool executing;
 

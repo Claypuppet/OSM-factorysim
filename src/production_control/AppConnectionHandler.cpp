@@ -92,7 +92,7 @@ void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 }
 
 void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -102,7 +102,7 @@ void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
 }
 
 void core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -111,7 +111,7 @@ void core::AppConnectionHandler::handleMachineReady(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleStartInit(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -120,7 +120,7 @@ void core::AppConnectionHandler::handleStartInit(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleStartProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
     auto machineId = static_cast<uint16_t>(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -129,7 +129,7 @@ void core::AppConnectionHandler::handleStartProcessing(Network::Message &message
 }
 
 void core::AppConnectionHandler::handleDoneProcessing(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -138,7 +138,7 @@ void core::AppConnectionHandler::handleDoneProcessing(Network::Message &message)
 }
 
 void core::AppConnectionHandler::handleOK(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);
@@ -147,7 +147,7 @@ void core::AppConnectionHandler::handleOK(Network::Message &message) {
 }
 
 void core::AppConnectionHandler::handleNOK(Network::Message &message) {
-    auto notification = makeNotifcation(Patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
+    auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
     auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
 
     notification.setArgument(0, machineId);

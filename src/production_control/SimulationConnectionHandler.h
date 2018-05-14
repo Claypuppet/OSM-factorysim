@@ -22,7 +22,7 @@ namespace simulation {
 
     class SimulationConnectionHandler :
             public Network::IConnectionHandler,
-            public Patterns::NotifyObserver::Notifier,
+            public patterns::NotifyObserver::Notifier,
             public core::NetworkMapper {
     public:
         SimulationConnectionHandler() = default;
@@ -68,7 +68,7 @@ namespace simulation {
          * Function that handles notifications for registering machines
          * @param notification : A notification for registering a machine
          */
-        void onHandleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void onHandleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification);
 
 
     };

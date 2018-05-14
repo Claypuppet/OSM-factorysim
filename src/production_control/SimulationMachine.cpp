@@ -9,12 +9,12 @@
 namespace simulation {
 
 	SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-			core::Machine(aMachine), simConnection(nullptr)
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
 	SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-			core::Machine(aMachine), simConnection(nullptr)
+			core::Machine(aMachine), simConnection(nullptr), ready(false)
 	{
 	}
 
@@ -27,7 +27,7 @@ namespace simulation {
 		return *this;
 	}
 
-	bool SimulationMachine::isSimulationConnected() {
+	bool SimulationMachine::isSimulationConnected() const{
 		return !!simConnection;
 	}
 
@@ -55,6 +55,14 @@ namespace simulation {
 
 		Network::Message msg(Network::Protocol::SimMessageType::kSimMessageTypeConfig, binaryStream);
 		sendSimulationMessage(msg);
+	}
+
+	bool SimulationMachine::isReadyForSimulation() const {
+	  return isSimulationConnected() && ready;
+	}
+
+	void SimulationMachine::setReady(bool aReady) {
+	  SimulationMachine::ready = true;
 	}
 
 }

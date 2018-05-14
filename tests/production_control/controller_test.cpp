@@ -40,11 +40,6 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 //
 //}
 
-BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
-
-  BOOST_REQUIRE_EQUAL(1, 1);
-
-}
 // Einde state tests
 BOOST_AUTO_TEST_SUITE_END()
 
@@ -57,7 +52,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
   BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::LoadConfigState>(controller)));
 
   //Schedule load config event
-  Patterns::Statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
+  patterns::statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
   event->setArgument<std::string>("test_configs/test_config_one_machine.yaml");
   BOOST_CHECK_NO_THROW(controller.scheduleEvent(event));
 
@@ -133,10 +128,5 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   BOOST_CHECK(m2config.getProductId() == 88);
 }
 
-BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
-
-  BOOST_REQUIRE_EQUAL(2, 2);
-
-}
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()

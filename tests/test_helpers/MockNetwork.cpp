@@ -18,7 +18,7 @@ MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageS
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
   client->start();
   connectionStatus = kConnectionConnecting;
@@ -28,7 +28,7 @@ void MockNetwork::startMockMCClientController(bool waitForConnected) {
 }
 
 void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::kPortProductionCommunication);
+  networkManager.setRemotePort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   client = networkManager.createClient(shared_from_this());
   client->start();
   connectionStatus = kConnectionConnecting;
@@ -38,14 +38,14 @@ void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
 }
 
 void MockNetwork::startMockPCServerController() {
-  networkManager.setLocalPort(Network::Protocol::kPortSimulationCommunication);
+  networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
   connectionStatus = kConnectionConnected;
 }
 
 void MockNetwork::startMockPCServerApplication() {
-  networkManager.setLocalPort(Network::Protocol::kPortProductionCommunication);
+  networkManager.setLocalPort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
   connectionStatus = kConnectionConnected;
