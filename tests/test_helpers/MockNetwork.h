@@ -23,7 +23,7 @@ typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
 class MockNetwork : public Network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
  public:
   MockNetwork();
-  virtual ~MockNetwork() = default;
+  virtual ~MockNetwork();
 
   /**
    * Start client to connect to production control over simulation port

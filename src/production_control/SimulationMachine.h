@@ -77,6 +77,11 @@ namespace simulation {
 		 */
 		void sendTurnOnCommand();
 
+		/**
+		 * Send the command to turn on the machine
+		 */
+		void sendTurnOffCommand();
+
 
     private:
 	  	bool ready;

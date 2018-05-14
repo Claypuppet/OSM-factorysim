@@ -18,6 +18,14 @@
 
 namespace simulation {
 
+	SimulationController::~SimulationController() {
+
+	  networkManager.stop();
+	  if(serverThread && serverThread->joinable()){
+		serverThread->join();
+	  }
+	}
+
 	void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
 			case NotifyEventIds::eControllerRegisterMachine:

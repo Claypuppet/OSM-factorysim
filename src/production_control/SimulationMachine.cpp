@@ -42,15 +42,20 @@ namespace simulation {
 	}
 
 	void SimulationMachine::sendSimulationConfiguration() {
-		Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeConfig);
-		auto machineInfo = static_cast<models::Machine>(*this);
+		Network::Message message(Network::Protocol::kSimMessageTypeConfig);
+	  	models::Machine machineInfo = static_cast<models::Machine>(*this);
 		message.setBody<models::Machine>(machineInfo);
 		sendSimulationMessage(message);
 	}
 
 	void SimulationMachine::sendTurnOnCommand() {
-//	  Network::Message message(Network::Protocol::SimMessageType::);
+	  	Network::Message message(Network::Protocol::kSimMessageTypeTurnOn);
+		sendSimulationMessage(message);
+	}
 
+	void SimulationMachine::sendTurnOffCommand() {
+	  	Network::Message message(Network::Protocol::kSimMessageTypeTurnOff);
+		sendSimulationMessage(message);
 	}
 
 	bool SimulationMachine::isReadyForSimulation() const {
