@@ -51,7 +51,7 @@ add_executable(test_machine_control
         ${test_helpers_SOURCES}
         ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
-        tests/machine_control/Object_test.cpp)
+        tests/machine_control/Object_test.cpp tests/machine_control/Production_test.cpp)
 
 add_executable(test_production_control
         ${test_helpers_SOURCES}
