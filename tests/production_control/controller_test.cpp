@@ -22,7 +22,7 @@
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
-  auto machineNetwork = std::make_shared<testUtils::MockNetwork>();
+  auto machineNetwork = std::make_shared<testutils::MockNetwork>();
   simulation::SimulationController controller;
 
   BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
