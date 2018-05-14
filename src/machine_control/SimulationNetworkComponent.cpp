@@ -87,6 +87,11 @@ void SimulationNetworkComponent::onTurnOnReceived() {
 void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
   Network::Message
       message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
-  mConnection->writeMessage(message);
+  if(mConnection) {
+    mConnection->writeMessage(message);
+  }
+}
+bool SimulationNetworkComponent::isConnected() {
+  return mConnection != nullptr;
 }
 }

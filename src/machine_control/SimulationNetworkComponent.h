@@ -29,6 +29,8 @@ class SimulationNetworkComponent :
    */
   void sendRegisterMessage(const uint16_t machineId);
 
+  bool isConnected();
+
  private:
   void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionEstablished(Network::ConnectionPtr connection) override;

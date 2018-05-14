@@ -1,4 +1,5 @@
 #include <boost/test/unit_test.hpp>
+#include <functional>
 #include <network/Protocol.h>
 #include "network/Client.h"
 #include "../test_helpers/MockNetwork.h"
@@ -7,33 +8,41 @@
 
 BOOST_AUTO_TEST_SUITE(MachineControlNetworkTestSuite)
 
-BOOST_AUTO_TEST_CASE(RegisterMachine)
-{
-  // TODO fix errors in this test case
-//  Network::Manager manager;
-//  manager.setRemotePort(Network::Protocol::kPortProductionCommunication);
-//  auto pcMock = std::make_shared<testUtils::MockNetwork>();
-//
-//  SimulationCommunication::SimulationNetworkComponent networkComponent;
-//  auto client = manager.createClient(std::make_shared<Communication::NetworkComponent>(networkComponent));
-//
-//  pcMock->startMockPCServerController();
-//  client->start();
-//
-//  std::shared_ptr<Network::Message> msgPtr = nullptr;
-//
-//  std::function<void(const Network::Message&)> onMessageFn = [msgPtr](const Network::Message& msg){
-//    msgPtr = std::make_shared<Network::Message>(msg);
-//  };
-//
-//  pcMock->setOnMessageFn(onMessageFn);
-//  pcMock->awaitConnection();
-//
-//  networkComponent.sendRegisterMessage(5);
-//
-//  BOOST_REQUIRE(msgPtr != nullptr);
-//  BOOST_CHECK(msgPtr->getBody() == "5");
-//  BOOST_CHECK(msgPtr->getMessageType() == Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+BOOST_AUTO_TEST_CASE(RegisterMachine) {
+  Network::Manager manager;
+  manager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  std::shared_ptr<SimulationCommunication::SimulationNetworkComponent>
+      networkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
+
+  std::function<void(const Network::Message &)> onMessageFn = [](const Network::Message &message) {
+    std::cout << "Executing checks!" << std::endl;
+    BOOST_CHECK(message.getBody() == "5");
+    BOOST_CHECK(message.getMessageType() == Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+    std::cout <<  "Executed checks!" << std::endl;
+  };
+
+  BOOST_REQUIRE_NO_THROW(pcMock->setOnMessageFn(onMessageFn));
+  pcMock->startMockPCServerController();
+
+  auto thread = manager.runServiceThread();
+  auto client =
+      manager.createClient(networkComponent);
+  BOOST_REQUIRE_NO_THROW(client->start());
+
+  pcMock->awaitConnection();
+  while (!networkComponent->isConnected()) {}
+
+  BOOST_REQUIRE_NO_THROW(networkComponent->sendRegisterMessage(5));
+  std::cout << "Message sent!" << std::endl;
+
+  pcMock->awaitMessageReceived();
+
+  client->stop();
+  manager.stop();
+  thread->join();
+  pcMock->stop();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
