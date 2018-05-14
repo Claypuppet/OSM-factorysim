@@ -104,6 +104,8 @@ namespace simulation {
 		 */
 		bool allMachinesReady();
 
+		void turnOffMachine(uint16_t machineId);
+
     private:
 
         /**
