@@ -145,10 +145,10 @@ namespace simulation {
 
 
 	void SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
-		auto m = getMachine(machineId);
-		if(m){
-			m->setSimulationConnection(connection);
-			m->sendSimulationConfiguration();
+		auto machine = getMachine(machineId);
+		if(machine){
+			machine->setSimulationConnection(connection);
+			machine->sendSimulationConfiguration();
 		}
 	}
 
@@ -168,8 +168,8 @@ namespace simulation {
 
 			// Add new event if all machines are now connected
 			if (allMachinesReady()) {
-				auto e = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
-				scheduleEvent(e);
+				auto event = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
+				scheduleEvent(event);
 			}
 		}
 	}
