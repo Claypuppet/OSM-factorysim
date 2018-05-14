@@ -26,6 +26,15 @@ void ApplicationStates::WaitForConnectionsState::exitAction() {
 
 }
 
-bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &e) {
-    return false;
+bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &event) {
+    switch (event->getId()){
+        case kEventTypeMachineConnected:
+            context.registerMachine(event->getArgumentAsType<uint16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
+        break;
+        case kEventTypeAllMachinesConnected:
+            context.setCurrentState(std::make_shared<OperationState>(context));
+            break;
+        default:
+            return ApplicationState::handleEvent(event);
+    }
 }
