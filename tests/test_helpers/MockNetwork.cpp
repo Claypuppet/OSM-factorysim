@@ -48,14 +48,14 @@ void MockNetwork::startMockPCServerController() {
   networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  connectionStatus = kConnectionConnected;
+  connectionStatus = kConnectionConnecting;
 }
 
 void MockNetwork::startMockPCServerApplication() {
   networkManager.setLocalPort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   server = networkManager.createServer(shared_from_this(),32);
   server->start();
-  connectionStatus = kConnectionConnected;
+  connectionStatus = kConnectionConnecting;
 }
 
 void MockNetwork::onConnectionEstablished(Network::ConnectionPtr aConnection) {
@@ -112,6 +112,10 @@ void MockNetwork::awaitMessageReceived(uint32_t timeout) {
   HelperFunctions::waitForPredicate(predicate, timeout);
   // Message has been received or it timed out.
   messageStatus = kMessageIdle;
+}
+void MockNetwork::awaitClientConnecting(uint32_t timeout) {
+  Predicate predicate = [this](){return connectionStatus == kConnectionConnected;};
+  HelperFunctions::waitForPredicate(predicate, timeout);
 }
 
 }

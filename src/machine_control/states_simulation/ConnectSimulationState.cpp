@@ -4,30 +4,27 @@
 
 #include "ConnectSimulationState.h"
 #include "InitializeSimulationState.h"
-
+#include "WaitForProductControlState.h"
 
 namespace simulationstates {
-	void ConnectSimulationState::entryAction() {
-		context.setupNetwork();
-	}
+void ConnectSimulationState::entryAction() {
+  context.setupNetwork();
+}
 
-	void ConnectSimulationState::doActivity() {
-	}
+void ConnectSimulationState::doActivity() {
+}
 
-	void ConnectSimulationState::exitAction() {
+void ConnectSimulationState::exitAction() {
 
-	}
+}
 
-	bool ConnectSimulationState::handleEvent(const EventPtr &e) {
-		switch (e->getId()){
-			case kEventTypeConnectionFailed:
-				// TODO: create WaitForProductionControl state and listen to udp
-				return true;
-			case kEventTypeConnected:
-				context.setCurrentState(std::make_shared<InitializeSimulationState>(context));
-				return true;
-			default:
-				return SimulationState::handleEvent(e);
-		}
-	}
+bool ConnectSimulationState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypeConnectionFailed: context.setCurrentState(std::make_shared<WaitForProductControlState>(context));
+      return true;
+    case kEventTypeConnected:context.setCurrentState(std::make_shared<InitializeSimulationState>(context));
+      return true;
+    default: return SimulationState::handleEvent(event);
+  }
+}
 }
