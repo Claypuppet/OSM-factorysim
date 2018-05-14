@@ -13,7 +13,7 @@
 namespace core {
     class AppConnectionHandler :
         public Network::IConnectionHandler,
-        public Patterns::NotifyObserver::Notifier,
+        public patterns::NotifyObserver::Notifier,
         public NetworkMapper{
     public:
         AppConnectionHandler();

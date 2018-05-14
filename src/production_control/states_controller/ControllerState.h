@@ -18,10 +18,10 @@ namespace states {
 //		kEventType,
 	};
 
-	typedef Patterns::Statemachine::Event Event;
-	typedef Patterns::Statemachine::EventPtr EventPtr;
+	typedef patterns::statemachine::Event Event;
+	typedef patterns::statemachine::EventPtr EventPtr;
 
-	class ControllerState : public Patterns::Statemachine::State {
+	class ControllerState : public patterns::statemachine::State {
 
 	public:
 		virtual ~ControllerState() = default;

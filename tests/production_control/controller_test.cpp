@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Connect a machine
   machineNetwork->startMockMCClientController();
 
-  Patterns::NotifyObserver::NotifyEvent e(NotifyEventIds::eControllerRegisterMachine);
+  patterns::NotifyObserver::NotifyEvent e(NotifyEventIds::eControllerRegisterMachine);
   e.setArgument(0, (uint16_t) 1);
   e.setArgument(1, machineNetwork->getConnection());
 

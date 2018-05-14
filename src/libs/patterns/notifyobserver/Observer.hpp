@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace Patterns {
+namespace patterns {
 	namespace NotifyObserver {
 
 		class Notifier;

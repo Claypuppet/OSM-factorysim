@@ -11,7 +11,7 @@ namespace ProductionStates {
 class BrokenState : public ProductionState {
  public:
   BrokenState(machinecore::Application &aContext);
-  virtual bool handleEvent(const Patterns::Statemachine::EventPtr &e);
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
 
   virtual ~BrokenState() = default;
 

@@ -13,8 +13,8 @@
 
 #include "State.h"
 
-namespace Patterns {
-    namespace Statemachine {
+namespace patterns {
+    namespace statemachine {
         class Context {
         public:
 			virtual ~Context() = default;
@@ -26,7 +26,7 @@ namespace Patterns {
 
 			/**
 			 * Add event to the event queue.
-			 * @param e : Event to add
+			 * @param event : Event to add
 			 */
             void scheduleEvent(EventPtr event);
 

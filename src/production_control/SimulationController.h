@@ -22,7 +22,7 @@ namespace simulation {
      * Inherits Context (state machine pattern): To define simualtion states (connect to  sim. production control, turn
      *  machine on/off.
      */
-    class SimulationController : public core::Controller, public Patterns::NotifyObserver::Observer, public Patterns::Statemachine::Context{
+    class SimulationController : public core::Controller, public patterns::NotifyObserver::Observer, public patterns::statemachine::Context{
     public:
 
         /**
@@ -42,7 +42,7 @@ namespace simulation {
         * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
         * @param &notification : NotifyEvent implementation
         */
-        void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+        void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
         /**
          * Get machine by id
@@ -115,13 +115,13 @@ namespace simulation {
          * Function that handles notifications for registering machines
          * @param notification : NotifyEvent from notifier
          */
-        void handleRegisterMachine(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void handleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification);
 
         /**
          * Function that handles notifications for readying a machine
          * @param notification : NotifyEvent from notifier
          */
-        void handleMachineReady(const Patterns::NotifyObserver::NotifyEvent &notification);
+        void handleMachineReady(const patterns::NotifyObserver::NotifyEvent &notification);
 
         /**
          * Network properties
