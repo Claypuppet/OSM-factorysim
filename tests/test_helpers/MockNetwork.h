@@ -92,6 +92,12 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   void setOnConnectionFn(OnConnectionFn& aOnConnectionFn);
 
   /**
+   * Set a new handler for the client / server
+   * @param handler
+   */
+  void setConnectionHandler(Network::ConnectionHandlerPtr handler);
+
+  /**
    * get connection
    * @return : connection
    */
@@ -123,6 +129,7 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   ThreadPtr networkThread;
   Network::Manager networkManager;
   Network::ConnectionPtr connection;
+  Network::ConnectionHandlerPtr connectionHandler;
   OnMessageFn onMessageFn;
   OnConnectionFn onConnectionFn;
 

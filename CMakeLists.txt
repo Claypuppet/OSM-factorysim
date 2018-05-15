@@ -33,7 +33,7 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        ${app_production_control_SOURCES})
+        ${app_production_control_SOURCES} src/production_control/states_application/InOperationState.cpp src/production_control/states_application/InOperationState.h)
 
 
 add_executable(app_visualizer
@@ -54,7 +54,7 @@ add_executable(test_machine_control
         tests/machine_control/Object_test.cpp
         tests/machine_control/controller_test.cpp
         tests/machine_control/Network_test.cpp
-        tests/machine_control/production_test.cpp)
+        tests/machine_control/production_test.cpp tests/machine_control/Application_test.cpp)
 
 add_executable(test_production_control
         ${test_helpers_SOURCES}

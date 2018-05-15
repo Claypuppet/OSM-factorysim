@@ -2,11 +2,14 @@
 // Created by sven on 9-5-18.
 //
 
+#include <utils/Logger.h>
 #include "ReceiveConfig.h"
 #include "Inititalization/ConfigureState.h"
 
 namespace productionstates {
 void ReceiveConfig::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
+
 
 }
 

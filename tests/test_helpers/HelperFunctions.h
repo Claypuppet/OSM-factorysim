@@ -21,6 +21,12 @@ class HelperFunctions {
    */
   static void waitForPredicate(Predicate predicate, uint32_t timeout);
 
+  /**
+   * Wait for x milliseconds
+   * @param timeout : wait in milliseconds
+   */
+  static void wait(uint32_t timeout);
+
  private:
   // Because its a "static" class which holds only helper functions, no objects can be instanced
   HelperFunctions() = default;

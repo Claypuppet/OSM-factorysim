@@ -64,6 +64,11 @@ class SimulationController
    */
   void registerMachine();
 
+  /**
+   * Sends a message to Production Control that the machine is ready for simulation
+   */
+  void machineReady();
+
  private:
   /**
    * Function to set a predetermined starting state for machine control's simulation statemachine
@@ -111,7 +116,7 @@ class SimulationController
   // The application which is controlled by the controller
   SimulationApplication application;
 
-  SimulationCommunication::SimulationNetworkComponent simulationNetworkComponent;
+  std::shared_ptr<SimulationCommunication::SimulationNetworkComponent> simulationNetworkComponent;
 };
 }
 

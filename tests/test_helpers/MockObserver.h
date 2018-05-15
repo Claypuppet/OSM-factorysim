@@ -8,19 +8,33 @@
 #include <patterns/notifyobserver/Observer.hpp>
 #include <functional>
 
-namespace testUtils {
+namespace testutils {
 
-typedef std::function<void(const Patterns::NotifyObserver::NotifyEvent&)> NotificationHandlerFn;
+typedef std::function<void(const patterns::NotifyObserver::NotifyEvent&)> NotificationHandlerFn;
 
 /**
  * The mockObserver class can be used to mock an observer
  */
-class MockObserver : public Patterns::NotifyObserver::Observer {
+class MockObserver : public patterns::NotifyObserver::Observer {
  public:
-  void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
+  MockObserver();
+  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
   void setHandleNotificationFn(NotificationHandlerFn &aHandleNotificationFn);
+
+  /**
+   * A function waits until the mock receives a notification
+   * @param timeout : Maximum time to wait in milliseconds default = 100
+   */
+  void awaitNotificationReceived(uint32_t timeout = 100);
  private:
   NotificationHandlerFn handleNotificationFn;
+
+  enum NotificationStatus{
+    kNotificationWaiting,
+    kNotificationReceived
+  };
+
+  NotificationStatus notificationStatus;
 };
 
 }

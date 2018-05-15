@@ -33,8 +33,8 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
                                                              Network::Message &message) {
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeConfig : {
-      auto machineInfo = message.getBodyObject<models::MachinePtr>();
-      onSimulationMachineInfoReceived(machineInfo);
+      auto machineInfo = message.getBodyObject<models::Machine>();
+      onSimulationMachineInfoReceived(std::make_shared<models::Machine>(machineInfo));
       break;
     }
     case Network::Protocol::kSimMessageTypeTurnOn : {
@@ -75,6 +75,12 @@ void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
   Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
   sendMessage(message);
 }
+
+void SimulationNetworkComponent::sendMachineReadyMessage() {
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeReadyForSim);
+  sendMessage(message);
+}
+
 void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
   if(mConnection) {
     mConnection->writeMessage(message);
