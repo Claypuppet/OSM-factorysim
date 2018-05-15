@@ -18,14 +18,13 @@ namespace simulationstates {
 
 	}
 
-	bool OffState::handleEvent(const EventPtr &e) {
-		switch(e->getId()){
+	bool OffState::handleEvent(const EventPtr &event) {
+		switch(event->getId()){
             case kEventTypePowerOn:
                 context.setCurrentState(std::make_shared<OnState>(context));
                 return true;
             default:
-                return SimulationState::handleEvent(e);
+                return SimulationState::handleEvent(event);
         }
 	}
-
-}
+} // simulationstates

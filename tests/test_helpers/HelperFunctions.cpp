@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "HelperFunctions.h"
 
@@ -18,4 +19,5 @@ namespace testutils {
     // Wait
   }
 }
+
 }

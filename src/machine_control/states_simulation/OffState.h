@@ -9,22 +9,24 @@
 
 namespace simulationstates {
 
+//TODO: ADD UNIT TESTING
 
-	class OffState : public SimulationState {
-	public:
-      OffState(simulator::SimulationController &context) : SimulationState(context) {};
-		virtual ~OffState() = default;
+/**
+ * State in which the simulation finds itself when it is off
+ */
+class OffState : public SimulationState {
+ public:
+  OffState(simulator::SimulationController &context) : SimulationState(context) {};
+  virtual ~OffState() = default;
 
-		void entryAction() override;
+  void entryAction() override;
 
-		void doActivity() override;
+  void doActivity() override;
 
-		void exitAction() override;
+  void exitAction() override;
 
-		bool handleEvent(const EventPtr &e) override;
-
-	};
-
-}
+  bool handleEvent(const EventPtr &event) override;
+};
+} // simulationstates
 
 #endif //PRODUCTION_LINE_CONTROL_OFFSTATE_H

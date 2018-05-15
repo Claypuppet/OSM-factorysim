@@ -52,14 +52,15 @@ add_executable(test_machine_control
         ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp
-        tests/machine_control/production_test.cpp
-        tests/machine_control/Object_test.cpp tests/machine_control/controller_test.cpp)
+        tests/machine_control/controller_test.cpp
+        tests/machine_control/Network_test.cpp
+        tests/machine_control/production_test.cpp)
 
 add_executable(test_production_control
         ${test_helpers_SOURCES}
         ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
-        tests/production_control/controller_test.cpp)
+        tests/production_control/controller_test.cpp tests/production_control/application_test.cpp)
 
 add_executable(test_visualizer
 #        ${test_helpers_SOURCES}
@@ -86,13 +87,9 @@ add_library(lib_models SHARED
         ${lib_models_SRC})
 
 # Lib Patterns
-file(GLOB lib_patterns_SRC
-        "src/libs/patterns/statemachine/**.h"
-        "src/libs/patterns/statemachine/**.cpp"
-        "src/libs/patterns/singleton/**.h"
-        "src/libs/patterns/singleton/**.cpp"
-        "src/libs/patterns/notifyobserver/**.h"
-        "src/libs/patterns/notifyobserver/**.cpp")
+file(GLOB_RECURSE lib_patterns_SRC
+        "src/libs/patterns/**.h"
+        "src/libs/patterns/**.cpp")
 
 add_library(lib_patterns SHARED
         ${lib_patterns_SRC})

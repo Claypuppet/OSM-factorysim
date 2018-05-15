@@ -10,7 +10,9 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 namespace simulator {
 
-//TODO: Doxygen
+/**
+ * Event listener and notifier of simulation controller
+ */
 class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
@@ -41,71 +43,8 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
     //Notify observers of connection success
     notifyObservers(event);
   }
+
 };
-
-void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
-  switch (notification.getEventId()) {
-    case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
-      onMachineInfoReceived(notification);
-      break;
-    }
-
-    case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
-      break;
-    }
-
-    case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
-      break;
-    }
-
-    case ControllerEvents::kNotifyEventTypeServiceStarted: {
-      onServiceStarted();
-      break;
-    }
-
-    case ControllerEvents::kNotifyEventTypeServiceError: {
-      onServiceError();
-      break;
-    }
-
-    default:break;
-  }
-}
-
-/**
- * Executed on receiving new machine configurations
- * @param notification Notification containing the new configuration(s)
- */
-void SimulationController::onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
-
-  // Get the machine model from the notification's arguments
-  models::Machine &machineModel = *notification.getFirstArgumentAsType<models::MachinePtr>();
-
-  // Set the application's configurations to the machine model's configurations
-  application.setConfigurations(machineModel.getConfigurations());
-
-  // Create a state event to advance to the next state
-  auto event = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeConfigReceived);
-
-  // Schedule the event in the context
-  scheduleEvent(event);
-}
-
-void SimulationController::onServiceStarted() {
-  // Create a state event to advance to the next state
-  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
-
-  // Schedule the event in the context
-  scheduleEvent(event);
-}
-
-void SimulationController::onServiceError() {
-  // Create a state event to advance to the next state
-  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnectionFailed);
-
-  // Schedule the event in the context
-  scheduleEvent(event);
-}
 
 SimulationController::SimulationController(uint16_t aMachineId)
     : Controller(aMachineId), application(aMachineId), executing(false) {
@@ -115,22 +54,80 @@ SimulationController::~SimulationController() {
   stop();
 }
 
+void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+  switch (notification.getEventId()) {
+    case ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived: {
+      onSimulationConfigurationsReceived(notification);
+      break;
+    }
+
+    case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
+      onTurnOnReceived();
+      break;
+    }
+
+    case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
+      onTurnOffReceived();
+      break;
+    }
+
+    case ControllerEvents::kNotifyEventTypeServiceStarted: {
+      onServiceStarted();
+    }
+
+    case ControllerEvents::kNotifyEventTypeServiceError: {
+      onServiceError();
+    }
+
+    default:break;
+  }
+}
+
+void SimulationController::onServiceStarted() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
+  scheduleEvent(event);
+}
+void SimulationController::onServiceError() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnectionFailed);
+  scheduleEvent(event);
+}
+
+void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
+  
+  // Set received configurations as argument
+  event->setArgument(notification.getFirstArgumentAsType<models::MachinePtr>()->getConfigurations());
+
+  scheduleEvent(event);
+}
+
+void SimulationController::registerMachine() {
+  simulationNetworkComponent.sendRegisterMessage(application.getId());
+}
+
+void SimulationController::onTurnOnReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOn);
+  scheduleEvent(event);
+}
+
+void SimulationController::onTurnOffReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOff);
+  scheduleEvent(event);
+}
+
 void SimulationController::setupNetwork() {
-  // Set the port of the network
+// Set the port of the network
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
 
   // Create the thread which the manager will run on
   clientThread = networkManager.runServiceThread();
 
-  // Set up the network component which handles the connection
-  SimulationCommunication::SimulationNetworkComponent connectionHandler;
-
   // Set the controller to handle notifications (notifier observer pattern) for the network
-  handleNotificationsFor(connectionHandler);
+  handleNotificationsFor(simulationNetworkComponent);
 
   // Create the client
   client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(
-      connectionHandler));
+      simulationNetworkComponent));
 
   // Create and set up the event dispatcher which handles events for the connection service
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
@@ -166,15 +163,18 @@ void SimulationController::stop() {
   // Stop the network manager
   networkManager.stop();
 
+  if(client){
+    client->stop();
+  }
+
   // Join the client thread
-  if (clientThread->joinable()) {
+  if (clientThread && clientThread->joinable()) {
     clientThread->join();
   }
 }
 
-void SimulationController::registerMachine() {
-  //TODO: Implementeer functionaliteit om te registreren hier
-  //MachineID is opgehaald door application.getMachineInfo().getId()
+void SimulationController::setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations) {
+  application.setConfigurations(simulationConfigurations);
 }
 
 void SimulationController::setRemoteHost(const std::string &remoteHost) {
