@@ -68,7 +68,7 @@ bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::str
 
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
   auto event =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
   event.addArgument(machinePtr);
   notifyObservers(event);
 }
