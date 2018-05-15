@@ -26,7 +26,14 @@ class SimulationController
   SimulationController(uint16_t aMachineId);
   ~SimulationController() override;
 
+  /**
+   * Starts the controller and puts it in a run cycle
+   */
   void execute();
+
+  /**
+   * Stops the networkManager and execution of the controller
+   */
   void stop();
 
   /**
@@ -35,6 +42,10 @@ class SimulationController
    */
   void setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations);
 
+  /**
+   * Called when notfified, takes the notification and handles it accoardingly
+   * @param notification The received notification
+   */
   void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
   /**

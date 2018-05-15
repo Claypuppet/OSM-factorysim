@@ -10,6 +10,9 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 namespace simulator {
 
+/**
+ * Event listener and notifier of simulation controller
+ */
 class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
