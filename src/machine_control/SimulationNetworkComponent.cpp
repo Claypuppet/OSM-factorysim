@@ -62,7 +62,7 @@ namespace SimulationCommunication {
 	}
 
 	void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
-		auto event = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
+		auto event = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
 		event.addArgument(machinePtr);
 		notifyObservers(event);
 	}

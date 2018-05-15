@@ -12,6 +12,7 @@
 #include "../../src/machine_control/states_simulation/FindProductControlState.h"
 #include "../../src/machine_control/states_simulation/ConnectSimulationState.h"
 #include "../../src/machine_control/states_simulation/InitializeSimulationState.h"
+#include "../../src/machine_control/states_simulation/OffState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
@@ -37,19 +38,35 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
 
   simulator::SimulationController controller(1);
 
-  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::ConnectSimulationState>(controller)));
+  BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::ConnectSimulationState>(controller)));
 
   productionControlServer->awaitClientConnecting(1000);
-
-
-
-  BOOST_CHECK_NO_THROW(controller.run());
+  
+  BOOST_REQUIRE_NO_THROW(controller.run());
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<simulationstates::InitializeSimulationState>(controller.getCurrentState()), true);
 
   controller.stop();
   productionControlServer->stop();
+}
 
+BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
+  auto productionControlServer = std::make_shared<testutils::MockNetwork>();
+  
+  productionControlServer->startMockPCServerController();
+  
+  simulator::SimulationController controller(1);
+
+  BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::InitializeSimulationState>(controller)));
+
+  productionControlServer->awaitClientConnecting(1000);
+  
+  BOOST_REQUIRE_NO_THROW(controller.run());
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<simulationstates::OffState>(controller.getCurrentState()), true);
+
+  controller.stop();
+  productionControlServer->stop();
 }
 
 // Einde public method tests

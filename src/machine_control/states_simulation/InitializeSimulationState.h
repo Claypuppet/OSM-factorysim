@@ -10,20 +10,29 @@
 namespace simulationstates {
 
 
-	class InitializeSimulationState : public SimulationState {
-	public:
-		InitializeSimulationState(simulator::SimulationController &context) : SimulationState(context){};
-		virtual ~InitializeSimulationState() = default;
+/**
+ * State in which Machine Control gives it's ID to Production Control, which in turn returns it simulation configurations.
+ */
+class InitializeSimulationState : public SimulationState {
+ public:
+  InitializeSimulationState(simulator::SimulationController &context) : SimulationState(context) {};
+  virtual ~InitializeSimulationState() = default;
 
-		void entryAction() override;
+  void entryAction() override;
 
-		void doActivity() override;
+  void doActivity() override;
 
-		void exitAction() override;
+  void exitAction() override;
 
-		bool handleEvent(const EventPtr &e) override;
+  bool handleEvent(const EventPtr &event) override;
 
-	};
+ private:
+  /**
+   * Function to execute on receiving simulation configurations, gives them to context.
+   * @param event Event containing the configurations as it's first parameter
+   */
+  void onSimulationConfigurationsReceived(const EventPtr &event);
+};
 
 }
 

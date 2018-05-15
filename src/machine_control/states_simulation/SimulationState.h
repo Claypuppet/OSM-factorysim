@@ -16,7 +16,7 @@ enum EventType {
   kEventTypeFailedToReceivePCIP,
   kEventTypeConnected,
   kEventTypeConnectionFailed,
-  kEventTypeConfigReceived,
+  kEventTypeSimulationConfigurationsReceived,
   kEventTypePowerOn,
   kEventTypePowerOff,
 //			kEventType,

@@ -28,7 +28,17 @@ class SimulationController
 
   void execute();
   void stop();
+  
+  /**
+   * Called to send a message to Production Control, indicating the machine wants to receive a configuration
+   */
   void registerMachine();
+  
+  /**
+   * Called to set simulation configurations of it's application to the parameter's configurations
+   * @param simulationConfigurations The received simulation configurations
+   */
+  void setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations);
 
   void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
@@ -53,7 +63,7 @@ class SimulationController
    * Executed on receiving the "kNotifyEventTypeMachineInfoReceived" event to progress the statemachine
    * @param notification The notification received, contains the machine's info
    */
-  void onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification);
+  void onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification);
 
   /**
    * Executed on receiving the "kNotifyEventTypeServiceStarted" event to progress the statemachine
