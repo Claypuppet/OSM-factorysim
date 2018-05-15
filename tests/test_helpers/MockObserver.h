@@ -12,6 +12,9 @@ namespace testUtils {
 
 typedef std::function<void(const Patterns::NotifyObserver::NotifyEvent&)> NotificationHandlerFn;
 
+/**
+ * The mockObserver class can be used to mock an observer
+ */
 class MockObserver : public Patterns::NotifyObserver::Observer {
  public:
   void handleNotification(const Patterns::NotifyObserver::NotifyEvent &notification) override;
