@@ -7,17 +7,6 @@
 
 #include "Connection.h"
 
-#include "Message.h"
-
-#include <string>
-#include <iostream>
-#include <sstream>
-
-
-#include <boost/system/error_code.hpp>
-#include <boost/bind.hpp>
-#include <boost/asio/io_service.hpp>
-
 namespace Network
 {
 

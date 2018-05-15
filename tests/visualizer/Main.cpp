@@ -6,11 +6,6 @@
  */
 
 
-#include <iostream>
-
-#include "silly_objects/Lib1.hpp"
-#include "silly_objects/Object.hpp"
-
 #define BOOST_TEST_MODULE ObjectTestModule
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_NO_MAIN

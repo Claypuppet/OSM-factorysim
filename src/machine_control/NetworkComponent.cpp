@@ -57,6 +57,7 @@ Network::ConnectionPtr NetworkComponent::getConnection() {
 
 bool NetworkComponent::isConnected() {
   return !!mConnection;
+}
 
 void NetworkComponent::sendMessage(Network::Message &msg) {
   if (isConnected()) {
@@ -71,6 +72,5 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
 
 }
 
-}
 
 }

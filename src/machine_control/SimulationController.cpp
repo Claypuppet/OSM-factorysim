@@ -2,7 +2,6 @@
 #include "SimulationController.h"
 #include "states_simulation/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
-#include "SimulationMachine.h"
 
 namespace models {
 typedef std::shared_ptr<Machine> MachinePtr;

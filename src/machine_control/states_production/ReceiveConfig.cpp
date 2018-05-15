@@ -7,7 +7,7 @@
 
 namespace productionstates {
 void ReceiveConfig::entryAction() {
-  
+
 }
 
 void ReceiveConfig::doActivity() {
@@ -20,8 +20,10 @@ void ReceiveConfig::exitAction() {
 
 bool ReceiveConfig::handleEvent(const patterns::statemachine::EventPtr &e) {
   switch (e->getId()) {
-    case kEventTypeConnected: {
-      context.setCurrentState(std::make_shared<ConfigureState>(context));
+    case kEventTypeReceivedConfig: {
+      if(context.configAvailable(e->getArgumentAsType<uint32_t >())) {
+        context.setCurrentState(std::make_shared<ConfigureState>(context));
+      }
       break;
     }
     default:return false;

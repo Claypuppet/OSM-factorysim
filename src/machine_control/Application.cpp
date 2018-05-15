@@ -71,5 +71,14 @@ void Application::setupNetwork() {
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(getId());
 }
+bool Application::configAvailable(uint32_t configID) {
+
+  for (auto &configuration : configurations) {
+    if (configuration.getProductId() == configID) {
+      return true;
+    }
+  } // access by reference to avoid copying
+  return false;
+}
 
 } // namespace machinecore

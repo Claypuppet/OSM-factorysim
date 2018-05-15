@@ -83,6 +83,12 @@ class Application
    */
   void registerMachine();
 
+  /**
+   * checks if configurationID is available
+    * @param configID
+    */
+  bool configAvailable(uint32_t configID);
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
