@@ -47,7 +47,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
 };
 
 SimulationController::SimulationController(uint16_t aMachineId)
-    : Controller(aMachineId), application(aMachineId), executing(false) {
+    : Controller(aMachineId), application(aMachineId), simulationNetworkComponent(), executing(false) {
 }
 
 SimulationController::~SimulationController() {
@@ -126,8 +126,8 @@ void SimulationController::setupNetwork() {
   handleNotificationsFor(simulationNetworkComponent);
 
   // Create the client
-  client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(
-      simulationNetworkComponent));
+  auto connHandler = std::make_shared<SimulationCommunication::SimulationNetworkComponent>(simulationNetworkComponent);
+  client = networkManager.createClient(connHandler);
 
   // Create and set up the event dispatcher which handles events for the connection service
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();

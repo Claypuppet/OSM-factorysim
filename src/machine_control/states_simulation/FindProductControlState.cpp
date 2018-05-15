@@ -4,6 +4,7 @@
 
 // libraries
 #include <patterns/statemachine/Event.h>
+#include <utils/Logger.h>
 
 // other
 #include "utils/CommandLineArguments.h"
@@ -14,6 +15,7 @@
 namespace simulationstates {
 
 void FindProductControlState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
 
   // Create an event to signify receiving the IP-address
   EventPtr event = std::make_shared<Event>(Event(kEventTypeReceivedPCIP));
@@ -37,9 +39,13 @@ void FindProductControlState::exitAction() {
 bool FindProductControlState::handleEvent(const EventPtr &event) {
 
   switch (event->getId()) {
-    case kEventTypeReceivedPCIP:onReceivedPCIP(event);
+    case kEventTypeReceivedPCIP:
+      utils::Logger::log("-Handle event: kEventTypeReceivedPCIP");
+      onReceivedPCIP(event);
       return true;
-    case kEventTypeFailedToReceivePCIP:onFailedToReceivePCIP();
+    case kEventTypeFailedToReceivePCIP:
+      utils::Logger::log("-Handle event: kEventTypeFailedToReceivePCIP");
+      onFailedToReceivePCIP();
       return true;
     default:return SimulationState::handleEvent(event);
   }
