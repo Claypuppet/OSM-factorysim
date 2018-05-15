@@ -5,7 +5,7 @@
 #include "SimulationApplication.h"
 
 namespace simulator {
-    SimulationApplication::SimulationApplication(uint16_t aMachineId)
-            : Application(aMachineId), machine() {
+SimulationApplication::SimulationApplication(uint16_t aMachineId)
+    : Application(aMachineId), machine() {
     }
 }

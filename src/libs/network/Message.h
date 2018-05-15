@@ -175,43 +175,41 @@ namespace Network
 			void setBody( const std::string& aBody)
 			{
 				mBody = aBody;
-				mHeader.mLength = length();
-			}
+              mHeader.mLength = length();
+            }
 
-			/**
-			 * Set the body as object, will serialize it right away!
-			 * @tparam T : Type of object to serialze
-			 * @param aObject : Object to serialize in the body
-			 */
-	  		template<typename T>
-			void setBody(const T& aObject)
-			{
+      /**
+       * Set the body as object, will serialize it right away!
+       * @tparam T : Type of object to serialze
+       * @param aObject : Object to serialize in the body
+       */
+      template<typename T>
+      void setBody(const T &aObject) {
 
-				std::string binaryStream;
-				std::stringstream outputBinary((std::ios::out | std::ios::binary));
-				Protocol::OutputArchive archive(outputBinary);
-				archive(aObject);
-				binaryStream = outputBinary.str();
+        std::string binaryStream;
+        std::stringstream outputBinary((std::ios::out | std::ios::binary));
+        Protocol::OutputArchive archive(outputBinary);
+        archive(aObject);
+        binaryStream = outputBinary.str();
 
-				setBody(binaryStream);
-			}
+        setBody(binaryStream);
+      }
 
-			/**
-			 * Get object from message body
-			 * @tparam T : type of the object
-			 * @return : deserialized object
-			 */
-	  		template<typename T>
-			T getBodyObject()
-			{
-				T object;
-				std::stringstream binaryStream((std::ios::in | std::ios::binary));
-				binaryStream.str(mBody);
-				Protocol::InputArchive archive(binaryStream);
-				archive(object);
+      /**
+       * Get object from message body
+       * @tparam T : type of the object
+       * @return : deserialized object
+       */
+      template<typename T>
+      T getBodyObject() {
+        T object;
+        std::stringstream binaryStream((std::ios::in | std::ios::binary));
+        binaryStream.str(mBody);
+        Protocol::InputArchive archive(binaryStream);
+        archive(object);
 
-				return object;
-			}
+        return object;
+      }
 
 			/**
 			 * A function to resize the body length

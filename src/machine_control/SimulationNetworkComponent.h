@@ -18,8 +18,8 @@ namespace SimulationCommunication {
 	typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
 
     class SimulationNetworkComponent :
-			public Network::IConnectionHandler,
-			public patterns::NotifyObserver::Notifier
+        public Network::IConnectionHandler,
+        public patterns::NotifyObserver::Notifier
 	{
     public:
         SimulationNetworkComponent() = default;

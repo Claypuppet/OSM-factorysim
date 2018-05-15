@@ -6,7 +6,7 @@
 
 namespace core {
 
-void NetworkMapper::registerMachineConnection(const Network::ConnectionPtr& connection, uint16_t machineId){
+void NetworkMapper::registerMachineConnection(const Network::ConnectionPtr &connection, uint16_t machineId) {
   auto sessionId = static_cast<uint32_t>(connection->getSessionId());
   machineConnectionMap[sessionId] = machineId;
 }

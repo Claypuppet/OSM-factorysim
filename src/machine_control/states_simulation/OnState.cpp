@@ -5,7 +5,6 @@
 #include "OnState.h"
 #include "OffState.h"
 
-
 namespace simulationstates {
 	void OnState::entryAction() {
       context.getApplication().setStartState();

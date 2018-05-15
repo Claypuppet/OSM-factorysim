@@ -10,5 +10,6 @@ BetterObject::BetterObject(uint8_t timesBetter) : mTimesBetter(timesBetter) {
 }
 
 void BetterObject::shoutOut() {
-	std::cout << "I'manager BetterObject, and i'manager " << mTimesBetter << " times better than the other Object!" << std::endl;
+  std::cout << "I'manager BetterObject, and i'manager " << mTimesBetter << " times better than the other Object!"
+            << std::endl;
 }

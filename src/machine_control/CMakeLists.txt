@@ -18,6 +18,8 @@ set(app_machine_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/Broken/BrokenState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/ProductionState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/ProductionState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_production/ReceiveConfig.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_production/ReceiveConfig.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/Broken/RepairingState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/Broken/RepairingState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_production/Inititalization/ConfigureState.cpp

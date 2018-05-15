@@ -8,7 +8,6 @@
 #include <models/Machine.h>
 
 namespace core {
-
 enum MachineStatus {
   kMachineStatusReady
 };
