@@ -87,13 +87,9 @@ add_library(lib_models SHARED
         ${lib_models_SRC})
 
 # Lib Patterns
-file(GLOB lib_patterns_SRC
-        "src/libs/patterns/statemachine/**.h"
-        "src/libs/patterns/statemachine/**.cpp"
-        "src/libs/patterns/singleton/**.h"
-        "src/libs/patterns/singleton/**.cpp"
-        "src/libs/patterns/notifyobserver/**.h"
-        "src/libs/patterns/notifyobserver/**.cpp")
+file(GLOB_RECURSE lib_patterns_SRC
+        "src/libs/patterns/**.h"
+        "src/libs/patterns/**.cpp")
 
 add_library(lib_patterns SHARED
         ${lib_patterns_SRC})
