@@ -85,15 +85,18 @@ void SimulationController::onSimulationConfigurationsReceived(const patterns::No
   scheduleEvent(event);
 }
 
+void SimulationController::registerMachine() {
+  simulationNetworkComponent.sendRegisterMessage(application.getId());
+}
+
 void SimulationController::setupNetwork() {
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
   clientThread = networkManager.runServiceThread();
 
-  SimulationCommunication::SimulationNetworkComponent connectionHandler;
-  handleNotificationsFor(connectionHandler);
+  handleNotificationsFor(simulationNetworkComponent);
 
   client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(
-      connectionHandler));
+      simulationNetworkComponent));
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
   client->setServiceEventListener(eventDispatcherPtr);
@@ -131,11 +134,6 @@ void SimulationController::stop() {
   if (clientThread && clientThread->joinable()) {
     clientThread->join();
   }
-}
-
-void SimulationController::registerMachine() {
-  //TODO: Implementeer functionaliteit om te registreren hier
-  //MachineID is opgehaald door application.getMachineInfo().getId()
 }
 
 void SimulationController::setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations) {

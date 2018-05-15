@@ -27,7 +27,10 @@ void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr
                                                           const boost::system::error_code &error) {
   std::cout << "dc" << std::endl;
   std::cout << "not connected 2" << std::endl;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3e8684ecdda2c2040cd701263b4c7a705d3d60e2
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
@@ -67,10 +70,11 @@ bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::str
 }
 
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
-  auto event =
+  auto notification =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
-  event.addArgument(machinePtr);
-  notifyObservers(event);
+
+  notification.addArgument(machinePtr);
+  notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOffReceived() {
@@ -83,5 +87,17 @@ void SimulationNetworkComponent::onTurnOnReceived() {
   auto notification =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
+}
+
+void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
+  Network::Message
+      message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
+  if(mConnection) {
+    mConnection->writeMessage(message);
+  }
+}
+
+bool SimulationNetworkComponent::isConnected() {
+  return mConnection != nullptr;
 }
 }

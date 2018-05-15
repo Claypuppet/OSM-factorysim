@@ -3,12 +3,14 @@
 #include "models/Configuration.h"
 
 namespace simulationstates {
+
 void InitializeSimulationState::entryAction() {
   context.registerMachine();
 }
 
 void InitializeSimulationState::doActivity() {
 }
+
 
 void InitializeSimulationState::exitAction() {
 

@@ -58,7 +58,7 @@ namespace Network
 			std::stringstream message;
 			message << "Server: accepting clients on port: " << mAcceptor.local_endpoint().port() << std::endl;
 
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 
 			if(auto l = mServiceEventLister) {
 				// call this from a Network i/o thread (to keep it consistent with other callbacks)
@@ -96,8 +96,9 @@ namespace Network
 		}
 		mAcceptor.close();
 		if(!mFStopped) {
-			for(auto connection : mConnections)
-					connection->close();
+			for(auto connection : mConnections){
+				connection->close();
+			}
 			if(auto l = mServiceEventLister)
 				mManager.getIOService().post([self, l](){l->onServiceStopped(self);});
 		}
@@ -119,7 +120,7 @@ namespace Network
 				else {
 					std::stringstream message;
 					message << "Server: dropping client server full" << std::endl;
-					Logger::i().log(message.str());
+					utils::Logger::log(message.str());
 					connectionPtr->failed(error_code(boost::system::errc::connection_refused,boost::system::generic_category()));
 				}
 			}
@@ -129,7 +130,7 @@ namespace Network
 			// TODO: handle "fatal" errors which might cause an infinite loop asyncAccept -> error -> asyncAccept ... etc
 			std::stringstream message;
 			message << "Server: failed to accept client. error: " << error.message() << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			if(mFStopped || !mSocket.is_open() || !mAcceptor.is_open()) {
 				return;
 			}
@@ -160,7 +161,7 @@ namespace Network
 		auto self = shared_from_this();
 		std::stringstream message;
 		message << "Server: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
-		Logger::i().log(message.str());
+		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection](){ h->onConnectionEstablished(connection); });
 	}
@@ -172,7 +173,7 @@ namespace Network
 		std::stringstream message;
 		message << "Server: lost connection with: " << connection->getSocket().remote_endpoint() <<
 				" (" << error.message() << ")" << std::endl;
-		Logger::i().log(message.str());
+		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection, error](){ h->onConnectionDisconnected(connection, error); });
 		bool doAccept = mConnections.size() >= mMaxClients;

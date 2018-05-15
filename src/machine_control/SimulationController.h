@@ -30,11 +30,6 @@ class SimulationController
   void stop();
   
   /**
-   * Called to send a message to Production Control, indicating the machine wants to receive a configuration
-   */
-  void registerMachine();
-  
-  /**
    * Called to set simulation configurations of it's application to the parameter's configurations
    * @param simulationConfigurations The received simulation configurations
    */
@@ -75,6 +70,11 @@ class SimulationController
    */
   void onServiceError();
 
+  /**
+   * Sends a message to Production Control to receive simulation configurations
+   */
+  void registerMachine();
+
   // True or false depending on whether SimulationController is active
   bool executing;
 
@@ -89,6 +89,8 @@ class SimulationController
 
   // The application which is controlled by the controller
   SimulationApplication application;
+
+  SimulationCommunication::SimulationNetworkComponent simulationNetworkComponent;
 };
 }
 
