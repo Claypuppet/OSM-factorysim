@@ -28,10 +28,10 @@ namespace simulation {
 
 	void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
-			case NotifyEventIds::eControllerRegisterMachine:
+			case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
-			case NotifyEventIds::eControllerMachineReady:
+		  case NotifyEventIds::eSimMachineReady:
 				handleMachineReady(notification);
 				break;
 			default:

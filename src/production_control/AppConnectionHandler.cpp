@@ -21,7 +21,6 @@ core::AppConnectionHandler::AppConnectionHandler() {}
 void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
                                                     const boost::system::error_code &error) {
     Network::IConnectionHandler::onConnectionFailed(connection, error);
-    std::cout << "Connection failed!" << std::endl;
 }
 
 /**
@@ -30,7 +29,7 @@ void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr conne
  */
 
 void core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
-    //std::cout << "test" << std::endl;
+
 }
 
 /**
@@ -41,7 +40,7 @@ void core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr 
 
 void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
                                                           const boost::system::error_code &error) {
-    std::cout << "Disconnected!" << std::endl;
+
 }
 
 /**
@@ -52,7 +51,6 @@ void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr
 
 void core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
                                                              Network::Message &message) {
-    std::cout << "Received a message!" << std::endl;
     uint8_t messageType = message.getMessageType();
     switch(messageType)
     {
@@ -90,7 +88,6 @@ void core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
 
 void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
     Network::IConnectionHandler::onConnectionMessageSent(connection, message);
-    std::cout << "Message sent!" << std::endl;
 }
 
 void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {

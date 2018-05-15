@@ -7,35 +7,37 @@
 #include "NotificationTypes.h"
 
 namespace simulation {
-	void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
-														 const boost::system::error_code &error) {
-		IConnectionHandler::onConnectionFailed(connection, error);
-	}
 
-	void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
-      // No implementation needed, machine should register for connection to be used.
-	}
+void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
+                                                     const boost::system::error_code &error) {
+  IConnectionHandler::onConnectionFailed(connection, error);
+}
 
-	void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
-															   const boost::system::error_code &error) {
+void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
+  // No implementation needed, machine should register for connection to be used.
+}
 
-	}
+void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
+                                                           const boost::system::error_code &error) {
 
+}
 
-	void SimulationConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
-																  Network::Message &message) {
-		switch (message.getMessageType()) {
-          case Network::Protocol::kSimMessageTypeRegister: onHandleRegisterMachine(message.getBody(), connection);
-            break;
-          case Network::Protocol::kSimMessageTypeReadyForSim: handleMachineReady(connection);
-            break;
-          default: break;
-        }
-    }
+void SimulationConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
+                                                              Network::Message &message) {
+  switch (message.getMessageType()) {
+    case Network::Protocol::kSimMessageTypeRegister: 
+      onHandleRegisterMachine(message.getBody(), connection);
+      break;
+    case Network::Protocol::kSimMessageTypeReadyForSim: 
+      handleMachineReady(connection);
+      break;
+    default: break;
+  }
+}
 
 void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr connection) {
   auto machineId = getMachineIdForConnection(connection);
-  auto notification = makeNotifcation(NotifyEventIds::eControllerMachineReady);
+  auto notification = makeNotifcation(NotifyEventIds::eSimMachineReady);
   notification.setArgument(0, machineId);
   notifyObservers(notification);
 }
@@ -43,7 +45,7 @@ void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr conn
 void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &messageBody,
                                                           Network::ConnectionPtr connection) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
-                                      NotifyEventIds::eControllerRegisterMachine);
+                                      NotifyEventIds::eSimRegisterMachine);
 
   uint16_t machineId = std::strtoul(messageBody.c_str(), nullptr, 10);
   notification.setArgument(0, machineId);
@@ -53,6 +55,6 @@ void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &mes
   registerMachineConnection(connection, machineId);
 
   notifyObservers(notification);
-	}
+}
 
 }
