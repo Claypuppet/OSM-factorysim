@@ -9,6 +9,8 @@
 
 namespace simulationstates {
 
+//TODO: ADD UNIT TESTING
+
 /**
  * State in which the simulation finds itself when it is off
  */
