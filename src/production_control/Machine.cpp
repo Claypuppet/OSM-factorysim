@@ -29,9 +29,9 @@ bool Machine::isConnected() const {
   return !!connection;
 }
 
-void Machine::sendMessage(const Network::Message &msg) {
+void Machine::sendMessage(const Network::Message &message) {
   if (isConnected()) {
-    connection->writeMessage(msg);
+    connection->writeMessage(message);
   }
 }
 void Machine::sendStartProcessMessage() {
