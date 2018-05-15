@@ -4,11 +4,11 @@
 #define BOOST_TEST_DYN_LINK
 
 #include <boost/test/unit_test.hpp>
+#include <models/Configuration.h>
 
 #include "../test_helpers/MockNetwork.h"
 
 #include "../machine_control/SimulationController.h"
-#include "../../src/machine_control/NetworkComponent.h"
 #include "../../src/machine_control/states_production/ConnectState.h"
 #include "../../src/machine_control/states_production/ReceiveConfig.h"
 #include "../../src/machine_control/states_production/Inititalization/ConfigureState.h"
@@ -27,6 +27,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConnectState>(application.getCurrentState()), true);
 
   BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent));
+
 
   BOOST_CHECK_NO_THROW(application.run());
 
@@ -53,12 +54,26 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
 
+  std::cout << "test";
 
+  //makes vector and pushes Machineconfiguration in it, after that it will fire an event and sets an argument
+  std::vector<models::MachineConfiguration> confVector;
+  models::MachineConfiguration config0  = models::MachineConfiguration(0);
+  confVector.push_back(config0);
+  application.setConfigurations(confVector);
+  auto switchevent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);
+  switchevent1->setArgument(0);
+
+  BOOST_CHECK_EQUAL(application.configAvailable(0), true);
+
+  BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent1));
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
+
+  std::cout << "test";
 }
 
 // Einde public method tests
