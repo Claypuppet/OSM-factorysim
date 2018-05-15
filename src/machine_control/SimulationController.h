@@ -65,7 +65,7 @@ class SimulationController
   void registerMachine();
 
   /**
-   * Sends a message to Production Control to receive simulation configurations
+   * Sends a message to Production Control that the machine is ready for simulation
    */
   void machineReady();
 
