@@ -106,6 +106,10 @@ void SimulationController::registerMachine() {
   simulationNetworkComponent->sendRegisterMessage(application.getId());
 }
 
+void SimulationController::machineReady() {
+  simulationNetworkComponent->sendMachineReadyMessage();
+}
+
 void SimulationController::onTurnOnReceived() {
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOn);
   scheduleEvent(event);

@@ -15,7 +15,7 @@ void InitializeSimulationState::doActivity() {
 
 
 void InitializeSimulationState::exitAction() {
-
+  context.machineReady();
 }
 
 bool InitializeSimulationState::handleEvent(const EventPtr &event) {
