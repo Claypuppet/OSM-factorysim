@@ -51,11 +51,11 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
   }
 }
 
-void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
+void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machine) {
   auto notification =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
 
-  notification.addArgument(machinePtr);
+  notification.addArgument(machine);
   notifyObservers(notification);
 }
 
