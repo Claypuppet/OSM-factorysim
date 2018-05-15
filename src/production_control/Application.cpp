@@ -7,9 +7,13 @@
 
 // project file includes
 #include "states_application/BroadCastState.h"
+#include "SimulationController.h"
 
-void core::Application::addMachine(const Machine &aMachine) {
-  machines.push_back(aMachine);
+void core::Application::setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines) {
+  for (const simulation::SimulationMachinePtr& simulationMachine : simulationMachines) {
+    core::Machine machine = (core::Machine) (*simulationMachine);
+    machines.push_back(machine);
+  }
 }
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {

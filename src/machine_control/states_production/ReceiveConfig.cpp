@@ -7,7 +7,7 @@
 
 namespace productionstates {
 void ReceiveConfig::entryAction() {
-  context.setupNetwork();
+  
 }
 
 void ReceiveConfig::doActivity() {

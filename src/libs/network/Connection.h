@@ -93,7 +93,7 @@ namespace Network
 		 * @see handle_body_written
 		 * @see handleMessageWritten
 		 */
-		void writeMessage(Message& aMessage);
+		void writeMessage(const Message& aMessage);
 
 
 	private:

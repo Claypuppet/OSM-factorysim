@@ -37,12 +37,6 @@ class Machine : public models::Machine {
   virtual ~Machine() = default;
 
   /**
-  * A function to send a message to this machine
-  * @param msg : The message to send to this machine
-  */
-  void sendMessage(const Network::Message &msg);
-
-  /**
   * A function to check if a connection is established with the machine
   * @return True if theres a connection establised with the machine
   */
@@ -59,7 +53,21 @@ class Machine : public models::Machine {
    */
   void sendStartProcessMessage();
 
+  /**
+   * Send message to machine to (re)configure.
+   * @param configureId : configuration id
+   */
+  void sendConfigureMessage(uint32_t configureId);
+
+
  private:
+
+  /**
+  * A function to send a message to this machine
+  * @param msg : The message to send to this machine
+  */
+  void sendMessage(const Network::Message &message);
+
   MachineStatus status;
   Network::ConnectionPtr connection;
 };

@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Connect a machine
   machineNetwork->startMockMCClientController();
 
-  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eControllerRegisterMachine);
+  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eSimRegisterMachine);
   event.setArgument(0, (uint16_t) 1);
   event.setArgument(1, machineNetwork->getConnection());
 
@@ -66,6 +66,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
   machineNetwork->stop();
+  controller.stop();
 }
 
 // Einde state tests
@@ -81,7 +82,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
   //Schedule load config event
   patterns::statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
-  event->setArgument<std::string>("test_configs/test_config_one_machine.yaml");
+  event->setArgument<std::string>("./test_configs/test_config_one_machine.yaml");
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
 
   //Run the state
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   simulation::SimulationController controller;
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("test_configs/test_config_two_machines.yaml"));
+  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
   auto machine1 = controller.getMachine(15);
   auto machine2 = controller.getMachine(75);
 
@@ -185,6 +186,39 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
+}
+
+// TODO !!! Move this to application_test after Bas has committed & merged it with dev
+BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
+  // Create server and client
+  auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
+
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerApplication();
+  machineEndpoint->startMockMCClientApplication();
+  productionServer->awaitClientConnecting();
+
+  // Create machine with connection (in production control)
+  auto machine = core::Machine(1);
+  machine.setConnection(productionServer->getConnection());
+
+  // prepare test on machine control when message will receive
+  testutils::OnMessageFn callback = [](const Network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReconfigure);
+    BOOST_CHECK_EQUAL(message.getBody(), "1");
+  };
+  machineEndpoint->setOnMessageFn(callback);
+  machine.sendConfigureMessage(1);
+
+  // wait for the message received
+  machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {

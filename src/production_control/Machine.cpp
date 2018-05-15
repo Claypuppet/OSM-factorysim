@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "Machine.h"
 
 namespace core {
@@ -36,5 +38,9 @@ void Machine::sendStartProcessMessage() {
   Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
 }
+
+    void Machine::sendConfigureMessage(uint32_t configureId) {
+        Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
+    }
 
 }
