@@ -19,7 +19,7 @@ namespace testutils {
     // Wait
   }
 }
-void HelperFunctions::wait(uint32_t timeout) {
+/* static */ void HelperFunctions::wait(uint32_t timeout) {
   auto timeoutMillis = std::chrono::milliseconds(timeout);
   std::this_thread::sleep_for(timeoutMillis);
 }

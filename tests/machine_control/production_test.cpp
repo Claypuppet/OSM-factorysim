@@ -94,12 +94,6 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   productionServer->awaitMessageReceived();
 
 
-//  sendRegisterMessage
-//      sendStatusUpdateDone
-//  sendStatusUpdateStarted
-//      sendStatusUpdateReady
-//  sendResponseNOK
-//      sendResponseOK
 }
 
 // Einde public method tests
