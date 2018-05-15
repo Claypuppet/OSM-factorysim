@@ -59,7 +59,7 @@ namespace simulation {
         * Set the simulation connection wit this machine
         * @param aConnection : The connection with this machine
         */
-        void setSimulationConnection(Network::ConnectionPtr &aConnection);
+        void setSimulationConnection(const Network::ConnectionPtr &aConnection);
 
 
 		/**
