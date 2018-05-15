@@ -1,4 +1,5 @@
 
+#include <utils/Logger.h>
 #include "WaitForConnectionsState.h"
 
 ApplicationStates::WaitForConnectionsState::WaitForConnectionsState(core::Application &context) :
@@ -10,6 +11,7 @@ void ApplicationStates::WaitForConnectionsState::doActivity() {
 }
 
 void ApplicationStates::WaitForConnectionsState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
 
 }
 
@@ -20,10 +22,12 @@ void ApplicationStates::WaitForConnectionsState::exitAction() {
 bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeMachineRegistered:
+      utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
       onMachineReady(event);
       break;
 
     case kEventTypeAllMachinesRegistered:
+      utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
       onAllMachinesReady();
       break;
 
