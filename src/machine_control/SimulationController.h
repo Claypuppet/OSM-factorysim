@@ -111,7 +111,7 @@ class SimulationController
   // The application which is controlled by the controller
   SimulationApplication application;
 
-  SimulationCommunication::SimulationNetworkComponent simulationNetworkComponent;
+  std::shared_ptr<SimulationCommunication::SimulationNetworkComponent> simulationNetworkComponent;
 };
 }
 
