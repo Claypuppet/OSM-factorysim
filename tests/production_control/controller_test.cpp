@@ -187,6 +187,33 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   machineEndpoint->awaitMessageReceived();
 }
 
+// TODO !!! Move this to application_test after Bas has committed & merged it with dev
+BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
+  // Create server and client
+  auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
+
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerApplication();
+  machineEndpoint->startMockMCClientApplication();
+  productionServer->awaitClientConnecting();
+
+  // Create machine with connection (in production control)
+  auto machine = core::Machine(1);
+  machine.setConnection(productionServer->getConnection());
+
+  // prepare test on machine control when message will receive
+  testutils::OnMessageFn callback = [](const Network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReconfigure);
+    BOOST_CHECK_EQUAL(message.getBody(), "1");
+  };
+  machineEndpoint->setOnMessageFn(callback);
+  machine.sendConfigureMessage(1);
+
+  // wait for the message received
+  machineEndpoint->awaitMessageReceived();
+}
+
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
 
   BOOST_REQUIRE_EQUAL(2, 2);
