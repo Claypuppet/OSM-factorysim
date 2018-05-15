@@ -125,11 +125,12 @@ namespace simulation {
 		auto productionline = configuration.getProductionLineConfiguration();
 		auto machineInfos = productionline.getMachines();
 
-		for (const models::Machine &m : machineInfos)
-		{
+		for (const models::Machine &m : machineInfos) {
 			SimulationMachine machine(m);
 			machines.emplace_back(std::make_shared<SimulationMachine>(machine));
 		}
+
+		application.setMachines(machines);
 
 		// If simulation, add sim state event
 		if (true){ // For now always true till we support non-simulations
