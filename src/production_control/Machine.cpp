@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "Machine.h"
 
 namespace core {
@@ -31,6 +33,10 @@ namespace core {
         if(isConnected()){
             connection->writeMessage(msg);
         }
+    }
+
+    void Machine::sendConfigureMessage(uint32_t configureId) {
+        Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
     }
 
 }
