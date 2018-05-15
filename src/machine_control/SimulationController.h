@@ -28,7 +28,7 @@ class SimulationController
 
   void execute();
   void stop();
-  
+
   /**
    * Called to set simulation configurations of it's application to the parameter's configurations
    * @param simulationConfigurations The received simulation configurations
@@ -47,6 +47,11 @@ class SimulationController
    * Initialises the clientThread, networkManager and client
    */
   void setupNetwork();
+
+  /**
+   * Sends a message to Production Control to receive simulation configurations
+   */
+  void registerMachine();
 
  private:
   /**
@@ -69,11 +74,6 @@ class SimulationController
    * Executed on receiving the "kNotifyEventTypeServiceError" event to progress the statemachine
    */
   void onServiceError();
-
-  /**
-   * Sends a message to Production Control to receive simulation configurations
-   */
-  void registerMachine();
 
   // True or false depending on whether SimulationController is active
   bool executing;

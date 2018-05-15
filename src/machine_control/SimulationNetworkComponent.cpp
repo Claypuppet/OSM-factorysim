@@ -27,10 +27,6 @@ void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr
                                                           const boost::system::error_code &error) {
   std::cout << "dc" << std::endl;
   std::cout << "not connected 2" << std::endl;
-<<<<<<< HEAD
-
-=======
->>>>>>> 3e8684ecdda2c2040cd701263b4c7a705d3d60e2
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,

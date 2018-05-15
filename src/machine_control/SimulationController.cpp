@@ -66,22 +66,33 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
       break;
     }
 
+    case ControllerEvents::kNotifyEventTypeServiceStarted: {
+      onServiceStarted();
+    }
+
+    case ControllerEvents::kNotifyEventTypeServiceError: {
+      onServiceError();
+    }
+
     default:break;
   }
 }
 
-/**
- * Executed on receiving new machine configurations
- * @param notification Notification containing the new configuration(s)
- */
+void SimulationController::onServiceStarted() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
+  scheduleEvent(event);
+}
+void SimulationController::onServiceError() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnectionFailed);
+  scheduleEvent(event);
+}
+
 void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {  
-  // Create a state event to advance to the next state
-  auto event = std::make_shared<simulationstates::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
   
   // Set received configurations as argument
   event->setArgument(notification.getFirstArgumentAsType<models::MachinePtr>()->getConfigurations());
 
-  // Schedule the event in the context
   scheduleEvent(event);
 }
 
@@ -90,18 +101,29 @@ void SimulationController::registerMachine() {
 }
 
 void SimulationController::setupNetwork() {
+// Set the port of the network
   networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+
+  // Create the thread which the manager will run on
   clientThread = networkManager.runServiceThread();
 
+  // Set the controller to handle notifications (notifier observer pattern) for the network
   handleNotificationsFor(simulationNetworkComponent);
 
+  // Create the client
   client = networkManager.createClient(std::make_shared<SimulationCommunication::SimulationNetworkComponent>(
       simulationNetworkComponent));
 
+  // Create and set up the event dispatcher which handles events for the connection service
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
+
+  // Assign the event dispatcher to the client, to handle it's connection service events
   client->setServiceEventListener(eventDispatcherPtr);
+
+  // Set the controller to handle notifications for the event dispatcher
   handleNotificationsFor(*eventDispatcherPtr);
 
+  // Start the client
   client->start();
 }
 
