@@ -26,9 +26,26 @@ class SimulationController
   SimulationController(uint16_t aMachineId);
   ~SimulationController() override;
 
+  /**
+   * Starts the controller and puts it in a run cycle
+   */
   void execute();
+
+  /**
+   * Stops the networkManager and execution of the controller
+   */
   void stop();
 
+  /**
+   * Called to set simulation configurations of it's application to the parameter's configurations
+   * @param simulationConfigurations The received simulation configurations
+   */
+  void setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations);
+
+  /**
+   * Called when notfified, takes the notification and handles it accoardingly
+   * @param notification The received notification
+   */
   void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
   /**
@@ -42,6 +59,11 @@ class SimulationController
    */
   void setupNetwork();
 
+  /**
+   * Sends a message to Production Control to receive simulation configurations
+   */
+  void registerMachine();
+
  private:
   /**
    * Function to set a predetermined starting state for machine control's simulation statemachine
@@ -52,7 +74,7 @@ class SimulationController
    * Executed on receiving the "kNotifyEventTypeMachineInfoReceived" event to progress machine control's simulation statemachine
    * @param notification The notification received, contains the machine's info
    */
-  void onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification);
+  void onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification);
 
   /**
    * Executed on receiving the "kNotifyEventTypeServiceStarted" event to progress machine control's simulation statemachine
@@ -88,6 +110,8 @@ class SimulationController
 
   // The application which is controlled by the controller
   SimulationApplication application;
+
+  SimulationCommunication::SimulationNetworkComponent simulationNetworkComponent;
 };
 }
 

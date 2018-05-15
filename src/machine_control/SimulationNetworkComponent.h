@@ -47,7 +47,7 @@ class SimulationNetworkComponent :
    * Handles new machine info receive
    * @param machine
    */
-  void onSimulationMachineInfoReceived(models::MachinePtr machinePtr);
+  void onSimulationMachineInfoReceived(models::MachinePtr machine);
 
   /**
    * Handles machine turn on command

@@ -51,11 +51,12 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
   }
 }
 
-void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
-  auto event =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
-  event.addArgument(machinePtr);
-  notifyObservers(event);
+void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machine) {
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
+
+  notification.addArgument(machine);
+  notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOffReceived() {
@@ -69,6 +70,7 @@ void SimulationNetworkComponent::onTurnOnReceived() {
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
 }
+
 void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
   Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
   sendMessage(message);
@@ -78,8 +80,8 @@ void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
     mConnection->writeMessage(message);
   }
 }
+
 bool SimulationNetworkComponent::isConnected() {
   return mConnection != nullptr;
 }
-
 }
