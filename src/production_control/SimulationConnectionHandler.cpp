@@ -30,9 +30,11 @@ void SimulationConnectionHandler::onConnectionMessageReceived(Network::Connectio
                                                               Network::Message &message) {
   std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
-    case Network::Protocol::kSimMessageTypeRegister: onHandleRegisterMachine(message.getBody(), connection);
+    case Network::Protocol::kSimMessageTypeRegister: 
+      onHandleRegisterMachine(message.getBody(), connection);
       break;
-    case Network::Protocol::kSimMessageTypeReadyForSim: handleMachineReady(connection);
+    case Network::Protocol::kSimMessageTypeReadyForSim: 
+      handleMachineReady(connection);
       break;
     default: break;
   }

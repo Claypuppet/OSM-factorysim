@@ -60,8 +60,6 @@ namespace simulation {
          * @param connection : connection to the machine
          */
         void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
-        
-        void sendConfigureMachine(uint16_t m, Network::ConnectionPtr &connection);
     };
 }
 
