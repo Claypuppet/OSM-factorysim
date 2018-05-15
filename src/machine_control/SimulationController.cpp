@@ -59,10 +59,12 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
     }
 
     case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
+      onTurnOnReceived();
       break;
     }
 
     case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
+      onTurnOffReceived();
       break;
     }
 
@@ -87,7 +89,7 @@ void SimulationController::onServiceError() {
   scheduleEvent(event);
 }
 
-void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {  
+void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
   
   // Set received configurations as argument
@@ -98,6 +100,16 @@ void SimulationController::onSimulationConfigurationsReceived(const patterns::No
 
 void SimulationController::registerMachine() {
   simulationNetworkComponent.sendRegisterMessage(application.getId());
+}
+
+void SimulationController::onTurnOnReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOn);
+  scheduleEvent(event);
+}
+
+void SimulationController::onTurnOffReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOff);
+  scheduleEvent(event);
 }
 
 void SimulationController::setupNetwork() {
