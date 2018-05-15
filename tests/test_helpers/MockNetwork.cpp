@@ -92,6 +92,8 @@ const Network::ConnectionPtr &MockNetwork::getConnection() const {
 
 void MockNetwork::stop() {
   networkManager.stop();
+  Predicate disconnected = [this](){return connectionStatus == kConnectionDisconnected;};
+  HelperFunctions::waitForPredicate(disconnected, 1000);
   if (networkThread && networkThread->joinable()){
     networkThread->join();
   }

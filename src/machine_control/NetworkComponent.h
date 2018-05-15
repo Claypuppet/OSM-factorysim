@@ -14,7 +14,11 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
 		NetworkComponent();
 		~NetworkComponent() = default;
 
-		Network::ConnectionPtr getConnection();
+		/**
+		 * A function that sends a message to production control to register this machine
+		 * @param machineId : The id of the machine
+		 */
+		void sendRegisterMessage(const uint16_t machineId);
 
 	private:
 		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
