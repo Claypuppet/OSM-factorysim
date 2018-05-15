@@ -7,13 +7,12 @@
 
 #include "SimulationState.h"
 
-
 namespace simulationstates {
 
 
 	class OnState : public SimulationState {
 	public:
-		OnState(simulator::SimulationController &context) : SimulationState(context){};
+      OnState(simulator::SimulationController &context) : SimulationState(context) {};
 		virtual ~OnState() = default;
 
 		void entryAction() override;

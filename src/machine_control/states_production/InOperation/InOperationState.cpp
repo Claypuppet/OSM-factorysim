@@ -5,7 +5,7 @@
 #include "InOperationState.h"
 #include "../Broken/BrokenState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 bool InOperationState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
     case kMachineBrokeDown: {

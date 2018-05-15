@@ -3,24 +3,28 @@
 //
 
 #include "ConnectState.h"
+#include "ReceiveConfig.h"
 
-namespace ProductionStates {
-    void ConnectState::entryAction() {
-        //TODO: START CLIENT AND CONNECT TO PRODUCTION CONTROL
+namespace productionstates {
+void ConnectState::entryAction() {
+  context.setupNetwork();
+}
+
+void ConnectState::doActivity() {
+
+}
+
+void ConnectState::exitAction() {
+
+}
+
+bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypeConnected: {
+      context.setCurrentState(std::make_shared<ReceiveConfig>(context));
+      break;
     }
-
-    void ConnectState::doActivity() {
-
-    }
-
-    void ConnectState::exitAction() {
-        //TODO: START CONFIGURESTATE
-    }
-
-    bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
-        switch(e->getId()){
-            default:
-                return false;
-        }
-    }
+    default:return false;
+  }
+}
 }

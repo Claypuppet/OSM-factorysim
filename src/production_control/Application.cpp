@@ -14,7 +14,7 @@ void core::Application::addMachine(const Machine &aMachine) {
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {
   for (Machine &machine : machines) {
-    if (machine.getId()==machineId) {
+    if (machine.getId() == machineId) {
       return std::make_shared<Machine>(machine);
     }
   }

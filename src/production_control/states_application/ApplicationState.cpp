@@ -5,7 +5,7 @@
 #include "ApplicationState.h"
 
 namespace ApplicationStates {
-	ApplicationState::ApplicationState(core::Application &context) : context(context) {}
+ApplicationState::ApplicationState(core::Application &context) : context(context) {}
 
 	bool ApplicationState::handleEvent(const ApplicationStates::EventPtr &e) {
 		return false;

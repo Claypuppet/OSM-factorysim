@@ -1,13 +1,10 @@
 #include <iostream>
 #include <memory>
-#include <string>
 
 #include <network/Server.h>
-#include <cstdint>
 
 #include "SimulationController.h"
 #include "utils/CommandLineArguments.h"
-#include "SimulationMachine.h"
 
 int main(int argc, char **argv) {
 
