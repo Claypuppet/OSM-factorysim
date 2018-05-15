@@ -91,3 +91,6 @@ void core::Application::stopServer() {
     }
   }
 }
+core::Application::~Application() {
+  stopServer();
+}

@@ -39,8 +39,8 @@ void Machine::sendStartProcessMessage() {
   sendMessage(message);
 }
 
-    void Machine::sendConfigureMessage(uint32_t configureId) {
-        Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
-    }
+void Machine::sendConfigureMessage(uint32_t configureId) {
+  Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
+}
 
 }

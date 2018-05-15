@@ -21,7 +21,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
  public:
 
   Application() = default;
-  ~Application() = default;
+  ~Application();
 
   void setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines);
 
