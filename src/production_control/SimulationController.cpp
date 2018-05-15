@@ -28,10 +28,10 @@ namespace simulation {
 
 	void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
 		switch (notification.getEventId()) {
-			case NotifyEventIds::eControllerRegisterMachine:
+			case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine:
 				handleRegisterMachine(notification);
 				break;
-			case NotifyEventIds::eControllerMachineReady:
+		  case NotifyEventIds::eSimMachineReady:
 				handleMachineReady(notification);
 				break;
 			default:
@@ -125,11 +125,12 @@ namespace simulation {
 		auto productionline = configuration.getProductionLineConfiguration();
 		auto machineInfos = productionline.getMachines();
 
-		for (const models::Machine &m : machineInfos)
-		{
+		for (const models::Machine &m : machineInfos) {
 			SimulationMachine machine(m);
 			machines.emplace_back(std::make_shared<SimulationMachine>(machine));
 		}
+
+		application.setMachines(machines);
 
 		// If simulation, add sim state event
 		if (true){ // For now always true till we support non-simulations

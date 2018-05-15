@@ -131,7 +131,7 @@ namespace Network
 		}
 	}
 
-	void Connection::writeMessage(Message& aMessage)
+	void Connection::writeMessage(const Message& aMessage)
 	{
 		auto messagePtr = std::make_shared<Message>(aMessage);
 		std::lock_guard<std::recursive_mutex> lg(mMutex);
