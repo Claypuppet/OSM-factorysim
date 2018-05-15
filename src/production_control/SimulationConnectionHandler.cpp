@@ -24,7 +24,6 @@ void SimulationConnectionHandler::onConnectionDisconnected(Network::ConnectionPt
 
 void SimulationConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
                                                               Network::Message &message) {
-  std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeRegister: 
       onHandleRegisterMachine(message.getBody(), connection);
