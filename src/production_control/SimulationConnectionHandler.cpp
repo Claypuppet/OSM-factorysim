@@ -8,11 +8,9 @@
 
 namespace simulation {
 
-
 void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
                                                      const boost::system::error_code &error) {
   IConnectionHandler::onConnectionFailed(connection, error);
-  std::cout << "not connected" << std::endl;
 }
 
 void SimulationConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {

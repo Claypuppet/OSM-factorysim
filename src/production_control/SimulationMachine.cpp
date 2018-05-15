@@ -37,7 +37,7 @@ namespace simulation {
 		}
 	}
 
-	void SimulationMachine::setSimulationConnection(Network::ConnectionPtr &aConnection) {
+	void SimulationMachine::setSimulationConnection(const Network::ConnectionPtr &aConnection) {
 		simConnection = aConnection;
 	}
 

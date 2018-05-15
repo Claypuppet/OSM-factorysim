@@ -5,7 +5,7 @@
 namespace simulationstates {
 	void InitializeSimulationState::entryAction() {
 		// TODO: Register machine
-        context.registerMachine();
+        // context.registerMachine();
 	}
 
 	void InitializeSimulationState::doActivity() {
