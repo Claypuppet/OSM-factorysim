@@ -20,9 +20,9 @@
 namespace machinecore {
 
 enum NotifyEventType {
-  kNotifyEventTypeMachineInfoReceived,
+  kNotifyEventTypeMachineConfigReceived,
   kNotifyEventTypeServiceStarted,
-  kNotifyEventTypeServiceError
+  kNotifyEventTypeServiceError,
 };
 
 class Application
@@ -77,10 +77,17 @@ class Application
   void stop();
 
   void setupNetwork();
+
+  /**
+   * Executes network
+   */
+  void registerMachine();
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
   ThreadPtr clientThread;
+  Communication::NetworkComponent connectionHandler;
 
   Machine machine;
 

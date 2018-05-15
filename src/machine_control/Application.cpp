@@ -26,14 +26,21 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
     }
 
     case NotifyEventType::kNotifyEventTypeServiceError : {
+
+      break;
+    }
+
+    case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
+
+      event->setArgument(notification.getArgument(0));
+      scheduleEvent(event);
       break;
     }
 
     default:break;
   }
 }
-
-
 
 void Application::setStartState() {
   setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
@@ -48,13 +55,12 @@ void Application::stop() {
     clientThread->join();
   }
 }
+
 void Application::setupNetwork() {
   clientThread = manager.runServiceThread();
 
-  Communication::NetworkComponent connectionHandler;
   handleNotificationsFor(connectionHandler);
 
-  std::cout << "application has connection";
   client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
@@ -62,6 +68,9 @@ void Application::setupNetwork() {
   handleNotificationsFor(*eventDispatcherPtr);
 
   client->start();
+}
+void Application::registerMachine() {
+  connectionHandler.sendRegisterMachineMessage(getId());
 }
 
 } // namespace machinecore
