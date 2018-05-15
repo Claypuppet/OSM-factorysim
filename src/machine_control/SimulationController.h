@@ -64,6 +64,11 @@ class SimulationController
    */
   void registerMachine();
 
+  /**
+   * Sends a message to Production Control to receive simulation configurations
+   */
+  void machineReady();
+
  private:
   /**
    * Function to set a predetermined starting state for machine control's simulation statemachine

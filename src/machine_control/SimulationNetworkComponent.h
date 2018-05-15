@@ -23,11 +23,17 @@ class SimulationNetworkComponent :
  public:
   SimulationNetworkComponent() = default;
   virtual ~SimulationNetworkComponent() = default;
+
   /**
    * A function that sends a message to production control to register this machine
    * @param machineId : The id of the machine
    */
   void sendRegisterMessage(const uint16_t machineId);
+
+  /**
+   * A function that sends a message to production control that the machine is ready for simulation
+   */
+  void sendMachineReadyMessage();
 
   bool isConnected();
 

@@ -75,6 +75,12 @@ void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
   Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
   sendMessage(message);
 }
+
+void SimulationNetworkComponent::sendMachineReadyMessage() {
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeReadyForSim);
+  sendMessage(message);
+}
+
 void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
   if(mConnection) {
     mConnection->writeMessage(message);
