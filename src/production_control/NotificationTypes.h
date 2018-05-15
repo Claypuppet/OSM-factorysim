@@ -20,8 +20,8 @@ namespace NotifyEventIds {
 
 	enum ControllerNotificationTypes
 	{
-		eControllerRegisterMachine = 100,
-		eControllerMachineReady
+      eControllerRegisterMachine = 100,
+      eControllerMachineReady
 
 	};
 

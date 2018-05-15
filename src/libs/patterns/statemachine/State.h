@@ -11,7 +11,7 @@
 #include "Event.h"
 
 namespace patterns {
-    namespace statemachine {
+namespace statemachine {
         class Context;
         class State;
 

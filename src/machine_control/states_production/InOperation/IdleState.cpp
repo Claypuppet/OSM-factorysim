@@ -3,7 +3,7 @@
 //
 
 #include "IdleState.h"
-namespace ProductionStates {
+namespace productionstates {
 void IdleState::entryAction() {
 
 }

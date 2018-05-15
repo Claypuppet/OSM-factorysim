@@ -4,7 +4,7 @@
 
 #include "BrokenState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 BrokenState::BrokenState(machinecore::Application &aContext)
     : ProductionState(aContext) {
 

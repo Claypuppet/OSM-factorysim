@@ -13,9 +13,9 @@ namespace testutils {
   auto getTime = std::chrono::system_clock::now;
   auto startTime = getTime();
   auto timeoutMillis = std::chrono::milliseconds(timeout);
-  while(!predicate() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis){
+  while (!predicate() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
 
-	// Wait
+    // Wait
   }
 }
 }

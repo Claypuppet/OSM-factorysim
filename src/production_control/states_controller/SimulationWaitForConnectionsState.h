@@ -11,9 +11,9 @@
 namespace states {
     class SimulationWaitForConnectionsState : public ControllerState {
     public:
-        SimulationWaitForConnectionsState(simulation::SimulationController &context);
+      SimulationWaitForConnectionsState(simulation::SimulationController &context);
 
-        bool handleEvent(const EventPtr &event) override;
+      bool handleEvent(const EventPtr &event) override;
 
         /**
          * Waits for machines to connect to the Application and sends relevant config data
@@ -29,16 +29,16 @@ namespace states {
        * handle event with id kEventTypeMachineReady
        * @param event : event
        */
-       void onMachineReady(const EventPtr &event);
-       /**
-        * handle event with id kEventTypeMachineConnected
-       * @param event : event
-        */
-       void onMachineConnected(const EventPtr &event);
-       /**
-        * handle event with id kEventTypeAllMachinesReadyForSimulation
-        */
-       void onAllMachinesReadyForSimulation();
+      void onMachineReady(const EventPtr &event);
+      /**
+       * handle event with id kEventTypeMachineConnected
+      * @param event : event
+       */
+      void onMachineConnected(const EventPtr &event);
+      /**
+       * handle event with id kEventTypeAllMachinesReadyForSimulation
+       */
+      void onAllMachinesReadyForSimulation();
     };
 }
 

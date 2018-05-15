@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "NetworkComponent.h"
-#include <network/Protocol.h>
 
 namespace Communication {
 

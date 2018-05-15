@@ -27,7 +27,6 @@ void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr
                                                           const boost::system::error_code &error) {
   std::cout << "dc" << std::endl;
   std::cout << "not connected 2" << std::endl;
-
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
@@ -66,6 +65,7 @@ bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::str
   return true; // TODO : implement boolean
 }
 
+
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
   auto event =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
@@ -94,4 +94,5 @@ void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
 bool SimulationNetworkComponent::isConnected() {
   return mConnection != nullptr;
 }
+
 }
