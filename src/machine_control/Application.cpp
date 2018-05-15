@@ -61,7 +61,6 @@ void Application::setupNetwork() {
   Communication::NetworkComponent connectionHandler;
   handleNotificationsFor(connectionHandler);
 
-  std::cout << "application has connection";
   client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();

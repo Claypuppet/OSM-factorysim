@@ -20,6 +20,32 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
 		 */
 		void sendRegisterMessage(const uint16_t machineId);
 
+		/**
+		 * Send status update: ready for instructions
+		 */
+		void sendStatusUpdateReady();
+
+		/**
+		 * Send status update: started procssing
+		 */
+		void sendStatusUpdateStarted();
+
+		/**
+		 * Send status update: done processing
+		 */
+		void sendStatusUpdateDone();
+
+		/**
+		 * Send response: OK
+		 */
+		void sendResponseOK();
+
+		/**
+		 * Send response: NOK
+		 * @param errorCode : error code
+		 */
+		void sendResponseNOK(const uint16_t errorCode);
+
 	private:
 		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
 		void onConnectionEstablished(Network::ConnectionPtr connection) override;
