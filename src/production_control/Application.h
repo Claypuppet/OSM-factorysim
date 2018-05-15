@@ -90,12 +90,6 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    */
   void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
-  /**
-   * Sends a start processing message to a machine
-   * @param machineId : The id of the machine to send the message to
-   */
-  void sendStartProcessing(uint16_t machineId);
-
  private:
   std::vector<Machine> machines;
   Network::ServerPtr server;

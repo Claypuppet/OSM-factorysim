@@ -77,14 +77,6 @@ void core::Application::registerMachine(uint16_t machineId, Network::ConnectionP
   }
 }
 
-void core::Application::sendStartProcessing(uint16_t machineId) {
-  auto machine = getMachine(machineId);
-  if(machine)
-  {
-    Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
-    machine->sendMessage(message);
-  }
-}
 void core::Application::stopServer() {
   if(server->isRunning())
   {
