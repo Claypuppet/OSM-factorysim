@@ -1,7 +1,6 @@
 //
-// Created by bas on 15-5-18.
+// Not created by Henk on 27-08-1783
 //
-
 #define BOOST_TEST_DYN_LINK
 
 #include <memory>
@@ -9,10 +8,46 @@
 #include <boost/test/unit_test.hpp>
 #include <patterns/notifyobserver/Notifier.hpp>
 
+#include "../../src/production_control/Application.h"
 #include "../test_helpers/MockNetwork.h"
+
 #include "../../src/production_control/states_application/WaitForConnectionsState.h"
 #include "../../src/production_control/SimulationController.h"
 #include "../../src/production_control/NotificationTypes.h"
+#include "../../src/machine_control/Machine.h"
+#include "../../src/production_control/Machine.h"
+
+BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
+
+BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
+{
+  core::Machine machine(models::Machine(12, "test_machine"));
+
+  auto machineMock  = std::make_shared<testutils::MockNetwork>();
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  testutils::OnMessageFn onMessageFn = [](const Network::Message& message){
+    BOOST_CHECK(message.getMessageType() == Network::Protocol::kAppMessageTypeStartProcess);
+  };
+
+  BOOST_REQUIRE_NO_THROW(machineMock->setOnMessageFn(onMessageFn));
+
+  BOOST_REQUIRE_NO_THROW(pcMock->startMockPCServerApplication());
+  BOOST_REQUIRE_NO_THROW(machineMock->startMockMCClientApplication());
+
+  BOOST_REQUIRE_NO_THROW(machine.setConnection(pcMock->getConnection()));
+
+  BOOST_REQUIRE(machine.isConnected());
+
+  BOOST_REQUIRE_NO_THROW(machine.sendStartProcessMessage());
+
+  machineMock->awaitMessageReceived();
+
+  pcMock->stop();
+  machineMock->stop();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationEventProcesses)
 
