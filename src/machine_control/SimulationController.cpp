@@ -167,10 +167,6 @@ void SimulationController::stop() {
   // Stop the network manager
   networkManager.stop();
 
-  if(client){
-    client->stop();
-  }
-
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
     clientThread->join();
