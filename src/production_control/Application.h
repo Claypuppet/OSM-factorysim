@@ -13,6 +13,7 @@
 // project file includes
 #include "Machine.h"
 #include "network/Manager.h"
+#include "SimulationMachine.h"
 
 namespace core {
 
@@ -22,11 +23,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   Application() = default;
   ~Application() = default;
 
-  /**
-  * A function to add a machine to the machines vector
-  * @param aMachine : The machine to add
-  */
-  void addMachine(const Machine &aMachine);
+  void setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines);
 
   /**
   * A function to get a machine by its ID
