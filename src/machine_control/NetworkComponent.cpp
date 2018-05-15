@@ -18,8 +18,6 @@ void NetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, con
 
 void NetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
   mConnection = connection;
-
-  sendHello();
 }
 
 void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
@@ -37,11 +35,6 @@ void NetworkComponent::handleProcessProductMessage() {
 
 void NetworkComponent::handleReconfigureMessage() {
 
-}
-
-const void NetworkComponent::sendHello() {
-  Network::Message msg(1, "1");
-  mConnection->writeMessage(msg);
 }
 
 void NetworkComponent::sendRegisterMessage(const uint16_t machineId) {

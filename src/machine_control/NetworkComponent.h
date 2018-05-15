@@ -14,8 +14,6 @@ namespace Communication {
 		NetworkComponent();
 		~NetworkComponent() = default;
 
-		const void sendHello();
-
 		/**
 		 * A function that sends a message to production control to register this machine
 		 * @param machineId : The id of the machine
