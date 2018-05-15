@@ -7,12 +7,11 @@
 
 #include "LoadConfigState.h"
 
-#include "../ConfigurationReader.h"
 #include "SimulationBroadcastState.h"
 #include "OperationState.h"
 
 namespace states {
-    LoadConfigState::LoadConfigState(simulation::SimulationController &context) : ControllerState(context) {}
+LoadConfigState::LoadConfigState(simulation::SimulationController &context) : ControllerState(context) {}
 
 
     bool LoadConfigState::handleEvent(const EventPtr &e) {

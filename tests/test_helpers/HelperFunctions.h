@@ -8,7 +8,7 @@
 #include <functional>
 #include <cstdint>
 
-namespace testutils{
+namespace testutils {
 
 typedef std::function<bool()> Predicate;
 

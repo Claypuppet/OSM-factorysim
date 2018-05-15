@@ -8,7 +8,7 @@
 #include "../ProductionState.h"
 #include "InOperationState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class IdleState : public InOperationState {
  public:
   IdleState(machinecore::Application &aContext) : InOperationState(aContext) {};

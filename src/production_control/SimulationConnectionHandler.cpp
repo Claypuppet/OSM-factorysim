@@ -3,11 +3,11 @@
 //
 
 #include <network/Protocol.h>
-#include <cereal/archives/portable_binary.hpp>
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
 namespace simulation {
+
 
 void SimulationConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
                                                      const boost::system::error_code &error) {

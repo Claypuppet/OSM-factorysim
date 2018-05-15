@@ -7,7 +7,7 @@
 
 #include "../ProductionState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 class SelfTestState : public ProductionState {
  public:
   SelfTestState(machinecore::Application &aContext) : ProductionState(aContext) {};
