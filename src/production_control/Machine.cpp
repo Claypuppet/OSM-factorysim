@@ -5,38 +5,42 @@
 
 namespace core {
 
-    Machine::Machine(const models::Machine &aMachine) :
-            models::Machine(aMachine) {
-    }
+Machine::Machine(const models::Machine &aMachine) :
+    models::Machine(aMachine) {
+}
 
-    Machine::Machine(const Machine &aMachine) :
-            models::Machine(aMachine) {
-    }
+Machine::Machine(const Machine &aMachine) :
+    models::Machine(aMachine) {
+}
 
-    Machine& Machine::operator=(const Machine& rhs) {
-        if(this != &rhs) {
-            models::Machine::operator=(rhs);
-            connection = rhs.connection;
-        }
-        return *this;
-    }
+Machine &Machine::operator=(const Machine &rhs) {
+  if (this != &rhs) {
+    models::Machine::operator=(rhs);
+    connection = rhs.connection;
+  }
+  return *this;
+}
 
-    void Machine::setConnection(Network::ConnectionPtr aConnection) {
-        connection = aConnection;
-    }
+void Machine::setConnection(Network::ConnectionPtr aConnection) {
+  connection = aConnection;
+}
 
-    bool Machine::isConnected() const {
-        return !!connection;
-    }
+bool Machine::isConnected() const {
+  return !!connection;
+}
 
-    void Machine::sendMessage(Network::Message &msg) {
-        if(isConnected()){
-            connection->writeMessage(msg);
-        }
-    }
+void Machine::sendMessage(const Network::Message &message) {
+  if (isConnected()) {
+    connection->writeMessage(message);
+  }
+}
+void Machine::sendStartProcessMessage() {
+  Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
+  sendMessage(message);
+}
 
-    void Machine::sendConfigureMessage(uint32_t configureId) {
-        Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
-    }
+void Machine::sendConfigureMessage(uint32_t configureId) {
+  Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
+}
 
 }

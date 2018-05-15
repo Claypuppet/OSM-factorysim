@@ -49,10 +49,16 @@ class Machine : public models::Machine {
   void setConnection(Network::ConnectionPtr aConnection);
 
   /**
+   * Sends a message to the machine to start processing a product
+   */
+  void sendStartProcessMessage();
+
+  /**
    * Send message to machine to (re)configure.
    * @param configureId : configuration id
    */
   void sendConfigureMessage(uint32_t configureId);
+
 
  private:
 
@@ -60,7 +66,7 @@ class Machine : public models::Machine {
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
-  void sendMessage(Network::Message &msg);
+  void sendMessage(const Network::Message &message);
 
   MachineStatus status;
   Network::ConnectionPtr connection;

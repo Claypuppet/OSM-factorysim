@@ -66,6 +66,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
   machineNetwork->stop();
+  controller.stop();
 }
 
 // Einde state tests
@@ -185,6 +186,9 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
 }
 
 // TODO !!! Move this to application_test after Bas has committed & merged it with dev
@@ -212,6 +216,9 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
