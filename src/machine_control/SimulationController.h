@@ -44,25 +44,35 @@ class SimulationController
 
  private:
   /**
-   * Function to set a predetermined starting state for the statemachine
+   * Function to set a predetermined starting state for machine control's simulation statemachine
    */
   void setStartState();
 
   /**
-   * Executed on receiving the "kNotifyEventTypeMachineInfoReceived" event to progress the statemachine
+   * Executed on receiving the "kNotifyEventTypeMachineInfoReceived" event to progress machine control's simulation statemachine
    * @param notification The notification received, contains the machine's info
    */
   void onMachineInfoReceived(const patterns::NotifyObserver::NotifyEvent &notification);
 
   /**
-   * Executed on receiving the "kNotifyEventTypeServiceStarted" event to progress the statemachine
+   * Executed on receiving the "kNotifyEventTypeServiceStarted" event to progress machine control's simulation statemachine
    */
   void onServiceStarted();
 
   /**
-   * Executed on receiving the "kNotifyEventTypeServiceError" event to progress the statemachine
+   * Executed on receiving the "kNotifyEventTypeServiceError" event to progress machine control's simulation statemachine
    */
   void onServiceError();
+
+  /**
+   * Executed on receiving the "kNotifyEventTurnOnReceived" event to progress machine control's simulation statemachine
+   */
+  void onTurnOnReceived();
+
+  /**
+   * Executed on receiving the "kNotifyEventTurnOffReceived" event to progress machine control's simulation statemachine
+   */
+  void onTurnOffReceived();
 
   // True or false depending on whether SimulationController is active
   bool executing;

@@ -43,6 +43,14 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
   }
 };
 
+SimulationController::SimulationController(uint16_t aMachineId)
+    : Controller(aMachineId), application(aMachineId), executing(false) {
+}
+
+SimulationController::~SimulationController() {
+  stop();
+}
+
 void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
     case ControllerEvents::kNotifyEventTypeMachineInfoReceived: {
@@ -51,10 +59,12 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
     }
 
     case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
+      onTurnOnReceived();
       break;
     }
 
     case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
+      onTurnOffReceived();
       break;
     }
 
@@ -92,27 +102,23 @@ void SimulationController::onMachineInfoReceived(const patterns::NotifyObserver:
 }
 
 void SimulationController::onServiceStarted() {
-  // Create a state event to advance to the next state
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
-
-  // Schedule the event in the context
   scheduleEvent(event);
 }
 
 void SimulationController::onServiceError() {
-  // Create a state event to advance to the next state
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnectionFailed);
-
-  // Schedule the event in the context
   scheduleEvent(event);
 }
 
-SimulationController::SimulationController(uint16_t aMachineId)
-    : Controller(aMachineId), application(aMachineId), executing(false) {
+void SimulationController::onTurnOnReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOn);
+  scheduleEvent(event);
 }
 
-SimulationController::~SimulationController() {
-  stop();
+void SimulationController::onTurnOffReceived() {
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOff);
+  scheduleEvent(event);
 }
 
 void SimulationController::setupNetwork() {
