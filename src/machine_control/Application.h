@@ -22,7 +22,8 @@ namespace machinecore {
 enum NotifyEventType {
   kNotifyEventTypeMachineInfoReceived,
   kNotifyEventTypeServiceStarted,
-  kNotifyEventTypeServiceError
+  kNotifyEventTypeServiceError,
+  kNotifyEventTypeStartProcess
 };
 
 class Application

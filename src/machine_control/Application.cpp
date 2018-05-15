@@ -29,7 +29,14 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
       break;
     }
 
-    default:break;
+    case NotifyEventType::kNotifyEventTypeStartProcess: {
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
+      scheduleEvent(event);
+      break;
+    }
+
+    default:
+      break;
   }
 }
 
