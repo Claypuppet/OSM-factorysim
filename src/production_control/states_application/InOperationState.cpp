@@ -9,7 +9,7 @@ ApplicationStates::InOperationState::InOperationState(core::Application &context
 }
 
 void ApplicationStates::InOperationState::doActivity() {
-
+  // Run scheduler here after implementation
 }
 
 void ApplicationStates::InOperationState::entryAction() {
@@ -22,9 +22,6 @@ void ApplicationStates::InOperationState::exitAction() {
 
 bool ApplicationStates::InOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-
-    // TODO : implement the right states
-
     default:
       return ApplicationState::handleEvent(event);
   }
