@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "NetworkComponent.h"
+#include "Application.h"
 
 namespace Communication {
 
@@ -25,11 +26,19 @@ void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-  std::cout << message.mBody << std::endl;
+  switch(message.getMessageType())
+  {
+    case Network::Protocol::kAppMessageTypeStartProcess:
+      handleProcessProductMessage();
+      break;
+    default:
+      break;
+  }
 }
 
 void NetworkComponent::handleProcessProductMessage() {
-
+  patterns::NotifyObserver::NotifyEvent notification(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
+  notifyObservers(notification);
 }
 
 void NetworkComponent::handleReconfigureMessage() {

@@ -30,7 +30,6 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
 
 		void handleReconfigureMessage();
 		void handleProcessProductMessage();
-
 	};
 }
 
