@@ -33,7 +33,7 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        ${app_production_control_SOURCES})
+        ${app_production_control_SOURCES} src/production_control/states_application/InOperationState.cpp src/production_control/states_application/InOperationState.h)
 
 
 add_executable(app_visualizer
