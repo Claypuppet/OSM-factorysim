@@ -61,6 +61,11 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   *  Start the server if it's not running
   */
   void startServer();
+  
+  /**
+   * Stops the server if it's running
+   */
+  void stopServer();
 
   /**
    * Function that handles incoming notifications
@@ -84,6 +89,12 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * @param connection the connection of the machine
    */
   void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
+
+  /**
+   * Sends a start processing message to a machine
+   * @param machineId : The id of the machine to send the message to
+   */
+  void sendStartProcessing(uint16_t machineId);
 
  private:
   std::vector<Machine> machines;

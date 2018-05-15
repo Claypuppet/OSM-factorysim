@@ -59,7 +59,7 @@ add_executable(test_production_control
         ${test_helpers_SOURCES}
         ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
-        tests/production_control/controller_test.cpp)
+        tests/production_control/controller_test.cpp tests/production_control/application_test.cpp)
 
 add_executable(test_visualizer
 #        ${test_helpers_SOURCES}
