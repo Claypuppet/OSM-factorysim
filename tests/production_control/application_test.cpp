@@ -15,33 +15,38 @@ BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
 
   BOOST_REQUIRE_NO_THROW(app.addMachine(core::Machine(machine)));
 
-  testutils::MockNetwork machineMock;
+  auto machineMock = std::make_shared<testutils::MockNetwork>();
 
   testutils::OnMessageFn onMessageFn =[](const Network::Message& message){
     BOOST_CHECK(message.getMessageType() == Network::Protocol::kAppMessageTypeStartProcess);
   };
 
-  BOOST_REQUIRE_NO_THROW(machineMock.setOnMessageFn(onMessageFn));
+  BOOST_REQUIRE_NO_THROW(machineMock->setOnMessageFn(onMessageFn));
 
   app.setupNetwork();
   app.startServer();
 
   while(!app.isServerRunning());
 
-  machineMock.startMockMCClientApplication();
+  machineMock->startMockMCClientApplication();
 
   Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine, "12");
-  machineMock.awaitConnection();
-  BOOST_REQUIRE_NO_THROW(machineMock.sendMessage(message));
+  machineMock->awaitConnection();
+
+  BOOST_REQUIRE_NO_THROW(machineMock->sendMessage(message));
 
   //Wait until machine is registered
   while(!app.getMachine(12));
 
+  while(!app.getMachine(12)->isConnected());
+
+  std::cout << "Machine connected" << std::endl;
+
   BOOST_REQUIRE_NO_THROW(app.sendStartProcessing(12));
 
-  machineMock.awaitMessageReceived();
+  machineMock->awaitMessageReceived();
 
-  machineMock.stop();
+  machineMock->stop();
   app.stopServer();
 
 }
