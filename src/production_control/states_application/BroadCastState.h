@@ -11,7 +11,7 @@
 namespace ApplicationStates {
     class BroadCastState : public ApplicationState {
     public:
-        BroadCastState(core::Application &context);
+      BroadCastState(core::Application &context);
 
 
         void doActivity() override;

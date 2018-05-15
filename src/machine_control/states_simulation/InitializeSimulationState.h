@@ -9,7 +9,6 @@
 
 namespace simulationstates {
 
-
 /**
  * State in which Machine Control gives it's ID to Production Control, which in turn returns it simulation configurations.
  */

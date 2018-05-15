@@ -8,7 +8,7 @@
 #include "Application.h"
 #include "Machine.h"
 
-namespace machinecore{
+namespace machinecore {
 class Controller {
  public:
   /**

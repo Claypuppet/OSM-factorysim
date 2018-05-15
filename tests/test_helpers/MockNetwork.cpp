@@ -17,11 +17,8 @@ MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageS
   networkThread = networkManager.runServiceThread();
 }
 
-MockNetwork::~MockNetwork() {
-  networkManager.stop();
-  if(networkThread && networkThread->joinable()){
-    networkThread->join();
-  }
+MockNetwork::~MockNetwork(){
+  stop();
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
@@ -95,7 +92,7 @@ const Network::ConnectionPtr &MockNetwork::getConnection() const {
 
 void MockNetwork::stop() {
   networkManager.stop();
-  if(networkThread->joinable()){
+  if (networkThread && networkThread->joinable()){
     networkThread->join();
   }
 }

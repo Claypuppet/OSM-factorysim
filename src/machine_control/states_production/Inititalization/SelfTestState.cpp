@@ -4,7 +4,7 @@
 
 #include "SelfTestState.h"
 
-namespace ProductionStates {
+namespace productionstates {
 void SelfTestState::entryAction() {
 
 }

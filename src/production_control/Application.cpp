@@ -14,7 +14,7 @@ void core::Application::addMachine(const Machine &aMachine) {
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {
   for (Machine &machine : machines) {
-    if (machine.getId()==machineId) {
+    if (machine.getId() == machineId) {
       return std::make_shared<Machine>(machine);
     }
   }
@@ -59,4 +59,20 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
 void core::Application::setStartState() {
   auto startState = std::make_shared<ApplicationStates::BroadCastState>(*this);
   setCurrentState(startState);
+}
+
+bool core::Application::allMachinesRegistered() {
+  for (const auto &machine : machines){
+    if (!machine.isConnected()){
+      return false;
+    }
+  }
+  return true;
+}
+
+void core::Application::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->setConnection(connection);
+  }
 }

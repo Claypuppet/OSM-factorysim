@@ -13,7 +13,6 @@
 
 #include "NetworkMapper.h"
 
-
 namespace simulation {
 
     class SimulationConnectionHandler;
@@ -21,9 +20,9 @@ namespace simulation {
     typedef std::shared_ptr<SimulationConnectionHandler> SimulationConnectionHandlerPtr;
 
     class SimulationConnectionHandler :
-            public Network::IConnectionHandler,
-            public patterns::NotifyObserver::Notifier,
-            public core::NetworkMapper {
+        public Network::IConnectionHandler,
+        public patterns::NotifyObserver::Notifier,
+        public core::NetworkMapper {
     public:
         SimulationConnectionHandler() = default;
 
@@ -47,19 +46,19 @@ namespace simulation {
        */
         void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-        /**
-         * Function that handles message for machine ready for simulation
-         * creates a notify even with id eControllerMachineReady and notifies observers
-         * @param notification : NotifyEvent
-         */
-        void handleMachineReady(Network::ConnectionPtr);
+      /**
+       * Function that handles message for machine ready for simulation
+       * creates a notify even with id eControllerMachineReady and notifies observers
+       * @param notification : NotifyEvent
+       */
+      void handleMachineReady(Network::ConnectionPtr);
 
-        /**
-         * handle register machine message, creates a eControllerRegisterMachine notify event to notify the controller
-         * @param messageBody : content of the message
-         * @param connection : connection to the machine
-         */
-        void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
+      /**
+       * handle register machine message, creates a eControllerRegisterMachine notify event to notify the controller
+       * @param messageBody : content of the message
+       * @param connection : connection to the machine
+       */
+      void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
 
     };
 }
