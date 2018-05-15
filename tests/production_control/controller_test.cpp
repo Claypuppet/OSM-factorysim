@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
   //Schedule load config event
   patterns::statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
-  event->setArgument<std::string>("test_configs/test_config_one_machine.yaml");
+  event->setArgument<std::string>("./test_configs/test_config_one_machine.yaml");
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
 
   //Run the state
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   simulation::SimulationController controller;
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("test_configs/test_config_two_machines.yaml"));
+  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
   auto machine1 = controller.getMachine(15);
   auto machine2 = controller.getMachine(75);
 
