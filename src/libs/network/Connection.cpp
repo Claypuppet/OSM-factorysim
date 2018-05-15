@@ -17,7 +17,6 @@
 #include <boost/system/error_code.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio/io_service.hpp>
-#include <utils/Logger.h>
 
 namespace Network
 {
@@ -134,7 +133,6 @@ namespace Network
 
 	void Connection::writeMessage(const Message& aMessage)
 	{
-	  	utils::Logger::log("--Sending message over network" + aMessage.getBody());
 		auto messagePtr = std::make_shared<Message>(aMessage);
 		std::lock_guard<std::recursive_mutex> lg(mMutex);
 		mOutMessageQue.push_back(messagePtr);
