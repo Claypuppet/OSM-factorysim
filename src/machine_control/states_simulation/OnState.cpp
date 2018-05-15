@@ -21,17 +21,6 @@ void OnState::exitAction() {
 
 }
 
-<<<<<<<
-HEAD
-bool OnState::handleEvent(const EventPtr &e) {
-  switch (e->getId()) {
-    case kEventTypePowerOff:context.setCurrentState(std::make_shared<OffState>(context));
-      return true;
-    default:return SimulationState::handleEvent(e);
-  }
-}
-} // simulationstates
-=======
 bool OnState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
     case kEventTypePowerOff: utils::Logger::log("-Handle event: kEventTypePowerOff");
@@ -40,5 +29,4 @@ bool OnState::handleEvent(const EventPtr &e) {
     default:return SimulationState::handleEvent(e);
   }
 }
-}
->>>>>>> 1a61f256fa3156ba74f8a646d46820de914bcaeb
+} // simulationstates
