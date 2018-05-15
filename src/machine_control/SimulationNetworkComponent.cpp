@@ -33,8 +33,8 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
                                                              Network::Message &message) {
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeConfig : {
-      auto machineInfo = message.getBodyObject<models::MachinePtr>();
-      onSimulationMachineInfoReceived(machineInfo);
+      auto machineInfo = message.getBodyObject<models::Machine>();
+      onSimulationMachineInfoReceived(std::make_shared<models::Machine>(machineInfo));
       break;
     }
     case Network::Protocol::kSimMessageTypeTurnOn : {
