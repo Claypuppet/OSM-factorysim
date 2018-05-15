@@ -37,15 +37,11 @@ class SimulationNetworkComponent :
   void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-  Network::ConnectionPtr mConnection;
-
   /**
-   * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
-   * @param body : body string from message
-   * @param machine : machine model to fill
-   * @return bool : success
+   * Send a message over the connection
+   * @param message : message to send
    */
-  bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machinePtr);
+  void sendMessage(const Network::Message &message);
 
   /**
    * Handles new machine info receive
@@ -62,6 +58,8 @@ class SimulationNetworkComponent :
    * Handles machine turn off command
    */
   void onTurnOffReceived();
+
+  Network::ConnectionPtr mConnection;
 };
 }
 

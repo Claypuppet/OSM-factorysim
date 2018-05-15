@@ -31,15 +31,10 @@ void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr
 
 void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
                                                              Network::Message &message) {
-  std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeConfig : {
-      models::MachinePtr machinePtr;
-
-      if (deserializeSimulationMachineInfo(message.mBody, machinePtr)) {
-        onSimulationMachineInfoReceived(machinePtr);
-      }
-
+      auto machineInfo = message.getBodyObject<models::MachinePtr>();
+      onSimulationMachineInfoReceived(machineInfo);
       break;
     }
     case Network::Protocol::kSimMessageTypeTurnOn : {
@@ -54,15 +49,6 @@ void SimulationNetworkComponent::onConnectionMessageReceived(Network::Connection
       break;
     }
   }
-}
-
-bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string,
-                                                                  models::MachinePtr machinePtr) {
-  std::stringstream binaryStream((std::ios::in | std::ios::binary));
-  binaryStream.str(string);
-  cereal::PortableBinaryInputArchive archive(binaryStream);
-  archive(*machinePtr);
-  return true; // TODO : implement boolean
 }
 
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
@@ -86,8 +72,10 @@ void SimulationNetworkComponent::onTurnOnReceived() {
 }
 
 void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
-  Network::Message
-      message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
+  sendMessage(message);
+}
+void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
   if(mConnection) {
     mConnection->writeMessage(message);
   }
