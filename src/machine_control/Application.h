@@ -82,6 +82,7 @@ class Application
   Network::Manager manager;
   Network::ClientPtr client;
   ThreadPtr clientThread;
+  Communication::NetworkComponent connectionHandler;
 
   Machine machine;
 
