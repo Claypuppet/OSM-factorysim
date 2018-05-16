@@ -23,7 +23,7 @@ void ProcessProductState::exitAction() {
 
 }
 
-bool ProcessProductState::handleEvent(const EventPtr event) {
+bool ProcessProductState::handleEvent(const EventPtr &event) {
   switch(event->getId()) {
     case kEventTypeFinishedProduct:
       onProductFinishedEvent();

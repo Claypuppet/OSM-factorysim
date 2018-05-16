@@ -13,7 +13,7 @@ class ProcessProductState : public InOperationState {
 
   virtual ~ProcessProductState() = default;
 
-  bool handleEvent(const EventPtr event);
+  bool handleEvent(const EventPtr &event);
   void entryAction();
   void doActivity();
   void exitAction();

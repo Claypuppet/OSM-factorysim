@@ -23,7 +23,7 @@ void TakeOutProductState::exitAction() {
 
 }
 
-bool TakeOutProductState::handleEvent(const productionstates::EventPtr event) {
+bool TakeOutProductState::handleEvent(const productionstates::EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeProductTakenOut:onProductTakenOutEvent();
       return true;

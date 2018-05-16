@@ -15,7 +15,7 @@ class TakeOutProductState : public InOperationState {
   virtual void entryAction();
   virtual void doActivity();
   virtual void exitAction();
-  bool handleEvent(const EventPtr event);
+  bool handleEvent(const EventPtr &event);
 
  private:
   void onProductTakenOutEvent();

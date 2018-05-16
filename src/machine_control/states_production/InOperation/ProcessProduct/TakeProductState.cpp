@@ -19,7 +19,7 @@ void TakeProductState::exitAction() {
 
 }
 
-bool TakeProductState::handleEvent(const EventPtr event) {
+bool TakeProductState::handleEvent(const EventPtr &event) {
   switch(event->getId()) {
     case kEventTypeProcessProduct:
       onProcessProductEvent();
