@@ -78,6 +78,14 @@ class Application
   void stop();
 
   void setupNetwork();
+
+  models::MachineConfiguration &getCurrentConfig() const;
+
+  /**
+   * sets configuration based on configId, fires event if success
+   */
+  void setCurrentConfig();
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
@@ -88,6 +96,11 @@ class Application
 
   // Id of the machine
   uint16_t id;
+
+  //Current configuration
+  models::MachineConfiguration &currentConfig;
+
+ private:
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;

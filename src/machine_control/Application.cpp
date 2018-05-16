@@ -35,12 +35,9 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
       break;
     }
 
-    default:
-      break;
+    default:break;
   }
 }
-
-
 
 void Application::setStartState() {
   setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
@@ -69,4 +66,17 @@ void Application::setupNetwork() {
   client->start();
 }
 
+models::MachineConfiguration &Application::getCurrentConfig() const {
+  return currentConfig;
+}
+
+void Application::setCurrentConfig() {
+    for (auto &configuration : configurations) {
+      if (configuration.getProductId() == configId) {
+        currentConfig = configuration;
+        auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+        scheduleEvent(event);
+        }
+    }
+  }
 } // namespace machinecore
