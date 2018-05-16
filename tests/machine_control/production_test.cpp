@@ -41,33 +41,34 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
   auto mockNetwork = std::make_shared<testutils::MockNetwork>();
   mockNetwork->startMockPCServerApplication();
 
+
+  // 1: make application context
   machinecore::Application application(1);
-  BOOST_CHECK_NO_THROW(application.setStartState());
 
-  auto switchevent = std::make_shared<productionstates::Event>(productionstates::kEventTypeConnected);
+  // 2. create state sets application to that state
+  auto state = std::make_shared<productionstates::ReceiveConfig>(productionstates::ReceiveConfig(application));
+  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConnectState>(application.getCurrentState()), true);
-
-  BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent));
-
-  BOOST_CHECK_NO_THROW(application.run());
-
+  //3. checks if in the right state
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
 
-  std::cout << "test";
-
-  //makes vector and pushes Machineconfiguration in it, after that it will fire an event and sets an argument
+  //4. makes vector and makes machineConfig
   std::vector<models::MachineConfiguration> confVector;
   models::MachineConfiguration config0  = models::MachineConfiguration(0);
   confVector.push_back(config0);
   application.setConfigurations(confVector);
-  auto switchevent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);
-  switchevent1->setArgument(0);
 
+
+  //5. checks if configcheck works
   BOOST_CHECK_EQUAL(application.configAvailable(0), true);
 
-  BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent1));
+  //6. schedules switchEvent with right confignumber(0)
+  auto switchEvent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);
+  switchEvent1->setArgument(0);
+  BOOST_CHECK_NO_THROW(application.scheduleEvent(switchEvent1));
+  BOOST_CHECK_NO_THROW(application.run());
 
+  //7. checks if in the right state
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
 
   application.stop();
