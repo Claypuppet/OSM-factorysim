@@ -89,9 +89,9 @@ namespace simulation {
 
 		/**
 		* A function to send a message to this machine
-		* @param msg : The message to send to this machine
+		* @param message : The message to send to this machine
 		*/
-		void sendSimulationMessage(Network::Message &msg);
+		void sendSimulationMessage(Network::Message &message);
 
     };
 

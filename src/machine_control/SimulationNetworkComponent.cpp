@@ -2,7 +2,6 @@
 // standard libraries
 #include <iostream>
 #include <cereal/archives/portable_binary.hpp>
-#include <cereal/types/vector.hpp>
 
 // libraries
 #include <network/Protocol.h>

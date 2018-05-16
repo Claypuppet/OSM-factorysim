@@ -26,6 +26,14 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
     }
 
     case NotifyEventType::kNotifyEventTypeServiceError : {
+
+      break;
+    }
+
+    case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
+      event->setArgument(notification.getArgument(0));
+      scheduleEvent(event);
       break;
     }
 
@@ -40,8 +48,6 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
   }
 }
 
-
-
 void Application::setStartState() {
   setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
 }
@@ -55,6 +61,7 @@ void Application::stop() {
     clientThread->join();
   }
 }
+
 void Application::setupNetwork() {
   clientThread = manager.runServiceThread();
 
@@ -67,6 +74,25 @@ void Application::setupNetwork() {
   handleNotificationsFor(*eventDispatcherPtr);
 
   client->start();
+}
+
+void Application::registerMachine() {
+  connectionHandler.sendRegisterMachineMessage(getId());
+}
+
+bool Application::setCurrentConfigId(uint32_t configID) {
+
+  for (auto &configuration : configurations) {
+    if (configuration.getProductId() == configID) {
+      currentConfigId = configID;
+      return true;
+    }
+  } // access by reference to avoid copying
+  return false;
+}
+
+uint32_t Application::getCurrentConfigId() const {
+  return currentConfigId;
 }
 
 } // namespace machinecore
