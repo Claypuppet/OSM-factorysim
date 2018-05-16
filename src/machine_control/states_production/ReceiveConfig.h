@@ -30,7 +30,7 @@ class ReceiveConfig : public ProductionState {
  */
   virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
 /**
- * This function checks if received config is exists
+ * This function checks if received config exists and fires event if it can switch
  * @param e: incomming event as eventPointer
  * @return
  */
