@@ -183,7 +183,6 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
     BOOST_CHECK(notification.getArgumentAsType<std::string>(1) == "404");
-    std::cout << notification.getArgumentAsType<std::string>(1) << std::endl;
   };
 
   observer.setHandleNotificationFn(notificationHandler);
