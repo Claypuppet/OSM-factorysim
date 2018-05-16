@@ -18,11 +18,6 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
    * A function that sends a message to production control to register this machine
    * @param machineId : The id of the machine
    */
-
-  /**
-   * sends a message to PC to find the right
-   * @param machineId
-   */
   void sendRegisterMachineMessage(uint16_t machineId);
 
   /**
@@ -40,7 +35,6 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
    */
   void sendStatusUpdateDone();
 
-
   /**
    * Send response: OK
    */
@@ -56,7 +50,15 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
   void onConnectionEstablished(Network::ConnectionPtr connection) override;
   void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  /**
+   * checks for connection with PC
+   * @return
+   */
   bool isConnected();
+  /**
+   * checks for connection ands sends message
+   * @param message
+   */
   void sendMessage(Network::Message &message);
 
   Network::ConnectionPtr mConnection;
