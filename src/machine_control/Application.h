@@ -90,17 +90,17 @@ class Application
   /**
    * Take a product from the machine buffer into the machine
    */
-  virtual void takeProductIn() {}
+  void takeProductIn();
 
   /**
    * Process the product that is currently in the machine
    */
-   virtual void processProduct() {}
+   void processProduct();
 
    /**
     * Take product out of the machine into the output buffer
     */
-    virtual void takeProductOut() {}
+    void takeProductOut();
 
 /**
  * sends register machine message to PC

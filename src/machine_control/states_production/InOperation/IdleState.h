@@ -6,6 +6,9 @@
 
 namespace productionstates {
 
+/**
+ * Machine state for waiting on a process product command
+ */
 class IdleState : public InOperationState {
  public:
   IdleState(machinecore::Application &aContext);
@@ -17,7 +20,15 @@ class IdleState : public InOperationState {
   virtual void exitAction();
 
  private:
+
+  /**
+   * Gets executed everytime a receivedConfig event is received
+   */
   void onReceivedConfigEvent();
+
+  /**
+   * gets executed everytime a takeProduct event in received
+   */
   void onTakeProductEvent();
 };
 

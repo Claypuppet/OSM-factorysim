@@ -6,6 +6,9 @@
 
 namespace productionstates {
 
+/**
+ * Parrent state for machine product processing states
+ */
 class InOperationState : public ProductionState {
  public:
   InOperationState(machinecore::Application &aContext);
@@ -14,6 +17,10 @@ class InOperationState : public ProductionState {
   virtual bool handleEvent(const EventPtr &event) override;
 
  private:
+
+  /**
+   * Gets executed everytime a machineBrokeDown event is received
+   */
   void onMachineBrokenDownEvent();
 };
 

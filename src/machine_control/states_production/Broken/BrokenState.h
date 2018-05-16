@@ -6,6 +6,9 @@
 
 namespace productionstates {
 
+/**
+ * Machine state when it gets repaired
+ */
 class BrokenState : public ProductionState {
  public:
   BrokenState(machinecore::Application &aContext);
@@ -17,6 +20,10 @@ class BrokenState : public ProductionState {
   virtual void exitAction();
 
  private:
+
+  /**
+   * Gets executed when a repair started event is comming in
+   */
   void onRepairStartedEvent();
 };
 

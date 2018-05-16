@@ -7,6 +7,9 @@
 
 namespace productionstates {
 
+/**
+ * Machine state dureing product processing
+ */
 class ProcessProductState : public InOperationState {
  public:
   ProcessProductState(machinecore::Application &aContext);
@@ -19,6 +22,10 @@ class ProcessProductState : public InOperationState {
   virtual void exitAction();
 
  private:
+
+  /**
+   * Gets executed when product processing is finished
+   */
   void onProductFinishedEvent();
 };
 

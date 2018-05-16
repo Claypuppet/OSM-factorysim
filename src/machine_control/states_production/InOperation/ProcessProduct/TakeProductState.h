@@ -8,6 +8,9 @@
 
 namespace productionstates {
 
+/**
+ * Machine state for taking a product out of a buffer
+ */
 class TakeProductState : public InOperationState {
  public:
   TakeProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
@@ -19,6 +22,10 @@ class TakeProductState : public InOperationState {
   virtual void exitAction();
 
  private:
+
+  /**
+   * Gets executed when a processProduct event is received
+   */
   void onProcessProductEvent();
 
 };

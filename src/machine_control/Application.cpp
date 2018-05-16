@@ -95,4 +95,20 @@ uint32_t Application::getCurrentConfigId() const {
   return currentConfigId;
 }
 
+void Application::takeProductIn() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
+  scheduleEvent(event);
+}
+
+void Application::processProduct() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeFinishedProduct);
+  scheduleEvent(event);
+}
+
+
+void Application::takeProductOut() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProductTakenOut);
+  scheduleEvent(event);
+}
+
 } // namespace machinecore

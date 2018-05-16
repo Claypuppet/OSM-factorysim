@@ -20,17 +20,4 @@ void SimulationApplication::executeSelfTest() {
     }
 }
 
-void SimulationApplication::takeProductIn() {
-    // TODO : take product from machine
-}
-
-void SimulationApplication::processProduct() {
-    // TODO : proccess the taken product
-}
-
-
-void SimulationApplication::takeProductOut() {
-    // TODO : Take the product out of the machine and into the output buffer
-}
-
 }

@@ -4,7 +4,11 @@
 
 #include "../ProductionState.h"
 
+/**
+ * Machine state when it is broken
+ */
 namespace productionstates {
+
 class RepairingState : public ProductionState {
  public:
   RepairingState(machinecore::Application &aContext);
@@ -16,6 +20,10 @@ class RepairingState : public ProductionState {
   virtual void exitAction();
 
  private:
+
+  /**
+   * Gets executed when a repairFinished event is comming in
+   */
   void onRepairFinishedEvent();
 };
 
