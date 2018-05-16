@@ -32,7 +32,9 @@ bool TakeProductState::handleEvent(const EventPtr event) {
 
 void TakeProductState::onProcessProductEvent() {
   utils::Logger::log("-Handle event: kEventTypeProcessProduct");
-  context.setCurrentState(std::make_shared<ProcessProductState>(context));
+
+  auto processProductState = std::make_shared<ProcessProductState>(context);
+  context.setCurrentState(processProductState);
 }
 
 }

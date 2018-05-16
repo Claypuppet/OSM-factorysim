@@ -34,7 +34,9 @@ bool TakeOutProductState::handleEvent(const productionstates::EventPtr event) {
 
 void TakeOutProductState::onProductTakenOutEvent() {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
-  context.setCurrentState(std::make_shared<IdleState>(context));
+
+  auto idleState = std::make_shared<IdleState>(context);
+  context.setCurrentState(idleState);
 }
 
 }

@@ -29,6 +29,8 @@ void SimulationApplication::processProduct() {
 }
 
 
-void SimulationApplication::takeProductOut();
+void SimulationApplication::takeProductOut() {
     // TODO : Take the product out of the machine and into the output buffer
+}
+
 }

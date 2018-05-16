@@ -38,12 +38,16 @@ bool IdleState::handleEvent(const EventPtr &event) {
 
 void IdleState::onReceivedConfigEvent() {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
-  context.setCurrentState(std::make_shared<ConfigureState>(context));
+
+  auto configureState = std::make_shared<ConfigureState>(context);
+  context.setCurrentState(configureState);
 }
 
 void IdleState::onTakeProductEvent() {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
-  context.setCurrentState(std::make_shared<TakeProductState>(context));
+
+  auto takeProductState = std::make_shared<TakeProductState>(context);
+  context.setCurrentState(takeProductState);
 }
 
 }

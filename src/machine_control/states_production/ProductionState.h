@@ -10,7 +10,7 @@
 namespace productionstates {
 
 enum EventType {
-  kMachineBrokeDown,
+  kEventTypeMachineBrokeDown,
   kEventTypeConnected,
   kEventTypeConnectionFailed,
   kEventTypeReceivedConfig,

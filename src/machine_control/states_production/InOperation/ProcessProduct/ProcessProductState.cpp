@@ -36,7 +36,9 @@ bool ProcessProductState::handleEvent(const EventPtr event) {
 
 void ProcessProductState::onProductFinishedEvent() {
   utils::Logger::log("-Handle event: kEventTypeFinishedProduct");
-  context.setCurrentState(std::make_shared<TakeOutProductState>(context));
+
+  auto takeOutProductState = std::make_shared<TakeOutProductState>(context);
+  context.setCurrentState(takeOutProductState);
 }
 
 }
