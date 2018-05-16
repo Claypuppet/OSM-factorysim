@@ -21,12 +21,12 @@ void OnState::exitAction() {
 
 }
 
-bool OnState::handleEvent(const EventPtr &e) {
-  switch (e->getId()) {
+bool OnState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
     case kEventTypePowerOff: utils::Logger::log("-Handle event: kEventTypePowerOff");
       context.setCurrentState(std::make_shared<OffState>(context));
       return true;
-    default:return SimulationState::handleEvent(e);
+    default:return SimulationState::handleEvent(event);
   }
 }
 } // simulationstates

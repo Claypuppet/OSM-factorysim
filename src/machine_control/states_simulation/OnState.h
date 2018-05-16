@@ -22,7 +22,7 @@ class OnState : public SimulationState {
 
   void exitAction() override;
 
-  bool handleEvent(const EventPtr &e) override;
+  bool handleEvent(const EventPtr &event) override;
 
 };
 } // simulationstates
