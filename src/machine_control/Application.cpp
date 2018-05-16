@@ -10,7 +10,12 @@
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : patterns::statemachine::Context(), id(aMachineId), connectionHandler(), machine(), currentConfigId(0), currentConfig(configurations.at(0)){
+    : patterns::statemachine::Context(),
+      id(aMachineId),
+      connectionHandler(),
+      machine(),
+      currentConfigId(0),
+      currentConfig(configurations.at(0)) {
 
 }
 
@@ -37,7 +42,6 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
       scheduleEvent(event);
       break;
     }
-
 
     case NotifyEventType::kNotifyEventTypeStartProcess: {
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
@@ -82,15 +86,14 @@ models::MachineConfiguration &Application::getCurrentConfig() const {
 }
 
 void Application::setCurrentConfig() {
-    for (auto &configuration : configurations) {
-      if (configuration.getProductId() == currentConfigId) {
-        currentConfig = configuration;
-        auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
-        scheduleEvent(event);
-        }
+  for (auto &configuration : configurations) {
+    if (configuration.getProductId() == currentConfigId) {
+      currentConfig = configuration;
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+      scheduleEvent(event);
     }
   }
-
+}
 
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(getId());
