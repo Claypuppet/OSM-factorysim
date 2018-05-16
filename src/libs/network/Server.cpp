@@ -50,7 +50,7 @@ namespace Network
 			mFStopped = false;
 
 			std::stringstream message;
-			message << "Server: accepting clients on port: " << mAcceptor.local_endpoint().port() << std::endl;
+			message << "----Server: accepting clients on port: " << mAcceptor.local_endpoint().port();
 
 			utils::Logger::log(message.str());
 
@@ -113,7 +113,7 @@ namespace Network
 				}
 				else {
 					std::stringstream message;
-					message << "Server: dropping client server full" << std::endl;
+					message << "----Server: dropping client server full";
 					utils::Logger::log(message.str());
 					connectionPtr->failed(error_code(boost::system::errc::connection_refused,boost::system::generic_category()));
 				}
@@ -123,7 +123,7 @@ namespace Network
 		if(error) {
 			// TODO: handle "fatal" errors which might cause an infinite loop asyncAccept -> error -> asyncAccept ... etc
 			std::stringstream message;
-			message << "Server: failed to accept client. error: " << error.message() << std::endl;
+			message << "----Server: failed to accept client. error: " << error.message();
 			utils::Logger::log(message.str());
 			if(mFStopped || !mSocket.is_open() || !mAcceptor.is_open()) {
 				return;
@@ -154,7 +154,7 @@ namespace Network
 	{
 		auto self = shared_from_this();
 		std::stringstream message;
-		message << "Server: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		message << "----Server: connection established with: " << connection->getSocket().remote_endpoint();
 		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection](){ h->onConnectionEstablished(connection); });
@@ -165,8 +165,8 @@ namespace Network
 		auto self = shared_from_this();
 
 		std::stringstream message;
-		message << "Server: lost connection with: " << connection->getSocket().remote_endpoint() <<
-				" (" << error.message() << ")" << std::endl;
+		message << "----Server: lost connection with: " << connection->getSocket().remote_endpoint() <<
+				" (" << error.message() << ")";
 		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mManager.getIOService().post([self, h, connection, error](){ h->onConnectionDisconnected(connection, error); });

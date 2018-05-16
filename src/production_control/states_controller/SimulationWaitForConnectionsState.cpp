@@ -23,7 +23,7 @@ void states::SimulationWaitForConnectionsState::doActivity() {
 }
 
 void states::SimulationWaitForConnectionsState::exitAction() {
-  context.turnOnSimulationMachines();
+
 }
 
 bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {

@@ -81,7 +81,7 @@ namespace Network {
 		EndpointType endpoint(entry.endpoint());
 
 		std::stringstream message;
-		message << "Client: resolved host: '" << entry.host_name() << "' to: '" << endpoint << '\'' << std::endl;
+		message << "----Client: resolved host: '" << entry.host_name() << "' to: '" << endpoint << '\'';
 		utils::Logger::log(message.str());
 
 		asyncConnect(endpoint);
@@ -134,7 +134,7 @@ namespace Network {
 	{
 		auto self = shared_from_this();
 		std::stringstream message;
-		message << "Client: connection established with: " << connection->getSocket().remote_endpoint() << std::endl;
+		message << "----Client: connection established with: " << connection->getSocket().remote_endpoint();
 		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)
 			mConnectionHandler->onConnectionEstablished(connection);
@@ -147,8 +147,8 @@ namespace Network {
 		auto self = shared_from_this();
 		std::stringstream message;
 
-		message << "Client: connection with: " << connection->getSocket().remote_endpoint() <<
-				  " disconnected (" << error.message() << ")" << std::endl;
+		message << "----Client: connection with: " << connection->getSocket().remote_endpoint() <<
+				  " disconnected (" << error.message() << ")";
 
 		utils::Logger::log(message.str());
 		if(auto h = mConnectionHandler)

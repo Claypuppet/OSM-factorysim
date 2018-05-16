@@ -2,6 +2,7 @@
 // Created by bas on 15-5-18.
 //
 
+#include <utils/Logger.h>
 #include "InOperationState.h"
 
 ApplicationStates::InOperationState::InOperationState(core::Application &context) :
@@ -13,6 +14,8 @@ void ApplicationStates::InOperationState::doActivity() {
 }
 
 void ApplicationStates::InOperationState::entryAction() {
+
+  utils::Logger::log(__PRETTY_FUNCTION__);
 
 }
 

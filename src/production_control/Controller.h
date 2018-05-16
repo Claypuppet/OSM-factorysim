@@ -26,7 +26,7 @@ class Controller {
    * Get controllers application instance
    * @return controllers application instance
    */
-  Application &getApplication();
+  virtual Application &getApplication();
 
  protected:
   Application application;
