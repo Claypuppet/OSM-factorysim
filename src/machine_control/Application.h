@@ -77,16 +77,20 @@ class Application
    */
   void stop();
 
+  /**
+ * Executes network
+ */
   void setupNetwork();
 
-  /**
-   * Executes network
-   */
+/**
+ * sends register machine message to PC
+ */
   void registerMachine();
 
   /**
-   * checks if configurationID is available
+   * checks if configurationID is available ands sets currentConfigId if it is.
     * @param configID
+    * @return true if config  is available and set else false
     */
   bool setCurrentConfigId(uint32_t configID);
 
