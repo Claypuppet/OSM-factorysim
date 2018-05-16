@@ -16,8 +16,11 @@
 #include "../../src/production_control/NotificationTypes.h"
 #include "../../src/machine_control/Machine.h"
 #include "../../src/production_control/Machine.h"
+
 #include "../../src/production_control/Buffer.h"
 #include "../../src/production_control/Product.h"
+#include "../test_helpers/MockObserver.h"
+#include "../../src/production_control/AppConnectionHandler.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
@@ -89,6 +92,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
 BOOST_AUTO_TEST_SUITE_END()
 
+
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
@@ -111,7 +115,127 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
   BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
   BOOST_CHECK_THROW(limitedBuffer.putInBuffer(product), std::runtime_error);
-
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(ProductionControlApplicationHandleMessages)
+
+BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
+{
+  testutils::MockObserver observer;
+
+  // Making the notificationhandler for the observer
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
+    BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  // Making the connectionhandler
+  auto connectionHandler = std::make_shared<core::AppConnectionHandler>();
+  connectionHandler->addObserver(observer);
+
+  // Making network mocks
+  auto mcMock = std::make_shared<testutils::MockNetwork>();
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  pcMock->setConnectionHandler(connectionHandler);
+
+  // Starting the network objects
+  pcMock->startMockPCServerApplication();
+  mcMock->startMockMCClientApplication();
+
+  // Registering a machine
+  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine, "12");
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing Ready status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeReady);
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineReady);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing started initialise status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeStartedInitialize);
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartInit);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing start process status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeStartProcess);
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartProcessing);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing done processing status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeDoneProcessing);
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationDoneProcessing);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing OK status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeOK);
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing NOK status update test
+  message.clear();
+  message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
+  message.setBody("404");
+
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
+    BOOST_CHECK(notification.getArgumentAsType<std::string>(1) == "404");
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  mcMock->stop();
+  pcMock->stop();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+

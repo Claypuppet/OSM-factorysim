@@ -92,7 +92,7 @@ void NetworkComponent::sendResponseOK() {
 
 void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
-  message.setBody<models::Machine>(machineId);
+  message.setBodyObject<models::Machine>(machineId);
   sendMessage(message);
 
 }
