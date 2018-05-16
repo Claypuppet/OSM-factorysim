@@ -9,6 +9,7 @@
 namespace productionstates {
 void ConfigureState::entryAction() {
   context.setCurrentConfig();
+  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void ConfigureState::doActivity() {
