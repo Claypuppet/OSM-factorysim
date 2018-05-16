@@ -28,9 +28,9 @@ bool SimulationMachine::isSimulationConnected() const {
   return !!simConnection;
 }
 
-void SimulationMachine::sendSimulationMessage(Network::Message &msg) {
+void SimulationMachine::sendSimulationMessage(Network::Message &message) {
   if (isSimulationConnected()) {
-    simConnection->writeMessage(msg);
+    simConnection->writeMessage(message);
   }
 }
 

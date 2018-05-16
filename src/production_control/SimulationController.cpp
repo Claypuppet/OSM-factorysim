@@ -26,11 +26,19 @@ SimulationController::~SimulationController() {
 
 void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
-    case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine: handleRegisterMachine(notification);
+    case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine: {
+      handleRegisterMachine(notification);
       break;
-    case NotifyEventIds::eSimMachineReady: handleMachineReady(notification);
+    }
+
+    case NotifyEventIds::eSimMachineReady: {
+      handleMachineReady(notification);
       break;
-    default: std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+    }
+
+    default: {
+      std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+    }
       break;
   }
 
@@ -107,9 +115,9 @@ void SimulationController::setStartState() {
     // throw exception when no argument is given.
     throw std::runtime_error("No configuration file argument found!");
   }
-  auto e = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
-  e->setArgument<std::string>(configPath);
-  scheduleEvent(e);
+  auto event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
+  event->setArgument<std::string>(configPath);
+  scheduleEvent(event);
 }
 
 void SimulationController::setConfigFromFile(const std::string &filePath) {
@@ -122,17 +130,17 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
   auto productionline = configuration.getProductionLineConfiguration();
   auto machineInfos = productionline.getMachines();
 
-  for (const models::Machine &m : machineInfos) {
-    SimulationMachine machine(m);
+  for (const models::Machine &machineModel : machineInfos) {
+    SimulationMachine machine(machineModel);
     machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
   application.setMachines(machines);
 
   // If simulation, add sim state event
-  if (true) { // For now always true till we support non-simulations
-    auto e = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
-    scheduleEvent(e);
+  if (true) { //TODO: For now always true till we support non-simulations
+    auto event = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
+    scheduleEvent(event);
   } else {
     auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
     scheduleEvent(e);
