@@ -88,7 +88,7 @@ class Application
    * checks if configurationID is available
     * @param configID
     */
-  bool configAvailable(uint32_t configID);
+  bool setCurrentConfigId(uint32_t configID);
 
  private:
   Network::Manager manager;
@@ -100,6 +100,10 @@ class Application
 
   // Id of the machine
   uint16_t id;
+  uint32_t currentConfigId;
+ public:
+  uint32_t getCurrentConfigId() const;
+ private:
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;

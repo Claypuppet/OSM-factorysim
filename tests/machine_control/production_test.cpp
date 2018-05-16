@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
 
 
   //5. checks if configcheck works
-  BOOST_CHECK_EQUAL(application.configAvailable(0), true);
+  BOOST_CHECK_EQUAL(application.setCurrentConfigId(0), true);
 
   //6. schedules switchEvent with right confignumber(0)
   auto switchEvent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);

@@ -24,7 +24,7 @@ void ReceiveConfig::exitAction() {
 bool ReceiveConfig::handleEvent(const patterns::statemachine::EventPtr &e) {
   switch (e->getId()) {
     case kEventTypeReceivedConfig: {
-      if(context.configAvailable(e->getArgumentAsType<uint32_t >())) {
+      if(context.setCurrentConfigId(e->getArgumentAsType<uint32_t>())) {
         context.setCurrentState(std::make_shared<ConfigureState>(context));
       }
       break;

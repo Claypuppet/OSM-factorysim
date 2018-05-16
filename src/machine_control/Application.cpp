@@ -78,14 +78,19 @@ void Application::setupNetwork() {
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(getId());
 }
-bool Application::configAvailable(uint32_t configID) {
+bool Application::setCurrentConfigId(uint32_t configID) {
 
   for (auto &configuration : configurations) {
     if (configuration.getProductId() == configID) {
+      currentConfigId = configID;
       return true;
     }
   } // access by reference to avoid copying
   return false;
+}
+
+uint32_t Application::getCurrentConfigId() const {
+  return currentConfigId;
 }
 
 } // namespace machinecore
