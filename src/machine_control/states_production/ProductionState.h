@@ -1,15 +1,14 @@
-//
-// Created by sven on 23-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_PRODUCTIONSTATE_H
 #define PRODUCTION_LINE_CONTROL_PRODUCTIONSTATE_H
 
 #include <patterns/statemachine/State.h>
+
 #include "../NetworkComponent.h"
 #include "../Application.h"
 
 namespace productionstates {
+
 enum EventType {
   kMachineBrokeDown,
   kEventTypeConnected,
@@ -34,12 +33,9 @@ class ProductionState : public patterns::statemachine::State {
   virtual ~ProductionState() = default;
 
   virtual void entryAction() = 0;
-
   virtual void doActivity() = 0;
-
   virtual void exitAction() = 0;
-
-  virtual bool handleEvent(const patterns::statemachine::EventPtr &e) = 0;
+  virtual bool handleEvent(const EventPtr &event) override;
 
  protected:
   ProductionState(machinecore::Application &aContext);

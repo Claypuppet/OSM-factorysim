@@ -8,22 +8,23 @@
 #include "SimulationState.h"
 
 namespace simulationstates {
+/**
+ * State in which Machine Control is "on" and simulating
+ */
+class OnState : public SimulationState {
+ public:
+  OnState(simulator::SimulationController &context) : SimulationState(context) {};
+  virtual ~OnState() = default;
 
+  void entryAction() override;
 
-	class OnState : public SimulationState {
-	public:
-      OnState(simulator::SimulationController &context) : SimulationState(context) {};
-		virtual ~OnState() = default;
+  void doActivity() override;
 
-		void entryAction() override;
+  void exitAction() override;
 
-		void doActivity() override;
+  bool handleEvent(const EventPtr &event) override;
 
-		void exitAction() override;
-
-		bool handleEvent(const EventPtr &e) override;
-
-	};
-}
+};
+} // simulationstates
 
 #endif //PRODUCTION_LINE_CONTROL_ONSTATE_H
