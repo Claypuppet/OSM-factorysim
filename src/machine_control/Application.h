@@ -104,6 +104,7 @@ class Application
    */
   void setCurrentConfig();
 
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
