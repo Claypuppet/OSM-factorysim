@@ -29,6 +29,11 @@ class ReceiveConfig : public ProductionState {
  * @return
  */
   virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
+/**
+ * This function checks if received config is exists
+ * @param e: incomming event as eventPointer
+ * @return
+ */
   void onConfigReceived(const EventPtr &event);
 };
 }
