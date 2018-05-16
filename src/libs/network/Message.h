@@ -184,7 +184,7 @@ namespace Network
        * @param aObject : Object to serialize in the body
        */
       template<typename T>
-      void setBody(const T &aObject) {
+      void setBodyObject(const T &aObject) {
 
         std::string binaryStream;
         std::stringstream outputBinary((std::ios::out | std::ios::binary));

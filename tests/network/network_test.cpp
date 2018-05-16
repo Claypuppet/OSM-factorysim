@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(TestMessageSerialization) {
   Network::Message msg;
 
   BOOST_CHECK(msg.length() == 0);
-  BOOST_CHECK_NO_THROW(msg.setBody<models::MachinePtr>(machine));
+  BOOST_CHECK_NO_THROW(msg.setBodyObject<models::MachinePtr>(machine));
   BOOST_CHECK(msg.length() > 0);
 
   auto deserializedMachine = msg.getBodyObject<models::MachinePtr>();
