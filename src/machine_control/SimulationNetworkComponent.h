@@ -14,51 +14,59 @@
 
 namespace SimulationCommunication {
 
-	class SimulationNetworkComponent;
-	typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
+class SimulationNetworkComponent;
+typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
 
-    class SimulationNetworkComponent :
-			public Network::IConnectionHandler,
-			public patterns::NotifyObserver::Notifier
-	{
-    public:
-        SimulationNetworkComponent() = default;
-        virtual ~SimulationNetworkComponent() = default;
+class SimulationNetworkComponent :
+    public Network::IConnectionHandler,
+    public patterns::NotifyObserver::Notifier {
+ public:
+  SimulationNetworkComponent() = default;
+  virtual ~SimulationNetworkComponent() = default;
 
-    private:
-        void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-        void onConnectionEstablished(Network::ConnectionPtr connection) override;
-        void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-        void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  /**
+   * A function that sends a message to production control to register this machine
+   * @param machineId : The id of the machine
+   */
+  void sendRegisterMessage(const uint16_t machineId);
 
-        Network::ConnectionPtr mConnection;
+  /**
+   * A function that sends a message to production control that the machine is ready for simulation
+   */
+  void sendMachineReadyMessage();
 
-        /**
-         * Deserialize the string (body), apply to machine. Returns true if successfully deserialized
-         * @param body : body string from message
-         * @param machine : machine model to fill
-         * @return bool : success
-         */
-        bool deserializeSimulationMachineInfo(const std::string &body, models::MachinePtr machinePtr);
+  bool isConnected();
 
-        /**
-         * Handles new machine info receive
-         * @param machine
-         */
-        void onSimulationMachineInfoReceived(models::MachinePtr machinePtr);
+ private:
+  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(Network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
 
-        /**
-         * Handles machine turn on command
-         */
-        void onTurnOnReceived();
+  /**
+   * Send a message over the connection
+   * @param message : message to send
+   */
+  void sendMessage(const Network::Message &message);
 
-		/**
-		 * Handles machine turn off command
-		 */
-        void onTurnOffReceived();
-    };
+  /**
+   * Handles new machine info receive
+   * @param machine
+   */
+  void onSimulationMachineInfoReceived(models::MachinePtr machine);
+
+  /**
+   * Handles machine turn on command
+   */
+  void onTurnOnReceived();
+
+  /**
+   * Handles machine turn off command
+   */
+  void onTurnOffReceived();
+
+  Network::ConnectionPtr mConnection;
+};
 }
-
-
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONSimulationNetworkComponent_H

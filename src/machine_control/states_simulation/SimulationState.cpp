@@ -6,7 +6,7 @@
 
 namespace simulationstates {
 
-	SimulationState::SimulationState(simulator::SimulationController &aContext)
+SimulationState::SimulationState(simulator::SimulationController &aContext)
 		: context(aContext){
 
 	}

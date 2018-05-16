@@ -11,69 +11,83 @@
 #include "SimulationNetworkComponent.h"
 #include "ControllerNotificationEventIds.h"
 
-
 namespace SimulationCommunication {
 
+void SimulationNetworkComponent::onConnectionFailed(Network::ConnectionPtr connection,
+                                                    const boost::system::error_code &error) {
+  IConnectionHandler::onConnectionFailed(connection, error);
+  std::cout << "not connected" << std::endl;
+}
 
-	void SimulationNetworkComponent::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-		IConnectionHandler::onConnectionFailed(connection, error);
-		std::cout << "not connected" << std::endl;
-	}
+void SimulationNetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+  mConnection = connection;
+}
 
-	void SimulationNetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
-		mConnection = connection;
-	}
+void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
+                                                          const boost::system::error_code &error) {
+  std::cout << "dc" << std::endl;
+  std::cout << "not connected 2" << std::endl;
+}
 
-	void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
-		std::cout << "dc" << std::endl;
-		std::cout << "not connected 2" << std::endl;
+void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
+                                                             Network::Message &message) {
+  switch (message.getMessageType()) {
+    case Network::Protocol::kSimMessageTypeConfig : {
+      auto machineInfo = message.getBodyObject<models::Machine>();
+      onSimulationMachineInfoReceived(std::make_shared<models::Machine>(machineInfo));
+      break;
+    }
+    case Network::Protocol::kSimMessageTypeTurnOn : {
+      onTurnOnReceived();
+      break;
+    }
+    case Network::Protocol::kSimMessageTypeTurnOff : {
+      onTurnOffReceived();
+      break;
+    }
+    default : {
+      break;
+    }
+  }
+}
 
-	}
+void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machine) {
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
 
-	void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-		std::cout << message.mBody << std::endl;
-		switch(message.getMessageType()){
-			case Network::Protocol::kSimMessageTypeConfig : {
-                models::MachinePtr machinePtr;
+  notification.addArgument(machine);
+  notifyObservers(notification);
+}
 
-                if (deserializeSimulationMachineInfo(message.mBody, machinePtr)) {
-                    onSimulationMachineInfoReceived(machinePtr);
-                }
+void SimulationNetworkComponent::onTurnOffReceived() {
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+  notifyObservers(notification);
+}
 
-                break;
-            } case Network::Protocol::kSimMessageTypeTurnOn : {
-                onTurnOnReceived();
-                break;
-            } case Network::Protocol::kSimMessageTypeTurnOff : {
-                onTurnOffReceived();
-                break;
-            } default : {
-                break;
-            }
-		}
-	}
+void SimulationNetworkComponent::onTurnOnReceived() {
+  auto notification =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+  notifyObservers(notification);
+}
 
-	bool SimulationNetworkComponent::deserializeSimulationMachineInfo(const std::string &string, models::MachinePtr machinePtr) {
-		std::stringstream binaryStream((std::ios::in | std::ios::binary));
-		binaryStream.str(string);
-		cereal::PortableBinaryInputArchive archive(binaryStream);
-		archive(*machinePtr);
-		return true; // TODO : implement boolean
-	}
+void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
+  sendMessage(message);
+}
 
-	void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machinePtr) {
-		auto event = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeMachineInfoReceived);
-		event.addArgument(machinePtr);
-		notifyObservers(event);
-	}
+void SimulationNetworkComponent::sendMachineReadyMessage() {
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeReadyForSim);
+  sendMessage(message);
+}
 
-	void SimulationNetworkComponent::onTurnOffReceived() {
-        auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
-        notifyObservers(notification);
-	}
+void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
+  if(mConnection) {
+    mConnection->writeMessage(message);
+  }
+}
 
-	void SimulationNetworkComponent::onTurnOnReceived() {
-        auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
-        notifyObservers(notification);
-	}
+bool SimulationNetworkComponent::isConnected() {
+  return mConnection != nullptr;
+}
 }

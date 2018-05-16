@@ -2,6 +2,7 @@
 // Created by don on 24-4-18.
 //
 
+#include <utils/Logger.h>
 #include "SimulationBroadcastState.h"
 #include "SimulationWaitForConnectionsState.h"
 
@@ -17,6 +18,7 @@ void states::SimulationBroadcastState::doActivity() {
 }
 
 void states::SimulationBroadcastState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
   // TODO: start UDP server
 }
 
@@ -27,6 +29,7 @@ void states::SimulationBroadcastState::exitAction() {
 bool states::SimulationBroadcastState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
     case states::EventType::kEventTypeDoneBroadcasting:
+      utils::Logger::log("-Handle event: kEventTypeDoneBroadcasting");
       context.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(context));
       return true;
   }

@@ -2,16 +2,6 @@
 #include "Server.h"
 #include "Client.h"
 
-
-#include <stdexcept>
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <memory>
-#include <condition_variable>
-
-
-#include <boost/asio/io_service.hpp>
 #include <utils/Logger.h>
 
 
@@ -92,14 +82,14 @@ namespace Network
 		if(s) {
 			std::stringstream message;
 			message << "Stopping server..." << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			s->stop();
 			mServer.reset();
 		}
 		if(c) {
 			std::stringstream message;
 			message << "Stopping client..." << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			c->stop();
 			mClient.reset();
 		}
@@ -110,7 +100,7 @@ namespace Network
 				std::this_thread::yield();
 			std::stringstream message;
 			message << "Server stopped" << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			s.reset();
 		}
 
@@ -119,7 +109,7 @@ namespace Network
 				std::this_thread::yield();
 			std::stringstream message;
 			message << "Client stopped" << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			c.reset();
 		}
 
@@ -147,7 +137,7 @@ namespace Network
 		try {
 			std::stringstream message;
 			message << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
-			Logger::i().log(message.str());
+			utils::Logger::log(message.str());
 			service->run();
 		}
 		catch(std::exception& e) {
@@ -158,7 +148,7 @@ namespace Network
 		}
 		std::stringstream message;
 		message << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
-		Logger::i().log(message.str());
+		utils::Logger::log(message.str());
 	}
 
 	ThreadPtr Manager::runServiceThread()

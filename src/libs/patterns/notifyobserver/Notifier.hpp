@@ -374,13 +374,12 @@ namespace patterns {
 			 */
 			NotifyEvent makeNotifcation(const NotifyTrigger& trigger, NotifyEventId event);
 
-
-			/**
-			 * Creates a even simpler notification
-			 * @param event : The id of the notification
-			 * @return The created NotifyEvent
-			 */
-			NotifyEvent makeNotifcation(NotifyEventId event);
+          /**
+           * Creates a even simpler notification
+           * @param event : The id of the notification
+           * @return The created NotifyEvent
+           */
+          NotifyEvent makeNotifcation(NotifyEventId event);
 
 			/**
 			 * Creates a notification

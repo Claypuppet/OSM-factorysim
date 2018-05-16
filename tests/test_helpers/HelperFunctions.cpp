@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <thread>
 
 #include "HelperFunctions.h"
 
@@ -13,9 +14,14 @@ namespace testutils {
   auto getTime = std::chrono::system_clock::now;
   auto startTime = getTime();
   auto timeoutMillis = std::chrono::milliseconds(timeout);
-  while(!predicate() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis){
+  while (!predicate() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
 
-	// Wait
+    // Wait
   }
 }
+/* static */ void HelperFunctions::wait(uint32_t timeout) {
+  auto timeoutMillis = std::chrono::milliseconds(timeout);
+  std::this_thread::sleep_for(timeoutMillis);
+}
+
 }

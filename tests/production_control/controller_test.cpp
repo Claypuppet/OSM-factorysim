@@ -2,43 +2,72 @@
  * Test Production Control - Controller
  */
 
-#include <patterns/notifyobserver/Notifier.hpp>
-
-#include "../production_control/SimulationController.h"
-#include "../production_control/NotificationTypes.h"
-#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
-#include "../../src/production_control/states_controller/LoadConfigState.h"
-#include "../../src/production_control/states_controller/SimulationBroadcastState.h"
 
 // http://www.boost.org/doc/libs/1_60_0/libs/test/doc/html/boost_test/adv_scenarios/shared_lib_customizations/entry_point.html
 
 #define BOOST_TEST_DYN_LINK
 
 #include <boost/test/unit_test.hpp>
+
 #include <network/Client.h>
+#include <patterns/notifyobserver/Notifier.hpp>
+
+#include "../test_helpers/MockNetwork.h"
+
+#include "../../src/production_control/SimulationController.h"
+#include "../../src/production_control/NotificationTypes.h"
+#include "../../src/production_control/states_controller/SimulationWaitForConnectionsState.h"
+#include "../../src/production_control/states_controller/LoadConfigState.h"
+#include "../../src/production_control/states_controller/SimulationBroadcastState.h"
+#include "../../src/production_control/states_controller/OperationState.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
-//BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
-//  Simulation::SimulationController controller;
-//  auto state = States::SimulationWaitForConnectionsState(controller);
-//  controller.setCurrentState(std::make_shared<States::SimulationWaitForConnectionsState>(state));
-//  Patterns::NotifyObserver::NotifyEvent e(NotifyEventIds::eControllerRegisterMachine);
-//  e.setArgument(0, (uint16_t) 1);
-//
-//  // TODO: get real connection, else boost throws error because its currently a nullptr
-//  e.setArgument(1, std::shared_ptr<Network::ConnectionPtr>());
-//
-//  // Notify controller of new event, creates new state event
-//  BOOST_CHECK_NO_THROW(controller.handleNotification(e));
-//
-//  // Run context to handle the state event
-//  BOOST_CHECK_NO_THROW(controller.run());
-//
-//  // TODO: check current state
-//
-//}
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
+  auto machineNetwork = std::make_shared<testutils::MockNetwork>();
+  simulation::SimulationController controller;
+
+  BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
+
+  // Machine 1 should be loaded
+  BOOST_CHECK(!!controller.getMachine(1));
+
+  // Setting this state will setup the server
+  auto state = states::SimulationWaitForConnectionsState(controller);
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(state)));
+
+  BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
+
+  // Connect a machine
+  machineNetwork->startMockMCClientController();
+
+  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eSimRegisterMachine);
+  event.setArgument(0, (uint16_t) 1);
+  event.setArgument(1, machineNetwork->getConnection());
+
+  // Notify controller of new event, creates new state event
+  BOOST_CHECK_NO_THROW(controller.handleNotification(event));
+
+  // Run context to handle the state event
+  BOOST_CHECK_NO_THROW(controller.run());
+
+  BOOST_CHECK(controller.getMachine(1)->isSimulationConnected());
+
+  // set machine ready, to "mock" that he received config
+  BOOST_CHECK_NO_THROW(controller.machineReady(1));
+
+  BOOST_CHECK(controller.allMachinesReady());
+
+  BOOST_CHECK_NO_THROW(controller.run());
+
+  // Get current state and check if we are in the next
+  auto currentState = controller.getCurrentState();
+  BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
+
+  machineNetwork->stop();
+  controller.stop();
+}
 
 // Einde state tests
 BOOST_AUTO_TEST_SUITE_END()
@@ -53,7 +82,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
   //Schedule load config event
   patterns::statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
-  event->setArgument<std::string>("test_configs/test_config_one_machine.yaml");
+  event->setArgument<std::string>("./test_configs/test_config_one_machine.yaml");
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
 
   //Run the state
@@ -66,12 +95,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
 BOOST_AUTO_TEST_SUITE_END()
 
-// Testen van public methods van controllerAdded test case and testconfig.yaml
+// Testen van public methods van controllerAdded test case and test_config_two_machines.yaml
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   simulation::SimulationController controller;
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("../tests/production_control/testconfig.yaml"));
+  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
   auto machine1 = controller.getMachine(15);
   auto machine2 = controller.getMachine(75);
 
@@ -128,5 +157,74 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   BOOST_CHECK(m2config.getProductId() == 88);
 }
 
+// Einde public method tests
+BOOST_AUTO_TEST_SUITE_END()
+
+// Testen van public methods van controller
+BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerNetwork)
+
+BOOST_AUTO_TEST_CASE(SendTurnOn) {
+  // Create server and client
+  auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
+
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerController();
+  machineEndpoint->startMockMCClientController();
+  productionServer->awaitClientConnecting();
+
+  // Create machine with connection (in production control)
+  auto machine = simulation::SimulationMachine(1);
+  machine.setSimulationConnection(productionServer->getConnection());
+
+  // prepare test on machine control when message will receive
+  testutils::OnMessageFn callback = [](const Network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOn);
+  };
+  machineEndpoint->setOnMessageFn(callback);
+  machine.sendTurnOnCommand();
+
+  // wait for the message received
+  machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
+}
+
+// TODO !!! Move this to application_test after Bas has committed & merged it with dev
+BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
+  // Create server and client
+  auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
+
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerApplication();
+  machineEndpoint->startMockMCClientApplication();
+  productionServer->awaitClientConnecting();
+
+  // Create machine with connection (in production control)
+  auto machine = core::Machine(1);
+  machine.setConnection(productionServer->getConnection());
+
+  // prepare test on machine control when message will receive
+  testutils::OnMessageFn callback = [](const Network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReconfigure);
+    BOOST_CHECK_EQUAL(message.getBody(), "1");
+  };
+  machineEndpoint->setOnMessageFn(callback);
+  machine.sendConfigureMessage(1);
+
+  // wait for the message received
+  machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
+
+  BOOST_REQUIRE_EQUAL(2, 2);
+
+}
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()

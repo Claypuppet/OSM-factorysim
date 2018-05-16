@@ -13,6 +13,7 @@
 // project file includes
 #include "Machine.h"
 #include "network/Manager.h"
+#include "SimulationMachine.h"
 
 namespace core {
 
@@ -20,13 +21,9 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
  public:
 
   Application() = default;
-  ~Application() = default;
+  ~Application();
 
-  /**
-  * A function to add a machine to the machines vector
-  * @param aMachine : The machine to add
-  */
-  void addMachine(const Machine &aMachine);
+  void setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines);
 
   /**
   * A function to get a machine by its ID
@@ -61,6 +58,11 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   *  Start the server if it's not running
   */
   void startServer();
+  
+  /**
+   * Stops the server if it's running
+   */
+  void stopServer();
 
   /**
    * Function that handles incoming notifications
@@ -72,6 +74,18 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Set the start state
    */
   void setStartState();
+
+  /**
+   * Check if all machines are ready
+   */
+  bool allMachinesRegistered();
+
+  /**
+   * set the connection of a machine by a specific machineId
+   * @param machineId the id of the machine
+   * @param connection the connection of the machine
+   */
+  void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
  private:
   std::vector<Machine> machines;

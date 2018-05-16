@@ -5,26 +5,29 @@
 #ifndef PRODUCTION_LINE_CONTROL_CONNECTSTATE_H
 #define PRODUCTION_LINE_CONTROL_CONNECTSTATE_H
 
-
 #include "ProductionState.h"
 
-namespace ProductionStates {
-    class ConnectState : public ProductionState {
-    public:
-      ConnectState(machinecore::Application &aContext)
-                : ProductionState(aContext) {};
+namespace productionstates {
+class ConnectState : public ProductionState {
+ public:
+  ConnectState(machinecore::Application &aContext)
+      : ProductionState(aContext) {};
 
-        virtual ~ConnectState() = default;
+  virtual ~ConnectState() = default;
 
-        virtual void entryAction();
+  virtual void entryAction();
 
-        virtual void doActivity();
+  virtual void doActivity();
 
-        virtual void exitAction();
-
-        virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
-    };
+  virtual void exitAction();
+/**
+ * This function handles incoming state events
+ * for example: conection is ready makes does mean that it switches to another state
+ * @param event: incomming event as eventPointer
+ * @return
+ */
+  virtual bool handleEvent(const patterns::statemachine::EventPtr &event);
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_CONNECTSTATE_H

@@ -23,7 +23,7 @@ typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
 class MockNetwork : public Network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
  public:
   MockNetwork();
-  virtual ~MockNetwork() = default;
+  virtual ~MockNetwork();
 
   /**
    * Start client to connect to production control over simulation port
@@ -49,20 +49,26 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
 
   /**
    * Wait for the connection to establish or disconnect. Timeout is 100 milliseconds by default.
-   * @param timeout : max time to wait in milliseconds
+   * @param timeout : max time to wait in milliseconds, default 100
    */
-  void awaitConnection(uint32_t timeout = 1000);
+  void awaitConnection(uint32_t timeout = 100);
 
   /**
    * Call this when you send a message to the mock network. It will wait till the message is received. Timeout is
    * 100 milliseconds by default.
-   * @param timeout : max time to wait in milliseconds
+   * @param timeout : max time to wait in milliseconds, default 100
    */
-  void awaitMessageReceived(uint32_t timeout = 1000);
+  void awaitMessageReceived(uint32_t timeout = 100);
 
   /**
-   * Stop network
+   * Waits for the server to start
+   * @param timeout Time before timeout in milliseconds, default 100
    */
+  void awaitClientConnecting(uint32_t timeout = 100);
+
+    /**
+     * Stop network
+     */
   void stop();
 
   /**
@@ -84,6 +90,12 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * @param aHandleMessageFn : lambda to be called when message is received
    */
   void setOnConnectionFn(OnConnectionFn& aOnConnectionFn);
+
+  /**
+   * Set a new handler for the client / server
+   * @param handler
+   */
+  void setConnectionHandler(Network::ConnectionHandlerPtr handler);
 
   /**
    * get connection
@@ -117,6 +129,7 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   ThreadPtr networkThread;
   Network::Manager networkManager;
   Network::ConnectionPtr connection;
+  Network::ConnectionHandlerPtr connectionHandler;
   OnMessageFn onMessageFn;
   OnConnectionFn onConnectionFn;
 

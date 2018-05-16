@@ -1,6 +1,3 @@
-//
-// Created by klei on 5/3/18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_APPLICATIONSTATE_H
 #define PRODUCTION_LINE_CONTROL_APPLICATIONSTATE_H
@@ -13,14 +10,16 @@
 namespace ApplicationStates {
 
 	enum EventType {
-//		kEventType,
-//		kEventType,
+	  kEventTypeMachineRegistered,
+	  kEventTypeAllMachinesRegistered,
+	  kEventTypeMachineStartedProcessing,
+	  kEventTypeMachineFinishedProcessing
 	};
 
-	typedef patterns::statemachine::Event Event;
-	typedef patterns::statemachine::EventPtr EventPtr;
+typedef patterns::statemachine::Event Event;
+typedef patterns::statemachine::EventPtr EventPtr;
 
-	class ApplicationState : public patterns::statemachine::State {
+class ApplicationState : public patterns::statemachine::State {
 
 	public:
 		virtual ~ApplicationState() = default;
@@ -30,8 +29,8 @@ namespace ApplicationStates {
 		virtual void exitAction() = 0;
 
 	protected:
-		ApplicationState(core::Application &application);
-		core::Application& context;
+  ApplicationState(core::Application &application);
+  core::Application &context;
 
 	};
 

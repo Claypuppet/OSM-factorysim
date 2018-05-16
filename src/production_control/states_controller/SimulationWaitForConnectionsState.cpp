@@ -3,15 +3,18 @@
 //
 
 #include <network/Connection.h>
+#include <utils/Logger.h>
 #include "SimulationWaitForConnectionsState.h"
 #include "OperationState.h"
 
-states::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context) :
+states::SimulationWaitForConnectionsState::SimulationWaitForConnectionsState(simulation::SimulationController &context)
+    :
         ControllerState(context)
 {
 }
 
 void states::SimulationWaitForConnectionsState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
     context.setupNetwork();
 }
 
@@ -26,14 +29,17 @@ void states::SimulationWaitForConnectionsState::exitAction() {
 bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeMachineReady: {
+      utils::Logger::log("-Handle event: kEventTypeMachineReady");
       onMachineReady(event);
       break;
     }
     case kEventTypeMachineConnected: {
+      utils::Logger::log("-Handle event: kEventTypeMachineConnected");
       onMachineConnected(event);
       break;
     }
     case kEventTypeAllMachinesReadyForSimulation: {
+      utils::Logger::log("-Handle event: kEventTypeAllMachinesReadyForSimulation");
       onAllMachinesReadyForSimulation();
       break;
     }

@@ -1,27 +1,37 @@
-
+#include <utils/Logger.h>
 #include "InitializeSimulationState.h"
 #include "OffState.h"
+#include "models/Configuration.h"
 
 namespace simulationstates {
-	void InitializeSimulationState::entryAction() {
-		// TODO: Register machine
-        context.registerMachine();
-	}
 
-	void InitializeSimulationState::doActivity() {
-	}
+void InitializeSimulationState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.registerMachine();
+}
 
-	void InitializeSimulationState::exitAction() {
-		// TODO: Set config? but the config is in the event? hmmm
-	}
+void InitializeSimulationState::doActivity() {
+}
 
-	bool InitializeSimulationState::handleEvent(const EventPtr &e) {
-		switch (e->getId()){
-			case kEventTypeConfigReceived:
-				context.setCurrentState(std::make_shared<OffState>(context));
-				return true;
-			default:
-				return SimulationState::handleEvent(e);
-		}
-	}
+
+void InitializeSimulationState::exitAction() {
+  context.machineReady();
+}
+
+bool InitializeSimulationState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypeSimulationConfigurationsReceived: {
+      utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsReceived");
+      onSimulationConfigurationsReceived(event);
+      return true;
+    }
+    default:
+      return SimulationState::handleEvent(event);
+  }
+}
+
+void InitializeSimulationState::onSimulationConfigurationsReceived(const simulationstates::EventPtr &event) {
+  context.setSimulationConfigurations(event->getArgumentAsType<std::vector<models::MachineConfiguration>>());
+  context.setCurrentState(std::make_shared<OffState>(context));
+}
 }

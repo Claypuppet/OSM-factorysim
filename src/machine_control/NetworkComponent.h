@@ -9,14 +9,42 @@
 #include "network/Connection.h"
 
 namespace Communication {
-	class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
+class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
 	public:
 		NetworkComponent();
 		~NetworkComponent() = default;
 
-		const void sendHello();
+		/**
+		 * A function that sends a message to production control to register this machine
+		 * @param machineId : The id of the machine
+		 */
+		void sendRegisterMessage(const uint16_t machineId);
 
-		Network::ConnectionPtr getConnection();
+		/**
+		 * Send status update: ready for instructions
+		 */
+		void sendStatusUpdateReady();
+
+		/**
+		 * Send status update: started procssing
+		 */
+		void sendStatusUpdateStarted();
+
+		/**
+		 * Send status update: done processing
+		 */
+		void sendStatusUpdateDone();
+
+		/**
+		 * Send response: OK
+		 */
+		void sendResponseOK();
+
+		/**
+		 * Send response: NOK
+		 * @param errorCode : error code
+		 */
+		void sendResponseNOK(const uint16_t errorCode);
 
 	private:
 		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
@@ -28,7 +56,6 @@ namespace Communication {
 
 		void handleReconfigureMessage();
 		void handleProcessProductMessage();
-
 	};
 }
 

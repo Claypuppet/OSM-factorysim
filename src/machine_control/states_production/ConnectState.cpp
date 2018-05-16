@@ -2,25 +2,32 @@
 // Created by sven on 23-4-18.
 //
 
+#include <utils/Logger.h>
 #include "ConnectState.h"
+#include "ReceiveConfig.h"
 
-namespace ProductionStates {
-    void ConnectState::entryAction() {
-        //TODO: START CLIENT AND CONNECT TO PRODUCTION CONTROL
+namespace productionstates {
+void ConnectState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.setupNetwork();
+}
+
+void ConnectState::doActivity() {
+
+}
+
+void ConnectState::exitAction() {
+
+}
+
+bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypeConnected: {
+      utils::Logger::log("-Handle event: kEventTypeConnected");
+      context.setCurrentState(std::make_shared<ReceiveConfig>(context));
+      break;
     }
-
-    void ConnectState::doActivity() {
-
-    }
-
-    void ConnectState::exitAction() {
-        //TODO: START CONFIGURESTATE
-    }
-
-    bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
-        switch(e->getId()){
-            default:
-                return false;
-        }
-    }
+    default:return false;
+  }
+}
 }

@@ -33,7 +33,7 @@ namespace simulation {
 		/**
 		 * Destruct
 		 */
-		virtual ~SimulationController() = default;
+		virtual ~SimulationController();
 
 
         /**

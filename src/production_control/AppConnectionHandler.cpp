@@ -24,19 +24,26 @@ void core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
                                                              Network::Message &message) {
   uint8_t messageType = message.getMessageType();
   switch (messageType) {
-    case Network::Protocol::kAppMessageTypeRegisterMachine:handleRegisterMachine(connection, message);
+    case Network::Protocol::kAppMessageTypeRegisterMachine:
+      handleRegisterMachine(connection, message);
       break;
-    case Network::Protocol::kAppMessageTypeInitialConfigure:handleStartInit(message);
+    case Network::Protocol::kAppMessageTypeInitialConfigure:
+      handleStartInit(connection);
       break;
-    case Network::Protocol::kAppMessageTypeOK:handleOK(message);
+    case Network::Protocol::kAppMessageTypeOK:
+      handleOK(connection);
       break;
-    case Network::Protocol::kAppMessageTypeNOK:handleNOK(message);
+    case Network::Protocol::kAppMessageTypeNOK:
+      handleNOK(connection, message.getBody());
       break;
-    case Network::Protocol::kAppMessageTypeDoneProcessing:handleDoneProcessing(message);
+    case Network::Protocol::kAppMessageTypeDoneProcessing:
+      handleDoneProcessing(connection);
       break;
-    case Network::Protocol::kAppMessageTypeStartedProcessing:handleStartProcessing(message);
+    case Network::Protocol::kAppMessageTypeStartedProcessing:
+      handleStartProcessing(connection);
       break;
-    case Network::Protocol::kAppMessageTypeReady:handleMachineReady(message);
+    case Network::Protocol::kAppMessageTypeReady:
+      handleMachineReady(connection);
       break;
     default:break;
   }
@@ -50,6 +57,8 @@ void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
   auto notification =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
   auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
+
+  registerMachineConnection(connection, machineId);
 
   notification.setArgument(0, machineId);
   notification.setArgument(1, connection);
