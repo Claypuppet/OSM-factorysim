@@ -10,7 +10,7 @@
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : patterns::statemachine::Context(), id(aMachineId), machine() {
+    : patterns::statemachine::Context(), id(aMachineId), connectionHandler(), machine() {
 }
 
 Application::~Application() {
@@ -67,7 +67,7 @@ void Application::setupNetwork() {
 
   handleNotificationsFor(connectionHandler);
 
-  client = manager.createClient(std::make_shared<Communication::NetworkComponent>(connectionHandler));
+  client = manager.createClient(std::shared_ptr<Communication::NetworkComponent>(&connectionHandler));
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
   client->setServiceEventListener(eventDispatcherPtr);

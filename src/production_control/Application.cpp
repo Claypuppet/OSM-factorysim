@@ -82,13 +82,10 @@ void core::Application::registerMachine(uint16_t machineId, Network::ConnectionP
 }
 
 void core::Application::stopServer() {
-  if(server->isRunning())
+  manager.stop();
+  if(serverThread && serverThread->joinable())
   {
-    manager.stop();
-    if(serverThread && serverThread->joinable())
-    {
-      serverThread->join();
-    }
+    serverThread->join();
   }
 }
 core::Application::~Application() {

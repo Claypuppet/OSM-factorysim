@@ -7,27 +7,26 @@
 #include "OffState.h"
 
 namespace simulationstates {
-	void OnState::entryAction() {
-	  utils::Logger::log(__PRETTY_FUNCTION__);
-      context.getApplication().setStartState();
-	}
 
-	void OnState::doActivity() {
-        context.getApplication().run();
-    }
-
-	void OnState::exitAction() {
-
-	}
-
-	bool OnState::handleEvent(const EventPtr &e) {
-	    switch(e->getId()) {
-            case kEventTypePowerOff:
-			    utils::Logger::log("-Handle event: kEventTypePowerOff");
-                context.setCurrentState(std::make_shared<OffState>(context));
-                return true;
-        default:
-            return SimulationState::handleEvent(e);
-        }
-	}
+void OnState::entryAction() {
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.getApplication().setStartState();
 }
+
+void OnState::doActivity() {
+  context.getApplication().run();
+}
+
+void OnState::exitAction() {
+
+}
+
+bool OnState::handleEvent(const EventPtr &event) {
+  switch (event->getId()) {
+    case kEventTypePowerOff: utils::Logger::log("-Handle event: kEventTypePowerOff");
+      context.setCurrentState(std::make_shared<OffState>(context));
+      return true;
+    default:return SimulationState::handleEvent(event);
+  }
+}
+} // simulationstates
