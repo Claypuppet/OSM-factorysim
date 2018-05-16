@@ -1,24 +1,30 @@
-//
-// Created by sven on 23-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H
 #define PRODUCTION_LINE_CONTROL_REPAIRINGSTATE_H
 
 #include "../ProductionState.h"
 
+/**
+ * Machine state when it is broken
+ */
 namespace productionstates {
+
 class RepairingState : public ProductionState {
  public:
-  RepairingState(machinecore::Application &aContext) : ProductionState(aContext) {};
-
+  RepairingState(machinecore::Application &aContext);
   virtual ~RepairingState() = default;
 
+  virtual bool handleEvent(const EventPtr &event);
   virtual void entryAction();
-
   virtual void doActivity();
-
   virtual void exitAction();
+
+ private:
+
+  /**
+   * Gets executed when a repairFinished event is comming in
+   */
+  void onRepairFinishedEvent();
 };
 
 }

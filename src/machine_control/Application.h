@@ -82,6 +82,26 @@ class Application
  */
   void setupNetwork();
 
+  /**
+   * Execute the self test and create a new event based on the result
+   */
+  virtual void executeSelfTest() {}
+
+  /**
+   * Take a product from the machine buffer into the machine
+   */
+  void takeProductIn();
+
+  /**
+   * Process the product that is currently in the machine
+   */
+   void processProduct();
+
+   /**
+    * Take product out of the machine into the output buffer
+    */
+    void takeProductOut();
+
 /**
  * sends register machine message to PC
  */
