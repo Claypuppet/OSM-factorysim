@@ -90,6 +90,8 @@ class Application
     */
   bool setCurrentConfigId(uint32_t configID);
 
+  uint32_t getCurrentConfigId() const;
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
@@ -101,9 +103,6 @@ class Application
   // Id of the machine
   uint16_t id;
   uint32_t currentConfigId;
- public:
-  uint32_t getCurrentConfigId() const;
- private:
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;

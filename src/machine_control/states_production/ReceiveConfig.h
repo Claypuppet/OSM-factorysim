@@ -29,6 +29,7 @@ class ReceiveConfig : public ProductionState {
  * @return
  */
   virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
+  void onConfigReceived(const EventPtr &event);
 };
 }
 #endif //PRODUCTION_LINE_CONTROL_RECEIVECONFIG_H

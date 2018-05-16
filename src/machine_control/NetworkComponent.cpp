@@ -26,21 +26,14 @@ void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-  std::cout << message.mBody << std::endl;
   switch (message.getMessageType()) {
     case Network::Protocol::kAppMessageTypeReconfigure : {
-      auto event =
-          makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
-          );
-      event.addArgument(&message);
-      notifyObservers(event);
+      handleProcessReconfigureMessage(message);
       break;
     }
-    case Network::Protocol::kAppMessageTypeStartProcess:
-      handleProcessProductMessage();
+    case Network::Protocol::kAppMessageTypeStartProcess:handleProcessProductMessage();
       break;
-    default:
-      break;
+    default:break;
   }
 }
 
@@ -49,18 +42,25 @@ void NetworkComponent::handleProcessProductMessage() {
   notifyObservers(notification);
 }
 
+void NetworkComponent::handleProcessReconfigureMessage(Network::Message &message) {
+  auto event =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
+      );
+  event.addArgument(&message);
+  notifyObservers(event);
+}
+
 void NetworkComponent::handleReconfigureMessage() {
 
 }
-
 
 bool NetworkComponent::isConnected() {
   return !!mConnection;
 }
 
-void NetworkComponent::sendMessage(Network::Message &msg) {
+void NetworkComponent::sendMessage(Network::Message &message) {
   if (isConnected()) {
-    mConnection->writeMessage(msg);
+    mConnection->writeMessage(message);
   }
 
 }
@@ -96,6 +96,5 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   sendMessage(message);
 
 }
-
 
 }

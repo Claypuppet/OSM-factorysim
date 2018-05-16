@@ -75,9 +75,11 @@ void Application::setupNetwork() {
 
   client->start();
 }
+
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(getId());
 }
+
 bool Application::setCurrentConfigId(uint32_t configID) {
 
   for (auto &configuration : configurations) {
