@@ -7,6 +7,8 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 
+#include "Buffer.h"
+
 namespace core {
 enum MachineStatus {
   kMachineStatusReady
@@ -70,6 +72,8 @@ class Machine : public models::Machine {
 
   MachineStatus status;
   Network::ConnectionPtr connection;
+
+  BufferPtr outnputBuffer;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;
