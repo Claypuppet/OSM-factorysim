@@ -80,7 +80,7 @@ models::MachineConfiguration &Application::getCurrentConfig() const {
 
 void Application::setCurrentConfig() {
     for (auto &configuration : configurations) {
-      if (configuration.getProductId() == configId) {
+      if (configuration.getProductId() == currentConfigId) {
         currentConfig = configuration;
         auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
         scheduleEvent(event);
