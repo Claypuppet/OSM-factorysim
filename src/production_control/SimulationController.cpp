@@ -97,7 +97,9 @@ namespace simulation {
 	void SimulationController::stop() {
 		Controller::stop();
 		networkManager.stop();
-		serverThread->join();
+		if(serverThread && serverThread->joinable()){
+		  serverThread->join();
+		}
 	}
 
 	void SimulationController::setStartState() {
