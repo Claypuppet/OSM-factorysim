@@ -82,12 +82,22 @@ class Application
   /**
    * Execute the self test and create a new event based on the result
    */
-  virtual void executeSelfTest() {};
+  virtual void executeSelfTest() {}
 
   /**
    * Take a product from the machine buffer into the machine
    */
-  virtual void takeProductIn() {};
+  virtual void takeProductIn() {}
+
+  /**
+   * Process the product that is currently in the machine
+   */
+   virtual void processProduct() {}
+
+   /**
+    * Take product out of the machine into the output buffer
+    */
+    virtual void takeProductOut() {}
 
  private:
   Network::Manager manager;

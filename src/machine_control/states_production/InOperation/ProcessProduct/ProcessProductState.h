@@ -1,6 +1,3 @@
-//
-// Created by sven on 23-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_PROCESSPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_PROCESSPRODUCTSTATE_H
@@ -9,17 +6,20 @@
 #include "../InOperationState.h"
 
 namespace productionstates {
+
 class ProcessProductState : public InOperationState {
  public:
-  ProcessProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
+  ProcessProductState(machinecore::Application &aContext);
 
   virtual ~ProcessProductState() = default;
 
-  virtual void entryAction();
+  bool handleEvent(const EventPtr event);
+  void entryAction();
+  void doActivity();
+  void exitAction();
 
-  virtual void doActivity();
-
-  virtual void exitAction();
+ private:
+  void onProductFinishedEvent();
 };
 
 }

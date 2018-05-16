@@ -19,7 +19,8 @@ enum EventType {
   kEventTypeSelfTestFailed,
   kEventTypeTakeProduct,
   kEventTypeProcessProduct,
-  kEventTypeFinishedProduct
+  kEventTypeFinishedProduct,
+  kEventTypeProductTakenOut
 };
 
 typedef patterns::statemachine::Event Event;

@@ -26,6 +26,16 @@ class SimulationApplication : public machinecore::Application {
    */
   void takeProductIn() override;
 
+  /**
+   * Process the product that is currently in the machine
+   */
+  void processProduct();
+
+  /**
+    * Take product out of the machine into the output buffer
+    */
+  void takeProductOut();
+
  private:
   SimulationMachine machine;
 };

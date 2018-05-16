@@ -12,7 +12,7 @@ void TakeProductState::entryAction() {
 }
 
 void TakeProductState::doActivity() {
-  context.takeProductIn(); // TODO : This method is not implemented yet
+  context.takeProductIn(); // TODO : This method is currently empty because we have no buffer model yet.
 }
 
 void TakeProductState::exitAction() {
@@ -23,9 +23,10 @@ bool TakeProductState::handleEvent(const EventPtr event) {
   switch(event->getId()) {
     case kEventTypeProcessProduct:
       onProcessProductEvent();
+      return true;
 
     default:
-      ProductionState::handleEvent(event);
+      return ProductionState::handleEvent(event);
   }
 }
 
