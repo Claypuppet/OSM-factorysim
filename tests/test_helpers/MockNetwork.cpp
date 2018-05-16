@@ -6,7 +6,6 @@
 
 #include "MockNetwork.h"
 #include "HelperFunctions.h"
-#include <network/Protocol.h>
 #include <network/Client.h>
 #include <network/Server.h>
 
