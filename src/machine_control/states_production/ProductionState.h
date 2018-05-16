@@ -10,7 +10,7 @@
 namespace productionstates {
 
 enum EventType {
-  kMachineBrokeDown,
+  kEventTypeMachineBrokeDown,
   kEventTypeConnected,
   kEventTypeConnectionFailed,
   kEventTypeReceivedConfig,
@@ -19,7 +19,10 @@ enum EventType {
   kEventTypeSelfTestFailed,
   kEventTypeTakeProduct,
   kEventTypeProcessProduct,
-  kEventTypeFinishedProduct
+  kEventTypeFinishedProduct,
+  kEventTypeProductTakenOut,
+  kEventTypeRepairStarted,
+  kEventTypeRepairFinished
 };
 
 typedef patterns::statemachine::Event Event;

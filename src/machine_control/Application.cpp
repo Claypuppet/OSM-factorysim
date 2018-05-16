@@ -10,7 +10,13 @@
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : patterns::statemachine::Context(), id(aMachineId), connectionHandler(), machine() {
+    : patterns::statemachine::Context(),
+      id(aMachineId),
+      connectionHandler(),
+      machine(),
+      currentConfigId(0),
+      currentConfig(configurations.at(0)) {
+
 }
 
 Application::~Application() {
@@ -43,8 +49,7 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
       break;
     }
 
-    default:
-      break;
+    default:break;
   }
 }
 
@@ -76,6 +81,20 @@ void Application::setupNetwork() {
   client->start();
 }
 
+models::MachineConfiguration &Application::getCurrentConfig() const {
+  return currentConfig;
+}
+
+void Application::setCurrentConfig() {
+  for (auto &configuration : configurations) {
+    if (configuration.getProductId() == currentConfigId) {
+      currentConfig = configuration;
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+      scheduleEvent(event);
+    }
+  }
+}
+
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(id);
 }
@@ -85,6 +104,8 @@ bool Application::setCurrentConfigId(uint32_t configID) {
   for (auto &configuration : configurations) {
     if (configuration.getProductId() == configID) {
       currentConfigId = configID;
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+      scheduleEvent(event);
       return true;
     }
   } // access by reference to avoid copying
@@ -93,6 +114,22 @@ bool Application::setCurrentConfigId(uint32_t configID) {
 
 uint32_t Application::getCurrentConfigId() const {
   return currentConfigId;
+}
+
+void Application::takeProductIn() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
+  scheduleEvent(event);
+}
+
+void Application::processProduct() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeFinishedProduct);
+  scheduleEvent(event);
+}
+
+
+void Application::takeProductOut() {
+  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProductTakenOut);
+  scheduleEvent(event);
 }
 
 } // namespace machinecore

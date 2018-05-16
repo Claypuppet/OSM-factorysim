@@ -14,14 +14,14 @@ class SelfTestState : public ProductionState {
   SelfTestState(machinecore::Application &aContext);
   virtual ~SelfTestState() = default;
 
-  void entryAction() override;
+  virtual void entryAction() override;
 
   /**
    * Runs the self test and creates a new event depending on the result
    */
-  void doActivity() override;
-  void exitAction() override;
-  bool handleEvent(const EventPtr &event) override;
+  virtual void doActivity() override;
+  virtual void exitAction() override;
+  virtual bool handleEvent(const EventPtr &event) override;
 
  private:
   /**

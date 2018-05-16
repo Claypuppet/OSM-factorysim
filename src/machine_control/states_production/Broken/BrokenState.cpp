@@ -1,8 +1,8 @@
-//
-// Created by sven on 23-4-18.
-//
+
+#include "BrokenState.h"
 
 #include <utils/Logger.h>
+
 #include "BrokenState.h"
 
 namespace productionstates {
@@ -23,8 +23,22 @@ void BrokenState::doActivity() {
 void BrokenState::exitAction() {
 
 }
-bool BrokenState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return false;
+bool BrokenState::handleEvent(const EventPtr &event) {
+  switch(event->getId()) {
+    case kEventTypeRepairStarted:
+      onRepairStartedEvent();
+      return true;
+
+    default:
+      return ProductionState::handleEvent(event);
+  }
+}
+
+void BrokenState::onRepairStartedEvent() {
+  utils::Logger::log("-Handle event: kEventTypeRepairStarted");
+
+  auto brokenState = std::make_shared<BrokenState>(context);
+  context.setCurrentState(brokenState);
 }
 
 }

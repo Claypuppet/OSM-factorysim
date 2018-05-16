@@ -10,18 +10,12 @@
 #include "../test_helpers/MockNetwork.h"
 #include "../test_helpers/HelperFunctions.h"
 
-#include "../../src/libs/network/Protocol.h"
-#include "../../src/libs/network/Message.h"
-
 #include "../machine_control/SimulationController.h"
 #include "../../src/machine_control/states_simulation/FindProductControlState.h"
 #include "../../src/machine_control/states_simulation/ConnectSimulationState.h"
 #include "../../src/machine_control/states_simulation/InitializeSimulationState.h"
 #include "../../src/machine_control/states_simulation/OffState.h"
 #include "../../src/machine_control/states_simulation/OnState.h"
-#include "../../src/machine_control/states_simulation/SimulationState.h"
-
-
 
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
@@ -50,6 +44,7 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeConnected);
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
+
 
   BOOST_REQUIRE_NO_THROW(controller.run());
 

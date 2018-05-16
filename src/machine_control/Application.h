@@ -81,6 +81,26 @@ class Application
  */
   void setupNetwork();
 
+  /**
+   * Execute the self test and create a new event based on the result
+   */
+  virtual void executeSelfTest() {}
+
+  /**
+   * Take a product from the machine buffer into the machine
+   */
+  void takeProductIn();
+
+  /**
+   * Process the product that is currently in the machine
+   */
+   void processProduct();
+
+   /**
+    * Take product out of the machine into the output buffer
+    */
+    void takeProductOut();
+
 /**
  * sends register machine message to PC
  */
@@ -95,6 +115,15 @@ class Application
 
   uint32_t getCurrentConfigId() const;
 
+
+  models::MachineConfiguration &getCurrentConfig() const;
+
+  /**
+   * sets configuration based on configId, fires event if success
+   */
+  void setCurrentConfig();
+
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;
@@ -106,6 +135,9 @@ class Application
   // Id of the machine
   uint16_t id;
   uint32_t currentConfigId;
+
+  //Current configuration
+  models::MachineConfiguration &currentConfig;
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;
