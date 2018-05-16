@@ -11,7 +11,7 @@ class InOperationState : public ProductionState {
   InOperationState(machinecore::Application &aContext);
   virtual ~InOperationState() = default;
 
-  bool handleEvent(const EventPtr &event) override;
+  virtual bool handleEvent(const EventPtr &event) override;
 
  private:
   void onMachineBrokenDownEvent();

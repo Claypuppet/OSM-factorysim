@@ -13,10 +13,10 @@ class TakeProductState : public InOperationState {
   TakeProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
   virtual ~TakeProductState() = default;
 
-  bool handleEvent(const EventPtr &event);
-  void entryAction();
-  void doActivity();
-  void exitAction();
+  virtual bool handleEvent(const EventPtr &event);
+  virtual void entryAction();
+  virtual void doActivity();
+  virtual void exitAction();
 
  private:
   void onProcessProductEvent();
