@@ -7,6 +7,7 @@
 #include "Context.h"
 
 void patterns::statemachine::Context::setCurrentState(const StatePtr newState) {
+
 	if(currentState){
 		currentState->exitAction();
 	}

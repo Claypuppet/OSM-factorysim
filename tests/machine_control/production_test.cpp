@@ -4,13 +4,14 @@
 #define BOOST_TEST_DYN_LINK
 
 #include <boost/test/unit_test.hpp>
+#include <models/Configuration.h>
 
 #include "../test_helpers/MockNetwork.h"
 
 #include "../machine_control/SimulationController.h"
-#include "../../src/machine_control/NetworkComponent.h"
 #include "../../src/machine_control/states_production/ConnectState.h"
 #include "../../src/machine_control/states_production/ReceiveConfig.h"
+#include "../../src/machine_control/states_production/Inititalization/ConfigureState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlProductionStateTests)
 
@@ -27,12 +28,52 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
 
   BOOST_CHECK_NO_THROW(application.scheduleEvent(switchevent));
 
+
   BOOST_CHECK_NO_THROW(application.run());
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
+}
+
+BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
+  auto mockNetwork = std::make_shared<testutils::MockNetwork>();
+  mockNetwork->startMockPCServerApplication();
+
+
+  // 1: make application context
+  machinecore::Application application(1);
+
+  // 2. create state sets application to that state
+  auto state = std::make_shared<productionstates::ReceiveConfig>(productionstates::ReceiveConfig(application));
+  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
+
+  //3. checks if in the right state
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
+
+  //4. makes vector and makes machineConfig
+  std::vector<models::MachineConfiguration> confVector;
+  models::MachineConfiguration config0  = models::MachineConfiguration(0);
+  confVector.push_back(config0);
+  application.setConfigurations(confVector);
+
+
+  //5. checks if configcheck works
+  BOOST_CHECK_EQUAL(application.setCurrentConfigId(0), true);
+
+  //6. schedules switchEvent with right confignumber(0)
+  auto switchEvent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);
+  switchEvent1->setArgument(0);
+  BOOST_CHECK_NO_THROW(application.scheduleEvent(switchEvent1));
+  BOOST_CHECK_NO_THROW(application.run());
+
+  //7. checks if in the right state
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
+
+  application.stop();
+  mockNetwork->stop();
+
 }
 
 // Einde public method tests

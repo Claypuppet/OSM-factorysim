@@ -4,7 +4,6 @@
 
 #include "MockObserver.h"
 #include "patterns/notifyobserver/Notifier.hpp"
-#include "../../src/production_control/NotificationTypes.h"
 #include "HelperFunctions.h"
 
 namespace testutils {
