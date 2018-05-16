@@ -83,5 +83,8 @@ namespace models {
     uint16_t MachineConfiguration::getReparationTimeInMinutes() const {
         return reparationTimeInMinutes;
     }
+MachineConfiguration::MachineConfiguration(int16_t productId) :productId(productId){
+
+}
 
 }

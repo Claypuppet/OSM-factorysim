@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <models/Machine.h>
 #include "NetworkComponent.h"
 #include "Application.h"
 
@@ -25,13 +26,14 @@ void NetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
-  switch(message.getMessageType())
-  {
-    case Network::Protocol::kAppMessageTypeStartProcess:
-      handleProcessProductMessage();
+  switch (message.getMessageType()) {
+    case Network::Protocol::kAppMessageTypeReconfigure : {
+      handleProcessReconfigureMessage(message);
       break;
-    default:
+    }
+    case Network::Protocol::kAppMessageTypeStartProcess:handleProcessProductMessage();
       break;
+    default:break;
   }
 }
 
@@ -40,13 +42,27 @@ void NetworkComponent::handleProcessProductMessage() {
   notifyObservers(notification);
 }
 
+void NetworkComponent::handleProcessReconfigureMessage(Network::Message &message) {
+  auto event =
+      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
+      );
+  event.addArgument(&message);
+  notifyObservers(event);
+}
+
 void NetworkComponent::handleReconfigureMessage() {
 
 }
 
-void NetworkComponent::sendRegisterMessage(const uint16_t machineId) {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeRegisterMachine, std::to_string(machineId));
-  mConnection->writeMessage(message);
+bool NetworkComponent::isConnected() {
+  return !!mConnection;
+}
+
+void NetworkComponent::sendMessage(Network::Message &message) {
+  if (isConnected()) {
+    mConnection->writeMessage(message);
+  }
+
 }
 
 void NetworkComponent::sendStatusUpdateDone() {
@@ -72,6 +88,13 @@ void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
 void NetworkComponent::sendResponseOK() {
   Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeOK);
   mConnection->writeMessage(message);
+}
+
+void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
+  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
+  message.setBody<models::Machine>(machineId);
+  sendMessage(message);
+
 }
 
 }
