@@ -74,7 +74,6 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
   application.stop();
   mockNetwork->stop();
 
-  std::cout << "test";
 }
 
 // Einde public method tests
