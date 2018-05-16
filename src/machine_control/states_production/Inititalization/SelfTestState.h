@@ -6,6 +6,9 @@
 
 namespace productionstates {
 
+/**
+ * State class that executes the self test for a machine
+ */
 class SelfTestState : public ProductionState {
  public:
   SelfTestState(machinecore::Application &aContext);
