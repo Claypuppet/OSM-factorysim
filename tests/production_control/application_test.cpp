@@ -92,6 +92,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
 {
   testutils::MockObserver observer;
 
+  // Making the notificationhandler for the observer
   testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
     BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
     BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(0) == 12);
@@ -99,22 +100,27 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
 
   observer.setHandleNotificationFn(notificationHandler);
 
+  // Making the connectionhandler
   auto connectionHandler = std::make_shared<core::AppConnectionHandler>();
   connectionHandler->addObserver(observer);
 
+  // Making network mocks
   auto mcMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
   pcMock->setConnectionHandler(connectionHandler);
 
+  // Starting the network objects
   pcMock->startMockPCServerApplication();
   mcMock->startMockMCClientApplication();
 
+  // Registering a machine
   Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine, "12");
 
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing Ready status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeReady);
 
@@ -127,6 +133,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing started initialise status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeStartedInitialize);
 
@@ -139,6 +146,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing start process status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeStartProcess);
 
@@ -151,6 +159,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing done processing status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeDoneProcessing);
 
@@ -163,6 +172,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing OK status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeOK);
 
@@ -175,6 +185,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Executing NOK status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
   message.setBody("404");
