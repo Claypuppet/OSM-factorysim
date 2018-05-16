@@ -55,8 +55,9 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
    * @return
    */
   bool isConnected();
+
   /**
-   * checks for connection ands sends message
+   * checks for connection and sends message
    * @param message
    */
   void sendMessage(Network::Message &message);
