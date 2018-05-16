@@ -2,12 +2,11 @@
 #ifndef PRODUCTION_LINE_CONTROL_IDLESTATE_H
 #define PRODUCTION_LINE_CONTROL_IDLESTATE_H
 
-#include "../ProductionState.h"
-#include "../ProductionState.h"
+#include "InOperationState.h"
 
 namespace productionstates {
 
-class IdleState : public ProductionState {
+class IdleState : public InOperationState {
  public:
   IdleState(machinecore::Application &aContext);
   virtual ~IdleState() = default;

@@ -20,4 +20,8 @@ void SimulationApplication::executeSelfTest() {
     }
 }
 
+void SimulationApplication::takeProductIn() {
+    // TODO : take product from machine
+}
+
 }

@@ -20,6 +20,12 @@ class SimulationApplication : public machinecore::Application {
    */
   void executeSelfTest() override;
 
+
+  /**
+   * Take a product from the machine buffer into the machine
+   */
+  void takeProductIn() override;
+
  private:
   SimulationMachine machine;
 };

@@ -84,6 +84,11 @@ class Application
    */
   virtual void executeSelfTest() {};
 
+  /**
+   * Take a product from the machine buffer into the machine
+   */
+  virtual void takeProductIn() {};
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;

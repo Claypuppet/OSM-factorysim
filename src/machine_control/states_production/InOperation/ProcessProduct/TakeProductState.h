@@ -1,6 +1,3 @@
-//
-// Created by sven on 23-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H
@@ -14,14 +11,15 @@ namespace productionstates {
 class TakeProductState : public InOperationState {
  public:
   TakeProductState(machinecore::Application &aContext) : InOperationState(aContext) {};
-
   virtual ~TakeProductState() = default;
 
-  virtual void entryAction();
+  bool handleEvent(const EventPtr event);
+  void entryAction();
+  void doActivity();
+  void exitAction();
 
-  virtual void doActivity();
-
-  virtual void exitAction();
+ private:
+  void onProcessProductEvent();
 
 };
         

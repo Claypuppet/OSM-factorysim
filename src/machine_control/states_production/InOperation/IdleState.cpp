@@ -9,7 +9,7 @@
 namespace productionstates {
 
 IdleState::IdleState(machinecore::Application &aContext)
-    : ProductionState(aContext) {
+    : InOperationState(aContext) {
 }
 
 void IdleState::entryAction() {
