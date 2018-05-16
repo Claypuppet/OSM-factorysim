@@ -9,12 +9,31 @@
 #include "states_application/BroadCastState.h"
 #include "SimulationController.h"
 
-void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
-  machines = aMachines;
-  // TODO: set link machines through buffers
+core::Application::~Application() {
+  stopServer();
 }
 
-core::MachinePtr core::Application::getMachine(uint16_t machineId) {
+void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
+  // Set machines
+  machines = aMachines;
+  // Links all buffers for each production line
+  for (const auto &product : executaionConfiguration.getProductionLineConfiguration().getProducts()){
+    auto productId = product.getId();
+    for (const auto &machine : machines){
+      auto nextMachineId = machine->getNextMachineId(productId);
+      if (!nextMachineId){
+		continue;
+      }
+      auto nextMachine = getMachine(nextMachineId);
+	  if (!nextMachine){
+		continue;
+	  }
+      nextMachine->setInputBuffer(productId, machine->getInputBuffer(productId));
+    }
+  }
+}
+
+core::MachinePtr core::Application::getMachine(uint32_t machineId) {
   for (const auto &machine : machines) {
     if (machine->getId() == machineId) {
       return machine;
@@ -86,6 +105,7 @@ void core::Application::stopServer() {
     serverThread->join();
   }
 }
-core::Application::~Application() {
-  stopServer();
+
+void core::Application::setExecutaionConfiguration(const models::Configuration &executaionConfiguration) {
+  Application::executaionConfiguration = executaionConfiguration;
 }

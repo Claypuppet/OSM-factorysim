@@ -59,21 +59,47 @@ const std::map<uint16_t, BufferPtr> &Machine::getOutputBuffers() const {
   return outputBuffers;
 }
 
-void Machine::setInputBuffers(const std::map<uint16_t, BufferPtr> &aInputBuffers) {
-  inputBuffers = aInputBuffers;
+const BufferPtr &Machine::getInputBuffer(uint16_t productId) const {
+  return inputBuffers.at(productId);
+}
+
+const BufferPtr &Machine::getOutputBuffer(uint16_t productId) const {
+  return outputBuffers.at(productId);
+}
+
+void Machine::setInputBuffer(uint16_t productId, const BufferPtr &inputBuffer) {
+  inputBuffers[productId] = inputBuffer;
 }
 
 void Machine::createBuffers() {
   for (const auto &config : configurations){
-    auto bufferSize = config.getInputBufferSize();
     BufferPtr buffer;
+    auto bufferSize = config.getInputBufferSize();
     if(bufferSize) {
+      // Buffer with size
       buffer = std::make_shared<Buffer>(config.getInputBufferSize());
     }
     else {
+      // Infinite buffer
       buffer = std::make_shared<Buffer>();
     }
-    inputBuffers[config.getProductId()] =  buffer;
+    // set outputbuffer based on config
+    outputBuffers[config.getProductId()] = buffer;
+    // Set input buffer as infinite buffer, this will be handled by
+    inputBuffers[config.getProductId()] = std::make_shared<Buffer>();
+  }
+}
+
+void Machine::useBuffersForConfig(uint16_t configureId) {
+  currentInputBuffer = inputBuffers[configureId];
+  currentOutputBuffer = outputBuffers[configureId];
+}
+
+uint32_t Machine::getNextMachineId(uint16_t configureId) {
+  for (const auto &config : configurations) {
+    if (config.getProductId() == configureId){
+      return config.getNextMachineId();
+    }
   }
 }
 

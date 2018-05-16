@@ -16,6 +16,8 @@
 #include "../../src/production_control/NotificationTypes.h"
 #include "../../src/machine_control/Machine.h"
 #include "../../src/production_control/Machine.h"
+#include "../../src/production_control/Buffer.h"
+#include "../../src/production_control/Product.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
@@ -33,7 +35,10 @@ BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
   BOOST_REQUIRE_NO_THROW(machineMock->setOnMessageFn(onMessageFn));
 
   BOOST_REQUIRE_NO_THROW(pcMock->startMockPCServerApplication());
+
   BOOST_REQUIRE_NO_THROW(machineMock->startMockMCClientApplication());
+
+  pcMock->awaitClientConnecting();
 
   BOOST_REQUIRE_NO_THROW(machine.setConnection(pcMock->getConnection()));
 
@@ -79,6 +84,33 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // run the context
   BOOST_CHECK_NO_THROW(application.run());
+
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
+
+BOOST_AUTO_TEST_CASE(TestBuffer) {
+  core::Buffer infiniteBuffer;
+  BOOST_CHECK(infiniteBuffer.canPutinInBuffer(500));
+  BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(500));
+
+  core::ProductPtr product;
+  BOOST_CHECK_NO_THROW(product = infiniteBuffer.takeFromBuffer());
+
+  BOOST_REQUIRE(product);
+
+  // Buffer with size 3
+  core::Buffer limitedBuffer(3);
+  BOOST_CHECK(limitedBuffer.canPutinInBuffer(3));
+  BOOST_CHECK(!limitedBuffer.canPutinInBuffer(4));
+
+  BOOST_CHECK_THROW(limitedBuffer.takeFromBuffer(), std::runtime_error);
+  BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
+  BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
+  BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
+  BOOST_CHECK_THROW(limitedBuffer.putInBuffer(product), std::runtime_error);
 
 }
 

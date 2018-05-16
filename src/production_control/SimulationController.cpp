@@ -137,6 +137,7 @@ namespace simulation {
 		for (const auto &machine : machines){
 		  coreMachines.emplace_back(machine);
 		}
+	  	application.setExecutaionConfiguration(configuration);
 		application.setMachines(coreMachines);
 
 		// If simulation, add sim state event

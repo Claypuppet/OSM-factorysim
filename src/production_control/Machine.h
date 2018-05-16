@@ -65,10 +65,30 @@ class Machine : public models::Machine {
   // Buffer getters
   const BufferPtr &getCurrentInputBuffer() const;
   const BufferPtr &getCurrentOutputBuffer() const;
+  const BufferPtr &getInputBuffer(uint16_t productId) const;
+  const BufferPtr &getOutputBuffer(uint16_t productId) const;
   const std::map<uint16_t, BufferPtr> &getInputBuffers() const;
   const std::map<uint16_t, BufferPtr> &getOutputBuffers() const;
 
-  void setInputBuffers(const std::map<uint16_t, BufferPtr> &inputBuffers);
+  /**
+   * Set buffer for specific configuration id
+   * @param productId : id of product
+   * @param inputBuffer : buffer for the product
+   */
+  void setInputBuffer(uint16_t productId, const BufferPtr &inputBuffer);
+
+  /**
+   * Use a specific input buffer, should be called after (re)configuring.
+   * @param productId : id of configuration
+   */
+  void useBuffersForConfig(uint16_t configureId);
+
+  /**
+   * Get machine id of the next machine of current configuration
+   * @param configureId : config id (production line)
+   * @return : id of next machine in production line
+   */
+  uint32_t getNextMachineId(uint16_t configureId);
 
 
  private:
@@ -90,7 +110,7 @@ class Machine : public models::Machine {
   BufferPtr currentInputBuffer;
   BufferPtr currentOutputBuffer;
 
-  // Maps with the different buffers a machine can have. the uint16_t is the product id (different production line)
+  // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, BufferPtr> inputBuffers;
   std::map<uint16_t, BufferPtr> outputBuffers;
 };
