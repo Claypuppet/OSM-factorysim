@@ -10,7 +10,8 @@
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : patterns::statemachine::Context(), id(aMachineId), connectionHandler(), machine() {
+    : patterns::statemachine::Context(), id(aMachineId), connectionHandler(), machine(), currentConfigId(0), currentConfig(configurations.at(0)){
+
 }
 
 Application::~Application() {
@@ -37,14 +38,14 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
       break;
     }
 
+
     case NotifyEventType::kNotifyEventTypeStartProcess: {
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
       scheduleEvent(event);
       break;
     }
 
-    default:
-      break;
+    default:break;
   }
 }
 
@@ -76,6 +77,21 @@ void Application::setupNetwork() {
   client->start();
 }
 
+models::MachineConfiguration &Application::getCurrentConfig() const {
+  return currentConfig;
+}
+
+void Application::setCurrentConfig() {
+    for (auto &configuration : configurations) {
+      if (configuration.getProductId() == currentConfigId) {
+        currentConfig = configuration;
+        auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+        scheduleEvent(event);
+        }
+    }
+  }
+
+
 void Application::registerMachine() {
   connectionHandler.sendRegisterMachineMessage(getId());
 }
@@ -85,6 +101,8 @@ bool Application::setCurrentConfigId(uint32_t configID) {
   for (auto &configuration : configurations) {
     if (configuration.getProductId() == configID) {
       currentConfigId = configID;
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+      scheduleEvent(event);
       return true;
     }
   } // access by reference to avoid copying

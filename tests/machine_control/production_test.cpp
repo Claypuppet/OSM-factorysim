@@ -12,6 +12,7 @@
 #include "../../src/machine_control/states_production/ConnectState.h"
 #include "../../src/machine_control/states_production/ReceiveConfig.h"
 #include "../../src/machine_control/states_production/Inititalization/ConfigureState.h"
+#include "../../src/machine_control/states_production/InOperation/IdleState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlProductionStateTests)
 
@@ -71,6 +72,38 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
   //7. checks if in the right state
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
 
+  application.stop();
+  mockNetwork->stop();
+
+}
+
+BOOST_AUTO_TEST_CASE(MachineControlConfigureToIdleState) {
+  auto mockNetwork = std::make_shared<testutils::MockNetwork>();
+  mockNetwork->startMockPCServerApplication();
+
+  // 1: make application context
+  machinecore::Application application(1);
+
+
+  //2. makes vector and makes machineConfig
+  std::vector<models::MachineConfiguration> confVector;
+  models::MachineConfiguration config0  = models::MachineConfiguration(0);
+  confVector.push_back(config0);
+  application.setConfigurations(confVector);
+
+  //3. checks if sets currentConfigId
+  BOOST_CHECK_EQUAL(application.setCurrentConfigId(0), true);
+
+  // 4. create state sets application to that state
+  auto state = std::make_shared<productionstates::ConfigureState>(productionstates::ConfigureState(application));
+  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
+
+  //5. checks if in the right state
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run());
+
+  //6. checks if in the Idle State
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::IdleState>(application.getCurrentState()), true);
   application.stop();
   mockNetwork->stop();
 
