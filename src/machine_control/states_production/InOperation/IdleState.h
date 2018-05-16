@@ -1,26 +1,26 @@
-//
-// Created by sven on 23-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_IDLESTATE_H
 #define PRODUCTION_LINE_CONTROL_IDLESTATE_H
 
 #include "../ProductionState.h"
-#include "InOperationState.h"
+#include "../ProductionState.h"
 
 namespace productionstates {
-class IdleState : public InOperationState {
- public:
-  IdleState(machinecore::Application &aContext) : InOperationState(aContext) {};
 
+class IdleState : public ProductionState {
+ public:
+  IdleState(machinecore::Application &aContext);
   virtual ~IdleState() = default;
 
-  virtual void entryAction();
+  bool handleEvent(const EventPtr &event);
+  void entryAction();
+  void doActivity();
+  void exitAction();
 
-  virtual void doActivity();
-
-  virtual void exitAction();
+ private:
+  void onReceivedConfigEvent();
 };
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_IDLESTATE_H
