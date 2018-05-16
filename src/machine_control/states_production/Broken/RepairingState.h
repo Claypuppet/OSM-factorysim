@@ -4,11 +4,11 @@
 
 #include "../ProductionState.h"
 
+namespace productionstates {
+
 /**
  * Machine state when it is broken
  */
-namespace productionstates {
-
 class RepairingState : public ProductionState {
  public:
   RepairingState(machinecore::Application &aContext);
