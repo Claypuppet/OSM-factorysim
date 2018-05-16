@@ -17,7 +17,7 @@ productionLine:
       inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
-      inputBufferSize: 68
+      outputBufferSize: 68
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30

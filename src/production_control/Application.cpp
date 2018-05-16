@@ -9,17 +9,34 @@
 #include "states_application/BroadCastState.h"
 #include "SimulationController.h"
 
-void core::Application::setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines) {
-  for (const simulation::SimulationMachinePtr& simulationMachine : simulationMachines) {
-    core::Machine machine = (core::Machine) (*simulationMachine);
-    machines.push_back(machine);
+core::Application::~Application() {
+  stopServer();
+}
+
+void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
+  // Set machines
+  machines = aMachines;
+  // Links all buffers for each production line
+  for (const auto &product : executaionConfiguration.getProductionLineConfiguration().getProducts()){
+    auto productId = product.getId();
+    for (const auto &machine : machines){
+      auto nextMachineId = machine->getNextMachineId(productId);
+      if (!nextMachineId){
+		continue;
+      }
+      auto nextMachine = getMachine(nextMachineId);
+	  if (!nextMachine){
+		continue;
+	  }
+      nextMachine->setInputBuffer(productId, machine->getInputBuffer(productId));
+    }
   }
 }
 
-core::MachinePtr core::Application::getMachine(uint16_t machineId) {
-  for (Machine &machine : machines) {
-    if (machine.getId() == machineId) {
-      return std::make_shared<Machine>(machine);
+core::MachinePtr core::Application::getMachine(uint32_t machineId) {
+  for (const auto &machine : machines) {
+    if (machine->getId() == machineId) {
+      return machine;
     }
   }
   return nullptr;
@@ -67,7 +84,7 @@ void core::Application::setStartState() {
 
 bool core::Application::allMachinesRegistered() {
   for (const auto &machine : machines){
-    if (!machine.isConnected()){
+    if (!machine->isConnected()){
       return false;
     }
   }
@@ -88,6 +105,7 @@ void core::Application::stopServer() {
     serverThread->join();
   }
 }
-core::Application::~Application() {
-  stopServer();
+
+void core::Application::setExecutaionConfiguration(const models::Configuration &executaionConfiguration) {
+  Application::executaionConfiguration = executaionConfiguration;
 }

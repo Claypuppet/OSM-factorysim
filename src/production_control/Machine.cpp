@@ -1,16 +1,16 @@
 
 #include <iostream>
-
+#include <memory>
 #include "Machine.h"
 
 namespace core {
 
-Machine::Machine(const models::Machine &aMachine) :
-    models::Machine(aMachine) {
+Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine) {
+  createBuffers();
 }
 
-Machine::Machine(const Machine &aMachine) :
-    models::Machine(aMachine) {
+Machine::Machine(const Machine &aMachine) : models::Machine(aMachine) {
+  createBuffers();
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
@@ -21,7 +21,7 @@ Machine &Machine::operator=(const Machine &rhs) {
   return *this;
 }
 
-void Machine::setConnection(Network::ConnectionPtr aConnection) {
+void Machine::setConnection(const Network::ConnectionPtr& aConnection) {
   connection = aConnection;
 }
 
@@ -41,6 +41,66 @@ void Machine::sendStartProcessMessage() {
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
   Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
+}
+
+const BufferPtr &Machine::getCurrentInputBuffer() const {
+  return currentInputBuffer;
+}
+
+const BufferPtr &Machine::getCurrentOutputBuffer() const {
+  return currentOutputBuffer;
+}
+
+const std::map<uint16_t, BufferPtr> &Machine::getInputBuffers() const {
+  return inputBuffers;
+}
+
+const std::map<uint16_t, BufferPtr> &Machine::getOutputBuffers() const {
+  return outputBuffers;
+}
+
+const BufferPtr &Machine::getInputBuffer(uint16_t productId) const {
+  return inputBuffers.at(productId);
+}
+
+const BufferPtr &Machine::getOutputBuffer(uint16_t productId) const {
+  return outputBuffers.at(productId);
+}
+
+void Machine::setInputBuffer(uint16_t productId, const BufferPtr &inputBuffer) {
+  inputBuffers[productId] = inputBuffer;
+}
+
+void Machine::createBuffers() {
+  for (const auto &config : configurations){
+    BufferPtr buffer;
+    auto bufferSize = config.getInputBufferSize();
+    if(bufferSize) {
+      // Buffer with size
+      buffer = std::make_shared<Buffer>(config.getInputBufferSize());
+    }
+    else {
+      // Infinite buffer
+      buffer = std::make_shared<Buffer>();
+    }
+    // set outputbuffer based on config
+    outputBuffers[config.getProductId()] = buffer;
+    // Set input buffer as infinite buffer, this will be handled by
+    inputBuffers[config.getProductId()] = std::make_shared<Buffer>();
+  }
+}
+
+void Machine::useBuffersForConfig(uint16_t configureId) {
+  currentInputBuffer = inputBuffers[configureId];
+  currentOutputBuffer = outputBuffers[configureId];
+}
+
+uint32_t Machine::getNextMachineId(uint16_t configureId) {
+  for (const auto &config : configurations) {
+    if (config.getProductId() == configureId){
+      return config.getNextMachineId();
+    }
+  }
 }
 
 }

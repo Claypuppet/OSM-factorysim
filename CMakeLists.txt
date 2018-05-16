@@ -173,11 +173,11 @@ target_link_libraries(test_network lib_network lib_models ${Boost_UNIT_TEST_FRAM
 ### CUSTOM COMMANDS ###
 
 # For production control, move configuration dir to bin dir
-add_custom_command(TARGET app_production_control POST_BUILD
+add_custom_command(TARGET app_production_control PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
 
 # For testing prod control, move test configs to bin dir
-add_custom_command(TARGET test_production_control POST_BUILD
+add_custom_command(TARGET test_production_control PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/tests/production_control/test_configs" $<TARGET_FILE_DIR:test_production_control>/test_configs)

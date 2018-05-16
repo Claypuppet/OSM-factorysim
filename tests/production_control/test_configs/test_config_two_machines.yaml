@@ -20,7 +20,7 @@ productionLine:
       inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
-      inputBufferSize: 68
+      outputBufferSize: 68
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
@@ -30,7 +30,7 @@ productionLine:
       inputMaterialsForEachProduct: 3
       outputEachMinute: 8
       initializationDurationInSeconds: 9
-      inputBufferSize: 68
+      outputBufferSize: 68
       turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
@@ -43,7 +43,7 @@ productionLine:
       inputMaterialsForEachProduct: 2
       outputEachMinute: 13
       initializationDurationInSeconds: 7
-      inputBufferSize: 69
+      outputBufferSize: 69
       turnAroundTimeInSeconds: 17
       meanTimeBetweenFailureInHours: 8801
       meanTimeBetweenFailureStddevInHours: 31
@@ -53,7 +53,7 @@ productionLine:
       inputMaterialsForEachProduct: 4
       outputEachMinute: 9
       initializationDurationInSeconds: 10
-      inputBufferSize: 69
+      outputBufferSize: 69
       turnAroundTimeInSeconds: 22
       meanTimeBetweenFailureInHours: 9801
       meanTimeBetweenFailureStddevInHours: 37

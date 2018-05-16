@@ -7,6 +7,8 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 
+#include "Buffer.h"
+
 namespace core {
 enum MachineStatus {
   kMachineStatusReady
@@ -46,7 +48,7 @@ class Machine : public models::Machine {
   * A function that sets the connection with this machine
   * @param aConnection : The connection with this machine
   */
-  void setConnection(Network::ConnectionPtr aConnection);
+  void setConnection(const Network::ConnectionPtr &aConnection);
 
   /**
    * Sends a message to the machine to start processing a product
@@ -60,6 +62,35 @@ class Machine : public models::Machine {
   void sendConfigureMessage(uint32_t configureId);
 
 
+  // Buffer getters
+  const BufferPtr &getCurrentInputBuffer() const;
+  const BufferPtr &getCurrentOutputBuffer() const;
+  const BufferPtr &getInputBuffer(uint16_t productId) const;
+  const BufferPtr &getOutputBuffer(uint16_t productId) const;
+  const std::map<uint16_t, BufferPtr> &getInputBuffers() const;
+  const std::map<uint16_t, BufferPtr> &getOutputBuffers() const;
+
+  /**
+   * Set buffer for specific configuration id
+   * @param productId : id of product
+   * @param inputBuffer : buffer for the product
+   */
+  void setInputBuffer(uint16_t productId, const BufferPtr &inputBuffer);
+
+  /**
+   * Use a specific input buffer, should be called after (re)configuring.
+   * @param productId : id of configuration
+   */
+  void useBuffersForConfig(uint16_t configureId);
+
+  /**
+   * Get machine id of the next machine of current configuration
+   * @param configureId : config id (production line)
+   * @return : id of next machine in production line
+   */
+  uint32_t getNextMachineId(uint16_t configureId);
+
+
  private:
 
   /**
@@ -68,8 +99,20 @@ class Machine : public models::Machine {
   */
   void sendMessage(const Network::Message &message);
 
+  /**
+   * Create the output buffers for this machine
+   */
+  void createBuffers();
+
   MachineStatus status;
   Network::ConnectionPtr connection;
+
+  BufferPtr currentInputBuffer;
+  BufferPtr currentOutputBuffer;
+
+  // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
+  std::map<uint16_t, BufferPtr> inputBuffers;
+  std::map<uint16_t, BufferPtr> outputBuffers;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;

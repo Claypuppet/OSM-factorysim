@@ -31,13 +31,14 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
 
   // Machine 1 should be loaded
-  BOOST_CHECK(!!controller.getMachine(1));
+  auto machine = controller.getMachine(1);
+  BOOST_REQUIRE(machine);
 
   // Setting this state will setup the server
   auto state = states::SimulationWaitForConnectionsState(controller);
   BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(state)));
 
-  BOOST_CHECK_EQUAL(controller.getMachine(1)->isSimulationConnected(), false);
+  BOOST_CHECK_EQUAL(machine->isSimulationConnected(), false);
 
   // Connect a machine
   machineNetwork->startMockMCClientController();

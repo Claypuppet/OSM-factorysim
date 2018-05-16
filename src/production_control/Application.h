@@ -9,6 +9,7 @@
 // other library includes
 #include <patterns/statemachine/Context.h>
 #include <patterns/notifyobserver/Observer.hpp>
+#include <models/Configuration.h>
 
 // project file includes
 #include "Machine.h"
@@ -23,14 +24,14 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   Application() = default;
   ~Application();
 
-  void setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines);
+  void setMachines(const std::vector<MachinePtr>& simulationMachines);
 
   /**
   * A function to get a machine by its ID
   * @param machineId : The ID of the machine you are looking for
   * @return The machine with the requested ID or a nullptr when the machine doesn't exist
   */
-  MachinePtr getMachine(uint16_t machineId);
+  MachinePtr getMachine(uint32_t machineId);
 
   /**
    * Getter for server
@@ -87,8 +88,16 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    */
   void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
+  /**
+   * Set the coniguration used by the execution of this application
+   * @param executaionConfiguration
+   */
+  void setExecutaionConfiguration(const models::Configuration &executaionConfiguration);
+
  private:
-  std::vector<Machine> machines;
+  models::Configuration executaionConfiguration;
+  std::vector<MachinePtr> machines;
+
   Network::ServerPtr server;
   ThreadPtr serverThread;
   Network::Manager manager;

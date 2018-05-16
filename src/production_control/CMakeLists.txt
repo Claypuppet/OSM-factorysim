@@ -5,6 +5,10 @@ set(app_production_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/AppConnectionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Product.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Product.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Application.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Application.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationConnectionHandler.cpp

@@ -102,7 +102,7 @@ namespace models {
 
     private:
         uint16_t productId, nextMachineId, inputMaterialsForEachProduct;
-        uint16_t outputEachMinute, initializationDurationInSeconds, inputBufferSize;
+        uint16_t outputEachMinute, initializationDurationInSeconds, outputBufferSize;
         uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
 
         /**
@@ -114,7 +114,7 @@ namespace models {
         void save(Archive &ar) const
         {
             ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
-               inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+               outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
         }
 
         /**
@@ -126,7 +126,7 @@ namespace models {
         void load(Archive& ar)
         {
             ar(productId, nextMachineId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds,
-               inputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+               outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
         }
 
         friend class ::cereal::access;
