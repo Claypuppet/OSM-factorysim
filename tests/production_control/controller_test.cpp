@@ -192,6 +192,34 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   productionServer->stop();
 }
 
+BOOST_AUTO_TEST_CASE(SendTurnOff) {
+  // Create server and client
+  auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
+  auto productionServer = std::make_shared<testutils::MockNetwork>();
+
+  // Start server, start client, wait for connection on server
+  productionServer->startMockPCServerController();
+  machineEndpoint->startMockMCClientController();
+  productionServer->awaitClientConnecting();
+
+  // Create machine with connection (in production control)
+  auto machine = simulation::SimulationMachine(1);
+  machine.setSimulationConnection(productionServer->getConnection());
+
+  // prepare test on machine control when message will receive
+  testutils::OnMessageFn callback = [](const Network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOff);
+  };
+  machineEndpoint->setOnMessageFn(callback);
+  machine.sendTurnOffCommand();
+
+  // wait for the message received
+  machineEndpoint->awaitMessageReceived();
+
+  machineEndpoint->stop();
+  productionServer->stop();
+}
+
 // TODO !!! Move this to application_test after Bas has committed & merged it with dev
 BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   // Create server and client
