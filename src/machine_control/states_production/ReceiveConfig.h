@@ -29,6 +29,12 @@ class ReceiveConfig : public ProductionState {
  * @return
  */
   virtual bool handleEvent(const patterns::statemachine::EventPtr &e);
+/**
+ * This function checks if received config exists and fires event if it can switch
+ * @param e: incomming event as eventPointer
+ * @return
+ */
+  void onConfigReceived(const EventPtr &event);
 };
 }
 #endif //PRODUCTION_LINE_CONTROL_RECEIVECONFIG_H

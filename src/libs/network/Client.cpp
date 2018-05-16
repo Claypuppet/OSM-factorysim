@@ -7,13 +7,8 @@
 
 #include "Client.h"
 
-#include "Connection.h"
 #include "Manager.h"
 
-
-#include <stdexcept>
-#include <iostream>
-#include <sstream>
 #include <utils/Logger.h>
 
 

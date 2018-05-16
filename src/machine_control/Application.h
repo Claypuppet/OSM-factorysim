@@ -20,10 +20,10 @@
 namespace machinecore {
 
 enum NotifyEventType {
-  kNotifyEventTypeMachineInfoReceived,
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
-  kNotifyEventTypeStartProcess
+  kNotifyEventTypeStartProcess,
+  kNotifyEventTypeMachineConfigReceived
 };
 
 class Application
@@ -77,7 +77,25 @@ class Application
    */
   void stop();
 
+  /**
+ * Executes network
+ */
   void setupNetwork();
+
+/**
+ * sends register machine message to PC
+ */
+  void registerMachine();
+
+  /**
+   * checks if configurationID is available ands sets currentConfigId if it is.
+    * @param configID
+    * @return true if config  is available and set else false
+    */
+  bool setCurrentConfigId(uint32_t configID);
+
+  uint32_t getCurrentConfigId() const;
+
 
   models::MachineConfiguration &getCurrentConfig() const;
 
@@ -96,11 +114,10 @@ class Application
 
   // Id of the machine
   uint16_t id;
+  uint32_t currentConfigId;
 
   //Current configuration
   models::MachineConfiguration &currentConfig;
-
- private:
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;

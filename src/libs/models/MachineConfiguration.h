@@ -21,7 +21,7 @@ namespace models {
          * Default constructor
          */
         MachineConfiguration();
-
+        MachineConfiguration(int16_t productId);
         /**
          * Copy constructor
          * @param other : MachineConfiguration object to copy

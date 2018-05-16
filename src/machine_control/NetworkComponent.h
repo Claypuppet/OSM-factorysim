@@ -10,54 +10,65 @@
 
 namespace Communication {
 class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
-	public:
-		NetworkComponent();
-		~NetworkComponent() = default;
+ public:
+  NetworkComponent();
+  ~NetworkComponent() = default;
 
-		/**
-		 * A function that sends a message to production control to register this machine
-		 * @param machineId : The id of the machine
-		 */
-		void sendRegisterMessage(const uint16_t machineId);
+  /**
+   * A function that sends a message to production control to register this machine
+   * @param machineId : The id of the machine
+   */
+  void sendRegisterMachineMessage(uint16_t machineId);
 
-		/**
-		 * Send status update: ready for instructions
-		 */
-		void sendStatusUpdateReady();
+  /**
+       * Send status update: ready for instructions
+       */
+  void sendStatusUpdateReady();
 
-		/**
-		 * Send status update: started procssing
-		 */
-		void sendStatusUpdateStarted();
+  /**
+   * Send status update: started procssing
+   */
+  void sendStatusUpdateStarted();
 
-		/**
-		 * Send status update: done processing
-		 */
-		void sendStatusUpdateDone();
+  /**
+   * Send status update: done processing
+   */
+  void sendStatusUpdateDone();
 
-		/**
-		 * Send response: OK
-		 */
-		void sendResponseOK();
+  /**
+   * Send response: OK
+   */
+  void sendResponseOK();
 
-		/**
-		 * Send response: NOK
-		 * @param errorCode : error code
-		 */
-		void sendResponseNOK(const uint16_t errorCode);
+  /**
+   * Send response: NOK
+   * @param errorCode : error code
+   */
+  void sendResponseNOK(const uint16_t errorCode);
+ private:
+  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(Network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  /**
+   * checks for connection with PC
+   * @return
+   */
+  bool isConnected();
 
-	private:
-		void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-		void onConnectionEstablished(Network::ConnectionPtr connection) override;
-		void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-		void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  /**
+   * checks for connection and sends message
+   * @param message
+   */
+  void sendMessage(Network::Message &message);
 
-		Network::ConnectionPtr mConnection;
+  Network::ConnectionPtr mConnection;
 
-		void handleReconfigureMessage();
-		void handleProcessProductMessage();
-	};
+  void handleReconfigureMessage();
+  void handleProcessProductMessage();
+  void handleProcessReconfigureMessage(Network::Message &message);
+
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
