@@ -3,7 +3,6 @@
 #define PRODUCTION_LINE_CONTROL_APPLICATION_H
 
 // standard libary includes
-class vector;
 #include <vector>
 #include <cstdint>
 
