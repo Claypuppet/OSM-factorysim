@@ -78,6 +78,12 @@ class Application
   void stop();
 
   void setupNetwork();
+
+  /**
+   * Execute the self test and create a new event based on the result
+   */
+  virtual void executeSelfTest() {};
+
  private:
   Network::Manager manager;
   Network::ClientPtr client;

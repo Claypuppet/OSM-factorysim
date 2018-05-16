@@ -18,15 +18,7 @@ void SelfTestState::entryAction() {
 }
 
 void SelfTestState::doActivity() {
-  bool selfTestSucceeded = executeSelfTest();
-
-  if (selfTestSucceeded) {
-    auto event = std::make_shared<Event>(kEventTypeSelfTestSuccess);
-    context.scheduleEvent(event);
-  } else {
-    auto event = std::make_shared<Event>(kEventTypeSelfTestFailed);
-    context.scheduleEvent(event);
-  }
+  context.executeSelfTest();
 }
 
 void SelfTestState::exitAction() {
