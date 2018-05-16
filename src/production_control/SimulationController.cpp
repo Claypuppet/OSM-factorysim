@@ -132,7 +132,12 @@ namespace simulation {
 			machines.emplace_back(std::make_shared<SimulationMachine>(machine));
 		}
 
-		application.setMachines(machines);
+		// loop-copy the machines to coreMachines.
+		std::vector<core::MachinePtr> coreMachines;
+		for (const auto &machine : machines){
+		  coreMachines.emplace_back(machine);
+		}
+		application.setMachines(coreMachines);
 
 		// If simulation, add sim state event
 		if (true){ // For now always true till we support non-simulations

@@ -9,17 +9,15 @@
 #include "states_application/BroadCastState.h"
 #include "SimulationController.h"
 
-void core::Application::setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines) {
-  for (const simulation::SimulationMachinePtr& simulationMachine : simulationMachines) {
-    core::Machine machine = (core::Machine) (*simulationMachine);
-    machines.push_back(machine);
-  }
+void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
+  machines = aMachines;
+  // TODO: set link machines through buffers
 }
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {
-  for (Machine &machine : machines) {
-    if (machine.getId() == machineId) {
-      return std::make_shared<Machine>(machine);
+  for (const auto &machine : machines) {
+    if (machine->getId() == machineId) {
+      return machine;
     }
   }
   return nullptr;
@@ -67,7 +65,7 @@ void core::Application::setStartState() {
 
 bool core::Application::allMachinesRegistered() {
   for (const auto &machine : machines){
-    if (!machine.isConnected()){
+    if (!machine->isConnected()){
       return false;
     }
   }

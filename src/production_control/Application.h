@@ -23,7 +23,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   Application() = default;
   ~Application();
 
-  void setMachines(const std::vector<simulation::SimulationMachinePtr>& simulationMachines);
+  void setMachines(const std::vector<MachinePtr>& simulationMachines);
 
   /**
   * A function to get a machine by its ID
@@ -88,7 +88,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
 
  private:
-  std::vector<Machine> machines;
+  std::vector<MachinePtr> machines;
   Network::ServerPtr server;
   ThreadPtr serverThread;
   Network::Manager manager;

@@ -48,7 +48,7 @@ class Machine : public models::Machine {
   * A function that sets the connection with this machine
   * @param aConnection : The connection with this machine
   */
-  void setConnection(Network::ConnectionPtr aConnection);
+  void setConnection(const Network::ConnectionPtr &aConnection);
 
   /**
    * Sends a message to the machine to start processing a product
@@ -62,6 +62,15 @@ class Machine : public models::Machine {
   void sendConfigureMessage(uint32_t configureId);
 
 
+  // Buffer getters
+  const BufferPtr &getCurrentInputBuffer() const;
+  const BufferPtr &getCurrentOutputBuffer() const;
+  const std::map<uint16_t, BufferPtr> &getInputBuffers() const;
+  const std::map<uint16_t, BufferPtr> &getOutputBuffers() const;
+
+  void setInputBuffers(const std::map<uint16_t, BufferPtr> &inputBuffers);
+
+
  private:
 
   /**
@@ -70,10 +79,20 @@ class Machine : public models::Machine {
   */
   void sendMessage(const Network::Message &message);
 
+  /**
+   * Create the output buffers for this machine
+   */
+  void createBuffers();
+
   MachineStatus status;
   Network::ConnectionPtr connection;
 
-  BufferPtr outnputBuffer;
+  BufferPtr currentInputBuffer;
+  BufferPtr currentOutputBuffer;
+
+  // Maps with the different buffers a machine can have. the uint16_t is the product id (different production line)
+  std::map<uint16_t, BufferPtr> inputBuffers;
+  std::map<uint16_t, BufferPtr> outputBuffers;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;

@@ -11,7 +11,7 @@ namespace models {
               inputMaterialsForEachProduct(other.inputMaterialsForEachProduct),
               outputEachMinute(other.outputEachMinute),
               initializationDurationInSeconds(other.initializationDurationInSeconds),
-              inputBufferSize(other.inputBufferSize),
+              outputBufferSize(other.outputBufferSize),
               meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
               meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
               reparationTimeInMinutes(other.reparationTimeInMinutes) {
@@ -27,7 +27,7 @@ namespace models {
             inputMaterialsForEachProduct = other.inputMaterialsForEachProduct;
             outputEachMinute = other.outputEachMinute;
             initializationDurationInSeconds = other.initializationDurationInSeconds;
-            inputBufferSize = other.inputBufferSize;
+            outputBufferSize = other.outputBufferSize;
             meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
             meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
             reparationTimeInMinutes = other.reparationTimeInMinutes;
@@ -42,7 +42,7 @@ namespace models {
         inputMaterialsForEachProduct = machineConfigurationNode["inputMaterialsForEachProduct"].as<uint16_t>();
         outputEachMinute = machineConfigurationNode["outputEachMinute"].as<uint16_t>();
         initializationDurationInSeconds = machineConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
-        inputBufferSize = machineConfigurationNode["inputBufferSize"].as<uint16_t>();
+        outputBufferSize = machineConfigurationNode["outputBufferSize"].as<uint16_t>();
         meanTimeBetweenFailureInHours = machineConfigurationNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
         meanTimeBetweenFailureStddevInHours = machineConfigurationNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
         reparationTimeInMinutes = machineConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
@@ -69,7 +69,7 @@ namespace models {
     }
 
     uint16_t MachineConfiguration::getInputBufferSize() const {
-        return inputBufferSize;
+        return outputBufferSize;
     }
 
     uint16_t MachineConfiguration::getMeanTimeBetweenFailureInHours() const {
