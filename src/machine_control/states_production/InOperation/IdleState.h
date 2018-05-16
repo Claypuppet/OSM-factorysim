@@ -19,6 +19,7 @@ class IdleState : public ProductionState {
 
  private:
   void onReceivedConfigEvent();
+  void onTakeProductEvent();
 };
 
 }
