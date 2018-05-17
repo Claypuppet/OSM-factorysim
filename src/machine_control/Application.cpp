@@ -12,11 +12,10 @@ namespace machinecore {
 Application::Application(uint16_t aMachineId)
     : patterns::statemachine::Context(),
       id(aMachineId),
-      connectionHandler(),
       machine(),
       newConfigId(0),
       currentConfig(0) {
-
+  connectionHandler = std::make_shared<Communication::NetworkComponent>();
 }
 
 Application::~Application() {
@@ -70,9 +69,9 @@ void Application::stop() {
 void Application::setupNetwork() {
   clientThread = manager.runServiceThread();
 
-  handleNotificationsFor(connectionHandler);
+  handleNotificationsFor(*connectionHandler);
 
-  client = manager.createClient(std::shared_ptr<Communication::NetworkComponent>(&connectionHandler));
+  client = manager.createClient(connectionHandler);
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
   client->setServiceEventListener(eventDispatcherPtr);
@@ -96,7 +95,7 @@ void Application::setCurrentConfig() {
 }
 
 void Application::registerMachine() {
-  connectionHandler.sendRegisterMachineMessage(id);
+  connectionHandler->sendRegisterMachineMessage(id);
 }
 
 bool Application::setCurrentConfigId(uint32_t configID) {
