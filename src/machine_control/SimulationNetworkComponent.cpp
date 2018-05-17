@@ -15,7 +15,6 @@ namespace SimulationCommunication {
 void SimulationNetworkComponent::onConnectionFailed(Network::ConnectionPtr connection,
                                                     const boost::system::error_code &error) {
   IConnectionHandler::onConnectionFailed(connection, error);
-  std::cout << "not connected" << std::endl;
 }
 
 void SimulationNetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
@@ -24,8 +23,6 @@ void SimulationNetworkComponent::onConnectionEstablished(Network::ConnectionPtr 
 
 void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
                                                           const boost::system::error_code &error) {
-  std::cout << "dc" << std::endl;
-  std::cout << "not connected 2" << std::endl;
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
@@ -71,7 +68,8 @@ void SimulationNetworkComponent::onTurnOnReceived() {
 }
 
 void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
-  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister , std::to_string(machineId));
+  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+  message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
 }
 

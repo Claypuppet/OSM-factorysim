@@ -7,7 +7,8 @@
 
 // project file includes
 #include "states_application/BroadCastState.h"
-#include "SimulationController.h"
+#include "states_application/WaitForConnectionsState.h"
+#include "NotificationTypes.h"
 
 core::Application::~Application() {
   stopServer();
@@ -42,13 +43,17 @@ core::MachinePtr core::Application::getMachine(uint32_t machineId) {
   return nullptr;
 }
 
+const std::vector<core::MachinePtr> &core::Application::getMachines() const {
+  return machines;
+}
+
 void core::Application::setupNetwork() {
   if (server && server->isRunning()) {
     return;
   }
 
   AppConnectionHandler connectionHandler;
-//	handleNotificationsFor(connectionHandler);
+  handleNotificationsFor(connectionHandler);
 
   serverThread = manager.runServiceThread();
   server = manager.createServer(std::make_shared<AppConnectionHandler>(connectionHandler), 50);
@@ -74,11 +79,52 @@ Network::ServerPtr core::Application::getServer() {
 }
 
 void core::Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+  // TODO: move the case implementation to own method (or not?)
+  switch(notification.getEventId()) {
+    case NotifyEventIds::eApplicationRegisterMachine:{
+      auto id = notification.getArgumentAsType<uint16_t>(0);
+      auto connection = notification.getArgumentAsType<Network::ConnectionPtr>(1);
+
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineRegistered);
+      event->addArgument(id);
+      event->addArgument(connection);
+      scheduleEvent(event);
+      break;
+    }
+    case NotifyEventIds::eApplicationMachineReady:{
+
+      break;
+    }
+    case NotifyEventIds::eApplicationStartInit:{
+
+      break;
+    }
+    case NotifyEventIds::eApplicationStartProcessing:{
+
+      break;
+    }
+    case NotifyEventIds::eApplicationDoneProcessing:{
+
+      break;
+    }
+    case NotifyEventIds::eApplicationOK:{
+
+      break;
+    }
+    case NotifyEventIds::eApplicationNOK:{
+
+      break;
+    }
+    default: {
+      std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+      break;
+    }
+  }
 
 }
 
 void core::Application::setStartState() {
-  auto startState = std::make_shared<ApplicationStates::BroadCastState>(*this);
+  auto startState = std::make_shared<ApplicationStates::WaitForConnectionsState>(*this);
   setCurrentState(startState);
 }
 
@@ -95,6 +141,11 @@ void core::Application::registerMachine(uint16_t machineId, Network::ConnectionP
   auto machine = getMachine(machineId);
   if(machine){
     machine->setConnection(connection);
+
+    if (allMachinesRegistered()) {
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeAllMachinesRegistered);
+      scheduleEvent(event);
+    }
   }
 }
 

@@ -31,12 +31,12 @@ namespace ApplicationStates {
        * Executes everytime the handlEvent receives a machineReady message
        * @param event a pointer to the current event
        */
-      void onMachineReady(const ApplicationStates::EventPtr &event);
+      void onMachineRegistered(const ApplicationStates::EventPtr &event);
 
       /**
        * Executes everytime the handleEvent method receives a message allMachinesReady
        */
-      void onAllMachinesReady();
+      void onAllMachinesConnected();
     };
 }
 

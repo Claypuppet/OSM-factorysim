@@ -40,7 +40,9 @@ void Machine::sendStartProcessMessage() {
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
-  Network::Message message(Network::Protocol::kAppMessageTypeReconfigure, std::to_string(configureId));
+  Network::Message message(Network::Protocol::kAppMessageTypeReconfigure);
+  message.setBodyObject(configureId);
+  sendMessage(message);
 }
 
 const BufferPtr &Machine::getCurrentInputBuffer() const {
