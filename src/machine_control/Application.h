@@ -134,8 +134,8 @@ class Application
 
   // Id of the machine
   uint16_t id;
-  uint32_t newConfigId;
-  uint32_t currentConfig;
+  uint32_t nextConfigId;
+  uint32_t currentConfigId;
 
 
   // Vector of possible configurations
