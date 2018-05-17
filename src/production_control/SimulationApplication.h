@@ -10,6 +10,11 @@
 
 namespace simulation {
 
+/**
+ * This class makes sure that the simulation in the application is executed correctly. It is used by the simulation
+ * controller, just as the application is used by the controller. The simulation application overrides some methods to
+ * give it a new or differenct implementation, and also adds the options to turn the simulation machines on and off.
+ */
 class SimulationApplication : public core::Application {
  public:
   SimulationApplication() = default;
