@@ -12,8 +12,11 @@ productionLine:
     name: luxekantoortafels
     proportion: 1
   machines:
+
+# -------------------- HOUTEN PLATEN (GOEDKOOP) --------------------
+
   - id: 1
-    name: Zaagmachine
+    name: Zaagmachine (hout)
     configurations:
     - productId: 1
       outputEachMinute: 12
@@ -37,8 +40,9 @@ productionLine:
       previousMachines:
         - machineId: 0
         - neededProducts: 0
+
   - id: 2
-    name: Lijmmachine
+    name: Voorboormachine (hout)
     configurations:
     - productId: 1
       outputEachMinute: 12
@@ -61,4 +65,164 @@ productionLine:
       reparationTimeInMinutes: 27
       previousMachines:
         - machineId: 1
+        - neededProducts: 0
+
+  - id: 3
+    name: Schuurmachine (hout)
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+
+  - id: 4
+    name: Spuitmachine (hout)
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+
+# -------------------- STALEN PIJPEN (GOEDKOOP) --------------------
+
+  - id: 5
+    name: Zaagmachine (staal)
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+
+  - id: 6
+    name: Lasmachine (staal)
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+
+  - id: 7
+    name: Poedercoatmachine (staal)
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+
+# -------------------- INPAKKEN --------------------
+
+  - id: 8
+    name: Inpakmachine
+    configurations:
+    - productId: 1
+      outputEachMinute: 12
+      initializationDurationInSeconds: 6
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 16
+      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureStddevInHours: 30
+      reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
+    - productId: 2
+      outputEachMinute: 8
+      initializationDurationInSeconds: 9
+      outputBufferSize: 68
+      turnAroundTimeInSeconds: 21
+      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureStddevInHours: 36
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
         - neededProducts: 0
