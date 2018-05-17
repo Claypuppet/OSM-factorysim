@@ -12,11 +12,10 @@ namespace machinecore {
 Application::Application(uint16_t aMachineId)
     : patterns::statemachine::Context(),
       id(aMachineId),
-      connectionHandler(),
       machine(),
-      currentConfigId(0),
-      currentConfig(configurations.at(0)) {
-
+      nextConfigId(0),
+      currentConfigId(0) {
+  connectionHandler = std::make_shared<Communication::NetworkComponent>();
 }
 
 Application::~Application() {
@@ -70,9 +69,9 @@ void Application::stop() {
 void Application::setupNetwork() {
   clientThread = manager.runServiceThread();
 
-  handleNotificationsFor(connectionHandler);
+  handleNotificationsFor(*connectionHandler);
 
-  client = manager.createClient(std::shared_ptr<Communication::NetworkComponent>(&connectionHandler));
+  client = manager.createClient(connectionHandler);
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
   client->setServiceEventListener(eventDispatcherPtr);
@@ -81,14 +80,14 @@ void Application::setupNetwork() {
   client->start();
 }
 
-models::MachineConfiguration &Application::getCurrentConfig() const {
-  return currentConfig;
+const models::MachineConfiguration &Application::getCurrentConfig() const {
+  return configurations.at(currentConfigId);
 }
 
 void Application::setCurrentConfig() {
   for (auto &configuration : configurations) {
-    if (configuration.getProductId() == currentConfigId) {
-      currentConfig = configuration;
+    if (configuration.getProductId() == nextConfigId) {
+      currentConfigId = nextConfigId;
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
       scheduleEvent(event);
     }
@@ -96,14 +95,14 @@ void Application::setCurrentConfig() {
 }
 
 void Application::registerMachine() {
-  connectionHandler.sendRegisterMachineMessage(id);
+  connectionHandler->sendRegisterMachineMessage(id);
 }
 
 bool Application::setCurrentConfigId(uint32_t configID) {
 
   for (auto &configuration : configurations) {
     if (configuration.getProductId() == configID) {
-      currentConfigId = configID;
+      nextConfigId = configID;
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
       scheduleEvent(event);
       return true;

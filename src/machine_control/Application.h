@@ -116,7 +116,7 @@ class Application
   uint32_t getCurrentConfigId() const;
 
 
-  models::MachineConfiguration &getCurrentConfig() const;
+  const models::MachineConfiguration &getCurrentConfig() const;
 
   /**
    * sets configuration based on configId, fires event if success
@@ -128,16 +128,15 @@ class Application
   Network::Manager manager;
   Network::ClientPtr client;
   ThreadPtr clientThread;
-  Communication::NetworkComponent connectionHandler;
+  Communication::NetworkComponentPtr connectionHandler;
 
   Machine machine;
 
   // Id of the machine
   uint16_t id;
+  uint32_t nextConfigId;
   uint32_t currentConfigId;
 
-  //Current configuration
-  models::MachineConfiguration &currentConfig;
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;

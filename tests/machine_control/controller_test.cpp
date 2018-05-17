@@ -1,6 +1,4 @@
-//
-// Created by hqnders on 09/05/18.
-//
+
 #define BOOST_TEST_DYN_LINK
 
 #include <vector>
@@ -20,15 +18,22 @@
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
+
+  // set the SimulationController with a machine id of 1
   simulator::SimulationController controller(1);
 
-  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::FindProductControlState>(controller)));
+  // set the FindProductControlState state
+  auto findProductionControlState = std::make_shared<simulationstates::FindProductControlState>(controller);
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(findProductionControlState));
 
+  // run the controller
   BOOST_CHECK_NO_THROW(controller.run());
 
-  BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(controller.getCurrentState()), true);
+  // check if the state has changed to the next state
+  auto currentState = controller.getCurrentState();
+  bool isState = !!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(currentState);
+  BOOST_REQUIRE_EQUAL(isState, true);
 
-  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
@@ -50,8 +55,8 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::InitializeSimulationState>(controller.getCurrentState()), true);
 
-  controller.stop();
   productionControl->stop();
+  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
@@ -61,9 +66,10 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
   
   simulator::SimulationController controller(1);
 
-  BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::InitializeSimulationState>(controller)));
-
+  controller.setupNetwork();
   productionControlServer->awaitClientConnecting(1000);
+
+  BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::InitializeSimulationState>(controller)));
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
   std::vector<models::MachineConfiguration> argument;
@@ -94,8 +100,12 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerOffState) {
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerOnState) {
   simulator::SimulationController controller(1);
+  auto productionControl = std::make_shared<testutils::MockNetwork>();
+  productionControl->startMockPCServerApplication();
 
   BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::OnState>(controller)));
+
+  productionControl->awaitClientConnecting();
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOff);
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
@@ -103,6 +113,8 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerOnState) {
   BOOST_REQUIRE_NO_THROW(controller.run());
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::OffState>(controller.getCurrentState()), true);
+
+  productionControl->stop();
 }
 
 // Einde public method tests
