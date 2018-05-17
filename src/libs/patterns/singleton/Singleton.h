@@ -11,7 +11,7 @@ namespace patterns {
         class Singleton {
         public:
             Singleton(const Singleton &) = delete;
-            Singleton& operator=(const Singleton &) = delete;
+          virtual Singleton& operator=(const Singleton &) = delete;
 
             /**
              * Get singleton object instance
