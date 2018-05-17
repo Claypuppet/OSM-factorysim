@@ -111,10 +111,13 @@ const Network::ConnectionPtr &MockNetwork::getConnection() const {
 
 void MockNetwork::stop() {
   networkManager.stop();
+  if(connectionStatus != kConnectionDisconnected){
+    Predicate disconnected = [this](){return connectionStatus == kConnectionDisconnected;};
+    HelperFunctions::waitForPredicate(disconnected, 200);
+  }
   if (networkThread && networkThread->joinable()){
     networkThread->join();
   }
-  HelperFunctions::wait(200);
 }
 void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
