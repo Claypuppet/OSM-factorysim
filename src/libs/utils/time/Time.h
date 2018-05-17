@@ -73,7 +73,6 @@ class Time : public patterns::Singleton::Singleton<Time> {
    */
   void setType(TimeType aType);
 
- protected:
   Time();
  private:
   std::shared_ptr<ITime> timer;

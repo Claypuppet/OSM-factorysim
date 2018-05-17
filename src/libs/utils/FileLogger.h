@@ -15,31 +15,32 @@ namespace utils {
 
 class FileLogger : public patterns::Singleton::Singleton<FileLogger> {
  public:
+
+
   FileLogger();
-  virtual ~FileLogger();
+  FileLogger(std::string componentname);
 
   /**
-   * enable or disable logging
-   * @param message : string to log
-   */
-  static void setEnabled(bool enabled);
+ * sets up logger
+ * @return
+ */
+  static void setupLogger(std::string filename, int8_t maxFileSize);
 
   /**
-   * Quick method for logging, calls getInstance and uses the logMessage
-   * @param message : string to log
+   * shortcut to logger of both
+   * @return
    */
-  static void log(const std::string &message);
-
+  static std::shared_ptr<spdlog::logger> both();
   /**
-   * the actual log method
-   * @param message
-   */
-  void logMessage(const std::string &message);
-
- private:
-
-  bool enabled;
-  std::mutex lock;
+ * shortcut to logger of file
+ * @return
+ */
+  static std::shared_ptr<spdlog::logger> file();
+  /**
+ * shortcut to logger of console
+ * @return
+ */
+  static std::shared_ptr<spdlog::logger> console();
 };
 
 }
