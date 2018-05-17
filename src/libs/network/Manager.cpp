@@ -81,14 +81,14 @@ namespace Network
 
 		if(s) {
 			std::stringstream message;
-			message << "Stopping server..." << std::endl;
+			message << "----Stopping server...";
 			utils::Logger::log(message.str());
 			s->stop();
 			mServer.reset();
 		}
 		if(c) {
 			std::stringstream message;
-			message << "Stopping client..." << std::endl;
+			message << "----Stopping client...";
 			utils::Logger::log(message.str());
 			c->stop();
 			mClient.reset();
@@ -99,7 +99,7 @@ namespace Network
 			while(s->isRunning())
 				std::this_thread::yield();
 			std::stringstream message;
-			message << "Server stopped" << std::endl;
+			message << "----Server stopped";
 			utils::Logger::log(message.str());
 			s.reset();
 		}
@@ -108,7 +108,7 @@ namespace Network
 			while(c->isRunning())
 				std::this_thread::yield();
 			std::stringstream message;
-			message << "Client stopped" << std::endl;
+			message << "----Client stopped";
 			utils::Logger::log(message.str());
 			c.reset();
 		}
@@ -136,7 +136,7 @@ namespace Network
 
 		try {
 			std::stringstream message;
-			message << "Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec << std::endl;
+			message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service" << std::dec;
 			utils::Logger::log(message.str());
 			service->run();
 		}
@@ -147,7 +147,7 @@ namespace Network
 			std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
 		}
 		std::stringstream message;
-		message << "Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec << std::endl;
+		message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service" << std::dec;
 		utils::Logger::log(message.str());
 	}
 

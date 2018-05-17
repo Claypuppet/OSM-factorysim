@@ -10,7 +10,7 @@
 #include <models/Configuration.h>
 #include "Controller.h"
 #include "SimulationMachine.h"
-
+#include "SimulationApplication.h"
 
 namespace simulation {
 
@@ -50,16 +50,6 @@ namespace simulation {
          * @return machinePointer : Machine if found else nullptr
          */
 		SimulationMachinePtr getMachine(uint16_t id);
-
-        /**
-         * Send message to all connected simulation machines to turn on
-         */
-        void turnOnSimulationMachines();
-
-        /**
-         * Send message to all connected simulation machines to turn on
-         */
-        void turnOffSimulationMachines();
 
         /**
          * Setup simulation network communications
@@ -104,9 +94,9 @@ namespace simulation {
 		 */
 		bool allMachinesReady();
 
-		void turnOffMachine(uint16_t machineId);
+		core::Application &getApplication() override;
 
-    private:
+	 private:
 
         /**
          * sets start state and fires event to read config file
@@ -136,6 +126,7 @@ namespace simulation {
          * SimulationMachines
          */
         std::vector<SimulationMachinePtr> machines;
+		SimulationApplication application;
 
         /**
          * Config properties

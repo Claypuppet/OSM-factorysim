@@ -47,7 +47,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * @param amount : amount to check
    * @return : true if its possible
    */
-  bool canPutinInBuffer(uint16_t amount);
+  bool checkFreeSpaceInBuffer(uint16_t amount);
 
   /**
    * Take 1 from buffer

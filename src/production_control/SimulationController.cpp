@@ -44,6 +44,7 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
 
 }
 
+
 SimulationMachinePtr SimulationController::getMachine(uint16_t machineId) {
   auto machineItr = std::find_if(
       machines.begin(),
@@ -83,6 +84,10 @@ void SimulationController::handleMachineReady(const patterns::NotifyObserver::No
   auto event = std::make_shared<states::Event>(states::kEventTypeMachineReady);
   event->addArgument(id);
   scheduleEvent(event);
+}
+
+core::Application &SimulationController::getApplication() {
+  return application;
 }
 
 void SimulationController::execute() {
@@ -135,13 +140,8 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
-  // loop-copy the machines to coreMachines.
-  std::vector<core::MachinePtr> coreMachines;
-  for (const auto &machine : machines){
-	coreMachines.emplace_back(machine);
-  }
   application.setExecutaionConfiguration(configuration);
-  application.setMachines(coreMachines);
+  application.setMachines(machines);
 
 
   // If simulation, add sim state event
@@ -153,18 +153,6 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
     scheduleEvent(e);
   }
 
-}
-
-void SimulationController::turnOnSimulationMachines() {
-  for (const auto &machine : machines) {
-    machine->sendTurnOnCommand();
-  }
-}
-
-void SimulationController::turnOffSimulationMachines() {
-  for (const auto &machine : machines) {
-    machine->sendTurnOffCommand();
-  }
 }
 
 void SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {

@@ -5,7 +5,7 @@
 #ifndef PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
 #define PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
 
-#include "../Application.h"
+
 #include "ApplicationState.h"
 
 namespace ApplicationStates {

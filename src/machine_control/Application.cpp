@@ -96,7 +96,7 @@ void Application::setCurrentConfig() {
 }
 
 void Application::registerMachine() {
-  connectionHandler.sendRegisterMachineMessage(getId());
+  connectionHandler.sendRegisterMachineMessage(id);
 }
 
 bool Application::setCurrentConfigId(uint32_t configID) {

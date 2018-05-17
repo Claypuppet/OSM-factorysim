@@ -5,15 +5,14 @@
 #ifndef PRODUCTION_LINE_CONTROL_APPLICATION_H
 #define PRODUCTION_LINE_CONTROL_APPLICATION_H
 
-#include "patterns/statemachine/Context.h"
-#include "patterns/notifyobserver/Observer.hpp"
-#include "network/Manager.h"
-#include "NetworkComponent.h"
-#include "Machine.h"
-#include "models/MachineConfiguration.h"
+#include <patterns/statemachine/Context.h>
+#include <patterns/notifyobserver/Observer.hpp>
+#include <network/Manager.h>
 #include <network/Client.h>
+#include <models/MachineConfiguration.h>
 
-
+#include "Machine.h"
+#include "NetworkComponent.h"
 
 
 //TODO: Implement Observer

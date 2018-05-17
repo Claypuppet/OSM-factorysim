@@ -56,7 +56,7 @@ class SimulationConnectionHandler :
    * @param messageBody : content of the message
    * @param connection : connection to the machine
    */
-  void onHandleRegisterMachine(const std::string &messageBody, Network::ConnectionPtr connection);
+  void onHandleRegisterMachine(Network::Message &message, Network::ConnectionPtr connection);
 
 };
 }
