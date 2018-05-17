@@ -25,7 +25,7 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
                                              patterns::NotifyObserver::NotifyTrigger(),
                                              ControllerEvents::kNotifyEventTypeServiceError);
 
-    //Notify observers of the error
+    //Notify observers of the erroraMachineId
     notifyObservers(event);
   }
 

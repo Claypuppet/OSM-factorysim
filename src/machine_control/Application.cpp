@@ -14,8 +14,8 @@ Application::Application(uint16_t aMachineId)
       id(aMachineId),
       connectionHandler(),
       machine(),
-      currentConfigId(0),
-      currentConfig(configurations.at(0)) {
+      newConfigId(0),
+      currentConfig(0) {
 
 }
 
@@ -81,14 +81,14 @@ void Application::setupNetwork() {
   client->start();
 }
 
-models::MachineConfiguration &Application::getCurrentConfig() const {
-  return currentConfig;
+const models::MachineConfiguration &Application::getCurrentConfig() const {
+  return configurations.at(currentConfig);
 }
 
 void Application::setCurrentConfig() {
   for (auto &configuration : configurations) {
-    if (configuration.getProductId() == currentConfigId) {
-      currentConfig = configuration;
+    if (configuration.getProductId() == newConfigId) {
+      currentConfig = newConfigId;
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
       scheduleEvent(event);
     }
@@ -103,7 +103,7 @@ bool Application::setCurrentConfigId(uint32_t configID) {
 
   for (auto &configuration : configurations) {
     if (configuration.getProductId() == configID) {
-      currentConfigId = configID;
+      newConfigId = configID;
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
       scheduleEvent(event);
       return true;
@@ -113,7 +113,7 @@ bool Application::setCurrentConfigId(uint32_t configID) {
 }
 
 uint32_t Application::getCurrentConfigId() const {
-  return currentConfigId;
+  return newConfigId;
 }
 
 void Application::takeProductIn() {

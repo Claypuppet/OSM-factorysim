@@ -1,6 +1,4 @@
-//
-// Created by hqnders on 09/05/18.
-//
+
 #define BOOST_TEST_DYN_LINK
 
 #include <vector>
@@ -20,15 +18,22 @@
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
+
+  // set the SimulationController with a machine id of 1
   simulator::SimulationController controller(1);
 
-  BOOST_CHECK_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::FindProductControlState>(controller)));
+  // set the FindProductControlState state
+  auto findProductionControlState = std::make_shared<simulationstates::FindProductControlState>(controller);
+  BOOST_CHECK_NO_THROW(controller.setCurrentState(findProductionControlState));
 
+  // run the controller
   BOOST_CHECK_NO_THROW(controller.run());
 
-  BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(controller.getCurrentState()), true);
+  // check if the state has changed to the next state
+  auto currentState = controller.getCurrentState();
+  bool isState = !!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(currentState);
+  BOOST_REQUIRE_EQUAL(isState, true);
 
-  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
@@ -50,8 +55,8 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::InitializeSimulationState>(controller.getCurrentState()), true);
 
-  controller.stop();
   productionControl->stop();
+  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
