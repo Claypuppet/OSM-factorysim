@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
 
   BOOST_CHECK(m1config.getNextMachineId() == 75);
   BOOST_CHECK(m1config.getInitializationDurationInSeconds() == 6);
-  BOOST_CHECK(m1config.getInputBufferSize() == 68);
+  BOOST_CHECK(m1config.getOutputBufferSize() == 68);
   BOOST_CHECK(m1config.getInputMaterialsForEachProduct() == 1);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureInHours()== 8800);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureStddevInHours() == 30);
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
 
   BOOST_CHECK(m2config.getNextMachineId() == 0);
   BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 7);
-  BOOST_CHECK(m2config.getInputBufferSize() == 69);
+  BOOST_CHECK(m2config.getOutputBufferSize() == 69);
   BOOST_CHECK(m2config.getInputMaterialsForEachProduct() == 2);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 8801);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 31);
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
 
   BOOST_CHECK(m1config.getNextMachineId() == 2);
   BOOST_CHECK(m1config.getInitializationDurationInSeconds() == 9);
-  BOOST_CHECK(m1config.getInputBufferSize() == 68);
+  BOOST_CHECK(m1config.getOutputBufferSize() == 68);
   BOOST_CHECK(m1config.getInputMaterialsForEachProduct() == 3);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureInHours()== 9800);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureStddevInHours() == 36);
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
 
   BOOST_CHECK(m2config.getNextMachineId() == 0);
   BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 10);
-  BOOST_CHECK(m2config.getInputBufferSize() == 69);
+  BOOST_CHECK(m2config.getOutputBufferSize() == 69);
   BOOST_CHECK(m2config.getInputMaterialsForEachProduct() == 4);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 9801);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 37);

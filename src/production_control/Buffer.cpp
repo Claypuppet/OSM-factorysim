@@ -3,14 +3,15 @@
 //
 
 #include "Buffer.h"
+#include "Machine.h"
 #include <memory>
 
 namespace core {
 
-Buffer::Buffer(): infinite(true), maxSize(0) {
+Buffer::Buffer(const MachinePtrW &aFromMachine): fromMachine(aFromMachine), infinite(true), maxSize(0) {
 
 }
-Buffer::Buffer(uint16_t size) : infinite(false), maxSize(size) {
+Buffer::Buffer(const MachinePtrW &aFromMachine, uint16_t size) : fromMachine(aFromMachine), infinite(false), maxSize(size) {
 
 }
 bool Buffer::checkAmountInBuffer(uint16_t amount) {
@@ -67,6 +68,12 @@ void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
     for (const auto &item : list){
       enqueue(item);
     }
+  }
+}
+uint16_t Buffer::getFromMachineId() const {
+  auto machine = fromMachine.lock();
+  if(machine){
+    return machine->getId();
   }
 }
 

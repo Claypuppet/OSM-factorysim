@@ -21,15 +21,18 @@ void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
   for (const auto &product : executaionConfiguration.getProductionLineConfiguration().getProducts()){
     auto productId = product.getId();
     for (const auto &machine : machines){
-      auto nextMachineId = machine->getNextMachineId(productId);
-      if (!nextMachineId){
+      auto previousMachines = machine->getPreviousMachines(productId);
+      if (previousMachines.empty()){
 		continue;
       }
-      auto nextMachine = getMachine(nextMachineId);
-	  if (!nextMachine){
-		continue;
-	  }
-      nextMachine->setInputBuffer(productId, machine->getInputBuffer(productId));
+      for (const auto &previousMachine : previousMachines) {
+        auto previousMachineObj = getMachine(previousMachine.getMachineId());
+        if (!previousMachineObj){
+          continue;
+        }
+        auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
+        machine->setInputBuffers(productId, previousBuffer);
+      }
     }
   }
 }
@@ -159,4 +162,8 @@ void core::Application::stopServer() {
 
 void core::Application::setExecutaionConfiguration(const models::Configuration &executaionConfiguration) {
   Application::executaionConfiguration = executaionConfiguration;
+}
+
+void core::Application::executeScheduler() {
+
 }
