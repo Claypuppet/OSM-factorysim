@@ -16,8 +16,6 @@ productionLine:
     name: Zaagmachine
     configurations:
     - productId: 1
-      nextMachineId: 2
-      inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
       outputBufferSize: 68
@@ -25,9 +23,10 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
     - productId: 2
-      nextMachineId: 2
-      inputMaterialsForEachProduct: 3
       outputEachMinute: 8
       initializationDurationInSeconds: 9
       outputBufferSize: 68
@@ -35,12 +34,13 @@ productionLine:
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
   - id: 2
     name: Lijmmachine
     configurations:
     - productId: 1
-      nextMachineId: 0
-      inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
       outputBufferSize: 68
@@ -48,9 +48,10 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 0
+        - neededProducts: 0
     - productId: 2
-      nextMachineId: 0
-      inputMaterialsForEachProduct: 3
       outputEachMinute: 8
       initializationDurationInSeconds: 9
       outputBufferSize: 68
@@ -58,3 +59,6 @@ productionLine:
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 1
+        - neededProducts: 0
