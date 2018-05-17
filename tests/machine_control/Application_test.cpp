@@ -13,10 +13,12 @@ BOOST_AUTO_TEST_SUITE(MachineControlApplicationTests)
 BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess)
 {
 
+  // Deze moet opnieuw ivm gebruik van manager en client. hiervoor kan mocknetwork gebruikt worden.
+
   testutils::MockObserver mockObserver;
 
   testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& event){
-    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
+	BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
   };
 
   mockObserver.setHandleNotificationFn(notificationHandler);
@@ -42,9 +44,9 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess)
 
   mockObserver.awaitNotificationReceived();
 
+  pcMock->stop();
   manager.stop();
   clientThread->join();
-  pcMock->stop();
 }
 
 BOOST_AUTO_TEST_SUITE_END()

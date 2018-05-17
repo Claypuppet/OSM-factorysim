@@ -9,7 +9,7 @@
 namespace productionstates {
 void ReceiveConfig::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-
+  context.registerMachine();
 }
 
 void ReceiveConfig::doActivity() {

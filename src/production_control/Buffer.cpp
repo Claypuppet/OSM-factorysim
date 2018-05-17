@@ -3,7 +3,7 @@
 //
 
 #include "Buffer.h"
-
+#include <memory>
 
 namespace core {
 
@@ -17,13 +17,13 @@ bool Buffer::checkAmountInBuffer(uint16_t amount) {
   return infinite || size() >= amount;
 }
 
-bool Buffer::canPutinInBuffer(uint16_t amount) {
+bool Buffer::checkFreeSpaceInBuffer(uint16_t amount) {
   return infinite || (maxSize - size()) >= amount;
 }
 
 ProductPtr Buffer::takeFromBuffer() {
   if(infinite){
-    return std::shared_ptr<Product>(new Product);
+    return std::make_shared<Product>();
   }
   else if(!size()){
     throw std::runtime_error("Unable to take from buffer: buffer empty");
@@ -36,7 +36,7 @@ std::vector<ProductPtr> Buffer::takeFromBuffer(uint16_t amount) {
 
   if(infinite){
     while (list.size() < amount){
-      list.emplace_back(std::shared_ptr<Product>(new Product));
+      list.emplace_back(std::make_shared<Product>());
     }
   }
   else if(size() < amount){

@@ -17,6 +17,8 @@ set(app_production_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationController.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationApplication.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationApplication.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Controller.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Controller.h
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMapper.cpp
@@ -37,4 +39,6 @@ set(app_production_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/WaitForConnectionsState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.h
         PARENT_SCOPE)

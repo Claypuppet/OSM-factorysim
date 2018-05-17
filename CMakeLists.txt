@@ -33,7 +33,7 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        ${app_production_control_SOURCES} src/production_control/states_application/InOperationState.cpp src/production_control/states_application/InOperationState.h)
+        ${app_production_control_SOURCES})
 
 
 add_executable(app_visualizer
@@ -128,7 +128,9 @@ add_library(lib_silly_objects SHARED
 # Lib utils
 file(GLOB lib_utils_SRC
         "src/libs/utils/**.h"
-        "src/libs/utils/**.cpp")
+        "src/libs/utils/**.cpp"
+        "src/libs/utils/time/**.h"
+        "src/libs/utils/time/**.cpp")
 
 add_library(lib_utils SHARED
         ${lib_utils_SRC} src/libs/utils/FileLogger.cpp src/libs/utils/FileLogger.h)

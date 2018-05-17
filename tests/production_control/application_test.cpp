@@ -4,6 +4,7 @@
 #define BOOST_TEST_DYN_LINK
 
 #include <memory>
+#include <climits>
 
 #include <boost/test/unit_test.hpp>
 #include <patterns/notifyobserver/Notifier.hpp>
@@ -21,12 +22,13 @@
 #include "../../src/production_control/Product.h"
 #include "../test_helpers/MockObserver.h"
 #include "../../src/production_control/AppConnectionHandler.h"
+#include "../test_helpers/HelperFunctions.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
 BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
 {
-  core::Machine machine(models::Machine(12, "test_machine"));
+  core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(12, "test_machine"));
 
   auto machineMock  = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
@@ -43,11 +45,11 @@ BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
 
   pcMock->awaitClientConnecting();
 
-  BOOST_REQUIRE_NO_THROW(machine.setConnection(pcMock->getConnection()));
+  BOOST_REQUIRE_NO_THROW(machine->setConnection(pcMock->getConnection()));
 
-  BOOST_REQUIRE(machine.isConnected());
+  BOOST_REQUIRE(machine->isConnected());
 
-  BOOST_REQUIRE_NO_THROW(machine.sendStartProcessMessage());
+  BOOST_REQUIRE_NO_THROW(machine->sendStartProcessMessage());
 
   machineMock->awaitMessageReceived();
 
@@ -74,6 +76,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
       application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
+  testutils::HelperFunctions::wait(50);
+
   // start the machine control mock server
   machineNetwork->startMockMCClientApplication();
 
@@ -97,8 +101,8 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
   core::Buffer infiniteBuffer;
-  BOOST_CHECK(infiniteBuffer.canPutinInBuffer(500));
-  BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(500));
+  BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
+  BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 
   core::ProductPtr product;
   BOOST_CHECK_NO_THROW(product = infiniteBuffer.takeFromBuffer());
@@ -107,14 +111,23 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 
   // Buffer with size 3
   core::Buffer limitedBuffer(3);
-  BOOST_CHECK(limitedBuffer.canPutinInBuffer(3));
-  BOOST_CHECK(!limitedBuffer.canPutinInBuffer(4));
+  BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
+  BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 
   BOOST_CHECK_THROW(limitedBuffer.takeFromBuffer(), std::runtime_error);
   BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
   BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
   BOOST_CHECK_NO_THROW(limitedBuffer.putInBuffer(product));
   BOOST_CHECK_THROW(limitedBuffer.putInBuffer(product), std::runtime_error);
+
+  std::vector<core::ProductPtr> productList;
+
+  BOOST_CHECK_THROW(limitedBuffer.takeFromBuffer(5), std::runtime_error);
+  BOOST_CHECK_NO_THROW(productList = limitedBuffer.takeFromBuffer(3));
+
+  BOOST_CHECK_EQUAL(productList.size(), 3);
+
+  BOOST_CHECK(!limitedBuffer.checkAmountInBuffer(1));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -148,7 +161,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->startMockMCClientApplication();
 
   // Registering a machine
-  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine, "12");
+  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
+  message.setBodyObject<uint16_t>(12);
 
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
@@ -221,12 +235,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   // Executing NOK status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
-  message.setBody("404");
+  message.setBodyObject<uint16_t>(404);
 
   notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-    BOOST_CHECK(notification.getArgumentAsType<std::string>(1) == "404");
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 404);
   };
 
   observer.setHandleNotificationFn(notificationHandler);

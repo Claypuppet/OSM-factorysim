@@ -12,6 +12,8 @@
 #include <memory>
 
 #include <cereal/types/memory.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/common.hpp>
 
 #include "Protocol.h"
 

@@ -23,8 +23,11 @@ void FindProductControlState::entryAction() {
   // Get the "pcip" commandline argument from the given commandline arguments
   const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
 
-  // Set the pcip value as the event's argument
-  event->setArgument<std::string>(pcip.value);
+  if (!pcip) {
+    event->setArgument<std::string>(pcip.value);
+  } else {
+    event->setArgument<std::string>("localhost");
+  }
 
   // Schedule the event to continue through the statemachine
   context.scheduleEvent(event);

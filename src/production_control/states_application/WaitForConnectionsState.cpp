@@ -1,6 +1,7 @@
 
 #include <utils/Logger.h>
 #include "WaitForConnectionsState.h"
+#include "InOperationState.h"
 
 ApplicationStates::WaitForConnectionsState::WaitForConnectionsState(core::Application &context) :
         ApplicationState(context) {
@@ -12,7 +13,7 @@ void ApplicationStates::WaitForConnectionsState::doActivity() {
 
 void ApplicationStates::WaitForConnectionsState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-
+  context.setupNetwork();
 }
 
 void ApplicationStates::WaitForConnectionsState::exitAction() {
@@ -23,12 +24,12 @@ bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &eve
   switch (event->getId()) {
     case kEventTypeMachineRegistered:
       utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
-      onMachineReady(event);
+      onMachineRegistered(event);
       break;
 
     case kEventTypeAllMachinesRegistered:
       utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
-      onAllMachinesReady();
+      onAllMachinesConnected();
       break;
 
     default:
@@ -36,15 +37,11 @@ bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &eve
   }
 }
 
-void ApplicationStates::WaitForConnectionsState::onMachineReady(const EventPtr &event) {
+void ApplicationStates::WaitForConnectionsState::onMachineRegistered(const EventPtr &event) {
   context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
 
-  if (context.allMachinesRegistered()) {
-    auto event = std::make_shared<Event>(kEventTypeAllMachinesRegistered);
-    context.scheduleEvent(event);
-  }
 }
 
-void ApplicationStates::WaitForConnectionsState::onAllMachinesReady() {
-  // TODO : set the next state "InOperation.cpp" but this state has to be implemented first...
+void ApplicationStates::WaitForConnectionsState::onAllMachinesConnected() {
+  context.setCurrentState(std::make_shared<InOperationState>(context));
 }

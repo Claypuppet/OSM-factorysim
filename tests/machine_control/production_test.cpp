@@ -13,6 +13,7 @@
 #include "../../src/machine_control/states_production/ReceiveConfig.h"
 #include "../../src/machine_control/states_production/Inititalization/ConfigureState.h"
 #include "../../src/machine_control/states_production/InOperation/IdleState.h"
+#include "../../src/machine_control/states_production/Inititalization/SelfTestState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlProductionStateTests)
 
@@ -65,12 +66,12 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
 
   //6. schedules switchEvent with right confignumber(0)
   auto switchEvent1 = std::make_shared<productionstates::Event>(productionstates::kEventTypeReceivedConfig);
-  switchEvent1->setArgument(0);
+  switchEvent1->setArgument<uint32_t>(0);
   BOOST_CHECK_NO_THROW(application.scheduleEvent(switchEvent1));
   BOOST_CHECK_NO_THROW(application.run());
 
   //7. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::SelfTestState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
@@ -82,7 +83,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigureToIdleState) {
   mockNetwork->startMockPCServerApplication();
 
   // 1: make application context
-  machinecore::Application application(1);
+  simulator::SimulationApplication application(1);
 
 
   //2. makes vector and makes machineConfig

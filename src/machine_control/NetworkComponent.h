@@ -69,6 +69,8 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
   void handleProcessReconfigureMessage(Network::Message &message);
 
 };
+
+typedef std::shared_ptr<NetworkComponent> NetworkComponentPtr;
 }
 
 #endif //PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H

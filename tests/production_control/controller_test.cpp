@@ -179,7 +179,7 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](const Network::Message &message){
+  testutils::OnMessageFn callback = [](Network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOn);
   };
   machineEndpoint->setOnMessageFn(callback);
@@ -207,7 +207,7 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](const Network::Message &message){
+  testutils::OnMessageFn callback = [](Network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOff);
   };
   machineEndpoint->setOnMessageFn(callback);
@@ -236,9 +236,9 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   machine.setConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](const Network::Message &message){
+  testutils::OnMessageFn callback = [](Network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReconfigure);
-    BOOST_CHECK_EQUAL(message.getBody(), "1");
+    BOOST_CHECK_EQUAL(message.getBodyObject<uint16_t>(), 1);
   };
   machineEndpoint->setOnMessageFn(callback);
   machine.sendConfigureMessage(1);
