@@ -161,7 +161,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   mcMock->startMockMCClientApplication();
 
   // Registering a machine
-  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine, "12");
+  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
+  message.setBodyObject<uint16_t>(12);
 
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
