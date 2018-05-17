@@ -17,7 +17,7 @@ productionLine:
     proportion: 1
   machines:
 
-# -------------------- HOUTEN PLATEN (GOEDKOOP) --------------------
+# -------------------- HOUTEN PLATEN (NORMAAL) --------------------
 
   - id: 1
     name: Zaagmachine (hout)
@@ -29,9 +29,7 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800 # TODO
       meanTimeBetweenFailureStddevInHours: 30 # TODO
       reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 0
-          neededProducts: 0 # TODO
+      previousMachines: [] # Empty
     - productId: 2
       outputEachMinute: 8 # TODO
       initializationDurationInSeconds: 9 # TODO
@@ -39,9 +37,7 @@ productionLine:
       meanTimeBetweenFailureInHours: 9800 # TODO
       meanTimeBetweenFailureStddevInHours: 36 # TODO
       reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0
-          neededProducts: 0
+      previousMachines: [] # Empty
 
   - id: 2
     name: Voorboormachine (hout)
@@ -115,7 +111,7 @@ productionLine:
         - machineId: 0 # TODO
           neededProducts: 0 # TODO
 
-# -------------------- STALEN PIJPEN (GOEDKOOP) --------------------
+# -------------------- STALEN PIJPEN (NORMAAL) --------------------
 
   - id: 5
     name: Zaagmachine (staal)
@@ -127,9 +123,7 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800 # TODO
       meanTimeBetweenFailureStddevInHours: 30 # TODO
       reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 0
-          neededProducts: 0
+      previousMachines: [] # Empty
     - productId: 2
       outputEachMinute: 8 # TODO
       initializationDurationInSeconds: 9 # TODO
@@ -137,9 +131,7 @@ productionLine:
       meanTimeBetweenFailureInHours: 9800 # TODO
       meanTimeBetweenFailureStddevInHours: 36 # TODO
       reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+      previousMachines: [] # Empty
 
   - id: 6
     name: Lasmachine (staal)
