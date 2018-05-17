@@ -55,8 +55,8 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::InitializeSimulationState>(controller.getCurrentState()), true);
 
-  productionControl->stop();
   controller.stop();
+  productionControl->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
