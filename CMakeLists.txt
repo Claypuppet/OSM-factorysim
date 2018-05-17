@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3)
-project(production_line_control)
+project(production_line_control )
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -13,7 +13,7 @@ find_package(wxWidgets REQUIRED net gl core base)
 include(${wxWidgets_USE_FILE})
 
 find_package(Boost REQUIRED COMPONENTS system unit_test_framework)
-link_directories(${Boost_LIBRARY_DIR} )
+link_directories(${Boost_LIBRARY_DIR})
 
 
 ### SET APPLICATION EXECUTABLES ###
@@ -60,10 +60,10 @@ add_executable(test_production_control
         ${test_helpers_SOURCES}
         ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
-        tests/production_control/controller_test.cpp tests/production_control/application_test.cpp)
+        tests/production_control/controller_test.cpp tests/production_control/application_test.cpp tests/production_control/log_test.cpp)
 
 add_executable(test_visualizer
-#        ${test_helpers_SOURCES}
+        #        ${test_helpers_SOURCES}
         ${app_visualizer_SOURCES}
         tests/visualizer/Main.cpp
         tests/visualizer/Object_test.cpp)
@@ -102,6 +102,13 @@ file(GLOB lib_yaml_SRC
 add_library(lib_yaml-cpp SHARED
         ${lib_yaml_SRC})
 
+# Lib spdlog
+file(GLOB_RECURSE lib_spdlog_SRC
+        "src/libs/spdlog/**.h")
+
+add_library(lib_spdlog INTERFACE)
+target_sources(lib_spdlog INTERFACE ${lib_spdlog_SRC})
+
 # Lib Cereal
 file(GLOB lib_cereal_SRC
         "src/libs/cereal/**.hpp")
@@ -124,7 +131,7 @@ file(GLOB lib_utils_SRC
         "src/libs/utils/**.cpp")
 
 add_library(lib_utils SHARED
-        ${lib_utils_SRC})
+        ${lib_utils_SRC} src/libs/utils/FileLogger.cpp src/libs/utils/FileLogger.h)
 
 
 install(TARGETS
@@ -132,6 +139,7 @@ install(TARGETS
         lib_network
         lib_patterns
         lib_yaml-cpp
+
         lib_models
         lib_utils
         LIBRARY DESTINATION lib
@@ -156,13 +164,15 @@ target_link_libraries(lib_utils lib_patterns)
 target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_models lib_yaml-cpp)
 
+
+
 # Applications
-target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
+target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils )
 target_link_libraries(app_machine_control lib_network lib_patterns lib_models)
 target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects)
 
 # Tests
-target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
 target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
