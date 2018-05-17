@@ -15,6 +15,9 @@ enum TimeType {
   systemTime, customTime
 };
 
+/*
+ * Interface class for Time strategy's
+ */
 class ITime
 {
  public:
