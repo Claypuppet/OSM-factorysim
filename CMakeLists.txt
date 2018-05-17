@@ -121,7 +121,9 @@ add_library(lib_silly_objects SHARED
 # Lib utils
 file(GLOB lib_utils_SRC
         "src/libs/utils/**.h"
-        "src/libs/utils/**.cpp")
+        "src/libs/utils/**.cpp"
+        "src/libs/utils/time/**.h"
+        "src/libs/utils/time/**.cpp")
 
 add_library(lib_utils SHARED
         ${lib_utils_SRC})
