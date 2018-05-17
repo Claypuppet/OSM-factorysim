@@ -12,49 +12,58 @@ productionLine:
     name: Testproduct88
     proportion: 3
   machines:
+
+
+
   - id: 15
     name: Testmachine15
     configurations:
     - productId: 12
-      nextMachineId: 75
       inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
-      outputBufferSize: 68
+      outputBufferSize: 14
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
+      previousMachines: [] # Empty
+
     - productId: 12
-      nextMachineId: 2
       inputMaterialsForEachProduct: 3
       outputEachMinute: 8
       initializationDurationInSeconds: 9
-      outputBufferSize: 68
+      outputBufferSize: 43
       turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
+      previousMachines: [] # Empty
+
+
+
   - id: 75
     name: Testmachine75
     configurations:
     - productId: 88
-      nextMachineId: 0
       inputMaterialsForEachProduct: 2
-      outputEachMinute: 13
       initializationDurationInSeconds: 7
-      outputBufferSize: 69
+      outputBufferSize: 39
       turnAroundTimeInSeconds: 17
       meanTimeBetweenFailureInHours: 8801
       meanTimeBetweenFailureStddevInHours: 31
       reparationTimeInMinutes: 25
+      previousMachines:
+        - machineId: 15 # TODO
+          neededProducts: 7 # TODO
+
     - productId: 88
-      nextMachineId: 0
-      inputMaterialsForEachProduct: 4
-      outputEachMinute: 9
       initializationDurationInSeconds: 10
       outputBufferSize: 69
       turnAroundTimeInSeconds: 22
       meanTimeBetweenFailureInHours: 9801
       meanTimeBetweenFailureStddevInHours: 37
       reparationTimeInMinutes: 28
+      previousMachines:
+        - machineId: 15 # TODO
+          neededProducts: 8 # TODO
