@@ -234,12 +234,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   // Executing NOK status update test
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
-  message.setBody("404");
+  message.setBodyObject<uint16_t>(404);
 
   notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-    BOOST_CHECK(notification.getArgumentAsType<std::string>(1) == "404");
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 404);
   };
 
   observer.setHandleNotificationFn(notificationHandler);

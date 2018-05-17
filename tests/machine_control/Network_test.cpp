@@ -16,9 +16,9 @@ BOOST_AUTO_TEST_CASE(RegisterMachine) {
   std::shared_ptr<SimulationCommunication::SimulationNetworkComponent>
       networkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
 
-  std::function<void(const Network::Message &)> onMessageFn = [](const Network::Message &message) {
+  testutils::OnMessageFn onMessageFn = [](Network::Message &message) {
     std::cout << "Executing checks!" << std::endl;
-    BOOST_CHECK(message.getBody() == "5");
+    BOOST_CHECK(message.getBodyObject<std::uint16_t>() == 5);
     BOOST_CHECK(message.getMessageType() == Network::Protocol::SimMessageType::kSimMessageTypeRegister);
     std::cout <<  "Executed checks!" << std::endl;
   };

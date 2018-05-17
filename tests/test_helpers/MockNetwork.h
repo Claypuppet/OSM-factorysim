@@ -12,7 +12,7 @@
 
 namespace testutils{
 
-typedef std::function<void(const Network::Message&)> OnMessageFn;
+typedef std::function<void(Network::Message&)> OnMessageFn;
 typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
 
 

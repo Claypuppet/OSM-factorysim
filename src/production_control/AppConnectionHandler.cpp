@@ -34,7 +34,7 @@ void core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
       handleOK(connection);
       break;
     case Network::Protocol::kAppMessageTypeNOK:
-      handleNOK(connection, message.getBody());
+      handleNOK(connection, message);
       break;
     case Network::Protocol::kAppMessageTypeDoneProcessing:
       handleDoneProcessing(connection);
@@ -56,7 +56,7 @@ void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
   auto notification =
       makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
-  auto machineId = static_cast<uint16_t >(std::strtoul(message.getBody().c_str(), nullptr, 10));
+  auto machineId = message.getBodyObject<uint16_t>();
 
   registerMachineConnection(connection, machineId);
 
@@ -114,12 +114,12 @@ void core::AppConnectionHandler::handleOK(Network::ConnectionPtr connection) {
   notifyObservers(notification);
 }
 
-void core::AppConnectionHandler::handleNOK(Network::ConnectionPtr connection, std::string messageBody) {
+void core::AppConnectionHandler::handleNOK(Network::ConnectionPtr connection, Network::Message &message) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
   auto machineId = getMachineIdForConnection(connection);
 
   notification.setArgument(0, machineId);
-  notification.setArgument(1, messageBody);
+  notification.setArgument(1, message.getBodyObject<uint16_t>());
 
   notifyObservers(notification);
 }

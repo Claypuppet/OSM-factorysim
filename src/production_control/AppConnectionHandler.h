@@ -78,9 +78,9 @@ class AppConnectionHandler :
   /**
    * Makes a notification to indicate a machine send a NOK message
    * @param connection : The connection that send the message
-   * @param messageBody : The body of the incoming message
+   * @param message : The incoming message
    */
-  void handleNOK(Network::ConnectionPtr connection, std::string messageBody);
+  void handleNOK(Network::ConnectionPtr connection, Network::Message &message);
 };
 }
 

@@ -81,7 +81,8 @@ void NetworkComponent::sendStatusUpdateReady() {
 }
 
 void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeNOK, std::to_string(errorCode));
+  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeNOK);
+  message.setBodyObject<uint16_t>(errorCode);
   mConnection->writeMessage(message);
 }
 
@@ -92,7 +93,7 @@ void NetworkComponent::sendResponseOK() {
 
 void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
-  message.setBody(std::to_string(machineId));
+  message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
 
 }

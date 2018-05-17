@@ -26,7 +26,7 @@ void SimulationConnectionHandler::onConnectionMessageReceived(Network::Connectio
                                                               Network::Message &message) {
   switch (message.getMessageType()) {
     case Network::Protocol::kSimMessageTypeRegister: 
-      onHandleRegisterMachine(message.getBody(), connection);
+      onHandleRegisterMachine(message, connection);
       break;
     case Network::Protocol::kSimMessageTypeReadyForSim: 
       handleMachineReady(connection);
@@ -42,12 +42,12 @@ void SimulationConnectionHandler::handleMachineReady(Network::ConnectionPtr conn
   notifyObservers(notification);
 }
 
-void SimulationConnectionHandler::onHandleRegisterMachine(const std::string &messageBody,
+void SimulationConnectionHandler::onHandleRegisterMachine(Network::Message &message,
                                                           Network::ConnectionPtr connection) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
                                       NotifyEventIds::eSimRegisterMachine);
 
-  uint16_t machineId = std::strtoul(messageBody.c_str(), nullptr, 10);
+  uint16_t machineId = message.getBodyObject<uint16_t>();
   notification.setArgument(0, machineId);
   notification.setArgument(1, connection);
 
