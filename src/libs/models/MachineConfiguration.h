@@ -56,12 +56,6 @@ class MachineConfiguration {
   uint16_t getProductId() const;
 
   /**
-   * Getter for inputMaterialsForEachProduct
-   * @return inputMaterialsForEachProduct
-   */
-  uint16_t getInputMaterialsForEachProduct() const;
-
-  /**
    * Getter for outputEachMinute
    * @return outputEachMinute
    */
@@ -100,7 +94,7 @@ class MachineConfiguration {
   const std::vector<PreviousMachine> &getPreviousMachines() const;
 
  private:
-  uint16_t productId, inputMaterialsForEachProduct;
+  uint16_t productId;
   uint16_t outputEachMinute, initializationDurationInSeconds, outputBufferSize;
   uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
 
@@ -113,7 +107,7 @@ class MachineConfiguration {
    */
   template<class Archive>
   void save(Archive &ar) const {
-	ar(productId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds, previousMachines,
+	ar(productId, outputEachMinute, initializationDurationInSeconds, previousMachines,
 	   outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
   }
 
@@ -124,7 +118,7 @@ class MachineConfiguration {
    */
   template<class Archive>
   void load(Archive &ar) {
-	ar(productId, inputMaterialsForEachProduct, outputEachMinute, initializationDurationInSeconds, previousMachines,
+	ar(productId, outputEachMinute, initializationDurationInSeconds, previousMachines,
 	   outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
   }
 

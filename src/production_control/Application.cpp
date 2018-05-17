@@ -17,6 +17,10 @@ core::Application::~Application() {
 void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
   // Set machines
   machines = aMachines;
+  for (const auto &machine : machines) {
+    machine->createInitialBuffers();
+  }
+
   // Links all buffers for each production line
   for (const auto &product : executaionConfiguration.getProductionLineConfiguration().getProducts()){
     auto productId = product.getId();

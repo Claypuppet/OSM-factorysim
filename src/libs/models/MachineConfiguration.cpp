@@ -11,7 +11,6 @@ MachineConfiguration::MachineConfiguration(uint16_t productId) : productId(produ
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
 	: productId(other.productId),
-	  inputMaterialsForEachProduct(other.inputMaterialsForEachProduct),
 	  outputEachMinute(other.outputEachMinute),
 	  initializationDurationInSeconds(other.initializationDurationInSeconds),
 	  outputBufferSize(other.outputBufferSize),
@@ -26,7 +25,6 @@ MachineConfiguration::~MachineConfiguration() {
 MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration &other) {
   if (this != &other) {
 	productId = other.productId;
-	inputMaterialsForEachProduct = other.inputMaterialsForEachProduct;
 	outputEachMinute = other.outputEachMinute;
 	initializationDurationInSeconds = other.initializationDurationInSeconds;
 	outputBufferSize = other.outputBufferSize;
@@ -41,7 +39,6 @@ MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration
 
 void MachineConfiguration::deserialize(YAML::Node &machineConfigurationNode) {
   productId = machineConfigurationNode["productId"].as<uint16_t>();
-  inputMaterialsForEachProduct = machineConfigurationNode["inputMaterialsForEachProduct"].as<uint16_t>();
   outputEachMinute = machineConfigurationNode["outputEachMinute"].as<uint16_t>();
   initializationDurationInSeconds = machineConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
   outputBufferSize = machineConfigurationNode["outputBufferSize"].as<uint16_t>();
@@ -62,11 +59,6 @@ uint16_t MachineConfiguration::getProductId() const {
 
 const std::vector<PreviousMachine> &MachineConfiguration::getPreviousMachines() const {
   return previousMachines;
-}
-
-
-uint16_t MachineConfiguration::getInputMaterialsForEachProduct() const {
-  return inputMaterialsForEachProduct;
 }
 
 uint16_t MachineConfiguration::getOutputEachMinute() const {

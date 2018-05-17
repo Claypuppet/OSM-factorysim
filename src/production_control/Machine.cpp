@@ -6,11 +6,9 @@
 namespace core {
 
 Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine) {
-  createBuffers();
 }
 
 Machine::Machine(const Machine &aMachine) : models::Machine(aMachine) {
-  createBuffers();
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
@@ -73,7 +71,7 @@ void Machine::setInputBuffers(uint16_t productId, BufferPtr inputbuffer) {
   inputBuffers[productId].emplace_back(inputbuffer);
 }
 
-void Machine::createBuffers() {
+void Machine::createInitialBuffers() {
   auto self = shared_from_this();
   for (const auto &config : configurations){
     BufferPtr buffer;

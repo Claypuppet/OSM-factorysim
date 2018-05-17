@@ -93,7 +93,10 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   std::vector<models::PreviousMachine> getPreviousMachines(uint16_t configureId);
 
-
+  /**
+   * Create the initial input and output buffers for this machine
+   */
+  void createInitialBuffers();
 
 
  private:
@@ -103,11 +106,6 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   * @param msg : The message to send to this machine
   */
   void sendMessage(const Network::Message &message);
-
-  /**
-   * Create the output buffers for this machine
-   */
-  void createBuffers();
 
   MachineStatus status;
   Network::ConnectionPtr connection;
