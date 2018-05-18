@@ -37,7 +37,7 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
 
     case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
       auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
-      event->setArgument(notification.getArgument(0));
+      event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
       scheduleEvent(event);
       break;
     }
