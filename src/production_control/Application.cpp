@@ -198,12 +198,13 @@ void core::Application::executeScheduler() {
       machine->sendStartProcessMessage();
     }
   }
-
 }
+
 void core::Application::prepareScheduler() {
   // TODO: make this more dynamic. now sets product with id 1 (default tabled)
   changeProductionLineProduct(1);
 }
+
 void core::Application::changeProductionLineProduct(uint16_t productId) {
   currentProduct = productId;
 

@@ -31,10 +31,12 @@ void Machine::sendMessage(const Network::Message &message) {
   if (isConnected()) {
     connection->writeMessage(message);
   }
+  status = kMachineStatusAwaitingResponse;
 }
 void Machine::sendStartProcessMessage() {
   Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
+
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {

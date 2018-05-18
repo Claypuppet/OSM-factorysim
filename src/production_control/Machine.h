@@ -30,7 +30,8 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
     kMachineStatusIdle,
     kMachineStatusTakingProduct,
     kMachineStatusProcessingProduct,
-    kMachineStatusTakingOutProduct
+    kMachineStatusTakingOutProduct,
+	kMachineStatusAwaitingResponse
   };
 
   /**
