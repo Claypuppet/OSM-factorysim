@@ -57,7 +57,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 1
-          neededProducts: 0 # TODO
+          neededProducts: 3 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -84,7 +84,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 2
-          neededProducts: 0 # TODO
+          neededProducts: 4 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -113,7 +113,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 3
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -167,7 +167,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 1
-          neededProducts: 0 # TODO
+          neededProducts: 3 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -227,7 +227,7 @@ productionLine:
         - machineId: 7
           neededProducts: 0 # TODO
         - machineId: 4
-          neededProducts: 0 # TODO
+          neededProducts: 5 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
