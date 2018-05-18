@@ -33,7 +33,7 @@ add_executable(app_machine_control
 
 add_executable(app_production_control
         src/production_control/Main.cpp
-        ${app_production_control_SOURCES})
+        ${app_production_control_SOURCES} src/production_control/ResultLogger.cpp src/production_control/ResultLogger.h)
 
 
 add_executable(app_visualizer
@@ -133,7 +133,7 @@ file(GLOB lib_utils_SRC
         "src/libs/utils/time/**.cpp")
 
 add_library(lib_utils SHARED
-        ${lib_utils_SRC} src/libs/utils/FileLogger.cpp src/libs/utils/FileLogger.h)
+        ${lib_utils_SRC})
 
 
 install(TARGETS
@@ -175,8 +175,8 @@ target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects)
 
 # Tests
 target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils  ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
-target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_machine_control lib_network lib_patterns lib_utils lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
+target_link_libraries(test_visualizer lib_silly_objects lib_utils ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 # Lib tests
 target_link_libraries(test_network lib_network lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})

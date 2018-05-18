@@ -2,24 +2,23 @@
 // Created by don on 23-4-18.
 //
 
-#ifndef PRODUCTION_LINE_CONTROL_LOGGER_H
-#define PRODUCTION_LINE_CONTROL_LOGGER_H
+#ifndef PRODUCTION_LINE_CONTROL_FILELOGGER_H
+#define PRODUCTION_LINE_CONTROL_FILELOGGER_H
 
 #include <patterns/singleton/Singleton.h>
 #include <patterns/producerconsumer/Queue.h>
 
 #include <iostream>
 #include <mutex>
+#include <spdlog/logger.h>
 
 namespace utils {
 
-class FileLogger : public patterns::Singleton::Singleton<FileLogger> {
+class FileLogger {
  public:
+  FileLogger() = default;
 
-
-  FileLogger();
-  FileLogger(std::string componentname);
-
+  virtual ~FileLogger() = default;
   /**
  * sets up logger
  * @return
@@ -31,18 +30,25 @@ class FileLogger : public patterns::Singleton::Singleton<FileLogger> {
    * @return
    */
   static std::shared_ptr<spdlog::logger> both();
+
   /**
  * shortcut to logger of file
  * @return
  */
   static std::shared_ptr<spdlog::logger> file();
+
   /**
  * shortcut to logger of console
  * @return
  */
-  static std::shared_ptr<spdlog::logger> console();
-};
 
+  static std::shared_ptr<spdlog::logger> console();
+
+//  //machine id: string,  eventid:
+//  static void logMachineMessage();
+
+
+};
 }
 
-#endif //PRODUCTION_LINE_CONTROL_LOGGER_H
+#endif //PRODUCTION_LINE_CONTROL_FILELOGGER_H

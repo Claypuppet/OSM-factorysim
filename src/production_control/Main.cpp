@@ -1,40 +1,23 @@
 
 
-#include "SimulationController.h"
+#include <utils/Logger.h>
+#include <utils/FileLogger.h>
 #include "utils/CommandLineArguments.h"
+#include "ResultLogger.h"
 
 
 int main(int argc, char** argv)
 {
   utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
-  simulation::SimulationController controller;
-	controller.execute();
+  utils::FileLogger::setupLogger("simulationtest.log", 5);
+  core::ResultLogger::setProductionDebugOutput(true);
+  core::ResultLogger::getInstance().LogProductionEvent(1, 10);
+
+//  simulation::SimulationController controller;
+//	controller.execute();
 
 	return 0;
 }
 
 
-// TODO : move to unit test?
-
-//	ConfigLoader::ConfigurationReader reader;
-//	models::Configuration inputConfig;
-//	reader.readConfigurationFile("../../configs/configfile.yaml", inputConfig);
-//
-//	std::string string;
-//
-//	std::stringstream binaryStream((std::ios::out | std::ios::binary));
-//	cereal::PortableBinaryOutputArchive outputArchive(binaryStream);
-//	outputArchive(inputConfig);
-//	string = binaryStream.str();
-//
-//	std::cout << string << std::endl;
-//
-//	models::Configuration outputConfig;
-//
-//	std::stringstream binaryStream2((std::ios::in | std::ios::binary));
-//	binaryStream2.str(string);
-//	cereal::PortableBinaryInputArchive inputArchive(binaryStream2);
-//	inputArchive(outputConfig);
-//
-//	std::cout << outputConfig.getName() << std::endl;

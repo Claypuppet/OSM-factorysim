@@ -4,7 +4,6 @@
 
 #include <thread>
 #include <spdlog/spdlog.h>
-#include <utils/time/Time.h>
 #include <fstream>
 #include "FileLogger.h"
 
@@ -16,6 +15,9 @@ void FileLogger::setupLogger(std::string filename, int8_t maxFileSize) {
   std::ofstream file(filename);
   file << "";
   file.close();
+  //removes sinks if not already empty
+  spdlog::drop_all();
+
 
   try {
     auto fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(filename, 1024 * 1024 * maxFileSize, false);
@@ -34,7 +36,7 @@ void FileLogger::setupLogger(std::string filename, int8_t maxFileSize) {
     spdlog::register_logger(console);
 
     // see this link for custom formatting https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
-    spdlog::set_pattern("("+std::to_string(utils::Time::getInstance().getCurrentTime())+" [thread %t] %v )");
+    spdlog::set_pattern("(%v)");
 
     both->info("Hello");
     file->info("file");
@@ -50,9 +52,11 @@ void FileLogger::setupLogger(std::string filename, int8_t maxFileSize) {
 std::shared_ptr<spdlog::logger> FileLogger::both() {
   return spdlog::get("both");
 }
+
 std::shared_ptr<spdlog::logger> FileLogger::file() {
   return spdlog::get("file");
 }
+
 std::shared_ptr<spdlog::logger> FileLogger::console() {
   return spdlog::get("console");
 }

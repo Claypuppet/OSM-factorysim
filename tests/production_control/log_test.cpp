@@ -14,6 +14,7 @@
 #include <spdlog/spdlog.h>
 #include <utils/time/Time.h>
 #include "utils/FileLogger.h"
+#include "utils/Logger.h"
 
 
 // Testen van events naar states (set state, add event, run, check new state)
@@ -26,8 +27,20 @@ utils::Time::getInstance().setCurrentTime(0);
 utils::FileLogger::setupLogger("simulationtest", 5);
 
 utils::FileLogger::both()->warn("test");
-  BOOST_REQUIRE_EQUAL(2, 2);
+
 }
+
+//BOOST_AUTO_TEST_CASE(TestProductionLogger) {
+//  utils::Time::getInstance().setType(utils::customTime);
+//  utils::Time::getInstance().setCurrentTime(0);
+//
+//  core::ResultLogger::setProductionDebugOutput(true);
+//  core::ResultLogger::getInstance().LogProductionEvent(1,10);
+//  utils::FileLogger::setupLogger("test.log", 5);
+//
+//  utils::FileLogger::both()->warn("test");
+//  BOOST_REQUIRE_EQUAL(2, 2);
+//}
 
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()
