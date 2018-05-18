@@ -13,8 +13,6 @@ productionLine:
     name: Zaagmachine
     configurations:
     - productId: 1
-      nextMachineId: 2
-      inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
       outputBufferSize: 68
@@ -22,3 +20,6 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
+      previousMachines:
+        - machineId: 15
+          neededProducts: 7

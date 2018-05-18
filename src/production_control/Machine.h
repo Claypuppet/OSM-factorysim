@@ -14,7 +14,10 @@ enum MachineStatus {
   kMachineStatusReady
 };
 
-class Machine : public models::Machine {
+typedef std::map<uint16_t, BufferList> InputBuffersMap;
+typedef std::map<uint16_t, BufferPtr> OutputBuffersMap;
+
+class Machine : public models::Machine, public std::enable_shared_from_this<Machine> {
  public:
 
   /**
@@ -63,19 +66,19 @@ class Machine : public models::Machine {
 
 
   // Buffer getters
-  const BufferPtr &getCurrentInputBuffer() const;
+  const BufferList &getCurrentInputBuffers() const;
   const BufferPtr &getCurrentOutputBuffer() const;
-  const BufferPtr &getInputBuffer(uint16_t productId) const;
+  const BufferList &getInputBuffers(uint16_t productId) const;
   const BufferPtr &getOutputBuffer(uint16_t productId) const;
-  const std::map<uint16_t, BufferPtr> &getInputBuffers() const;
-  const std::map<uint16_t, BufferPtr> &getOutputBuffers() const;
+  const InputBuffersMap &getInputBuffers() const;
+  const OutputBuffersMap &getOutputBuffers() const;
 
   /**
-   * Set buffer for specific configuration id
+   * Set output buffer for specific configuration id
    * @param productId : id of product
-   * @param inputBuffer : buffer for the product
+   * @param outputBuffer : buffer for the product
    */
-  void setInputBuffer(uint16_t productId, const BufferPtr &inputBuffer);
+  void setInputBuffers(uint16_t productId, BufferPtr outputBuffer);
 
   /**
    * Use a specific input buffer, should be called after (re)configuring.
@@ -86,9 +89,14 @@ class Machine : public models::Machine {
   /**
    * Get machine id of the next machine of current configuration
    * @param configureId : config id (production line)
-   * @return : id of next machine in production line
+   * @return : ids of next machine in production line
    */
-  uint32_t getNextMachineId(uint16_t configureId);
+  std::vector<models::PreviousMachine> getPreviousMachines(uint16_t configureId);
+
+  /**
+   * Create the initial input and output buffers for this machine
+   */
+  void createInitialBuffers();
 
 
  private:
@@ -99,19 +107,14 @@ class Machine : public models::Machine {
   */
   void sendMessage(const Network::Message &message);
 
-  /**
-   * Create the output buffers for this machine
-   */
-  void createBuffers();
-
   MachineStatus status;
   Network::ConnectionPtr connection;
 
-  BufferPtr currentInputBuffer;
+  std::vector<BufferPtr> currentInputBuffers;
   BufferPtr currentOutputBuffer;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
-  std::map<uint16_t, BufferPtr> inputBuffers;
+  std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
   std::map<uint16_t, BufferPtr> outputBuffers;
 };
 

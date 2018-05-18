@@ -10,7 +10,12 @@ namespace ConfigLoader {
 
 void ConfigurationReader::readConfigurationFile(std::string filePath, models::Configuration &configuration) {
         YAML::Node yamlFileNode = YAML::LoadFile(filePath);
-        configuration.deserialize(yamlFileNode);
+        try {
+            configuration.deserialize(yamlFileNode);
+        }
+        catch (const std::exception &e) {
+            std::cerr << "Invalid config file read: " << e.what() << std::endl;
+        }
     }
 
 }

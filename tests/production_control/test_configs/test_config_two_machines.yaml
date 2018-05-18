@@ -19,7 +19,6 @@ productionLine:
     name: Testmachine15
     configurations:
     - productId: 12
-      inputMaterialsForEachProduct: 1
       outputEachMinute: 12
       initializationDurationInSeconds: 6
       outputBufferSize: 14
@@ -29,8 +28,7 @@ productionLine:
       reparationTimeInMinutes: 24
       previousMachines: [] # Empty
 
-    - productId: 12
-      inputMaterialsForEachProduct: 3
+    - productId: 88
       outputEachMinute: 8
       initializationDurationInSeconds: 9
       outputBufferSize: 43
@@ -45,8 +43,7 @@ productionLine:
   - id: 75
     name: Testmachine75
     configurations:
-    - productId: 88
-      inputMaterialsForEachProduct: 2
+    - productId: 12
       initializationDurationInSeconds: 7
       outputBufferSize: 39
       turnAroundTimeInSeconds: 17

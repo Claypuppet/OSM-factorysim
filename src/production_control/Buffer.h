@@ -13,6 +13,9 @@
 
 namespace core {
 
+class Machine;
+typedef std::weak_ptr<Machine> MachinePtrW;
+
 /**
  * Buffer class, uses a queue for storing the products. The buffer class can be infinite, then it will just be a product
  * generator / dump place.
@@ -22,13 +25,13 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   /**
    * Create an infinite buffer, default constructor
    */
-  Buffer();
+  Buffer(const MachinePtrW &fromMachine);
 
   /**
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(uint16_t size);
+  explicit Buffer(const MachinePtrW &fromMachine, uint16_t size);
 
   /**
    * destruct
@@ -78,13 +81,21 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   void putInBuffer(const std::vector<ProductPtr> &list);
 
+  /**
+   * get machine id from the owner of this buffer
+   * @return : machine id
+   */
+  uint16_t getFromMachineId() const;
+
  private:
   bool infinite;
   uint16_t maxSize;
+  MachinePtrW fromMachine;
 
 };
 
 typedef std::shared_ptr<Buffer> BufferPtr;
+typedef std::vector<BufferPtr> BufferList;
 
 }
 

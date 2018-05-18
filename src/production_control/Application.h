@@ -96,6 +96,12 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * @param executaionConfiguration
    */
   void setExecutaionConfiguration(const models::Configuration &executaionConfiguration);
+
+  /**
+   * Executes the scheduler. Checks if a machine can process a product.
+   */
+  virtual void executeScheduler();
+
   const std::vector<MachinePtr> &getMachines() const;
 
  protected:
