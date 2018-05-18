@@ -100,7 +100,8 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
-  core::Buffer infiniteBuffer;
+  core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(1, "draaimachine"));
+  core::Buffer infiniteBuffer(machine);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 
@@ -110,7 +111,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(3);
+  core::Buffer limitedBuffer(machine, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 
