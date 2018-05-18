@@ -70,175 +70,175 @@ productionLine:
       previousMachines:
         - machineId: 1 # TODO
           neededProducts: 0 # TODO
-
-  - id: 3
-    name: Schuurmachine (hout)
-    configurations:
-    - productId: 1
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 2
-          neededProducts: 4 # TODO
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
-
-
-
-  - id: 4
-    name: Spuitmachine (hout)
-    configurations:
-    - productId: 1
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 3
-          neededProducts: 1 # TODO
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
-
-# -------------------- STALEN PIJPEN (NORMAAL) --------------------
-
-  - id: 5
-    name: Zaagmachine (staal)
-    configurations:
-    - productId: 1
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines: [] # Empty
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines: [] # Empty
-
-
-
-  - id: 6
-    name: Lasmachine (staal)
-    configurations:
-    - productId: 1 # TODO
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 1
-          neededProducts: 3 # TODO
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
-
-
-
-  - id: 7
-    name: Poedercoatmachine (staal)
-    configurations:
-    - productId: 1
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 2
-          neededProducts: 0 # TODO
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
-
-# -------------------- INPAKKEN --------------------
-
-  - id: 8
-    name: Inpakmachine
-    configurations:
-    - productId: 1
-      outputEachMinute: 12 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 6 # TODO
-      turnAroundTimeInSeconds: 16 # TODO
-      meanTimeBetweenFailureInHours: 8800 # TODO
-      meanTimeBetweenFailureStddevInHours: 30 # TODO
-      reparationTimeInMinutes: 24 # TODO
-      previousMachines:
-        - machineId: 7
-          neededProducts: 0 # TODO
-        - machineId: 4
-          neededProducts: 5 # TODO
-
-    - productId: 2
-      outputEachMinute: 8 # TODO
-      outputBufferSize: 9 # TODO
-      initializationDurationInSeconds: 9 # TODO
-      turnAroundTimeInSeconds: 21 # TODO
-      meanTimeBetweenFailureInHours: 9800 # TODO
-      meanTimeBetweenFailureStddevInHours: 36 # TODO
-      reparationTimeInMinutes: 27 # TODO
-      previousMachines:
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
-        - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+#
+#  - id: 3
+#    name: Schuurmachine (hout)
+#    configurations:
+#    - productId: 1
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines:
+#        - machineId: 2
+#          neededProducts: 4 # TODO
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines:
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO
+#
+#
+#
+#  - id: 4
+#    name: Spuitmachine (hout)
+#    configurations:
+#    - productId: 1
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines:
+#        - machineId: 3
+#          neededProducts: 1 # TODO
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines:
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO
+#
+## -------------------- STALEN PIJPEN (NORMAAL) --------------------
+#
+#  - id: 5
+#    name: Zaagmachine (staal)
+#    configurations:
+#    - productId: 1
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines: [] # Empty
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines: [] # Empty
+#
+#
+#
+#  - id: 6
+#    name: Lasmachine (staal)
+#    configurations:
+#    - productId: 1 # TODO
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines:
+#        - machineId: 1
+#          neededProducts: 3 # TODO
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines:
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO
+#
+#
+#
+#  - id: 7
+#    name: Poedercoatmachine (staal)
+#    configurations:
+#    - productId: 1
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines:
+#        - machineId: 2
+#          neededProducts: 0 # TODO
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines:
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO
+#
+## -------------------- INPAKKEN --------------------
+#
+#  - id: 8
+#    name: Inpakmachine
+#    configurations:
+#    - productId: 1
+#      outputEachMinute: 12 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 6 # TODO
+#      turnAroundTimeInSeconds: 16 # TODO
+#      meanTimeBetweenFailureInHours: 8800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 30 # TODO
+#      reparationTimeInMinutes: 24 # TODO
+#      previousMachines:
+#        - machineId: 7
+#          neededProducts: 0 # TODO
+#        - machineId: 4
+#          neededProducts: 5 # TODO
+#
+#    - productId: 2
+#      outputEachMinute: 8 # TODO
+#      outputBufferSize: 9 # TODO
+#      initializationDurationInSeconds: 9 # TODO
+#      turnAroundTimeInSeconds: 21 # TODO
+#      meanTimeBetweenFailureInHours: 9800 # TODO
+#      meanTimeBetweenFailureStddevInHours: 36 # TODO
+#      reparationTimeInMinutes: 27 # TODO
+#      previousMachines:
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO
+#        - machineId: 0 # TODO
+#          neededProducts: 0 # TODO

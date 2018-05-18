@@ -10,13 +10,12 @@ ApplicationStates::InOperationState::InOperationState(core::Application &context
 }
 
 void ApplicationStates::InOperationState::doActivity() {
-  // Run scheduler here after implementation
+  context.executeScheduler();
 }
 
 void ApplicationStates::InOperationState::entryAction() {
-
   utils::Logger::log(__PRETTY_FUNCTION__);
-
+  context.prepareScheduler();
 }
 
 void ApplicationStates::InOperationState::exitAction() {
