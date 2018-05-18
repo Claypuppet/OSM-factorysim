@@ -111,5 +111,8 @@ std::vector<models::PreviousMachine> Machine::getPreviousMachines(uint16_t confi
 void Machine::setStatus(Machine::MachineStatus newStatus) {
   status = newStatus;
 }
+Machine::MachineStatus Machine::getStatus() {
+  return status;
+}
 
 }

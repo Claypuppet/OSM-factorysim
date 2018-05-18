@@ -112,6 +112,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   void createInitialBuffers();
 
   void setStatus(MachineStatus newStatus);
+  MachineStatus getStatus();
 
  private:
 
