@@ -102,6 +102,9 @@ std::vector<models::PreviousMachine> Machine::getPreviousMachines(uint16_t confi
   std::vector<models::PreviousMachine> previousMachines;
   return previousMachines;
 }
+void Machine::setStatus(Machine::MachineStatus newStatus) {
+  status = newStatus;
+}
 
 bool Machine::canDoAction(uint16_t configureId) {
   for (const auto &inputBuffer : currentInputBuffers){
