@@ -25,12 +25,6 @@ class SelfTestState : public ProductionState {
 
  private:
   /**
-   * Run the selftest
-   * @return a boolean that tells if the selftest succeeded
-   */
-  bool executeSelfTest();
-
-  /**
    * Runs if there was a selfTestSucceeded event
    */
   void onSelfTestSuccess();
