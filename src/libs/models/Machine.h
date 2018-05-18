@@ -44,6 +44,7 @@ class Machine {
   uint16_t getId() const;
   const std::string &getName() const;
   const std::vector<MachineConfiguration> &getConfigurations() const;
+  const MachineConfiguration &getConfigurationById(uint16_t configId) const;
 
  protected:
   uint16_t id;

@@ -5,10 +5,10 @@
 
 namespace core {
 
-Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine) {
+Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
 }
 
-Machine::Machine(const Machine &aMachine) : models::Machine(aMachine) {
+Machine::Machine(const Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
@@ -31,10 +31,12 @@ void Machine::sendMessage(const Network::Message &message) {
   if (isConnected()) {
     connection->writeMessage(message);
   }
+  status = kMachineStatusAwaitingResponse;
 }
 void Machine::sendStartProcessMessage() {
   Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
+
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
@@ -100,12 +102,6 @@ void Machine::useBuffersForConfig(uint16_t configureId) {
 
 std::vector<models::PreviousMachine> Machine::getPreviousMachines(uint16_t configureId) {
   std::vector<models::PreviousMachine> previousMachines;
-  for (const auto &config : configurations) {
-    if (config.getProductId() == configureId){
-      previousMachines = config.getPreviousMachines();
-      break;
-    }
-  }
   return previousMachines;
 }
 void Machine::setStatus(Machine::MachineStatus newStatus) {
@@ -115,4 +111,13 @@ Machine::MachineStatus Machine::getStatus() {
   return status;
 }
 
+bool Machine::canDoAction(uint16_t configureId) {
+  for (const auto &inputBuffer : currentInputBuffers){
+    auto previous = getConfigurationById(configureId).getPreviousMachineById(inputBuffer->getFromMachineId());
+    if (!inputBuffer->checkAmountInBuffer(previous.getNeededProducts())){
+      return false;
+    }
+  }
+  return status == kMachineStatusIdle;
+}
 }

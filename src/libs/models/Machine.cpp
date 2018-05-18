@@ -43,5 +43,10 @@ const std::string &Machine::getName() const {
 const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
   return configurations;
 }
-
+const MachineConfiguration &Machine::getConfigurationById(uint16_t configId) const {
+  for (const auto &config : configurations) {
+    if (config.getProductId() == configId)
+      return configId;
+  }
+}
 }

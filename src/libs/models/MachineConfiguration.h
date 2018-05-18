@@ -93,6 +93,8 @@ class MachineConfiguration {
 
   const std::vector<PreviousMachine> &getPreviousMachines() const;
 
+  const PreviousMachine &getPreviousMachineById(uint16_t machineId) const;
+
  private:
   uint16_t productId;
   uint16_t outputEachMinute, initializationDurationInSeconds, outputBufferSize;
