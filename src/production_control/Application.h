@@ -34,7 +34,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   * @param machineId : The ID of the machine you are looking for
   * @return The machine with the requested ID or a nullptr when the machine doesn't exist
   */
-  MachinePtr getMachine(uint32_t machineId);
+  MachinePtr getMachine(uint16_t machineId);
 
   /**
    * Getter for server
@@ -101,6 +101,14 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Executes the scheduler. Checks if a machine can process a product.
    */
   virtual void executeScheduler();
+
+  /**
+   * Sets the status of a machine
+   * @param machineId : Id of the machine
+   * @param status : The new status
+   * @return
+   */
+  bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
   const std::vector<MachinePtr> &getMachines() const;
 
