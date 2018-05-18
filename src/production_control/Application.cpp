@@ -119,6 +119,7 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
       auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
       event->setArgument(1, core::Machine::MachineStatus::kMachineStatusProcessingProduct);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationDoneProcessing:{
