@@ -10,15 +10,28 @@
 #include "Buffer.h"
 
 namespace core {
-enum MachineStatus {
-  kMachineStatusReady
-};
 
 typedef std::map<uint16_t, BufferList> InputBuffersMap;
 typedef std::map<uint16_t, BufferPtr> OutputBuffersMap;
 
+/**
+ * Machine contains the connection to the machine control to send instructions.
+ */
 class Machine : public models::Machine, public std::enable_shared_from_this<Machine> {
  public:
+
+  /**
+   * Enum of all machine statuses
+   */
+  enum MachineStatus {
+    kMachineStatusWaitingForConfig,
+    kMachineStatusConfiguring,
+    kMachineStatusSelftesting,
+    kMachineStatusIdle,
+    kMachineStatusTakingProduct,
+    kMachineStatusProcessingProduct,
+    kMachineStatusTakingOutProduct
+  };
 
   /**
    * Constructs a machine from existing machine information
@@ -98,6 +111,12 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   void createInitialBuffers();
 
+  /**
+   * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
+   * @param configureId : can make product for given config id
+   */
+  virtual bool canDoAction(uint16_t configureId);
+
 
  private:
 
@@ -106,6 +125,10 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   * @param msg : The message to send to this machine
   */
   void sendMessage(const Network::Message &message);
+
+  /**
+   *
+   */
 
   MachineStatus status;
   Network::ConnectionPtr connection;

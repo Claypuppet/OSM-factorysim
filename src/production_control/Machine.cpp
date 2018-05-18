@@ -5,10 +5,10 @@
 
 namespace core {
 
-Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine) {
+Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
 }
 
-Machine::Machine(const Machine &aMachine) : models::Machine(aMachine) {
+Machine::Machine(const Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
@@ -100,13 +100,16 @@ void Machine::useBuffersForConfig(uint16_t configureId) {
 
 std::vector<models::PreviousMachine> Machine::getPreviousMachines(uint16_t configureId) {
   std::vector<models::PreviousMachine> previousMachines;
-  for (const auto &config : configurations) {
-    if (config.getProductId() == configureId){
-      previousMachines = config.getPreviousMachines();
-      break;
-    }
-  }
   return previousMachines;
 }
 
+bool Machine::canDoAction(uint16_t configureId) {
+  for (const auto &inputBuffer : currentInputBuffers){
+    auto previous = getConfigurationById(configureId).getPreviousMachineById(inputBuffer->getFromMachineId());
+    if (!inputBuffer->checkAmountInBuffer(previous.getNeededProducts())){
+      return false;
+    }
+  }
+  return status == kMachineStatusIdle;
+}
 }

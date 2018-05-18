@@ -61,6 +61,13 @@ const std::vector<PreviousMachine> &MachineConfiguration::getPreviousMachines() 
   return previousMachines;
 }
 
+const PreviousMachine &MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
+  for (const auto &machine : previousMachines) {
+	if (machine.getMachineId() == machineId)
+	  return machine;
+  }
+}
+
 uint16_t MachineConfiguration::getOutputEachMinute() const {
   return outputEachMinute;
 }

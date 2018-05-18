@@ -95,18 +95,31 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Set the coniguration used by the execution of this application
    * @param executaionConfiguration
    */
-  void setExecutaionConfiguration(const models::Configuration &executaionConfiguration);
+  void setProductionLine(const models::ProductionLine &executaionConfiguration);
 
   /**
    * Executes the scheduler. Checks if a machine can process a product.
    */
   virtual void executeScheduler();
 
+  /**
+   * Prepare the scheduler. Sends out the initial cofigure to connected machines.
+   */
+  virtual void prepareScheduler();
+
+  /**
+   *
+   * Change configuration
+   * @param configurationId : config id to set
+   */
+  virtual void changeProductionLineProduct(uint16_t configurationId);
+
   const std::vector<MachinePtr> &getMachines() const;
 
  protected:
-  models::Configuration executaionConfiguration;
+  models::ProductionLine productionLine;
   std::vector<MachinePtr> machines;
+  uint16_t currentProduct;
 
   Network::ServerPtr server;
   ThreadPtr serverThread;
