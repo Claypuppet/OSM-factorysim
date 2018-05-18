@@ -24,7 +24,7 @@ class IdleState : public InOperationState {
   /**
    * Gets executed everytime a receivedConfig event is received
    */
-  void onReceivedConfigEvent();
+  void onReceivedConfigEvent(const EventPtr &event);
 
   /**
    * gets executed everytime a takeProduct event in received

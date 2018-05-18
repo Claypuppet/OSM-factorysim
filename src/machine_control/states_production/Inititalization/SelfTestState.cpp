@@ -26,22 +26,15 @@ void SelfTestState::exitAction() {
 }
 
 bool SelfTestState::handleEvent(const EventPtr &event) {
-  switch(event->getId()) {
-    case kEventTypeSelfTestSuccess:
-      onSelfTestSuccess();
+  switch (event->getId()) {
+    case kEventTypeSelfTestSuccess:onSelfTestSuccess();
       return true;
 
-    case kEventTypeSelfTestFailed:
-      onSelfTestFail();
+    case kEventTypeSelfTestFailed:onSelfTestFail();
       return true;
 
-    default:
-      return ProductionState::handleEvent(event);
+    default:return ProductionState::handleEvent(event);
   }
-}
-
-bool SelfTestState::executeSelfTest() {
-  return true; // for the current sprint goal the machine selftest only succeeds
 }
 
 void SelfTestState::onSelfTestSuccess() {

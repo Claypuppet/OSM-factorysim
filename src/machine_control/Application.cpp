@@ -43,7 +43,7 @@ void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent
     }
 
     case NotifyEventType::kNotifyEventTypeStartProcess: {
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
+      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeTakeProduct);
       scheduleEvent(event);
       break;
     }
@@ -125,10 +125,8 @@ void Application::processProduct() {
   scheduleEvent(event);
 }
 
-
 void Application::takeProductOut() {
   auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProductTakenOut);
   scheduleEvent(event);
 }
-
 } // namespace machinecore
