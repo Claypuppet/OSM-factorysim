@@ -4,7 +4,7 @@
 #include <utils/FileLogger.h>
 #include "utils/CommandLineArguments.h"
 #include "ResultLogger.h"
-
+#include "SimulationController.h"
 
 int main(int argc, char** argv)
 {
@@ -14,8 +14,8 @@ int main(int argc, char** argv)
   core::ResultLogger::setProductionDebugOutput(true);
   core::ResultLogger::getInstance().LogProductionEvent(1, 10);
 
-//  simulation::SimulationController controller;
-//	controller.execute();
+  simulation::SimulationController controller;
+  controller.execute();
 
 	return 0;
 }
