@@ -11,42 +11,59 @@
 #include <iostream>
 #include <mutex>
 #include <spdlog/logger.h>
+#include <spdlog/sinks/file_sinks.h>
+#include <spdlog/sinks/stdout_sinks.h>
 
 namespace utils {
 
-class FileLogger {
+class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
  public:
   FileLogger() = default;
 
   virtual ~FileLogger() = default;
   /**
- * sets up logger
- * @return
- */
-  static void setupLogger(std::string filename, int8_t maxFileSize);
+   * sets up logger
+   * @param filename : wished filename and extension
+   * @param maxFileSize : max file size before second file gets written
+   * @param empty : if another file exists do we have to clear it?
+   */
+  static void setupLogger(const std::string &filename, bool empty = true);
+
+  /**
+   * makes a new file with the given parameters
+   * @param filename wished filename and extension
+   * @param maxFileSize : max file size before second file gets written
+   * @param empty : if another file exists do we have to clear it?
+   */
+  static void newFile(const std::string &filename, bool empty = true);
 
   /**
    * shortcut to logger of both
-   * @return
+   * @return spdlog instance
    */
   static std::shared_ptr<spdlog::logger> both();
 
   /**
  * shortcut to logger of file
- * @return
+ * @return spdlog instance
  */
   static std::shared_ptr<spdlog::logger> file();
 
   /**
  * shortcut to logger of console
- * @return
+ * @return spdlog instance
  */
-
   static std::shared_ptr<spdlog::logger> console();
-
-//  //machine id: string,  eventid:
-//  static void logMachineMessage();
-
+/**
+ * changes pattern to wished format
+ * @param newPattern
+ */
+  static void changePattern(const std::string &newPattern);
+ private:
+  void assignLoggers();
+  std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
+  std::shared_ptr<spdlog::sinks::simple_file_sink_mt> fileSink;
+  std::string pattern = "%v";
 
 };
 }

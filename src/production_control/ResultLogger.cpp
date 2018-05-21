@@ -10,10 +10,11 @@
 
 namespace core {
 ResultLogger::ResultLogger()
-    : simulationEnabled(true), productionEnabled(true), productionDebug(false), simulationDebug(false) {}
-
-ResultLogger::~ResultLogger() {
+    : simulationEnabled(true), productionEnabled(true), productionDebug(false), simulationDebug(false) {
+  std::cout << "teadlsajjgbvs";
 }
+
+
 
 void ResultLogger::LogProductionEvent(uint32_t machineId, uint32_t eventId) {
   if (productionEnabled) {

@@ -2,8 +2,8 @@
 // Created by sven on 18-5-18.
 //
 
-#ifndef PRODUCTION_LINE_CONTROL_SIMRESULTLOGGER_H
-#define PRODUCTION_LINE_CONTROL_SIMRESULTLOGGER_H
+#ifndef PRODUCTION_LINE_CONTROL_RESULTLOGGER_H
+#define PRODUCTION_LINE_CONTROL_RESULTLOGGER_H
 
 #include <patterns/singleton/Singleton.h>
 #include <string>
@@ -12,30 +12,30 @@ namespace core {
 class ResultLogger : public patterns::Singleton::Singleton<ResultLogger> {
  public:
   ResultLogger();
-  virtual ~ResultLogger();
+  virtual ~ResultLogger() = default;
 
   /**
    * enable or disable logging of SimulationEvents
    * @param enabled
    */
-  static void setSimulationEnabled(bool enabled);
+  void setSimulationEnabled(bool enabled);
   /**
    * enable or disable logging of ProductionEvents
    * @param enabled
    */
-  static void setProductionEnabled(bool enabled);
+  void setProductionEnabled(bool enabled);
 
   /**
  * enable or disable verbose logging of SimulationEvents
  * @param message : string to log
  */
 
-  static void setSimulationDebugOutput(bool enabled);
+  void setSimulationDebugOutput(bool enabled);
   /**
    * enable or disable verbose logging of ProductionEvents
    * @param message : string to log
    */
-  static void setProductionDebugOutput(bool enabled);
+  void setProductionDebugOutput(bool enabled);
   /**
    * Log a productionMessage
    * @param eventId : Id of event
@@ -57,4 +57,4 @@ class ResultLogger : public patterns::Singleton::Singleton<ResultLogger> {
 
 };
 }
-#endif //PRODUCTION_LINE_CONTROL_SIMRESULTLOGGER_H
+#endif //PRODUCTION_LINE_CONTROL_RESULTLOGGER_H

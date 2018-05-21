@@ -20,27 +20,27 @@
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestLogger)
 
-BOOST_AUTO_TEST_CASE(SetupLogger) {
-utils::Time::getInstance().setType(utils::customTime);
-utils::Time::getInstance().setCurrentTime(0);
-
-utils::FileLogger::setupLogger("simulationtest", 5);
-
-utils::FileLogger::both()->warn("test");
-
+BOOST_AUTO_TEST_CASE(TestProductionLogger) {
+  BOOST_REQUIRE_EQUAL(2, 2);
 }
 
-//BOOST_AUTO_TEST_CASE(TestProductionLogger) {
-//  utils::Time::getInstance().setType(utils::customTime);
-//  utils::Time::getInstance().setCurrentTime(0);
-//
-//  core::ResultLogger::setProductionDebugOutput(true);
-//  core::ResultLogger::getInstance().LogProductionEvent(1,10);
-//  utils::FileLogger::setupLogger("test.log", 5);
-//
-//  utils::FileLogger::both()->warn("test");
-//  BOOST_REQUIRE_EQUAL(2, 2);
-//}
+BOOST_AUTO_TEST_CASE(SetupLogger) {
+  utils::Time::getInstance().setType(utils::customTime);
+  utils::Time::getInstance().setCurrentTime(0);
+
+  utils::FileLogger::setupLogger("log", true);
+
+  utils::FileLogger::both()->warn("testlog", true);
+  utils::FileLogger::newFile("newLog", true);
+  utils::FileLogger::changePattern("(%v)");
+  utils::FileLogger::both()->warn("testlog2");
+
+  for (int i = 0; i < 10000000; ++i) {
+    utils::FileLogger::file()->info("test" + std::to_string(i));
+  }
+}
+
+
 
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()
