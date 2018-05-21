@@ -31,7 +31,7 @@ bool ReceiveConfig::handleEvent(const EventPtr &event) {
 }
 
 void ReceiveConfig::onConfigReceived(const EventPtr &event) {
-  if (context.setCurrentConfigId(event->getArgumentAsType<uint32_t>())) {
+  if (context.setCurrentConfigId(event->getArgumentAsType<uint16_t>())) {
     context.setCurrentState(std::make_shared<ConfigureState>(context));
   }
 }

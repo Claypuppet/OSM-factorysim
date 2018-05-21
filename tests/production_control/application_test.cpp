@@ -23,17 +23,17 @@
 #include "../test_helpers/MockObserver.h"
 #include "../../src/production_control/AppConnectionHandler.h"
 #include "../test_helpers/HelperFunctions.h"
+#include "../../src/production_control/states_application/InOperationState.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
-BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess)
-{
+BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
   core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(12, "test_machine"));
 
-  auto machineMock  = std::make_shared<testutils::MockNetwork>();
+  auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
-  testutils::OnMessageFn onMessageFn = [](const Network::Message& message){
+  testutils::OnMessageFn onMessageFn = [](const Network::Message &message) {
     BOOST_CHECK(message.getMessageType() == Network::Protocol::kAppMessageTypeStartProcess);
   };
 
@@ -96,11 +96,11 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
 BOOST_AUTO_TEST_SUITE_END()
 
-
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
-  core::Buffer infiniteBuffer;
+  core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(1, "draaimachine"));
+  core::Buffer infiniteBuffer(machine);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(3);
+  core::Buffer limitedBuffer(machine, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 
@@ -134,12 +134,11 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationHandleMessages)
 
-BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
-{
+BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   testutils::MockObserver observer;
 
   // Making the notificationhandler for the observer
-  testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
     BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -171,7 +170,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeReady);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineReady);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -184,7 +183,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeStartedInitialize);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartInit);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -197,7 +196,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeStartProcess);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartProcessing);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -210,7 +209,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeDoneProcessing);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationDoneProcessing);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -223,7 +222,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.clear();
   message.setMessageType(Network::Protocol::kAppMessageTypeOK);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -237,7 +236,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
   message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(404);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent& notification){
+  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 404);
@@ -249,6 +248,60 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates)
 
   mcMock->stop();
   pcMock->stop();
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
+  //Making machines
+  std::vector<core::MachinePtr> machines;
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(12, "machine12")));
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(13, "machine13")));
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(14, "machine14")));
+
+  //Making and setting up application
+  core::Application app;
+  BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
+  BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<ApplicationStates::InOperationState>(app)));
+
+  { // Scheduling notification and handle events
+    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationMachineReady);
+    notification.setArgument(0, (uint16_t) 12);
+    app.handleNotification(notification);
+    app.run();
+  }
+
+  auto machine = app.getMachine(12);
+
+  BOOST_REQUIRE(machine);
+
+  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
+
+  { // Scheduling notification and handle events
+    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationStartInit);
+    notification.setArgument(0, (uint16_t) 12);
+    app.handleNotification(notification);
+    app.run();
+  }
+
+  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusConfiguring);
+
+  { // Scheduling notification and handle events
+    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationStartProcessing);
+    notification.setArgument(0, (uint16_t) 12);
+    app.handleNotification(notification);
+    app.run();
+  }
+
+  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusProcessingProduct);
+
+  { // Scheduling notification and handle events
+    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationDoneProcessing);
+    notification.setArgument(0, (uint16_t) 12);
+    app.handleNotification(notification);
+    app.run();
+  }
+
+  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

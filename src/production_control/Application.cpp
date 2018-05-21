@@ -17,24 +17,31 @@ core::Application::~Application() {
 void core::Application::setMachines(const std::vector<MachinePtr>& aMachines) {
   // Set machines
   machines = aMachines;
+  for (const auto &machine : machines) {
+    machine->createInitialBuffers();
+  }
+
   // Links all buffers for each production line
-  for (const auto &product : executaionConfiguration.getProductionLineConfiguration().getProducts()){
+  for (const auto &product : productionLine.getProducts()){
     auto productId = product.getId();
     for (const auto &machine : machines){
-      auto nextMachineId = machine->getNextMachineId(productId);
-      if (!nextMachineId){
+      auto previousMachines = machine->getPreviousMachines(productId);
+      if (previousMachines.empty()){
 		continue;
       }
-      auto nextMachine = getMachine(nextMachineId);
-	  if (!nextMachine){
-		continue;
-	  }
-      nextMachine->setInputBuffer(productId, machine->getInputBuffer(productId));
+      for (const auto &previousMachine : previousMachines) {
+        auto previousMachineObj = getMachine(previousMachine.getMachineId());
+        if (!previousMachineObj){
+          continue;
+        }
+        auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
+        machine->setInputBuffers(productId, previousBuffer);
+      }
     }
   }
 }
 
-core::MachinePtr core::Application::getMachine(uint32_t machineId) {
+core::MachinePtr core::Application::getMachine(uint16_t machineId) {
   for (const auto &machine : machines) {
     if (machine->getId() == machineId) {
       return machine;
@@ -92,27 +99,51 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
       break;
     }
     case NotifyEventIds::eApplicationMachineReady:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusIdle);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationStartInit:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusConfiguring);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationStartProcessing:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusProcessingProduct);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationDoneProcessing:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusIdle);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationOK:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, "OK");
+      //scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationNOK:{
-
+      auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, "NOK");
+      //scheduleEvent(event);
       break;
     }
     default: {
@@ -157,6 +188,36 @@ void core::Application::stopServer() {
   }
 }
 
-void core::Application::setExecutaionConfiguration(const models::Configuration &executaionConfiguration) {
-  Application::executaionConfiguration = executaionConfiguration;
+void core::Application::setProductionLine(const models::ProductionLine &executaionConfiguration) {
+  productionLine = executaionConfiguration;
+}
+
+void core::Application::executeScheduler() {
+  for (const auto &machine : machines) {
+    if (machine->canDoAction(currentProduct)){
+      machine->sendStartProcessMessage();
+    }
+  }
+}
+
+void core::Application::prepareScheduler() {
+  // TODO: make this more dynamic. now sets product with id 1 (default tabled)
+  changeProductionLineProduct(1);
+}
+
+void core::Application::changeProductionLineProduct(uint16_t productId) {
+  currentProduct = productId;
+
+  for (const auto &machine : machines){
+    machine->sendConfigureMessage(productId);
+  }
+}
+
+bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->setStatus(status);
+    return true;
+  }
+  return false;
 }

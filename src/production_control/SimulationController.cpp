@@ -140,7 +140,7 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
-  application.setExecutaionConfiguration(configuration);
+  application.setProductionLine(configuration.getProductionLineConfiguration());
   application.setMachines(machines);
 
 

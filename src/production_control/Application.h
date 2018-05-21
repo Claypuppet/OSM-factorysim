@@ -34,7 +34,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   * @param machineId : The ID of the machine you are looking for
   * @return The machine with the requested ID or a nullptr when the machine doesn't exist
   */
-  MachinePtr getMachine(uint32_t machineId);
+  MachinePtr getMachine(uint16_t machineId);
 
   /**
    * Getter for server
@@ -62,7 +62,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   *  Start the server if it's not running
   */
   void startServer();
-  
+
   /**
    * Stops the server if it's running
    */
@@ -95,12 +95,39 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Set the coniguration used by the execution of this application
    * @param executaionConfiguration
    */
-  void setExecutaionConfiguration(const models::Configuration &executaionConfiguration);
+  void setProductionLine(const models::ProductionLine &executaionConfiguration);
+
+  /**
+   * Executes the scheduler. Checks if a machine can process a product.
+   */
+  virtual void executeScheduler();
+
+  /**
+   * Prepare the scheduler. Sends out the initial cofigure to connected machines.
+   */
+  virtual void prepareScheduler();
+
+  /**
+   *
+   * Change configuration
+   * @param configurationId : config id to set
+   */
+  virtual void changeProductionLineProduct(uint16_t configurationId);
+
+  /**
+   * Sets the status of a machine
+   * @param machineId : Id of the machine
+   * @param status : The new status
+   * @return
+   */
+  bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
+
   const std::vector<MachinePtr> &getMachines() const;
 
  protected:
-  models::Configuration executaionConfiguration;
+  models::ProductionLine productionLine;
   std::vector<MachinePtr> machines;
+  uint16_t currentProduct;
 
   Network::ServerPtr server;
   ThreadPtr serverThread;

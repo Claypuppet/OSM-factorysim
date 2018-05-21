@@ -26,7 +26,7 @@ void IdleState::exitAction() {
 
 bool IdleState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeReceivedConfig:onReceivedConfigEvent();
+    case kEventTypeReceivedConfig:onReceivedConfigEvent(event);
       return true;
 
     case kEventTypeTakeProduct:onTakeProductEvent();
@@ -36,11 +36,12 @@ bool IdleState::handleEvent(const EventPtr &event) {
   }
 }
 
-void IdleState::onReceivedConfigEvent() {
+void IdleState::onReceivedConfigEvent(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
 
-  auto configureState = std::make_shared<ConfigureState>(context);
-  context.setCurrentState(configureState);
+  if (context.setCurrentConfigId(event->getArgumentAsType<uint32_t>())) {
+    context.setCurrentState(std::make_shared<ConfigureState>(context));
+  }
 }
 
 void IdleState::onTakeProductEvent() {
