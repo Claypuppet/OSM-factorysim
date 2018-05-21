@@ -6,7 +6,8 @@
 
 namespace simulator {
 SimulationApplication::SimulationApplication(uint16_t aMachineId)
-    : Application(aMachineId), machine() {
+    : Application(aMachineId) {
+    machine = std::make_shared<SimulationMachine>();
 }
 
 void SimulationApplication::executeSelfTest() {

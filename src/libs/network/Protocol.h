@@ -67,12 +67,6 @@ namespace Network {
 			kAppMessageTypeStartProcess = 10,
 			kAppMessageTypeReconfigure,
 
-			kAppMessageTypeReady = 20,
-			kAppMessageTypeStartedInitialize,
-			kAppMessageTypeStartedReconfigure,
-			kAppMessageTypeStartedProcessing,
-			kAppMessageTypeDoneProcessing,
-
 			kAppMessageTypeOK = 50,
 			kAppMessageTypeNOK,
 		};

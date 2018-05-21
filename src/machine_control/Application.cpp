@@ -12,7 +12,6 @@ namespace machinecore {
 Application::Application(uint16_t aMachineId)
     : patterns::statemachine::Context(),
       id(aMachineId),
-      machine(),
       nextConfigId(0),
       currentConfigId(0),
       configurations(){

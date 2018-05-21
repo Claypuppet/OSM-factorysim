@@ -1,14 +1,13 @@
 
 #include "Controller.h"
 
-core::Controller::Controller() : executing(false) {
-
+core::Controller::Controller() : application(std::make_shared<Application>()), executing(false) {
 }
 
 void core::Controller::execute() {
   executing = true;
   while (executing) {
-    application.run();
+    application->run();
   }
 }
 
@@ -16,6 +15,6 @@ void core::Controller::stop() {
   executing = false;
 }
 
-core::Application &core::Controller::getApplication() {
+core::ApplicationPtr &core::Controller::getApplication(){
   return application;
 }

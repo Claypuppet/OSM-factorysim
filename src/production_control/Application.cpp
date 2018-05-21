@@ -67,25 +67,6 @@ void core::Application::setupNetwork() {
   server = manager.createServer(std::make_shared<AppConnectionHandler>(connectionHandler), 50);
   server->start();
 }
-
-void core::Application::joinServerThread() {
-  serverThread->join();
-}
-
-void core::Application::startServer() {
-  if (!isServerRunning()) {
-    server->start();
-  }
-}
-
-bool core::Application::isServerRunning() {
-  return server->isRunning();
-}
-
-Network::ServerPtr core::Application::getServer() {
-  return Network::ServerPtr();
-}
-
 void core::Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   // TODO: move the case implementation to own method (or not?)
   switch(notification.getEventId()) {

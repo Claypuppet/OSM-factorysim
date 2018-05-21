@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
 
   // Machine 1 should be loaded
-  auto machine = controller.getMachine(1);
+  auto machine = controller.getSimulationMachine(1);
   BOOST_REQUIRE(machine);
 
   // Setting this state will setup the server
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Run context to handle the state event
   BOOST_CHECK_NO_THROW(controller.run());
 
-  BOOST_CHECK(controller.getMachine(1)->isSimulationConnected());
+  BOOST_CHECK(controller.getSimulationMachine(1)->isSimulationConnected());
 
   // set machine ready, to "mock" that he received config
   BOOST_CHECK_NO_THROW(controller.machineReady(1));
@@ -102,8 +102,8 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   simulation::SimulationController controller;
   BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
-  auto machine1 = controller.getMachine(15);
-  auto machine2 = controller.getMachine(75);
+  auto machine1 = controller.getSimulationMachine(15);
+  auto machine2 = controller.getSimulationMachine(75);
 
   BOOST_REQUIRE(machine1);
   BOOST_REQUIRE(machine2);

@@ -22,14 +22,25 @@ class Controller {
    */
   virtual ~Controller() = default;
 
-  virtual /**
+  /**
    * Getter for application
    * @return application
    */
-  Application &getApplication();
+  ApplicationPtr &getApplication();
+
+  /**
+   * Execute method, should be implemented in in the implementation class
+   */
+  virtual void execute() = 0;
+
+  virtual void stop();
 
  protected:
-  Application application;
+  // True or false depending on whether Controller is running
+  bool executing;
+
+  // pointer to application
+  ApplicationPtr application;
 };
 }
 

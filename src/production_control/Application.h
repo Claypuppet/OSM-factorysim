@@ -37,31 +37,9 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   MachinePtr getMachine(uint16_t machineId);
 
   /**
-   * Getter for server
-   * @return server
-   */
-  Network::ServerPtr getServer();
-
-  /**
-  *  A function that joins the serverThread with the main thread
-  */
-  void joinServerThread();
-
-  /**
-  * A function to check if the applications server is running
-  * @return True when the server is running
-  */
-  bool isServerRunning();
-
-  /**
    * Setup server connections for application
    */
   virtual void setupNetwork();
-
-  /**
-  *  Start the server if it's not running
-  */
-  void startServer();
 
   /**
    * Stops the server if it's running
@@ -133,6 +111,8 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   ThreadPtr serverThread;
   Network::Manager manager;
 };
+
+typedef std::shared_ptr<Application> ApplicationPtr;
 
 }
 

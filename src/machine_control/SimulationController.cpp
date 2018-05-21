@@ -46,8 +46,9 @@ class NetworkEventDispatcher : public Network::IServiceEventListener, public pat
 };
 
 SimulationController::SimulationController(uint16_t aMachineId)
-    : Controller(aMachineId), application(aMachineId), executing(false) {
+    : Controller(aMachineId) {
   simulationNetworkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
+  application = std::make_shared<SimulationApplication>(aMachineId);
 }
 
 SimulationController::~SimulationController() {
@@ -102,7 +103,7 @@ void SimulationController::onSimulationConfigurationsReceived(const patterns::No
 }
 
 void SimulationController::registerMachine() {
-  simulationNetworkComponent->sendRegisterMessage(getApplication().getId());
+  simulationNetworkComponent->sendRegisterMessage(application->getId());
 }
 
 void SimulationController::machineReady() {
@@ -161,7 +162,7 @@ void SimulationController::execute() {
 
 void SimulationController::stop() {
   // Set the controller to inactive
-  executing = false;
+  Controller::stop();
 
   // Stop the network manager
   networkManager.stop();
@@ -174,7 +175,7 @@ void SimulationController::stop() {
 }
 
 void SimulationController::setMachineInfo(const models::MachinePtr &machine) {
-  getApplication().setConfigurations(machine->getConfigurations());
+  application->setConfigurations(machine->getConfigurations());
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsSet);
   scheduleEvent(event);
 }
@@ -182,7 +183,5 @@ void SimulationController::setMachineInfo(const models::MachinePtr &machine) {
 void SimulationController::setRemoteHost(const std::string &remoteHost) {
   networkManager.setRemoteHost(remoteHost);
 }
-machinecore::Application &SimulationController::getApplication() {
-  return application;
-}
+
 }

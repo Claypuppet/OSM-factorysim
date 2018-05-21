@@ -20,10 +20,9 @@ class SimulationApplication : public machinecore::Application {
    */
   void executeSelfTest() override;
   void setStartState() override;
-
- private:
-  SimulationMachine machine;
 };
+
+typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;
 
 }
 

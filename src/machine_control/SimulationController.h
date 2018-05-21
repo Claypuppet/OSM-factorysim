@@ -25,11 +25,11 @@ class SimulationController
  public:
   SimulationController(uint16_t aMachineId);
   ~SimulationController() override;
-  machinecore::Application &getApplication() override;
+
   /**
    * Starts the controller and puts it in a run cycle
    */
-  void execute();
+  void execute() override;
 
   /**
    * Stops the networkManager and execution of the controller
@@ -101,9 +101,6 @@ class SimulationController
    */
   void onTurnOffReceived();
 
-  // True or false depending on whether SimulationController is active
-  bool executing;
-
   // The thread which the client runs on
   ThreadPtr clientThread;
 
@@ -112,9 +109,6 @@ class SimulationController
 
   // The network's client
   Network::ClientPtr client;
-
-  // The application which is controlled by the simulation controller
-  SimulationApplication application;
 
   SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };
