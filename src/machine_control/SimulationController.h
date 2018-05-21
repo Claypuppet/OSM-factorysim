@@ -25,7 +25,7 @@ class SimulationController
  public:
   SimulationController(uint16_t aMachineId);
   ~SimulationController() override;
-
+  machinecore::Application &getApplication() override;
   /**
    * Starts the controller and puts it in a run cycle
    */
@@ -38,9 +38,9 @@ class SimulationController
 
   /**
    * Called to set simulation configurations of it's application to the parameter's configurations
-   * @param simulationConfigurations The received simulation configurations
+   * @param machine : The received simulation configurations
    */
-  void setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations);
+  void setMachineInfo(const models::MachinePtr &machine);
 
   /**
    * Called when notfified, takes the notification and handles it accoardingly
@@ -113,7 +113,7 @@ class SimulationController
   // The network's client
   Network::ClientPtr client;
 
-  // The application which is controlled by the controller
+  // The application which is controlled by the simulation controller
   SimulationApplication application;
 
   SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;

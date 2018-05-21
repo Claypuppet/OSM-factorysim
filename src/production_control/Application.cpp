@@ -4,6 +4,7 @@
 // other library includes
 #include <network/Server.h>
 #include <network/Client.h>
+#include <utils/Logger.h>
 
 // project file includes
 #include "states_application/BroadCastState.h"
@@ -98,51 +99,21 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
       scheduleEvent(event);
       break;
     }
-    case NotifyEventIds::eApplicationMachineReady:{
-      auto id = notification.getArgumentAsType<uint16_t >(0);
-      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusIdle);
-      scheduleEvent(event);
-      break;
-    }
-    case NotifyEventIds::eApplicationStartInit:{
-      auto id = notification.getArgumentAsType<uint16_t >(0);
-      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusConfiguring);
-      scheduleEvent(event);
-      break;
-    }
-    case NotifyEventIds::eApplicationStartProcessing:{
-      auto id = notification.getArgumentAsType<uint16_t >(0);
-      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusProcessingProduct);
-      scheduleEvent(event);
-      break;
-    }
-    case NotifyEventIds::eApplicationDoneProcessing:{
-      auto id = notification.getArgumentAsType<uint16_t >(0);
-      auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, core::Machine::MachineStatus::kMachineStatusIdle);
-      scheduleEvent(event);
-      break;
-    }
     case NotifyEventIds::eApplicationOK:{
       auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(1);
       auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
-      event->setArgument(1, "OK");
-      //scheduleEvent(event);
+      event->setArgument(1, status);
+      scheduleEvent(event);
       break;
     }
     case NotifyEventIds::eApplicationNOK:{
       auto id = notification.getArgumentAsType<uint16_t >(0);
+      auto errorCode = notification.getArgumentAsType<uint16_t>(1);
       auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
-      event->setArgument(1, "NOK");
+      event->setArgument(1, errorCode);
       //scheduleEvent(event);
       break;
     }

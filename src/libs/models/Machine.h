@@ -21,6 +21,23 @@ typedef std::shared_ptr<Machine> MachinePtr;
 
 class Machine {
  public:
+
+  /**
+   * Enum of all machine statuses
+   */
+  enum MachineStatus {
+    kMachineStatusWaitingForConfig,
+    kMachineStatusConfiguring,
+    kMachineStatusSelftesting,
+    kMachineStatusIdle,
+    kMachineStatusTakingProduct,
+    kMachineStatusProcessingProduct,
+    kMachineStatusTakingOutProduct,
+    kMachineStatusBroken,
+    kMachineStatusRepairing,
+  };
+
+
   Machine() = default;
 
   /**

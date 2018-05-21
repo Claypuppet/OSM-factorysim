@@ -96,13 +96,13 @@ void SimulationController::onSimulationConfigurationsReceived(const patterns::No
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
   
   // Set received configurations as argument
-  event->setArgument(notification.getFirstArgumentAsType<models::MachinePtr>()->getConfigurations());
+  event->setArgument(notification.getFirstArgumentAsType<models::MachinePtr>());
 
   scheduleEvent(event);
 }
 
 void SimulationController::registerMachine() {
-  simulationNetworkComponent->sendRegisterMessage(application.getId());
+  simulationNetworkComponent->sendRegisterMessage(getApplication().getId());
 }
 
 void SimulationController::machineReady() {
@@ -173,11 +173,16 @@ void SimulationController::stop() {
   }
 }
 
-void SimulationController::setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations) {
-  application.setConfigurations(simulationConfigurations);
+void SimulationController::setMachineInfo(const models::MachinePtr &machine) {
+  getApplication().setConfigurations(machine->getConfigurations());
+  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsSet);
+  scheduleEvent(event);
 }
 
 void SimulationController::setRemoteHost(const std::string &remoteHost) {
   networkManager.setRemoteHost(remoteHost);
+}
+machinecore::Application &SimulationController::getApplication() {
+  return application;
 }
 }

@@ -2,6 +2,7 @@
 #include "SimulationApplication.h"
 
 #include "states_production/ProductionState.h"
+#include "states_production/ConnectState.h"
 
 namespace simulator {
 SimulationApplication::SimulationApplication(uint16_t aMachineId)
@@ -18,6 +19,9 @@ void SimulationApplication::executeSelfTest() {
         auto event = std::make_shared<patterns::statemachine::Event>(productionstates::kEventTypeSelfTestFailed);
         scheduleEvent(event);
     }
+}
+void SimulationApplication::setStartState() {
+    setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
 }
 
 }

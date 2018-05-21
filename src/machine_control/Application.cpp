@@ -14,7 +14,8 @@ Application::Application(uint16_t aMachineId)
       id(aMachineId),
       machine(),
       nextConfigId(0),
-      currentConfigId(0) {
+      currentConfigId(0),
+      configurations(){
   connectionHandler = std::make_shared<Communication::NetworkComponent>();
 }
 
@@ -128,5 +129,9 @@ void Application::processProduct() {
 void Application::takeProductOut() {
   auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProductTakenOut);
   scheduleEvent(event);
+}
+
+void Application::statusUpdate(models::Machine::MachineStatus status) {
+  connectionHandler->sendStatusUpdate(status);
 }
 } // namespace machinecore

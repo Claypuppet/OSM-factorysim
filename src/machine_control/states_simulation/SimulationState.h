@@ -17,6 +17,7 @@ enum EventType {
   kEventTypeConnected,
   kEventTypeConnectionFailed,
   kEventTypeSimulationConfigurationsReceived,
+  kEventTypeSimulationConfigurationsSet,
   kEventTypePowerOn,
   kEventTypePowerOff,
 //			kEventType,

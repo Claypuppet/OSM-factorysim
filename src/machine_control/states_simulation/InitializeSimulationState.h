@@ -31,6 +31,12 @@ class InitializeSimulationState : public SimulationState {
    * @param event Event containing the configurations as it's first parameter
    */
   void onSimulationConfigurationsReceived(const EventPtr &event);
+
+  /**
+   * Handles event that is fired after configurations have been set.
+   * @param event Event containing the configurations as it's first parameter
+   */
+  void onSimulationConfigurationsSet(const EventPtr &event);
 };
 
 }

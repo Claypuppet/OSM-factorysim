@@ -22,7 +22,7 @@ class Controller {
    */
   virtual ~Controller() = default;
 
-  /**
+  virtual /**
    * Getter for application
    * @return application
    */

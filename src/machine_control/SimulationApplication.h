@@ -19,6 +19,7 @@ class SimulationApplication : public machinecore::Application {
    * Execute the self test and create a new event based on the result
    */
   void executeSelfTest() override;
+  void setStartState() override;
 
  private:
   SimulationMachine machine;

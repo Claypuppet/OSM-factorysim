@@ -6,6 +6,7 @@
 #define PRODUCTION_LINE_CONTROL_NetworkCOMPONENT_H
 
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <models/Machine.h>
 #include "network/Connection.h"
 
 namespace Communication {
@@ -21,24 +22,9 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
   void sendRegisterMachineMessage(uint16_t machineId);
 
   /**
-       * Send status update: ready for instructions
-       */
-  void sendStatusUpdateReady();
-
-  /**
-   * Send status update: started procssing
+   * Send status update
    */
-  void sendStatusUpdateStarted();
-
-  /**
-   * Send status update: done processing
-   */
-  void sendStatusUpdateDone();
-
-  /**
-   * Send response: OK
-   */
-  void sendResponseOK();
+  void sendStatusUpdate(models::Machine::MachineStatus status);
 
   /**
    * Send response: NOK

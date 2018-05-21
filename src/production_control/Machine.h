@@ -21,20 +21,6 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
  public:
 
   /**
-   * Enum of all machine statuses
-   */
-  enum MachineStatus {
-    kMachineStatusWaitingForConfig,
-    kMachineStatusConfiguring,
-    kMachineStatusSelftesting,
-    kMachineStatusIdle,
-    kMachineStatusTakingProduct,
-    kMachineStatusProcessingProduct,
-    kMachineStatusTakingOutProduct,
-	kMachineStatusAwaitingResponse
-  };
-
-  /**
    * Constructs a machine from existing machine information
    * @param aMachine : A machine model
    */
@@ -134,6 +120,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
 
   MachineStatus status;
+  bool awaitingResponse;
   Network::ConnectionPtr connection;
 
   std::vector<BufferPtr> currentInputBuffers;

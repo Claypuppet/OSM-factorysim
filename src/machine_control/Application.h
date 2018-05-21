@@ -46,30 +46,30 @@ class Application
     return machine;
   }
 
-  void setMachine(const Machine &machine) {
-    Application::machine = machine;
+  void setMachine(const Machine &aMachine) {
+    machine = aMachine;
   }
 
   uint16_t getId() const {
     return id;
   }
 
-  void setId(uint16_t id) {
-    Application::id = id;
+  void setId(uint16_t aId) {
+    id = aId;
   }
 
   const std::vector<models::MachineConfiguration> &getConfigurations() const {
     return configurations;
   }
 
-  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
-    Application::configurations = configurations;
+  void setConfigurations(const std::vector<models::MachineConfiguration> &aConfigurations) {
+    configurations = aConfigurations;
   }
 
   /**
    * Sets the starting state for the application's statemachine context
    */
-  void setStartState();
+  virtual void setStartState();
 
   /**
    * Stops the network manager and joins the client thread
@@ -105,6 +105,12 @@ class Application
  * sends register machine message to PC
  */
   void registerMachine();
+
+  /**
+   * Send status update to production control
+   * @param status : new status
+   */
+  void statusUpdate(models::Machine::MachineStatus status);
 
   /**
    * checks if configurationID is available ands sets currentConfigId if it is.
