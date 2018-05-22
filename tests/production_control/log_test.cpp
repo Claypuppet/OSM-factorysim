@@ -15,6 +15,7 @@
 #include <utils/time/Time.h>
 #include "utils/FileLogger.h"
 #include "utils/Logger.h"
+#include "../../src/production_control/ResultLogger.h"
 
 
 // Testen van events naar states (set state, add event, run, check new state)
@@ -30,17 +31,19 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
 
   utils::FileLogger::setupLogger("testlog.log", true);
 
-  utils::FileLogger::both()->warn("testlog", true);
   for (int i = 0; i < 100; ++i) {
     utils::FileLogger::file()->info("test" + std::to_string(i));
   }
+
   utils::FileLogger::newFile("newtestLog.log", true);
+
   utils::FileLogger::changePattern("(%v)");
-  utils::FileLogger::both()->warn("testlog2");
 
   for (int i = 0; i < 100; ++i) {
     utils::FileLogger::file()->info("test" + std::to_string(i));
+    core::ResultLogger::LogProductionEvent(i, i);
   }
+
   // check if testlog and newtestlog file exist
 }
 

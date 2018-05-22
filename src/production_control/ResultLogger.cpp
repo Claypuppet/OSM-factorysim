@@ -11,16 +11,15 @@
 namespace core {
 ResultLogger::ResultLogger()
     : simulationEnabled(true), productionEnabled(true), productionDebug(false), simulationDebug(false) {
-  std::cout << "teadlsajjgbvs";
 }
 
 
 
 void ResultLogger::LogProductionEvent(uint32_t machineId, uint32_t eventId) {
-  if (productionEnabled) {
+  if (getInstance().productionEnabled) {
     std::ostringstream stringstream;
 
-    if (!productionDebug) {
+    if (!getInstance().productionDebug) {
       stringstream << "T:" << utils::Time::getInstance().getCurrentTime() << ",MID:" << machineId << ",EID:" << eventId;
       utils::FileLogger::file()->info(stringstream.str());
 

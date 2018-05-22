@@ -10,18 +10,13 @@
 namespace utils {
 
 void FileLogger::setupLogger(const std::string &filename, bool empty) {
-  if (empty) {
-    // Create the file or clear it if it's not empty
-    std::ofstream file(filename);
-    file << "";
-    file.close();
-  }
+
   try {
     getInstance().consoleSink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
-    getInstance().fileSink =
-        std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, false);
+    getInstance().fileSink =std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, empty);
 
     getInstance().assignLoggers();
+
   }
   catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log initialization failed: " << ex.what() << std::endl;
@@ -36,11 +31,14 @@ void FileLogger::assignLoggers() {
     bothSinks.push_back(consoleSink);
     bothSinks.push_back(fileSink);
 
+
+    spdlog::register_logger(std::make_shared<spdlog::logger>("file", fileSink));
+    spdlog::register_logger(std::make_shared<spdlog::logger>("console", consoleSink));
     spdlog::register_logger(std::make_shared<spdlog::logger>("both", begin(bothSinks), end(bothSinks)));
-    spdlog::register_logger(std::make_shared<spdlog::logger>("file", getInstance().fileSink));
-    spdlog::register_logger(std::make_shared<spdlog::logger>("console", getInstance().consoleSink));
 
     spdlog::set_pattern(pattern);
+
+    both()->info("test");
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "assiging loggers failed: " << ex.what() << std::endl;
   }
@@ -52,15 +50,14 @@ void FileLogger::changePattern(const std::string &newPattern) {
 }
 
 void FileLogger::newFile(const std::string &filename, bool empty) {
-  if (empty) {
-    // Create the file or clear it if it's not empty
-    std::ofstream file(filename);
-    file << "";
-    file.close();
+  try {
+
+    getInstance().fileSink =
+        std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, empty);
+    getInstance().assignLoggers();
+  } catch (const spdlog::spdlog_ex &ex) {
+    std::cout << "newfile failed: " << ex.what() << std::endl;
   }
-  getInstance().fileSink =
-      std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, false);
-  getInstance().assignLoggers();
 }
 
 std::shared_ptr<spdlog::logger> FileLogger::both() {

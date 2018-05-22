@@ -44,6 +44,7 @@ productionLine:
     name: Testmachine75
     configurations:
     - productId: 12
+      outputEachMinute: 12
       initializationDurationInSeconds: 7
       outputBufferSize: 39
       turnAroundTimeInSeconds: 17
@@ -55,6 +56,7 @@ productionLine:
           neededProducts: 7 # TODO
 
     - productId: 88
+      outputEachMinute: 12
       initializationDurationInSeconds: 10
       outputBufferSize: 69
       turnAroundTimeInSeconds: 22

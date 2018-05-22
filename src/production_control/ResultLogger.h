@@ -41,7 +41,7 @@ class ResultLogger : public patterns::Singleton::Singleton<ResultLogger> {
    * @param eventId : Id of event
    * @param machineId : Id of machine
    */
-  void LogProductionEvent(uint32_t machineId, uint32_t eventId);
+  static void LogProductionEvent(uint32_t machineId, uint32_t eventId);
 
   /**
   * Log a simulationMessageMessage

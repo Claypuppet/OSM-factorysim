@@ -7,6 +7,8 @@ add_library(source_lib_app_production SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Product.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Product.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ResultLogger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ResultLogger.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Application.cpp

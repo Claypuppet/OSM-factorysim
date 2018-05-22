@@ -26,14 +26,14 @@ class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
    * @param filename : wished filename and extension
    * @param empty : if another file exists do we have to clear it?
    */
-  static void setupLogger(const std::string &filename, bool empty = true);
+  static void setupLogger(const std::string &filename, bool empty = false);
 
   /**
    * makes a new file with the given parameters
    * @param filename wished filename and extension
    * @param empty : if another file exists do we have to clear it?
    */
-  static void newFile(const std::string &filename, bool empty = true);
+  static void newFile(const std::string &filename, bool empty = false);
 
   /**
    * shortcut to logger of both
