@@ -28,16 +28,20 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::Time::getInstance().setType(utils::customTime);
   utils::Time::getInstance().setCurrentTime(0);
 
-  utils::FileLogger::setupLogger("log", true);
+  utils::FileLogger::setupLogger("testlog.log", true);
 
   utils::FileLogger::both()->warn("testlog", true);
-  utils::FileLogger::newFile("newLog", true);
+  for (int i = 0; i < 100; ++i) {
+    utils::FileLogger::file()->info("test" + std::to_string(i));
+  }
+  utils::FileLogger::newFile("newtestLog.log", true);
   utils::FileLogger::changePattern("(%v)");
   utils::FileLogger::both()->warn("testlog2");
 
-  for (int i = 0; i < 10000000; ++i) {
+  for (int i = 0; i < 100; ++i) {
     utils::FileLogger::file()->info("test" + std::to_string(i));
   }
+  // check if testlog and newtestlog file exist
 }
 
 

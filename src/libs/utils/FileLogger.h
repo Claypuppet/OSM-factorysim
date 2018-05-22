@@ -24,7 +24,6 @@ class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
   /**
    * sets up logger
    * @param filename : wished filename and extension
-   * @param maxFileSize : max file size before second file gets written
    * @param empty : if another file exists do we have to clear it?
    */
   static void setupLogger(const std::string &filename, bool empty = true);
@@ -32,7 +31,6 @@ class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
   /**
    * makes a new file with the given parameters
    * @param filename wished filename and extension
-   * @param maxFileSize : max file size before second file gets written
    * @param empty : if another file exists do we have to clear it?
    */
   static void newFile(const std::string &filename, bool empty = true);
