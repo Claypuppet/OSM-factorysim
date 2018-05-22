@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <memory>
+#include <utils/Logger.h>
 #include "Machine.h"
 
 namespace core {
@@ -38,13 +39,18 @@ void Machine::sendMessage(const network::Message &message) {
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
-
+  std::stringstream ss;
+  ss << "--sending process message to machine " << id;
+  utils::Logger::log(ss.str());
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject(configureId);
   sendMessage(message);
+  std::stringstream ss;
+  ss << "--sending configure message to machine " << id;
+  utils::Logger::log(ss.str());
 }
 
 const BufferList &Machine::getCurrentInputBuffers() const {
