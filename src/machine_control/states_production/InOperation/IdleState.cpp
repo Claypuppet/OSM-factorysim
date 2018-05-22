@@ -13,7 +13,8 @@ IdleState::IdleState(machinecore::Application &aContext)
 }
 
 void IdleState::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusIdle);
 }
 
 void IdleState::doActivity() {
@@ -45,7 +46,7 @@ void IdleState::onReceivedConfigEvent(const EventPtr &event) {
 }
 
 void IdleState::onTakeProductEvent() {
-  utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
+  utils::Logger::log("-Handle event: kEventTypeTakeProduct");
 
   auto takeProductState = std::make_shared<TakeProductState>(context);
   context.setCurrentState(takeProductState);

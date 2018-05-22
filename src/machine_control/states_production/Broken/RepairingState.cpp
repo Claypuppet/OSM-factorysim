@@ -13,7 +13,7 @@ RepairingState::RepairingState(machinecore::Application &aContext)
 
 void RepairingState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-
+  context.statusUpdate(models::Machine::kMachineStatusRepairing);
 }
 
 void RepairingState::doActivity() {

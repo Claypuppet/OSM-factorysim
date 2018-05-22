@@ -29,7 +29,7 @@ class SimulationController
   /**
    * Starts the controller and puts it in a run cycle
    */
-  void execute();
+  void execute() override;
 
   /**
    * Stops the networkManager and execution of the controller
@@ -38,9 +38,9 @@ class SimulationController
 
   /**
    * Called to set simulation configurations of it's application to the parameter's configurations
-   * @param simulationConfigurations The received simulation configurations
+   * @param machine : The received simulation configurations
    */
-  void setSimulationConfigurations(std::vector<models::MachineConfiguration> simulationConfigurations);
+  void setMachineInfo(const models::MachinePtr &machine);
 
   /**
    * Called when notfified, takes the notification and handles it accoardingly
@@ -101,9 +101,6 @@ class SimulationController
    */
   void onTurnOffReceived();
 
-  // True or false depending on whether SimulationController is active
-  bool executing;
-
   // The thread which the client runs on
   ThreadPtr clientThread;
 
@@ -112,9 +109,6 @@ class SimulationController
 
   // The network's client
   Network::ClientPtr client;
-
-  // The application which is controlled by the controller
-  SimulationApplication application;
 
   SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };

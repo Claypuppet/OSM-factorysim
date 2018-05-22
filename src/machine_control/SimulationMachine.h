@@ -17,9 +17,17 @@ namespace simulator {
 class SimulationMachine : public machinecore::Machine {
  public:
   SimulationMachine() = default;
+  void configure() override;
+  void selfTest() override;
+  void takeInProduct() override;
+  void processProduct() override;
+  void takeOutProduct() override;
 
   ~SimulationMachine() override = default;
 };
+
+typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
+
 } // namespace simulator
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONMACHINE_H

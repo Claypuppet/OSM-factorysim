@@ -8,8 +8,9 @@
 
 namespace productionstates {
 void ConfigureState::entryAction() {
-  context.setCurrentConfig();
   utils::Logger::log(__PRETTY_FUNCTION__);
+  context.setCurrentConfig();
+  context.statusUpdate(models::Machine::kMachineStatusConfiguring);
 }
 
 void ConfigureState::doActivity() {

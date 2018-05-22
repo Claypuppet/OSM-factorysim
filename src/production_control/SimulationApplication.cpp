@@ -9,26 +9,25 @@ namespace simulation {
 
 void SimulationApplication::turnOnSimulationMachines() {
   for (const auto &machine : machines) {
-	machine->sendTurnOnCommand();
+    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+    if(simMachine){
+      simMachine->sendTurnOnCommand();
+    }
   }
 }
 
 void SimulationApplication::turnOffSimulationMachines() {
   for (const auto &machine : machines) {
-	machine->sendTurnOffCommand();
+    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+    if(simMachine){
+      simMachine->sendTurnOnCommand();
+    }
   }
 }
+
 void SimulationApplication::setupNetwork() {
   Application::setupNetwork();
   turnOnSimulationMachines();
-}
-void SimulationApplication::setMachines(const std::vector<SimulationMachinePtr> &aMachines) {
-  std::vector<core::MachinePtr> coreMachines;
-  for (const auto&machine : aMachines){
-    coreMachines.emplace_back(machine);
-  }
-  core::Application::setMachines(coreMachines);
-  machines = aMachines;
 }
 
 }

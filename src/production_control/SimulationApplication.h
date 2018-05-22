@@ -34,16 +34,9 @@ class SimulationApplication : public core::Application {
    */
   void turnOffSimulationMachines();
 
-  /**
-   *
-   * @param aMachines
-   */
-  void setMachines(const std::vector<SimulationMachinePtr> &aMachines);
-
- private:
-  std::vector<SimulationMachinePtr> machines;
-
 };
+
+typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;
 
 }
 

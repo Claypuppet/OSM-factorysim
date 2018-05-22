@@ -15,14 +15,11 @@ class InOperationState : public ApplicationState {
   InOperationState(core::Application &context);
   virtual ~InOperationState() = default;
 
-  bool handleEvent(const ApplicationStates::EventPtr &event) override;
-
-  /**
-   *
-   */
-  void doActivity() override;
   void entryAction() override;
+  void doActivity() override;
   void exitAction() override;
+
+  bool handleEvent(const ApplicationStates::EventPtr &event) override;
 
 };
 

@@ -12,7 +12,8 @@ ProcessProductState::ProcessProductState(machinecore::Application &aContext)
 }
 
 void ProcessProductState::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusProcessingProduct);
 }
 
 void ProcessProductState::doActivity() {

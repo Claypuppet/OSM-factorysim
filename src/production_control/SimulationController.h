@@ -28,7 +28,7 @@ namespace simulation {
         /**
          *
         */
-        SimulationController() = default;
+        SimulationController();
 
 		/**
 		 * Destruct
@@ -49,7 +49,7 @@ namespace simulation {
          * @param machineId : Id of machine
          * @return machinePointer : Machine if found else nullptr
          */
-		SimulationMachinePtr getMachine(uint16_t id);
+		SimulationMachinePtr getSimulationMachine(uint16_t id);
 
         /**
          * Setup simulation network communications
@@ -94,8 +94,6 @@ namespace simulation {
 		 */
 		bool allMachinesReady();
 
-		core::Application &getApplication() override;
-
 	 private:
 
         /**
@@ -121,12 +119,6 @@ namespace simulation {
         Network::Manager networkManager;
         ThreadPtr serverThread;
         Network::ServerPtr server;
-
-        /**
-         * SimulationMachines
-         */
-        std::vector<SimulationMachinePtr> machines;
-		SimulationApplication application;
 
         /**
          * Config properties

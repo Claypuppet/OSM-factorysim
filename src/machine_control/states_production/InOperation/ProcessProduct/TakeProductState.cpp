@@ -8,7 +8,8 @@
 namespace productionstates {
 
 void TakeProductState::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusTakingProduct);
 }
 
 void TakeProductState::doActivity() {

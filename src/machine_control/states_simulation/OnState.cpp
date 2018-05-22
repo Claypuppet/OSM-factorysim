@@ -10,11 +10,11 @@ namespace simulationstates {
 
 void OnState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.getApplication().setStartState();
+  context.getApplication()->setStartState();
 }
 
 void OnState::doActivity() {
-  context.getApplication().run();
+  context.getApplication()->run();
 }
 
 void OnState::exitAction() {

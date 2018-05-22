@@ -11,11 +11,11 @@ OperationState::OperationState(simulation::SimulationController &aContext)
 
 void OperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.getApplication().setStartState();
+  context.getApplication()->setStartState();
 }
 
 void OperationState::doActivity() {
-  context.getApplication().run();
+  context.getApplication()->run();
 }
 
 void OperationState::exitAction() {

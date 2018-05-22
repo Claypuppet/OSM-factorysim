@@ -73,8 +73,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // put application in the state we want to test
   auto state = std::make_shared<ApplicationStates::WaitForConnectionsState>(ApplicationStates::WaitForConnectionsState(
-      application));
-  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
+      *application));
+  BOOST_CHECK_NO_THROW(application->setCurrentState(state));
 
   testutils::HelperFunctions::wait(50);
 
@@ -87,10 +87,10 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
   event.setArgument(1, machineNetwork->getConnection());
 
   // fire the notification
-  BOOST_CHECK_NO_THROW(application.handleNotification(event));
+  BOOST_CHECK_NO_THROW(application->handleNotification(event));
 
   // run the context
-  BOOST_CHECK_NO_THROW(application.run());
+  BOOST_CHECK_NO_THROW(application->run());
 
 }
 
@@ -160,61 +160,9 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   mcMock->startMockMCClientApplication();
 
   // Registering a machine
-  Network::Message message(Network::Protocol::kAppMessageTypeRegisterMachine);
+  Network::Message message;
   message.setBodyObject<uint16_t>(12);
 
-  mcMock->sendMessage(message);
-  pcMock->awaitMessageReceived();
-
-  // Executing Ready status update test
-  message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeReady);
-
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
-    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineReady);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-  };
-
-  observer.setHandleNotificationFn(notificationHandler);
-  mcMock->sendMessage(message);
-  pcMock->awaitMessageReceived();
-
-  // Executing started initialise status update test
-  message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeStartedInitialize);
-
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
-    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartInit);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-  };
-
-  observer.setHandleNotificationFn(notificationHandler);
-  mcMock->sendMessage(message);
-  pcMock->awaitMessageReceived();
-
-  // Executing start process status update test
-  message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeStartProcess);
-
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
-    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationStartProcessing);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-  };
-
-  observer.setHandleNotificationFn(notificationHandler);
-  mcMock->sendMessage(message);
-  pcMock->awaitMessageReceived();
-
-  // Executing done processing status update test
-  message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeDoneProcessing);
-
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
-    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationDoneProcessing);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
-  };
-
-  observer.setHandleNotificationFn(notificationHandler);
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 

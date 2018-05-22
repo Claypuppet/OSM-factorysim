@@ -25,13 +25,21 @@ bool InitializeSimulationState::handleEvent(const EventPtr &event) {
       onSimulationConfigurationsReceived(event);
       return true;
     }
+    case kEventTypeSimulationConfigurationsSet: {
+      utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsSet");
+      onSimulationConfigurationsSet(event);
+      return true;
+    }
     default:
       return SimulationState::handleEvent(event);
   }
 }
 
 void InitializeSimulationState::onSimulationConfigurationsReceived(const simulationstates::EventPtr &event) {
-  context.setSimulationConfigurations(event->getArgumentAsType<std::vector<models::MachineConfiguration>>());
+  context.setMachineInfo(event->getArgumentAsType<models::MachinePtr>());
+}
+
+void InitializeSimulationState::onSimulationConfigurationsSet(const simulationstates::EventPtr &event) {
   context.setCurrentState(std::make_shared<OffState>(context));
 }
 }

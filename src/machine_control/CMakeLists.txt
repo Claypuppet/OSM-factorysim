@@ -1,5 +1,5 @@
 
-set(app_machine_control_SOURCES        
+add_library(source_lib_app_machine_control SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/config.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ControllerNotificationEventIds.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationNetworkComponent.cpp
@@ -55,5 +55,6 @@ set(app_machine_control_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h
-        PARENT_SCOPE)
+        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h)
+
+target_link_libraries(source_lib_app_machine_control lib_network lib_patterns lib_models)
