@@ -29,7 +29,7 @@ SimulationController::~SimulationController() {
   }
 }
 
-void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
 	case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine: {
 	  handleRegisterMachine(notification);
@@ -75,7 +75,7 @@ void SimulationController::setupNetwork() {
   server->start();
 }
 
-void SimulationController::handleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::handleRegisterMachine(const patterns::notifyobserver::NotifyEvent &notification) {
   auto id = notification.getArgumentAsType<uint16_t>(0);
   auto connection = notification.getArgumentAsType<network::ConnectionPtr>(1);
 
@@ -85,7 +85,7 @@ void SimulationController::handleRegisterMachine(const patterns::NotifyObserver:
   scheduleEvent(event);
 }
 
-void SimulationController::handleMachineReady(const patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::handleMachineReady(const patterns::notifyobserver::NotifyEvent &notification) {
   auto id = notification.getArgumentAsType<uint16_t>(0);
 
   auto event = std::make_shared<states::Event>(states::kEventTypeMachineReady);

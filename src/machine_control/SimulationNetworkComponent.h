@@ -19,7 +19,7 @@ typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPt
 
 class SimulationNetworkComponent :
 	public network::IConnectionHandler,
-	public patterns::NotifyObserver::Notifier {
+	public patterns::notifyobserver::Notifier {
  public:
   SimulationNetworkComponent() = default;
   virtual ~SimulationNetworkComponent() = default;

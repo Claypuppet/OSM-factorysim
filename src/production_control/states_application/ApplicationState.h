@@ -6,7 +6,7 @@
 #include <patterns/statemachine/State.h>
 #include "../Application.h"
 
-namespace ApplicationStates {
+namespace applicationstates {
 
 enum EventType {
   kEventTypeMachineRegistered,

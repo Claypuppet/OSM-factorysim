@@ -42,7 +42,7 @@ class ITime {
 /*
  * A class to keep track of time in seconds
  */
-class Time : public patterns::Singleton::Singleton<Time> {
+class Time : public patterns::singleton::Singleton<Time> {
  public:
   Time(const Time &) = delete;
   Time &operator=(const Time &) = delete;

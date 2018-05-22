@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   auto state = std::make_shared<productionstates::IdleState>(productionstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
-  patterns::NotifyObserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
+  patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   BOOST_CHECK_NO_THROW(application.handleNotification(event));
 
   BOOST_CHECK_NO_THROW(application.run());
@@ -153,7 +153,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   confVector.push_back(config0);
   BOOST_CHECK_NO_THROW(application.setConfigurations(confVector));
 
-  patterns::NotifyObserver::NotifyEvent
+  patterns::notifyobserver::NotifyEvent
       notification(machinecore::NotifyEventType::kNotifyEventTypeMachineConfigReceived);
   BOOST_CHECK_NO_THROW(notification.setArgument(0, (uint32_t)0));
 
@@ -208,7 +208,7 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
   // Deze moet opnieuw ivm gebruik van manager en client. hiervoor kan mocknetwork gebruikt worden.
   testutils::MockObserver mockObserver;
 
-  testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &event) {
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
     BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
   };
 

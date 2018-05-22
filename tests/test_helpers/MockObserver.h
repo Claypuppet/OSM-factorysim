@@ -10,15 +10,15 @@
 
 namespace testutils {
 
-typedef std::function<void(const patterns::NotifyObserver::NotifyEvent&)> NotificationHandlerFn;
+typedef std::function<void(const patterns::notifyobserver::NotifyEvent&)> NotificationHandlerFn;
 
 /**
  * The mockObserver class can be used to mock an observer
  */
-class MockObserver : public patterns::NotifyObserver::Observer {
+class MockObserver : public patterns::notifyobserver::Observer {
  public:
   MockObserver();
-  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
   void setHandleNotificationFn(NotificationHandlerFn &aHandleNotificationFn);
 
   /**

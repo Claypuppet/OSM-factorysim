@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
   auto &application = controller.getApplication();
 
   // put application in the state we want to test
-  auto state = std::make_shared<ApplicationStates::WaitForConnectionsState>(ApplicationStates::WaitForConnectionsState(
+  auto state = std::make_shared<applicationstates::WaitForConnectionsState>(applicationstates::WaitForConnectionsState(
       *application));
   BOOST_CHECK_NO_THROW(application->setCurrentState(state));
 
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
   machineNetwork->startMockMCClientApplication();
 
   // create the notification event that a notifier class normally sends to the observer
-  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eApplicationRegisterMachine);
+  patterns::notifyobserver::NotifyEvent event(NotifyEventIds::eApplicationRegisterMachine);
   event.setArgument(0, (uint16_t) 1);
   event.setArgument(1, machineNetwork->getConnection());
 
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   testutils::MockObserver observer;
 
   // Making the notificationhandler for the observer
-  testutils::NotificationHandlerFn notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
     BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   message.clear();
   message.setMessageType(network::Protocol::kAppMessageTypeOK);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
   };
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   message.setMessageType(network::Protocol::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(404);
 
-  notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(0) == 12);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 404);
@@ -208,10 +208,10 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   //Making and setting up application
   core::Application app;
   BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
-  BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<ApplicationStates::InOperationState>(app)));
+  BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<applicationstates::InOperationState>(app)));
 
   { // Scheduling notification and handle events
-    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationMachineReady);
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationMachineReady);
     notification.setArgument(0, (uint16_t) 12);
     app.handleNotification(notification);
     app.run();
@@ -224,7 +224,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
 
   { // Scheduling notification and handle events
-    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationStartInit);
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationStartInit);
     notification.setArgument(0, (uint16_t) 12);
     app.handleNotification(notification);
     app.run();
@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusConfiguring);
 
   { // Scheduling notification and handle events
-    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationStartProcessing);
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationStartProcessing);
     notification.setArgument(0, (uint16_t) 12);
     app.handleNotification(notification);
     app.run();
@@ -242,7 +242,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusProcessingProduct);
 
   { // Scheduling notification and handle events
-    patterns::NotifyObserver::NotifyEvent notification(NotifyEventIds::eApplicationDoneProcessing);
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationDoneProcessing);
     notification.setArgument(0, (uint16_t) 12);
     app.handleNotification(notification);
     app.run();

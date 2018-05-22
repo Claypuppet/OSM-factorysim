@@ -22,7 +22,7 @@ Application::~Application() {
   stop();
 }
 
-void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+void Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
 	case NotifyEventType::kNotifyEventTypeServiceStarted: {
 	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);

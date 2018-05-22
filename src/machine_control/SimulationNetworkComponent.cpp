@@ -49,7 +49,7 @@ void SimulationNetworkComponent::onConnectionMessageReceived(network::Connection
 
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machine) {
   auto notification =
-	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(),
 					  ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
 
   notification.addArgument(machine);
@@ -58,13 +58,13 @@ void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::Machine
 
 void SimulationNetworkComponent::onTurnOffReceived() {
   auto notification =
-	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
   notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOnReceived() {
   auto notification =
-	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
 }
 

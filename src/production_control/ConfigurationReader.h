@@ -13,7 +13,7 @@
 
 namespace ConfigLoader {
 
-class ConfigurationReader : public patterns::Singleton::Singleton<ConfigurationReader> {
+class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationReader> {
  public:
   /**
    * Default constructor

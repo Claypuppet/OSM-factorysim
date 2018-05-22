@@ -13,7 +13,7 @@
 
 namespace utils {
 
-class Logger : public patterns::Singleton::Singleton<Logger> {
+class Logger : public patterns::singleton::Singleton<Logger> {
  public:
   Logger();
   virtual ~Logger();

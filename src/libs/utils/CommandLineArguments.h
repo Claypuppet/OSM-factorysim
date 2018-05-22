@@ -70,7 +70,7 @@ class CommandlineArgument {
  * unnamed:  value
  * 	Will be stored in string vector
  */
-class CommandLineArguments : public patterns::Singleton::Singleton<CommandLineArguments> {
+class CommandLineArguments : public patterns::singleton::Singleton<CommandLineArguments> {
  public:
   CommandLineArguments() = default;
   virtual ~CommandLineArguments() = default;

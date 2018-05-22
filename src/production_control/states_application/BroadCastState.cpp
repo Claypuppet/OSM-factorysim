@@ -5,23 +5,23 @@
 #include <utils/Logger.h>
 #include "BroadCastState.h"
 
-ApplicationStates::BroadCastState::BroadCastState(core::Application &context) : ApplicationState(context) {
+applicationstates::BroadCastState::BroadCastState(core::Application &context) : ApplicationState(context) {
 
 }
 
-void ApplicationStates::BroadCastState::doActivity() {
+void applicationstates::BroadCastState::doActivity() {
 
 }
 
-void ApplicationStates::BroadCastState::entryAction() {
+void applicationstates::BroadCastState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
 
 }
 
-void ApplicationStates::BroadCastState::exitAction() {
+void applicationstates::BroadCastState::exitAction() {
 
 }
 
-bool ApplicationStates::BroadCastState::handleEvent(const EventPtr &e) {
+bool applicationstates::BroadCastState::handleEvent(const EventPtr &e) {
   return false;
 }

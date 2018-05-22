@@ -4,10 +4,10 @@
 
 #include "ApplicationState.h"
 
-namespace ApplicationStates {
+namespace applicationstates {
 ApplicationState::ApplicationState(core::Application &application) : context(application) {}
 
-bool ApplicationState::handleEvent(const ApplicationStates::EventPtr &e) {
+bool ApplicationState::handleEvent(const applicationstates::EventPtr &e) {
   return false;
 }
 

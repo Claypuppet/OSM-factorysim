@@ -44,7 +44,7 @@ void communication::ConnectionHandler::onConnectionMessageSent(network::Connecti
 
 void communication::ConnectionHandler::handleRegisterMachine(network::ConnectionPtr connection, network::Message &message) {
   auto notification =
-	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
   auto machineId = message.getBodyObject<uint16_t>();
 
   registerMachineConnection(connection, machineId);
@@ -56,7 +56,7 @@ void communication::ConnectionHandler::handleRegisterMachine(network::Connection
 }
 
 void communication::ConnectionHandler::handleOK(network::ConnectionPtr connection, network::Message &message) {
-  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
   auto machineId = getMachineIdForConnection(connection);
 
   notification.setArgument(0, machineId);
@@ -66,7 +66,7 @@ void communication::ConnectionHandler::handleOK(network::ConnectionPtr connectio
 }
 
 void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connection, network::Message &message) {
-  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
   auto machineId = getMachineIdForConnection(connection);
 
   notification.setArgument(0, machineId);

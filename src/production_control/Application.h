@@ -17,7 +17,7 @@
 
 namespace core {
 
-class Application : public patterns::NotifyObserver::Observer, public patterns::statemachine::Context {
+class Application : public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
   Application() = default;
@@ -50,7 +50,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Function that handles incoming notifications
    * @param notification : The notification to handle
    */
-  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
 
   /**
    * Set the start state

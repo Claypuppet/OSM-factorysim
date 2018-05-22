@@ -2,7 +2,7 @@
 #include <boost/foreach.hpp>
 
 namespace patterns {
-namespace NotifyObserver {
+namespace notifyobserver {
 
 const NotifyTrigger NotifyTrigger::DoNotNotify(kNotifyTriggerId_DoNotNotify);
 

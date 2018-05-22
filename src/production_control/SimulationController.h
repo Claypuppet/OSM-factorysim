@@ -23,7 +23,7 @@ namespace simulation {
  *  machine on/off.
  */
 class SimulationController
-	: public core::Controller, public patterns::NotifyObserver::Observer, public patterns::statemachine::Context {
+	: public core::Controller, public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
   /**
@@ -42,7 +42,7 @@ class SimulationController
   * SimulationRegisterMachine -> executes handleRegisterMachine(notification);
   * @param &notification : NotifyEvent implementation
   */
-  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
 
   /**
    * Get machine by id
@@ -105,13 +105,13 @@ class SimulationController
    * Function that handles notifications for registering machines
    * @param notification : NotifyEvent from notifier
    */
-  void handleRegisterMachine(const patterns::NotifyObserver::NotifyEvent &notification);
+  void handleRegisterMachine(const patterns::notifyobserver::NotifyEvent &notification);
 
   /**
    * Function that handles notifications for readying a machine
    * @param notification : NotifyEvent from notifier
    */
-  void handleMachineReady(const patterns::NotifyObserver::NotifyEvent &notification);
+  void handleMachineReady(const patterns::notifyobserver::NotifyEvent &notification);
 
   /**
    * Network properties

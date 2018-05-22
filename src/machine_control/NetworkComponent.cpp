@@ -40,13 +40,13 @@ void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connec
 }
 
 void NetworkComponent::handleProcessProductMessage() {
-  patterns::NotifyObserver::NotifyEvent notification(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
+  patterns::notifyobserver::NotifyEvent notification(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   notifyObservers(notification);
 }
 
 void NetworkComponent::handleProcessReconfigureMessage(network::Message &message) {
   auto event =
-	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
 	  );
   event.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
   notifyObservers(event);

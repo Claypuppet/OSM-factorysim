@@ -6,7 +6,7 @@
 #define SINGLETON_H_
 
 namespace patterns {
-namespace Singleton {
+namespace singleton {
 template<typename T>
 class Singleton {
  public:

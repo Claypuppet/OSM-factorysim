@@ -20,7 +20,7 @@ typedef std::shared_ptr<SimulationConnectionHandler> SimulationConnectionHandler
 
 class SimulationConnectionHandler :
 	public network::IConnectionHandler,
-	public patterns::NotifyObserver::Notifier,
+	public patterns::notifyobserver::Notifier,
 	public communication::NetworkMapper {
  public:
   SimulationConnectionHandler() = default;

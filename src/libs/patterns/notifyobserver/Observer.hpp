@@ -4,7 +4,7 @@
 #include <cstdint>
 
 namespace patterns {
-namespace NotifyObserver {
+namespace notifyobserver {
 
 class Notifier;
 

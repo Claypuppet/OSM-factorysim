@@ -45,7 +45,7 @@ void SimulationConnectionHandler::handleMachineReady(network::ConnectionPtr conn
 
 void SimulationConnectionHandler::onHandleRegisterMachine(network::Message &message,
 														  network::ConnectionPtr connection) {
-  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(),
 									  NotifyEventIds::eSimRegisterMachine);
 
   uint16_t machineId = message.getBodyObject<uint16_t>();

@@ -4,7 +4,7 @@
 
 #include "ApplicationState.h"
 
-namespace ApplicationStates {
+namespace applicationstates {
 
 /**
  * State that waits for all fysical machines to connect
@@ -14,7 +14,7 @@ class WaitForConnectionsState : public ApplicationState {
   WaitForConnectionsState(core::Application &context);
   virtual ~WaitForConnectionsState() = default;
 
-  bool handleEvent(const ApplicationStates::EventPtr &event) override;
+  bool handleEvent(const applicationstates::EventPtr &event) override;
 
   /**
    * Waits untill all configured machines are connected to the Application
@@ -30,7 +30,7 @@ class WaitForConnectionsState : public ApplicationState {
    * Executes everytime the handlEvent receives a machineReady message
    * @param event a pointer to the current event
    */
-  void onMachineRegistered(const ApplicationStates::EventPtr &event);
+  void onMachineRegistered(const applicationstates::EventPtr &event);
 
   /**
    * Executes everytime the handleEvent method receives a message allMachinesReady

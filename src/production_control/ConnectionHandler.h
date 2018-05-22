@@ -13,7 +13,7 @@
 namespace communication {
 class ConnectionHandler :
 	public network::IConnectionHandler,
-	public patterns::NotifyObserver::Notifier,
+	public patterns::notifyobserver::Notifier,
 	public NetworkMapper {
  public:
   ConnectionHandler();

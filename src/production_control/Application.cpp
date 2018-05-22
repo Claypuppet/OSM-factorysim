@@ -67,14 +67,14 @@ void core::Application::setupNetwork() {
   server = manager.createServer(std::make_shared<communication::ConnectionHandler>(connectionHandler), 50);
   server->start();
 }
-void core::Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+void core::Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   // TODO: move the case implementation to own method (or not?)
   switch (notification.getEventId()) {
 	case NotifyEventIds::eApplicationRegisterMachine: {
 	  auto id = notification.getArgumentAsType<uint16_t>(0);
 	  auto connection = notification.getArgumentAsType<network::ConnectionPtr>(1);
 
-	  auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineRegistered);
+	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
 	  event->addArgument(id);
 	  event->addArgument(connection);
 	  scheduleEvent(event);
@@ -83,7 +83,7 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
 	case NotifyEventIds::eApplicationOK: {
 	  auto id = notification.getArgumentAsType<uint16_t>(0);
 	  auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(1);
-	  auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
 	  event->setArgument(0, id);
 	  event->setArgument(1, status);
 	  scheduleEvent(event);
@@ -92,7 +92,7 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
 	case NotifyEventIds::eApplicationNOK: {
 	  auto id = notification.getArgumentAsType<uint16_t>(0);
 	  auto errorCode = notification.getArgumentAsType<uint16_t>(1);
-	  auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeMachineStatusUpdate);
+	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
 	  event->setArgument(0, id);
 	  event->setArgument(1, errorCode);
 	  //scheduleEvent(event);
@@ -107,7 +107,7 @@ void core::Application::handleNotification(const patterns::NotifyObserver::Notif
 }
 
 void core::Application::setStartState() {
-  auto startState = std::make_shared<ApplicationStates::WaitForConnectionsState>(*this);
+  auto startState = std::make_shared<applicationstates::WaitForConnectionsState>(*this);
   setCurrentState(startState);
 }
 
@@ -126,7 +126,7 @@ void core::Application::registerMachine(uint16_t machineId, network::ConnectionP
 	machine->setConnection(connection);
 
 	if (allMachinesRegistered()) {
-	  auto event = std::make_shared<ApplicationStates::Event>(ApplicationStates::kEventTypeAllMachinesRegistered);
+	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeAllMachinesRegistered);
 	  scheduleEvent(event);
 	}
   }

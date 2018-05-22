@@ -27,9 +27,9 @@ enum NotifyEventType {
 
 class Application
 	: public patterns::statemachine::Context,
-	  public patterns::NotifyObserver::Observer {
+	  public patterns::notifyobserver::Observer {
  public:
-  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
 
   /**
    * Constructor
@@ -149,7 +149,7 @@ class Application
   /**
  * This class is used to handle possible errors, it also fires events on the Applicationhandler, because this implementation is only used here it is defined inline
  */
-  class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
+  class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::notifyobserver::Notifier {
    public:
 	NetworkEventDispatcher() = default;
 	~NetworkEventDispatcher() override = default;
@@ -159,7 +159,7 @@ class Application
 	  //TODO: Add eventId
 	  //Set up the Connection Failed state event to send to the observers.
 	  auto event = makeNotificationForNotifier(this,
-											   patterns::NotifyObserver::NotifyTrigger(),
+											   patterns::notifyobserver::NotifyTrigger(),
 											   NotifyEventType::kNotifyEventTypeServiceError);
 
 	  //Notify observers of the error
@@ -173,7 +173,7 @@ class Application
 	void onServiceStarted(network::ServicePtr service) override {
 	  //Set up an event to let the observers know that connection was successful
 	  auto event = makeNotificationForNotifier(this,
-											   patterns::NotifyObserver::NotifyTrigger(),
+											   patterns::notifyobserver::NotifyTrigger(),
 											   NotifyEventType::kNotifyEventTypeServiceStarted);
 
 	  //Notify observers of connection success

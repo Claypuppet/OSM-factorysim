@@ -10,7 +10,7 @@
 #include "network/Connection.h"
 
 namespace Communication {
-class NetworkComponent : public network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
+class NetworkComponent : public network::IConnectionHandler, public patterns::notifyobserver::Notifier {
  public:
   NetworkComponent();
   ~NetworkComponent() = default;

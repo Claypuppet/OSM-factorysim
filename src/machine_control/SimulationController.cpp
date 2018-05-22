@@ -12,7 +12,7 @@ namespace simulator {
 /**
  * Event listener and notifier of simulation controller
  */
-class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
+class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::notifyobserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
   ~NetworkEventDispatcher() override = default;
@@ -22,7 +22,7 @@ class NetworkEventDispatcher : public network::IServiceEventListener, public pat
 	//TODO: Add eventId
 	//Set up the Connection Failed state event to send to the observers.
 	auto event = makeNotificationForNotifier(this,
-											 patterns::NotifyObserver::NotifyTrigger(),
+											 patterns::notifyobserver::NotifyTrigger(),
 											 ControllerEvents::kNotifyEventTypeServiceError);
 
 	//Notify observers of the error
@@ -36,7 +36,7 @@ class NetworkEventDispatcher : public network::IServiceEventListener, public pat
   void onServiceStarted(network::ServicePtr service) override {
 	//Set up an event to let the observers know that connection was successful
 	auto event = makeNotificationForNotifier(this,
-											 patterns::NotifyObserver::NotifyTrigger(),
+											 patterns::notifyobserver::NotifyTrigger(),
 											 ControllerEvents::kNotifyEventTypeServiceStarted);
 
 	//Notify observers of connection success
@@ -55,7 +55,7 @@ SimulationController::~SimulationController() {
   stop();
 }
 
-void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
 	case ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived: {
 	  onSimulationConfigurationsReceived(notification);
@@ -94,7 +94,7 @@ void SimulationController::onServiceError() {
   scheduleEvent(event);
 }
 
-void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
+void SimulationController::onSimulationConfigurationsReceived(const patterns::notifyobserver::NotifyEvent &notification) {
   auto event =
 	  std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
 

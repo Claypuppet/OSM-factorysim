@@ -7,7 +7,7 @@
 
 #include "ApplicationState.h"
 
-namespace ApplicationStates {
+namespace applicationstates {
 class BroadCastState : public ApplicationState {
  public:
   BroadCastState(core::Application &context);
