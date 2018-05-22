@@ -66,12 +66,12 @@ void SimulationController::setupNetwork() {
 	return;
   }
 
-  SimulationConnectionHandler connectionHandler;
+  simulationcommunication::SimulationConnectionHandler connectionHandler;
   handleNotificationsFor(connectionHandler);
 
   networkManager.setLocalPort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
   serverThread = networkManager.runServiceThread();
-  server = networkManager.createServer(std::make_shared<SimulationConnectionHandler>(connectionHandler), 50);
+  server = networkManager.createServer(std::make_shared<simulationcommunication::SimulationConnectionHandler>(connectionHandler), 50);
   server->start();
 }
 

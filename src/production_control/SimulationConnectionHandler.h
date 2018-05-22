@@ -12,7 +12,7 @@
 
 #include "NetworkMapper.h"
 
-namespace simulation {
+namespace simulationcommunication {
 
 class SimulationConnectionHandler;
 

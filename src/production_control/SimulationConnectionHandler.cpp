@@ -6,7 +6,7 @@
 #include "SimulationConnectionHandler.h"
 #include "NotificationTypes.h"
 
-namespace simulation {
+namespace simulationcommunication {
 
 void SimulationConnectionHandler::onConnectionFailed(network::ConnectionPtr connection,
 													 const boost::system::error_code &error) {
