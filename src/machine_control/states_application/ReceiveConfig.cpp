@@ -22,17 +22,18 @@ void ReceiveConfig::exitAction() {
 
 bool ReceiveConfig::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeReceivedConfig: {
-      onConfigReceived(event);
-      break;
-    }
-    default:return false;
+	case kEventTypeReceivedConfig: {
+	  onConfigReceived(event);
+	  break;
+	}
+	default:
+	  return false;
   }
 }
 
 void ReceiveConfig::onConfigReceived(const EventPtr &event) {
   if (context.setCurrentConfigId(event->getArgumentAsType<uint16_t>())) {
-    context.setCurrentState(std::make_shared<ConfigureState>(context));
+	context.setCurrentState(std::make_shared<ConfigureState>(context));
   }
 }
 }

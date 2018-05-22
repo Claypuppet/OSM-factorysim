@@ -13,25 +13,24 @@ void InitializeSimulationState::entryAction() {
 void InitializeSimulationState::doActivity() {
 }
 
-
 void InitializeSimulationState::exitAction() {
   context.machineReady();
 }
 
 bool InitializeSimulationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeSimulationConfigurationsReceived: {
-      utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsReceived");
-      onSimulationConfigurationsReceived(event);
-      return true;
-    }
-    case kEventTypeSimulationConfigurationsSet: {
-      utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsSet");
-      onSimulationConfigurationsSet(event);
-      return true;
-    }
-    default:
-      return SimulationState::handleEvent(event);
+	case kEventTypeSimulationConfigurationsReceived: {
+	  utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsReceived");
+	  onSimulationConfigurationsReceived(event);
+	  return true;
+	}
+	case kEventTypeSimulationConfigurationsSet: {
+	  utils::Logger::log("-Handle event: kEventTypeSimulationConfigurationsSet");
+	  onSimulationConfigurationsSet(event);
+	  return true;
+	}
+	default:
+	  return SimulationState::handleEvent(event);
   }
 }
 

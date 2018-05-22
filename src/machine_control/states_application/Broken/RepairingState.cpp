@@ -8,7 +8,7 @@
 namespace productionstates {
 
 RepairingState::RepairingState(machinecore::Application &aContext)
-: ProductionState(aContext) {
+	: ProductionState(aContext) {
 }
 
 void RepairingState::entryAction() {
@@ -25,13 +25,13 @@ void RepairingState::exitAction() {
 }
 
 bool RepairingState::handleEvent(const EventPtr &event) {
-  switch(event->getId()) {
-    case kEventTypeRepairFinished:
-      onRepairFinishedEvent();
-      return true;
+  switch (event->getId()) {
+	case kEventTypeRepairFinished:
+	  onRepairFinishedEvent();
+	  return true;
 
-    default:
-      ProductionState::handleEvent(event);
+	default:
+	  ProductionState::handleEvent(event);
   }
 }
 

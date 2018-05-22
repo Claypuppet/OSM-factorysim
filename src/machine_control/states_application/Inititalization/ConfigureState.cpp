@@ -23,11 +23,12 @@ void ConfigureState::exitAction() {
 
 bool ConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeConfigured: {
-      context.setCurrentState(std::make_shared<SelfTestState>(context));
-      break;
-    }
-    default:return false;
+	case kEventTypeConfigured: {
+	  context.setCurrentState(std::make_shared<SelfTestState>(context));
+	  break;
+	}
+	default:
+	  return false;
   }
 }
 }

@@ -9,7 +9,7 @@
 core::AppConnectionHandler::AppConnectionHandler() {}
 
 void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
-                                                    const boost::system::error_code &error) {
+													const boost::system::error_code &error) {
   Network::IConnectionHandler::onConnectionFailed(connection, error);
 }
 
@@ -17,23 +17,24 @@ void core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr 
 }
 
 void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
-                                                          const boost::system::error_code &error) {
+														  const boost::system::error_code &error) {
 }
 
 void core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
-                                                             Network::Message &message) {
+															 Network::Message &message) {
   uint8_t messageType = message.getMessageType();
   switch (messageType) {
-    case Network::Protocol::kAppMessageTypeRegisterMachine:
-      handleRegisterMachine(connection, message);
-      break;
-    case Network::Protocol::kAppMessageTypeOK:
-      handleOK(connection, message);
-      break;
-    case Network::Protocol::kAppMessageTypeNOK:
-      handleNOK(connection, message);
-      break;
-    default:break;
+	case Network::Protocol::kAppMessageTypeRegisterMachine:
+	  handleRegisterMachine(connection, message);
+	  break;
+	case Network::Protocol::kAppMessageTypeOK:
+	  handleOK(connection, message);
+	  break;
+	case Network::Protocol::kAppMessageTypeNOK:
+	  handleNOK(connection, message);
+	  break;
+	default:
+	  break;
   }
 }
 
@@ -43,7 +44,7 @@ void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr 
 
 void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
   auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
+	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
   auto machineId = message.getBodyObject<uint16_t>();
 
   registerMachineConnection(connection, machineId);
