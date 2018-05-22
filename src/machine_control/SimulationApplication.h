@@ -19,10 +19,10 @@ class SimulationApplication : public machinecore::Application {
    * Execute the self test and create a new event based on the result
    */
   void executeSelfTest() override;
-
- private:
-  SimulationMachine machine;
+  void setStartState() override;
 };
+
+typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;
 
 }
 

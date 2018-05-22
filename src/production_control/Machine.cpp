@@ -5,10 +5,10 @@
 
 namespace core {
 
-Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
+Machine::Machine(const models::Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false) {
 }
 
-Machine::Machine(const Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig) {
+Machine::Machine(const Machine &aMachine) : models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false) {
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
@@ -31,7 +31,7 @@ void Machine::sendMessage(const Network::Message &message) {
   if (isConnected()) {
     connection->writeMessage(message);
   }
-  status = kMachineStatusAwaitingResponse;
+  awaitingResponse = true;
 }
 void Machine::sendStartProcessMessage() {
   Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
@@ -106,6 +106,9 @@ std::vector<models::PreviousMachine> Machine::getPreviousMachines(uint16_t confi
 }
 void Machine::setStatus(Machine::MachineStatus newStatus) {
   status = newStatus;
+  if (status == kMachineStatusIdle){
+    awaitingResponse = false;
+  }
 }
 Machine::MachineStatus Machine::getStatus() {
   return status;
@@ -118,6 +121,6 @@ bool Machine::canDoAction(uint16_t configureId) {
       return false;
     }
   }
-  return status == kMachineStatusIdle;
+  return !awaitingResponse && status == kMachineStatusIdle;
 }
 }

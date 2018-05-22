@@ -26,10 +26,12 @@ class Controller {
    * Get controllers application instance
    * @return controllers application instance
    */
-  virtual Application &getApplication();
+  ApplicationPtr &getApplication();
 
  protected:
-  Application application;
+  ApplicationPtr application;
+  std::vector<MachinePtr> machines;
+
   bool executing;
 };
 

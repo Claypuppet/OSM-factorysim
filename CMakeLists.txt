@@ -18,38 +18,24 @@ link_directories(${Boost_LIBRARY_DIR} )
 
 ### SET APPLICATION EXECUTABLES ###
 
-# Add CMakeLists from sub directories
-
-add_subdirectory(src/visualizer)
-add_subdirectory(src/machine_control)
-add_subdirectory(src/production_control)
-
-# Add executables
-
 add_executable(app_machine_control
-        src/machine_control/Main.cpp
-        ${app_machine_control_SOURCES})
+        src/machine_control/Main.cpp)
 
 
 add_executable(app_production_control
-        src/production_control/Main.cpp
-        ${app_production_control_SOURCES})
+        src/production_control/Main.cpp)
 
 
 add_executable(app_visualizer
-        src/visualizer/Main.cpp
-        ${app_visualizer_SOURCES})
+        src/visualizer/Main.cpp)
 
 
 ### SET APPLICATION TEST EXECUTABLES ###
-
-# Add tests, including the sources of the executable
 
 add_subdirectory(tests/test_helpers)
 
 add_executable(test_machine_control
         ${test_helpers_SOURCES}
-        ${app_machine_control_SOURCES}
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp
         tests/machine_control/controller_test.cpp
@@ -58,13 +44,11 @@ add_executable(test_machine_control
 
 add_executable(test_production_control
         ${test_helpers_SOURCES}
-        ${app_production_control_SOURCES}
         tests/production_control/Main.cpp
         tests/production_control/controller_test.cpp tests/production_control/application_test.cpp)
 
 add_executable(test_visualizer
 #        ${test_helpers_SOURCES}
-        ${app_visualizer_SOURCES}
         tests/visualizer/Main.cpp
         tests/visualizer/Object_test.cpp)
 
@@ -151,22 +135,28 @@ add_executable(test_network
 
 ### LINK LIBRARIES ###
 
-# Libs
+## Libs
 target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_utils lib_patterns)
 target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(lib_models lib_yaml-cpp)
 
-# Applications
-target_link_libraries(app_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
-target_link_libraries(app_machine_control lib_network lib_patterns lib_models)
-target_link_libraries(app_visualizer ${wxWidgets_LIBRARIES} lib_silly_objects)
+## Applications
+# Include subdirs
+
+add_subdirectory(src/visualizer)
+add_subdirectory(src/machine_control)
+add_subdirectory(src/production_control)
+
+target_link_libraries(app_production_control source_lib_app_production)
+target_link_libraries(app_machine_control source_lib_app_machine_control)
+target_link_libraries(app_visualizer source_lib_app_visualizer)
 
 # Tests
-target_link_libraries(test_production_control lib_yaml-cpp lib_models lib_network lib_patterns lib_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_machine_control lib_network lib_patterns lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} lib_silly_objects)
-target_link_libraries(test_visualizer lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_production_control source_lib_app_production ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_machine_control source_lib_app_machine_control lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+target_link_libraries(test_visualizer source_lib_app_visualizer ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 # Lib tests
 target_link_libraries(test_network lib_network lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})

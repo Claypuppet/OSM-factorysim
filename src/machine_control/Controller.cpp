@@ -6,12 +6,16 @@
 
 namespace machinecore {
 
-Controller::Controller(uint16_t aMachineId)
-    : application(aMachineId) {
-
+Controller::Controller(uint16_t aMachineId) : executing(false) {
+  application = std::make_shared<Application>(aMachineId);
 }
 
-Application &Controller::getApplication() {
+ApplicationPtr &Controller::getApplication() {
   return application;
 }
+
+void Controller::stop() {
+  executing = false;
+}
+
 }

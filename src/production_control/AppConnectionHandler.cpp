@@ -27,23 +27,11 @@ void core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
     case Network::Protocol::kAppMessageTypeRegisterMachine:
       handleRegisterMachine(connection, message);
       break;
-    case Network::Protocol::kAppMessageTypeInitialConfigure:
-      handleStartInit(connection);
-      break;
     case Network::Protocol::kAppMessageTypeOK:
-      handleOK(connection);
+      handleOK(connection, message);
       break;
     case Network::Protocol::kAppMessageTypeNOK:
       handleNOK(connection, message);
-      break;
-    case Network::Protocol::kAppMessageTypeDoneProcessing:
-      handleDoneProcessing(connection);
-      break;
-    case Network::Protocol::kAppMessageTypeStartedProcessing:
-      handleStartProcessing(connection);
-      break;
-    case Network::Protocol::kAppMessageTypeReady:
-      handleMachineReady(connection);
       break;
     default:break;
   }
@@ -66,50 +54,12 @@ void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
   notifyObservers(notification);
 }
 
-void core::AppConnectionHandler::handleMachineReady(Network::ConnectionPtr connection) {
-  auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationMachineReady);
-  auto machineId = getMachineIdForConnection(connection);
-
-  notification.setArgument(0, machineId);
-
-  notifyObservers(notification);
-}
-
-void core::AppConnectionHandler::handleStartInit(Network::ConnectionPtr connection) {
-  auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartInit);
-  auto machineId = getMachineIdForConnection(connection);
-
-  notification.setArgument(0, machineId);
-
-  notifyObservers(notification);
-}
-
-void core::AppConnectionHandler::handleStartProcessing(Network::ConnectionPtr connection) {
-  auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationStartProcessing);
-  auto machineId = getMachineIdForConnection(connection);
-
-  notification.setArgument(0, machineId);
-
-  notifyObservers(notification);
-}
-
-void core::AppConnectionHandler::handleDoneProcessing(Network::ConnectionPtr connection) {
-  auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationDoneProcessing);
-  auto machineId = getMachineIdForConnection(connection);
-
-  notification.setArgument(0, machineId);
-
-  notifyObservers(notification);
-}
-
-void core::AppConnectionHandler::handleOK(Network::ConnectionPtr connection) {
+void core::AppConnectionHandler::handleOK(Network::ConnectionPtr connection, Network::Message &message) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
   auto machineId = getMachineIdForConnection(connection);
 
   notification.setArgument(0, machineId);
+  notification.setArgument(1, message.getBodyObject<models::Machine::MachineStatus>());
 
   notifyObservers(notification);
 }

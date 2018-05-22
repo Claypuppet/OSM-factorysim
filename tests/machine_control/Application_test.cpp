@@ -185,44 +185,22 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   productionServer->awaitClientConnecting();
 
   // prepare test on machine control when message will receive: kAppMessageTypeOK
-  testutils::OnMessageFn callback = [](const Network::Message &message) {
+  testutils::OnMessageFn callback = [](Network::Message &message) {
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeOK);
+    BOOST_CHECK_EQUAL(message.getBodyObject<models::Machine::MachineStatus>(), models::Machine::kMachineStatusSelftesting);
   };
   productionServer->setOnMessageFn(callback);
-  machineNetwork->sendResponseOK();
+  machineNetwork->sendStatusUpdate(models::Machine::kMachineStatusSelftesting);
   productionServer->awaitMessageReceived();
 
   // prepare test on machine control when message will receive: kAppMessageTypeNOK
-  callback = [](const Network::Message &message) {
+  callback = [](Network::Message &message) {
     BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeNOK);
   };
   productionServer->setOnMessageFn(callback);
   machineNetwork->sendResponseNOK(0);
   productionServer->awaitMessageReceived();
 
-  // prepare test on machine control when message will receive: kAppMessageTypeDoneProcessing
-  callback = [](const Network::Message &message) {
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeDoneProcessing);
-  };
-  productionServer->setOnMessageFn(callback);
-  machineNetwork->sendStatusUpdateDone();
-  productionServer->awaitMessageReceived();
-
-  // prepare test on machine control when message will receive: kAppMessageTypeReady
-  callback = [](const Network::Message &message) {
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReady);
-  };
-  productionServer->setOnMessageFn(callback);
-  machineNetwork->sendStatusUpdateReady();
-  productionServer->awaitMessageReceived();
-
-  // prepare test on machine control when message will receive: kAppMessageTypeStartedProcessing
-  callback = [](const Network::Message &message) {
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeStartedProcessing);
-  };
-  productionServer->setOnMessageFn(callback);
-  machineNetwork->sendStatusUpdateStarted();
-  productionServer->awaitMessageReceived();
 
 }
 

@@ -16,6 +16,11 @@
 #include "ConfigurationReader.h"
 
 namespace simulation {
+
+SimulationController::SimulationController() : core::Controller() {
+  application = std::make_shared<SimulationApplication>();
+}
+
 SimulationController::~SimulationController() {
 
   networkManager.stop();
@@ -45,13 +50,16 @@ void SimulationController::handleNotification(const patterns::NotifyObserver::No
 }
 
 
-SimulationMachinePtr SimulationController::getMachine(uint16_t machineId) {
+SimulationMachinePtr SimulationController::getSimulationMachine(uint16_t machineId) {
   auto machineItr = std::find_if(
       machines.begin(),
       machines.end(),
-      [machineId](const SimulationMachinePtr &m1) { return m1->getId() == machineId; }
+      [machineId](const core::MachinePtr &m1) { return m1->getId() == machineId; }
   );
-  return machineItr != machines.end() ? *machineItr : nullptr;
+  if(machineItr != machines.end()){
+    return std::dynamic_pointer_cast<SimulationMachine>(*machineItr);
+  }
+  return nullptr;
 }
 
 void SimulationController::setupNetwork() {
@@ -84,10 +92,6 @@ void SimulationController::handleMachineReady(const patterns::NotifyObserver::No
   auto event = std::make_shared<states::Event>(states::kEventTypeMachineReady);
   event->addArgument(id);
   scheduleEvent(event);
-}
-
-core::Application &SimulationController::getApplication() {
-  return application;
 }
 
 void SimulationController::execute() {
@@ -140,8 +144,8 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
-  application.setProductionLine(configuration.getProductionLineConfiguration());
-  application.setMachines(machines);
+  application->setProductionLine(configuration.getProductionLineConfiguration());
+  application->setMachines(machines);
 
 
   // If simulation, add sim state event
@@ -156,7 +160,7 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 }
 
 void SimulationController::registerMachine(uint16_t machineId, Network::ConnectionPtr connection) {
-  auto machine = getMachine(machineId);
+  auto machine = getSimulationMachine(machineId);
   if (machine) {
     machine->setSimulationConnection(connection);
     machine->sendSimulationConfiguration();
@@ -165,7 +169,8 @@ void SimulationController::registerMachine(uint16_t machineId, Network::Connecti
 
 bool SimulationController::allMachinesReady() {
   for (const auto &machine : machines) {
-    if (!machine->isReadyForSimulation()) {
+    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+    if (!simMachine || !simMachine->isReadyForSimulation()) {
       return false;
     }
   }
@@ -173,7 +178,7 @@ bool SimulationController::allMachinesReady() {
 }
 
 void SimulationController::machineReady(uint16_t machineId) {
-  auto machine = getMachine(machineId);
+  auto machine = getSimulationMachine(machineId);
   if (machine) {
     machine->setReady(true);
 

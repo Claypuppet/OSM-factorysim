@@ -14,7 +14,7 @@ SelfTestState::SelfTestState(machinecore::Application &aContext) :
 
 void SelfTestState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-
+  context.statusUpdate(models::Machine::kMachineStatusSelftesting);
 }
 
 void SelfTestState::doActivity() {

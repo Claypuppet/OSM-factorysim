@@ -42,34 +42,34 @@ class Application
    */
   ~Application() override;
 
-  const Machine &getMachine() const {
+  const MachinePtr &getMachine() const {
     return machine;
   }
 
-  void setMachine(const Machine &machine) {
-    Application::machine = machine;
+  void setMachine(const MachinePtr &aMachine) {
+    machine = aMachine;
   }
 
   uint16_t getId() const {
     return id;
   }
 
-  void setId(uint16_t id) {
-    Application::id = id;
+  void setId(uint16_t aId) {
+    id = aId;
   }
 
   const std::vector<models::MachineConfiguration> &getConfigurations() const {
     return configurations;
   }
 
-  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
-    Application::configurations = configurations;
+  void setConfigurations(const std::vector<models::MachineConfiguration> &aConfigurations) {
+    configurations = aConfigurations;
   }
 
   /**
    * Sets the starting state for the application's statemachine context
    */
-  void setStartState();
+  virtual void setStartState();
 
   /**
    * Stops the network manager and joins the client thread
@@ -107,6 +107,12 @@ class Application
   void registerMachine();
 
   /**
+   * Send status update to production control
+   * @param status : new status
+   */
+  void statusUpdate(models::Machine::MachineStatus status);
+
+  /**
    * checks if configurationID is available ands sets currentConfigId if it is.
     * @param configID
     * @return true if config  is available and set else false
@@ -123,14 +129,9 @@ class Application
    */
   void setCurrentConfig();
 
+ protected:
 
- private:
-  Network::Manager manager;
-  Network::ClientPtr client;
-  ThreadPtr clientThread;
-  Communication::NetworkComponentPtr connectionHandler;
-
-  Machine machine;
+  MachinePtr machine;
 
   // Id of the machine
   uint16_t id;
@@ -140,6 +141,12 @@ class Application
 
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;
+
+ private:
+  Network::Manager manager;
+  Network::ClientPtr client;
+  ThreadPtr clientThread;
+  Communication::NetworkComponentPtr connectionHandler;
 
   /**
  * This class is used to handle possible errors, it also fires events on the Applicationhandler, because this implementation is only used here it is defined inline
@@ -176,6 +183,9 @@ class Application
     }
   };
 };
+
+typedef std::shared_ptr<Application> ApplicationPtr;
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_APPLICATION_H

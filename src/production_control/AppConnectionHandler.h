@@ -46,39 +46,16 @@ class AppConnectionHandler :
   void handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message);
 
   /**
-   * Makes notification to indicate a machine is ready for production
-   * @param connection : The connection that send the message
-   */
-  void handleMachineReady(Network::ConnectionPtr connection);
-
-  /**
-   * Makes notification to indicate a machine started initialising
-   * @param connection : The connection that send the message
-   */
-  void handleStartInit(Network::ConnectionPtr connection);
-
-  /**
-   * Makes notification to indicate a machine started processing a product
-   * @param connection : The connection that send the message
-   */
-  void handleStartProcessing(Network::ConnectionPtr connection);
-
-  /**
-   * Makes notification to indicate a machine is done processing a product
-   * @param connection : The connection that send the message
-   */
-  void handleDoneProcessing(Network::ConnectionPtr connection);
-
-  /**
    * Makes a notification to indicate a machine send an OK message
    * @param connection : The connection that send the message
+   * @param message : incoming message, contains the status update
    */
-  void handleOK(Network::ConnectionPtr connection);
+  void handleOK(Network::ConnectionPtr connection, Network::Message &message);
 
   /**
    * Makes a notification to indicate a machine send a NOK message
    * @param connection : The connection that send the message
-   * @param message : The incoming message
+   * @param message : The incoming message, contains the error code
    */
   void handleNOK(Network::ConnectionPtr connection, Network::Message &message);
 };

@@ -12,7 +12,8 @@ TakeOutProductState::TakeOutProductState(machinecore::Application &aContext)
 }
 
 void TakeOutProductState::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusTakingOutProduct);
 }
 
 void TakeOutProductState::doActivity() {
@@ -33,7 +34,7 @@ bool TakeOutProductState::handleEvent(const productionstates::EventPtr &event) {
 }
 
 void TakeOutProductState::onProductTakenOutEvent() {
-  utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
+  utils::Logger::log("-Handle event: kEventTypeProductTakenOut");
 
   auto idleState = std::make_shared<IdleState>(context);
   context.setCurrentState(idleState);

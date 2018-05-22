@@ -62,32 +62,18 @@ void NetworkComponent::sendMessage(Network::Message &message) {
   if (isConnected()) {
     mConnection->writeMessage(message);
   }
-
 }
 
-void NetworkComponent::sendStatusUpdateDone() {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeDoneProcessing);
+void NetworkComponent::sendStatusUpdate(models::Machine::MachineStatus status) {
+  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeOK);
+  message.setBodyObject<models::Machine::MachineStatus >(status);
   mConnection->writeMessage(message);
-}
 
-void NetworkComponent::sendStatusUpdateStarted() {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeStartedProcessing);
-  mConnection->writeMessage(message);
-}
-
-void NetworkComponent::sendStatusUpdateReady() {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeReady);
-  mConnection->writeMessage(message);
 }
 
 void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
   Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(errorCode);
-  mConnection->writeMessage(message);
-}
-
-void NetworkComponent::sendResponseOK() {
-  Network::Message message(Network::Protocol::AppMessageType::kAppMessageTypeOK);
   mConnection->writeMessage(message);
 }
 
