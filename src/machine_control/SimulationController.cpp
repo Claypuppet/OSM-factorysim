@@ -1,6 +1,6 @@
 #include <network/Protocol.h>
 #include "SimulationController.h"
-#include "states_simulation/FindProductControlState.h"
+#include "states_simulation_controller/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
 
 namespace models {
@@ -12,41 +12,41 @@ namespace simulator {
 /**
  * Event listener and notifier of simulation controller
  */
-class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
+class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
  public:
   NetworkEventDispatcher() = default;
   ~NetworkEventDispatcher() override = default;
  private:
 
-  void onServiceError(Network::ServicePtr service, const std::string &message) override {
-    //TODO: Add eventId
-    //Set up the Connection Failed state event to send to the observers.
-    auto event = makeNotificationForNotifier(this,
-                                             patterns::NotifyObserver::NotifyTrigger(),
-                                             ControllerEvents::kNotifyEventTypeServiceError);
+  void onServiceError(network::ServicePtr service, const std::string &message) override {
+	//TODO: Add eventId
+	//Set up the Connection Failed state event to send to the observers.
+	auto event = makeNotificationForNotifier(this,
+											 patterns::NotifyObserver::NotifyTrigger(),
+											 ControllerEvents::kNotifyEventTypeServiceError);
 
-    //Notify observers of the error
-    notifyObservers(event);
+	//Notify observers of the error
+	notifyObservers(event);
   }
 
-  void onServiceStopped(Network::ServicePtr service) override {
-    // TODO: check if this is needed
+  void onServiceStopped(network::ServicePtr service) override {
+	// TODO: check if this is needed
   }
 
-  void onServiceStarted(Network::ServicePtr service) override {
-    //Set up an event to let the observers know that connection was successful
-    auto event = makeNotificationForNotifier(this,
-                                             patterns::NotifyObserver::NotifyTrigger(),
-                                             ControllerEvents::kNotifyEventTypeServiceStarted);
+  void onServiceStarted(network::ServicePtr service) override {
+	//Set up an event to let the observers know that connection was successful
+	auto event = makeNotificationForNotifier(this,
+											 patterns::NotifyObserver::NotifyTrigger(),
+											 ControllerEvents::kNotifyEventTypeServiceStarted);
 
-    //Notify observers of connection success
-    notifyObservers(event);
+	//Notify observers of connection success
+	notifyObservers(event);
   }
 
 };
 
 SimulationController::SimulationController(uint16_t aMachineId)
-    : Controller(aMachineId) {
+	: Controller(aMachineId) {
   simulationNetworkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
   application = std::make_shared<SimulationApplication>(aMachineId);
 }
@@ -57,30 +57,31 @@ SimulationController::~SimulationController() {
 
 void SimulationController::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
-    case ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived: {
-      onSimulationConfigurationsReceived(notification);
-      break;
-    }
+	case ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived: {
+	  onSimulationConfigurationsReceived(notification);
+	  break;
+	}
 
-    case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
-      onTurnOnReceived();
-      break;
-    }
+	case ControllerEvents::kNotifyEventTypeTurnOnReceived: {
+	  onTurnOnReceived();
+	  break;
+	}
 
-    case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
-      onTurnOffReceived();
-      break;
-    }
+	case ControllerEvents::kNotifyEventTypeTurnOffReceived: {
+	  onTurnOffReceived();
+	  break;
+	}
 
-    case ControllerEvents::kNotifyEventTypeServiceStarted: {
-      onServiceStarted();
-    }
+	case ControllerEvents::kNotifyEventTypeServiceStarted: {
+	  onServiceStarted();
+	}
 
-    case ControllerEvents::kNotifyEventTypeServiceError: {
-      onServiceError();
-    }
+	case ControllerEvents::kNotifyEventTypeServiceError: {
+	  onServiceError();
+	}
 
-    default:break;
+	default:
+	  break;
   }
 }
 
@@ -94,8 +95,9 @@ void SimulationController::onServiceError() {
 }
 
 void SimulationController::onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification) {
-  auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
-  
+  auto event =
+	  std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
+
   // Set received configurations as argument
   event->setArgument(notification.getFirstArgumentAsType<models::MachinePtr>());
 
@@ -122,7 +124,7 @@ void SimulationController::onTurnOffReceived() {
 
 void SimulationController::setupNetwork() {
 // Set the port of the network
-  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  networkManager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
 
   // Create the thread which the manager will run on
   clientThread = networkManager.runServiceThread();
@@ -156,7 +158,7 @@ void SimulationController::execute() {
 
   executing = true;
   while (executing) {
-    run();
+	run();
   }
 }
 
@@ -169,8 +171,8 @@ void SimulationController::stop() {
 
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
-    clientThread->join();
-    client = Network::ClientPtr();
+	clientThread->join();
+	client = network::ClientPtr();
   }
 }
 

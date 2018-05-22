@@ -5,23 +5,21 @@
 #ifndef PRODUCTION_LINE_CONTROL_BROADCASTSTATE_H
 #define PRODUCTION_LINE_CONTROL_BROADCASTSTATE_H
 
-
 #include "ApplicationState.h"
 
 namespace ApplicationStates {
-    class BroadCastState : public ApplicationState {
-    public:
-      BroadCastState(core::Application &context);
+class BroadCastState : public ApplicationState {
+ public:
+  BroadCastState(core::Application &context);
 
+  void doActivity() override;
 
-        void doActivity() override;
+  bool handleEvent(const EventPtr &e) override;
 
-        bool handleEvent(const EventPtr &e) override;
+  void entryAction() override;
 
-        void entryAction() override;
-
-        void exitAction() override;
-    };
+  void exitAction() override;
+};
 }
 
 #endif //PRODUCTION_LINE_CONTROL_BROADCASTSTATE_H

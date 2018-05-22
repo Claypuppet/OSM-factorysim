@@ -14,7 +14,7 @@ void ApplicationStates::BroadCastState::doActivity() {
 }
 
 void ApplicationStates::BroadCastState::entryAction() {
-    utils::Logger::log(__PRETTY_FUNCTION__);
+  utils::Logger::log(__PRETTY_FUNCTION__);
 
 }
 
@@ -23,5 +23,5 @@ void ApplicationStates::BroadCastState::exitAction() {
 }
 
 bool ApplicationStates::BroadCastState::handleEvent(const EventPtr &e) {
-    return false;
+  return false;
 }

@@ -2,35 +2,35 @@
 // Created by don on 19-4-18.
 //
 
-#include "AppConnectionHandler.h"
+#include "ConnectionHandler.h"
 #include "network/Protocol.h"
 #include "NotificationTypes.h"
 
-core::AppConnectionHandler::AppConnectionHandler() {}
+communication::ConnectionHandler::ConnectionHandler() {}
 
-void core::AppConnectionHandler::onConnectionFailed(Network::ConnectionPtr connection,
+void communication::ConnectionHandler::onConnectionFailed(network::ConnectionPtr connection,
 													const boost::system::error_code &error) {
-  Network::IConnectionHandler::onConnectionFailed(connection, error);
+  network::IConnectionHandler::onConnectionFailed(connection, error);
 }
 
-void core::AppConnectionHandler::onConnectionEstablished(Network::ConnectionPtr connection) {
+void communication::ConnectionHandler::onConnectionEstablished(network::ConnectionPtr connection) {
 }
 
-void core::AppConnectionHandler::onConnectionDisconnected(Network::ConnectionPtr connection,
+void communication::ConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection,
 														  const boost::system::error_code &error) {
 }
 
-void core::AppConnectionHandler::onConnectionMessageReceived(Network::ConnectionPtr connection,
-															 Network::Message &message) {
+void communication::ConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection,
+															 network::Message &message) {
   uint8_t messageType = message.getMessageType();
   switch (messageType) {
-	case Network::Protocol::kAppMessageTypeRegisterMachine:
+	case network::Protocol::kAppMessageTypeRegisterMachine:
 	  handleRegisterMachine(connection, message);
 	  break;
-	case Network::Protocol::kAppMessageTypeOK:
+	case network::Protocol::kAppMessageTypeOK:
 	  handleOK(connection, message);
 	  break;
-	case Network::Protocol::kAppMessageTypeNOK:
+	case network::Protocol::kAppMessageTypeNOK:
 	  handleNOK(connection, message);
 	  break;
 	default:
@@ -38,11 +38,11 @@ void core::AppConnectionHandler::onConnectionMessageReceived(Network::Connection
   }
 }
 
-void core::AppConnectionHandler::onConnectionMessageSent(Network::ConnectionPtr connection, Network::Message &message) {
-  Network::IConnectionHandler::onConnectionMessageSent(connection, message);
+void communication::ConnectionHandler::onConnectionMessageSent(network::ConnectionPtr connection, network::Message &message) {
+  network::IConnectionHandler::onConnectionMessageSent(connection, message);
 }
 
-void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr connection, Network::Message &message) {
+void communication::ConnectionHandler::handleRegisterMachine(network::ConnectionPtr connection, network::Message &message) {
   auto notification =
 	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationRegisterMachine);
   auto machineId = message.getBodyObject<uint16_t>();
@@ -55,7 +55,7 @@ void core::AppConnectionHandler::handleRegisterMachine(Network::ConnectionPtr co
   notifyObservers(notification);
 }
 
-void core::AppConnectionHandler::handleOK(Network::ConnectionPtr connection, Network::Message &message) {
+void communication::ConnectionHandler::handleOK(network::ConnectionPtr connection, network::Message &message) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
   auto machineId = getMachineIdForConnection(connection);
 
@@ -65,7 +65,7 @@ void core::AppConnectionHandler::handleOK(Network::ConnectionPtr connection, Net
   notifyObservers(notification);
 }
 
-void core::AppConnectionHandler::handleNOK(Network::ConnectionPtr connection, Network::Message &message) {
+void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connection, network::Message &message) {
   auto notification = makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
   auto machineId = getMachineIdForConnection(connection);
 

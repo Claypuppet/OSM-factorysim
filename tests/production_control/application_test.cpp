@@ -21,7 +21,7 @@
 #include "../../src/production_control/Buffer.h"
 #include "../../src/production_control/Product.h"
 #include "../test_helpers/MockObserver.h"
-#include "../../src/production_control/AppConnectionHandler.h"
+#include "../../src/production_control/ConnectionHandler.h"
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 
@@ -33,8 +33,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
   auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
-  testutils::OnMessageFn onMessageFn = [](const Network::Message &message) {
-    BOOST_CHECK(message.getMessageType() == Network::Protocol::kAppMessageTypeStartProcess);
+  testutils::OnMessageFn onMessageFn = [](const network::Message &message) {
+    BOOST_CHECK(message.getMessageType() == network::Protocol::kAppMessageTypeStartProcess);
   };
 
   BOOST_REQUIRE_NO_THROW(machineMock->setOnMessageFn(onMessageFn));
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   observer.setHandleNotificationFn(notificationHandler);
 
   // Making the connectionhandler
-  auto connectionHandler = std::make_shared<core::AppConnectionHandler>();
+  auto connectionHandler = std::make_shared<communication::ConnectionHandler>();
   connectionHandler->addObserver(observer);
 
   // Making network mocks
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   mcMock->startMockMCClientApplication();
 
   // Registering a machine
-  Network::Message message;
+  network::Message message;
   message.setBodyObject<uint16_t>(12);
 
   mcMock->sendMessage(message);
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   // Executing OK status update test
   message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeOK);
+  message.setMessageType(network::Protocol::kAppMessageTypeOK);
 
   notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   // Executing NOK status update test
   message.clear();
-  message.setMessageType(Network::Protocol::kAppMessageTypeNOK);
+  message.setMessageType(network::Protocol::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(404);
 
   notificationHandler = [](const patterns::NotifyObserver::NotifyEvent &notification) {

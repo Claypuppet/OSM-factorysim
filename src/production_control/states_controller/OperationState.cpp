@@ -5,7 +5,7 @@
 namespace states {
 
 OperationState::OperationState(simulation::SimulationController &aContext)
-    : ControllerState(aContext) {
+	: ControllerState(aContext) {
 
 }
 

@@ -4,7 +4,7 @@
 #include "InOperationState.h"
 
 ApplicationStates::WaitForConnectionsState::WaitForConnectionsState(core::Application &context) :
-        ApplicationState(context) {
+	ApplicationState(context) {
 }
 
 void ApplicationStates::WaitForConnectionsState::doActivity() {
@@ -22,23 +22,23 @@ void ApplicationStates::WaitForConnectionsState::exitAction() {
 
 bool ApplicationStates::WaitForConnectionsState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeMachineRegistered:
-      utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
-      onMachineRegistered(event);
-      break;
+	case kEventTypeMachineRegistered:
+	  utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
+	  onMachineRegistered(event);
+	  break;
 
-    case kEventTypeAllMachinesRegistered:
-      utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
-      onAllMachinesConnected();
-      break;
+	case kEventTypeAllMachinesRegistered:
+	  utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
+	  onAllMachinesConnected();
+	  break;
 
-    default:
-      return ApplicationState::handleEvent(event);
+	default:
+	  return ApplicationState::handleEvent(event);
   }
 }
 
 void ApplicationStates::WaitForConnectionsState::onMachineRegistered(const EventPtr &event) {
-  context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<Network::ConnectionPtr>(1));
+  context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<network::ConnectionPtr>(1));
 
 }
 

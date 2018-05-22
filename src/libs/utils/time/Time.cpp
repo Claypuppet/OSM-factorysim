@@ -22,17 +22,16 @@ void Time::increaseCurrentTime(uint64_t increaseSeconds) {
   timer->increaseCurrentTime(increaseSeconds);
 }
 void Time::setType(utils::TimeType aType) {
-  switch(aType)
-  {
-    case TimeType::systemTime:
-      timer = std::make_shared<SystemTime>();
-      break;
-    case TimeType::customTime:
-      timer = std::make_shared<CustomTime>();
-      break;
-    default:
+  switch (aType) {
+	case TimeType::systemTime:
+	  timer = std::make_shared<SystemTime>();
+	  break;
+	case TimeType::customTime:
+	  timer = std::make_shared<CustomTime>();
+	  break;
+	default:
 
-      break;
+	  break;
   }
 }
 

@@ -3,15 +3,13 @@
 #include "SimulationController.h"
 #include "utils/CommandLineArguments.h"
 
-
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
   utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
 
   simulation::SimulationController controller;
-	controller.execute();
+  controller.execute();
 
-	return 0;
+  return 0;
 }
 
 

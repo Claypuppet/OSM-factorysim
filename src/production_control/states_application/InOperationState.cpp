@@ -6,7 +6,7 @@
 #include "InOperationState.h"
 
 ApplicationStates::InOperationState::InOperationState(core::Application &context) :
-    ApplicationState(context) {
+	ApplicationState(context) {
 }
 
 void ApplicationStates::InOperationState::entryAction() {
@@ -24,13 +24,13 @@ void ApplicationStates::InOperationState::exitAction() {
 
 bool ApplicationStates::InOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case ApplicationStates::kEventTypeMachineStatusUpdate:
-      utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
-      context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
-                               event->getArgumentAsType<core::Machine::MachineStatus>(1));
-      return true;
-    default:{
-      return ApplicationState::handleEvent(event);
-    }
+	case ApplicationStates::kEventTypeMachineStatusUpdate:
+	  utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
+	  context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
+							   event->getArgumentAsType<core::Machine::MachineStatus>(1));
+	  return true;
+	default: {
+	  return ApplicationState::handleEvent(event);
+	}
   }
 }

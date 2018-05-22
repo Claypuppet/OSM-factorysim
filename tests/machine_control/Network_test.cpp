@@ -9,16 +9,16 @@
 BOOST_AUTO_TEST_SUITE(MachineControlNetworkTestSuite)
 
 BOOST_AUTO_TEST_CASE(RegisterMachine) {
-  Network::Manager manager;
-  manager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  network::Manager manager;
+  manager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
   std::shared_ptr<SimulationCommunication::SimulationNetworkComponent>
       networkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
 
-  testutils::OnMessageFn onMessageFn = [](Network::Message &message) {
+  testutils::OnMessageFn onMessageFn = [](network::Message &message) {
     BOOST_CHECK(message.getBodyObject<std::uint16_t>() == 5);
-    BOOST_CHECK(message.getMessageType() == Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+    BOOST_CHECK(message.getMessageType() == network::Protocol::SimMessageType::kSimMessageTypeRegister);
   };
 
   BOOST_REQUIRE_NO_THROW(pcMock->setOnMessageFn(onMessageFn));

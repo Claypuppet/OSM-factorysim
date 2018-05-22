@@ -12,15 +12,15 @@
 
 namespace testutils{
 
-typedef std::function<void(Network::Message&)> OnMessageFn;
-typedef std::function<void(const Network::ConnectionPtr&)> OnConnectionFn;
+typedef std::function<void(network::Message&)> OnMessageFn;
+typedef std::function<void(const network::ConnectionPtr&)> OnConnectionFn;
 
 
 /**
  * The MockNetwork class can be used to create a dummy network component. Can be used to make connection for both
  * machine control and production control. Has access to an onMessage and onConnection callback
  */
-class MockNetwork : public Network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
+class MockNetwork : public network::IConnectionHandler, public std::enable_shared_from_this<MockNetwork> {
  public:
   MockNetwork();
   virtual ~MockNetwork();
@@ -75,7 +75,7 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * Send message to the other side (the one you're testing)
    * @param msg : Message to send
    */
-  void sendMessage(Network::Message& msg);
+  void sendMessage(network::Message& msg);
 
   /**
    * set on receive callback
@@ -95,24 +95,24 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
    * Set a new handler for the client / server
    * @param handler
    */
-  void setConnectionHandler(Network::ConnectionHandlerPtr handler);
+  void setConnectionHandler(network::ConnectionHandlerPtr handler);
 
   /**
    * get connection
    * @return : connection
    */
-  const Network::ConnectionPtr &getConnection() const;
+  const network::ConnectionPtr &getConnection() const;
 
   // IConnectionHandler callbacks
-  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-  void onConnectionEstablished(Network::ConnectionPtr connection) override;
-  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) override;
 
  private:
 
-  friend Network::Server;
-  friend Network::Client;
+  friend network::Server;
+  friend network::Client;
 
   enum ConnectionStatus {
     kConnectionDisconnected,
@@ -127,14 +127,14 @@ class MockNetwork : public Network::IConnectionHandler, public std::enable_share
   ConnectionStatus connectionStatus;
   MessageStatus messageStatus;
   ThreadPtr networkThread;
-  Network::Manager networkManager;
-  Network::ConnectionPtr connection;
-  Network::ConnectionHandlerPtr connectionHandler;
+  network::Manager networkManager;
+  network::ConnectionPtr connection;
+  network::ConnectionHandlerPtr connectionHandler;
   OnMessageFn onMessageFn;
   OnConnectionFn onConnectionFn;
 
-  Network::ServerPtr server;
-  Network::ClientPtr client;
+  network::ServerPtr server;
+  network::ClientPtr client;
 
 };
 

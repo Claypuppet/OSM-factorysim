@@ -12,44 +12,45 @@
 
 namespace SimulationCommunication {
 
-void SimulationNetworkComponent::onConnectionFailed(Network::ConnectionPtr connection,
-                                                    const boost::system::error_code &error) {
+void SimulationNetworkComponent::onConnectionFailed(network::ConnectionPtr connection,
+													const boost::system::error_code &error) {
   IConnectionHandler::onConnectionFailed(connection, error);
 }
 
-void SimulationNetworkComponent::onConnectionEstablished(Network::ConnectionPtr connection) {
+void SimulationNetworkComponent::onConnectionEstablished(network::ConnectionPtr connection) {
   mConnection = connection;
 }
 
-void SimulationNetworkComponent::onConnectionDisconnected(Network::ConnectionPtr connection,
-                                                          const boost::system::error_code &error) {
+void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr connection,
+														  const boost::system::error_code &error) {
 }
 
-void SimulationNetworkComponent::onConnectionMessageReceived(Network::ConnectionPtr connection,
-                                                             Network::Message &message) {
+void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,
+															 network::Message &message) {
   switch (message.getMessageType()) {
-    case Network::Protocol::kSimMessageTypeConfig : {
-      auto machineInfo = message.getBodyObject<models::Machine>();
-      onSimulationMachineInfoReceived(std::make_shared<models::Machine>(machineInfo));
-      break;
-    }
-    case Network::Protocol::kSimMessageTypeTurnOn : {
-      onTurnOnReceived();
-      break;
-    }
-    case Network::Protocol::kSimMessageTypeTurnOff : {
-      onTurnOffReceived();
-      break;
-    }
-    default : {
-      break;
-    }
+	case network::Protocol::kSimMessageTypeConfig : {
+	  auto machineInfo = message.getBodyObject<models::Machine>();
+	  onSimulationMachineInfoReceived(std::make_shared<models::Machine>(machineInfo));
+	  break;
+	}
+	case network::Protocol::kSimMessageTypeTurnOn : {
+	  onTurnOnReceived();
+	  break;
+	}
+	case network::Protocol::kSimMessageTypeTurnOff : {
+	  onTurnOffReceived();
+	  break;
+	}
+	default : {
+	  break;
+	}
   }
 }
 
 void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::MachinePtr machine) {
   auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
+	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(),
+					  ControllerEvents::kNotifyEventTypeSimulationConfigurationsReceived);
 
   notification.addArgument(machine);
   notifyObservers(notification);
@@ -57,30 +58,30 @@ void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::Machine
 
 void SimulationNetworkComponent::onTurnOffReceived() {
   auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
   notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOnReceived() {
   auto notification =
-      makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+	  makeNotifcation(patterns::NotifyObserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::sendRegisterMessage(const uint16_t machineId) {
-  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeRegister);
+  network::Message message(network::Protocol::SimMessageType::kSimMessageTypeRegister);
   message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
 }
 
 void SimulationNetworkComponent::sendMachineReadyMessage() {
-  Network::Message message(Network::Protocol::SimMessageType::kSimMessageTypeReadyForSim);
+  network::Message message(network::Protocol::SimMessageType::kSimMessageTypeReadyForSim);
   sendMessage(message);
 }
 
-void SimulationNetworkComponent::sendMessage(const Network::Message &message) {
-  if(mConnection) {
-    mConnection->writeMessage(message);
+void SimulationNetworkComponent::sendMessage(const network::Message &message) {
+  if (mConnection) {
+	mConnection->writeMessage(message);
   }
 }
 

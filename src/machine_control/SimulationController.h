@@ -18,9 +18,9 @@
 namespace simulator {
 
 class SimulationController
-    : public machinecore::Controller,
-      public patterns::statemachine::Context,
-      public patterns::NotifyObserver::Observer {
+	: public machinecore::Controller,
+	  public patterns::statemachine::Context,
+	  public patterns::NotifyObserver::Observer {
 
  public:
   SimulationController(uint16_t aMachineId);
@@ -105,10 +105,10 @@ class SimulationController
   ThreadPtr clientThread;
 
   // The network's manager to manage the connection to Production Control
-  Network::Manager networkManager;
+  network::Manager networkManager;
 
   // The network's client
-  Network::ClientPtr client;
+  network::ClientPtr client;
 
   SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };

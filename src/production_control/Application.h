@@ -27,7 +27,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * Set the machines used in this application
    * @param aMachines
    */
-  void setMachines(const std::vector<MachinePtr>& aMachines);
+  void setMachines(const std::vector<MachinePtr> &aMachines);
 
   /**
   * A function to get a machine by its ID
@@ -67,7 +67,7 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
    * @param machineId the id of the machine
    * @param connection the connection of the machine
    */
-  void registerMachine(uint16_t machineId, Network::ConnectionPtr connection);
+  void registerMachine(uint16_t machineId, network::ConnectionPtr connection);
 
   /**
    * Set the coniguration used by the execution of this application
@@ -107,9 +107,9 @@ class Application : public patterns::NotifyObserver::Observer, public patterns::
   std::vector<MachinePtr> machines;
   uint16_t currentProduct;
 
-  Network::ServerPtr server;
+  network::ServerPtr server;
   ThreadPtr serverThread;
-  Network::Manager manager;
+  network::Manager manager;
 };
 
 typedef std::shared_ptr<Application> ApplicationPtr;

@@ -4,17 +4,17 @@
 
 #include <models/Machine.h>
 #include "Application.h"
-#include "states_production/ConnectState.h"
-#include "states_production/Inititalization/ConfigureState.h"
+#include "states_application/ConnectState.h"
+#include "states_application/Inititalization/ConfigureState.h"
 
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-    : patterns::statemachine::Context(),
-      id(aMachineId),
-      nextConfigId(0),
-      currentConfigId(0),
-      configurations(){
+	: patterns::statemachine::Context(),
+	  id(aMachineId),
+	  nextConfigId(0),
+	  currentConfigId(0),
+	  configurations() {
   connectionHandler = std::make_shared<Communication::NetworkComponent>();
 }
 
@@ -24,31 +24,32 @@ Application::~Application() {
 
 void Application::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
-    case NotifyEventType::kNotifyEventTypeServiceStarted: {
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);
-      scheduleEvent(event);
-      break;
-    }
+	case NotifyEventType::kNotifyEventTypeServiceStarted: {
+	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);
+	  scheduleEvent(event);
+	  break;
+	}
 
-    case NotifyEventType::kNotifyEventTypeServiceError : {
+	case NotifyEventType::kNotifyEventTypeServiceError : {
 
-      break;
-    }
+	  break;
+	}
 
-    case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
-      event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
-      scheduleEvent(event);
-      break;
-    }
+	case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
+	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
+	  event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
+	  scheduleEvent(event);
+	  break;
+	}
 
-    case NotifyEventType::kNotifyEventTypeStartProcess: {
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeTakeProduct);
-      scheduleEvent(event);
-      break;
-    }
+	case NotifyEventType::kNotifyEventTypeStartProcess: {
+	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeTakeProduct);
+	  scheduleEvent(event);
+	  break;
+	}
 
-    default:break;
+	default:
+	  break;
   }
 }
 
@@ -62,7 +63,7 @@ void Application::stop() {
 
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
-    clientThread->join();
+	clientThread->join();
   }
 }
 
@@ -86,11 +87,11 @@ const models::MachineConfiguration &Application::getCurrentConfig() const {
 
 void Application::setCurrentConfig() {
   for (auto &configuration : configurations) {
-    if (configuration.getProductId() == nextConfigId) {
-      currentConfigId = nextConfigId;
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
-      scheduleEvent(event);
-    }
+	if (configuration.getProductId() == nextConfigId) {
+	  currentConfigId = nextConfigId;
+	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+	  scheduleEvent(event);
+	}
   }
 }
 
@@ -101,12 +102,12 @@ void Application::registerMachine() {
 bool Application::setCurrentConfigId(uint32_t configID) {
 
   for (auto &configuration : configurations) {
-    if (configuration.getProductId() == configID) {
-      nextConfigId = configID;
-      auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
-      scheduleEvent(event);
-      return true;
-    }
+	if (configuration.getProductId() == configID) {
+	  nextConfigId = configID;
+	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
+	  scheduleEvent(event);
+	  return true;
+	}
   } // access by reference to avoid copying
   return false;
 }

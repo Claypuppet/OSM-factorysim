@@ -11,14 +11,14 @@
 #include "../test_helpers/MockNetwork.h"
 #include "../test_helpers/MockObserver.h"
 #include "../machine_control/SimulationController.h"
-#include "../../src/machine_control/states_production/ConnectState.h"
-#include "../../src/machine_control/states_production/ReceiveConfig.h"
-#include "../../src/machine_control/states_production/Inititalization/ConfigureState.h"
-#include "../../src/machine_control/states_production/InOperation/IdleState.h"
-#include "../../src/machine_control/states_production/Inititalization/SelfTestState.h"
-#include "../../src/machine_control/states_production/InOperation/ProcessProduct/TakeProductState.h"
-#include "../../src/machine_control/states_production/InOperation/ProcessProduct/ProcessProductState.h"
-#include "../../src/machine_control/states_production/InOperation/ProcessProduct/TakeOutProductState.h"
+#include "../../src/machine_control/states_application/ConnectState.h"
+#include "../../src/machine_control/states_application/ReceiveConfig.h"
+#include "../../src/machine_control/states_application/Inititalization/ConfigureState.h"
+#include "../../src/machine_control/states_application/InOperation/IdleState.h"
+#include "../../src/machine_control/states_application/Inititalization/SelfTestState.h"
+#include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeProductState.h"
+#include "../../src/machine_control/states_application/InOperation/ProcessProduct/ProcessProductState.h"
+#include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeOutProductState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlApplicationTests)
 
@@ -185,8 +185,8 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   productionServer->awaitClientConnecting();
 
   // prepare test on machine control when message will receive: kAppMessageTypeOK
-  testutils::OnMessageFn callback = [](Network::Message &message) {
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeOK);
+  testutils::OnMessageFn callback = [](network::Message &message) {
+    BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeOK);
     BOOST_CHECK_EQUAL(message.getBodyObject<models::Machine::MachineStatus>(), models::Machine::kMachineStatusSelftesting);
   };
   productionServer->setOnMessageFn(callback);
@@ -194,8 +194,8 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   productionServer->awaitMessageReceived();
 
   // prepare test on machine control when message will receive: kAppMessageTypeNOK
-  callback = [](Network::Message &message) {
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeNOK);
+  callback = [](network::Message &message) {
+    BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeNOK);
   };
   productionServer->setOnMessageFn(callback);
   machineNetwork->sendResponseNOK(0);
@@ -219,8 +219,8 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
 
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
-  Network::Manager manager;
-  manager.setRemotePort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
+  network::Manager manager;
+  manager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
 
   auto clientThread = manager.runServiceThread();
   auto client = manager.createClient(networkComponent);
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
 
   client->start();
   pcMock->awaitConnection();
-  Network::Message message(Network::Protocol::kAppMessageTypeStartProcess);
+  network::Message message(network::Protocol::kAppMessageTypeStartProcess);
 
   BOOST_REQUIRE_NO_THROW(pcMock->sendMessage(message));
 

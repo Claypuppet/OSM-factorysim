@@ -26,17 +26,16 @@ class Machine {
    * Enum of all machine statuses
    */
   enum MachineStatus {
-    kMachineStatusWaitingForConfig,
-    kMachineStatusConfiguring,
-    kMachineStatusSelftesting,
-    kMachineStatusIdle,
-    kMachineStatusTakingProduct,
-    kMachineStatusProcessingProduct,
-    kMachineStatusTakingOutProduct,
-    kMachineStatusBroken,
-    kMachineStatusRepairing,
+	kMachineStatusWaitingForConfig,
+	kMachineStatusConfiguring,
+	kMachineStatusSelftesting,
+	kMachineStatusIdle,
+	kMachineStatusTakingProduct,
+	kMachineStatusProcessingProduct,
+	kMachineStatusTakingOutProduct,
+	kMachineStatusBroken,
+	kMachineStatusRepairing,
   };
-
 
   Machine() = default;
 
@@ -77,7 +76,7 @@ class Machine {
    */
   template<class Archive>
   void save(Archive &ar) const {
-    ar(id, name, configurations);
+	ar(id, name, configurations);
   }
 
   /**
@@ -87,7 +86,7 @@ class Machine {
    */
   template<class Archive>
   void load(Archive &ar) {
-    ar(id, name, configurations);
+	ar(id, name, configurations);
   };
 
   friend class ::cereal::access;

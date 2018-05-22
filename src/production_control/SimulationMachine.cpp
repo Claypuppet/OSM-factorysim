@@ -9,17 +9,17 @@
 namespace simulation {
 
 SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-    core::Machine(aMachine), simConnection(nullptr), ready(false) {
+	core::Machine(aMachine), simConnection(nullptr), ready(false) {
 }
 
 SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-    core::Machine(aMachine), simConnection(nullptr), ready(false) {
+	core::Machine(aMachine), simConnection(nullptr), ready(false) {
 }
 
 SimulationMachine &SimulationMachine::operator=(const SimulationMachine &rhs) {
   if (this != &rhs) {
-    core::Machine::operator=(rhs);
-    simConnection = rhs.simConnection;
+	core::Machine::operator=(rhs);
+	simConnection = rhs.simConnection;
   }
   return *this;
 }
@@ -28,30 +28,30 @@ bool SimulationMachine::isSimulationConnected() const {
   return !!simConnection;
 }
 
-void SimulationMachine::sendSimulationMessage(Network::Message &message) {
+void SimulationMachine::sendSimulationMessage(network::Message &message) {
   if (isSimulationConnected()) {
-    simConnection->writeMessage(message);
+	simConnection->writeMessage(message);
   }
 }
 
-void SimulationMachine::setSimulationConnection(const Network::ConnectionPtr &aConnection) {
+void SimulationMachine::setSimulationConnection(const network::ConnectionPtr &aConnection) {
   simConnection = aConnection;
 }
 
 void SimulationMachine::sendSimulationConfiguration() {
-  Network::Message message(Network::Protocol::kSimMessageTypeConfig);
+  network::Message message(network::Protocol::kSimMessageTypeConfig);
   models::Machine machineInfo = static_cast<models::Machine>(*this);
   message.setBodyObject<models::Machine>(machineInfo);
   sendSimulationMessage(message);
 }
 
 void SimulationMachine::sendTurnOnCommand() {
-  Network::Message message(Network::Protocol::kSimMessageTypeTurnOn);
+  network::Message message(network::Protocol::kSimMessageTypeTurnOn);
   sendSimulationMessage(message);
 }
 
 void SimulationMachine::sendTurnOffCommand() {
-  Network::Message message(Network::Protocol::kSimMessageTypeTurnOff);
+  network::Message message(network::Protocol::kSimMessageTypeTurnOff);
   sendSimulationMessage(message);
 }
 

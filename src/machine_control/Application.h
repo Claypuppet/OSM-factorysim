@@ -26,8 +26,8 @@ enum NotifyEventType {
 };
 
 class Application
-    : public patterns::statemachine::Context,
-      public patterns::NotifyObserver::Observer {
+	: public patterns::statemachine::Context,
+	  public patterns::NotifyObserver::Observer {
  public:
   void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
 
@@ -43,27 +43,27 @@ class Application
   ~Application() override;
 
   const MachinePtr &getMachine() const {
-    return machine;
+	return machine;
   }
 
   void setMachine(const MachinePtr &aMachine) {
-    machine = aMachine;
+	machine = aMachine;
   }
 
   uint16_t getId() const {
-    return id;
+	return id;
   }
 
   void setId(uint16_t aId) {
-    id = aId;
+	id = aId;
   }
 
   const std::vector<models::MachineConfiguration> &getConfigurations() const {
-    return configurations;
+	return configurations;
   }
 
   void setConfigurations(const std::vector<models::MachineConfiguration> &aConfigurations) {
-    configurations = aConfigurations;
+	configurations = aConfigurations;
   }
 
   /**
@@ -94,12 +94,12 @@ class Application
   /**
    * Process the product that is currently in the machine
    */
-   void processProduct();
+  void processProduct();
 
-   /**
-    * Take product out of the machine into the output buffer
-    */
-    void takeProductOut();
+  /**
+   * Take product out of the machine into the output buffer
+   */
+  void takeProductOut();
 
 /**
  * sends register machine message to PC
@@ -121,7 +121,6 @@ class Application
 
   uint32_t getCurrentConfigId() const;
 
-
   const models::MachineConfiguration &getCurrentConfig() const;
 
   /**
@@ -138,49 +137,48 @@ class Application
   uint32_t nextConfigId;
   uint32_t currentConfigId;
 
-
   // Vector of possible configurations
   std::vector<models::MachineConfiguration> configurations;
 
  private:
-  Network::Manager manager;
-  Network::ClientPtr client;
+  network::Manager manager;
+  network::ClientPtr client;
   ThreadPtr clientThread;
   Communication::NetworkComponentPtr connectionHandler;
 
   /**
  * This class is used to handle possible errors, it also fires events on the Applicationhandler, because this implementation is only used here it is defined inline
  */
-  class NetworkEventDispatcher : public Network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
+  class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::NotifyObserver::Notifier {
    public:
-    NetworkEventDispatcher() = default;
-    ~NetworkEventDispatcher() override = default;
+	NetworkEventDispatcher() = default;
+	~NetworkEventDispatcher() override = default;
    private:
 
-    void onServiceError(Network::ServicePtr service, const std::string &message) override {
-      //TODO: Add eventId
-      //Set up the Connection Failed state event to send to the observers.
-      auto event = makeNotificationForNotifier(this,
-                                               patterns::NotifyObserver::NotifyTrigger(),
-                                               NotifyEventType::kNotifyEventTypeServiceError);
+	void onServiceError(network::ServicePtr service, const std::string &message) override {
+	  //TODO: Add eventId
+	  //Set up the Connection Failed state event to send to the observers.
+	  auto event = makeNotificationForNotifier(this,
+											   patterns::NotifyObserver::NotifyTrigger(),
+											   NotifyEventType::kNotifyEventTypeServiceError);
 
-      //Notify observers of the error
-      notifyObservers(event);
-    }
+	  //Notify observers of the error
+	  notifyObservers(event);
+	}
 
-    void onServiceStopped(Network::ServicePtr service) override {
-      // TODO: check if this is needed
-    }
+	void onServiceStopped(network::ServicePtr service) override {
+	  // TODO: check if this is needed
+	}
 
-    void onServiceStarted(Network::ServicePtr service) override {
-      //Set up an event to let the observers know that connection was successful
-      auto event = makeNotificationForNotifier(this,
-                                               patterns::NotifyObserver::NotifyTrigger(),
-                                               NotifyEventType::kNotifyEventTypeServiceStarted);
+	void onServiceStarted(network::ServicePtr service) override {
+	  //Set up an event to let the observers know that connection was successful
+	  auto event = makeNotificationForNotifier(this,
+											   patterns::NotifyObserver::NotifyTrigger(),
+											   NotifyEventType::kNotifyEventTypeServiceStarted);
 
-      //Notify observers of connection success
-      notifyObservers(event);
-    }
+	  //Notify observers of connection success
+	  notifyObservers(event);
+	}
   };
 };
 
