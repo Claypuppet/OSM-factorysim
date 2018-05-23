@@ -18,23 +18,14 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
   ResultLogger();
   virtual ~ResultLogger() = default;
 
-  /**
-   * enable or disable logging of SimulationEvents
-   * @param enabled
-   */
-  static void setSimulationEnabled(bool enabled);
+
   /**
    * enable or disable logging of ProductionEvents
    * @param enabled
    */
   static void setProductionEnabled(bool enabled);
 
-  /**
- * enable or disable verbose logging of SimulationEvents
- * @param message : string to log
- */
 
-  static void setSimulationDebugOutput(bool enabled);
   /**
    * enable or disable verbose logging of ProductionEvents
    * @param message : string to log
@@ -47,16 +38,9 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    */
   static void LogProductionEvent(uint32_t machineId, uint32_t eventId);
 
-  /**
-  * Log a simulationMessageMessage
-  * @param message : string to log
-  */
-  void LogSimulationEvent(uint32_t eventId);
 
  private:
   bool productionEnabled;
-  bool simulationEnabled;
-  bool simulationDebug;
   bool productionDebug;
 
 };

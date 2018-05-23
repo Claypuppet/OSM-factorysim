@@ -10,10 +10,8 @@
 
 namespace core {
 ResultLogger::ResultLogger()
-    : simulationEnabled(true), productionEnabled(true), productionDebug(false), simulationDebug(false) {
+    : productionEnabled(true), productionDebug(false) {
 }
-
-
 
 void ResultLogger::LogProductionEvent(uint32_t machineId, uint32_t eventId) {
   if (getInstance().productionEnabled) {
@@ -38,22 +36,8 @@ void ResultLogger::LogProductionEvent(uint32_t machineId, uint32_t eventId) {
   }
 }
 
-void ResultLogger::LogSimulationEvent(uint32_t eventId) {
-  if (simulationEnabled) {
-    //TODO log simulation events
-  }
-}
-
-void ResultLogger::setSimulationEnabled(bool enabled) {
-  getInstance().simulationEnabled = enabled;
-}
-
 void ResultLogger::setProductionEnabled(bool enabled) {
   getInstance().productionEnabled = enabled;
-}
-
-void ResultLogger::setSimulationDebugOutput(bool enabled) {
-  getInstance().simulationDebug = enabled;
 }
 
 void ResultLogger::setProductionDebugOutput(bool enabled) {
