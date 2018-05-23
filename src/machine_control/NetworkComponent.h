@@ -10,7 +10,7 @@
 #include "network/Connection.h"
 
 namespace Communication {
-class NetworkComponent : public Network::IConnectionHandler, public patterns::NotifyObserver::Notifier {
+class NetworkComponent : public network::IConnectionHandler, public patterns::notifyobserver::Notifier {
  public:
   NetworkComponent();
   ~NetworkComponent() = default;
@@ -32,10 +32,10 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
    */
   void sendResponseNOK(const uint16_t errorCode);
  private:
-  void onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-  void onConnectionEstablished(Network::ConnectionPtr connection) override;
-  void onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) override;
-  void onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) override;
+  void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionEstablished(network::ConnectionPtr connection) override;
+  void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) override;
   /**
    * checks for connection with PC
    * @return
@@ -46,13 +46,13 @@ class NetworkComponent : public Network::IConnectionHandler, public patterns::No
    * checks for connection and sends message
    * @param message
    */
-  void sendMessage(Network::Message &message);
+  void sendMessage(network::Message &message);
 
-  Network::ConnectionPtr mConnection;
+  network::ConnectionPtr mConnection;
 
   void handleReconfigureMessage();
   void handleProcessProductMessage();
-  void handleProcessReconfigureMessage(Network::Message &message);
+  void handleProcessReconfigureMessage(network::Message &message);
 
 };
 

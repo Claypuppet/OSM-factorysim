@@ -128,7 +128,6 @@ class MachineConfiguration {
 
 };
 
-
 /**
  * Small class used by configuration to link to previous machines.
  */

@@ -4,7 +4,6 @@
 
 #include "Product.h"
 
-
-namespace core{
+namespace core {
 
 }

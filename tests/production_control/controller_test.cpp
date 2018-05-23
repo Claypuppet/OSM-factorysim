@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   // Connect a machine
   machineNetwork->startMockMCClientController();
 
-  patterns::NotifyObserver::NotifyEvent event(NotifyEventIds::eSimRegisterMachine);
+  patterns::notifyobserver::NotifyEvent event(NotifyEventIds::eSimRegisterMachine);
   event.setArgument(0, (uint16_t) 1);
   event.setArgument(1, machineNetwork->getConnection());
 
@@ -203,8 +203,8 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](Network::Message &message){
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOn);
+  testutils::OnMessageFn callback = [](network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOn);
   };
   machineEndpoint->setOnMessageFn(callback);
   machine.sendTurnOnCommand();
@@ -231,8 +231,8 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](Network::Message &message){
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kSimMessageTypeTurnOff);
+  testutils::OnMessageFn callback = [](network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOff);
   };
   machineEndpoint->setOnMessageFn(callback);
   machine.sendTurnOffCommand();
@@ -260,8 +260,8 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   machine.setConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
-  testutils::OnMessageFn callback = [](Network::Message &message){
-    BOOST_CHECK_EQUAL(message.getMessageType(), Network::Protocol::kAppMessageTypeReconfigure);
+  testutils::OnMessageFn callback = [](network::Message &message){
+    BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeReconfigure);
     BOOST_CHECK_EQUAL(message.getBodyObject<uint16_t>(), 1);
   };
   machineEndpoint->setOnMessageFn(callback);

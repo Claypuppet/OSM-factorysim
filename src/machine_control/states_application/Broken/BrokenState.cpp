@@ -7,7 +7,7 @@
 
 namespace productionstates {
 BrokenState::BrokenState(machinecore::Application &aContext)
-    : ProductionState(aContext) {
+	: ProductionState(aContext) {
 
 }
 
@@ -24,13 +24,13 @@ void BrokenState::exitAction() {
 
 }
 bool BrokenState::handleEvent(const EventPtr &event) {
-  switch(event->getId()) {
-    case kEventTypeRepairStarted:
-      onRepairStartedEvent();
-      return true;
+  switch (event->getId()) {
+	case kEventTypeRepairStarted:
+	  onRepairStartedEvent();
+	  return true;
 
-    default:
-      return ProductionState::handleEvent(event);
+	default:
+	  return ProductionState::handleEvent(event);
   }
 }
 

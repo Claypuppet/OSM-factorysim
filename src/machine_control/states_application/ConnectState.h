@@ -11,7 +11,7 @@ namespace productionstates {
 class ConnectState : public ProductionState {
  public:
   ConnectState(machinecore::Application &aContext)
-      : ProductionState(aContext) {};
+	  : ProductionState(aContext) {};
 
   virtual ~ConnectState() = default;
 

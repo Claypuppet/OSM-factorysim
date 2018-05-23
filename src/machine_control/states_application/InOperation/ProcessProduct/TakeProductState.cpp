@@ -21,13 +21,13 @@ void TakeProductState::exitAction() {
 }
 
 bool TakeProductState::handleEvent(const EventPtr &event) {
-  switch(event->getId()) {
-    case kEventTypeProcessProduct:
-      onProcessProductEvent();
-      return true;
+  switch (event->getId()) {
+	case kEventTypeProcessProduct:
+	  onProcessProductEvent();
+	  return true;
 
-    default:
-      return ProductionState::handleEvent(event);
+	default:
+	  return ProductionState::handleEvent(event);
   }
 }
 

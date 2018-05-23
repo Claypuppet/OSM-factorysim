@@ -29,7 +29,7 @@ class TakeProductState : public InOperationState {
   void onProcessProductEvent();
 
 };
-        
+
 }
 
 #endif //PRODUCTION_LINE_CONTROL_TAKEPRODUCTSTATE_H

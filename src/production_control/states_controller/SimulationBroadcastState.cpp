@@ -7,7 +7,7 @@
 #include "SimulationWaitForConnectionsState.h"
 
 states::SimulationBroadcastState::SimulationBroadcastState(simulation::SimulationController &context) :
-    ControllerState(context) {
+	ControllerState(context) {
 }
 
 void states::SimulationBroadcastState::doActivity() {
@@ -28,10 +28,10 @@ void states::SimulationBroadcastState::exitAction() {
 
 bool states::SimulationBroadcastState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
-    case states::EventType::kEventTypeDoneBroadcasting:
-      utils::Logger::log("-Handle event: kEventTypeDoneBroadcasting");
-      context.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(context));
-      return true;
+	case states::EventType::kEventTypeDoneBroadcasting:
+	  utils::Logger::log("-Handle event: kEventTypeDoneBroadcasting");
+	  context.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(context));
+	  return true;
   }
   return false;
 }

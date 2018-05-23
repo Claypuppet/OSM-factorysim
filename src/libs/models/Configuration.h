@@ -13,88 +13,85 @@
 
 namespace models {
 
-    class Configuration;
-    typedef std::shared_ptr<Configuration> ConfigurationPtr;
+class Configuration;
+typedef std::shared_ptr<Configuration> ConfigurationPtr;
 
-    class Configuration {
-    public:
-        /**
-         * Default constructor
-         */
-        Configuration();
+class Configuration {
+ public:
+  /**
+   * Default constructor
+   */
+  Configuration();
 
-        /**
-         * Copy constructor
-         * @param other : Configuration object to copy
-         */
-        Configuration(const Configuration &other);
+  /**
+   * Copy constructor
+   * @param other : Configuration object to copy
+   */
+  Configuration(const Configuration &other);
 
-        /**
-         * The destructor
-         */
-        virtual ~Configuration();
+  /**
+   * The destructor
+   */
+  virtual ~Configuration();
 
-        /**
-         * Asignment operator
-         * @param other : other Configuration object
-         * @return new Configuration object
-         */
-        Configuration& operator=(const Configuration& other);
+  /**
+   * Asignment operator
+   * @param other : other Configuration object
+   * @return new Configuration object
+   */
+  Configuration &operator=(const Configuration &other);
 
-        /**
-         * A function to deserialize a configuartion node
-         * @param configurationNode : the configuration node to deserialise
-         */
-        void deserialize(YAML::Node &configurationNode);
+  /**
+   * A function to deserialize a configuartion node
+   * @param configurationNode : the configuration node to deserialise
+   */
+  void deserialize(YAML::Node &configurationNode);
 
-        /**
-         * Getter for name
-         * @return name
-         */
-        const std::string &getName() const;
+  /**
+   * Getter for name
+   * @return name
+   */
+  const std::string &getName() const;
 
-        /**
-         * Getter for simulationInfoConfiguration
-         * @return simulationInfoConfiguration
-         */
-        const SimulationInfo &getSimulationInfoConfiguration() const;
+  /**
+   * Getter for simulationInfoConfiguration
+   * @return simulationInfoConfiguration
+   */
+  const SimulationInfo &getSimulationInfoConfiguration() const;
 
-        /**
-         * Getter for productionLineConfiguration
-         * @return productionLineConfiguration
-         */
-        const ProductionLine &getProductionLineConfiguration() const;
+  /**
+   * Getter for productionLineConfiguration
+   * @return productionLineConfiguration
+   */
+  const ProductionLine &getProductionLineConfiguration() const;
 
+ private:
+  std::string name;
+  SimulationInfo simulationInfoConfiguration;
+  ProductionLine productionLineConfiguration;
 
-    private:
-        std::string name;
-        SimulationInfo simulationInfoConfiguration;
-        ProductionLine productionLineConfiguration;
+  /**
+   * Function to save class as archive
+   * @tparam Archive
+   * @param ar : Archive to store class in
+   */
+  template<class Archive>
+  void save(Archive &ar) const {
+	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+  }
 
-        /**
-         * Function to save class as archive
-         * @tparam Archive
-         * @param ar : Archive to store class in
-         */
-        template<class Archive>
-        void save(Archive& ar) const
-        {
-            ar(name, simulationInfoConfiguration, productionLineConfiguration);
-        }
+  /**
+   * Function to load class from archive
+   * @tparam Archive
+   * @param ar : The archive to load
+   */
+  template<class Archive>
+  void load(Archive &ar) {
+	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+  }
 
-        /**
-         * Function to load class from archive
-         * @tparam Archive
-         * @param ar : The archive to load
-         */
-        template<class Archive>
-        void load(Archive& ar)
-        {
-            ar(name, simulationInfoConfiguration, productionLineConfiguration);
-        }
-
-        friend class ::cereal::access;
-    };
+  friend class ::cereal::access;
+};
 
 }
 

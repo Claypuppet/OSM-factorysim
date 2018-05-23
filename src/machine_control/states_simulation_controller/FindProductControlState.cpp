@@ -24,9 +24,9 @@ void FindProductControlState::entryAction() {
   const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
 
   if (!pcip) {
-    event->setArgument<std::string>(pcip.value);
+	event->setArgument<std::string>(pcip.value);
   } else {
-    event->setArgument<std::string>("localhost");
+	event->setArgument<std::string>("localhost");
   }
 
   // Schedule the event to continue through the statemachine
@@ -42,15 +42,16 @@ void FindProductControlState::exitAction() {
 bool FindProductControlState::handleEvent(const EventPtr &event) {
 
   switch (event->getId()) {
-    case kEventTypeReceivedPCIP:
-      utils::Logger::log("-Handle event: kEventTypeReceivedPCIP");
-      onReceivedPCIP(event);
-      return true;
-    case kEventTypeFailedToReceivePCIP:
-      utils::Logger::log("-Handle event: kEventTypeFailedToReceivePCIP");
-      onFailedToReceivePCIP();
-      return true;
-    default:return SimulationState::handleEvent(event);
+	case kEventTypeReceivedPCIP:
+	  utils::Logger::log("-Handle event: kEventTypeReceivedPCIP");
+	  onReceivedPCIP(event);
+	  return true;
+	case kEventTypeFailedToReceivePCIP:
+	  utils::Logger::log("-Handle event: kEventTypeFailedToReceivePCIP");
+	  onFailedToReceivePCIP();
+	  return true;
+	default:
+	  return SimulationState::handleEvent(event);
   }
 }
 

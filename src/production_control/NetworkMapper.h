@@ -9,7 +9,7 @@
 
 #include <network/Connection.h>
 
-namespace core {
+namespace communication {
 
 /**
  * The network mapper keeps a map op connection session ids with the linked machine id. This class is inherited by the
@@ -27,20 +27,20 @@ class NetworkMapper {
    * @param connection : connection to machine
    * @param machineId : machine id
    */
-  void registerMachineConnection(const Network::ConnectionPtr &connection, uint16_t machineId);
+  void registerMachineConnection(const network::ConnectionPtr &connection, uint16_t machineId);
 
   /**
    * removes connection / machine pair from the map
    * @param connection : connection to remove
    */
-  void disconnectMachineConnection(const Network::ConnectionPtr &connection);
+  void disconnectMachineConnection(const network::ConnectionPtr &connection);
 
   /**
    * get the machine id of a connection. throws error if connection is not known! (should've registered machine, dummy!)
    * @param connection : connection to get the machine id from
    * @return : machine id
    */
-  uint16_t getMachineIdForConnection(const Network::ConnectionPtr &connection) const;
+  uint16_t getMachineIdForConnection(const network::ConnectionPtr &connection) const;
 
  private:
   // map with connection session id, machine id

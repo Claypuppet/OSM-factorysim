@@ -8,7 +8,7 @@
 namespace productionstates {
 
 TakeOutProductState::TakeOutProductState(machinecore::Application &aContext)
-    : InOperationState(aContext) {
+	: InOperationState(aContext) {
 }
 
 void TakeOutProductState::entryAction() {
@@ -26,10 +26,12 @@ void TakeOutProductState::exitAction() {
 
 bool TakeOutProductState::handleEvent(const productionstates::EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeProductTakenOut:onProductTakenOutEvent();
-      return true;
+	case kEventTypeProductTakenOut:
+	  onProductTakenOutEvent();
+	  return true;
 
-    default:return InOperationState::handleEvent(event);
+	default:
+	  return InOperationState::handleEvent(event);
   }
 }
 

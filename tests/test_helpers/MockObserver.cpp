@@ -10,7 +10,7 @@ namespace testutils {
 
 MockObserver::MockObserver() : notificationStatus(kNotificationWaiting) {}
 
-void MockObserver::handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) {
+void MockObserver::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   if (handleNotificationFn) {
     handleNotificationFn(notification);
   }

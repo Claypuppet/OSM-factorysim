@@ -3,19 +3,19 @@
 namespace models {
 
 Machine::Machine(uint16_t aId, const std::string &aName)
-    : id(aId), name(aName) {
+	: id(aId), name(aName) {
 }
 
 Machine::Machine(const Machine &other)
-    : id(other.id), name(other.name), configurations(other.configurations) {
+	: id(other.id), name(other.name), configurations(other.configurations) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
 
   if (this != &other) {
-    id = other.id;
-    name = other.name;
-    configurations = other.configurations;
+	id = other.id;
+	name = other.name;
+	configurations = other.configurations;
   }
 
   return *this;
@@ -26,9 +26,9 @@ void Machine::deserialize(YAML::Node &machineNode) {
   name = machineNode["name"].as<std::string>();
 
   for (uint16_t i = 0; i < machineNode["configurations"].size(); ++i) {
-    configurations.push_back(MachineConfiguration());
-    auto machineConfigurationNode = machineNode["configurations"][i];
-    configurations.back().deserialize(machineConfigurationNode);
+	configurations.push_back(MachineConfiguration());
+	auto machineConfigurationNode = machineNode["configurations"][i];
+	configurations.back().deserialize(machineConfigurationNode);
   }
 }
 
@@ -45,8 +45,9 @@ const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
 }
 const MachineConfiguration &Machine::getConfigurationById(uint16_t configId) const {
   for (const auto &config : configurations) {
-    if (config.getProductId() == configId)
-      return configId;
+	if (config.getProductId() == configId) {
+	  return config;
+	}
   }
 }
 }

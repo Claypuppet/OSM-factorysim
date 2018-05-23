@@ -14,7 +14,7 @@ namespace productionstates {
 class ReceiveConfig : public ProductionState {
  public:
   ReceiveConfig(machinecore::Application &aContext)
-      : ProductionState(aContext) {};
+	  : ProductionState(aContext) {};
 
   virtual ~ReceiveConfig() = default;
 

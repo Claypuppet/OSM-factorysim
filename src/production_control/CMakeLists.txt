@@ -1,8 +1,8 @@
 add_library(source_lib_app_production SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/AppConnectionHandler.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/AppConnectionHandler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Product.cpp

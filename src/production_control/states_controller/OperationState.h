@@ -6,19 +6,18 @@
 #include "ControllerState.h"
 
 namespace states {
-    class OperationState : public ControllerState {
-    public:
-      OperationState(simulation::SimulationController &aContext);
+class OperationState : public ControllerState {
+ public:
+  OperationState(simulation::SimulationController &aContext);
 
-        /**
-         * Runs the simulation
-         */
-        void doActivity() override;
-        void entryAction() override;
-      bool handleEvent(const EventPtr &event) override;
-        void exitAction() override;
-    };
+  /**
+   * Runs the simulation
+   */
+  void doActivity() override;
+  void entryAction() override;
+  bool handleEvent(const EventPtr &event) override;
+  void exitAction() override;
+};
 }
-
 
 #endif //PRODUCTION_LINE_CONTROL_OPERATIONSTATE_H
