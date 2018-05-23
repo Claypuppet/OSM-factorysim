@@ -8,6 +8,7 @@
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
+#include <utils/FileLogger.h>
 
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
@@ -121,6 +122,7 @@ void SimulationController::setStartState() {
   // TEMP!!!!? set first config file as event for LoadConfigState
   configPath = utils::CommandLineArguments::i().getArg(0);
   if (configPath.empty()) {
+
     // throw exception when no argument is given.
     throw std::runtime_error("No configuration file argument found!");
   }

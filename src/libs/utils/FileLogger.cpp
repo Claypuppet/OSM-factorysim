@@ -71,5 +71,11 @@ std::shared_ptr<spdlog::logger> FileLogger::file() {
 std::shared_ptr<spdlog::logger> FileLogger::console() {
   return spdlog::get("console");
 }
+void FileLogger::flushLoggers() {
+  spdlog::get("console")->flush();
+  spdlog::get("both")->flush();
+  spdlog::get("file")->flush();
+
+}
 
 }

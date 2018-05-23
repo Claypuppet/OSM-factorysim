@@ -57,6 +57,10 @@ class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
  * @param newPattern
  */
   static void changePattern(const std::string &newPattern);
+  /**
+   * helper function to flush all loggers before continueing
+   */
+  static void flushLoggers();
  private:
   void assignLoggers();
   std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
