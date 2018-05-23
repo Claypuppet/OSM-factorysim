@@ -7,8 +7,7 @@
 
 int main(int argc, char **argv) {
   utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
-  utils::FileLogger::setupLogger("wut.log", true);
-
+  utils::FileLogger::setupLogger("log.log", true);
   simulation::SimulationController controller;
   controller.execute();
   return 0;

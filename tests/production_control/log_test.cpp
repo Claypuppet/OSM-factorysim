@@ -41,8 +41,6 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
   for (int i = 0; i < 100; ++i) {
     core::ResultLogger::LogProductionEvent(i, i);
   }
-
-
   // check if testlog and newtestlog file exist
 }
 

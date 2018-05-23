@@ -5,14 +5,13 @@
 #ifndef PRODUCTION_LINE_CONTROL_RESULTLOGGER_H
 #define PRODUCTION_LINE_CONTROL_RESULTLOGGER_H
 
-#include <patterns/singleton/Singleton.h>
 #include <string>
+#include <patterns/singleton/Singleton.h>
 
 namespace core {
 
 /**
- *The resultlogger class has helper functions to build 
- * 
+ *The resultlogger class has helper functions to build logging lines for the production or simulation
  */
 class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
  public:

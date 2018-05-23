@@ -5,17 +5,21 @@
 #ifndef PRODUCTION_LINE_CONTROL_FILELOGGER_H
 #define PRODUCTION_LINE_CONTROL_FILELOGGER_H
 
-#include <patterns/singleton/Singleton.h>
-#include <patterns/producerconsumer/Queue.h>
-
 #include <iostream>
 #include <mutex>
+
 #include <spdlog/logger.h>
 #include <spdlog/sinks/file_sinks.h>
 #include <spdlog/sinks/stdout_sinks.h>
 
-namespace utils {
+#include <patterns/singleton/Singleton.h>
+#include <patterns/producerconsumer/Queue.h>
 
+namespace utils {
+/**
+ * The filelogger has functions to set up a logger, the setupLogger function MUST be used before using the other functions
+ * It has shortcuts to spdlog::logger instances and helper function to flush all loggers
+ */
 class FileLogger : private patterns::singleton::Singleton<FileLogger> {
  public:
   FileLogger() = default;
