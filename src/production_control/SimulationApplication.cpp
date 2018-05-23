@@ -3,7 +3,6 @@
 //
 
 #include "SimulationApplication.h"
-#include "states_application/WaitForConnectionsState.h"
 
 namespace simulation {
 

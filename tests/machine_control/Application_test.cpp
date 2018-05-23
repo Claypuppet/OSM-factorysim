@@ -8,7 +8,6 @@
 
 #include "../test_helpers/MockNetwork.h"
 #include "../../src/machine_control/Application.h"
-#include "../test_helpers/MockNetwork.h"
 #include "../test_helpers/MockObserver.h"
 #include "../machine_control/SimulationController.h"
 #include "../../src/machine_control/states_application/ConnectState.h"

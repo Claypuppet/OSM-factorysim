@@ -126,7 +126,8 @@ void SimulationController::setStartState() {
   auto event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
   event->setArgument<std::string>(configPath);
   scheduleEvent(event);
-}  controller.execute();
+
+}
 
 
 void SimulationController::setConfigFromFile(const std::string &filePath) {

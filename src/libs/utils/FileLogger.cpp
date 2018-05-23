@@ -38,7 +38,6 @@ void FileLogger::assignLoggers() {
 
     spdlog::set_pattern(pattern);
 
-    both()->info("test");
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "assiging loggers failed: " << ex.what() << std::endl;
   }

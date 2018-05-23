@@ -4,7 +4,6 @@
 
 #include "Buffer.h"
 #include "Machine.h"
-#include <memory>
 
 namespace core {
 

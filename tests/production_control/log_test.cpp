@@ -28,7 +28,6 @@ BOOST_AUTO_TEST_CASE(TestProductionLogger) {
 BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::Time::getInstance().setType(utils::customTime);
   utils::Time::getInstance().setCurrentTime(0);
-
   utils::FileLogger::setupLogger("testlog.log", true);
 
   for (int i = 0; i < 100; ++i) {
@@ -40,9 +39,9 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::FileLogger::changePattern("(%v)");
 
   for (int i = 0; i < 100; ++i) {
-    utils::FileLogger::file()->info("test" + std::to_string(i));
     core::ResultLogger::LogProductionEvent(i, i);
   }
+
 
   // check if testlog and newtestlog file exist
 }

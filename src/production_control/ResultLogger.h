@@ -9,7 +9,12 @@
 #include <string>
 
 namespace core {
-class ResultLogger : public patterns::Singleton::Singleton<ResultLogger> {
+
+/**
+ *The resultlogger class has helper functions to build 
+ * 
+ */
+class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
  public:
   ResultLogger();
   virtual ~ResultLogger() = default;
@@ -18,24 +23,24 @@ class ResultLogger : public patterns::Singleton::Singleton<ResultLogger> {
    * enable or disable logging of SimulationEvents
    * @param enabled
    */
-  void setSimulationEnabled(bool enabled);
+  static void setSimulationEnabled(bool enabled);
   /**
    * enable or disable logging of ProductionEvents
    * @param enabled
    */
-  void setProductionEnabled(bool enabled);
+  static void setProductionEnabled(bool enabled);
 
   /**
  * enable or disable verbose logging of SimulationEvents
  * @param message : string to log
  */
 
-  void setSimulationDebugOutput(bool enabled);
+  static void setSimulationDebugOutput(bool enabled);
   /**
    * enable or disable verbose logging of ProductionEvents
    * @param message : string to log
    */
-  void setProductionDebugOutput(bool enabled);
+  static void setProductionDebugOutput(bool enabled);
   /**
    * Log a productionMessage
    * @param eventId : Id of event

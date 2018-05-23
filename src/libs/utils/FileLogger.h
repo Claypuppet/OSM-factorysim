@@ -16,7 +16,7 @@
 
 namespace utils {
 
-class FileLogger : private patterns::Singleton::Singleton<FileLogger> {
+class FileLogger : private patterns::singleton::Singleton<FileLogger> {
  public:
   FileLogger() = default;
 

@@ -44,20 +44,23 @@ void ResultLogger::LogSimulationEvent(uint32_t eventId) {
   }
 }
 
-void ResultLogger::setSimulationEnabled(bool enabled) {
-  getInstance().simulationEnabled = enabled;
-}
 
 void ResultLogger::setProductionEnabled(bool enabled) {
   getInstance().productionEnabled = enabled;
+}
+
+void ResultLogger::setProductionDebugOutput(bool enabled) {
+  getInstance().productionDebug = enabled;
+}
+
+void ResultLogger::setSimulationEnabled(bool enabled) {
+  getInstance().simulationEnabled = enabled;
 }
 
 void ResultLogger::setSimulationDebugOutput(bool enabled) {
   getInstance().simulationDebug = enabled;
 }
 
-void ResultLogger::setProductionDebugOutput(bool enabled) {
-  getInstance().productionDebug = enabled;
-}
+
 
 }

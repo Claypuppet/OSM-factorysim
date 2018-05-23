@@ -3,8 +3,6 @@
 
 #include <utils/Logger.h>
 
-#include "BrokenState.h"
-
 namespace productionstates {
 BrokenState::BrokenState(machinecore::Application &aContext)
 	: ProductionState(aContext) {

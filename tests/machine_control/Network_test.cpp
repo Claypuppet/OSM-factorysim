@@ -1,5 +1,4 @@
 #include <boost/test/unit_test.hpp>
-#include <functional>
 #include <network/Protocol.h>
 #include "network/Client.h"
 #include "../test_helpers/MockNetwork.h"
