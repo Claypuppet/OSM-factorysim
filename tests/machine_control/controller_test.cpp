@@ -9,11 +9,11 @@
 #include "../test_helpers/HelperFunctions.h"
 
 #include "../machine_control/SimulationController.h"
-#include "../../src/machine_control/states_simulation/FindProductControlState.h"
-#include "../../src/machine_control/states_simulation/ConnectSimulationState.h"
-#include "../../src/machine_control/states_simulation/InitializeSimulationState.h"
-#include "../../src/machine_control/states_simulation/OffState.h"
-#include "../../src/machine_control/states_simulation/OnState.h"
+#include "../../src/machine_control/states_simulation_controller/FindProductControlState.h"
+#include "../../src/machine_control/states_simulation_controller/ConnectSimulationState.h"
+#include "../../src/machine_control/states_simulation_controller/InitializeSimulationState.h"
+#include "../../src/machine_control/states_simulation_controller/OffState.h"
+#include "../../src/machine_control/states_simulation_controller/OnState.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 

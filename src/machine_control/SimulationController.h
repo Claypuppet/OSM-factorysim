@@ -18,9 +18,9 @@
 namespace simulator {
 
 class SimulationController
-    : public machinecore::Controller,
-      public patterns::statemachine::Context,
-      public patterns::NotifyObserver::Observer {
+	: public machinecore::Controller,
+	  public patterns::statemachine::Context,
+	  public patterns::notifyobserver::Observer {
 
  public:
   SimulationController(uint16_t aMachineId);
@@ -46,7 +46,7 @@ class SimulationController
    * Called when notfified, takes the notification and handles it accoardingly
    * @param notification The received notification
    */
-  void handleNotification(const patterns::NotifyObserver::NotifyEvent &notification) override;
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
 
   /**
    * Sets the ip address of the production control
@@ -79,7 +79,7 @@ class SimulationController
    * Executed on receiving the "kNotifyEventTypeMachineInfoReceived" event to progress machine control's simulation statemachine
    * @param notification The notification received, contains the machine's info
    */
-  void onSimulationConfigurationsReceived(const patterns::NotifyObserver::NotifyEvent &notification);
+  void onSimulationConfigurationsReceived(const patterns::notifyobserver::NotifyEvent &notification);
 
   /**
    * Executed on receiving the "kNotifyEventTypeServiceStarted" event to progress machine control's simulation statemachine
@@ -105,10 +105,10 @@ class SimulationController
   ThreadPtr clientThread;
 
   // The network's manager to manage the connection to Production Control
-  Network::Manager networkManager;
+  network::Manager networkManager;
 
   // The network's client
-  Network::ClientPtr client;
+  network::ClientPtr client;
 
   SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };

@@ -5,10 +5,9 @@
 #ifndef PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
 #define PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
 
-
 #include "ApplicationState.h"
 
-namespace ApplicationStates {
+namespace applicationstates {
 
 class InOperationState : public ApplicationState {
  public:
@@ -19,7 +18,7 @@ class InOperationState : public ApplicationState {
   void doActivity() override;
   void exitAction() override;
 
-  bool handleEvent(const ApplicationStates::EventPtr &event) override;
+  bool handleEvent(const applicationstates::EventPtr &event) override;
 
 };
 

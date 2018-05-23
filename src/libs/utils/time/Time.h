@@ -18,8 +18,7 @@ enum TimeType {
 /*
  * Interface class for Time strategy's
  */
-class ITime
-{
+class ITime {
  public:
   /**
    * A function to get the current time in seconds
@@ -43,7 +42,7 @@ class ITime
 /*
  * A class to keep track of time in seconds
  */
-class Time : public patterns::Singleton::Singleton<Time> {
+class Time : public patterns::singleton::Singleton<Time> {
  public:
   Time(const Time &) = delete;
   Time &operator=(const Time &) = delete;
@@ -59,7 +58,7 @@ class Time : public patterns::Singleton::Singleton<Time> {
    * @param newTimeSeconds : The new time in seconds
    */
   void setCurrentTime(uint64_t
-                      newTimeSeconds);
+					  newTimeSeconds);
 
   /**
    * Executes the increaseCurrentTime function of the set strategy

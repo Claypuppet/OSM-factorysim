@@ -12,7 +12,7 @@
 namespace testutils {
 
 MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageStatus(kMessageIdle),
-                             onMessageFn([](const Network::Message& m){}), onConnectionFn([](const Network::ConnectionPtr& c){}){
+                             onMessageFn([](const network::Message& m){}), onConnectionFn([](const network::ConnectionPtr& c){}){
   networkThread = networkManager.runServiceThread();
 }
 
@@ -21,7 +21,7 @@ MockNetwork::~MockNetwork(){
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  networkManager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
   if(connectionHandler){
     client = networkManager.createClient(connectionHandler);
   }
@@ -36,7 +36,7 @@ void MockNetwork::startMockMCClientController(bool waitForConnected) {
 }
 
 void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
-  networkManager.setRemotePort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
+  networkManager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   if(connectionHandler){
     client = networkManager.createClient(connectionHandler);
   }
@@ -51,7 +51,7 @@ void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
 }
 
 void MockNetwork::startMockPCServerController() {
-  networkManager.setLocalPort(Network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  networkManager.setLocalPort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
   if(connectionHandler){
     server = networkManager.createServer(connectionHandler,32);
   }
@@ -63,7 +63,7 @@ void MockNetwork::startMockPCServerController() {
 }
 
 void MockNetwork::startMockPCServerApplication() {
-  networkManager.setLocalPort(Network::Protocol::PORT_PRODUCTION_COMMUNICATION);
+  networkManager.setLocalPort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
   if(connectionHandler){
     server = networkManager.createServer(connectionHandler,32);
   }
@@ -74,16 +74,16 @@ void MockNetwork::startMockPCServerApplication() {
   connectionStatus = kConnectionConnecting;
 }
 
-void MockNetwork::onConnectionEstablished(Network::ConnectionPtr aConnection) {
+void MockNetwork::onConnectionEstablished(network::ConnectionPtr aConnection) {
   connection = aConnection;
   connectionStatus = kConnectionConnected;
 }
 
-void MockNetwork::onConnectionDisconnected(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void MockNetwork::onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
 }
 
-void MockNetwork::onConnectionMessageReceived(Network::ConnectionPtr connection, Network::Message &message) {
+void MockNetwork::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
   if(onMessageFn){
     onMessageFn(message);
   }
@@ -91,7 +91,7 @@ void MockNetwork::onConnectionMessageReceived(Network::ConnectionPtr connection,
   messageStatus = kMessageIdle;
 }
 
-void MockNetwork::sendMessage(Network::Message &msg) {
+void MockNetwork::sendMessage(network::Message &msg) {
   if(connection && connection->isConnected()){
 	connection->writeMessage(msg);
   }
@@ -105,7 +105,7 @@ void MockNetwork::setOnConnectionFn(OnConnectionFn &aOnConnectionFn) {
   onConnectionFn = aOnConnectionFn;
 }
 
-const Network::ConnectionPtr &MockNetwork::getConnection() const {
+const network::ConnectionPtr &MockNetwork::getConnection() const {
   return connection;
 }
 
@@ -119,7 +119,7 @@ void MockNetwork::stop() {
     networkThread->join();
   }
 }
-void MockNetwork::onConnectionFailed(Network::ConnectionPtr connection, const boost::system::error_code &error) {
+void MockNetwork::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
 }
 void MockNetwork::awaitConnection(uint32_t timeout) {
@@ -138,7 +138,7 @@ void MockNetwork::awaitClientConnecting(uint32_t timeout) {
   Predicate predicate = [this](){return connectionStatus == kConnectionConnected;};
   HelperFunctions::waitForPredicate(predicate, timeout);
 }
-void MockNetwork::setConnectionHandler(Network::ConnectionHandlerPtr handler) {
+void MockNetwork::setConnectionHandler(network::ConnectionHandlerPtr handler) {
   connectionHandler = handler;
 }
 

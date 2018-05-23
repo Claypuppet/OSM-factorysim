@@ -9,7 +9,7 @@
 namespace productionstates {
 
 SelfTestState::SelfTestState(machinecore::Application &aContext) :
-    ProductionState(aContext) {
+	ProductionState(aContext) {
 }
 
 void SelfTestState::entryAction() {
@@ -27,13 +27,16 @@ void SelfTestState::exitAction() {
 
 bool SelfTestState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeSelfTestSuccess:onSelfTestSuccess();
-      return true;
+	case kEventTypeSelfTestSuccess:
+	  onSelfTestSuccess();
+	  return true;
 
-    case kEventTypeSelfTestFailed:onSelfTestFail();
-      return true;
+	case kEventTypeSelfTestFailed:
+	  onSelfTestFail();
+	  return true;
 
-    default:return ProductionState::handleEvent(event);
+	default:
+	  return ProductionState::handleEvent(event);
   }
 }
 

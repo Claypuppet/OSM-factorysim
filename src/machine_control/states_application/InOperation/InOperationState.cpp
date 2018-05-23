@@ -8,16 +8,17 @@
 namespace productionstates {
 
 InOperationState::InOperationState(machinecore::Application &aContext)
-: ProductionState(aContext) {
+	: ProductionState(aContext) {
 }
 
 bool InOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeMachineBrokeDown:
-      onMachineBrokenDownEvent();
-      return true;
+	case kEventTypeMachineBrokeDown:
+	  onMachineBrokenDownEvent();
+	  return true;
 
-    default:return InOperationState::handleEvent(event);
+	default:
+	  return InOperationState::handleEvent(event);
 
   }
 }

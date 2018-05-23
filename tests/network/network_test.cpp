@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(TestMessageSerialization) {
   BOOST_CHECK_EQUAL(machine->getName(), "zaag");
   BOOST_CHECK_EQUAL(machine->getId(), 1);
 
-  Network::Message msg;
+  network::Message msg;
 
   BOOST_CHECK(msg.length() == 0);
   BOOST_CHECK_NO_THROW(msg.setBodyObject<models::MachinePtr>(machine));

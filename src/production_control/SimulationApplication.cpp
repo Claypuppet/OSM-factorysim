@@ -9,19 +9,19 @@ namespace simulation {
 
 void SimulationApplication::turnOnSimulationMachines() {
   for (const auto &machine : machines) {
-    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
-    if(simMachine){
-      simMachine->sendTurnOnCommand();
-    }
+	auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+	if (simMachine) {
+	  simMachine->sendTurnOnCommand();
+	}
   }
 }
 
 void SimulationApplication::turnOffSimulationMachines() {
   for (const auto &machine : machines) {
-    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
-    if(simMachine){
-      simMachine->sendTurnOnCommand();
-    }
+	auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+	if (simMachine) {
+	  simMachine->sendTurnOnCommand();
+	}
   }
 }
 

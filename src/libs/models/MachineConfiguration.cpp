@@ -63,8 +63,9 @@ const std::vector<PreviousMachine> &MachineConfiguration::getPreviousMachines() 
 
 const PreviousMachine &MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
   for (const auto &machine : previousMachines) {
-	if (machine.getMachineId() == machineId)
+	if (machine.getMachineId() == machineId) {
 	  return machine;
+	}
   }
 }
 

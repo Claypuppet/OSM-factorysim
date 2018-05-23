@@ -12,7 +12,7 @@ namespace utils {
 /*
  * A class to keep track of the system time
  */
-class SystemTime :public ITime{
+class SystemTime : public ITime {
  public:
 
   /**

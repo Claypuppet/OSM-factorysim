@@ -8,7 +8,7 @@
 namespace productionstates {
 
 ProcessProductState::ProcessProductState(machinecore::Application &aContext)
-: InOperationState(aContext) {
+	: InOperationState(aContext) {
 }
 
 void ProcessProductState::entryAction() {
@@ -25,13 +25,13 @@ void ProcessProductState::exitAction() {
 }
 
 bool ProcessProductState::handleEvent(const EventPtr &event) {
-  switch(event->getId()) {
-    case kEventTypeFinishedProduct:
-      onProductFinishedEvent();
-      return true;
+  switch (event->getId()) {
+	case kEventTypeFinishedProduct:
+	  onProductFinishedEvent();
+	  return true;
 
-    default:
-      InOperationState::handleEvent(event);
+	default:
+	  InOperationState::handleEvent(event);
   }
 }
 

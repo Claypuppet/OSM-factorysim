@@ -9,7 +9,7 @@
 namespace productionstates {
 
 IdleState::IdleState(machinecore::Application &aContext)
-    : InOperationState(aContext) {
+	: InOperationState(aContext) {
 }
 
 void IdleState::entryAction() {
@@ -27,13 +27,16 @@ void IdleState::exitAction() {
 
 bool IdleState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeReceivedConfig:onReceivedConfigEvent(event);
-      return true;
+	case kEventTypeReceivedConfig:
+	  onReceivedConfigEvent(event);
+	  return true;
 
-    case kEventTypeTakeProduct:onTakeProductEvent();
-      return true;
+	case kEventTypeTakeProduct:
+	  onTakeProductEvent();
+	  return true;
 
-    default:return ProductionState::handleEvent(event);
+	default:
+	  return ProductionState::handleEvent(event);
   }
 }
 
@@ -41,7 +44,7 @@ void IdleState::onReceivedConfigEvent(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
 
   if (context.setCurrentConfigId(event->getArgumentAsType<uint32_t>())) {
-    context.setCurrentState(std::make_shared<ConfigureState>(context));
+	context.setCurrentState(std::make_shared<ConfigureState>(context));
   }
 }
 

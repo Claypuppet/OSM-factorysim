@@ -51,7 +51,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   * A function that sets the connection with this machine
   * @param aConnection : The connection with this machine
   */
-  void setConnection(const Network::ConnectionPtr &aConnection);
+  void setConnection(const network::ConnectionPtr &aConnection);
 
   /**
    * Sends a message to the machine to start processing a product
@@ -63,7 +63,6 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * @param configureId : configuration id
    */
   void sendConfigureMessage(uint32_t configureId);
-
 
   // Buffer getters
   const BufferList &getCurrentInputBuffers() const;
@@ -113,7 +112,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
-  void sendMessage(const Network::Message &message);
+  void sendMessage(const network::Message &message);
 
   /**
    *
@@ -121,7 +120,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
 
   MachineStatus status;
   bool awaitingResponse;
-  Network::ConnectionPtr connection;
+  network::ConnectionPtr connection;
 
   std::vector<BufferPtr> currentInputBuffers;
   BufferPtr currentOutputBuffer;

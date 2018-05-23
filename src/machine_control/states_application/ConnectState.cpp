@@ -22,12 +22,13 @@ void ConnectState::exitAction() {
 
 bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeConnected: {
-      utils::Logger::log("-Handle event: kEventTypeConnected");
-      context.setCurrentState(std::make_shared<ReceiveConfig>(context));
-      break;
-    }
-    default:return false;
+	case kEventTypeConnected: {
+	  utils::Logger::log("-Handle event: kEventTypeConnected");
+	  context.setCurrentState(std::make_shared<ReceiveConfig>(context));
+	  break;
+	}
+	default:
+	  return false;
   }
 }
 }

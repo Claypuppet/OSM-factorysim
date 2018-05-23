@@ -13,11 +13,11 @@ namespace utils {
 /*
  * A class to keep track of a custom time
  */
-class CustomTime : public ITime{
+class CustomTime : public ITime {
  public:
   CustomTime();
-  CustomTime(const CustomTime&) = delete;
-  CustomTime& operator=(const CustomTime&) = delete;
+  CustomTime(const CustomTime &) = delete;
+  CustomTime &operator=(const CustomTime &) = delete;
 
   /**
    * @see ITimer::getCurrentTime()
