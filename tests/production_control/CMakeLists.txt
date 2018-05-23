@@ -1,7 +1,7 @@
 add_executable(test_production_control
-        ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/controller_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/application_test.cpp)
+        Main.cpp
+        controller_test.cpp
+        application_test.cpp)
 
 
 target_link_libraries(test_production_control source_lib_app_production lib_test_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
