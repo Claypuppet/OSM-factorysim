@@ -1,6 +1,6 @@
 add_library(source_lib_app_production SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.h
+        configuration_reader/ConfigurationReader.cpp
+        configuration_reader/ConfigurationReader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
@@ -40,7 +40,7 @@ add_library(source_lib_app_production SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.h configuration_reader/deserialize_strategies/Strategy.cpp configuration_reader/deserialize_strategies/Strategy.h configuration_reader/deserialize_strategies/JSONStrategy.cpp configuration_reader/deserialize_strategies/JSONStrategy.h configuration_reader/deserialize_strategies/YAMLStrategy.cpp configuration_reader/deserialize_strategies/YAMLStrategy.h)
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)

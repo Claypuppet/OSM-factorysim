@@ -2,14 +2,8 @@
 
 namespace models {
 
-SimulationInfo::SimulationInfo() {
-}
-
 SimulationInfo::SimulationInfo(const SimulationInfo &other)
 	: durationInHours(other.durationInHours) {
-}
-
-SimulationInfo::~SimulationInfo() {
 }
 
 SimulationInfo &SimulationInfo::operator=(const SimulationInfo &other) {

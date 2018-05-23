@@ -19,21 +19,14 @@ typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 
 class SimulationInfo {
  public:
-  /**
-   * Default constructor
-   */
-  SimulationInfo();
+  SimulationInfo() = default;
+  virtual ~SimulationInfo() = default;
 
   /**
    * Copy constructor
    * @param other : The object to copy
    */
   SimulationInfo(const SimulationInfo &other);
-
-  /**
-   * The destructor
-   */
-  virtual ~SimulationInfo();
 
   /**
    * Assignment operator

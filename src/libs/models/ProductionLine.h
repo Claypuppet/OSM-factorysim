@@ -20,21 +20,14 @@ typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
 class ProductionLine {
  public:
-  /**
-   * Default constructor
-   */
-  ProductionLine();
+  ProductionLine() = default;
+  virtual ~ProductionLine() = default;
 
   /**
    * Copy constructor
    * @param other : The object to copy
    */
   ProductionLine(const ProductionLine &other);
-
-  /**
-   * The destructor
-   */
-  virtual ~ProductionLine();
 
   /**
    * Assignment operator

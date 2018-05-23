@@ -21,20 +21,33 @@ class MachineConfiguration {
  public:
 
   /**
-   * Default constructor
+   * Construct a new MachineConfiguration object
+   * @param productId id of the product that this configuration creates
+   * @param outputEachMinute production each minute
+   * @param initializationDurationInSeconds initialization duration in seconds
+   * @param outputBufferSize output buffer size
+   * @param meanTimeBetweenFailureInHours mean time between failure in hours
+   * @param meanTimeBetweenFailureStddevInHours standard deviation of the mean time between failure in hours
+   * @param reparationTimeInMinutes reparation time
    */
-  MachineConfiguration();
-  MachineConfiguration(uint16_t productId);
-  /**
-   * Copy constructor
-   * @param other : MachineConfiguration object to copy
-   */
-  MachineConfiguration(const MachineConfiguration &other);
+  MachineConfiguration(uint16_t productId,
+                       uint16_t outputEachMinute,
+                       uint16_t initializationDurationInSeconds,
+                       uint16_t outputBufferSize,
+                       uint16_t meanTimeBetweenFailureInHours,
+                       uint16_t meanTimeBetweenFailureStddevInHours,
+                       uint16_t reparationTimeInMinutes);
 
   /**
-   * The destructor
+   * Default destructor
    */
-  virtual ~MachineConfiguration();
+  virtual ~MachineConfiguration() = default;
+
+  /**
+   * Copy the machine configuration object
+   * @param other : other MachineConfiguration object
+   */
+  MachineConfiguration(const MachineConfiguration &other);
 
   /**
    * Assignment operator
@@ -42,12 +55,6 @@ class MachineConfiguration {
    * @return The new MachineConfiguration object
    */
   MachineConfiguration &operator=(const MachineConfiguration &other);
-
-  /**
-   * A function to deserialize a machine configuration node
-   * @param machineConfigurationNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &machineConfigurationNode);
 
   /**
    * Getter for productId
@@ -91,15 +98,27 @@ class MachineConfiguration {
    */
   uint16_t getReparationTimeInMinutes() const;
 
+  /**
+   * Get all previous machines of this configuration
+   * @return a vector with the previous machines of this configuration
+   */
   const std::vector<PreviousMachine> &getPreviousMachines() const;
 
+  /**
+   * Get previous machine by id
+   * @param machineId id of the previous machine you want to get
+   * @return the model of the previous machine (if found)
+   */
   const PreviousMachine &getPreviousMachineById(uint16_t machineId) const;
 
  private:
   uint16_t productId;
-  uint16_t outputEachMinute, initializationDurationInSeconds, outputBufferSize;
-  uint16_t meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes;
-
+  uint16_t outputEachMinute;
+  uint16_t initializationDurationInSeconds;
+  uint16_t outputBufferSize;;
+  uint16_t meanTimeBetweenFailureInHours;
+  uint16_t meanTimeBetweenFailureStddevInHours;
+  uint16_t reparationTimeInMinutes;
   std::vector<PreviousMachine> previousMachines;
 
   /**
@@ -126,46 +145,6 @@ class MachineConfiguration {
 
   friend class ::cereal::access;
 
-};
-
-/**
- * Small class used by configuration to link to previous machines.
- */
-class PreviousMachine {
- public:
-
-  uint16_t getMachineId() const;
-  uint16_t getNeededProducts() const;
-  /**
-   * A function to deserialize a machine configuration node
-   * @param machineConfigurationNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &machineConfigurationNode);
-
- private:
-  uint16_t machineId, neededProducts;
-
-  /**
-   * A function to save a MachineConfiguration object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(machineId, neededProducts);
-  }
-
-  /**
-   * A function to load a MachineConfiguration object from an archive
-   * @tparam Archive
-   * @param ar : The archive to load
-   */
-  template<class Archive>
-  void load(Archive &ar) {
-	ar(machineId, neededProducts);
-  }
-
-  friend class ::cereal::access;
 };
 
 }

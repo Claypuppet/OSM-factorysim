@@ -2,11 +2,20 @@
 
 namespace models {
 
-MachineConfiguration::MachineConfiguration() {
-}
-
-MachineConfiguration::MachineConfiguration(uint16_t productId) : productId(productId) {
-
+MachineConfiguration::MachineConfiguration(uint16_t productId,
+                                           uint16_t outputEachMinute,
+                                           uint16_t initializationDurationInSeconds,
+                                           uint16_t outputBufferSize,
+                                           uint16_t meanTimeBetweenFailureInHours,
+                                           uint16_t meanTimeBetweenFailureStddevInHours,
+                                           uint16_t reparationTimeInMinutes)
+    : productId(productId),
+      outputEachMinute(outputEachMinute),
+      initializationDurationInSeconds(initializationDurationInSeconds),
+      outputBufferSize(outputBufferSize),
+      meanTimeBetweenFailureInHours(meanTimeBetweenFailureInHours),
+      meanTimeBetweenFailureStddevInHours(meanTimeBetweenFailureStddevInHours),
+      reparationTimeInMinutes(reparationTimeInMinutes) {
 }
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
@@ -17,9 +26,6 @@ MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
 	  meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
 	  meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
 	  reparationTimeInMinutes(other.reparationTimeInMinutes) {
-}
-
-MachineConfiguration::~MachineConfiguration() {
 }
 
 MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration &other) {
@@ -35,22 +41,6 @@ MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration
   }
 
   return *this;
-}
-
-void MachineConfiguration::deserialize(YAML::Node &machineConfigurationNode) {
-  productId = machineConfigurationNode["productId"].as<uint16_t>();
-  outputEachMinute = machineConfigurationNode["outputEachMinute"].as<uint16_t>();
-  initializationDurationInSeconds = machineConfigurationNode["initializationDurationInSeconds"].as<uint16_t>();
-  outputBufferSize = machineConfigurationNode["outputBufferSize"].as<uint16_t>();
-  meanTimeBetweenFailureInHours = machineConfigurationNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
-  meanTimeBetweenFailureStddevInHours = machineConfigurationNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
-  reparationTimeInMinutes = machineConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
-
-  for (uint16_t i = 0; i < machineConfigurationNode["previousMachines"].size(); ++i) {
-	previousMachines.emplace_back(PreviousMachine());
-	auto previousMachineNode = machineConfigurationNode["previousMachines"][i];
-	previousMachines.back().deserialize(previousMachineNode);
-  }
 }
 
 uint16_t MachineConfiguration::getProductId() const {
@@ -93,14 +83,4 @@ uint16_t MachineConfiguration::getReparationTimeInMinutes() const {
   return reparationTimeInMinutes;
 }
 
-void PreviousMachine::deserialize(YAML::Node &machineConfigurationNode) {
-  machineId = machineConfigurationNode["machineId"].as<uint16_t>();
-  neededProducts = machineConfigurationNode["neededProducts"].as<uint16_t>();
-}
-uint16_t PreviousMachine::getMachineId() const {
-  return machineId;
-}
-uint16_t PreviousMachine::getNeededProducts() const {
-  return neededProducts;
-}
 }

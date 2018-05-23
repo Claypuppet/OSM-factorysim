@@ -2,16 +2,10 @@
 
 namespace models {
 
-Product::Product() {
-}
-
 Product::Product(const Product &other)
 	: id(other.id),
 	  name(other.name),
 	  proportion(other.proportion) {
-}
-
-Product::~Product() {
 }
 
 Product &Product::operator=(const Product &other) {

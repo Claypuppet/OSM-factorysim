@@ -21,17 +21,6 @@ Machine &Machine::operator=(const Machine &other) {
   return *this;
 }
 
-void Machine::deserialize(YAML::Node &machineNode) {
-  id = machineNode["id"].as<uint16_t>();
-  name = machineNode["name"].as<std::string>();
-
-  for (uint16_t i = 0; i < machineNode["configurations"].size(); ++i) {
-	configurations.push_back(MachineConfiguration());
-	auto machineConfigurationNode = machineNode["configurations"][i];
-	configurations.back().deserialize(machineConfigurationNode);
-  }
-}
-
 uint16_t Machine::getId() const {
   return id;
 }
@@ -50,4 +39,18 @@ const MachineConfiguration &Machine::getConfigurationById(uint16_t configId) con
 	}
   }
 }
+
+void Machine::setId(uint16_t id) {
+  Machine::id = id;
+}
+
+void Machine::setName(const std::string &name) {
+  Machine::name = name;
+}
+
+MachineConfiguration &Machine::addConfiguration(const MachineConfiguration &machineConfiguration) {
+  configurations.push_back(machineConfiguration);
+  return configurations.back();
+}
+
 }

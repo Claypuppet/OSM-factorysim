@@ -2,9 +2,6 @@
 
 namespace models {
 
-ProductionLine::ProductionLine() {
-}
-
 ProductionLine::ProductionLine(const ProductionLine &other)
 	: name(other.name) {
   for (uint16_t i = 0; i < other.products.size(); ++i) {
@@ -14,9 +11,6 @@ ProductionLine::ProductionLine(const ProductionLine &other)
   for (uint16_t i = 0; i < other.machines.size(); ++i) {
 	machines.push_back(other.machines[i]);
   }
-}
-
-ProductionLine::~ProductionLine() {
 }
 
 ProductionLine &ProductionLine::operator=(const ProductionLine &other) {

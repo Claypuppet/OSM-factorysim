@@ -68,7 +68,7 @@ file(GLOB lib_models_SRC
         "src/libs/models/**.cpp")
 
 add_library(lib_models SHARED
-        ${lib_models_SRC})
+        ${lib_models_SRC} src/libs/models/PreviousMachine.cpp src/libs/models/PreviousMachine.h)
 
 # Lib Patterns
 file(GLOB_RECURSE lib_patterns_SRC

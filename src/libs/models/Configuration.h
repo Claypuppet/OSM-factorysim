@@ -18,10 +18,17 @@ typedef std::shared_ptr<Configuration> ConfigurationPtr;
 
 class Configuration {
  public:
+
   /**
-   * Default constructor
+   * construct a new Configuration
+   * @param name the name of a configuration
    */
-  Configuration();
+  Configuration(const std::string &name);
+
+  /**
+   * Default destructor
+   */
+  virtual ~Configuration() = default;
 
   /**
    * Copy constructor
@@ -30,45 +37,24 @@ class Configuration {
   Configuration(const Configuration &other);
 
   /**
-   * The destructor
-   */
-  virtual ~Configuration();
-
-  /**
    * Asignment operator
    * @param other : other Configuration object
    * @return new Configuration object
    */
   Configuration &operator=(const Configuration &other);
 
-  /**
-   * A function to deserialize a configuartion node
-   * @param configurationNode : the configuration node to deserialise
-   */
-  void deserialize(YAML::Node &configurationNode);
-
-  /**
-   * Getter for name
-   * @return name
-   */
+  // NORMAL GETTERS
   const std::string &getName() const;
+  SimulationInfo &getSimulationInfo() const;
+  ProductionLine &getProductionLine() const;
 
-  /**
-   * Getter for simulationInfoConfiguration
-   * @return simulationInfoConfiguration
-   */
-  const SimulationInfo &getSimulationInfoConfiguration() const;
-
-  /**
-   * Getter for productionLineConfiguration
-   * @return productionLineConfiguration
-   */
-  const ProductionLine &getProductionLineConfiguration() const;
+  // NORMAL SETTERS
+  void setName(const std::string &name);
 
  private:
   std::string name;
-  SimulationInfo simulationInfoConfiguration;
-  ProductionLine productionLineConfiguration;
+  SimulationInfo simulationInfo;
+  ProductionLine productionLine;
 
   /**
    * Function to save class as archive
@@ -77,7 +63,7 @@ class Configuration {
    */
   template<class Archive>
   void save(Archive &ar) const {
-	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+	ar(name, simulationInfo, productionLine);
   }
 
   /**
@@ -87,7 +73,7 @@ class Configuration {
    */
   template<class Archive>
   void load(Archive &ar) {
-	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+	ar(name, simulationInfo, productionLine);
   }
 
   friend class ::cereal::access;

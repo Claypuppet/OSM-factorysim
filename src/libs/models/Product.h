@@ -16,21 +16,14 @@ typedef std::shared_ptr<Product> ProductPtr;
 
 class Product {
  public:
-  /**
-   * Default constructor
-   */
-  Product();
+  Product() = default;
+  virtual ~Product() = default;
 
   /**
    * Copy constructor
    * @param other : The object to copy
    */
   Product(const Product &other);
-
-  /**
-   * The destructor
-   */
-  virtual ~Product();
 
   /**
    * Assignment operator
