@@ -58,3 +58,8 @@ add_library(source_lib_app_machine_control SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h)
 
 target_link_libraries(source_lib_app_machine_control lib_network lib_patterns lib_models)
+
+add_executable(app_machine_control
+        ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp)
+
+target_link_libraries(app_machine_control source_lib_app_machine_control)

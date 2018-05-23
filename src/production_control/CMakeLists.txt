@@ -44,3 +44,14 @@ add_library(source_lib_app_production SHARED
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
+
+add_executable(app_production_control
+        ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp)
+
+target_link_libraries(app_production_control source_lib_app_production)
+
+
+# For production control, move configuration dir to bin dir
+add_custom_command(TARGET app_production_control PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
