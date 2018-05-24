@@ -1,46 +1,57 @@
 add_library(source_lib_app_production SHARED
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConfigurationReader.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ConnectionHandler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Product.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Product.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Buffer.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Application.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Application.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationConnectionHandler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationConnectionHandler.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationController.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationController.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationApplication.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationApplication.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Controller.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Controller.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMapper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkMapper.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/LoadConfigState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/LoadConfigState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/OperationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/OperationState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/SimulationBroadcastState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/SimulationBroadcastState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/SimulationWaitForConnectionsState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/SimulationWaitForConnectionsState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/ControllerState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_controller/ControllerState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/BroadCastState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/BroadCastState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/WaitForConnectionsState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/WaitForConnectionsState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperationState.h)
+        ConfigurationReader.cpp
+        ConfigurationReader.h
+        ConnectionHandler.h
+        ConnectionHandler.cpp
+        Machine.cpp
+        Machine.h
+        Product.cpp
+        Product.h
+        Buffer.cpp
+        Buffer.h
+        Application.cpp
+        Application.h
+        SimulationConnectionHandler.cpp
+        SimulationConnectionHandler.h
+        SimulationController.cpp
+        SimulationController.h
+        SimulationMachine.cpp
+        SimulationMachine.h
+        SimulationApplication.cpp
+        SimulationApplication.h
+        Controller.cpp
+        Controller.h
+        NetworkMapper.cpp
+        NetworkMapper.h
+        states_controller/LoadConfigState.cpp
+        states_controller/LoadConfigState.h
+        states_controller/OperationState.cpp
+        states_controller/OperationState.h
+        states_controller/SimulationBroadcastState.h
+        states_controller/SimulationBroadcastState.cpp
+        states_controller/SimulationWaitForConnectionsState.cpp
+        states_controller/SimulationWaitForConnectionsState.h
+        states_controller/ControllerState.cpp
+        states_controller/ControllerState.h
+        states_application/BroadCastState.cpp
+        states_application/BroadCastState.h
+        states_application/WaitForConnectionsState.h
+        states_application/WaitForConnectionsState.cpp
+        states_application/ApplicationState.cpp
+        states_application/ApplicationState.h
+        states_application/InOperationState.cpp
+        states_application/InOperationState.h)
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
+
+add_executable(app_production_control
+        Main.cpp)
+
+target_link_libraries(app_production_control source_lib_app_production)
+
+
+# For production control, move configuration dir to bin dir
+add_custom_command(TARGET app_production_control PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
