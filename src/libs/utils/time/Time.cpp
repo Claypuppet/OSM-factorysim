@@ -15,11 +15,11 @@ Time::Time() {
 uint64_t Time::getCurrentTime() {
   return timer->getCurrentTime();
 }
-void Time::setCurrentTime(uint64_t newTimeSeconds) {
-  timer->setCurrentTime(newTimeSeconds);
+void Time::syncTime(uint64_t newMillis) {
+  timer->syncTime(newMillis);
 }
-void Time::increaseCurrentTime(uint64_t increaseSeconds) {
-  timer->increaseCurrentTime(increaseSeconds);
+void Time::increaseCurrentTime(uint64_t increaseMillis) {
+  timer->increaseCurrentTime(increaseMillis);
 }
 void Time::setType(utils::TimeType aType) {
   switch (aType) {
