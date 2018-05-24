@@ -39,7 +39,7 @@ add_executable(test_machine_control
         tests/machine_control/state_inclusions.h
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp
-        tests/machine_control/controller_test.cpp
+        tests/machine_control/Controller_test.cpp
         tests/machine_control/Network_test.cpp
         tests/machine_control/Application_test.cpp)
 

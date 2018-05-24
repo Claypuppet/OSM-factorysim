@@ -156,18 +156,19 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   machineNetwork->sendResponseNOK(0);
   productionServer->awaitMessageReceived();
 
-
+  machineEndpoint->stop();
+  productionServer->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
   // Deze moet opnieuw ivm gebruik van manager en client. hiervoor kan mocknetwork gebruikt worden.
   testutils::MockObserver mockObserver;
 
-//  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
-//    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
-//  };
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
+    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
+  };
 
-//  mockObserver.setHandleNotificationFn(notificationHandler);
+  mockObserver.setHandleNotificationFn(notificationHandler);
 
   auto networkComponent = std::make_shared<Communication::NetworkComponent>();
   networkComponent->addObserver(mockObserver);
