@@ -76,6 +76,8 @@ class Time : public patterns::singleton::Singleton<Time> {
   Time();
  private:
   std::shared_ptr<ITime> timer;
+
+  friend patterns::singleton::Singleton<Time>;
 };
 
 }

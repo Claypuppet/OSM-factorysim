@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <utils/Logger.h>
+#include <utils/time/Time.h>
 #include "Machine.h"
 
 namespace core {
@@ -30,7 +31,8 @@ bool Machine::isConnected() const {
   return !!connection;
 }
 
-void Machine::sendMessage(const network::Message &message) {
+void Machine::sendMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
 	connection->writeMessage(message);
   }

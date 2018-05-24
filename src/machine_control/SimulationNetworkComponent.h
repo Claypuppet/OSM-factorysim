@@ -47,7 +47,7 @@ class SimulationNetworkComponent :
    * Send a message over the connection
    * @param message : message to send
    */
-  void sendMessage(const network::Message &message);
+  void sendMessage(network::Message &message);
 
   /**
    * Handles new machine info receive

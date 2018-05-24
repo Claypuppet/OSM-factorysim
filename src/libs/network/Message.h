@@ -30,7 +30,7 @@ struct Message {
 	* Default constructor
 	*/
 	MessageHeader() :
-		mType(0), mLength(0) {
+		mType(0), mLength(0), mTime(0) {
 	}
 
 	/**
@@ -39,15 +39,25 @@ struct Message {
 	 * @param aMessageLength : Length of message
 	 */
 	MessageHeader(MessageType aMessageType, MessageLength aMessageLength)
-		: mType(aMessageType), mLength(aMessageLength) {
+		: mType(aMessageType), mLength(aMessageLength), mTime(0) {
+	}
+
+	/**
+	 * Constructor
+	 * @param aMessageType : Type of message
+	 * @param aMessageLength : Length of message
+	 * @param aTime : A timestamp in milliseconds
+	 */
+	MessageHeader(MessageType aMessageType, MessageLength aMessageLength, uint64_t aTime)
+			: mType(aMessageType), mLength(aMessageLength), mTime(aTime) {
 	}
 
 	/**
 	 * Returns the length of the header
-	 * @return 24
+	 * @return 88
 	 */
 	MessageLength getHeaderLength() const {
-	  return 24;
+	  return 88;
 	}
 
 	/**
@@ -76,6 +86,7 @@ struct Message {
 
 	MessageType mType;
 	MessageLength mLength;
+	uint64_t mTime;
   };
 
   /**
@@ -212,6 +223,14 @@ struct Message {
   void clear() {
 	mHeader = MessageHeader();
 	mBody.clear();
+  }
+
+  void setTime(uint64_t aTime){
+  	mHeader.mTime = aTime;
+  }
+
+  uint64_t getTime(){
+  	return mHeader.mTime;
   }
 
   MessageHeader mHeader;
