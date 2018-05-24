@@ -18,7 +18,6 @@
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
-
   // set the SimulationController with a machine id of 1
   simulator::SimulationController controller(1);
 
@@ -34,6 +33,7 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
   bool isState = !!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(currentState);
   BOOST_REQUIRE_EQUAL(isState, true);
 
+  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){

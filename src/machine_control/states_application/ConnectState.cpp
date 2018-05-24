@@ -29,8 +29,9 @@ bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   switch (event->getId()) {
 	case kEventTypeConnected: {
 	  onConnected();
-	  break;
+	  return true;
 	}
+
 	default:
 	  return false;
   }

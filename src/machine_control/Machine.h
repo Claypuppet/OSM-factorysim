@@ -30,6 +30,10 @@ class Machine
   virtual void setConfigureStartState() = 0;
   virtual void setInOperationStartState() = 0;
 
+  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
+    models::Machine::configurations = configurations;
+  }
+
   void setCurrentConfiguration(const models::MachineConfiguration &aCurrentConfiguration) {
     currentConfiguration = std::make_shared<models::MachineConfiguration>(aCurrentConfiguration);
   }

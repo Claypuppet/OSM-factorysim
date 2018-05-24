@@ -6,31 +6,29 @@
 namespace simulator {
 
 bool SimulationMachine::configure() {
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
+  scheduleEvent(event);
   return true;
 }
 
 void SimulationMachine::selfTest() {
-  bool succeeded = true;
-
-  if (succeeded) {
-    auto event = std::make_shared<patterns::statemachine::Event>(machinestates::kEventTypeSelfTestSuccess);
-    scheduleEvent(event);
-  } else {
-    auto event = std::make_shared<patterns::statemachine::Event>(machinestates::kEventTypeSelfTestFailed);
-    scheduleEvent(event);
-  }
+  auto event = std::make_shared<patterns::statemachine::Event>(machinestates::kEventTypeSelfTestSuccess);
+  scheduleEvent(event);
 }
 
 void SimulationMachine::takeInProduct() {
-
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProcessProduct);
+  scheduleEvent(event);
 }
 
 void SimulationMachine::processProduct() {
-
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeFinishedProduct);
+  scheduleEvent(event);
 }
 
 void SimulationMachine::takeOutProduct() {
-
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenOut);
+  scheduleEvent(event);
 }
 
 void SimulationMachine::setConfigureStartState() {

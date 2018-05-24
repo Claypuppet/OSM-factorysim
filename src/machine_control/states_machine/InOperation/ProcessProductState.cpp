@@ -25,19 +25,21 @@ void ProcessProductState::exitAction() {
 
 bool ProcessProductState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeFinishedProduct:
-	  onProductFinishedEvent();
-	  return true;
+	case kEventTypeFinishedProduct: {
+      onProductFinishedEvent();
+      return true;
+    }
 
-	default:
-	  MachineState::handleEvent(event);
+	default: {
+      MachineState::handleEvent(event);
+    }
   }
 }
 
 void ProcessProductState::onProductFinishedEvent() {
   utils::Logger::log("-Handle event: kEventTypeFinishedProduct");
 
-  auto takeOutProductState = std::make_shared<TakeOutProductState>(context);
-  context.setCurrentState(takeOutProductState);
+  auto state = std::make_shared<TakeOutProductState>(context);
+  context.setCurrentState(state);
 }
 } // machinestates

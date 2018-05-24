@@ -15,7 +15,6 @@ void ConfiguringState::entryAction() {
 
 void ConfiguringState::doActivity() {
   context.configure();
-
 }
 
 void ConfiguringState::exitAction() {
@@ -26,10 +25,12 @@ bool ConfiguringState::handleEvent(const patterns::statemachine::EventPtr &event
   switch (event->getId()) {
 	case kEventTypeConfigured: {
 	  onConfigured();
-	  break;
+	  return true;
 	}
-	default:
-	  return false;
+
+	default: {
+      return MachineState::handleEvent(event);
+    }
   }
 }
 

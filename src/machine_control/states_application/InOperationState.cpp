@@ -34,10 +34,12 @@ bool InOperationState::handleEvent(const applicationstates::EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeFinishedProcessing: {
       onFinishedProcessing();
+      return true;
     }
 
     case kEventTypeMachineBroke: {
       onMachineBroke();
+      return true;
     }
 
     default: {

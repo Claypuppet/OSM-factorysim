@@ -8,17 +8,10 @@
 
 #include "../test_helpers/MockNetwork.h"
 #include "../../src/machine_control/Application.h"
-#include "../test_helpers/MockNetwork.h"
 #include "../test_helpers/MockObserver.h"
 #include "../machine_control/SimulationController.h"
-#include "../../src/machine_control/states_application/ConnectState.h"
-#include "../../src/machine_control/states_application/Initialize.h"
-#include "../../src/machine_control/states_application/InOperation/MachineStates/ConfigureState.h"
-#include "../../src/machine_control/states_application/InOperation/IdleState.h"
-#include "../../src/machine_control/states_application/InOperation/MachineStates/SelfTestState.h"
-#include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeProductState.h"
-#include "../../src/machine_control/states_application/InOperation/ProcessProduct/ProcessProductState.h"
-#include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeOutProductState.h"
+#include "state_inclusions.h"
+
 
 BOOST_AUTO_TEST_SUITE(MachineControlApplicationTests)
 
@@ -43,84 +36,46 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
   mockNetwork->stop();
 }
 
-BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
+BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
   auto mockNetwork = std::make_shared<testutils::MockNetwork>();
   mockNetwork->startMockPCServerApplication();
 
+  // Create application context
+  simulator::SimulationApplication application(1);
 
-  // 1: make application context
-  machinecore::Application application(1);
-
+  // Set up it's network
   BOOST_CHECK_NO_THROW(application.setupNetwork());
 
-  // 2. create state sets application to that state
+  // Set the application to it's initialization state
   auto state = std::make_shared<applicationstates::Initialize>(applicationstates::Initialize(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
-  //3. checks if in the right state
+  // Check if the application is in it's initialization stage
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
-  //4. makes vector and makes machineConfig
+  // Create a sample vector for configurations
   std::vector<models::MachineConfiguration> confVector;
   models::MachineConfiguration config0 = models::MachineConfiguration(0);
   confVector.push_back(config0);
-  BOOST_CHECK_NO_THROW(application.setConfigurations(confVector));
 
-  //6. schedules switchEvent with right confignumber(0)
+  // Set the configurations to the application
+  BOOST_CHECK_NO_THROW(application.getMachine()->setConfigurations(confVector));
+
+  // Create a ReceivedConfig event and attach the configurations to it
   auto event = std::make_shared<patterns::statemachine::Event>(applicationstates::kEventTypeReceivedConfig);
   BOOST_CHECK_NO_THROW(event->setArgument<uint32_t>(0));
+
+  // Schedule the event
   BOOST_CHECK_NO_THROW(application.scheduleEvent(event));
+
+  // Run the application
   BOOST_CHECK_NO_THROW(application.run());
 
-  //7. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::SelfTestState>(application.getCurrentState()), true);
-
-  application.stop();
-  mockNetwork->stop();
-}
-
-BOOST_AUTO_TEST_CASE(MachineControlConfigureToIdleState) {
-  auto mockNetwork = std::make_shared<testutils::MockNetwork>();
-  mockNetwork->startMockPCServerApplication();
-
-  // 1: make application context
-  simulator::SimulationApplication application(1);
-
-  BOOST_CHECK_NO_THROW(application.setupNetwork());
-
-  //2. makes vector and makes machineConfig
-  std::vector<models::MachineConfiguration> confVector;
-  models::MachineConfiguration config0 = models::MachineConfiguration(0);
-  confVector.push_back(config0);
-  BOOST_CHECK_NO_THROW(application.setConfigurations(confVector));
-
-  //3. checks if sets currentConfigId
-  BOOST_CHECK_EQUAL(application.setCurrentConfigId(0), true);
-
-  // 4. create state sets application to that state
-  auto state = std::make_shared<applicationstates::ConfigureState>(applicationstates::ConfigureState(application));
-  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
-
-  //5. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConfigureState>(application.getCurrentState()), true);
-  BOOST_CHECK_NO_THROW(application.run());
-
-  //6. checks if in the Idle State
+  // Check if the application reached it's IdleState
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
-}
-
-BOOST_AUTO_TEST_CASE(MachineControlSelfTestToIdle) {
-  simulator::SimulationApplication application(1);
-
-  auto state = std::make_shared<applicationstates::SelfTestState>(applicationstates::SelfTestState(application));
-  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
-
-  BOOST_CHECK_NO_THROW(application.run());
-
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
@@ -151,10 +106,10 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   std::vector<models::MachineConfiguration> confVector;
   models::MachineConfiguration config0 = models::MachineConfiguration(0);
   confVector.push_back(config0);
-  BOOST_CHECK_NO_THROW(application.setConfigurations(confVector));
+  BOOST_CHECK_NO_THROW(application.getMachine()->setConfigurations(confVector));
 
   patterns::notifyobserver::NotifyEvent
-      notification(machinecore::NotifyEventType::kNotifyEventTypeMachineConfigReceived);
+      notification(machinecore::NotifyEventType::kNotifyEventTypeConfigure);
   BOOST_CHECK_NO_THROW(notification.setArgument(0, (uint32_t)0));
 
   BOOST_CHECK_NO_THROW(application.handleNotification(notification));
@@ -208,11 +163,11 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
   // Deze moet opnieuw ivm gebruik van manager en client. hiervoor kan mocknetwork gebruikt worden.
   testutils::MockObserver mockObserver;
 
-  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
-    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
-  };
+//  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
+//    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeStartProcess);
+//  };
 
-  mockObserver.setHandleNotificationFn(notificationHandler);
+//  mockObserver.setHandleNotificationFn(notificationHandler);
 
   auto networkComponent = std::make_shared<Communication::NetworkComponent>();
   networkComponent->addObserver(mockObserver);

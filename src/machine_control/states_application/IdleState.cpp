@@ -9,7 +9,7 @@
 namespace applicationstates {
 
 IdleState::IdleState(machinecore::Application &aContext)
-	: ApplicationState(aContext) {
+    : ApplicationState(aContext) {
 }
 
 void IdleState::entryAction() {
@@ -27,15 +27,19 @@ void IdleState::exitAction() {
 
 bool IdleState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeReceivedConfig:
-	  onReceivedConfigEvent(event);
-	  return true;
+    case kEventTypeReceivedConfig: {
+      onReceivedConfigEvent(event);
+      return true;
+    }
 
-	case kEventTypeStartProcessing: onStartProcessing();
-	  return true;
+    case kEventTypeStartProcessing: {
+      onStartProcessing();
+      return true;
+    }
 
-	default:
-	  return ApplicationState::handleEvent(event);
+    default: {
+      return ApplicationState::handleEvent(event);
+    }
   }
 }
 

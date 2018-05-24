@@ -36,6 +36,7 @@ add_subdirectory(tests/test_helpers)
 
 add_executable(test_machine_control
         ${test_helpers_SOURCES}
+        tests/machine_control/state_inclusions.h
         tests/machine_control/Main.cpp
         tests/machine_control/Object_test.cpp
         tests/machine_control/controller_test.cpp

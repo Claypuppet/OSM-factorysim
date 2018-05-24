@@ -39,20 +39,29 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
       break;
     }
 
+    case kNotifyEventTypeMachineFinishedProcess: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeFinishedProcessing);
+      scheduleEvent(event);
+      break;
+    }
+
     case kNotifyEventTypeConfigure: {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeReceivedConfig);
       event->addArgument<uint32_t>(notification.getFirstArgumentAsType<uint32_t>());
       scheduleEvent(event);
+      break;
     }
 
     case kNotifyEventMachineConfigured: {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeConfigured);
       scheduleEvent(event);
+      break;
     }
 
     case kNotifyEventMachineFailedToConfigure: {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeFailedToConfigure);
       scheduleEvent(event);
+      break;
     }
 
     default: break;

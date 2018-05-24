@@ -25,16 +25,19 @@ void SelfTestState::exitAction() {
 
 bool SelfTestState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeSelfTestSuccess:
-	  onSelfTestSuccess();
-	  return true;
+	case kEventTypeSelfTestSuccess: {
+      onSelfTestSuccess();
+      return true;
+    }
 
-	case kEventTypeSelfTestFailed:
-	  onSelfTestFail();
-	  return true;
+	case kEventTypeSelfTestFailed: {
+      onSelfTestFail();
+      return true;
+    }
 
-	default:
-	  return MachineState::handleEvent(event);
+	default: {
+      return MachineState::handleEvent(event);
+    }
   }
 }
 

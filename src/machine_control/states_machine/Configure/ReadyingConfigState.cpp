@@ -45,5 +45,6 @@ void ReadyingConfigState::onReconfigure(const EventPtr &event) {
   context.setCurrentConfiguration(nextConfig);
 
   auto state = std::make_shared<ConfiguringState>(context);
+  context.setCurrentState(state);
 }
 } // machinestates

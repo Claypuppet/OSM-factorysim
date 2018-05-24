@@ -29,9 +29,12 @@ bool Initialize::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeReceivedConfig: {
       onReceivedConfig(event);
-      break;
+      return true;
     }
-    default: return false;
+
+    default: {
+      return false;
+    }
   }
 }
 

@@ -8,7 +8,7 @@
 namespace machinestates {
 
 TakeOutProductState::TakeOutProductState(machinecore::Machine &aContext)
-	: MachineState(aContext) {
+    : MachineState(aContext) {
 }
 
 void TakeOutProductState::entryAction() {
@@ -25,19 +25,22 @@ void TakeOutProductState::exitAction() {
 
 bool TakeOutProductState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeProductTakenOut:
-	  onProductTakenOutEvent();
-	  return true;
+    case kEventTypeProductTakenOut: {
+      onProductTakenOutEvent();
+      return true;
+    }
 
-	default:
-	  return MachineState::handleEvent(event);
+    default: {
+      return MachineState::handleEvent(event);
+    }
   }
 }
 
 void TakeOutProductState::onProductTakenOutEvent() {
   utils::Logger::log("-Handle event: kEventTypeProductTakenOut");
 
-  auto notification = patterns::notifyobserver::NotifyEvent(machinecore::NotifyEventType::kNotifyEventTypeMachineFinishedProcess);
+  auto notification =
+      patterns::notifyobserver::NotifyEvent(machinecore::NotifyEventType::kNotifyEventTypeMachineFinishedProcess);
   context.notifyObservers(notification);
 }
 } // machinestates
