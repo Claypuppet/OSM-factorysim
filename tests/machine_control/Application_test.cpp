@@ -12,10 +12,10 @@
 #include "../test_helpers/MockObserver.h"
 #include "../machine_control/SimulationController.h"
 #include "../../src/machine_control/states_application/ConnectState.h"
-#include "../../src/machine_control/states_application/ReceiveConfig.h"
-#include "../../src/machine_control/states_application/Inititalization/ConfigureState.h"
+#include "../../src/machine_control/states_application/Initialize.h"
+#include "../../src/machine_control/states_application/InOperation/MachineStates/ConfigureState.h"
 #include "../../src/machine_control/states_application/InOperation/IdleState.h"
-#include "../../src/machine_control/states_application/Inititalization/SelfTestState.h"
+#include "../../src/machine_control/states_application/InOperation/MachineStates/SelfTestState.h"
 #include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeProductState.h"
 #include "../../src/machine_control/states_application/InOperation/ProcessProduct/ProcessProductState.h"
 #include "../../src/machine_control/states_application/InOperation/ProcessProduct/TakeOutProductState.h"
@@ -29,15 +29,15 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
   machinecore::Application application(1);
   BOOST_CHECK_NO_THROW(application.setStartState());
 
-  auto event = std::make_shared<productionstates::Event>(productionstates::kEventTypeConnected);
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeConnected);
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConnectState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConnectState>(application.getCurrentState()), true);
 
   BOOST_CHECK_NO_THROW(application.scheduleEvent(event));
 
   BOOST_CHECK_NO_THROW(application.run());
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
@@ -54,11 +54,11 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
   BOOST_CHECK_NO_THROW(application.setupNetwork());
 
   // 2. create state sets application to that state
-  auto state = std::make_shared<productionstates::ReceiveConfig>(productionstates::ReceiveConfig(application));
+  auto state = std::make_shared<applicationstates::Initialize>(applicationstates::Initialize(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   //3. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ReceiveConfig>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
   //4. makes vector and makes machineConfig
   std::vector<models::MachineConfiguration> confVector;
@@ -67,13 +67,13 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigToConfig) {
   BOOST_CHECK_NO_THROW(application.setConfigurations(confVector));
 
   //6. schedules switchEvent with right confignumber(0)
-  auto event = std::make_shared<patterns::statemachine::Event>(productionstates::kEventTypeReceivedConfig);
+  auto event = std::make_shared<patterns::statemachine::Event>(applicationstates::kEventTypeReceivedConfig);
   BOOST_CHECK_NO_THROW(event->setArgument<uint32_t>(0));
   BOOST_CHECK_NO_THROW(application.scheduleEvent(event));
   BOOST_CHECK_NO_THROW(application.run());
 
   //7. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::SelfTestState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::SelfTestState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
@@ -98,15 +98,15 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigureToIdleState) {
   BOOST_CHECK_EQUAL(application.setCurrentConfigId(0), true);
 
   // 4. create state sets application to that state
-  auto state = std::make_shared<productionstates::ConfigureState>(productionstates::ConfigureState(application));
+  auto state = std::make_shared<applicationstates::ConfigureState>(applicationstates::ConfigureState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   //5. checks if in the right state
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::ConfigureState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConfigureState>(application.getCurrentState()), true);
   BOOST_CHECK_NO_THROW(application.run());
 
   //6. checks if in the Idle State
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::IdleState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();
@@ -115,18 +115,18 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigureToIdleState) {
 BOOST_AUTO_TEST_CASE(MachineControlSelfTestToIdle) {
   simulator::SimulationApplication application(1);
 
-  auto state = std::make_shared<productionstates::SelfTestState>(productionstates::SelfTestState(application));
+  auto state = std::make_shared<applicationstates::SelfTestState>(applicationstates::SelfTestState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   BOOST_CHECK_NO_THROW(application.run());
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::IdleState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   simulator::SimulationApplication application(1);
 
-  auto state = std::make_shared<productionstates::IdleState>(productionstates::IdleState(application));
+  auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
 
   BOOST_CHECK_NO_THROW(application.run());
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::IdleState>(application.getCurrentState()),
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()),
                     true);
 }
 
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   simulator::SimulationApplication application(1);
   BOOST_CHECK_NO_THROW(application.setupNetwork());
 
-  auto state = std::make_shared<productionstates::IdleState>(productionstates::IdleState(application));
+  auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   std::vector<models::MachineConfiguration> confVector;
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   BOOST_CHECK_NO_THROW(application.run());
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<productionstates::IdleState>(application.getCurrentState()), true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 
   application.stop();
   mockNetwork->stop();

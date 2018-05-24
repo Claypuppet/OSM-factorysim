@@ -46,7 +46,7 @@ void NetworkComponent::handleProcessProductMessage() {
 
 void NetworkComponent::handleProcessReconfigureMessage(network::Message &message) {
   auto event =
-	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::NotifyEventType::kNotifyEventTypeConfigure
 	  );
   event.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
   notifyObservers(event);

@@ -5,16 +5,14 @@
 #include <models/Machine.h>
 #include "Application.h"
 #include "states_application/ConnectState.h"
-#include "states_application/Inititalization/ConfigureState.h"
+#include "states_machine/MachineState.h"
 
 namespace machinecore {
 
 Application::Application(uint16_t aMachineId)
-	: patterns::statemachine::Context(),
-	  id(aMachineId),
-	  nextConfigId(0),
-	  currentConfigId(0),
-	  configurations() {
+    : patterns::statemachine::Context(),
+      id(aMachineId),
+      configToSet(0) {
   connectionHandler = std::make_shared<Communication::NetworkComponent>();
 }
 
@@ -24,37 +22,45 @@ Application::~Application() {
 
 void Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
-	case NotifyEventType::kNotifyEventTypeServiceStarted: {
-	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConnected);
-	  scheduleEvent(event);
-	  break;
-	}
+    case kNotifyEventTypeServiceStarted: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::EventType::kEventTypeConnected);
+      scheduleEvent(event);
+      break;
+    }
 
-	case NotifyEventType::kNotifyEventTypeServiceError : {
+    case kNotifyEventTypeServiceError : {
 
-	  break;
-	}
+      break;
+    }
 
-	case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
-	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeReceivedConfig);
-	  event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
-	  scheduleEvent(event);
-	  break;
-	}
+    case kNotifyEventTypeStartProcess: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeStartProcessing);
+      scheduleEvent(event);
+      break;
+    }
 
-	case NotifyEventType::kNotifyEventTypeStartProcess: {
-	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeTakeProduct);
-	  scheduleEvent(event);
-	  break;
-	}
+    case kNotifyEventTypeConfigure: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeReceivedConfig);
+      event->addArgument<uint32_t>(notification.getFirstArgumentAsType<uint32_t>());
+      scheduleEvent(event);
+    }
 
-	default:
-	  break;
+    case kNotifyEventMachineConfigured: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeConfigured);
+      scheduleEvent(event);
+    }
+
+    case kNotifyEventMachineFailedToConfigure: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeFailedToConfigure);
+      scheduleEvent(event);
+    }
+
+    default: break;
   }
 }
 
 void Application::setStartState() {
-  setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
+  setCurrentState(std::make_shared<applicationstates::ConnectState>(*this));
 }
 
 void Application::stop() {
@@ -63,7 +69,7 @@ void Application::stop() {
 
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
-	clientThread->join();
+    clientThread->join();
   }
 }
 
@@ -81,57 +87,11 @@ void Application::setupNetwork() {
   client->start();
 }
 
-const models::MachineConfiguration &Application::getCurrentConfig() const {
-  return configurations.at(currentConfigId);
-}
-
-void Application::setCurrentConfig() {
-  for (auto &configuration : configurations) {
-	if (configuration.getProductId() == nextConfigId) {
-	  currentConfigId = nextConfigId;
-	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
-	  scheduleEvent(event);
-	}
-  }
-}
-
 void Application::registerMachine() {
   connectionHandler->sendRegisterMachineMessage(id);
-}
-
-bool Application::setCurrentConfigId(uint32_t configID) {
-
-  for (auto &configuration : configurations) {
-	if (configuration.getProductId() == configID) {
-	  nextConfigId = configID;
-	  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeConfigured);
-	  scheduleEvent(event);
-	  return true;
-	}
-  } // access by reference to avoid copying
-  return false;
-}
-
-uint32_t Application::getCurrentConfigId() const {
-  return currentConfigId;
-}
-
-void Application::takeProductIn() {
-  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProcessProduct);
-  scheduleEvent(event);
-}
-
-void Application::processProduct() {
-  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeFinishedProduct);
-  scheduleEvent(event);
-}
-
-void Application::takeProductOut() {
-  auto event = std::make_shared<productionstates::Event>(productionstates::EventType::kEventTypeProductTakenOut);
-  scheduleEvent(event);
 }
 
 void Application::statusUpdate(models::Machine::MachineStatus status) {
   connectionHandler->sendStatusUpdate(status);
 }
-} // namespace machinecore
+} // machinecore

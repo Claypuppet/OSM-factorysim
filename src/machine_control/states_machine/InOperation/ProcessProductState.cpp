@@ -5,19 +5,18 @@
 
 #include "TakeOutProductState.h"
 
-namespace productionstates {
+namespace machinestates {
 
-ProcessProductState::ProcessProductState(machinecore::Application &aContext)
-	: InOperationState(aContext) {
+ProcessProductState::ProcessProductState(machinecore::Machine &aContext)
+	: MachineState(aContext) {
 }
 
 void ProcessProductState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusProcessingProduct);
 }
 
 void ProcessProductState::doActivity() {
-  context.processProduct(); // TODO : method is currently empty because the product can't be taken in yet
+  context.processProduct();
 }
 
 void ProcessProductState::exitAction() {
@@ -31,7 +30,7 @@ bool ProcessProductState::handleEvent(const EventPtr &event) {
 	  return true;
 
 	default:
-	  InOperationState::handleEvent(event);
+	  MachineState::handleEvent(event);
   }
 }
 
@@ -41,5 +40,4 @@ void ProcessProductState::onProductFinishedEvent() {
   auto takeOutProductState = std::make_shared<TakeOutProductState>(context);
   context.setCurrentState(takeOutProductState);
 }
-
-}
+} // machinestates

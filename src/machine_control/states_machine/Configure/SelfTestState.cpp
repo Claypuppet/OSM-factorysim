@@ -2,23 +2,21 @@
 #include "SelfTestState.h"
 
 #include <utils/Logger.h>
+#include "../../Application.h"
 
-#include "../InOperation/IdleState.h"
-#include "../Broken/BrokenState.h"
+namespace machinestates {
 
-namespace productionstates {
-
-SelfTestState::SelfTestState(machinecore::Application &aContext) :
-	ProductionState(aContext) {
+SelfTestState::SelfTestState(machinecore::Machine &aContext) :
+	MachineState(aContext) {
 }
 
 void SelfTestState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusSelftesting);
+//  context.statusUpdate(models::Machine::kMachineStatusSelftesting);
 }
 
 void SelfTestState::doActivity() {
-  context.executeSelfTest();
+  context.selfTest();
 }
 
 void SelfTestState::exitAction() {
@@ -36,20 +34,21 @@ bool SelfTestState::handleEvent(const EventPtr &event) {
 	  return true;
 
 	default:
-	  return ProductionState::handleEvent(event);
+	  return MachineState::handleEvent(event);
   }
 }
 
 void SelfTestState::onSelfTestSuccess() {
   utils::Logger::log("-Handle event: kEventTypeSelfTestSuccess");
-  context.setCurrentState(std::make_shared<IdleState>(context));
+
+  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventMachineConfigured);
+  context.notifyObservers(event);
 }
 
 void SelfTestState::onSelfTestFail() {
   utils::Logger::log("-Handle event: kEventTypeSelfTestFailed");
 
-  // if a self test fails, that means that a machine is broken.
-  context.setCurrentState(std::make_shared<BrokenState>(context));
+  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventMachineFailedToConfigure);
+  context.notifyObservers(event);
 }
-
-}
+} // machinestates

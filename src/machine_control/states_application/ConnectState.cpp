@@ -4,9 +4,14 @@
 
 #include <utils/Logger.h>
 #include "ConnectState.h"
-#include "ReceiveConfig.h"
+#include "Initialize.h"
 
-namespace productionstates {
+namespace applicationstates {
+
+ConnectState::ConnectState(machinecore::Application &aContext) : ApplicationState(aContext) {
+
+}
+
 void ConnectState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
   context.setupNetwork();
@@ -23,12 +28,16 @@ void ConnectState::exitAction() {
 bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   switch (event->getId()) {
 	case kEventTypeConnected: {
-	  utils::Logger::log("-Handle event: kEventTypeConnected");
-	  context.setCurrentState(std::make_shared<ReceiveConfig>(context));
+	  onConnected();
 	  break;
 	}
 	default:
 	  return false;
   }
 }
+
+void ConnectState::onConnected() {
+  utils::Logger::log("-Handle event: kEventTypeConnected");
+  context.setCurrentState(std::make_shared<Initialize>(context));
 }
+} // applicationstates

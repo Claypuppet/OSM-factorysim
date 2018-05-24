@@ -22,12 +22,15 @@ enum NotifyEventType {
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
   kNotifyEventTypeStartProcess,
-  kNotifyEventTypeMachineConfigReceived
+  kNotifyEventMachineConfigured,
+  kNotifyEventMachineFailedToConfigure,
+  kNotifyEventTypeConfigure,
+  kNotifyEventTypeMachineFinishedProcess
 };
 
 class Application
-	: public patterns::statemachine::Context,
-	  public patterns::notifyobserver::Observer {
+    : public patterns::statemachine::Context,
+      public patterns::notifyobserver::Observer {
  public:
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
 
@@ -43,27 +46,27 @@ class Application
   ~Application() override;
 
   const MachinePtr &getMachine() const {
-	return machine;
+    return machine;
   }
 
   void setMachine(const MachinePtr &aMachine) {
-	machine = aMachine;
+    machine = aMachine;
   }
 
   uint16_t getId() const {
-	return id;
+    return id;
   }
 
   void setId(uint16_t aId) {
-	id = aId;
+    id = aId;
   }
 
-  const std::vector<models::MachineConfiguration> &getConfigurations() const {
-	return configurations;
+  void setConfigToSet(uint32_t aConfigToSet){
+    configToSet = aConfigToSet;
   }
 
-  void setConfigurations(const std::vector<models::MachineConfiguration> &aConfigurations) {
-	configurations = aConfigurations;
+  uint32_t getConfigToSet() const {
+    return configToSet;
   }
 
   /**
@@ -80,27 +83,6 @@ class Application
  * Executes network
  */
   void setupNetwork();
-
-  /**
-   * Execute the self test and create a new event based on the result
-   */
-  virtual void executeSelfTest() {}
-
-  /**
-   * Take a product from the machine buffer into the machine
-   */
-  void takeProductIn();
-
-  /**
-   * Process the product that is currently in the machine
-   */
-  void processProduct();
-
-  /**
-   * Take product out of the machine into the output buffer
-   */
-  void takeProductOut();
-
 /**
  * sends register machine message to PC
  */
@@ -112,33 +94,10 @@ class Application
    */
   void statusUpdate(models::Machine::MachineStatus status);
 
-  /**
-   * checks if configurationID is available ands sets currentConfigId if it is.
-    * @param configID
-    * @return true if config  is available and set else false
-    */
-  bool setCurrentConfigId(uint32_t configID);
-
-  uint32_t getCurrentConfigId() const;
-
-  const models::MachineConfiguration &getCurrentConfig() const;
-
-  /**
-   * sets configuration based on configId, fires event if success
-   */
-  void setCurrentConfig();
-
  protected:
-
-  MachinePtr machine;
-
-  // Id of the machine
   uint16_t id;
-  uint32_t nextConfigId;
-  uint32_t currentConfigId;
-
-  // Vector of possible configurations
-  std::vector<models::MachineConfiguration> configurations;
+  MachinePtr machine;
+  uint32_t configToSet;
 
  private:
   network::Manager manager;
@@ -151,34 +110,34 @@ class Application
  */
   class NetworkEventDispatcher : public network::IServiceEventListener, public patterns::notifyobserver::Notifier {
    public:
-	NetworkEventDispatcher() = default;
-	~NetworkEventDispatcher() override = default;
+    NetworkEventDispatcher() = default;
+    ~NetworkEventDispatcher() override = default;
    private:
 
-	void onServiceError(network::ServicePtr service, const std::string &message) override {
-	  //TODO: Add eventId
-	  //Set up the Connection Failed state event to send to the observers.
-	  auto event = makeNotificationForNotifier(this,
-											   patterns::notifyobserver::NotifyTrigger(),
-											   NotifyEventType::kNotifyEventTypeServiceError);
+    void onServiceError(network::ServicePtr service, const std::string &message) override {
+      //TODO: Add eventId
+      //Set up the Connection Failed state event to send to the observers.
+      auto event = makeNotificationForNotifier(this,
+                                               patterns::notifyobserver::NotifyTrigger(),
+                                               NotifyEventType::kNotifyEventTypeServiceError);
 
-	  //Notify observers of the error
-	  notifyObservers(event);
-	}
+      //Notify observers of the error
+      notifyObservers(event);
+    }
 
-	void onServiceStopped(network::ServicePtr service) override {
-	  // TODO: check if this is needed
-	}
+    void onServiceStopped(network::ServicePtr service) override {
+      // TODO: check if this is needed
+    }
 
-	void onServiceStarted(network::ServicePtr service) override {
-	  //Set up an event to let the observers know that connection was successful
-	  auto event = makeNotificationForNotifier(this,
-											   patterns::notifyobserver::NotifyTrigger(),
-											   NotifyEventType::kNotifyEventTypeServiceStarted);
+    void onServiceStarted(network::ServicePtr service) override {
+      //Set up an event to let the observers know that connection was successful
+      auto event = makeNotificationForNotifier(this,
+                                               patterns::notifyobserver::NotifyTrigger(),
+                                               NotifyEventType::kNotifyEventTypeServiceStarted);
 
-	  //Notify observers of connection success
-	  notifyObservers(event);
-	}
+      //Notify observers of connection success
+      notifyObservers(event);
+    }
   };
 };
 

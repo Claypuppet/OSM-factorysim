@@ -3,18 +3,18 @@
 
 #include <utils/Logger.h>
 
-#include "../Inititalization/ConfigureState.h"
-#include "ProcessProduct/TakeProductState.h"
+#include "InOperationState.h"
+#include "ConfigureState.h"
 
-namespace productionstates {
+namespace applicationstates {
 
 IdleState::IdleState(machinecore::Application &aContext)
-	: InOperationState(aContext) {
+	: ApplicationState(aContext) {
 }
 
 void IdleState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusIdle);
+//  context.statusUpdate(models::Machine::kMachineStatusIdle);
 }
 
 void IdleState::doActivity() {
@@ -31,28 +31,27 @@ bool IdleState::handleEvent(const EventPtr &event) {
 	  onReceivedConfigEvent(event);
 	  return true;
 
-	case kEventTypeTakeProduct:
-	  onTakeProductEvent();
+	case kEventTypeStartProcessing: onStartProcessing();
 	  return true;
 
 	default:
-	  return ProductionState::handleEvent(event);
+	  return ApplicationState::handleEvent(event);
   }
 }
 
 void IdleState::onReceivedConfigEvent(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
 
-  if (context.setCurrentConfigId(event->getArgumentAsType<uint32_t>())) {
-	context.setCurrentState(std::make_shared<ConfigureState>(context));
-  }
+  context.setConfigToSet(event->getArgumentAsType<uint32_t>());
+
+  auto state = std::make_shared<ConfigureState>(context);
+  context.setCurrentState(state);
 }
 
-void IdleState::onTakeProductEvent() {
+void IdleState::onStartProcessing() {
   utils::Logger::log("-Handle event: kEventTypeTakeProduct");
 
-  auto takeProductState = std::make_shared<TakeProductState>(context);
-  context.setCurrentState(takeProductState);
+  auto state = std::make_shared<InOperationState>(context);
+  context.setCurrentState(state);
 }
-
-}
+} // applicationstates

@@ -2,22 +2,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_IDLESTATE_H
 #define PRODUCTION_LINE_CONTROL_IDLESTATE_H
 
-#include "InOperationState.h"
+#include "ApplicationState.h"
 
-namespace productionstates {
+namespace applicationstates {
 
 /**
  * Machine state for waiting on a process product command
  */
-class IdleState : public InOperationState {
+class IdleState : public ApplicationState {
  public:
   IdleState(machinecore::Application &aContext);
   virtual ~IdleState() = default;
 
-  virtual bool handleEvent(const EventPtr &event);
-  virtual void entryAction();
-  virtual void doActivity();
-  virtual void exitAction();
+  bool handleEvent(const EventPtr &event) override;
+  void entryAction() override;
+  void doActivity() override;
+  void exitAction() override;
 
  private:
 
@@ -29,9 +29,8 @@ class IdleState : public InOperationState {
   /**
    * gets executed everytime a takeProduct event in received
    */
-  void onTakeProductEvent();
+  void onStartProcessing();
 };
-
-}
+} // applicationstates
 
 #endif //PRODUCTION_LINE_CONTROL_IDLESTATE_H

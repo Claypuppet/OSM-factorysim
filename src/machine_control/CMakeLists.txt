@@ -14,28 +14,41 @@ add_library(source_lib_app_machine_control SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/SimulationApplication.h
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkComponent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkComponent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Broken/BrokenState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Broken/BrokenState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ProductionState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ProductionState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ReceiveConfig.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ReceiveConfig.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Broken/RepairingState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Broken/RepairingState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Inititalization/ConfigureState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Inititalization/ConfigureState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Inititalization/SelfTestState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Inititalization/SelfTestState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ApplicationState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Initialize.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/Initialize.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ConnectState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_application/ConnectState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/IdleState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/IdleState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/TakeProductState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/TakeProductState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/ProcessProductState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/ProcessProductState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/TakeOutProductState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/ProcessProduct/TakeOutProductState.h
+
+        states_application/BrokenState.cpp
+        states_application/BrokenState.h
+        states_application/ConfigureState.cpp
+        states_application/ConfigureState.h
+        states_application/IdleState.cpp
+        states_application/IdleState.h
+        states_application/InOperationState.cpp
+        states_application/InOperationState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_machine/MachineState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_machine/MachineState.cpp
+        states_machine/Configure/ConfiguringState.cpp
+        states_machine/Configure/ConfiguringState.h
+        states_machine/Configure/SelfTestState.cpp
+        states_machine/Configure/SelfTestState.h
+        states_machine/Configure/ReadyingConfigState.cpp
+        states_machine/Configure/ReadyingConfigState.h
+
+        states_machine/InOperation/TakeProductState.cpp
+        states_machine/InOperation/TakeProductState.h
+        states_machine/InOperation/ProcessProductState.cpp
+        states_machine/InOperation/ProcessProductState.h
+        states_machine/InOperation/TakeOutProductState.cpp
+        states_machine/InOperation/TakeOutProductState.h
+
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/SimulationState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/SimulationState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/InitializeSimulationState.cpp
@@ -48,13 +61,7 @@ add_library(source_lib_app_machine_control SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/FindProductControlState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/ConnectSimulationState.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/ConnectSimulationState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/InOperationState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_application/InOperation/InOperationState.h
         ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/WaitForProductControlState.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/WaitForProductControlState.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Machine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Machine.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/SimulationMachine.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/states_simulation_controller/WaitForProductControlState.h)
 
 target_link_libraries(source_lib_app_machine_control lib_network lib_patterns lib_models)

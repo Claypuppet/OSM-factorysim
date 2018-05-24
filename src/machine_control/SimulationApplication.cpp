@@ -1,28 +1,34 @@
 
+#include <utils/time/Time.h>
 #include "SimulationApplication.h"
 
-#include "states_application/ProductionState.h"
+#include "states_machine/MachineState.h"
 #include "states_application/ConnectState.h"
+#include "SimulationMachine.h"
 
 namespace simulator {
 SimulationApplication::SimulationApplication(uint16_t aMachineId)
-	: Application(aMachineId) {
+    : Application(aMachineId) {
   machine = std::make_shared<SimulationMachine>();
+  handleNotificationsFor(*machine);
 }
 
-void SimulationApplication::executeSelfTest() {
-  bool succeeded = true;
+void SimulationApplication::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
+  switch (notification.getEventId()) {
+    case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::EventType::kEventTypeReceivedConfig);
+      event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
+      scheduleEvent(event);
+      break;
+    }
 
-  if (succeeded) {
-	auto event = std::make_shared<patterns::statemachine::Event>(productionstates::kEventTypeSelfTestSuccess);
-	scheduleEvent(event);
-  } else {
-	auto event = std::make_shared<patterns::statemachine::Event>(productionstates::kEventTypeSelfTestFailed);
-	scheduleEvent(event);
+    default: {
+      Application::handleNotification(notification);
+    }
   }
 }
-void SimulationApplication::setStartState() {
-  setCurrentState(std::make_shared<productionstates::ConnectState>(*this));
-}
 
+void SimulationApplication::setStartState() {
+  setCurrentState(std::make_shared<applicationstates::ConnectState>(*this));
 }
+} // simulator
