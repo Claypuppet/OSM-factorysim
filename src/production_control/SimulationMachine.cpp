@@ -4,6 +4,7 @@
 
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
+#include <utils/time/Time.h>
 #include "SimulationMachine.h"
 
 namespace simulation {
@@ -29,6 +30,7 @@ bool SimulationMachine::isSimulationConnected() const {
 }
 
 void SimulationMachine::sendSimulationMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isSimulationConnected()) {
 	simConnection->writeMessage(message);
   }
