@@ -6,11 +6,13 @@
 #include "SystemTime.h"
 
 uint64_t utils::SystemTime::getCurrentTime() {
-  return static_cast<uint64_t >(std::clock() / 1000);
+  return static_cast<uint64_t >(std::clock()) + offset;
 }
-void utils::SystemTime::increaseCurrentTime(uint64_t increaseSeconds) {
+
+void utils::SystemTime::increaseCurrentTime(uint64_t increaseMillis) {
   // Do nothing
 }
-void utils::SystemTime::setCurrentTime(uint64_t newTimeSeconds) {
-  // Do nothing
+
+void utils::SystemTime::syncTime(uint64_t newTimeMillis) {
+  offset = newTimeMillis - getCurrentTime();
 }

@@ -112,7 +112,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
-  void sendMessage(const network::Message &message);
+  void sendMessage(network::Message &message);
 
   /**
    *

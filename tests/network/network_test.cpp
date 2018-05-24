@@ -30,5 +30,36 @@ BOOST_AUTO_TEST_CASE(TestMessageSerialization) {
   BOOST_CHECK_EQUAL(deserializedMachine->getId(), 1);
 }
 
+BOOST_AUTO_TEST_CASE(TestMessageTime){
+  
+  auto mcMock = std::make_shared<testutils::MockNetwork>();
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+  
+  testutils::OnMessageFn onMessageFn = [](network::Message& aMessage){
+    BOOST_CHECK(aMessage.getTime() == 56789);
+    BOOST_CHECK(aMessage.getBody() == "test");
+    BOOST_CHECK(aMessage.getMessageType() == 12);
+  };
+  
+  network::Message message;
+  message.setTime(56789);
+  message.setBody("test");
+  message.setMessageType(12);
+  
+  pcMock->setOnMessageFn(onMessageFn);
+  
+  BOOST_REQUIRE_NO_THROW(pcMock->startMockPCServerApplication());
+  BOOST_REQUIRE_NO_THROW(mcMock->startMockMCClientApplication());
+  
+  pcMock->awaitConnection();
+  
+  BOOST_REQUIRE_NO_THROW(mcMock->sendMessage(message));
+  
+  pcMock->awaitMessageReceived();
+  
+  mcMock->stop();
+  pcMock->stop();
+}
+
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()

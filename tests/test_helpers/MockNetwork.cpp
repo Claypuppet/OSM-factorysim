@@ -91,9 +91,9 @@ void MockNetwork::onConnectionMessageReceived(network::ConnectionPtr connection,
   messageStatus = kMessageIdle;
 }
 
-void MockNetwork::sendMessage(network::Message &msg) {
+void MockNetwork::sendMessage(network::Message &message) {
   if(connection && connection->isConnected()){
-	connection->writeMessage(msg);
+	connection->writeMessage(message);
   }
 }
 

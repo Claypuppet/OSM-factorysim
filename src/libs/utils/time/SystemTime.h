@@ -24,12 +24,15 @@ class SystemTime : public ITime {
   /**
    * Does nothing
    */
-  void increaseCurrentTime(uint64_t increaseSeconds) override;
+  void increaseCurrentTime(uint64_t) override;
 
   /**
    * Does nothing
    */
-  void setCurrentTime(uint64_t newTimeSeconds) override;
+  void syncTime(uint64_t newTimeMillis) override;
+
+ private:
+  int64_t offset;
 };
 
 }

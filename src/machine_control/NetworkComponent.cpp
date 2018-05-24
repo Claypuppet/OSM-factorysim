@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <models/Machine.h>
+#include <utils/time/Time.h>
 #include "NetworkComponent.h"
 #include "Application.h"
 
@@ -26,6 +27,7 @@ void NetworkComponent::onConnectionDisconnected(network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+  utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
 	case network::Protocol::kAppMessageTypeReconfigure : {
 	  handleProcessReconfigureMessage(message);
@@ -61,6 +63,7 @@ bool NetworkComponent::isConnected() {
 }
 
 void NetworkComponent::sendMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
 	mConnection->writeMessage(message);
   }
