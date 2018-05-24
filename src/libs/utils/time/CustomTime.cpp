@@ -20,7 +20,7 @@ void CustomTime::syncTime(uint64_t newTimeMillis) {
   }
   else
   {
-    throw new std::runtime_error("Cannot time travel to the past only to the future!");
+    throw new std::runtime_error("Cannot time travel to the past you can only travel back to the future!");
   }
 }
 
