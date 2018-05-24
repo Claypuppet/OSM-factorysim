@@ -1,6 +1,7 @@
 add_executable(test_production_control
         Main.cpp
         controller_test.cpp
+        log_test.cpp
         application_test.cpp)
 
 

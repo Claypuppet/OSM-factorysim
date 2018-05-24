@@ -13,6 +13,5 @@ find_package(Boost REQUIRED COMPONENTS system unit_test_framework)
 link_directories(${Boost_LIBRARY_DIR} )
 
 include_directories(src/libs)
-
 add_subdirectory(src)
-add_subdirectory(tests) 
+add_subdirectory(tests)

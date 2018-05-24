@@ -71,7 +71,7 @@ class Time : public patterns::singleton::Singleton<Time> {
    * @param aType : Type of strategy to use
    */
   void setType(TimeType aType);
-
+ protected:
   Time();
  private:
   std::shared_ptr<ITime> timer;
