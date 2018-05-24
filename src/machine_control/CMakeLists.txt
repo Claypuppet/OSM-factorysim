@@ -26,6 +26,8 @@ add_library(source_lib_app_machine_control SHARED
         states_application/ConfigureState.h
         states_application/IdleState.cpp
         states_application/IdleState.h
+        states_application/InOperationState.h
+        states_application/InOperationState.cpp
         states_machine/Configure/ConfiguringState.cpp
         states_machine/Configure/ConfiguringState.h
         states_machine/Configure/SelfTestState.cpp
