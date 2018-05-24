@@ -1,177 +1,18 @@
 cmake_minimum_required(VERSION 3.3)
-project(production_line_control )
+project(production_line_control)
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CMAKE_CXX_STANDARD 11)
 
-
-include_directories(src/libs)
-
 find_package(wxWidgets REQUIRED net gl core base)
 include(${wxWidgets_USE_FILE})
 
 find_package(Boost REQUIRED COMPONENTS system unit_test_framework)
-link_directories(${Boost_LIBRARY_DIR})
+link_directories(${Boost_LIBRARY_DIR} )
 
+include_directories(src/libs)
 
-### SET APPLICATION EXECUTABLES ###
-
-add_executable(app_machine_control
-        src/machine_control/Main.cpp)
-
-
-add_executable(app_production_control
-        src/production_control/Main.cpp)
-
-
-add_executable(app_visualizer
-        src/visualizer/Main.cpp)
-
-
-### SET APPLICATION TEST EXECUTABLES ###
-
-add_subdirectory(tests/test_helpers)
-
-add_executable(test_machine_control
-        ${test_helpers_SOURCES}
-        tests/machine_control/Main.cpp
-        tests/machine_control/Object_test.cpp
-        tests/machine_control/controller_test.cpp
-        tests/machine_control/Network_test.cpp
-        tests/machine_control/Application_test.cpp)
-
-add_executable(test_production_control
-        ${test_helpers_SOURCES}
-        tests/production_control/Main.cpp
-        tests/production_control/controller_test.cpp
-        tests/production_control/application_test.cpp
-        tests/production_control/log_test.cpp)
-
-add_executable(test_visualizer
-#        ${test_helpers_SOURCES}
-        tests/visualizer/Main.cpp
-        tests/visualizer/Object_test.cpp)
-
-### SET APPLICATION LIBRARIES ###
-
-# Lib Network
-file(GLOB lib_network_SRC
-        "src/libs/network/**.h"
-        "src/libs/network/**.cpp")
-
-add_library(lib_network SHARED
-        ${lib_network_SRC})
-
-# Lib Models
-file(GLOB lib_models_SRC
-        "src/libs/models/**.h"
-        "src/libs/models/**.cpp")
-
-add_library(lib_models SHARED
-        ${lib_models_SRC})
-
-# Lib Patterns
-file(GLOB_RECURSE lib_patterns_SRC
-        "src/libs/patterns/**.h"
-        "src/libs/patterns/**.cpp")
-
-add_library(lib_patterns SHARED
-        ${lib_patterns_SRC})
-
-# Lib yaml-cpp
-file(GLOB lib_yaml_SRC
-        "src/libs/yaml-cpp/include/yaml-cpp/**.h"
-        "src/libs/yaml-cpp/src/**.cpp")
-
-add_library(lib_yaml-cpp SHARED
-        ${lib_yaml_SRC})
-
-# Lib Cereal
-file(GLOB lib_cereal_SRC
-        "src/libs/cereal/**.hpp")
-
-add_library(lib_cereal INTERFACE)
-target_sources(lib_cereal INTERFACE ${lib_cereal_SRC})
-
-
-# Lib Silly objects
-file(GLOB lib_silly_objects_SRC
-        "src/libs/silly_objects/**.hpp"
-        "src/libs/silly_objects/**.cpp")
-
-add_library(lib_silly_objects SHARED
-        ${lib_silly_objects_SRC})
-
-# Lib utils
-file(GLOB lib_utils_SRC
-        "src/libs/utils/**.h"
-        "src/libs/utils/**.cpp"
-        "src/libs/utils/time/**.h"
-        "src/libs/utils/time/**.cpp")
-
-add_library(lib_utils SHARED
-        ${lib_utils_SRC})
-
-
-install(TARGETS
-        lib_silly_objects
-        lib_network
-        lib_patterns
-        lib_yaml-cpp
-        lib_models
-        lib_utils
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
-
-
-### LIBRARY TESTS ###
-
-
-add_executable(test_network
-        ${test_helpers_SOURCES}
-        tests/network/Main.cpp
-        tests/network/network_test.cpp)
-
-
-### LINK LIBRARIES ###
-
-# Libs
-target_link_libraries(lib_silly_objects ${wxWidgets_LIBRARIES} ${Boost_DATE_TIME_LIBRARY})
-target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
-target_link_libraries(lib_utils lib_patterns)
-target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
-target_link_libraries(lib_models lib_yaml-cpp)
-
-## Applications
-# Include subdirs
-
-add_subdirectory(src/visualizer)
-add_subdirectory(src/machine_control)
-add_subdirectory(src/production_control)
-
-target_link_libraries(app_production_control source_lib_app_production)
-target_link_libraries(app_machine_control source_lib_app_machine_control)
-target_link_libraries(app_visualizer source_lib_app_visualizer)
-
-# Tests
-target_link_libraries(test_production_control source_lib_app_production ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_machine_control source_lib_app_machine_control lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_visualizer source_lib_app_visualizer ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-
-# Lib tests
-target_link_libraries(test_network lib_network lib_models ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-
-
-### CUSTOM COMMANDS ###
-
-# For production control, move configuration dir to bin dir
-add_custom_command(TARGET app_production_control PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
-
-# For testing prod control, move test configs to bin dir
-add_custom_command(TARGET test_production_control PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/tests/production_control/test_configs" $<TARGET_FILE_DIR:test_production_control>/test_configs)
+add_subdirectory(src)
+add_subdirectory(tests) 

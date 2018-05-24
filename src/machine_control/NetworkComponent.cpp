@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <models/Machine.h>
+#include <utils/time/Time.h>
 #include "NetworkComponent.h"
 #include "Application.h"
 
@@ -61,6 +62,7 @@ bool NetworkComponent::isConnected() {
 }
 
 void NetworkComponent::sendMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
 	mConnection->writeMessage(message);
   }
