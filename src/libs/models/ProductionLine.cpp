@@ -27,22 +27,6 @@ ProductionLine &ProductionLine::operator=(const ProductionLine &other) {
   }
 }
 
-void ProductionLine::deserialize(YAML::Node &productionLineNode) {
-  name = productionLineNode["name"].as<std::string>();
-
-  for (uint16_t i = 0; i < productionLineNode["products"].size(); ++i) {
-	products.push_back(Product());
-	auto productNode = productionLineNode["products"][i];
-	products.back().deserialize(productNode);
-  }
-
-  for (uint16_t i = 0; i < productionLineNode["machines"].size(); ++i) {
-	machines.push_back(Machine());
-	auto machineNode = productionLineNode["machines"][i];
-	machines.back().deserialize(machineNode);
-  }
-}
-
 const std::string &ProductionLine::getName() const {
   return name;
 }

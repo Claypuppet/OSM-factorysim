@@ -4,22 +4,24 @@
 
 #include "JSONStrategy.h"
 
-#include <cereal/archives/xml.hpp>
-#include <cereal/archives/json.hpp>
 #include <fstream>
 
-models::Configuration JSONStrategy::deserializeConfigurationFile(const std::string &filePath) {
+#include <cereal/archives/xml.hpp>
+#include <cereal/archives/json.hpp>
+
+void JSONStrategy::deserializeConfigurationFile(const std::string &filePath, models::Configuration &configuration) {
   try {
 
-    std::ofstream file( "configurationFile.json" );
-    cereal::JSONOutputArchive archive( file );
+    std::ifstream configurationFile(filePath);
 
-    std::stringstream binaryStream((std::ios::in | std::ios::binary));
-    binaryStream.str(json);
-    Protocol::InputArchive archive(binaryStream);
-    archive(object);
+    try {
+      cereal::JSONInputArchive archive(configurationFile);
+      archive(configuration);
+    } catch (const std::exception &exception) {
+      std::cerr << "Configuration file incomplete: " << exception.what() << std::endl;
+    }
 
   } catch (const std::exception &exception) {
-    std::cerr << "Invalid configuration file path: " << exception.what() << std::endl;
+    std::cerr << "Invalid configuration or invalid file path: " << exception.what() << std::endl;
   }
 }

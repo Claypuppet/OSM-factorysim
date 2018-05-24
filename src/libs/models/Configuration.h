@@ -20,10 +20,9 @@ class Configuration {
  public:
 
   /**
-   * construct a new Configuration
-   * @param name the name of a configuration
+   * construct a empty Configuration object
    */
-  Configuration(const std::string &name);
+  Configuration() = default;
 
   /**
    * Default destructor
@@ -45,8 +44,8 @@ class Configuration {
 
   // NORMAL GETTERS
   const std::string &getName() const;
-  SimulationInfo &getSimulationInfo() const;
-  ProductionLine &getProductionLine() const;
+  SimulationInfo &getSimulationInfo();
+  ProductionLine &getProductionLine();
 
   // NORMAL SETTERS
   void setName(const std::string &name);

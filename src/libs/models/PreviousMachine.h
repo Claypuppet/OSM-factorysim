@@ -19,14 +19,10 @@ class PreviousMachine {
 
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;
-  /**
-   * A function to deserialize a machine configuration node
-   * @param machineConfigurationNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &machineConfigurationNode);
 
  private:
-  uint16_t machineId, neededProducts;
+  uint16_t machineId;
+  uint16_t neededProducts;
 
   /**
    * A function to save a MachineConfiguration object in an archive

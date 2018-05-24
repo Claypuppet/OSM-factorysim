@@ -37,12 +37,6 @@ class ProductionLine {
   ProductionLine &operator=(const ProductionLine &other);
 
   /**
-   * A function to deserialize a production line node
-   * @param productionLineNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &productionLineNode);
-
-  /**
    * Getter for name
    * @return name
    */

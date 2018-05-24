@@ -4,8 +4,6 @@
 #include <iostream> // TODO : remove line
 #include <memory>
 
-#include <yaml-cpp/yaml.h>
-#include <yaml-cpp/node/node.h>
 #include <cereal/cereal.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>

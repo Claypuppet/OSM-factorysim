@@ -44,6 +44,11 @@ class Machine {
   Machine(const Machine &other);
 
   /**
+   * Construct a object of the class
+   */
+  Machine() = default;
+
+  /**
    * Default destructor
    */
   virtual ~Machine() = default;

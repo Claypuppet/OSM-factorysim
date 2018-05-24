@@ -2,10 +2,6 @@
 
 namespace models {
 
-Machine::Machine(uint16_t aId, const std::string &aName)
-	: id(aId), name(aName) {
-}
-
 Machine::Machine(const Machine &other)
 	: id(other.id), name(other.name), configurations(other.configurations) {
 }

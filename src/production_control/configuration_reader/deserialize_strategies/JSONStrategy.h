@@ -13,7 +13,7 @@ class JSONStrategy : public Strategy {
  public:
   explicit JSONStrategy();
   virtual ~JSONStrategy();
-  models::Configuration deserializeConfigurationFile(const std::string &filePath);
+  void deserializeConfigurationFile(const std::string &filePath, models::Configuration &configuration);
   bool deserialize();
 };
 

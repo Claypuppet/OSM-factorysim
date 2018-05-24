@@ -2,12 +2,6 @@
 
 namespace models {
 
-Configuration::Configuration(const Configuration &other)
-	: name(other.name),
-	  simulationInfo(other.simulationInfo),
-	  productionLine(other.productionLine) {
-}
-
 Configuration &Configuration::operator=(const Configuration &other) {
   if (this != &other) {
 	this->name = other.name;
@@ -22,11 +16,11 @@ const std::string &Configuration::getName() const {
   return name;
 }
 
-SimulationInfo &Configuration::getSimulationInfoModel() const {
+SimulationInfo &Configuration::getSimulationInfo() {
   return simulationInfo;
 }
 
-ProductionLine &Configuration::getProductionLineModel() const {
+ProductionLine &Configuration::getProductionLine() {
   return productionLine;
 }
 

@@ -52,9 +52,10 @@ const std::vector<PreviousMachine> &MachineConfiguration::getPreviousMachines() 
 }
 
 const PreviousMachine &MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
-  for (const auto &machine : previousMachines) {
-	if (machine.getMachineId() == machineId) {
-	  return machine;
+	// TODO : return nullptr if nothing found.
+  for (const auto &previousMachine : previousMachines) {
+	if (previousMachine.getMachineId() == machineId) {
+	  return previousMachine;
 	}
   }
 }
