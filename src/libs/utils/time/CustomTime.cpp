@@ -15,7 +15,13 @@ void CustomTime::increaseCurrentTime(uint64_t increaseMillis) {
   currentTime += increaseMillis;
 }
 void CustomTime::syncTime(uint64_t newTimeMillis) {
-  currentTime = newTimeMillis;
+  if(newTimeMillis >= currentTime) {
+    currentTime = newTimeMillis;
+  }
+  else
+  {
+    throw new std::runtime_error("Cannot time travel to the past only to the future!");
+  }
 }
 
 }
