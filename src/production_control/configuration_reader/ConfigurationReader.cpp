@@ -2,20 +2,30 @@
 
 namespace ConfigLoader {
 
-/* static */ ConfigurationReader &ConfigurationReader::getInstance(Strategy strategy) {
+ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
+    : strategy(other.strategy){
+}
+
+/* static */ ConfigurationReader &ConfigurationReader::getInstance(StrategyType strategyType) {
   ConfigurationReader &instance = Singleton::getInstance();
-  instance.setStrategy(strategy);
+  instance.setStrategy(strategyType);
   return instance;
 }
 
-models::Configuration ConfigurationReader::deserializeConfigurationFile(const std::string& filePath) {
-  models::Configuration configuration;
-  strategy.deserializeConfigurationFile(filePath, configuration);
-  return configuration;
+std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string& filePath) {
+  return strategy->deserialize(filePath);
 }
 
-void ConfigurationReader::setStrategy(Strategy strategy) {
-  this->strategy = strategy;
+void ConfigurationReader::setStrategy(StrategyType strategyType) {
+  switch(strategyType) {
+    case JSONStrategyType:
+      strategy = std::make_shared<JSONStrategy>(JSONStrategy());
+      break;
+
+    default:
+      strategy = nullptr;
+      break;
+  }
 }
 
 }

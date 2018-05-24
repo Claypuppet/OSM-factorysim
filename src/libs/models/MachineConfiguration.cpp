@@ -8,14 +8,16 @@ MachineConfiguration::MachineConfiguration(uint16_t productId,
                                            uint16_t outputBufferSize,
                                            uint16_t meanTimeBetweenFailureInHours,
                                            uint16_t meanTimeBetweenFailureStddevInHours,
-                                           uint16_t reparationTimeInMinutes)
+                                           uint16_t reparationTimeInMinutes,
+                                           const std::vector<PreviousMachine> &previousMachines)
     : productId(productId),
       outputEachMinute(outputEachMinute),
       initializationDurationInSeconds(initializationDurationInSeconds),
       outputBufferSize(outputBufferSize),
       meanTimeBetweenFailureInHours(meanTimeBetweenFailureInHours),
       meanTimeBetweenFailureStddevInHours(meanTimeBetweenFailureStddevInHours),
-      reparationTimeInMinutes(reparationTimeInMinutes) {
+      reparationTimeInMinutes(reparationTimeInMinutes),
+      previousMachines(previousMachines) {
 }
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
@@ -25,7 +27,8 @@ MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
 	  outputBufferSize(other.outputBufferSize),
 	  meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
 	  meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
-	  reparationTimeInMinutes(other.reparationTimeInMinutes) {
+	  reparationTimeInMinutes(other.reparationTimeInMinutes),
+	  previousMachines(other.previousMachines) {
 }
 
 MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration &other) {

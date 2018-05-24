@@ -23,7 +23,7 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   }
 
   // Links all buffers for each production line
-  for (const auto &product : productionLine.getProducts()) {
+  for (const auto &product : productionLine->getProducts()) {
 	auto productId = product.getId();
 	for (const auto &machine : machines) {
 	  auto previousMachines = machine->getPreviousMachines(productId);
@@ -139,8 +139,8 @@ void core::Application::stopServer() {
   }
 }
 
-void core::Application::setProductionLine(const models::ProductionLine &executaionConfiguration) {
-  productionLine = executaionConfiguration;
+void core::Application::setProductionLine(const models::ProductionLine &executionConfiguration) {
+  productionLine = std::make_shared<models::ProductionLine>(executionConfiguration);
 }
 
 void core::Application::executeScheduler() {

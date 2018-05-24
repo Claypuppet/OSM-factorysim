@@ -14,6 +14,7 @@
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
 #include "configuration_reader/ConfigurationReader.h"
+#include "configuration_reader/deserialize_strategies/JSONStrategy.h"
 
 namespace simulation {
 
@@ -129,23 +130,23 @@ void SimulationController::setStartState() {
 }
 
 void SimulationController::setConfigFromFile(const std::string &filePath) {
+  // TODO : choose a strategy based on the given file extension...
 
-  ConfigLoader::ConfigurationReader reader;
+  auto strategyType = ConfigLoader::StrategyType::JSONStrategyType;
+  auto configurationReader = ConfigLoader::ConfigurationReader::getInstance(strategyType);
+  auto configurationModel = configurationReader.deserialize(filePath);
 
-  reader.readConfigurationFile(filePath, configuration);
-  auto simInfo = configuration.getSimulationInfoConfiguration();
+  auto productionLineModel = configurationModel->getProductionLine();
+  application->setProductionLine(productionLineModel);
 
-  auto productionline = configuration.getProductionLineConfiguration();
-  auto machineInfos = productionline.getMachines();
+  const std::vector<models::Machine> &machineModels = productionLineModel.getMachines();
 
-  for (const models::Machine &m : machineInfos) {
-	SimulationMachine machine(m);
+  for (const models::Machine &machineModel : machineModels) {
+	SimulationMachine machine(machineModel);
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
-  application->setProductionLine(configuration.getProductionLineConfiguration());
   application->setMachines(machines);
-
 
   // If simulation, add sim state event
   if (true) { //TODO: For now always true till we support non-simulations
@@ -155,7 +156,6 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 	auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
 	scheduleEvent(e);
   }
-
 }
 
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {

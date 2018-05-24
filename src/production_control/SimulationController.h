@@ -26,6 +26,11 @@ class SimulationController
 	: public core::Controller, public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
+  // TODO : remove method
+  void printMachinesLength() {
+    std::cout << "length: " << machines.size() << std::endl;
+  }
+
   /**
    *
   */
@@ -124,8 +129,7 @@ class SimulationController
    * Config properties
    */
   std::string configPath;
-  models::Configuration configuration;
-
+  std::shared_ptr<models::Configuration> configuration;
 };
 }
 

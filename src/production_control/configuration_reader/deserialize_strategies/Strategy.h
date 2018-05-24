@@ -9,11 +9,12 @@
 
 #include <models/Configuration.h>
 
-class Strategy {
+class Strategy : public std::enable_shared_from_this<Strategy> {
  public:
   Strategy() = default;
   virtual ~Strategy() = default;
-  virtual void deserializeConfigurationFile(const std::string &filePath, models::Configuration &configuration) = 0;
+
+  virtual std::shared_ptr<models::Configuration> deserialize(const std::string &filePath) = 0;
 };
 
 

@@ -2,6 +2,14 @@
 
 namespace models {
 
+Machine::Machine(uint16_t id,
+                 const std::string &name,
+                 const std::vector<MachineConfiguration> &configurations)
+    :id(id),
+     name(name),
+     configurations(configurations) {
+}
+
 Machine::Machine(const Machine &other)
 	: id(other.id), name(other.name), configurations(other.configurations) {
 }

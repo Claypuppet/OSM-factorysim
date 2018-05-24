@@ -2,6 +2,10 @@
 
 namespace models {
 
+Product::Product(uint16_t id, const std::string &name, uint16_t proportion)
+    : id(id), name(name), proportion(proportion) {
+}
+
 Product::Product(const Product &other)
 	: id(other.id),
 	  name(other.name),

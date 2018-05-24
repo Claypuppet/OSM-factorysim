@@ -20,8 +20,17 @@ typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
 class ProductionLine {
  public:
-  ProductionLine() = default;
   virtual ~ProductionLine() = default;
+
+  /**
+   * ...
+   * @param name
+   * @param products
+   * @param machines
+   */
+  ProductionLine(const std::string &name,
+                 const std::vector<Product> &products,
+                 const std::vector<Machine> &machines);
 
   /**
    * Copy constructor

@@ -8,12 +8,12 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 
+#include "PreviousMachine.h"
+
 namespace models {
 
 class MachineConfiguration;
 typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
-
-class PreviousMachine;
 
 class MachineConfiguration {
  public:
@@ -34,10 +34,11 @@ class MachineConfiguration {
                        uint16_t outputBufferSize,
                        uint16_t meanTimeBetweenFailureInHours,
                        uint16_t meanTimeBetweenFailureStddevInHours,
-                       uint16_t reparationTimeInMinutes);
+                       uint16_t reparationTimeInMinutes,
+                       const std::vector<PreviousMachine> &previousMachines);
 
   /**
-   * Default destructor
+   * Destruct the object
    */
   virtual ~MachineConfiguration() = default;
 

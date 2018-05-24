@@ -16,8 +16,15 @@ typedef std::shared_ptr<Product> ProductPtr;
 
 class Product {
  public:
-  Product() = default;
   virtual ~Product() = default;
+
+  /**
+   * ...
+   * @param id
+   * @param name
+   * @param proportion
+   */
+  Product(uint16_t id, const std::string &name, uint16_t proportion);
 
   /**
    * Copy constructor

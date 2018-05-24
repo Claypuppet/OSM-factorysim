@@ -11,10 +11,13 @@
 
 class JSONStrategy : public Strategy {
  public:
-  explicit JSONStrategy();
-  virtual ~JSONStrategy();
-  void deserializeConfigurationFile(const std::string &filePath, models::Configuration &configuration);
-  bool deserialize();
+  explicit JSONStrategy() = default;
+  virtual ~JSONStrategy() = default;
+
+  std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
+
+ private:
+  std::shared_ptr<models::Configuration> deserializeConfiguration();
 };
 
 #endif //PRODUCTION_LINE_CONTROL_JSONSTRATEGY_H

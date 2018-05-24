@@ -2,6 +2,20 @@
 
 namespace models {
 
+Configuration::Configuration(const std::string &name,
+                             const SimulationInfo &simulationInfo,
+                             const ProductionLine &productionLine)
+    : name(name),
+      simulationInfo(simulationInfo),
+      productionLine(productionLine) {
+}
+
+Configuration::Configuration(const Configuration &other)
+    : name(other.name),
+      simulationInfo(other.simulationInfo),
+      productionLine(other.productionLine) {
+}
+
 Configuration &Configuration::operator=(const Configuration &other) {
   if (this != &other) {
 	this->name = other.name;

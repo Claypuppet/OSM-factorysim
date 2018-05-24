@@ -9,13 +9,22 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
 
+namespace models {
+
 /**
  * Class used by configuration to link previous machines.
  */
 class PreviousMachine {
  public:
-  PreviousMachine() = default;
   virtual ~PreviousMachine() = default;
+
+  /**
+   * ...
+   * @param machineId
+   * @param neededProducts
+   */
+  PreviousMachine(uint16_t machineId,
+                  uint16_t neededProducts);
 
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;
@@ -46,5 +55,7 @@ class PreviousMachine {
 
   friend class ::cereal::access;
 };
+
+}
 
 #endif //PRODUCTION_LINE_CONTROL_PREVIOUSMACHINE_H

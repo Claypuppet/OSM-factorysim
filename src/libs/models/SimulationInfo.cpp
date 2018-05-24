@@ -2,6 +2,10 @@
 
 namespace models {
 
+SimulationInfo::SimulationInfo(uint8_t durationInHours)
+    : durationInHours(durationInHours) {
+}
+
 SimulationInfo::SimulationInfo(const SimulationInfo &other)
 	: durationInHours(other.durationInHours) {
 }

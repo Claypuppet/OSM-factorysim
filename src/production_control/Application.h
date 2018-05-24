@@ -23,11 +23,11 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   Application() = default;
   virtual ~Application();
 
-  virtual /**
+  /**
    * Set the machines used in this application
    * @param aMachines
    */
-  void setMachines(const std::vector<MachinePtr> &aMachines);
+  virtual void setMachines(const std::vector<MachinePtr> &aMachines);
 
   /**
   * A function to get a machine by its ID
@@ -103,7 +103,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   const std::vector<MachinePtr> &getMachines() const;
 
  protected:
-  models::ProductionLine productionLine;
+  models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
   uint16_t currentProduct;
 

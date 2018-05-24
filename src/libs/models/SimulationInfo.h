@@ -19,8 +19,13 @@ typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 
 class SimulationInfo {
  public:
-  SimulationInfo() = default;
   virtual ~SimulationInfo() = default;
+
+  /**
+   * ...
+   * @param durationInHours
+   */
+  SimulationInfo(uint8_t durationInHours);
 
   /**
    * Copy constructor

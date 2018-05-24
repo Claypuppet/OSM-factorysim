@@ -20,14 +20,19 @@ class Configuration {
  public:
 
   /**
-   * construct a empty Configuration object
-   */
-  Configuration() = default;
-
-  /**
    * Default destructor
    */
   virtual ~Configuration() = default;
+
+  /**
+   * ...
+   * @param name
+   * @param simulationInfo
+   * @param productionLine
+   */
+  Configuration(const std::string &name,
+                const SimulationInfo &simulationInfo,
+                const ProductionLine &productionLine);
 
   /**
    * Copy constructor
@@ -62,8 +67,10 @@ class Configuration {
    */
   template<class Archive>
   void save(Archive &ar) const {
-	ar(name, simulationInfo, productionLine);
+    ar(name, simulationInfo, productionLine);
   }
+
+ private:
 
   /**
    * Function to load class from archive
@@ -72,7 +79,7 @@ class Configuration {
    */
   template<class Archive>
   void load(Archive &ar) {
-	ar(name, simulationInfo, productionLine);
+    ar(name, simulationInfo, productionLine);
   }
 
   friend class ::cereal::access;

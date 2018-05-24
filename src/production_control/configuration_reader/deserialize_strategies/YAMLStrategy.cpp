@@ -4,114 +4,125 @@
 
 #include "YAMLStrategy.h"
 
-void YAMLStrategy::deserializeConfigurationFile(const std::string &filePath, models::Configuration &configuration) {
+std::shared_ptr<models::Configuration> YAMLStrategy::deserialize(const std::string &filePath) {
   try {
+
     YAML::Node yamlFileNode = YAML::LoadFile(filePath);
 
     try {
-      deserializeConfiguration(configuration, yamlFileNode);
+
+      auto configurationModel = deserializeConfiguration(yamlFileNode);
+      return configurationModel;
+
     } catch (const std::exception &exception) {
+
       std::cerr << "Configuration file incomplete: " << exception.what() << std::endl;
+
     }
 
   } catch (const std::exception &exception) {
+
     std::cerr << "Invalid configuration file path: " << exception.what() << std::endl;
+
   }
 }
 
-void YAMLStrategy::deserializeConfiguration(models::Configuration &configurationModel, YAML::Node &configurationYAMLNode) {
+std::shared_ptr<models::Configuration> YAMLStrategy::deserializeConfiguration(YAML::Node &configurationYAMLNode) {
   std::string name = configurationYAMLNode["name"].as<std::string>();
-  configurationModel.setName(name);
 
-  auto &simulationInfoModel = configurationModel.getSimulationInfoModel();
   auto simulationInfoYAMLNode = configurationYAMLNode["simulationInfo"];
-  deserializeSimulationInfo(simulationInfoModel, simulationInfoYAMLNode);
+  auto simulationInfoModel = deserializeSimulationInfo(simulationInfoYAMLNode);
 
-  auto &productionLineModel = configurationModel.getProductionLineModel();
   auto productionLineYAMLNode = configurationYAMLNode["productionLine"];
-  deserializeProductionLine(productionLineModel, productionLineYAMLNode);
+  auto productionLineModel = deserializeProductionLine(productionLineYAMLNode);
+
+  models::Configuration configurationModel(name, (*simulationInfoModel), (*productionLineModel));
+  return std::make_shared<models::Configuration>(configurationModel);
 }
 
-void YAMLStrategy::deserializeSimulationInfo(models::SimulationInfo &simulationInfoModel, YAML::Node &simulationInfoYAMLNode) {
+std::shared_ptr<models::SimulationInfo> YAMLStrategy::deserializeSimulationInfo(YAML::Node &simulationInfoYAMLNode) {
   auto durationInHours = simulationInfoYAMLNode["durationInHours"].as<uint16_t>();
-  simulationInfoModel.setDurationInHours(durationInHours);
+
+  models::SimulationInfo simulationInfoModel(durationInHours);
+  return std::make_shared<models::SimulationInfo>(simulationInfoModel);
 }
 
-void YAMLStrategy::deserializeProductionLine(models::Configuration &productionLineModel, YAML::Node &productionLineYAMLNode) {
+std::shared_ptr<models::ProductionLine> YAMLStrategy::deserializeProductionLine(YAML::Node &productionLineYAMLNode) {
   auto name = productionLineYAMLNode["name"].as<std::string>();
-  productionLineModel.setName(name);
 
+  std::vector<models::Product> productModels;
   for (uint16_t i = 0; i < productionLineYAMLNode["products"].size(); ++i) {
-    auto productModel = productionLineModel.addProduct(models::Product());
-    auto productYAMLNode = productionLineNode["products"][i];
-    deserializeProduct(productModel, productYAMLNode);
+    auto productYAMLNode = productionLineYAMLNode["products"][i];
+    auto productModel = deserializeProduct(productYAMLNode);
+    productModels.emplace_back((*productModel));
   }
 
+  std::vector<models::Machine> machineModels;
   for (uint16_t i = 0; i < productionLineYAMLNode["machines"].size(); ++i) {
-    auto machineModel = productionLineModel.addMachine(models::Machine());
-    auto machineYAMLNode = productionLineNode["machines"][i];
-    deserializeMachine(machineModel, machineYAMLNode);
+    auto machineYAMLNode = productionLineYAMLNode["machines"][i];
+    auto machineModel = deserializeMachine(machineYAMLNode);
+    machineModels.emplace_back((*machineModel));
   }
+
+  models::ProductionLine productionLineModel(name, productModels, machineModels);
+  return std::make_shared<models::ProductionLine>(productionLineModel);
 }
 
-void YAMLStrategy::deserializeProduct(models::Configuration &productModel, YAML::Node &productYAMLNode) {
+std::shared_ptr<models::Product> YAMLStrategy::deserializeProduct(YAML::Node &productYAMLNode) {
   auto id = productYAMLNode["id"].as<uint16_t>();
-  productModel.setId(id);
-
   auto name = productYAMLNode["name"].as<std::string>();
-  productModel.setName(name);
-
   auto proportion = productYAMLNode["proportion"].as<uint16_t>();
-  productModel.setProportion(proportion);
+
+  models::Product productModel(id, name, proportion);
+  return std::make_shared<models::Product>(productModel);
 }
 
-void YAMLStrategy::deserializeMachine(models::Configuration &machineModel, YAML::Node &machineYAMLNode) {
+std::shared_ptr<models::Machine> YAMLStrategy::deserializeMachine(YAML::Node &machineYAMLNode) {
   auto id = machineYAMLNode["id"].as<uint16_t>();
-  machineModel.setId(id);
-
   auto name = machineYAMLNode["name"].as<std::string>();
-  machineModel.setName(name);
 
+  std::vector<models::MachineConfiguration> configurationModels;
   for (uint16_t i = 0; i < machineYAMLNode["configurations"].size(); ++i) {
-    auto machineConfigurationModel = machineModel.addMachineConfiguration();
     auto machineConfigurationYAMLNode = machineYAMLNode["configurations"][i];
-    deserializeMachineConfiguration(machineConfigurationModel, machineConfigurationYAMLNode);
+    auto machineConfigurationModel = deserializeMachineConfiguration(machineConfigurationYAMLNode);
+    configurationModels.emplace_back((*machineConfigurationModel));
   }
+
+  models::Machine machineModel(id, name, configurationModels);
+  return std::make_shared<models::Machine>(machineModel);
 }
 
-void YAMLStrategy::deserializeMachineConfiguration(models::Configuration &machineConfigurationModel, YAML::Node &machineConfigurationYAMLNode) {
+std::shared_ptr<models::MachineConfiguration> YAMLStrategy::deserializeMachineConfiguration(YAML::Node &machineConfigurationYAMLNode) {
   auto productId = machineConfigurationYAMLNode["productId"].as<uint16_t>();
-  machineConfigurationModel.setProductId(productId);
-
   auto outputEachMinute = machineConfigurationYAMLNode["outputEachMinute"].as<uint16_t>();
-  machineConfigurationModel.setOutputEachMinute(outputEachMinute);
-
   auto initializationDurationInSeconds = machineConfigurationYAMLNode["initializationDurationInSeconds"].as<uint16_t>();
-  machineConfigurationModel.setInitializationDurationInSeconds(initializationDurationInSeconds);
-
   auto outputBufferSize = machineConfigurationYAMLNode["outputBufferSize"].as<uint16_t>();
-  machineConfigurationModel.setOutputBufferSize(outputBufferSize);
-
   auto meanTimeBetweenFailureInHours = machineConfigurationYAMLNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
-  machineConfigurationModel.setMeanTimeBetweenFailureInHours(meanTimeBetweenFailureInHours);
-
   auto meanTimeBetweenFailureStddevInHours = machineConfigurationYAMLNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
-  machineConfigurationModel.setmManTimeBetweenFailureStddevInHours(meanTimeBetweenFailureStddevInHours);
-
   auto reparationTimeInMinutes = machineConfigurationYAMLNode["reparationTimeInMinutes"].as<uint16_t>();
-  machineConfigurationModel.setReparationTimeInMinutes(reparationTimeInMinutes);
 
+  std::vector<models::PreviousMachine> previousMachines;
   for (uint16_t i = 0; i < machineConfigurationYAMLNode["previousMachines"].size(); ++i) {
-    auto previousMachineModel = machineConfigurationModel.addPreviousMachine();
     auto previousMachineYAMLNode = machineConfigurationYAMLNode["previousMachines"][i];
-    deserializePreviousMachine(previousMachineModel, previousMachineYAMLNode);
+    auto previousMachineModel = deserializePreviousMachine(previousMachineYAMLNode);
+    previousMachines.emplace_back((*previousMachineModel));
   }
+
+  models::MachineConfiguration machineConfigurationModel(productId,
+                                                         outputEachMinute,
+                                                         initializationDurationInSeconds,
+                                                         outputBufferSize,
+                                                         meanTimeBetweenFailureInHours,
+                                                         meanTimeBetweenFailureStddevInHours,
+                                                         reparationTimeInMinutes,
+                                                         previousMachines);
+  return std::make_shared<models::MachineConfiguration>(machineConfigurationModel);
 }
 
-void YAMLStrategy::deserializePreviousMachine(models::Configuration &previousMachineModel, YAML::Node &previousMachineYAMLNode) {
+std::shared_ptr<models::PreviousMachine> YAMLStrategy::deserializePreviousMachine(YAML::Node &previousMachineYAMLNode) {
   auto machineId = previousMachineYAMLNode["machineId"].as<uint16_t>();
-  previousMachineModel.setMachineId(machineId);
-
   auto neededProducts = previousMachineYAMLNode["neededProducts"].as<uint16_t>();
-  previousMachineModel.setNeededProducts(neededProducts);
+
+  models::PreviousMachine previousMachineModel(machineId, neededProducts);
+  return std::make_shared<models::PreviousMachine>(previousMachineModel);
 }

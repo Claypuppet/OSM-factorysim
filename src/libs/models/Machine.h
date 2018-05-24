@@ -16,9 +16,6 @@
 
 namespace models {
 
-class Machine;
-typedef std::shared_ptr<Machine> MachinePtr;
-
 class Machine {
  public:
 
@@ -37,21 +34,24 @@ class Machine {
 	kMachineStatusRepairing,
   };
 
+
+  virtual ~Machine() = default;
+
+  /**
+   * ...
+   * @param id
+   * @param name
+   * @param configurations
+   */
+  Machine(uint16_t id,
+          const std::string &name,
+          const std::vector<MachineConfiguration> &configurations);
+
   /**
    * Copy this class
    * @param other const ref to other class
    */
   Machine(const Machine &other);
-
-  /**
-   * Construct a object of the class
-   */
-  Machine() = default;
-
-  /**
-   * Default destructor
-   */
-  virtual ~Machine() = default;
 
   /**
    * Assign a object to this object
@@ -133,6 +133,8 @@ class Machine {
 
   friend class ::cereal::access;
 };
+
+typedef std::shared_ptr<Machine> MachinePtr;
 
 }
 
