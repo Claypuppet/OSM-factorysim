@@ -26,7 +26,7 @@ SimulationController::SimulationController() : core::Controller() {
   // Use custom time
   auto& time = utils::Time::getInstance();
   time.setType(utils::customTime);
-  time.setCurrentTime(DEFAULT_START_TIME);
+  time.syncTime(DEFAULT_START_TIME);
 }
 
 SimulationController::~SimulationController() {

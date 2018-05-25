@@ -28,8 +28,8 @@ void Machine::sendMessage(network::Message &message) {
   message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
 	connection->writeMessage(message);
+    awaitingResponse = true;
   }
-  awaitingResponse = true;
 }
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
@@ -105,22 +105,32 @@ void Machine::setCurrentConfig(uint16_t configureId) {
 }
 
 void Machine::setStatus(Machine::MachineStatus newStatus) {
-  status = newStatus;
   // Do specific action based on status
-  switch (status) {
-	case kMachineStatusIdle:
-	  awaitingResponse = false;
-	  break;
-	case kMachineStatusTakingProduct:
-	  takeProductsFromBuffers();
-	  break;
-	case kMachineStatusTakingOutProduct:
-	  placeProductsInBuffer();
-	  break;
-	default:
-	  // Nothing interesting happening
-	  break;
+  switch (newStatus) {
+    case kMachineStatusIdle:{
+      awaitingResponse = false;
+      if (status == kMachineStatusProcessingProduct){
+        // Don processing product
+        placeProductsInOutputBuffer();
+      }
+      break;
+    }
+    case kMachineStatusProcessingProduct:{
+      takeProductsFromInputBuffers();
+      break;
+    }
+    case kMachineStatusBroken:{
+      if(status == kMachineStatusProcessingProduct){
+        // Broke while processing product, product lost
+        processedProduct = nullptr;
+      }
+      break;
+    }
+    default:
+      // Nothing interesting happening
+      break;
   }
+  status = newStatus;
 }
 
 Machine::MachineStatus Machine::getStatus() {
@@ -144,7 +154,7 @@ bool Machine::canDoAction() {
   return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(1);
 }
 
-void Machine::takeProductsFromBuffers() {
+void Machine::takeProductsFromInputBuffers() {
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
 	auto previous = getConfigurationById(currentConfigId).getPreviousMachineById(inputBuffer->getFromMachineId());
 	auto itemsTaken = inputBuffer->takeFromBuffer(previous.getNeededProducts());
@@ -153,7 +163,7 @@ void Machine::takeProductsFromBuffers() {
   }
 }
 
-void Machine::placeProductsInBuffer() {
+void Machine::placeProductsInOutputBuffer() {
   if (!processedProduct){
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }
@@ -167,6 +177,9 @@ const std::vector<models::PreviousMachine> &Machine::getPreviousMachines(uint16_
 
 const std::vector<models::PreviousMachine> &Machine::getPreviousMachines() {
   return getPreviousMachines(currentConfigId);
+}
+bool Machine::isWaitingForResponse() const {
+  return awaitingResponse;
 }
 
 }

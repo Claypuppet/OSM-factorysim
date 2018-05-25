@@ -10,11 +10,11 @@
 namespace simulation {
 
 SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false) {
+	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
 }
 
 SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false) {
+	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
 }
 
 bool SimulationMachine::isSimulationConnected() const {
@@ -58,11 +58,11 @@ void SimulationMachine::setReady(bool aReady) {
 }
 
 uint64_t SimulationMachine::getNextEventMoment() {
-  if (simulationEvents.empty()){
-    return 0;
+  if (!simulationEvents.empty()){
+    const auto& event = simulationEvents.front();
+    return event.getArgumentAsType<uint64_t>(0);
   }
-  const auto& event = simulationEvents.front();
-  return event.getArgumentAsType<uint64_t>(0);
+  return 0;
 }
 
 std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(uint64_t moment) {
@@ -76,6 +76,16 @@ std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(
 
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
   simulationEvents.emplace(simulationEvent);
+  awaitingSimulationResponse = false;
+}
+
+void SimulationMachine::sendMessage(network::Message &message) {
+  Machine::sendMessage(message);
+  awaitingSimulationResponse = true;
+}
+
+bool SimulationMachine::isWaitingForResponse() const {
+  return Machine::isWaitingForResponse() && awaitingSimulationResponse;
 }
 
 } // simulation

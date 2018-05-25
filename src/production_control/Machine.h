@@ -104,12 +104,14 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   virtual bool canDoAction();
 
+  // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
+  virtual bool isWaitingForResponse() const;
 
- private:
+ protected:
 
-  /**
+  virtual /**
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
@@ -118,12 +120,12 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   /**
    * Take products from previous buffers
    */
-  void takeProductsFromBuffers();
+  void takeProductsFromInputBuffers();
 
   /**
    * Place products in output buffer
    */
-  void placeProductsInBuffer();
+  void placeProductsInOutputBuffer();
 
   MachineStatus status;
   bool awaitingResponse;

@@ -2,6 +2,7 @@
 // Created by klei on 5/16/18.
 //
 
+#include <utils/time/Time.h>
 #include "SimulationApplication.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
@@ -9,20 +10,14 @@
 namespace simulation {
 
 void SimulationApplication::turnOnSimulationMachines() {
-  for (const auto &machine : machines) {
-    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
-    if (simMachine) {
-      simMachine->sendTurnOnCommand();
-    }
+  for (const auto &machine : getSimulationMachines()) {
+    machine->sendTurnOnCommand();
   }
 }
 
 void SimulationApplication::turnOffSimulationMachines() {
-  for (const auto &machine : machines) {
-    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
-    if (simMachine) {
-      simMachine->sendTurnOnCommand();
-    }
+  for (const auto &machine : getSimulationMachines()) {
+    machine->sendTurnOnCommand();
   }
 }
 
@@ -49,6 +44,59 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
 SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machineId) {
   auto machine = getMachine(machineId);
   return std::dynamic_pointer_cast<SimulationMachine>(machine);
+}
+
+void SimulationApplication::executeScheduler() {
+  bool allReady = true;
+
+  for (const auto &machine : machines){
+    if(machine->isWaitingForResponse()){
+      allReady = false;
+      break;
+    }
+  }
+
+  if (allReady){
+    scheduleMachineNotifications();
+  }
+
+  Application::executeScheduler();
+}
+
+const std::vector<SimulationMachinePtr> SimulationApplication::getSimulationMachines() const {
+  std::vector<SimulationMachinePtr> list;
+  for(const auto &machine : machines){
+    list.emplace_back(std::dynamic_pointer_cast<SimulationMachine>(machine));
+  }
+  return list;
+}
+
+void SimulationApplication::scheduleMachineNotifications() {
+  auto simulationMachines = getSimulationMachines();
+
+  bool foundEvents = false;
+  uint64_t lowestTime = 0;
+
+  for (const auto &machine : simulationMachines){
+    auto machineEventTime = machine->getNextEventMoment();
+    if(machineEventTime && !foundEvents){
+      lowestTime = machineEventTime;
+      foundEvents = true;
+    }
+    else if (machineEventTime != 0 && machineEventTime < lowestTime) {
+      lowestTime = machineEventTime;
+    }
+  }
+  if (foundEvents){
+    utils::Time::getInstance().syncTime(lowestTime);
+    for(const auto &machine : simulationMachines){
+      // Get events for this machine on lowest time
+      auto delayedNotifications = machine->getEvents(lowestTime);
+      for (const auto &notification : delayedNotifications) {
+        Application::handleNotification(notification);
+      }
+    }
+  }
 }
 
 }

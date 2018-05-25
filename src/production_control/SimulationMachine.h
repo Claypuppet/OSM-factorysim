@@ -24,6 +24,9 @@ class SimulationMachine : public core::Machine {
    * @param aMachine : A machine model
    */
   explicit SimulationMachine(const models::Machine &aMachine);
+ protected:
+  void sendMessage(network::Message &message) override;
+ public:
 
   /**
   * Copy constructor
@@ -91,10 +94,13 @@ class SimulationMachine : public core::Machine {
    * @param simulationEvent : Event to add
    */
   void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
+  bool isWaitingForResponse() const override;
 
  private:
   bool ready;
   network::ConnectionPtr simConnection;
+
+  bool awaitingSimulationResponse;
 
   std::queue<patterns::notifyobserver::NotifyEvent> simulationEvents;
 

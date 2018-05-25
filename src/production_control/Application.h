@@ -29,7 +29,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   void setMachines(const std::vector<MachinePtr> &aMachines);
 
-  virtual /**
+  /**
   * A function to get a machine by its ID
   * @param machineId : The ID of the machine you are looking for
   * @return The machine with the requested ID or a nullptr when the machine doesn't exist
@@ -100,7 +100,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
-  const std::vector<MachinePtr> &getMachines() const;
+  virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:
   models::ProductionLine productionLine;

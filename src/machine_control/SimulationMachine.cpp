@@ -1,4 +1,5 @@
 
+#include <utils/time/Time.h>
 #include "SimulationMachine.h"
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
@@ -22,6 +23,7 @@ void SimulationMachine::takeInProduct() {
 }
 
 void SimulationMachine::processProduct() {
+  utils::Time::getInstance().increaseCurrentTime(5000);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeFinishedProduct);
   scheduleEvent(event);
 }
