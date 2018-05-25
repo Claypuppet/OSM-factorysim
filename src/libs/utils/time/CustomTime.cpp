@@ -11,11 +11,17 @@ CustomTime::CustomTime() : currentTime(0) {}
 uint64_t CustomTime::getCurrentTime() {
   return currentTime;
 }
-void CustomTime::increaseCurrentTime(uint64_t increaseSeconds) {
-  currentTime += increaseSeconds;
+void CustomTime::increaseCurrentTime(uint64_t increaseMillis) {
+  currentTime += increaseMillis;
 }
-void CustomTime::setCurrentTime(uint64_t newTimeSeconds) {
-  currentTime = newTimeSeconds;
+void CustomTime::syncTime(uint64_t newTimeMillis) {
+  if(newTimeMillis >= currentTime) {
+    currentTime = newTimeMillis;
+  }
+  else
+  {
+    throw std::runtime_error("Cannot time travel to the past you can only travel back to the future!");
+  }
 }
 
 }
