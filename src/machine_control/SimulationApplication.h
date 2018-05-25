@@ -10,20 +10,19 @@
 
 namespace simulator {
 
+/**
+ * SimulationApplication expands Application for simulation purposes
+ */
 class SimulationApplication : public machinecore::Application {
  public:
   SimulationApplication(uint16_t aMachineId);
   virtual ~SimulationApplication() = default;
 
-  /**
-   * Execute the self test and create a new event based on the result
-   */
-  void executeSelfTest() override;
   void setStartState() override;
 };
 
 typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;
 
-}
+} // simulator
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONAPPLICATION_H

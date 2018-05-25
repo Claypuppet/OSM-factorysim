@@ -14,28 +14,34 @@ add_library(source_lib_app_machine_control SHARED
         SimulationApplication.h
         NetworkComponent.cpp
         NetworkComponent.h
-        states_application/Broken/BrokenState.cpp
-        states_application/Broken/BrokenState.h
-        states_application/ProductionState.cpp
-        states_application/ProductionState.h
-        states_application/ReceiveConfig.cpp
-        states_application/ReceiveConfig.h
-        states_application/Broken/RepairingState.cpp
-        states_application/Broken/RepairingState.h
-        states_application/Inititalization/ConfigureState.cpp
-        states_application/Inititalization/ConfigureState.h
-        states_application/Inititalization/SelfTestState.cpp
-        states_application/Inititalization/SelfTestState.h
+        states_application/ApplicationState.h
+        states_application/ApplicationState.cpp
+        states_application/Initialize.cpp
+        states_application/Initialize.h
         states_application/ConnectState.cpp
         states_application/ConnectState.h
-        states_application/InOperation/IdleState.cpp
-        states_application/InOperation/IdleState.h
-        states_application/InOperation/ProcessProduct/TakeProductState.cpp
-        states_application/InOperation/ProcessProduct/TakeProductState.h
-        states_application/InOperation/ProcessProduct/ProcessProductState.cpp
-        states_application/InOperation/ProcessProduct/ProcessProductState.h
-        states_application/InOperation/ProcessProduct/TakeOutProductState.cpp
-        states_application/InOperation/ProcessProduct/TakeOutProductState.h
+        states_application/BrokenState.cpp
+        states_application/BrokenState.h
+        states_application/ConfigureState.cpp
+        states_application/ConfigureState.h
+        states_application/IdleState.cpp
+        states_application/IdleState.h
+        states_application/InOperationState.h
+        states_application/InOperationState.cpp
+        states_machine/Configure/ConfiguringState.cpp
+        states_machine/Configure/ConfiguringState.h
+        states_machine/Configure/SelfTestState.cpp
+        states_machine/Configure/SelfTestState.h
+        states_machine/Configure/PrepareConfiguration.cpp
+        states_machine/Configure/PrepareConfiguration.h
+        states_machine/InOperation/TakeProductState.cpp
+        states_machine/InOperation/TakeProductState.h
+        states_machine/InOperation/ProcessProductState.cpp
+        states_machine/InOperation/ProcessProductState.h
+        states_machine/InOperation/TakeOutProductState.cpp
+        states_machine/InOperation/TakeOutProductState.h
+        states_machine/MachineState.h
+        states_machine/MachineState.cpp
         states_simulation_controller/SimulationState.cpp
         states_simulation_controller/SimulationState.h
         states_simulation_controller/InitializeSimulationState.cpp
@@ -48,11 +54,8 @@ add_library(source_lib_app_machine_control SHARED
         states_simulation_controller/FindProductControlState.h
         states_simulation_controller/ConnectSimulationState.cpp
         states_simulation_controller/ConnectSimulationState.h
-        states_application/InOperation/InOperationState.cpp
-        states_application/InOperation/InOperationState.h
         states_simulation_controller/WaitForProductControlState.cpp
         states_simulation_controller/WaitForProductControlState.h
-        Machine.cpp
         Machine.h
         SimulationMachine.cpp
         SimulationMachine.h)

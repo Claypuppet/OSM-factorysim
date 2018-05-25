@@ -9,11 +9,11 @@
 namespace core {
 
 Machine::Machine(const models::Machine &aMachine)
-	: models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false), currentConfigId(0) {
+	: models::Machine(aMachine), status(kMachineStatusInitializing), awaitingResponse(false) {
 }
 
 Machine::Machine(const Machine &aMachine)
-	: models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false), currentConfigId(0) {
+	: models::Machine(aMachine), status(kMachineStatusInitializing), awaitingResponse(false) {
 }
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {

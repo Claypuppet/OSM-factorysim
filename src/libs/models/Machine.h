@@ -26,13 +26,11 @@ class Machine {
    * Enum of all machine statuses
    */
   enum MachineStatus {
-	kMachineStatusWaitingForConfig,
+	kMachineStatusInitializing,
 	kMachineStatusConfiguring,
-	kMachineStatusSelftesting,
 	kMachineStatusIdle,
-	kMachineStatusTakingProduct,
 	kMachineStatusProcessingProduct,
-	kMachineStatusTakingOutProduct,
+    kMachineStatusDisconnected,
 	kMachineStatusBroken,
 	kMachineStatusRepairing,
   };

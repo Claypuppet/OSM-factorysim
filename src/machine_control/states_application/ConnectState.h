@@ -5,29 +5,29 @@
 #ifndef PRODUCTION_LINE_CONTROL_CONNECTSTATE_H
 #define PRODUCTION_LINE_CONTROL_CONNECTSTATE_H
 
-#include "ProductionState.h"
+#include "ApplicationState.h"
 
-namespace productionstates {
-class ConnectState : public ProductionState {
+namespace applicationstates {
+
+/**
+ * State in which application sets up it's network with Production Control
+ */
+class ConnectState : public ApplicationState {
  public:
-  ConnectState(machinecore::Application &aContext)
-	  : ProductionState(aContext) {};
-
+  ConnectState(machinecore::Application &aContext);
   virtual ~ConnectState() = default;
 
-  virtual void entryAction();
+  void entryAction() override;
+  void doActivity() override;
+  void exitAction() override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 
-  virtual void doActivity();
-
-  virtual void exitAction();
-/**
- * This function handles incoming state events
- * for example: conection is ready makes does mean that it switches to another state
- * @param event: incomming event as eventPointer
- * @return
- */
-  virtual bool handleEvent(const patterns::statemachine::EventPtr &event);
+ private:
+  /**
+   * Called on successfull connection
+   */
+  void onConnected();
 };
-}
+} // applicationstate
 
 #endif //PRODUCTION_LINE_CONTROL_CONNECTSTATE_H

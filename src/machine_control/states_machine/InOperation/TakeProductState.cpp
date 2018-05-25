@@ -5,15 +5,18 @@
 
 #include "ProcessProductState.h"
 
-namespace productionstates {
+namespace machinestates {
+
+TakeProductState::TakeProductState(machinecore::Machine &aContext) : MachineState(aContext) {
+
+}
 
 void TakeProductState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusTakingProduct);
 }
 
 void TakeProductState::doActivity() {
-  context.takeProductIn(); // TODO : This method is currently empty because we have no buffer model yet.
+  context.takeInProduct();
 }
 
 void TakeProductState::exitAction() {
@@ -22,20 +25,21 @@ void TakeProductState::exitAction() {
 
 bool TakeProductState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeProcessProduct:
-	  onProcessProductEvent();
-	  return true;
+    case kEventTypeProcessProduct: {
+      onProcessProductEvent();
+      return true;
+    }
 
-	default:
-	  return ProductionState::handleEvent(event);
+    default: {
+      return MachineState::handleEvent(event);
+    }
   }
 }
 
 void TakeProductState::onProcessProductEvent() {
   utils::Logger::log("-Handle event: kEventTypeProcessProduct");
 
-  auto processProductState = std::make_shared<ProcessProductState>(context);
-  context.setCurrentState(processProductState);
+  auto state = std::make_shared<ProcessProductState>(context);
+  context.setCurrentState(state);
 }
-
-}
+} // machinestates
