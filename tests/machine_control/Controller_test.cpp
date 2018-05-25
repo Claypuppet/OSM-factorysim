@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
   BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::InitializeSimulationState>(controller)));
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
-  models::Machine argument;
+  auto argument = std::make_shared<models::Machine>();
   BOOST_REQUIRE_NO_THROW(event->setArgument(argument));
 
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));

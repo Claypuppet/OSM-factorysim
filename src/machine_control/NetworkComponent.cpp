@@ -49,7 +49,7 @@ void NetworkComponent::handleProcessReconfigureMessage(network::Message &message
   auto event =
 	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::NotifyEventType::kNotifyEventTypeConfigure
 	  );
-  event.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
+  event.addArgument<uint32_t>(message.getBodyObject<uint32_t>());
   notifyObservers(event);
 }
 

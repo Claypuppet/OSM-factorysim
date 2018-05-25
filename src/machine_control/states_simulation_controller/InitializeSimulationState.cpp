@@ -35,7 +35,7 @@ bool InitializeSimulationState::handleEvent(const EventPtr &event) {
 }
 
 void InitializeSimulationState::onSimulationConfigurationsReceived(const simulationstates::EventPtr &event) {
-  auto machine = std::make_shared<models::Machine>(event->getArgumentAsType<models::Machine>());
+  auto machine = event->getArgumentAsType<models::MachinePtr>();
   context.setMachineInfo(machine);
 }
 
