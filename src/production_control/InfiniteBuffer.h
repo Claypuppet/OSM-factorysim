@@ -10,7 +10,7 @@
 namespace core{
 
 /**
- * Infinite buffer class, a product generator / dump place.
+ * Infinite buffer class, a product generator / dump place. Also known as the INFINITY BUFFER
  */
 class InfiniteBuffer : public Buffer {
  public:
@@ -24,21 +24,21 @@ class InfiniteBuffer : public Buffer {
   ~InfiniteBuffer() override = default;
 
   /**
-   * checks if given amount is available in buffer
+   * checks if given amount is available in buffer, which is always true in the INFINITY BUFFER
    * @param amount : amount to check
    * @return : true if its available
    */
   bool checkAmountInBuffer(uint32_t amount) override;
 
   /**
-   * checks if given amount can be placed in buffer
+   * checks if given amount can be placed in buffer, which is always true in the INFINITY BUFFER
    * @param amount : amount to check
    * @return : true if its possible
    */
   bool checkFreeSpaceInBuffer(uint32_t amount) override;
 
   /**
-   * Take 1 from buffer
+   * Take 1 from buffer, the INFINITY BUFFER will create the product
    * @throw : throws exception if it's not possible
    * @return : product
    */
@@ -53,7 +53,7 @@ class InfiniteBuffer : public Buffer {
   std::vector<ProductPtr> takeFromBuffer(uint32_t amount) override;
 
   /**
-   * Put an item in the buffer
+   * Put an item in the buffer, the INFINITY BUFFER will "destroy" the product and just keep track of the total produced
    * @throw : throws exception if it's not possible
    * @param item : item to put in the buffer
    */

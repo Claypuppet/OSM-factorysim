@@ -56,6 +56,7 @@ bool SimulationMachine::isReadyForSimulation() const {
 void SimulationMachine::setReady(bool aReady) {
   SimulationMachine::ready = true;
 }
+
 uint64_t SimulationMachine::getNextEventMoment() {
   if (simulationEvents.empty()){
     return 0;
@@ -63,5 +64,19 @@ uint64_t SimulationMachine::getNextEventMoment() {
   const auto& event = simulationEvents.front();
   return event.getArgumentAsType<uint64_t>(0);
 }
+
+std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(uint64_t moment) {
+  std::vector<patterns::notifyobserver::NotifyEvent> list;
+  while(!simulationEvents.empty() && simulationEvents.front().getArgumentAsType<uint64_t>(0) == moment){
+    list.emplace_back(simulationEvents.front());
+    simulationEvents.pop();
+  }
+  return list;
+}
+
+void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
+  simulationEvents.emplace(simulationEvent);
+}
+
 } // simulation
 

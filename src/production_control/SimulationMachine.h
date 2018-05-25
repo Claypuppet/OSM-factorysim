@@ -81,10 +81,16 @@ class SimulationMachine : public core::Machine {
 
   /**
    * Get all events from queue with given time, throws exception is time is later than first event in queue
-   * @param moment : given time
-   * @return : list of events for given time
+   * @param moment : Time
+   * @return : List of events for given time
    */
   std::vector<patterns::notifyobserver::NotifyEvent> getEvents(uint64_t moment);
+
+  /**
+   * Add a simulation event to the queue
+   * @param simulationEvent : Event to add
+   */
+  void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
 
  private:
   bool ready;
