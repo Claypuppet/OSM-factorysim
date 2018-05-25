@@ -7,6 +7,10 @@ add_executable(test_production_control
 target_link_libraries(test_production_control source_lib_app_production lib_test_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 
-add_custom_command(TARGET test_production_control PRE_BUILD
+add_custom_target(test_config_mover ALL
+        DEPENDS move_test_config)
+
+add_custom_command(OUTPUT move_test_config
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/tests/production_control/test_configs" $<TARGET_FILE_DIR:test_production_control>/test_configs)
+        "${CMAKE_SOURCE_DIR}/tests/production_control/test_configs" $<TARGET_FILE_DIR:test_production_control>/test_configs
+        DEPENDS test_production_control)

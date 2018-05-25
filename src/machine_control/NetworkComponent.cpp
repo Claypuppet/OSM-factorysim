@@ -86,7 +86,6 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   network::Message message(network::Protocol::kAppMessageTypeRegisterMachine);
   message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
-
 }
 
 }

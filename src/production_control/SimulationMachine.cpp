@@ -10,19 +10,11 @@
 namespace simulation {
 
 SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false) {
+	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
 }
 
 SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false) {
-}
-
-SimulationMachine &SimulationMachine::operator=(const SimulationMachine &rhs) {
-  if (this != &rhs) {
-	core::Machine::operator=(rhs);
-	simConnection = rhs.simConnection;
-  }
-  return *this;
+	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
 }
 
 bool SimulationMachine::isSimulationConnected() const {
@@ -64,5 +56,37 @@ bool SimulationMachine::isReadyForSimulation() const {
 void SimulationMachine::setReady(bool aReady) {
   SimulationMachine::ready = true;
 }
+
+uint64_t SimulationMachine::getNextEventMoment() {
+  if (!simulationEvents.empty()){
+    const auto& event = simulationEvents.front();
+    return event.getArgumentAsType<uint64_t>(0);
+  }
+  return 0;
+}
+
+std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(uint64_t moment) {
+  std::vector<patterns::notifyobserver::NotifyEvent> list;
+  while(!simulationEvents.empty() && simulationEvents.front().getArgumentAsType<uint64_t>(0) == moment){
+    list.emplace_back(simulationEvents.front());
+    simulationEvents.pop();
+  }
+  return list;
+}
+
+void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
+  simulationEvents.emplace(simulationEvent);
+  awaitingSimulationResponse = false;
+}
+
+void SimulationMachine::sendMessage(network::Message &message) {
+  Machine::sendMessage(message);
+  awaitingSimulationResponse = true;
+}
+
+bool SimulationMachine::isWaitingForResponse() const {
+  return Machine::isWaitingForResponse() && awaitingSimulationResponse;
+}
+
 } // simulation
 

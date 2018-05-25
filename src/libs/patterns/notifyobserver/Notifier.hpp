@@ -226,7 +226,7 @@ class NotifyEvent {
   template<typename T>
   void setArgument(uint32_t index, const T &value) {
 	if (index > mArguments.size()) {
-	  throw new std::out_of_range("index > size()");
+	  throw std::out_of_range("index > size()");
 	}
 	if (index == mArguments.size()) {
 	  mArguments.push_back(value);

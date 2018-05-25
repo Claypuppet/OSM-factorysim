@@ -14,8 +14,6 @@ Initialize::Initialize(machinecore::Application &aContext) : ApplicationState(aC
 
 void Initialize::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusInitializing);
-
   context.registerMachine();
 }
 

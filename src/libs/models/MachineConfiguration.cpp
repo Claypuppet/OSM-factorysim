@@ -2,21 +2,19 @@
 
 namespace models {
 
-MachineConfiguration::MachineConfiguration() {
-}
-
 MachineConfiguration::MachineConfiguration(uint16_t productId) : productId(productId) {
 
 }
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
-	: productId(other.productId),
-	  outputEachMinute(other.outputEachMinute),
-	  initializationDurationInSeconds(other.initializationDurationInSeconds),
-	  outputBufferSize(other.outputBufferSize),
-	  meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
-	  meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
-	  reparationTimeInMinutes(other.reparationTimeInMinutes) {
+    : productId(other.productId),
+      outputEachMinute(other.outputEachMinute),
+      initializationDurationInSeconds(other.initializationDurationInSeconds),
+      outputBufferSize(other.outputBufferSize),
+      meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
+      meanTimeBetweenFailureStddevInHours(other.meanTimeBetweenFailureStddevInHours),
+      reparationTimeInMinutes(other.reparationTimeInMinutes),
+      previousMachines(other.previousMachines) {
 }
 
 MachineConfiguration::~MachineConfiguration() {
@@ -24,14 +22,14 @@ MachineConfiguration::~MachineConfiguration() {
 
 MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration &other) {
   if (this != &other) {
-	productId = other.productId;
-	outputEachMinute = other.outputEachMinute;
-	initializationDurationInSeconds = other.initializationDurationInSeconds;
-	outputBufferSize = other.outputBufferSize;
-	meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
-	meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
-	reparationTimeInMinutes = other.reparationTimeInMinutes;
-	previousMachines = other.previousMachines;
+    productId = other.productId;
+    outputEachMinute = other.outputEachMinute;
+    initializationDurationInSeconds = other.initializationDurationInSeconds;
+    outputBufferSize = other.outputBufferSize;
+    meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
+    meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
+    reparationTimeInMinutes = other.reparationTimeInMinutes;
+    previousMachines = other.previousMachines;
   }
 
   return *this;
@@ -47,9 +45,9 @@ void MachineConfiguration::deserialize(YAML::Node &machineConfigurationNode) {
   reparationTimeInMinutes = machineConfigurationNode["reparationTimeInMinutes"].as<uint16_t>();
 
   for (uint16_t i = 0; i < machineConfigurationNode["previousMachines"].size(); ++i) {
-	previousMachines.emplace_back(PreviousMachine());
-	auto previousMachineNode = machineConfigurationNode["previousMachines"][i];
-	previousMachines.back().deserialize(previousMachineNode);
+    previousMachines.emplace_back(PreviousMachine());
+    auto previousMachineNode = machineConfigurationNode["previousMachines"][i];
+    previousMachines.back().deserialize(previousMachineNode);
   }
 }
 
@@ -63,9 +61,9 @@ const std::vector<PreviousMachine> &MachineConfiguration::getPreviousMachines() 
 
 const PreviousMachine &MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
   for (const auto &machine : previousMachines) {
-	if (machine.getMachineId() == machineId) {
-	  return machine;
-	}
+    if (machine.getMachineId() == machineId) {
+      return machine;
+    }
   }
 }
 
@@ -92,7 +90,10 @@ uint16_t MachineConfiguration::getMeanTimeBetweenFailureStddevInHours() const {
 uint16_t MachineConfiguration::getReparationTimeInMinutes() const {
   return reparationTimeInMinutes;
 }
-
+uint16_t MachineConfiguration::getProcessTime() const {
+  static const uint16_t millisecondsInMinute = 60000;
+  return millisecondsInMinute / outputEachMinute;
+}
 void PreviousMachine::deserialize(YAML::Node &machineConfigurationNode) {
   machineId = machineConfigurationNode["machineId"].as<uint16_t>();
   neededProducts = machineConfigurationNode["neededProducts"].as<uint16_t>();
