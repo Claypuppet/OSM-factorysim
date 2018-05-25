@@ -15,6 +15,7 @@ void SelfTestState::entryAction() {
 }
 
 void SelfTestState::doActivity() {
+  MachineState::doActivity();
   context.selfTest();
 }
 

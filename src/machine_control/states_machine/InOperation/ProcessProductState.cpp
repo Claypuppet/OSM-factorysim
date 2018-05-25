@@ -16,6 +16,7 @@ void ProcessProductState::entryAction() {
 }
 
 void ProcessProductState::doActivity() {
+  MachineState::doActivity();
   context.processProduct();
 }
 

@@ -3,10 +3,19 @@
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
 
+#include <utils/time/Time.h>
+
 namespace simulator {
 
+SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(3600000) {
+
+}
+
 bool SimulationMachine::configure() {
-  distribution = std::uniform_int_distribution<uint16_t>(magicNumber, magicNumber+currentConfiguration->getMeanTimeBetweenFailureInHours());
+  distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
+                                                         (magicNumber
+                                                             + currentConfiguration->getMeanTimeBetweenFailureInHours())
+                                                             * 3600000/checkCycle);
 
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
@@ -44,8 +53,11 @@ void SimulationMachine::setInOperationStartState() {
 }
 
 bool SimulationMachine::checkBroken() {
-  if(distribution(generator) == magicNumber){
-    return true;
+  if (utils::Time::getInstance().getCurrentTime() + checkCycle > timeSinceBrokenCheck) {
+    if (distribution(generator) == magicNumber) {
+      return true;
+    }
   }
+  return false;
 }
 } // simulator

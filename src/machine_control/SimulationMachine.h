@@ -17,7 +17,7 @@ namespace simulator {
  */
 class SimulationMachine : public machinecore::Machine {
  public:
-  SimulationMachine() = default;
+  SimulationMachine();
   ~SimulationMachine() override = default;
   bool configure() override;
   void selfTest() override;
@@ -31,9 +31,10 @@ class SimulationMachine : public machinecore::Machine {
 
  private:
   std::default_random_engine generator;
-  std::uniform_int_distribution<uint16_t> distribution;
+  std::uniform_int_distribution<uint64_t> distribution;
   uint8_t magicNumber = 0;
-
+  uint64_t timeSinceBrokenCheck;
+  uint64_t checkCycle;
 };
 
 typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;

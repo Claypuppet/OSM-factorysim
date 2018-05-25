@@ -16,6 +16,7 @@ void TakeProductState::entryAction() {
 }
 
 void TakeProductState::doActivity() {
+  MachineState::doActivity();
   context.takeInProduct();
 }
 

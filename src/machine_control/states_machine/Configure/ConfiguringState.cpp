@@ -14,6 +14,7 @@ void ConfiguringState::entryAction() {
 }
 
 void ConfiguringState::doActivity() {
+  MachineState::doActivity();
   context.configure();
 }
 
