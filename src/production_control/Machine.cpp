@@ -8,11 +8,11 @@
 namespace core {
 
 Machine::Machine(const models::Machine &aMachine)
-	: models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false) {
+	: models::Machine(aMachine), status(kMachineStatusInitializing), awaitingResponse(false) {
 }
 
 Machine::Machine(const Machine &aMachine)
-	: models::Machine(aMachine), status(kMachineStatusWaitingForConfig), awaitingResponse(false) {
+	: models::Machine(aMachine), status(kMachineStatusInitializing), awaitingResponse(false) {
 }
 
 Machine &Machine::operator=(const Machine &rhs) {
