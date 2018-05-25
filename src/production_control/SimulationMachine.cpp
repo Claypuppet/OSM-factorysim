@@ -17,14 +17,6 @@ SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
 	core::Machine(aMachine), simConnection(nullptr), ready(false) {
 }
 
-SimulationMachine &SimulationMachine::operator=(const SimulationMachine &rhs) {
-  if (this != &rhs) {
-	core::Machine::operator=(rhs);
-	simConnection = rhs.simConnection;
-  }
-  return *this;
-}
-
 bool SimulationMachine::isSimulationConnected() const {
   return !!simConnection;
 }
@@ -63,6 +55,13 @@ bool SimulationMachine::isReadyForSimulation() const {
 
 void SimulationMachine::setReady(bool aReady) {
   SimulationMachine::ready = true;
+}
+uint64_t SimulationMachine::getNextEventMoment() {
+  if (simulationEvents.empty()){
+    return 0;
+  }
+  const auto& event = simulationEvents.front();
+  return event.getArgumentAsType<uint64_t>(0);
 }
 } // simulation
 

@@ -32,13 +32,6 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   */
   Machine(const Machine &aMachine);
 
-  /**
-  * Assignment operator
-  * @param rhs : The machine to copy
-  * @return The new machine
-  */
-  Machine &operator=(const Machine &rhs);
-
   virtual ~Machine() = default;
 
   /**
@@ -64,12 +57,14 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   void sendConfigureMessage(uint32_t configureId);
 
-  // Buffer getters
-  const BufferList &getCurrentInputBuffers() const;
-  const BufferPtr &getCurrentOutputBuffer() const;
+  // Input buffer getters
   const BufferList &getInputBuffers(uint16_t productId) const;
-  const BufferPtr &getOutputBuffer(uint16_t productId) const;
+  const BufferList &getCurrentInputBuffers() const;
   const InputBuffersMap &getInputBuffers() const;
+
+  // Output buffer getters
+  const BufferPtr &getOutputBuffer(uint16_t productId) const;
+  const BufferPtr &getCurrentOutputBuffer() const;
   const OutputBuffersMap &getOutputBuffers() const;
 
   /**
@@ -77,20 +72,26 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * @param productId : id of product
    * @param outputBuffer : buffer for the product
    */
-  void setInputBuffers(uint16_t productId, BufferPtr outputBuffer);
+  void addInputBuffer(uint16_t productId, BufferPtr outputBuffer);
 
   /**
    * Use a specific input buffer, should be called after (re)configuring.
    * @param productId : id of configuration
    */
-  void useBuffersForConfig(uint16_t configureId);
+  void setCurrentConfig(uint16_t configureId);
 
   /**
-   * Get machine id of the next machine of current configuration
+   * Get the previous machines for this machine, by given config id
    * @param configureId : config id (production line)
    * @return : ids of next machine in production line
    */
-  std::vector<models::PreviousMachine> getPreviousMachines(uint16_t configureId);
+  const std::vector<models::PreviousMachine> &getPreviousMachines(uint16_t configureId);
+
+  /**
+   * Get the previous machines for this machine for current config
+   * @return : ids of next machine in production line
+   */
+  const std::vector<models::PreviousMachine> &getPreviousMachines();
 
   /**
    * Create the initial input and output buffers for this machine
@@ -101,7 +102,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
    * @param configureId : can make product for given config id
    */
-  virtual bool canDoAction(uint16_t configureId);
+  virtual bool canDoAction();
 
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
@@ -115,16 +116,21 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   void sendMessage(network::Message &message);
 
   /**
-   *
+   * Take products from previous buffers
    */
+  void takeProductsFromBuffers();
+
+  /**
+   * Place products in output buffer
+   */
+  void placeProductsInBuffer();
 
   MachineStatus status;
   bool awaitingResponse;
   network::ConnectionPtr connection;
+  ProductPtr processedProduct;
 
-  std::vector<BufferPtr> currentInputBuffers;
-  BufferPtr currentOutputBuffer;
-
+  uint16_t currentConfigId;
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
   std::map<uint16_t, BufferPtr> outputBuffers;

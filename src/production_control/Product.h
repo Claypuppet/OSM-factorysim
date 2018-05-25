@@ -15,9 +15,17 @@ namespace core {
  */
 class Product {
  public:
-  Product() = default;
+  /**
+   * create a product with id
+   * @param aProductId
+   */
+  Product(uint16_t aProductId);
   virtual ~Product() = default;
 
+ private:
+  uint64_t startTime;
+  uint64_t finishTime;
+  uint16_t productId;
 };
 
 typedef std::shared_ptr<Product> ProductPtr;
