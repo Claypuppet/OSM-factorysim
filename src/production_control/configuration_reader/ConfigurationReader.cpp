@@ -12,10 +12,23 @@ ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
   return instance;
 }
 
-std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string& filePath) {
-  std::string extension = boost::filesystem::extension(filePath);
-  std::cout << "filename extension: " << extension << std::endl;
-  return strategy->deserialize(filePath);
+std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string& filePathString) {
+//  boost::filesystem::path filePath(filePathString);
+//  std::string fileExtension = filePath.extension().string();
+//  boost::algorithm::to_lower(fileExtension);
+//
+//  if (fileExtension == ".json") {
+//
+//    setStrategy(JSONStrategyType);
+//
+//  } else if (fileExtension == ".yaml") {
+//
+//    setStrategy(YAMLStrategyType);
+//
+//  }
+
+  setStrategy(YAMLStrategyType);
+  return strategy->deserialize(filePathString);
 }
 
 void ConfigurationReader::setStrategy(StrategyType strategyType) {

@@ -44,7 +44,7 @@ class Machine {
    * @param configurations
    */
   Machine(uint16_t id,
-          const std::string &name,
+          const std::string &name = "",
           const std::vector<MachineConfiguration> &configurations = std::vector<MachineConfiguration>());
 
   /**
