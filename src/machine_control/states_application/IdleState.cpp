@@ -14,7 +14,7 @@ IdleState::IdleState(machinecore::Application &aContext)
 
 void IdleState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-//  context.statusUpdate(models::Machine::kMachineStatusIdle);
+  context.statusUpdate(models::Machine::kMachineStatusIdle);
 }
 
 void IdleState::doActivity() {

@@ -13,6 +13,7 @@ BrokenState::BrokenState(machinecore::Application &aContext)
 
 void BrokenState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusBroken);
 }
 
 void BrokenState::doActivity() {

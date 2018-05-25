@@ -13,21 +13,6 @@ SimulationApplication::SimulationApplication(uint16_t aMachineId)
   handleNotificationsFor(*machine);
 }
 
-void SimulationApplication::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
-  switch (notification.getEventId()) {
-    case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::EventType::kEventTypeReceivedConfig);
-      event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
-      scheduleEvent(event);
-      break;
-    }
-
-    default: {
-      Application::handleNotification(notification);
-    }
-  }
-}
-
 void SimulationApplication::setStartState() {
   setCurrentState(std::make_shared<applicationstates::ConnectState>(*this));
 }

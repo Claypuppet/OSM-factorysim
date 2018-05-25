@@ -1,6 +1,6 @@
 
 #include "SimulationMachine.h"
-#include "states_machine/Configure/ReadyingConfigState.h"
+#include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
 
 namespace simulator {
@@ -32,7 +32,7 @@ void SimulationMachine::takeOutProduct() {
 }
 
 void SimulationMachine::setConfigureStartState() {
-  auto state = std::make_shared<machinestates::ReadyingConfigState>(*this);
+  auto state = std::make_shared<machinestates::PrepareConfiguration>(*this);
   setCurrentState(state);
 }
 

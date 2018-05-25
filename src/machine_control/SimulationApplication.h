@@ -10,18 +10,15 @@
 
 namespace simulator {
 
-enum NotifyEventType{
-  kNotifyEventTypeMachineConfigReceived
-};
-
+/**
+ * SimulationApplication expands Application for simulation purposes
+ */
 class SimulationApplication : public machinecore::Application {
  public:
   SimulationApplication(uint16_t aMachineId);
   virtual ~SimulationApplication() = default;
 
   void setStartState() override;
-
-  virtual void handleNotification(const patterns::notifyobserver::NotifyEvent &notification);
 };
 
 typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;

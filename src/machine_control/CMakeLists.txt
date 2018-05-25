@@ -32,8 +32,8 @@ add_library(source_lib_app_machine_control SHARED
         states_machine/Configure/ConfiguringState.h
         states_machine/Configure/SelfTestState.cpp
         states_machine/Configure/SelfTestState.h
-        states_machine/Configure/ReadyingConfigState.cpp
-        states_machine/Configure/ReadyingConfigState.h
+        states_machine/Configure/PrepareConfiguration.cpp
+        states_machine/Configure/PrepareConfiguration.h
         states_machine/InOperation/TakeProductState.cpp
         states_machine/InOperation/TakeProductState.h
         states_machine/InOperation/ProcessProductState.cpp

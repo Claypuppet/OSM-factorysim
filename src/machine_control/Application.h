@@ -25,7 +25,7 @@ enum NotifyEventType {
   kNotifyEventMachineConfigured,
   kNotifyEventMachineFailedToConfigure,
   kNotifyEventTypeConfigure,
-  kNotifyEventTypeMachineFinishedProcess
+  kNotifyEventTypeMachineFinishedProcess,
 };
 
 class Application

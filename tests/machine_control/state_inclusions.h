@@ -9,7 +9,7 @@
 #include "../../src/machine_control/states_application/InOperationState.h"
 #include "../../src/machine_control/states_application/ConnectState.h"
 
-#include "../../src/machine_control/states_machine/Configure/ReadyingConfigState.h"
+#include "../../src/machine_control/states_machine/Configure/PrepareConfiguration.h"
 #include "../../src/machine_control/states_machine/Configure/ConfiguringState.h"
 #include "../../src/machine_control/states_machine/Configure/SelfTestState.h"
 

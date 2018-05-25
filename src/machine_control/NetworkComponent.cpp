@@ -71,14 +71,14 @@ void NetworkComponent::sendMessage(network::Message &message) {
 void NetworkComponent::sendStatusUpdate(models::Machine::MachineStatus status) {
   network::Message message(network::Protocol::AppMessageType::kAppMessageTypeOK);
   message.setBodyObject<models::Machine::MachineStatus>(status);
-  mConnection->writeMessage(message);
+  sendMessage(message);
 
 }
 
 void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
   network::Message message(network::Protocol::AppMessageType::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(errorCode);
-  mConnection->writeMessage(message);
+  sendMessage(message);
 }
 
 void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {

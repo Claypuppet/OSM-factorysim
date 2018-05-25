@@ -17,6 +17,7 @@ ConfigureState::ConfigureState(machinecore::Application &aContext) : Application
 
 void ConfigureState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusConfiguring);
 
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeReconfigure);
   event->addArgument<uint16_t>(context.getConfigToSet());

@@ -2,30 +2,30 @@
 // Created by hqnders on 24/05/18.
 //
 
-#include "ReadyingConfigState.h"
+#include "PrepareConfiguration.h"
 
 #include <utils/Logger.h>
 #include "ConfiguringState.h"
 
 namespace machinestates {
 
-ReadyingConfigState::ReadyingConfigState(machinecore::Machine &aContext) : MachineState(aContext) {
+PrepareConfiguration::PrepareConfiguration(machinecore::Machine &aContext) : MachineState(aContext) {
   utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
-void ReadyingConfigState::entryAction() {
+void PrepareConfiguration::entryAction() {
 
 }
 
-void ReadyingConfigState::doActivity() {
+void PrepareConfiguration::doActivity() {
 
 }
 
-void ReadyingConfigState::exitAction() {
+void PrepareConfiguration::exitAction() {
 
 }
 
-bool ReadyingConfigState::handleEvent(const machinestates::EventPtr &event) {
+bool PrepareConfiguration::handleEvent(const machinestates::EventPtr &event) {
   switch(event->getId()) {
     case kEventTypeReconfigure: {
       onReconfigure(event);
@@ -38,7 +38,7 @@ bool ReadyingConfigState::handleEvent(const machinestates::EventPtr &event) {
   }
 }
 
-void ReadyingConfigState::onReconfigure(const EventPtr &event) {
+void PrepareConfiguration::onReconfigure(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
   auto nextConfig = context.getConfigurations().at(event->getArgumentAsType<uint16_t>());

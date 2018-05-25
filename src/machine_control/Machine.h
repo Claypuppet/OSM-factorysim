@@ -21,13 +21,40 @@ class Machine
   Machine() = default;
   virtual ~Machine() = default;
 
+  /**
+   * Executed while the machine is configuring
+   * @return If outcome was successful or not
+   */
   virtual bool configure() = 0;
+
+  /**
+   * Executed while the machine is selftesting
+   */
   virtual void selfTest() = 0;
+
+  /**
+   * Executed while the machine is taking in a product
+   */
   virtual void takeInProduct() = 0;
+
+  /**
+   * Executed while the machine is processing a product
+   */
   virtual void processProduct() = 0;
+
+  /**
+   * Executed while the machine is taking out a product
+   */
   virtual void takeOutProduct() = 0;
 
+  /**
+   * Executed to set the start state of the statemachine in a configuration cycle
+   */
   virtual void setConfigureStartState() = 0;
+
+  /**
+   * Executed to set the start state of the statemachine in a production cycle
+   */
   virtual void setInOperationStartState() = 0;
 
   void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {

@@ -17,9 +17,9 @@ InOperationState::InOperationState(machinecore::Application &aContext) : Applica
 
 void InOperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
+  context.statusUpdate(models::Machine::kMachineStatusProcessingProduct);
 
-  auto state = std::make_shared<machinestates::TakeProductState>(*context.getMachine());
-  context.getMachine()->setCurrentState(state);
+  context.getMachine()->setInOperationStartState();
 }
 
 void InOperationState::doActivity() {

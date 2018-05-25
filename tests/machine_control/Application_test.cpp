@@ -142,10 +142,10 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   // prepare test on machine control when message will receive: kAppMessageTypeOK
   testutils::OnMessageFn callback = [](network::Message &message) {
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeOK);
-    BOOST_CHECK_EQUAL(message.getBodyObject<models::Machine::MachineStatus>(), models::Machine::kMachineStatusSelftesting);
+    BOOST_CHECK_EQUAL(message.getBodyObject<models::Machine::MachineStatus>(), models::Machine::kMachineStatusConfiguring);
   };
   productionServer->setOnMessageFn(callback);
-  machineNetwork->sendStatusUpdate(models::Machine::kMachineStatusSelftesting);
+  machineNetwork->sendStatusUpdate(models::Machine::kMachineStatusConfiguring);
   productionServer->awaitMessageReceived();
 
   // prepare test on machine control when message will receive: kAppMessageTypeNOK

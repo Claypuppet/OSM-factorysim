@@ -9,10 +9,13 @@
 
 namespace machinestates {
 
-class ReadyingConfigState : public MachineState {
+/**
+ * State in which the machine waits for an event containing the configuration to load
+ */
+class PrepareConfiguration : public MachineState {
  public:
-  ReadyingConfigState(machinecore::Machine &aContext);
-  ~ReadyingConfigState() = default;
+  PrepareConfiguration(machinecore::Machine &aContext);
+  ~PrepareConfiguration() = default;
 
   void entryAction() override;
   void doActivity() override;

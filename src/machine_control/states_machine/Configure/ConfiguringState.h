@@ -9,6 +9,9 @@
 
 namespace machinestates {
 
+/**
+ * State in which the machine configures itself by running the machine.configure() function
+ */
 class ConfiguringState : public MachineState {
  public:
   ConfiguringState(machinecore::Machine &aContext) : MachineState(aContext) {};
@@ -18,7 +21,7 @@ class ConfiguringState : public MachineState {
   void doActivity() override;
   void exitAction() override;
   bool handleEvent(const patterns::statemachine::EventPtr &e) override;
-  
+
  private:
   /**
    * Called when configuring is completed
