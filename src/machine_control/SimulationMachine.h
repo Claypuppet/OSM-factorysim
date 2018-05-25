@@ -29,12 +29,16 @@ class SimulationMachine : public machinecore::Machine {
   void setConfigureStartState() override;
   void setInOperationStartState() override;
 
+  static void setCanBreak(bool canBreak);
+
  private:
   std::default_random_engine generator;
   std::uniform_int_distribution<uint64_t> distribution;
   uint8_t magicNumber = 0;
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
+
+  static bool canBreak;
 };
 
 typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;

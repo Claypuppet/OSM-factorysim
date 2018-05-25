@@ -81,6 +81,8 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   simulator::SimulationApplication application(1);
 
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
+
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
@@ -99,6 +101,9 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   simulator::SimulationApplication application(1);
   BOOST_CHECK_NO_THROW(application.setupNetwork());
+
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
+
 
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
