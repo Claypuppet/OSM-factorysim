@@ -65,4 +65,11 @@ void ConfigureState::onFailedToConfigure() {
   auto state = std::make_shared<BrokenState>(context);
   context.setCurrentState(state);
 }
+
+void ConfigureState::onMachineBroke() {
+  utils::Logger::log("-Handle event: kEventTypeMachineBroke");
+
+  auto state = std::make_shared<BrokenState>(context);
+  context.setCurrentState(state);
+}
 } // applicationstates

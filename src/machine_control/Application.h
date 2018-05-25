@@ -22,10 +22,11 @@ enum NotifyEventType {
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
   kNotifyEventTypeStartProcess,
-  kNotifyEventMachineConfigured,
-  kNotifyEventMachineFailedToConfigure,
+  kNotifyEventTypeMachineConfigured,
+  kNotifyEventTypeMachineFailedToConfigure,
   kNotifyEventTypeConfigure,
   kNotifyEventTypeMachineFinishedProcess,
+  kNotifyEventTypeMachineBroke
 };
 
 class Application

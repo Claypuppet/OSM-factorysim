@@ -43,14 +43,14 @@ bool SelfTestState::handleEvent(const EventPtr &event) {
 void SelfTestState::onSelfTestSuccess() {
   utils::Logger::log("-Handle event: kEventTypeSelfTestSuccess");
 
-  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventMachineConfigured);
+  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventTypeMachineConfigured);
   context.notifyObservers(event);
 }
 
 void SelfTestState::onSelfTestFail() {
   utils::Logger::log("-Handle event: kEventTypeSelfTestFailed");
 
-  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventMachineFailedToConfigure);
+  auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventTypeMachineFailedToConfigure);
   context.notifyObservers(event);
 }
 } // machinestates
