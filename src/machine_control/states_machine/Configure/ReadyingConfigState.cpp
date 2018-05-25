@@ -41,7 +41,7 @@ bool ReadyingConfigState::handleEvent(const machinestates::EventPtr &event) {
 void ReadyingConfigState::onReconfigure(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
-  auto nextConfig = context.getConfigurations().at(event->getArgumentAsType<uint32_t>());
+  auto nextConfig = context.getConfigurations().at(event->getArgumentAsType<uint16_t>());
   context.setCurrentConfiguration(nextConfig);
 
   auto state = std::make_shared<ConfiguringState>(context);

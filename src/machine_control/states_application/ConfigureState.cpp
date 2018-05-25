@@ -19,7 +19,7 @@ void ConfigureState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
 
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeReconfigure);
-  event->addArgument<uint32_t>(context.getConfigToSet());
+  event->addArgument<uint16_t>(context.getConfigToSet());
   context.getMachine()->scheduleEvent(event);
 
   context.getMachine()->setConfigureStartState();

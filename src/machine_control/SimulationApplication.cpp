@@ -17,7 +17,7 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
   switch (notification.getEventId()) {
     case NotifyEventType::kNotifyEventTypeMachineConfigReceived : {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::EventType::kEventTypeReceivedConfig);
-      event->setArgument<uint32_t>(notification.getArgumentAsType<uint32_t>(0));
+      event->setArgument<uint16_t>(notification.getArgumentAsType<uint16_t>(0));
       scheduleEvent(event);
       break;
     }

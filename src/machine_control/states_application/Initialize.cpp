@@ -41,7 +41,7 @@ bool Initialize::handleEvent(const EventPtr &event) {
 void Initialize::onReceivedConfig(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
 
-  context.setConfigToSet(event->getArgumentAsType<uint32_t>());
+  context.setConfigToSet(event->getArgumentAsType<uint16_t>());
 
   auto state = std::make_shared<ConfigureState>(context);
   context.setCurrentState(state);

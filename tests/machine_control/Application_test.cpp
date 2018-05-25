@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
 
   // Create a ReceivedConfig event and attach the configurations to it
   auto event = std::make_shared<patterns::statemachine::Event>(applicationstates::kEventTypeReceivedConfig);
-  BOOST_CHECK_NO_THROW(event->setArgument<uint32_t>(0));
+  BOOST_CHECK_NO_THROW(event->setArgument<uint16_t>(0));
 
   // Schedule the event
   BOOST_CHECK_NO_THROW(application.scheduleEvent(event));
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   patterns::notifyobserver::NotifyEvent
       notification(machinecore::NotifyEventType::kNotifyEventTypeConfigure);
-  BOOST_CHECK_NO_THROW(notification.setArgument(0, (uint32_t)0));
+  BOOST_CHECK_NO_THROW(notification.addArgument<uint16_t>(0));
 
   BOOST_CHECK_NO_THROW(application.handleNotification(notification));
 

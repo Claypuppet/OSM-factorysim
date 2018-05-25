@@ -61,11 +61,11 @@ class Application
     id = aId;
   }
 
-  void setConfigToSet(uint32_t aConfigToSet){
+  void setConfigToSet(uint16_t aConfigToSet){
     configToSet = aConfigToSet;
   }
 
-  uint32_t getConfigToSet() const {
+  uint16_t getConfigToSet() const {
     return configToSet;
   }
 
@@ -97,7 +97,7 @@ class Application
  protected:
   uint16_t id;
   MachinePtr machine;
-  uint32_t configToSet;
+  uint16_t configToSet;
 
  private:
   network::Manager manager;
