@@ -4,10 +4,10 @@
 #include <string>
 #include <iostream>
 
+#include <boost/filesystem.hpp>
 #include <patterns/singleton/Singleton.h>
 
 #include "deserialize_strategies/Strategy.h"
-
 #include "deserialize_strategies/JSONStrategy.h"
 
 namespace ConfigLoader {

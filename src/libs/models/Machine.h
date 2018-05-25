@@ -45,7 +45,7 @@ class Machine {
    */
   Machine(uint16_t id,
           const std::string &name,
-          const std::vector<MachineConfiguration> &configurations);
+          const std::vector<MachineConfiguration> &configurations = std::vector<MachineConfiguration>());
 
   /**
    * Copy this class
