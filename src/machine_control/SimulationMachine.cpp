@@ -6,6 +6,8 @@
 namespace simulator {
 
 bool SimulationMachine::configure() {
+  distribution = std::uniform_int_distribution<uint16_t>(magicNumber, magicNumber+currentConfiguration->getMeanTimeBetweenFailureInHours());
+
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
   return true;
@@ -39,5 +41,11 @@ void SimulationMachine::setConfigureStartState() {
 void SimulationMachine::setInOperationStartState() {
   auto state = std::make_shared<machinestates::TakeProductState>(*this);
   setCurrentState(state);
+}
+
+bool SimulationMachine::checkBroken() {
+  if(distribution(generator) == magicNumber){
+    return true;
+  }
 }
 } // simulator

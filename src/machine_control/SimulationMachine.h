@@ -7,6 +7,8 @@
 
 #include "Machine.h"
 
+#include <random>
+
 namespace simulator {
 
 /**
@@ -22,9 +24,16 @@ class SimulationMachine : public machinecore::Machine {
   void takeInProduct() override;
   void processProduct() override;
   void takeOutProduct() override;
+  bool checkBroken() override;
 
   void setConfigureStartState() override;
   void setInOperationStartState() override;
+
+ private:
+  std::default_random_engine generator;
+  std::uniform_int_distribution<uint16_t> distribution;
+  uint8_t magicNumber = 0;
+
 };
 
 typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
