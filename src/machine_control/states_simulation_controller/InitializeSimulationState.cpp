@@ -35,7 +35,8 @@ bool InitializeSimulationState::handleEvent(const EventPtr &event) {
 }
 
 void InitializeSimulationState::onSimulationConfigurationsReceived(const simulationstates::EventPtr &event) {
-  context.setMachineInfo(event->getArgumentAsType<models::MachinePtr>());
+  auto machine = event->getArgumentAsType<models::MachinePtr>();
+  context.setMachineInfo(machine);
 }
 
 void InitializeSimulationState::onSimulationConfigurationsSet(const simulationstates::EventPtr &event) {

@@ -109,7 +109,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
-  const std::vector<MachinePtr> &getMachines() const;
+  virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:
   models::ProductionLinePtr productionLine;

@@ -17,21 +17,16 @@ class Machine;
 typedef std::weak_ptr<Machine> MachinePtrW;
 
 /**
- * Buffer class, uses a queue for storing the products. The buffer class can be infinite, then it will just be a product
- * generator / dump place.
+ * Buffer class, uses a queue for storing the products.
  */
 class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
  public:
-  /**
-   * Create an infinite buffer, default constructor
-   */
-  Buffer(const MachinePtrW &fromMachine);
 
   /**
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(const MachinePtrW &fromMachine, uint16_t size);
+  explicit Buffer(const MachinePtrW &fromMachine, uint32_t size);
 
   /**
    * destruct
@@ -43,21 +38,21 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * @param amount : amount to check
    * @return : true if its available
    */
-  bool checkAmountInBuffer(uint16_t amount);
+  virtual bool checkAmountInBuffer(uint32_t amount);
 
   /**
    * checks if given amount can be placed in buffer
    * @param amount : amount to check
    * @return : true if its possible
    */
-  bool checkFreeSpaceInBuffer(uint16_t amount);
+  virtual bool checkFreeSpaceInBuffer(uint32_t amount);
 
   /**
    * Take 1 from buffer
    * @throw : throws exception if it's not possible
    * @return : product
    */
-  ProductPtr takeFromBuffer();
+  virtual ProductPtr takeFromBuffer();
 
   /**
    * Take multiple from buffer
@@ -65,21 +60,21 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * @param amount : amount to take
    * @return : product
    */
-  std::vector<ProductPtr> takeFromBuffer(uint16_t amount);
+  virtual std::vector<ProductPtr> takeFromBuffer(uint32_t amount);
 
   /**
    * Put an item in the buffer
    * @throw : throws exception if it's not possible
    * @param item : item to put in the buffer
    */
-  void putInBuffer(const ProductPtr &item);
+  virtual void putInBuffer(const ProductPtr &item);
 
   /**
    * Put multiple items in the buffer
    * @throw : throws exception if it's not possible
    * @param list
    */
-  void putInBuffer(const std::vector<ProductPtr> &list);
+  virtual void putInBuffer(const std::vector<ProductPtr> &list);
 
   /**
    * get machine id from the owner of this buffer
@@ -87,11 +82,22 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   uint16_t getFromMachineId() const;
 
- private:
-  bool infinite;
-  uint16_t maxSize;
+  /**
+   * Get number of total processed items that went through the buffer
+   * @return : total items
+   */
+  uint64_t getTotalProcessed() const;
+
+ protected:
+  /**
+   * Construct an buffer for machine, only used by infinite buffer
+   */
+  Buffer();
+
+  uint32_t maxSize;
   MachinePtrW fromMachine;
 
+  uint64_t totalProcessed;
 };
 
 typedef std::shared_ptr<Buffer> BufferPtr;

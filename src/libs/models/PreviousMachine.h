@@ -16,7 +16,6 @@ namespace models {
  */
 class PreviousMachine {
  public:
-  virtual ~PreviousMachine() = default;
 
   /**
    * ...
@@ -25,6 +24,24 @@ class PreviousMachine {
    */
   PreviousMachine(uint16_t machineId,
                   uint16_t neededProducts);
+
+  /**
+   * Destruct a PreviousMachine object
+   */
+  virtual ~PreviousMachine() = default;
+
+  /**
+   * Copy a PreviousMachine object
+   * @param other PreviousMachine that needs to be coppied.
+   */
+  PreviousMachine(const PreviousMachine &other);
+
+  /**
+   * Assign all values of PreviousMachine object to another PreviousMachine object
+   * @param other the other PreviousMachine object
+   * @return the assigned PreviousMachine object
+   */
+  PreviousMachine &operator=(const PreviousMachine &other);
 
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;

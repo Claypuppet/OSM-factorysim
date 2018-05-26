@@ -31,16 +31,20 @@ MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)
 	  previousMachines(other.previousMachines) {
 }
 
+MachineConfiguration::MachineConfiguration(uint16_t productId)
+    : productId(productId) {
+}
+
 MachineConfiguration &MachineConfiguration::operator=(const MachineConfiguration &other) {
   if (this != &other) {
-	productId = other.productId;
-	outputEachMinute = other.outputEachMinute;
-	initializationDurationInSeconds = other.initializationDurationInSeconds;
-	outputBufferSize = other.outputBufferSize;
-	meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
-	meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
-	reparationTimeInMinutes = other.reparationTimeInMinutes;
-	previousMachines = other.previousMachines;
+    productId = other.productId;
+    outputEachMinute = other.outputEachMinute;
+    initializationDurationInSeconds = other.initializationDurationInSeconds;
+    outputBufferSize = other.outputBufferSize;
+    meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
+    meanTimeBetweenFailureStddevInHours = other.meanTimeBetweenFailureStddevInHours;
+    reparationTimeInMinutes = other.reparationTimeInMinutes;
+    previousMachines = other.previousMachines;
   }
 
   return *this;
@@ -86,6 +90,11 @@ uint16_t MachineConfiguration::getMeanTimeBetweenFailureStddevInHours() const {
 
 uint16_t MachineConfiguration::getReparationTimeInMinutes() const {
   return reparationTimeInMinutes;
+}
+
+uint16_t MachineConfiguration::getProcessTime() const {
+  static const uint16_t millisecondsInMinute = 60000;
+  return millisecondsInMinute / outputEachMinute;
 }
 
 }

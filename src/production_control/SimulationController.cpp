@@ -8,6 +8,7 @@
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
+#include <utils/time/Time.h>
 
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
@@ -18,8 +19,15 @@
 
 namespace simulation {
 
+// 1 jan 2018 07:00:00:000
+const uint64_t DEFAULT_START_TIME = 1514786400000;
+
 SimulationController::SimulationController() : core::Controller() {
   application = std::make_shared<SimulationApplication>();
+  // Use custom time
+  auto& time = utils::Time::getInstance();
+  time.setType(utils::customTime);
+  time.syncTime(DEFAULT_START_TIME);
 }
 
 SimulationController::~SimulationController() {

@@ -29,15 +29,15 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
 	for (const auto &machine : machines) {
 	  auto previousMachines = machine->getPreviousMachines(productId);
 	  if (previousMachines.empty()) {
-		continue;
+	  	throw std::runtime_error("machine can not have empty previous machines");
 	  }
 	  for (const auto &previousMachine : previousMachines) {
-		auto previousMachineObj = getMachine(previousMachine.getMachineId());
+		auto previousMachineObj = getMachine(previousMachine->getMachineId());
 		if (!previousMachineObj) {
 		  continue;
 		}
 		auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
-		machine->setInputBuffers(productId, previousBuffer);
+		  machine->addInputBuffer(productId, previousBuffer);
 	  }
 	}
   }
@@ -72,8 +72,9 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
   // TODO: move the case implementation to own method (or not?)
   switch (notification.getEventId()) {
 	case NotifyEventIds::eApplicationRegisterMachine: {
-	  auto id = notification.getArgumentAsType<uint16_t>(0);
-	  auto connection = notification.getArgumentAsType<network::ConnectionPtr>(1);
+	  auto time = notification.getArgumentAsType<uint64_t>(0);
+	  auto id = notification.getArgumentAsType<uint16_t>(1);
+	  auto connection = notification.getArgumentAsType<network::ConnectionPtr>(2);
 
 	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
 	  event->addArgument(id);
@@ -82,8 +83,9 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
 	  break;
 	}
 	case NotifyEventIds::eApplicationOK: {
-	  auto id = notification.getArgumentAsType<uint16_t>(0);
-	  auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(1);
+	  auto time = notification.getArgumentAsType<uint64_t>(0);
+	  auto id = notification.getArgumentAsType<uint16_t>(1);
+	  auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(2);
 	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
 	  event->setArgument(0, id);
 	  event->setArgument(1, status);
@@ -91,8 +93,9 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
 	  break;
 	}
 	case NotifyEventIds::eApplicationNOK: {
-	  auto id = notification.getArgumentAsType<uint16_t>(0);
-	  auto errorCode = notification.getArgumentAsType<uint16_t>(1);
+	  auto time = notification.getArgumentAsType<uint64_t>(0);
+	  auto id = notification.getArgumentAsType<uint16_t>(1);
+	  auto errorCode = notification.getArgumentAsType<uint16_t>(2);
 	  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
 	  event->setArgument(0, id);
 	  event->setArgument(1, errorCode);
@@ -150,15 +153,16 @@ void core::Application::setProductionLine(const std::shared_ptr<models::Producti
 
 void core::Application::executeScheduler() {
   for (const auto &machine : machines) {
-	if (machine->canDoAction(currentProduct)) {
+	if (machine->canDoAction()) {
 	  machine->sendStartProcessMessage();
 	}
   }
 }
 
 void core::Application::prepareScheduler() {
-  // TODO: make this more dynamic. now sets product with id 1 (default tabled)
-  changeProductionLineProduct(1);
+  // TODO: make this more dynamic. now sets product with id 1 (default tables)
+  auto configId = productionLine->getProducts().size() ? productionLine->getProducts().front()->getId() : 0;
+  changeProductionLineProduct(configId);
 }
 
 void core::Application::changeProductionLineProduct(uint16_t productId) {

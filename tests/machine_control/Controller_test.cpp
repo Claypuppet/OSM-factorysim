@@ -18,7 +18,6 @@
 BOOST_AUTO_TEST_SUITE(MachineControlTestControllerStates)
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
-
   // set the SimulationController with a machine id of 1
   simulator::SimulationController controller(1);
 
@@ -34,6 +33,7 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
   bool isState = !!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(currentState);
   BOOST_REQUIRE_EQUAL(isState, true);
 
+  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
@@ -66,13 +66,13 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
   
   simulator::SimulationController controller(1);
 
-  controller.setupNetwork();
+  BOOST_REQUIRE_NO_THROW(controller.setupNetwork());
   productionControlServer->awaitClientConnecting(1000);
 
   BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::InitializeSimulationState>(controller)));
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsReceived);
-  std::vector<models::MachineConfiguration> argument;
+  auto argument = std::make_shared<models::Machine>();
   BOOST_REQUIRE_NO_THROW(event->setArgument(argument));
 
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
@@ -101,11 +101,12 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerOffState) {
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerOnState) {
   simulator::SimulationController controller(1);
   auto productionControl = std::make_shared<testutils::MockNetwork>();
-  productionControl->startMockPCServerApplication();
+
+  BOOST_REQUIRE_NO_THROW(productionControl->startMockPCServerApplication());
 
   BOOST_REQUIRE_NO_THROW(controller.setCurrentState(std::make_shared<simulationstates::OnState>(controller)));
 
-  productionControl->awaitClientConnecting();
+  BOOST_REQUIRE_NO_THROW(productionControl->awaitClientConnecting());
 
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypePowerOff);
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));

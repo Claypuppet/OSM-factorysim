@@ -8,71 +8,62 @@
 
 namespace core {
 
-Buffer::Buffer(const MachinePtrW &aFromMachine) : fromMachine(aFromMachine), infinite(true), maxSize(0) {
+Buffer::Buffer() : fromMachine(), maxSize(0), totalProcessed(0) {
 
 }
-Buffer::Buffer(const MachinePtrW &aFromMachine, uint16_t size)
-	: fromMachine(aFromMachine), infinite(false), maxSize(size) {
+
+Buffer::Buffer(const MachinePtrW &aFromMachine, uint32_t size) : fromMachine(aFromMachine), maxSize(size), totalProcessed(0) {
 
 }
-bool Buffer::checkAmountInBuffer(uint16_t amount) {
-  return infinite || size() >= amount;
+
+bool Buffer::checkAmountInBuffer(uint32_t amount) {
+  return size() >= amount;
 }
 
-bool Buffer::checkFreeSpaceInBuffer(uint16_t amount) {
-  return infinite || (maxSize - size()) >= amount;
+bool Buffer::checkFreeSpaceInBuffer(uint32_t amount) {
+  return (maxSize - size()) >= amount;
 }
 
 ProductPtr Buffer::takeFromBuffer() {
-  if (infinite) {
-	return std::make_shared<Product>();
-  } else if (!size()) {
+  if (!size()) {
 	throw std::runtime_error("Unable to take from buffer: buffer empty");
   }
   return dequeue();
 }
 
-std::vector<ProductPtr> Buffer::takeFromBuffer(uint16_t amount) {
+std::vector<ProductPtr> Buffer::takeFromBuffer(uint32_t amount) {
   std::vector<ProductPtr> list;
 
-  if (infinite) {
-	while (list.size() < amount) {
-	  list.emplace_back(std::make_shared<Product>());
-	}
-  } else if (size() < amount) {
-	throw std::runtime_error("Unable to take from buffer: buffer not enough products");
-  } else {
-	while (list.size() < amount) {
-	  list.emplace_back(dequeue());
-	}
+  while (list.size() < amount) {
+	list.emplace_back(takeFromBuffer());
   }
   return list;
 }
 
 void Buffer::putInBuffer(const ProductPtr &item) {
-  if (!infinite) {
-	if (size() + 1 > maxSize) {
-	  throw std::runtime_error("Unable to place buffer: no space in buffer");
-	}
-	enqueue(item);
+  if (size() + 1 > maxSize) {
+	throw std::runtime_error("Unable to place buffer: no space in buffer");
   }
+  enqueue(item);
+  ++totalProcessed;
+  std::cout << "Placed item in buffer, currently " << size() << " products in buffer (max: " << maxSize << ")" << std::endl;
 }
 
 void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
-  if (!infinite) {
-	if (size() + 1 > maxSize) {
-	  throw std::runtime_error("Unable to place buffer: no space in buffer");
-	}
-	for (const auto &item : list) {
-	  enqueue(item);
-	}
+  for (const auto &item : list) {
+	putInBuffer(item);
   }
 }
+
 uint16_t Buffer::getFromMachineId() const {
   auto machine = fromMachine.lock();
   if (machine) {
 	return machine->getId();
   }
+}
+
+uint64_t Buffer::getTotalProcessed() const {
+  return totalProcessed;
 }
 
 }

@@ -2,17 +2,16 @@
 #ifndef PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H
 
-#include "../../ProductionState.h"
-#include "../InOperationState.h"
+#include "../MachineState.h"
 
-namespace productionstates {
+namespace machinestates {
 
 /**
  * Machine state to place a proccessed product into the buffer of the next machine in de production line
  */
-class TakeOutProductState : public InOperationState {
+class TakeOutProductState : public MachineState {
  public:
-  TakeOutProductState(machinecore::Application &aContext);
+  TakeOutProductState(machinecore::Machine &aContext);
   virtual ~TakeOutProductState() = default;
 
   virtual void entryAction();
@@ -21,13 +20,11 @@ class TakeOutProductState : public InOperationState {
   virtual bool handleEvent(const EventPtr &event);
 
  private:
-
   /**
    * Gets executed when a productTakenOut event is received
    */
   void onProductTakenOutEvent();
 };
-
-}
+} // machinestates
 
 #endif //PRODUCTION_LINE_CONTROL_TAKEOUTPRODUCTSTATE_H

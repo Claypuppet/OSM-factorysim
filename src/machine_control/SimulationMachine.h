@@ -5,7 +5,6 @@
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONMACHINE_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONMACHINE_H
 
-#include <models/MachineConfiguration.h>
 #include "Machine.h"
 
 namespace simulator {
@@ -17,17 +16,18 @@ namespace simulator {
 class SimulationMachine : public machinecore::Machine {
  public:
   SimulationMachine() = default;
-  void configure() override;
+  ~SimulationMachine() override = default;
+  bool configure() override;
   void selfTest() override;
   void takeInProduct() override;
   void processProduct() override;
   void takeOutProduct() override;
 
-  ~SimulationMachine() override = default;
+  void setConfigureStartState() override;
+  void setInOperationStartState() override;
 };
 
 typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
-
 } // namespace simulator
 
 #endif //PRODUCTION_LINE_CONTROL_SIMULATIONMACHINE_H

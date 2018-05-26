@@ -1,7 +1,7 @@
 add_executable(test_machine_control
         Main.cpp
         Object_test.cpp
-        controller_test.cpp
+        Controller_test.cpp
         Network_test.cpp
         Application_test.cpp)
 

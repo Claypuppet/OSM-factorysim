@@ -9,10 +9,6 @@ namespace NotifyEventIds {
 
 enum ApplicationNotificationTypes {
   eApplicationRegisterMachine = 0,
-  eApplicationStartInit,
-  eApplicationStartProcessing,
-  eApplicationDoneProcessing,
-  eApplicationMachineReady,
   eApplicationOK,
   eApplicationNOK
 };

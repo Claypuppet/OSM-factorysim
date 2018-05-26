@@ -2,17 +2,16 @@
 #ifndef PRODUCTION_LINE_CONTROL_PROCESSPRODUCTSTATE_H
 #define PRODUCTION_LINE_CONTROL_PROCESSPRODUCTSTATE_H
 
-#include "../../ProductionState.h"
-#include "../InOperationState.h"
+#include "../MachineState.h"
 
-namespace productionstates {
+namespace machinestates {
 
 /**
  * Machine state dureing product processing
  */
-class ProcessProductState : public InOperationState {
+class ProcessProductState : public MachineState{
  public:
-  ProcessProductState(machinecore::Application &aContext);
+  ProcessProductState(machinecore::Machine &aContext);
 
   virtual ~ProcessProductState() = default;
 
@@ -22,13 +21,11 @@ class ProcessProductState : public InOperationState {
   virtual void exitAction();
 
  private:
-
   /**
    * Gets executed when product processing is finished
    */
   void onProductFinishedEvent();
 };
-
-}
+} // machinestates
 
 #endif //PRODUCTION_LINE_CONTROL_PROCESSPRODUCTSTATE_H

@@ -2,14 +2,14 @@
 #ifndef PRODUCTION_LINE_CONTROL_BROKENSTATE_H
 #define PRODUCTION_LINE_CONTROL_BROKENSTATE_H
 
-#include "../ProductionState.h"
+#include "ApplicationState.h"
 
-namespace productionstates {
+namespace applicationstates {
 
 /**
  * Machine state when it gets repaired
  */
-class BrokenState : public ProductionState {
+class BrokenState : public ApplicationState {
  public:
   BrokenState(machinecore::Application &aContext);
   virtual ~BrokenState() = default;
@@ -20,13 +20,11 @@ class BrokenState : public ProductionState {
   virtual void exitAction();
 
  private:
-
   /**
-   * Gets executed when a repair started event is comming in
+   * Gets executed when a repair started event is coming in
    */
-  void onRepairStartedEvent();
+  void onRepairedEvent();
 };
-
-}
+} // applicationstates
 
 #endif //PRODUCTION_LINE_CONTROL_BROKENSTATE_H

@@ -43,6 +43,13 @@ class MachineConfiguration {
   virtual ~MachineConfiguration() = default;
 
   /**
+   * Construct a sample MachineConfiguration
+   * - Used in unittests
+   * @param productId
+   */
+  MachineConfiguration(uint16_t productId);
+
+  /**
    * Copy the machine configuration object
    * @param other : other MachineConfiguration object
    */
@@ -66,6 +73,12 @@ class MachineConfiguration {
    * @return outputEachMinute
    */
   uint16_t getOutputEachMinute() const;
+
+  /**
+   * Calculate the time needed to product one product
+   * @return process time in milliseconds
+   */
+  uint16_t getProcessTime() const;
 
   /**
    * Getter for initializationDurationInSeconds
@@ -143,7 +156,6 @@ class MachineConfiguration {
   }
 
   friend class ::cereal::access;
-
 };
 
 }
