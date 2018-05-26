@@ -76,7 +76,7 @@ class SimulationController
    * After that it will push imported machines into vector of machine
    * @param filePath : location of config file
    */
-  void setConfigFromFile(const std::string &filePath);
+  void setConfiguration(const std::string &filePath);
 
   /**
    * Saves connection in machines vector (if exists) and sends configuration to machine.

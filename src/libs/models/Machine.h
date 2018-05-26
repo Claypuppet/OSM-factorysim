@@ -45,7 +45,7 @@ class Machine {
    */
   Machine(uint16_t id,
           const std::string &name = "",
-          const std::vector<MachineConfiguration> &configurations = std::vector<MachineConfiguration>());
+          const std::vector<std::shared_ptr<MachineConfiguration>> &configurations = std::vector<std::shared_ptr<MachineConfiguration>>());
 
   /**
    * Copy this class
@@ -76,14 +76,14 @@ class Machine {
    * Get vector of machine configurations
    * @return vector with all machines configurations of this machine
    */
-  const std::vector<MachineConfiguration> &getConfigurations() const;
+  const std::vector<std::shared_ptr<MachineConfiguration>> &getConfigurations() const;
 
   /**
    * Get machine configuration of this machine by id
    * @param configId id of the config
    * @return machine configuration of this machine with the given id
    */
-  const MachineConfiguration &getConfigurationById(uint16_t configId) const;
+  const std::shared_ptr<MachineConfiguration> getConfigurationById(uint16_t machineConfigurationId) const;
 
   /**
    * Set the machine id
@@ -107,7 +107,7 @@ class Machine {
  protected:
   uint16_t id;
   std::string name;
-  std::vector<MachineConfiguration> configurations;
+  std::vector<std::shared_ptr<MachineConfiguration>> configurations;
 
  private:
 

@@ -9,6 +9,9 @@
 #include <cereal/archives/xml.hpp>
 #include <cereal/archives/json.hpp>
 
+JSONStrategy::JSONStrategy(const JSONStrategy &other) {
+}
+
 std::shared_ptr<models::Configuration> JSONStrategy::deserialize(const std::string &filePath) {
 
   try {

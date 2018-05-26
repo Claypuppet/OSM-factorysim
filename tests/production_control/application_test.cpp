@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // use the controller for loading the config and setup the application
   simulation::SimulationController controller;
-  controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml");
+  controller.setConfiguration("./test_configs/test_config_one_machine.yaml");
 
   // get the application from controller
   auto &application = controller.getApplication();

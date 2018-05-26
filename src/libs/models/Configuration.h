@@ -31,8 +31,8 @@ class Configuration {
    * @param productionLine
    */
   Configuration(const std::string &name,
-                const SimulationInfo &simulationInfo,
-                const ProductionLine &productionLine);
+                std::shared_ptr<SimulationInfo> simulationInfo,
+                std::shared_ptr<ProductionLine> productionLine);
 
   /**
    * Copy constructor
@@ -49,16 +49,16 @@ class Configuration {
 
   // NORMAL GETTERS
   const std::string &getName() const;
-  SimulationInfo &getSimulationInfo();
-  ProductionLine &getProductionLine();
+  const std::shared_ptr<SimulationInfo> Configuration::getSimulationInfo() const;
+  const std::shared_ptr<ProductionLine> Configuration::getProductionLine() const;
 
   // NORMAL SETTERS
   void setName(const std::string &name);
 
  private:
   std::string name;
-  SimulationInfo simulationInfo;
-  ProductionLine productionLine;
+  std::shared_ptr<SimulationInfo> simulationInfo;
+  std::shared_ptr<ProductionLine> productionLine;
 
   /**
    * Function to save class as archive

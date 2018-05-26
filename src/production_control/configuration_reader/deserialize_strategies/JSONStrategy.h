@@ -14,10 +14,9 @@ class JSONStrategy : public Strategy {
   explicit JSONStrategy() = default;
   virtual ~JSONStrategy() = default;
 
-  std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
+  JSONStrategy(const JSONStrategy &other);
 
- private:
-  std::shared_ptr<models::Configuration> deserializeConfiguration();
+  std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
 };
 
 #endif //PRODUCTION_LINE_CONTROL_JSONSTRATEGY_H

@@ -139,8 +139,12 @@ void core::Application::stopServer() {
   }
 }
 
-void core::Application::setProductionLine(const models::ProductionLine &executionConfiguration) {
-  productionLine = std::make_shared<models::ProductionLine>(executionConfiguration);
+void core::Application::setProductionLine(const models::ProductionLine &productionLine) {
+  this->productionLine = std::make_shared<models::ProductionLine>(productionLine);
+}
+
+void core::Application::setProductionLine(std::shared_ptr<models::ProductionLine> productionLine) {
+	this->productionLine = productionLine;
 }
 
 void core::Application::executeScheduler() {

@@ -26,12 +26,14 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testutils::MockNetwork>();
+
   simulation::SimulationController controller;
 
-  BOOST_CHECK_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml"));
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_one_machine.yaml"));
 
   // Machine 1 should be loaded
   auto machine = controller.getSimulationMachine(1);
+
   BOOST_REQUIRE(machine);
 
   // Setting this state will setup the server
@@ -83,7 +85,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
   //Schedule load config event
   patterns::statemachine::EventPtr event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
-  event->setArgument<std::string>("./test_configs/test_config_one_machine.json");
+  event->setArgument<std::string>("./test_configs/test_config_one_machine.yaml");
   BOOST_REQUIRE_NO_THROW(controller.scheduleEvent(event));
 
   //Run the state
@@ -101,9 +103,11 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   simulation::SimulationController controller;
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.json"));
 
-  controller.printMachinesLength();
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  controller.printMachinesLength(); // TODO : remove
 
   auto machine1 = controller.getSimulationMachine(15);
   auto machine2 = controller.getSimulationMachine(75);

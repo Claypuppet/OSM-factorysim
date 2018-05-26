@@ -20,7 +20,7 @@
 class YAMLStrategy : public Strategy {
 public:
   YAMLStrategy() = default;
-  YAMLStrategy(const YAMLStrategy& other) = delete;
+  YAMLStrategy(const YAMLStrategy& other);
   virtual ~YAMLStrategy() = default;
 
   std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);

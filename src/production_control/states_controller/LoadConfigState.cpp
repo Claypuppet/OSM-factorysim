@@ -17,7 +17,7 @@ bool LoadConfigState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
 	case kEventTypeReadConfigFile:
 	  utils::Logger::log("-Handle event: kEventTypeReadConfigFile");
-	  context.setConfigFromFile(e->getArgumentAsType<std::string>());
+      context.setConfiguration(e->getArgumentAsType<std::string>());
 	  break;
 	case kEventTypeSimulationConfigLoaded:
 	  utils::Logger::log("-Handle event: kEventTypeSimulationConfigLoaded");

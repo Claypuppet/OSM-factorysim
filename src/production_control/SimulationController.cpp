@@ -129,14 +129,11 @@ void SimulationController::setStartState() {
   scheduleEvent(event);
 }
 
-void SimulationController::setConfigFromFile(const std::string &filePath) {
-  // TODO : choose a strategy based on the given file extension...
-
-  auto strategyType = ConfigLoader::StrategyType::JSONStrategyType;
-  auto configurationReader = ConfigLoader::ConfigurationReader::getInstance(strategyType);
+void SimulationController::setConfiguration(const std::string &filePath) {
+  auto configurationReader = ConfigLoader::ConfigurationReader::getInstance();
   auto configurationModel = configurationReader.deserialize(filePath);
 
-  auto productionLineModel = configurationModel->getProductionLine();
+  models::ProductionLine &productionLineModel = configurationModel->getProductionLine();
   application->setProductionLine(productionLineModel);
 
   const std::vector<models::Machine> &machineModels = productionLineModel.getMachines();

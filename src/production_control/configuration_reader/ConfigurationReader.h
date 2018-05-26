@@ -10,6 +10,7 @@
 
 #include "deserialize_strategies/Strategy.h"
 #include "deserialize_strategies/JSONStrategy.h"
+#include "deserialize_strategies/YAMLStrategy.h"
 
 namespace ConfigLoader {
 
@@ -43,7 +44,7 @@ class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationR
    * @param strategy the strategy that instance has to have
    * @return instance with the given strategy
    */
-  static ConfigurationReader &getInstance(StrategyType strategyType);
+//  static ConfigurationReader &getInstance(StrategyType strategyType);
 
   /**
    * Set a new strategy

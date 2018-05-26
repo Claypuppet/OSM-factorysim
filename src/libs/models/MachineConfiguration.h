@@ -35,7 +35,7 @@ class MachineConfiguration {
                        uint16_t meanTimeBetweenFailureInHours,
                        uint16_t meanTimeBetweenFailureStddevInHours,
                        uint16_t reparationTimeInMinutes,
-                       const std::vector<PreviousMachine> &previousMachines);
+                       const std::vector<std::shared_ptr<PreviousMachine>> &previousMachines);
 
   /**
    * Destruct the object
@@ -101,14 +101,14 @@ class MachineConfiguration {
    * Get all previous machines of this configuration
    * @return a vector with the previous machines of this configuration
    */
-  const std::vector<PreviousMachine> &getPreviousMachines() const;
+  std::vector<std::shared_ptr<PreviousMachine>> &getPreviousMachines();
 
   /**
    * Get previous machine by id
    * @param machineId id of the previous machine you want to get
    * @return the model of the previous machine (if found)
    */
-  const PreviousMachine &getPreviousMachineById(uint16_t machineId) const;
+  std::shared_ptr<PreviousMachine> getPreviousMachineById(uint16_t machineId) const;
 
  private:
   uint16_t productId;
@@ -118,7 +118,7 @@ class MachineConfiguration {
   uint16_t meanTimeBetweenFailureInHours;
   uint16_t meanTimeBetweenFailureStddevInHours;
   uint16_t reparationTimeInMinutes;
-  std::vector<PreviousMachine> previousMachines;
+  std::vector<std::shared_ptr<PreviousMachine>> previousMachines;
 
   /**
    * A function to save a MachineConfiguration object in an archive

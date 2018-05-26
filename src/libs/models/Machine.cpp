@@ -4,14 +4,16 @@ namespace models {
 
 Machine::Machine(uint16_t id,
                  const std::string &name,
-                 const std::vector<MachineConfiguration> &configurations)
+                 const std::vector<std::shared_ptr<MachineConfiguration>> &configurations)
     :id(id),
      name(name),
      configurations(configurations) {
 }
 
 Machine::Machine(const Machine &other)
-	: id(other.id), name(other.name), configurations(other.configurations) {
+	: id(other.id),
+      name(other.name),
+      configurations(other.configurations) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
@@ -33,15 +35,18 @@ const std::string &Machine::getName() const {
   return name;
 }
 
-const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
+const std::vector<std::shared_ptr<MachineConfiguration>> &Machine::getConfigurations() const {
   return configurations;
 }
-const MachineConfiguration &Machine::getConfigurationById(uint16_t configId) const {
-  for (const auto &config : configurations) {
-	if (config.getProductId() == configId) {
-	  return config;
+
+const std::shared_ptr<MachineConfiguration> Machine::getConfigurationById(uint16_t machineConfigurationId) const {
+  for (const std::shared_ptr<MachineConfiguration> machineConfiugration : configurations) {
+	if (machineConfiugration->getProductId() == machineConfigurationId) {
+	  return machineConfiugration;
 	}
   }
+
+  return nullptr;
 }
 
 void Machine::setId(uint16_t id) {
