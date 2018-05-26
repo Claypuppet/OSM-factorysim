@@ -85,21 +85,21 @@ void Machine::setInputBuffers(uint16_t productId, BufferPtr inputbuffer) {
 
 void Machine::createInitialBuffers() {
   auto self = shared_from_this();
-  for (const auto &config : configurations) {
+  for (const std::shared_ptr<models::MachineConfiguration> machineConfiguration : configurations) {
 	BufferPtr buffer;
-	auto bufferSize = config.getOutputBufferSize();
+	auto bufferSize = machineConfiguration->getOutputBufferSize();
 	if (bufferSize) {
 	  // Buffer with size
-	  buffer = std::make_shared<Buffer>(self, config.getOutputBufferSize());
+	  buffer = std::make_shared<Buffer>(self, machineConfiguration->getOutputBufferSize());
 	} else {
 	  // Infinite buffer
 	  buffer = std::make_shared<Buffer>(self);
 	}
 	// set outputbuffer based on config
-	outputBuffers[config.getProductId()] = buffer;
+	outputBuffers[machineConfiguration->getProductId()] = buffer;
 	// Set input buffer as infinite buffer, this will be set by the application later if needed.
-	for (const auto &previousMachine : config.getPreviousMachines()) {
-	  inputBuffers[config.getProductId()].emplace_back(std::make_shared<Buffer>(self));
+	for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
+	  inputBuffers[machineConfiguration->getProductId()].emplace_back(std::make_shared<Buffer>(self));
 	}
   }
 }
@@ -125,8 +125,8 @@ Machine::MachineStatus Machine::getStatus() {
 
 bool Machine::canDoAction(uint16_t configureId) {
   for (const auto &inputBuffer : currentInputBuffers) {
-	auto previous = getConfigurationById(configureId).getPreviousMachineById(inputBuffer->getFromMachineId());
-	if (!inputBuffer->checkAmountInBuffer(previous.getNeededProducts())) {
+	auto previous = getConfigurationById(configureId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+	if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
 	  return false;
 	}
   }

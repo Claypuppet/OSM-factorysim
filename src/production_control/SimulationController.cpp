@@ -133,12 +133,12 @@ void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = ConfigLoader::ConfigurationReader::getInstance();
   auto configurationModel = configurationReader.deserialize(filePath);
 
-  models::ProductionLine &productionLineModel = configurationModel->getProductionLine();
+  const std::shared_ptr<models::ProductionLine> &productionLineModel = configurationModel->getProductionLine();
   application->setProductionLine(productionLineModel);
 
-  const std::vector<models::Machine> &machineModels = productionLineModel.getMachines();
+  const std::vector<std::shared_ptr<models::Machine>> &machineModels = productionLineModel->getMachines();
 
-  for (const models::Machine &machineModel : machineModels) {
+  for (const std::shared_ptr<models::Machine> &machineModel : machineModels) {
 	SimulationMachine machine(machineModel);
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }

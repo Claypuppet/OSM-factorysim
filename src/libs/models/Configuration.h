@@ -1,3 +1,6 @@
+
+// All specializations of shared_ptr meet the requirements of CopyConstructible, CopyAssignable, and LessThanComparable and are contextually convertible to bool.
+
 #ifndef PRODUCTION_LINE_CONTROL_CONFIG_H
 #define PRODUCTION_LINE_CONTROL_CONFIG_H
 
@@ -31,8 +34,8 @@ class Configuration {
    * @param productionLine
    */
   Configuration(const std::string &name,
-                std::shared_ptr<SimulationInfo> simulationInfo,
-                std::shared_ptr<ProductionLine> productionLine);
+                const std::shared_ptr<SimulationInfo> &simulationInfo,
+                const std::shared_ptr<ProductionLine> &productionLine);
 
   /**
    * Copy constructor
@@ -49,8 +52,8 @@ class Configuration {
 
   // NORMAL GETTERS
   const std::string &getName() const;
-  const std::shared_ptr<SimulationInfo> Configuration::getSimulationInfo() const;
-  const std::shared_ptr<ProductionLine> Configuration::getProductionLine() const;
+  const std::shared_ptr<SimulationInfo> getSimulationInfo() const;
+  const std::shared_ptr<ProductionLine> getProductionLine() const;
 
   // NORMAL SETTERS
   void setName(const std::string &name);

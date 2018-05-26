@@ -12,7 +12,7 @@ ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
 //  return instance;
 //}
 
-std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string& filePathString) {
+std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string &filePathString) {
 //  boost::filesystem::path filePath(filePathString);
 //  std::string fileExtension = filePath.extension().string();
 //  boost::algorithm::to_lower(fileExtension);

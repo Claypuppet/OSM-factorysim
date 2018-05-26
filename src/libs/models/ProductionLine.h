@@ -29,8 +29,8 @@ class ProductionLine {
    * @param machines
    */
   ProductionLine(const std::string &name,
-                 const std::vector<Product> &products,
-                 const std::vector<Machine> &machines);
+                 const std::vector<std::shared_ptr<Product>> &products,
+                 const std::vector<std::shared_ptr<Machine>> &machines);
 
   /**
    * Copy constructor
@@ -55,18 +55,18 @@ class ProductionLine {
    * Getter for products
    * @return products
    */
-  const std::vector<Product> &getProducts() const;
+  const std::vector<std::shared_ptr<Product>> &getProducts() const;
 
   /**
    * Getter for machines
    * @return machines
    */
-  const std::vector<Machine> &getMachines() const;
+  const std::vector<std::shared_ptr<Machine>> &getMachines() const;
 
  private:
   std::string name;
-  std::vector<Product> products;
-  std::vector<Machine> machines;
+  std::vector<std::shared_ptr<Product>> products;
+  std::vector<std::shared_ptr<Machine>> machines;
 
   /**
    * A function to save a ProductionLine object in an archive

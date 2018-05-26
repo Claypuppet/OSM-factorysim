@@ -54,6 +54,12 @@ class Machine {
   Machine(const Machine &other);
 
   /**
+   * Copy constructor for a shared pointer to machine
+   * @param other shared pointer to machine
+   */
+  Machine(const std::shared_ptr<Machine> other);
+
+  /**
    * Assign a object to this object
    * @param other other object of this class
    * @return this object
@@ -102,7 +108,7 @@ class Machine {
    * @param machineConfiguration machine configuration model
    * @return the new machine configuration
    */
-  MachineConfiguration &addConfiguration(const MachineConfiguration &machineConfiguration);
+  const std::shared_ptr<MachineConfiguration> addConfiguration(std::shared_ptr<MachineConfiguration> machineConfiguration);
 
  protected:
   uint16_t id;

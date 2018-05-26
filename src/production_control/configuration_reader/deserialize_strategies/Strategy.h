@@ -14,7 +14,7 @@ class Strategy : public std::enable_shared_from_this<Strategy> {
   Strategy() = default;
   virtual ~Strategy() = default;
 
-  virtual std::shared_ptr<models::Configuration> deserialize(const std::string &filePath) = 0;
+  virtual const std::shared_ptr<models::Configuration> deserialize(const std::string &filePath) const = 0;
 };
 
 

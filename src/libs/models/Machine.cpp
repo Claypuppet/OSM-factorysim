@@ -10,6 +10,12 @@ Machine::Machine(uint16_t id,
      configurations(configurations) {
 }
 
+Machine::Machine(const std::shared_ptr<Machine> other)
+    :id(other->id),
+     name(other->name),
+     configurations(other->configurations) {
+}
+
 Machine::Machine(const Machine &other)
 	: id(other.id),
       name(other.name),
@@ -57,8 +63,8 @@ void Machine::setName(const std::string &name) {
   Machine::name = name;
 }
 
-MachineConfiguration &Machine::addConfiguration(const MachineConfiguration &machineConfiguration) {
-  configurations.push_back(machineConfiguration);
+const std::shared_ptr<MachineConfiguration> Machine::addConfiguration(std::shared_ptr<MachineConfiguration> machineConfiguration) {
+  configurations.emplace_back(machineConfiguration);
   return configurations.back();
 }
 

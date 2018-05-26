@@ -23,8 +23,9 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   }
 
   // Links all buffers for each production line
-  for (const auto &product : productionLine->getProducts()) {
-	auto productId = product.getId();
+  for (const std::shared_ptr<models::Product> product : productionLine->getProducts()) {
+  	auto productId = product->getId();
+
 	for (const auto &machine : machines) {
 	  auto previousMachines = machine->getPreviousMachines(productId);
 	  if (previousMachines.empty()) {
@@ -143,7 +144,7 @@ void core::Application::setProductionLine(const models::ProductionLine &producti
   this->productionLine = std::make_shared<models::ProductionLine>(productionLine);
 }
 
-void core::Application::setProductionLine(std::shared_ptr<models::ProductionLine> productionLine) {
+void core::Application::setProductionLine(const std::shared_ptr<models::ProductionLine> &productionLine) {
 	this->productionLine = productionLine;
 }
 

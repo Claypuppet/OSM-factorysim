@@ -72,7 +72,6 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   /**
    * Set the shared pointer to productionLine
    * - used by the execution of this application
-   * - Used in the set config
    * @param productionLine reference to a productionLine model object
    */
   void setProductionLine(const models::ProductionLine &productionLine);
@@ -80,9 +79,10 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   /**
    * Set the pointer to productionline
+   * - Used in the set config
    * @param productionLine shared pointer to productionLine
    */
-  void setProductionLine(std::shared_ptr<models::ProductionLine> productionLine);
+  void setProductionLine(const std::shared_ptr<models::ProductionLine> &productionLine);
 
   /**
    * Executes the scheduler. Checks if a machine can process a product.

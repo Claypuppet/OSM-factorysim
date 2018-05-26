@@ -22,17 +22,17 @@ public:
   YAMLStrategy() = default;
   YAMLStrategy(const YAMLStrategy& other);
   virtual ~YAMLStrategy() = default;
-
-  std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
+  
+  const std::shared_ptr<models::Configuration> deserialize(const std::string &filePath) const;
 
  private:
-  std::shared_ptr<models::Configuration> deserializeConfiguration(YAML::Node &configurationYAMLNode);
-  std::shared_ptr<models::SimulationInfo> deserializeSimulationInfo(YAML::Node &simulationInfoYAMLNode);
-  std::shared_ptr<models::ProductionLine> deserializeProductionLine(YAML::Node &productionLineYAMLNode);
-  std::shared_ptr<models::Product> deserializeProduct(YAML::Node &productYAMLNode);
-  std::shared_ptr<models::Machine> deserializeMachine(YAML::Node &machineYAMLNode);
-  std::shared_ptr<models::MachineConfiguration> deserializeMachineConfiguration(YAML::Node &machineConfigurationYAMLNode);
-  std::shared_ptr<models::PreviousMachine> deserializePreviousMachine(YAML::Node &previousMachineYAMLNode);
+  const std::shared_ptr<models::Configuration> deserializeConfiguration(YAML::Node &configurationYAMLNode) const;
+  const std::shared_ptr<models::SimulationInfo> deserializeSimulationInfo(YAML::Node &simulationInfoYAMLNode) const;
+  const std::shared_ptr<models::ProductionLine> deserializeProductionLine(YAML::Node &productionLineYAMLNode) const;
+  const std::shared_ptr<models::Product> deserializeProduct(YAML::Node &productYAMLNode) const;
+  const std::shared_ptr<models::Machine> deserializeMachine(YAML::Node &machineYAMLNode) const;
+  const std::shared_ptr<models::MachineConfiguration> deserializeMachineConfiguration(YAML::Node &machineConfigurationYAMLNode) const;
+  const std::shared_ptr<models::PreviousMachine> deserializePreviousMachine(YAML::Node &previousMachineYAMLNode) const;
 };
 
 #endif //PRODUCTION_LINE_CONTROL_YAMLSTRATEGY_H
