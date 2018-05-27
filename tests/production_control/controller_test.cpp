@@ -113,9 +113,127 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfigIncompleteFileThro
 //  BOOST_CHECK_THROW(controller.setConfiguration(configurationFilePath), exception_type);
 }
 
-BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
   simulation::SimulationController controller;
   const std::string configurationFilePath = "../../../tests/production_control/test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  { // machine1
+    uint16_t machineId = 15;
+    auto machine1 = controller.getSimulationMachine(machineId);
+    BOOST_REQUIRE(machine1);
+
+    BOOST_CHECK(machine1->getId() == 15);
+    BOOST_CHECK(machine1->getName() == "Testmachine15");
+
+    auto machine1Configurations = machine1->getConfigurations();
+    BOOST_REQUIRE(machine1Configurations.size() == 2);
+
+    { // machine1 --> machineConfiguration[0]
+      auto machine1Configuration1 = machine1Configurations[0];
+
+      BOOST_CHECK(machine1Configuration1->getProductId() == 12);
+      BOOST_CHECK(machine1Configuration1->getOutputEachMinute() == 12);
+      BOOST_CHECK(machine1Configuration1->getOutputBufferSize() == 14);
+      BOOST_CHECK(machine1Configuration1->getInitializationDurationInSeconds() == 6);
+      BOOST_CHECK(machine1Configuration1->getMeanTimeBetweenFailureInHours()== 8800);
+      BOOST_CHECK(machine1Configuration1->getMeanTimeBetweenFailureStddevInHours() == 30);
+      BOOST_CHECK(machine1Configuration1->getReparationTimeInMinutes() == 24);
+
+      auto machine1Configuration1PreviousMachines = machine1Configuration1->getPreviousMachines();
+      BOOST_REQUIRE(machine1Configuration1PreviousMachines.size() == 1);
+
+      { // machine1 --> machineConfiguration[0] --> previousMachine[0]
+        auto machine1Configuration1PreviousMachine1 = machine1Configuration1PreviousMachines[0];
+
+        BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getMachineId(), 0);
+        BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getNeededProducts(), 5);
+      }
+    }
+
+    { // machine1 --> machineConfiguration[1]
+      auto machine1Configuration2 = machine1Configurations[1];
+
+      BOOST_CHECK(machine1Configuration2->getProductId() == 88);
+      BOOST_CHECK(machine1Configuration2->getOutputEachMinute() == 8);
+      BOOST_CHECK(machine1Configuration2->getOutputBufferSize() == 43);
+      BOOST_CHECK(machine1Configuration2->getInitializationDurationInSeconds() == 9);
+      BOOST_CHECK(machine1Configuration2->getMeanTimeBetweenFailureInHours() == 9800);
+      BOOST_CHECK(machine1Configuration2->getMeanTimeBetweenFailureStddevInHours() == 36);
+      BOOST_CHECK(machine1Configuration2->getReparationTimeInMinutes() == 27);
+
+      auto machine1Configuration2PreviousMachines = machine1Configuration2->getPreviousMachines();
+      BOOST_REQUIRE(machine1Configuration2PreviousMachines.size() == 1);
+
+      { // machine1 --> machineConfiguration[1] --> previousMachine[0]
+        auto machine1Configuration2PreviousMachine1 = machine1Configuration2PreviousMachines[0];
+
+        BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getMachineId(), 0);
+        BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getNeededProducts(), 10);
+      }
+    }
+  }
+
+  { // machine2
+    uint16_t machineId = 75;
+    auto machine2 = controller.getSimulationMachine(machineId);
+    BOOST_REQUIRE(machine2);
+
+    BOOST_CHECK(machine2->getId() == 75);
+    BOOST_CHECK(machine2->getName() == "Testmachine75");
+
+    auto machine2Configurations = machine2->getConfigurations();
+    BOOST_REQUIRE(machine2Configurations.size() == 2);
+
+    { // machine2 --> machineConfiguration[0]
+      auto machine2Configuration1 = machine2Configurations[0];
+
+      BOOST_CHECK(machine2Configuration1->getProductId() == 12);
+      BOOST_CHECK(machine2Configuration1->getOutputEachMinute() == 8);
+      BOOST_CHECK(machine2Configuration1->getOutputBufferSize() == 39);
+      BOOST_CHECK(machine2Configuration1->getInitializationDurationInSeconds() == 7);
+      BOOST_CHECK(machine2Configuration1->getMeanTimeBetweenFailureInHours()== 8801);
+      BOOST_CHECK(machine2Configuration1->getMeanTimeBetweenFailureStddevInHours() == 31);
+      BOOST_CHECK(machine2Configuration1->getReparationTimeInMinutes() == 25);
+
+      auto machine2Configuration1PreviousMachines = machine2Configuration1->getPreviousMachines();
+      BOOST_REQUIRE(machine2Configuration1PreviousMachines.size() == 1);
+
+      { // machine2 --> machineConfiguration[0] --> previousMachine[0]
+        auto machine2Configuration1PreviousMachine1 = machine2Configuration1PreviousMachines[0];
+
+        BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getMachineId(), 15);
+        BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getNeededProducts(), 7);
+      }
+    }
+
+    { // machine2 --> machineConfiguration[1]
+      auto machine2Configuration2 = machine2Configurations[1];
+
+      BOOST_CHECK(machine2Configuration2->getProductId() == 88);
+      BOOST_CHECK(machine2Configuration2->getOutputEachMinute() == 8);
+      BOOST_CHECK(machine2Configuration2->getOutputBufferSize() == 69);
+      BOOST_CHECK(machine2Configuration2->getInitializationDurationInSeconds() == 10);
+      BOOST_CHECK(machine2Configuration2->getMeanTimeBetweenFailureInHours()== 9801);
+      BOOST_CHECK(machine2Configuration2->getMeanTimeBetweenFailureStddevInHours() == 37);
+      BOOST_CHECK(machine2Configuration2->getReparationTimeInMinutes() == 28);
+
+      auto machine2Configuration2PreviousMachines = machine2Configuration2->getPreviousMachines();
+      BOOST_REQUIRE(machine2Configuration2PreviousMachines.size() == 1);
+
+      { // machine2 --> machineConfiguration[1] --> previousMachine[0]
+        auto machine2Configuration2PreviousMachine1 = machine2Configuration2PreviousMachines[0];
+
+        BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getMachineId(), 15);
+        BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getNeededProducts(), 8);
+      }
+    }
+  }
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadJSONConfig) {
+  simulation::SimulationController controller;
+  const std::string configurationFilePath = "../../../tests/production_control/test_configs/test_config_two_machines.json";
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
 
   { // machine1

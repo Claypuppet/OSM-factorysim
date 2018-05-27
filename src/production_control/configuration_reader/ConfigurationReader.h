@@ -9,7 +9,6 @@
 #include <patterns/singleton/Singleton.h>
 
 #include "deserialize_strategies/Strategy.h"
-#include "deserialize_strategies/JSONStrategy.h"
 #include "deserialize_strategies/YAMLStrategy.h"
 
 namespace ConfigLoader {
@@ -53,6 +52,13 @@ class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationR
   void setStrategy(StrategyType strategyType);
 
  private:
+  /**
+   * Get the extension of a file path
+   * @param filePath filepath ending with file extension
+   * @return file extension without dot (.) in front
+   */
+  const std::string getFileExtension(const std::string & filePath) const;
+
   std::shared_ptr<Strategy> strategy;
 };
 

@@ -12,24 +12,29 @@ ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
 //  return instance;
 //}
 
-const std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string &filePathString) {
-//  boost::filesystem::path filePath(filePathString);
-//  std::string fileExtension = filePath.extension().string();
-//  boost::algorithm::to_lower(fileExtension);
-//
-//  if (fileExtension == ".json") {
-//
-//    setStrategy(JSONStrategyType);
-//
-//  } else if (fileExtension == ".yaml") {
-//
-//    setStrategy(YAMLStrategyType);
-//
-//  }
+const std::string ConfigurationReader::getFileExtension(const std::string & filePath) const {
+  return filePath.substr(filePath.find_last_of(".") + 1);
+}
 
-  // because file extension recognision is not supported
-  // we use a default strategy.
-  setStrategy(YAMLStrategyType);
+const std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(const std::string &filePathString) {
+  const std::string fileExtension = getFileExtension(filePathString);
+
+  if (fileExtension == "json") {
+
+    // YAML Is a subset of JSON so the YAML library
+    // is also able to read a JSON file
+    setStrategy(YAMLStrategyType);
+
+  } else if (fileExtension == "yaml") {
+
+    setStrategy(YAMLStrategyType);
+
+  } else {
+
+    std::cerr << "Given file format not supported" << std::endl;
+
+  }
+
   return strategy->deserialize(filePathString);
 }
 

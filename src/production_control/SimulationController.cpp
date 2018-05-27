@@ -15,7 +15,6 @@
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
 #include "configuration_reader/ConfigurationReader.h"
-#include "configuration_reader/deserialize_strategies/JSONStrategy.h"
 
 namespace simulation {
 
