@@ -139,7 +139,10 @@ void SimulationController::setStartState() {
 
 void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = ConfigLoader::ConfigurationReader::getInstance();
-  auto configurationModel = configurationReader.deserialize(filePath);
+
+  const std::shared_ptr<models::Configuration> configurationModel = configurationReader.deserialize(filePath);
+
+  std::cout << configurationModel->getName() << std::endl; // TODO : remove
 
   const std::shared_ptr<models::ProductionLine> &productionLineModel = configurationModel->getProductionLine();
   application->setProductionLine(productionLineModel);

@@ -25,7 +25,7 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
-#include "../../src/production_control/ConfigurationReader.h"
+#include "../../src/production_control/configuration_reader/ConfigurationReader.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
@@ -135,7 +135,8 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
   simulation::SimulationController controller;
 
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
+  const std::string filePath = "./test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(filePath));
 
   auto machines = controller.getApplication()->getMachines();
 
@@ -149,20 +150,20 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
   auto m1Previous1 = machine1->getPreviousMachines(12);
   auto m1Previous2 = machine1->getPreviousMachines(88);
   BOOST_REQUIRE_EQUAL(m1Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous1.front().getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous1.front().getNeededProducts(), 5);
+  BOOST_CHECK_EQUAL(m1Previous1.front()->getMachineId(), 0);
+  BOOST_CHECK_EQUAL(m1Previous1.front()->getNeededProducts(), 5);
   BOOST_REQUIRE_EQUAL(m1Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous2.front().getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous2.front().getNeededProducts(), 10);
+  BOOST_CHECK_EQUAL(m1Previous2.front()->getMachineId(), 0);
+  BOOST_CHECK_EQUAL(m1Previous2.front()->getNeededProducts(), 10);
 
   auto m2Previous1 = machine2->getPreviousMachines(12);
   BOOST_REQUIRE_EQUAL(m2Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous1.front().getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous1.front().getNeededProducts(), 7);
+  BOOST_CHECK_EQUAL(m2Previous1.front()->getMachineId(), 15);
+  BOOST_CHECK_EQUAL(m2Previous1.front()->getNeededProducts(), 7);
   auto m2Previous2 = machine2->getPreviousMachines(88);
   BOOST_REQUIRE_EQUAL(m2Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous2.front().getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous2.front().getNeededProducts(), 8);
+  BOOST_CHECK_EQUAL(m2Previous2.front()->getMachineId(), 15);
+  BOOST_CHECK_EQUAL(m2Previous2.front()->getNeededProducts(), 8);
 
   auto m1InputBuffers = machine1->getInputBuffers();
   BOOST_REQUIRE_EQUAL(m1InputBuffers.size(), 2);

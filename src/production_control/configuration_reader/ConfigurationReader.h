@@ -37,7 +37,7 @@ class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationR
    * @param filePath : The path the config file
    * @return shared pointer to the configuration model
    */
-  std::shared_ptr<models::Configuration> deserialize(const std::string& filePath);
+  const std::shared_ptr<models::Configuration> deserialize(const std::string& filePath);
 
   /**
    * Get the instance, set the given strategy and return the instance.
