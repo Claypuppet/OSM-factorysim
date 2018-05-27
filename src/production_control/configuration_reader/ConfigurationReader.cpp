@@ -23,7 +23,7 @@ const std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(co
 
     // YAML Is a subset of JSON so the YAML library
     // is also able to read a JSON file
-    setStrategy(YAMLStrategyType);
+    setStrategy(JSONStrategyType);
 
   } else if (fileExtension == "yaml") {
 
@@ -41,10 +41,7 @@ const std::shared_ptr<models::Configuration> ConfigurationReader::deserialize(co
 void ConfigurationReader::setStrategy(StrategyType strategyType) {
   switch(strategyType) {
     case JSONStrategyType:
-      // Because YAML is a subset of JSON, the YAML library
-      // is able to read json to. Therefor we use the YAMLStrategy
-      // to read JSON configuration files
-      strategy = std::make_shared<YAMLStrategy>(YAMLStrategy());
+      strategy = std::make_shared<JSONStrategy>(JSONStrategy());
       break;
 
     case YAMLStrategyType:

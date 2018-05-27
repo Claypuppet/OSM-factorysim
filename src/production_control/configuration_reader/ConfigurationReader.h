@@ -10,6 +10,7 @@
 
 #include "deserialize_strategies/Strategy.h"
 #include "deserialize_strategies/YAMLStrategy.h"
+#include "deserialize_strategies/JSONStrategy.h"
 
 namespace ConfigLoader {
 
