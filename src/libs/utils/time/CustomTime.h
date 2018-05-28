@@ -25,14 +25,14 @@ class CustomTime : public ITime {
   uint64_t getCurrentTime() override;
 
   /**
-   * @see ITimer::increaseCurrentTime(uint64_t increaseSeconds)
+   * @see ITimer::increaseCurrentTime(uint64_t increaseMillis)
    */
-  void increaseCurrentTime(uint64_t increaseSeconds) override;
+  void increaseCurrentTime(uint64_t increaseMillis) override;
 
   /**
-   * @see ITimer::setCurrentTime(uint64_t newTimeSeconds)
+   * @see ITimer::setCurrentTime(uint64_t newTimeMillis)
    */
-  void setCurrentTime(uint64_t newTimeSeconds) override;
+  void syncTime(uint64_t newTimeMillis) override;
  private:
 
   /**

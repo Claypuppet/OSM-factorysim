@@ -28,6 +28,7 @@ void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr
 
 void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,
                                                              network::Message &message) {
+  utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
     case network::Protocol::kSimMessageTypeConfig : {
       auto machineInfo = message.getBodyObject<models::Machine>();

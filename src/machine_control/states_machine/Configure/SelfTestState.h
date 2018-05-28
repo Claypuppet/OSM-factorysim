@@ -2,26 +2,22 @@
 #ifndef PRODUCTION_LINE_CONTROL_SELFTESTSTATE_H
 #define PRODUCTION_LINE_CONTROL_SELFTESTSTATE_H
 
-#include "../ProductionState.h"
+#include "../MachineState.h"
 
-namespace productionstates {
+namespace machinestates {
 
 /**
  * State class that executes the self test for a machine
  */
-class SelfTestState : public ProductionState {
+class SelfTestState : public MachineState {
  public:
-  SelfTestState(machinecore::Application &aContext);
+  SelfTestState(machinecore::Machine &aContext);
   virtual ~SelfTestState() = default;
 
-  virtual void entryAction() override;
-
-  /**
-   * Runs the self test and creates a new event depending on the result
-   */
-  virtual void doActivity() override;
-  virtual void exitAction() override;
-  virtual bool handleEvent(const EventPtr &event) override;
+  void entryAction() override;
+  void doActivity() override;
+  void exitAction() override;
+  bool handleEvent(const EventPtr &event) override;
 
  private:
   /**
@@ -34,7 +30,6 @@ class SelfTestState : public ProductionState {
    */
   void onSelfTestFail();
 };
-
-}
+} // machinestates
 
 #endif //PRODUCTION_LINE_CONTROL_SELFTESTSTATE_H

@@ -27,6 +27,7 @@ void NetworkComponent::onConnectionDisconnected(network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+  utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
 	case network::Protocol::kAppMessageTypeReconfigure : {
 	  handleProcessReconfigureMessage(message);
@@ -47,7 +48,7 @@ void NetworkComponent::handleProcessProductMessage() {
 
 void NetworkComponent::handleProcessReconfigureMessage(network::Message &message) {
   auto event =
-	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::kNotifyEventTypeMachineConfigReceived
+	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::NotifyEventType::kNotifyEventTypeConfigure
 	  );
   event.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
   notifyObservers(event);
@@ -71,21 +72,20 @@ void NetworkComponent::sendMessage(network::Message &message) {
 void NetworkComponent::sendStatusUpdate(models::Machine::MachineStatus status) {
   network::Message message(network::Protocol::AppMessageType::kAppMessageTypeOK);
   message.setBodyObject<models::Machine::MachineStatus>(status);
-  mConnection->writeMessage(message);
+  sendMessage(message);
 
 }
 
 void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
   network::Message message(network::Protocol::AppMessageType::kAppMessageTypeNOK);
   message.setBodyObject<uint16_t>(errorCode);
-  mConnection->writeMessage(message);
+  sendMessage(message);
 }
 
 void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   network::Message message(network::Protocol::kAppMessageTypeRegisterMachine);
   message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
-
 }
 
 }

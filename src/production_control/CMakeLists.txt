@@ -42,7 +42,9 @@ add_library(source_lib_app_production SHARED
         states_application/ApplicationState.cpp
         states_application/ApplicationState.h
         states_application/InOperationState.cpp
-        states_application/InOperationState.h)
+        states_application/InOperationState.h
+        InfiniteBuffer.cpp
+        InfiniteBuffer.h)
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
@@ -54,6 +56,10 @@ target_link_libraries(app_production_control source_lib_app_production)
 
 
 # For production control, move configuration dir to bin dir
-add_custom_command(TARGET app_production_control PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/configs" $<TARGET_FILE_DIR:app_production_control>/configs)
+
+add_custom_target(config_mover ALL
+        DEPENDS move_config)
+
+add_custom_command(OUTPUT move_config
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" $<TARGET_FILE_DIR:app_production_control>/configs
+        DEPENDS app_production_control)
