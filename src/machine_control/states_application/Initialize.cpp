@@ -27,7 +27,7 @@ void Initialize::exitAction() {
 
 bool Initialize::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeReceivedConfig: {
+    case kEventTypeReconfigure: {
       onReceivedConfig(event);
       return true;
     }
@@ -39,7 +39,7 @@ bool Initialize::handleEvent(const EventPtr &event) {
 }
 
 void Initialize::onReceivedConfig(const EventPtr &event) {
-  utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
+  utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
   context.setConfigToSet(event->getArgumentAsType<uint16_t>());
 
