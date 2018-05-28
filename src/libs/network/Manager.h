@@ -107,19 +107,6 @@ class Manager {
   void stop();
 
   /**
-   * Stops the client or server
-   */
-  void stopClientServer();
-
-  /**
-   * Sets the remoteHost, remotePort and localPort
-   * @param remoteIpAddress : New ip address of host
-   * @param remotePort : New port of host
-   * @param localPort : New port of manager
-   */
-  void setSettings(std::string remoteIpAddress, std::string remotePort, std::string localPort);
-
-  /**
    * Function to get the remoteHost
    * @return The ip-address of the host
    */

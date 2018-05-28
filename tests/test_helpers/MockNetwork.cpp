@@ -122,8 +122,12 @@ const network::ConnectionPtr &MockNetwork::getConnection() const {
 }
 
 void MockNetwork::stop() {
-  serverManager.stopClientServer();
-  clientManager.stopClientServer();
+  if (client && client->isRunning()){
+    client->stop();
+  }
+  if (server && server->isRunning()){
+    server->stop();
+  }
   if(connectionStatus != kConnectionDisconnected){
     Predicate disconnected = [this](){return connectionStatus == kConnectionDisconnected;};
     HelperFunctions::waitForPredicate(disconnected, 200);
