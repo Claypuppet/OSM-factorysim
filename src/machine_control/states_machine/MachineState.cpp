@@ -15,6 +15,7 @@ void MachineState::doActivity() {
 bool MachineState::handleEvent(const EventPtr &event){
   switch(event->getId()){
     case kEventTypeMachineBroke: {
+      onMachineBroke();
       return true;
     }
     default: {
