@@ -7,6 +7,7 @@
 
 #include <network/Connection.h>
 #include <models/Machine.h>
+#include <patterns/notifyobserver/Notifier.hpp>
 #include "Machine.h"
 
 namespace simulation {
@@ -23,19 +24,15 @@ class SimulationMachine : public core::Machine {
    * @param aMachine : A machine model
    */
   explicit SimulationMachine(const models::Machine &aMachine);
+ protected:
+  void sendMessage(network::Message &message) override;
+ public:
 
   /**
   * Copy constructor
   * @param aMachine : The machine to copy
   */
   SimulationMachine(const SimulationMachine &aMachine);
-
-  /**
-  * Assignment operator
-  * @param rhs : The machine to copy
-  * @return The new machine
-  */
-  SimulationMachine &operator=(const SimulationMachine &rhs);
 
   /**
    * Destruct
@@ -66,7 +63,7 @@ class SimulationMachine : public core::Machine {
   void sendSimulationConfiguration();
 
   /**
-   * Sets the machine ready
+   * Sets the machine ready for simulation
    */
   void setReady(bool aReady);
 
@@ -80,9 +77,33 @@ class SimulationMachine : public core::Machine {
    */
   void sendTurnOffCommand();
 
+  /**
+   * Get next moment for event, return 0 if no event is in queue
+   */
+  uint64_t getNextEventMoment();
+
+  /**
+   * Get all events from queue with given time, throws exception is time is later than first event in queue
+   * @param moment : Time
+   * @return : List of events for given time
+   */
+  std::vector<patterns::notifyobserver::NotifyEvent> getEvents(uint64_t moment);
+
+  /**
+   * Add a simulation event to the queue
+   * @param simulationEvent : Event to add
+   */
+  void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
+  bool isWaitingForResponse() const override;
+
  private:
   bool ready;
   network::ConnectionPtr simConnection;
+
+  bool awaitingSimulationResponse;
+
+  std::queue<patterns::notifyobserver::NotifyEvent> simulationEvents;
+
 
   /**
   * A function to send a message to this machine

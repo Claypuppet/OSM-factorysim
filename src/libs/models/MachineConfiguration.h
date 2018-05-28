@@ -23,7 +23,7 @@ class MachineConfiguration {
   /**
    * Default constructor
    */
-  MachineConfiguration();
+  MachineConfiguration() = default;
   MachineConfiguration(uint16_t productId);
   /**
    * Copy constructor
@@ -60,6 +60,12 @@ class MachineConfiguration {
    * @return outputEachMinute
    */
   uint16_t getOutputEachMinute() const;
+
+  /**
+   * Calculate the time needed to product one product
+   * @return process time in milliseconds
+   */
+  uint16_t getProcessTime() const;
 
   /**
    * Getter for initializationDurationInSeconds
@@ -134,6 +140,16 @@ class MachineConfiguration {
 class PreviousMachine {
  public:
 
+  PreviousMachine() = default;
+  PreviousMachine(const PreviousMachine &other) : machineId(other.machineId), neededProducts(other.neededProducts) {};
+  PreviousMachine &operator=(const PreviousMachine &other){
+    if(&other != this){
+      machineId = other.machineId;
+      neededProducts = other.neededProducts;
+    }
+    return *this;
+  }
+  virtual ~PreviousMachine() = default;
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;
   /**
@@ -142,7 +158,7 @@ class PreviousMachine {
    */
   void deserialize(YAML::Node &machineConfigurationNode);
 
- private:
+ public:
   uint16_t machineId, neededProducts;
 
   /**

@@ -12,11 +12,11 @@ namespace applicationstates {
 enum EventType {
   kEventTypeConnected,
   kEventTypeConnectionFailed,
-  kEventTypeReceivedConfig,
+  kEventTypeReconfigure,
   kEventTypeConfigured,
   kEventTypeFailedToConfigure,
-  kEventTypeRepairStarted,
-  kEventTypeStartProcessing,
+  kEventTypeRepaired,
+  kEventTypeProcessProduct,
   kEventTypeFinishedProcessing,
   kEventTypeMachineBroke
 };

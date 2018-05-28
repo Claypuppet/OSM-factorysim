@@ -26,7 +26,7 @@ void TakeProductState::exitAction() {
 
 bool TakeProductState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeProcessProduct: {
+    case kEventTypeProductTakenIn: {
       onProcessProductEvent();
       return true;
     }
@@ -38,7 +38,7 @@ bool TakeProductState::handleEvent(const EventPtr &event) {
 }
 
 void TakeProductState::onProcessProductEvent() {
-  utils::Logger::log("-Handle event: kEventTypeProcessProduct");
+  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
 
   auto state = std::make_shared<ProcessProductState>(context);
   context.setCurrentState(state);

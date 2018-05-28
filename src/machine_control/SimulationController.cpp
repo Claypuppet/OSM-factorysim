@@ -1,4 +1,5 @@
 #include <network/Protocol.h>
+#include <utils/time/Time.h>
 #include "SimulationController.h"
 #include "states_simulation_controller/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
@@ -47,6 +48,7 @@ class NetworkEventDispatcher : public network::IServiceEventListener, public pat
 
 SimulationController::SimulationController(uint16_t aMachineId)
 	: Controller(aMachineId) {
+  utils::Time::getInstance().setType(utils::customTime);
   simulationNetworkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
   application = std::make_shared<SimulationApplication>(aMachineId);
 }

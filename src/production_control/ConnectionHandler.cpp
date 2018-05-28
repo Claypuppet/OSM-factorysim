@@ -49,8 +49,9 @@ void communication::ConnectionHandler::handleRegisterMachine(network::Connection
 
   registerMachineConnection(connection, machineId);
 
-  notification.setArgument(0, machineId);
-  notification.setArgument(1, connection);
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
+  notification.setArgument(2, connection);
 
   notifyObservers(notification);
 }
@@ -59,8 +60,9 @@ void communication::ConnectionHandler::handleOK(network::ConnectionPtr connectio
   auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationOK);
   auto machineId = getMachineIdForConnection(connection);
 
-  notification.setArgument(0, machineId);
-  notification.setArgument(1, message.getBodyObject<models::Machine::MachineStatus>());
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
+  notification.setArgument(2, message.getBodyObject<models::Machine::MachineStatus>());
 
   notifyObservers(notification);
 }
@@ -69,8 +71,9 @@ void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connecti
   auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationNOK);
   auto machineId = getMachineIdForConnection(connection);
 
-  notification.setArgument(0, machineId);
-  notification.setArgument(1, message.getBodyObject<uint16_t>());
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
+  notification.setArgument(2, message.getBodyObject<uint16_t>());
 
   notifyObservers(notification);
 }

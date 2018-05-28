@@ -27,6 +27,7 @@ void NetworkComponent::onConnectionDisconnected(network::ConnectionPtr connectio
 }
 
 void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+  utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
 	case network::Protocol::kAppMessageTypeReconfigure : {
 	  handleProcessReconfigureMessage(message);
@@ -85,7 +86,6 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   network::Message message(network::Protocol::kAppMessageTypeRegisterMachine);
   message.setBodyObject<uint16_t>(machineId);
   sendMessage(message);
-
 }
 
 }

@@ -24,6 +24,18 @@ class SimulationApplication : public core::Application {
    * Calls the core application. After that this method will call turn on sim machines.
    */
   void setupNetwork() override;
+
+  /**
+   * Get simulation machine by id
+   */
+  SimulationMachinePtr getSimulationMachine(uint16_t machineId);
+
+  /**
+   * Get all machines as simulation machines
+   * @return : simulation machine list
+   */
+  const std::vector<SimulationMachinePtr> getSimulationMachines() const;
+
   /**
    * Send message to all connected simulation machines to turn on
    */
@@ -33,6 +45,15 @@ class SimulationApplication : public core::Application {
    * Send message to all connected simulation machines to turn on
    */
   void turnOffSimulationMachines();
+
+  /**
+   * Schedule machine notification for current time
+   */
+  void scheduleMachineNotifications();
+
+  // Overrides
+  void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
+  void executeScheduler() override;
 
 };
 

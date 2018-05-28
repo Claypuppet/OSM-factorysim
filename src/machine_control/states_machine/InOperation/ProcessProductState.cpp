@@ -26,7 +26,7 @@ void ProcessProductState::exitAction() {
 
 bool ProcessProductState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypeFinishedProduct: {
+	case kEventTypeProductProcessed: {
       onProductFinishedEvent();
       return true;
     }
@@ -38,7 +38,7 @@ bool ProcessProductState::handleEvent(const EventPtr &event) {
 }
 
 void ProcessProductState::onProductFinishedEvent() {
-  utils::Logger::log("-Handle event: kEventTypeFinishedProduct");
+  utils::Logger::log("-Handle event: kEventTypeProductProcessed");
 
   auto state = std::make_shared<TakeOutProductState>(context);
   context.setCurrentState(state);

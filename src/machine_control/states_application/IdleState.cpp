@@ -27,12 +27,12 @@ void IdleState::exitAction() {
 
 bool IdleState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeReceivedConfig: {
+    case kEventTypeReconfigure: {
       onReceivedConfigEvent(event);
       return true;
     }
 
-    case kEventTypeStartProcessing: {
+    case kEventTypeProcessProduct: {
       onStartProcessing();
       return true;
     }
@@ -44,7 +44,7 @@ bool IdleState::handleEvent(const EventPtr &event) {
 }
 
 void IdleState::onReceivedConfigEvent(const EventPtr &event) {
-  utils::Logger::log("-Handle event: kEventTypeReceivedConfig");
+  utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
   context.setConfigToSet(event->getArgumentAsType<uint16_t>());
 
@@ -53,7 +53,7 @@ void IdleState::onReceivedConfigEvent(const EventPtr &event) {
 }
 
 void IdleState::onStartProcessing() {
-  utils::Logger::log("-Handle event: kEventTypeTakeProduct");
+  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
 
   auto state = std::make_shared<InOperationState>(context);
   context.setCurrentState(state);

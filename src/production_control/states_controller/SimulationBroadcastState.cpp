@@ -13,7 +13,7 @@ states::SimulationBroadcastState::SimulationBroadcastState(simulation::Simulatio
 void states::SimulationBroadcastState::doActivity() {
 
   // temp move directly to next state
-  states::EventPtr event = std::make_shared<states::Event>(states::EventType::kEventTypeDoneBroadcasting);
+  states::EventPtr event = std::make_shared<states::Event>(states::EventType::kEventTypeBroadcastSend);
   context.scheduleEvent(event);
 }
 
@@ -28,8 +28,8 @@ void states::SimulationBroadcastState::exitAction() {
 
 bool states::SimulationBroadcastState::handleEvent(const EventPtr &e) {
   switch (e->getId()) {
-	case states::EventType::kEventTypeDoneBroadcasting:
-	  utils::Logger::log("-Handle event: kEventTypeDoneBroadcasting");
+	case states::EventType::kEventTypeBroadcastSend:
+	  utils::Logger::log("-Handle event: kEventTypeBroadcastSend");
 	  context.setCurrentState(std::make_shared<states::SimulationWaitForConnectionsState>(context));
 	  return true;
   }
