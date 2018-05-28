@@ -87,7 +87,7 @@ void SimulationController::handleRegisterMachine(const patterns::notifyobserver:
   auto id = notification.getArgumentAsType<uint16_t>(0);
   auto connection = notification.getArgumentAsType<network::ConnectionPtr>(1);
 
-  auto event = std::make_shared<states::Event>(states::kEventTypeMachineConnected);
+  auto event = std::make_shared<states::Event>(states::kEventTypeMachineRegistered);
   event->addArgument(id);
   event->addArgument(connection);
   scheduleEvent(event);
@@ -139,17 +139,15 @@ void SimulationController::setStartState() {
 void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = ConfigLoader::ConfigurationReader::getInstance();
 
-  const std::shared_ptr<models::Configuration> configurationModel = configurationReader.deserialize(filePath);
+  const auto configurationModel = configurationReader.deserialize(filePath);
 
-  std::cout << configurationModel->getName() << std::endl; // TODO : remove
-
-  const std::shared_ptr<models::ProductionLine> &productionLineModel = configurationModel->getProductionLine();
+  const auto &productionLineModel = configurationModel->getProductionLine();
   application->setProductionLine(productionLineModel);
 
-  const std::vector<std::shared_ptr<models::Machine>> &machineModels = productionLineModel->getMachines();
+  const auto &machineModels = productionLineModel->getMachines();
 
-  for (const std::shared_ptr<models::Machine> &machineModel : machineModels) {
-	SimulationMachine machine(machineModel);
+  for (const auto &machineModel : machineModels) {
+	SimulationMachine machine(*machineModel);
 	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 

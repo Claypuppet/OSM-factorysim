@@ -20,6 +20,7 @@ typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
 class ProductionLine {
  public:
+  ProductionLine() = default;
   virtual ~ProductionLine() = default;
 
   /**
@@ -29,8 +30,8 @@ class ProductionLine {
    * @param machines
    */
   ProductionLine(const std::string &name,
-                 const std::vector<std::shared_ptr<Product>> &products,
-                 const std::vector<std::shared_ptr<Machine>> &machines);
+                 const std::vector<ProductPtr> &products,
+                 const std::vector<MachinePtr> &machines);
 
   /**
    * Copy constructor
@@ -55,18 +56,18 @@ class ProductionLine {
    * Getter for products
    * @return products
    */
-  const std::vector<std::shared_ptr<Product>> &getProducts() const;
+  const std::vector<ProductPtr> &getProducts() const;
 
   /**
    * Getter for machines
    * @return machines
    */
-  const std::vector<std::shared_ptr<Machine>> &getMachines() const;
+  const std::vector<MachinePtr> &getMachines() const;
 
  private:
   std::string name;
-  std::vector<std::shared_ptr<Product>> products;
-  std::vector<std::shared_ptr<Machine>> machines;
+  std::vector<ProductPtr> products;
+  std::vector<MachinePtr> machines;
 
   /**
    * A function to save a ProductionLine object in an archive

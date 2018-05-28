@@ -3,8 +3,8 @@
 namespace models {
 
 Configuration::Configuration(const std::string &name,
-                             const std::shared_ptr<SimulationInfo> &simulationInfo,
-                             const std::shared_ptr<ProductionLine> &productionLine)
+                             const SimulationInfoPtr &simulationInfo,
+                             const ProductionLinePtr &productionLine)
     : name(name),
       simulationInfo(simulationInfo),
       productionLine(productionLine) {
@@ -30,11 +30,11 @@ const std::string &Configuration::getName() const {
   return name;
 }
 
-const std::shared_ptr<SimulationInfo> Configuration::getSimulationInfo() const {
+const SimulationInfoPtr Configuration::getSimulationInfo() const {
   return simulationInfo;
 }
 
-const std::shared_ptr<ProductionLine> Configuration::getProductionLine() const {
+const ProductionLinePtr Configuration::getProductionLine() const {
   return productionLine;
 }
 

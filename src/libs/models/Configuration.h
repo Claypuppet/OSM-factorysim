@@ -22,6 +22,7 @@ typedef std::shared_ptr<Configuration> ConfigurationPtr;
 class Configuration {
  public:
 
+  Configuration() = default;
   /**
    * Default destructor
    */
@@ -34,8 +35,8 @@ class Configuration {
    * @param productionLine
    */
   Configuration(const std::string &name,
-                const std::shared_ptr<SimulationInfo> &simulationInfo,
-                const std::shared_ptr<ProductionLine> &productionLine);
+                const SimulationInfoPtr &simulationInfo,
+                const ProductionLinePtr &productionLine);
 
   /**
    * Copy constructor
@@ -52,16 +53,16 @@ class Configuration {
 
   // NORMAL GETTERS
   const std::string &getName() const;
-  const std::shared_ptr<SimulationInfo> getSimulationInfo() const;
-  const std::shared_ptr<ProductionLine> getProductionLine() const;
+  const SimulationInfoPtr getSimulationInfo() const;
+  const ProductionLinePtr getProductionLine() const;
 
   // NORMAL SETTERS
   void setName(const std::string &name);
 
  private:
   std::string name;
-  std::shared_ptr<SimulationInfo> simulationInfo;
-  std::shared_ptr<ProductionLine> productionLine;
+  SimulationInfoPtr simulationInfo;
+  ProductionLinePtr productionLine;
 
   /**
    * Function to save class as archive

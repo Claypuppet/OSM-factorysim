@@ -33,6 +33,7 @@ class Machine {
   };
 
 
+  Machine() = default;
   virtual ~Machine() = default;
 
   /**
@@ -43,19 +44,13 @@ class Machine {
    */
   Machine(uint16_t id,
           const std::string &name = "",
-          const std::vector<std::shared_ptr<MachineConfiguration>> &configurations = std::vector<std::shared_ptr<MachineConfiguration>>());
+          const std::vector<MachineConfigurationPtr> &configurations = std::vector<MachineConfigurationPtr>());
 
   /**
    * Copy this class
    * @param other const ref to other class
    */
   Machine(const Machine &other);
-
-  /**
-   * Copy constructor for a shared pointer to machine
-   * @param other shared pointer to machine
-   */
-  Machine(const std::shared_ptr<Machine> other);
 
   /**
    * Assign a object to this object
@@ -80,14 +75,14 @@ class Machine {
    * Get vector of machine configurations
    * @return vector with all machines configurations of this machine
    */
-  const std::vector<std::shared_ptr<MachineConfiguration>> &getConfigurations() const;
+  const std::vector<MachineConfigurationPtr> &getConfigurations() const;
 
   /**
    * Get machine configuration of this machine by id
    * @param configId id of the config
    * @return machine configuration of this machine with the given id
    */
-  const std::shared_ptr<MachineConfiguration> getConfigurationById(uint16_t machineConfigurationId) const;
+  const MachineConfigurationPtr getConfigurationById(uint16_t machineConfigurationId) const;
 
   /**
    * Set the machine id
@@ -106,12 +101,12 @@ class Machine {
    * @param machineConfiguration machine configuration model
    * @return the new machine configuration
    */
-  const std::shared_ptr<MachineConfiguration> addConfiguration(std::shared_ptr<MachineConfiguration> machineConfiguration);
+  const MachineConfigurationPtr addConfiguration(MachineConfigurationPtr machineConfiguration);
 
  protected:
   uint16_t id;
   std::string name;
-  std::vector<std::shared_ptr<MachineConfiguration>> configurations;
+  std::vector<MachineConfigurationPtr> configurations;
 
  private:
 

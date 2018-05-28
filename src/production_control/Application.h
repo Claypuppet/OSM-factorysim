@@ -20,7 +20,7 @@ namespace core {
 class Application : public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
-  Application() = default;
+  Application();
   virtual ~Application();
 
   /**
