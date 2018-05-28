@@ -125,7 +125,6 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   BOOST_CHECK(m1config.getOutputEachMinute() == 12);
   BOOST_CHECK(m1config.getReparationTimeInMinutes() == 24);
   BOOST_CHECK(m1config.getProductId() == 12);
-  BOOST_CHECK(m1config.getOutputBufferSize() == 14);
 
   // check m1 previousmachine configuration settings
   // machine 1 has no previous machines, so nothing to test there...
@@ -139,13 +138,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
 
   // check m1 configuration settings
   BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 7);
-  BOOST_CHECK(m2config.getOutputBufferSize() == 43);
+  BOOST_CHECK(m2config.getOutputBufferSize() == 39);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 8801);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 31);
-  BOOST_CHECK(m2config.getOutputEachMinute() == 13);
+  BOOST_CHECK(m2config.getOutputEachMinute() == 8);
   BOOST_CHECK(m2config.getReparationTimeInMinutes() == 25);
   BOOST_CHECK(m2config.getProductId() == 12);
-  BOOST_CHECK(m1config.getOutputBufferSize() == 43);
 
   // check m1 previousmachine configuration settings
 
@@ -156,22 +154,20 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfig) {
   m2PreviousMachines = m2config.getPreviousMachines();
 
   BOOST_CHECK(m1config.getInitializationDurationInSeconds() == 9);
-  BOOST_CHECK(m1config.getOutputBufferSize() == 39);
+  BOOST_CHECK(m1config.getOutputBufferSize() == 43);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureInHours()== 9800);
   BOOST_CHECK(m1config.getMeanTimeBetweenFailureStddevInHours() == 36);
   BOOST_CHECK(m1config.getOutputEachMinute() == 8);
   BOOST_CHECK(m1config.getReparationTimeInMinutes() == 27);
   BOOST_CHECK(m1config.getProductId() == 88);
-  BOOST_CHECK(m1config.getOutputBufferSize() == 39);
 
   BOOST_CHECK(m2config.getInitializationDurationInSeconds() == 10);
   BOOST_CHECK(m2config.getOutputBufferSize() == 69);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureInHours()== 9801);
   BOOST_CHECK(m2config.getMeanTimeBetweenFailureStddevInHours() == 37);
-  BOOST_CHECK(m2config.getOutputEachMinute() == 9);
+  BOOST_CHECK(m2config.getOutputEachMinute() == 8);
   BOOST_CHECK(m2config.getReparationTimeInMinutes() == 28);
   BOOST_CHECK(m2config.getProductId() == 88);
-  BOOST_CHECK(m1config.getOutputBufferSize() == 69);
 
   // check m1 previousmachine configuration settings
   // machine 1 has no previous machines, so nothing to test there...

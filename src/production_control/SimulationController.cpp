@@ -31,10 +31,7 @@ SimulationController::SimulationController() : core::Controller() {
 
 SimulationController::~SimulationController() {
 
-  networkManager.stop();
-  if (serverThread && serverThread->joinable()) {
-	serverThread->join();
-  }
+  stop();
 }
 
 void SimulationController::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {

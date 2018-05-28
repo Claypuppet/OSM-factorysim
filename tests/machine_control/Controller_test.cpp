@@ -32,8 +32,6 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerFindProductControlState) {
   auto currentState = controller.getCurrentState();
   bool isState = !!std::dynamic_pointer_cast<simulationstates::ConnectSimulationState>(currentState);
   BOOST_REQUIRE_EQUAL(isState, true);
-
-  controller.stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
@@ -54,9 +52,6 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerConnectSimulationState){
   BOOST_REQUIRE_NO_THROW(controller.run());
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::InitializeSimulationState>(controller.getCurrentState()), true);
-
-  controller.stop();
-  productionControl->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
@@ -80,9 +75,6 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
   BOOST_REQUIRE_NO_THROW(controller.run());
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::OffState>(controller.getCurrentState()), true);
-
-  controller.stop();
-  productionControlServer->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerOffState) {
@@ -115,7 +107,6 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerOnState) {
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::OffState>(controller.getCurrentState()), true);
 
-  productionControl->stop();
 }
 
 // Einde public method tests

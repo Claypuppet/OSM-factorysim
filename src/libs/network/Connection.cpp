@@ -207,7 +207,7 @@ void Connection::close() {
   mFClose = 1;
   if (mFEstablished) {
 	disconnected(error_code());
-	mSocket.shutdown(SocketType::shutdown_both);
+    mSocket.shutdown(SocketType::shutdown_both);
   }
   mSocket.close();
 }
