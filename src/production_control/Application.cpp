@@ -59,14 +59,14 @@ const std::vector<core::MachinePtr> &core::Application::getMachines() const {
 }
 
 void core::Application::setupNetwork() {
+  if (server && server->isRunning()) {
+    return;
+  }
   communication::ConnectionHandler connectionHandler;
   handleNotificationsFor(connectionHandler);
 
   serverThread = manager.runServiceThread();
   server = manager.createServer(std::make_shared<communication::ConnectionHandler>(connectionHandler), 50);
-  if (server && server->isRunning()) {
-    return;
-  }
   server->start();
 }
 void core::Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
