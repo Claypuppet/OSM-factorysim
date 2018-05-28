@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeNOK);
   };
   productionServer->setOnMessageFn(callback);
-  machineNetwork->sendResponseNOK(0);
+  machineNetwork->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
   productionServer->awaitMessageReceived();
 
   machineEndpoint->stop();

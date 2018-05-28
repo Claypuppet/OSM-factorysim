@@ -44,6 +44,9 @@ class MachineState : public patterns::statemachine::State {
   machinecore::Machine &context;
 
  private:
+  /**
+   * Executed on machineBroke event
+   */
   void onMachineBroke();
 };
 } // machinestates
