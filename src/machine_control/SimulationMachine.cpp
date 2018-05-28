@@ -7,6 +7,8 @@
 namespace simulator {
 
 bool SimulationMachine::configure() {
+  utils::Time::getInstance().increaseCurrentTime(
+      currentConfiguration->getInitializationDurationInSeconds() * (uint16_t) 1000);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
   return true;
@@ -23,7 +25,7 @@ void SimulationMachine::takeInProduct() {
 }
 
 void SimulationMachine::processProduct() {
-  utils::Time::getInstance().increaseCurrentTime(5000);
+  utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getProcessTime());
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductProcessed);
   scheduleEvent(event);
 }
