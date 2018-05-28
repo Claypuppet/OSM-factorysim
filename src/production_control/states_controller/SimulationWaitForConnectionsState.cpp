@@ -32,9 +32,9 @@ bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &even
 	  onMachineReady(event);
 	  break;
 	}
-	case kEventTypeMachineConnected: {
-	  utils::Logger::log("-Handle event: kEventTypeMachineConnected");
-	  onMachineConnected(event);
+	case kEventTypeMachineRegistered: {
+	  utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
+		onMachineRegistered(event);
 	  break;
 	}
 	case kEventTypeAllMachinesReadyForSimulation: {
@@ -52,7 +52,7 @@ void states::SimulationWaitForConnectionsState::onMachineReady(const states::Eve
   context.machineReady(event->getArgumentAsType<u_int16_t>(0));
 }
 
-void states::SimulationWaitForConnectionsState::onMachineConnected(const states::EventPtr &event) {
+void states::SimulationWaitForConnectionsState::onMachineRegistered(const states::EventPtr &event) {
   context.registerMachine(event->getArgumentAsType<u_int16_t>(0), event->getArgumentAsType<network::ConnectionPtr>(1));
 }
 

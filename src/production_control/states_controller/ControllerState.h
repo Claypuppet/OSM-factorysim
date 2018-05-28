@@ -10,11 +10,11 @@ enum EventType {
   kEventTypeReadConfigFile,
   kEventTypeSimulationConfigLoaded,
   kEventTypeProductionConfigLoaded,
+  kEventTypeBroadcastSend,
   kEventTypeServerSetupFailed,
-  kEventTypeMachineConnected,
+  kEventTypeMachineRegistered,
   kEventTypeAllMachinesReadyForSimulation,
   kEventTypeMachineReady,
-  kEventTypeDoneBroadcasting,
 //		kEventType,
 };
 

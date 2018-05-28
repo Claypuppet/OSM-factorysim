@@ -87,7 +87,7 @@ void SimulationController::handleRegisterMachine(const patterns::notifyobserver:
   auto id = notification.getArgumentAsType<uint16_t>(0);
   auto connection = notification.getArgumentAsType<network::ConnectionPtr>(1);
 
-  auto event = std::make_shared<states::Event>(states::kEventTypeMachineConnected);
+  auto event = std::make_shared<states::Event>(states::kEventTypeMachineRegistered);
   event->addArgument(id);
   event->addArgument(connection);
   scheduleEvent(event);

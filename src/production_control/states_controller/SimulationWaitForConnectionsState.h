@@ -30,10 +30,10 @@ class SimulationWaitForConnectionsState : public ControllerState {
    */
   void onMachineReady(const EventPtr &event);
   /**
-   * handle event with id kEventTypeMachineConnected
+   * handle event with id kEventTypeMachineRegistered
   * @param event : event
    */
-  void onMachineConnected(const EventPtr &event);
+  void onMachineRegistered(const EventPtr &event);
   /**
    * handle event with id kEventTypeAllMachinesReadyForSimulation
    */
