@@ -74,6 +74,12 @@ class MachineConfiguration {
   uint16_t getInitializationDurationInSeconds() const;
 
   /**
+   * Getter for initializationDuration in milliseconds
+   * @return initializationDurationInSeconds * 1000
+   */
+  uint16_t getInitializationDurationInMilliseconds() const;
+
+  /**
    * Getter for inputBufferSize
    * @return inputBufferSize
    */
