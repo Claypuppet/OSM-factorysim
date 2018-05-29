@@ -141,9 +141,9 @@ void SimulationController::setStartState() {
 void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = configurationserializer::ConfigurationReader::getInstance();
 
-  const auto configurationModel = configurationReader.deserialize(filePath);
+  configuration = configurationReader.deserialize(filePath);
 
-  const auto &productionLineModel = configurationModel->getProductionLine();
+  const auto &productionLineModel = configuration->getProductionLine();
   application->setProductionLine(productionLineModel);
 
   const auto &machineModels = productionLineModel->getMachines();
@@ -164,7 +164,7 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 	scheduleEvent(e);
   }
 
-  core::ResultLogger::getInstance().initializeLog(configuration->getName(), filePath);
+  core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
 }
 
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
