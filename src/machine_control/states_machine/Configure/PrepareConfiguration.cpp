@@ -18,7 +18,7 @@ void PrepareConfiguration::entryAction() {
 }
 
 void PrepareConfiguration::doActivity() {
-
+  MachineState::doActivity();
 }
 
 void PrepareConfiguration::exitAction() {

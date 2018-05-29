@@ -15,7 +15,7 @@
 
 BOOST_AUTO_TEST_SUITE(MachineControlApplicationTests)
 
-BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
+BOOST_AUTO_TEST_CASE(MachineControlConnectToInitialize) {
   auto mockNetwork = std::make_shared<testutils::MockNetwork>();
   mockNetwork->startMockPCServerApplication();
 
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToReceiveConfigState) {
   mockNetwork->stop();
 }
 
-BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
+BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
   auto mockNetwork = std::make_shared<testutils::MockNetwork>();
   mockNetwork->startMockPCServerApplication();
 
@@ -81,6 +81,8 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   simulator::SimulationApplication application(1);
 
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
+
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
@@ -99,6 +101,9 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   simulator::SimulationApplication application(1);
   BOOST_CHECK_NO_THROW(application.setupNetwork());
+
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
+
 
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
@@ -120,6 +125,24 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   application.stop();
   mockNetwork->stop();
+}
+
+BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
+  simulator::SimulationApplication application(1);
+
+  auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
+  BOOST_CHECK_NO_THROW(application.setCurrentState(state));
+
+  patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
+  BOOST_CHECK_NO_THROW(application.handleNotification(event));
+
+  auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
+  BOOST_CHECK_NO_THROW(application.getMachine()->scheduleEvent(stateEvent));
+
+  BOOST_CHECK_NO_THROW(application.run());
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::BrokenState>(application.getCurrentState()),
+                    true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -153,7 +176,7 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeNOK);
   };
   productionServer->setOnMessageFn(callback);
-  machineNetwork->sendResponseNOK(0);
+  machineNetwork->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
   productionServer->awaitMessageReceived();
 
   machineEndpoint->stop();
@@ -186,6 +209,41 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
   client->start();
   pcMock->awaitConnection();
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
+
+  BOOST_REQUIRE_NO_THROW(pcMock->sendMessage(message));
+
+  mockObserver.awaitNotificationReceived();
+
+  pcMock->stop();
+  manager.stop();
+  clientThread->join();
+}
+
+BOOST_AUTO_TEST_CASE(MachineControlHandleConfigReceived) {
+  testutils::MockObserver mockObserver;
+
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
+    BOOST_CHECK(event.getEventId() == machinecore::kNotifyEventTypeConfigure);
+  };
+
+  BOOST_REQUIRE_NO_THROW(mockObserver.setHandleNotificationFn(notificationHandler));
+
+  auto networkComponent = std::make_shared<Communication::NetworkComponent>();
+  BOOST_REQUIRE_NO_THROW(networkComponent->addObserver(mockObserver));
+
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  network::Manager manager;
+  BOOST_REQUIRE_NO_THROW(manager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION));
+
+  auto clientThread = manager.runServiceThread();
+  auto client = manager.createClient(networkComponent);
+
+  BOOST_REQUIRE_NO_THROW(pcMock->startMockPCServerApplication());
+
+  client->start();
+  pcMock->awaitConnection();
+  network::Message message(network::Protocol::kAppMessageTypeReconfigure);
 
   BOOST_REQUIRE_NO_THROW(pcMock->sendMessage(message));
 
