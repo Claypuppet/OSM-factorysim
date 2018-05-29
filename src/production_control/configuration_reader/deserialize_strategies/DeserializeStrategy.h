@@ -1,6 +1,3 @@
-//
-// Created by bas on 23-5-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_STRATEGY_H
 #define PRODUCTION_LINE_CONTROL_STRATEGY_H
@@ -9,13 +6,17 @@
 
 #include <models/Configuration.h>
 
-class Strategy : public std::enable_shared_from_this<Strategy> {
+namespace ConfigLoader {
+
+class DeserializeStrategy : public std::enable_shared_from_this<DeserializeStrategy> {
  public:
-  Strategy() = default;
-  virtual ~Strategy() = default;
+  DeserializeStrategy() = default;
+  virtual ~DeserializeStrategy() = default;
 
   virtual const std::shared_ptr<models::Configuration> deserialize(const std::string &filePath) const = 0;
 };
+
+}
 
 
 #endif //PRODUCTION_LINE_CONTROL_STRATEGY_H
