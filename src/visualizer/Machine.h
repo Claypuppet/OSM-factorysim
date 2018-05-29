@@ -11,7 +11,7 @@
 namespace visualisercore {
 
 /**
- * A class that hold information about machines
+ * A class that holds information about a machine
  */
 class Machine : public models::Machine, patterns::notifyobserver::Notifier {
  public:
