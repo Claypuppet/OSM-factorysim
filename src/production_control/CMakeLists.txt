@@ -43,7 +43,7 @@ add_library(source_lib_app_production SHARED
         InfiniteBuffer.h)
 
 # Link to libs
-target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
+target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer)
 
 add_executable(app_production_control
         Main.cpp)
