@@ -1,10 +1,14 @@
 #include <iostream>
 
-#include "silly_objects/Lib1.hpp"
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
 
-int main( 	int argc,
-			char** argv)
-{
-	std::cout << "Hello from visualizer app!" << std::endl;
-	return 0;
+#include "WindowApplication.h"
+
+int main(int argc,
+         char **argv) {
+  wxIMPLEMENT_APP(WindowApplication);
+  return 0;
 }
