@@ -3,12 +3,12 @@
 //
 
 #include "MainWindow.h"
+#include <wx/wfstream.h>
 
 ui::MainWindow::MainWindow()
-    : wxFrame(NULL, wxID_ANY, "Hello world") {
+    : wxFrame(NULL, wxID_ANY, "Visualizer") {
   wxMenu *menuFile = new wxMenu;
-  menuFile->Append(1, "&Hello...\tCtrl-H",
-                   "Help string shown in status bar for this menu item");
+  menuFile->Append(wxID_FILE, "Select file");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
   wxMenu *menuHelp = new wxMenu;
@@ -18,18 +18,36 @@ ui::MainWindow::MainWindow()
   menuBar->Append(menuHelp, "&Help");
   SetMenuBar(menuBar);
   CreateStatusBar();
-  SetStatusText("Welcome to wxWidgets!");
-  Bind(wxEVT_MENU, &MainWindow::onHello, this, 1);
+  //SetStatusText("Welcome to wxWidgets!");
+
+  Bind(wxEVT_MENU, &MainWindow::onOpenFile, this, wxID_FILE);
   Bind(wxEVT_MENU, &MainWindow::onAbout, this, wxID_ABOUT);
   Bind(wxEVT_MENU, &MainWindow::onExit, this, wxID_EXIT);
 }
-void ui::MainWindow::onHello(wxCommandEvent &event) {
-  wxLogMessage("Hello world from wxWidgets!");
-}
+
 void ui::MainWindow::onExit(wxCommandEvent &event) {
   Close(true);
 }
 void ui::MainWindow::onAbout(wxCommandEvent &event) {
   wxMessageBox("This is a wxWidgets Hello World example",
                "About Hello World", wxOK | wxICON_INFORMATION);
+}
+void ui::MainWindow::onOpenFile(wxCommandEvent &event) {
+  wxFileDialog
+      openFileDialog(this, _("Open yaml file"), "", "",
+                     "YAML files (*.yaml)|*.yaml", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+  if (openFileDialog.ShowModal() == wxID_CANCEL)
+    return;     // the user changed idea...
+
+  // proceed loading the file chosen by the user;
+  // this can be done with e.g. wxWidgets input streams:
+  wxFileInputStream input_stream(openFileDialog.GetPath());
+  if (!input_stream.IsOk())
+  {
+    wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
+    return;
+  }
+  else{
+    //TODO go to FileFeedState and set the path to a variable
+  }
 }

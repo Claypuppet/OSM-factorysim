@@ -27,6 +27,12 @@ namespace ui {
   void onHello(wxCommandEvent& event);
   void onExit(wxCommandEvent& event);
   void onAbout(wxCommandEvent& event);
+
+  /**
+   * Function that is called when the select file option in the menu bar is clicked
+   * @param event
+   */
+  void onOpenFile(wxCommandEvent& event);
 };
 
 }
