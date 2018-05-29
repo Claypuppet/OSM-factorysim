@@ -5,7 +5,6 @@
 #include <network/Server.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include <models/Configuration.h>
-#include <configuration_serializer/ConfigurationReader.h>
 
 #include "Controller.h"
 #include "SimulationMachine.h"

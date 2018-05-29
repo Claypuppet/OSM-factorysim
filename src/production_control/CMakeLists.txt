@@ -1,10 +1,4 @@
 add_library(source_lib_app_production SHARED
-        ../libs/configuration_serializer/ConfigurationReader.cpp
-        ../libs/configuration_serializer/ConfigurationReader.h
-        ../libs/configuration_serializer/deserialize_strategies/JSONStrategy.cpp
-        ../libs/configuration_serializer/deserialize_strategies/JSONStrategy.h
-        ../libs/configuration_serializer/deserialize_strategies/YAMLStrategy.cpp
-        ../libs/configuration_serializer/deserialize_strategies/YAMLStrategy.h
         ConnectionHandler.h
         ConnectionHandler.cpp
         Machine.cpp
