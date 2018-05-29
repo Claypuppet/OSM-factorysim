@@ -34,7 +34,7 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
     }
 
     case kNotifyEventTypeStartProcess: {
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeStartProcessing);
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeProcessProduct);
       scheduleEvent(event);
       break;
     }
@@ -46,7 +46,7 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
     }
 
     case kNotifyEventTypeConfigure: {
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeReceivedConfig);
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeReconfigure);
       event->addArgument<uint16_t>(notification.getFirstArgumentAsType<uint16_t>());
       scheduleEvent(event);
       break;

@@ -18,13 +18,13 @@ void SimulationMachine::selfTest() {
 }
 
 void SimulationMachine::takeInProduct() {
-  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProcessProduct);
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenIn);
   scheduleEvent(event);
 }
 
 void SimulationMachine::processProduct() {
   utils::Time::getInstance().increaseCurrentTime(5000);
-  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeFinishedProduct);
+  auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductProcessed);
   scheduleEvent(event);
 }
 

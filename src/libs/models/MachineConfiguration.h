@@ -12,11 +12,9 @@
 
 namespace models {
 
-class MachineConfiguration;
-typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
-
 class MachineConfiguration {
  public:
+  MachineConfiguration() = default;
 
   /**
    * Construct a new MachineConfiguration object
@@ -35,7 +33,7 @@ class MachineConfiguration {
                        uint16_t meanTimeBetweenFailureInHours,
                        uint16_t meanTimeBetweenFailureStddevInHours,
                        uint16_t reparationTimeInMinutes,
-                       const std::vector<std::shared_ptr<PreviousMachine>> &previousMachines);
+                       const std::vector<PreviousMachinePtr> &previousMachines);
 
   /**
    * Destruct the object
@@ -114,14 +112,14 @@ class MachineConfiguration {
    * Get all previous machines of this configuration
    * @return a vector with the previous machines of this configuration
    */
-  std::vector<std::shared_ptr<PreviousMachine>> &getPreviousMachines();
+  std::vector<PreviousMachinePtr> &getPreviousMachines();
 
   /**
    * Get previous machine by id
    * @param machineId id of the previous machine you want to get
    * @return the model of the previous machine (if found)
    */
-  std::shared_ptr<PreviousMachine> getPreviousMachineById(uint16_t machineId) const;
+  PreviousMachinePtr getPreviousMachineById(uint16_t machineId) const;
 
  private:
   uint16_t productId;
@@ -131,7 +129,7 @@ class MachineConfiguration {
   uint16_t meanTimeBetweenFailureInHours;
   uint16_t meanTimeBetweenFailureStddevInHours;
   uint16_t reparationTimeInMinutes;
-  std::vector<std::shared_ptr<PreviousMachine>> previousMachines;
+  std::vector<PreviousMachinePtr> previousMachines;
 
   /**
    * A function to save a MachineConfiguration object in an archive
@@ -157,6 +155,8 @@ class MachineConfiguration {
 
   friend class ::cereal::access;
 };
+
+typedef std::shared_ptr<MachineConfiguration> MachineConfigurationPtr;
 
 }
 

@@ -3,8 +3,8 @@
 namespace models {
 
 ProductionLine::ProductionLine(const std::string &name,
-							   const std::vector<std::shared_ptr<Product>> &products,
-							   const std::vector<std::shared_ptr<Machine>> &machines)
+							   const std::vector<ProductPtr> &products,
+							   const std::vector<MachinePtr> &machines)
 		: name(name),
 		  products(products),
 		  machines(machines) {
@@ -39,11 +39,11 @@ const std::string &ProductionLine::getName() const {
   return name;
 }
 
-const std::vector<std::shared_ptr<Product>> &ProductionLine::getProducts() const {
+const std::vector<ProductPtr> &ProductionLine::getProducts() const {
   return products;
 }
 
-const std::vector<std::shared_ptr<Machine>> &ProductionLine::getMachines() const {
+const std::vector<MachinePtr> &ProductionLine::getMachines() const {
   return machines;
 }
 

@@ -16,6 +16,7 @@ namespace models {
  */
 class PreviousMachine {
  public:
+  PreviousMachine() = default;
 
   /**
    * ...
@@ -72,6 +73,8 @@ class PreviousMachine {
 
   friend class ::cereal::access;
 };
+
+typedef std::shared_ptr<PreviousMachine> PreviousMachinePtr;
 
 }
 

@@ -22,12 +22,6 @@ Product &Product::operator=(const Product &other) {
   return *this;
 }
 
-void Product::deserialize(YAML::Node &productNode) {
-  id = productNode["id"].as<uint16_t>();
-  name = productNode["name"].as<std::string>();
-  proportion = productNode["proportion"].as<uint16_t>();
-}
-
 uint16_t Product::getId() const {
   return id;
 }

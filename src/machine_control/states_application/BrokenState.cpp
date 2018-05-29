@@ -25,7 +25,7 @@ void BrokenState::exitAction() {
 }
 bool BrokenState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    case kEventTypeRepairStarted: {
+    case kEventTypeRepaired: {
       onRepairedEvent();
       return true;
     }

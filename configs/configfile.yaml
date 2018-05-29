@@ -73,7 +73,7 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 1 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 5 # TODO
 
   - id: 3
     name: Schuurmachine (hout)
@@ -100,7 +100,7 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 5 # TODO
 
 
 
@@ -129,7 +129,7 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
 
 # -------------------- STALEN PIJPEN (NORMAAL) --------------------
 
@@ -144,7 +144,9 @@ productionLine:
       meanTimeBetweenFailureInHours: 8800 # TODO
       meanTimeBetweenFailureStddevInHours: 30 # TODO
       reparationTimeInMinutes: 24 # TODO
-      previousMachines: [] # Empty
+      previousMachines:
+        - machineId: 0 # TODO
+          neededProducts: 1 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -154,7 +156,9 @@ productionLine:
       meanTimeBetweenFailureInHours: 9800 # TODO
       meanTimeBetweenFailureStddevInHours: 36 # TODO
       reparationTimeInMinutes: 27 # TODO
-      previousMachines: [] # Empty
+      previousMachines:
+        - machineId: 0 # TODO
+          neededProducts: 1 # TODO
 
 
 
@@ -183,7 +187,7 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
 
 
 
@@ -200,7 +204,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 2
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
 
     - productId: 2
       outputEachMinute: 8 # TODO
@@ -212,7 +216,7 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
 
 # -------------------- INPAKKEN --------------------
 
@@ -229,7 +233,7 @@ productionLine:
       reparationTimeInMinutes: 24 # TODO
       previousMachines:
         - machineId: 7
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
         - machineId: 4
           neededProducts: 5 # TODO
 
@@ -243,6 +247,6 @@ productionLine:
       reparationTimeInMinutes: 27 # TODO
       previousMachines:
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO
         - machineId: 0 # TODO
-          neededProducts: 0 # TODO
+          neededProducts: 1 # TODO

@@ -16,6 +16,7 @@ typedef std::shared_ptr<Product> ProductPtr;
 
 class Product {
  public:
+  Product() = default;
   virtual ~Product() = default;
 
   /**
@@ -38,12 +39,6 @@ class Product {
    * @return The new object
    */
   Product &operator=(const Product &other);
-
-  /**
-   * A function to deserialize a product node
-   * @param productNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &productNode);
 
   /**
    * Getter for id

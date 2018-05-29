@@ -19,6 +19,7 @@ typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 
 class SimulationInfo {
  public:
+  SimulationInfo() = default;
   virtual ~SimulationInfo() = default;
 
   /**
@@ -41,19 +42,13 @@ class SimulationInfo {
   SimulationInfo &operator=(const SimulationInfo &other);
 
   /**
-   * A function to deserialize a simulation info node
-   * @param simulationInfoNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &simulationInfoNode);
-
-  /**
    * Getter for durationInHours
    * @return durationInHours
    */
   uint8_t getDurationInHours() const;
 
  private:
-  uint8_t durationInHours;
+  uint8_t durationInHours{};
 
   /**
    * A function to save a SimulationInfo object in an archive

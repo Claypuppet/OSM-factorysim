@@ -9,7 +9,7 @@ MachineConfiguration::MachineConfiguration(uint16_t productId,
                                            uint16_t meanTimeBetweenFailureInHours,
                                            uint16_t meanTimeBetweenFailureStddevInHours,
                                            uint16_t reparationTimeInMinutes,
-                                           const std::vector<std::shared_ptr<PreviousMachine>> &previousMachines)
+                                           const std::vector<PreviousMachinePtr> &previousMachines)
     : productId(productId),
       outputEachMinute(outputEachMinute),
       initializationDurationInSeconds(initializationDurationInSeconds),
@@ -54,12 +54,12 @@ uint16_t MachineConfiguration::getProductId() const {
   return productId;
 }
 
-std::vector<std::shared_ptr<PreviousMachine>> &MachineConfiguration::getPreviousMachines() {
+std::vector<PreviousMachinePtr> &MachineConfiguration::getPreviousMachines() {
   return previousMachines;
 }
 
-std::shared_ptr<PreviousMachine> MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
-  for (std::shared_ptr<PreviousMachine> previousMachine : previousMachines) {
+PreviousMachinePtr MachineConfiguration::getPreviousMachineById(uint16_t machineId) const {
+  for (const auto &previousMachine : previousMachines) {
 	if (previousMachine->getMachineId() == machineId) {
 	  return previousMachine;
 	}
