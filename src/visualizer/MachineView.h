@@ -15,7 +15,7 @@ namespace ui {
 class MachineView {
  public:
   MachineView() = delete;
-  MachineView(std::shared_ptr<visualizercore::Machine> machinePtr);
+  MachineView(std::shared_ptr<visualisercore::Machine> machinePtr);
   MachineView(const MachineView& aMachineView);
   MachineView&operator=(const MachineView& rhs);
   /**
@@ -25,7 +25,7 @@ class MachineView {
    */
   void setPos(uint16_t xPos, uint16_t yPos);
  private:
-  std::shared_ptr<visualizercore::Machine> machine;
+  std::shared_ptr<visualisercore::Machine> machine;
   uint16_t x;
   uint16_t y;
 };

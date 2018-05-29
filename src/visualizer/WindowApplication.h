@@ -12,6 +12,9 @@
 
 namespace ui {
 
+/**
+ * Class for initialising the window
+ */
 class WindowApplication : public wxApp {
  public:
   /**

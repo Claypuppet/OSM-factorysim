@@ -12,7 +12,7 @@ namespace file {
 /**
  * Application when a result file is selected
  */
-class FileApplication : public visualizercore::Application{
+class FileApplication : public visualisercore::Application{
  public:
   FileApplication() = default;
  private:

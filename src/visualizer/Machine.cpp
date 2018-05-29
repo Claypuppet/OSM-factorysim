@@ -4,7 +4,7 @@
 
 #include "Machine.h"
 
-namespace visualizercore {
+namespace visualisercore {
 
 Machine::Machine(const models::Machine &aConfig) : models::Machine(aConfig) {
 }
@@ -13,7 +13,7 @@ Machine::Machine(const Machine &aMachine)
 
 }
 
-Machine &visualizercore::Machine::operator=(const Machine &rhs) {
+Machine &visualisercore::Machine::operator=(const Machine &rhs) {
   if (this != &rhs) {
     this->name = rhs.name;
     this->id = rhs.id;

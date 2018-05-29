@@ -11,7 +11,7 @@
 #include "Machine.h"
 #include "FileReader.h"
 
-namespace visualizercore {
+namespace visualisercore {
 
 /**
  * Abstract core class that schedules and handles events

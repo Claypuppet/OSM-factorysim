@@ -4,7 +4,7 @@
 
 #include "Event.h"
 
-namespace visualizercore {
+namespace visualisercore {
 
 Event::Event(uint64_t aTimeStamp,
                              uint16_t aMachineId,

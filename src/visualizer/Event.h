@@ -6,7 +6,7 @@
 #define PRODUCTION_LINE_CONTROL_EVENT_H
 
 #include <cstdint>
-namespace visualizercore {
+namespace visualisercore {
 
 /**
  * Enum for event types

@@ -6,7 +6,7 @@
 
 namespace ui {
 
-MachineView::MachineView(std::shared_ptr<visualizercore::Machine> machinePtr) : machine(machinePtr) {
+MachineView::MachineView(std::shared_ptr<visualisercore::Machine> machinePtr) : machine(machinePtr) {
 
 }
 

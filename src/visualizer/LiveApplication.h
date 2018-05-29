@@ -11,7 +11,7 @@ namespace live {
 /**
  * Application class when the live feed option was selected
  */
-class LiveApplication : public visualizercore::Application, patterns::notifyobserver::Observer{
+class LiveApplication : public visualisercore::Application, patterns::notifyobserver::Observer{
  public:
   LiveApplication() = default;
 };

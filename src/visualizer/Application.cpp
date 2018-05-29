@@ -4,7 +4,7 @@
 
 #include "Application.h"
 
-namespace visualizercore {
+namespace visualisercore {
 
 void Application::scheduleEvent(const Event &anEvent) {
   //Check if time is not before the last event

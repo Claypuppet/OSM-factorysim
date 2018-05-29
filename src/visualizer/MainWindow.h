@@ -41,7 +41,7 @@ namespace ui {
    */
   void onOpenFile(wxCommandEvent& event);
 
-   visualizercore::Application application;
+   visualisercore::Application application;
    Canvas canvas;
 };
 

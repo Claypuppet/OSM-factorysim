@@ -8,7 +8,7 @@
 #include <models/Machine.h>
 #include <patterns/notifyobserver/Notifier.hpp>
 
-namespace visualizercore {
+namespace visualisercore {
 
 /**
  * A class that hold information about machines
