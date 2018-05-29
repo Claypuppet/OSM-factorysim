@@ -63,12 +63,12 @@ class Machine
    */
   virtual void setInOperationStartState() = 0;
 
-  void setConfigurations(const std::vector<models::MachineConfiguration> &configurations) {
-    models::Machine::configurations = configurations;
+  void setConfigurations(const std::vector<models::MachineConfigurationPtr> &aConfigurations) {
+    configurations = aConfigurations;
   }
 
-  void setCurrentConfiguration(const models::MachineConfiguration &aCurrentConfiguration) {
-    currentConfiguration = std::make_shared<models::MachineConfiguration>(aCurrentConfiguration);
+  void setCurrentConfiguration(const models::MachineConfigurationPtr &aCurrentConfiguration) {
+    currentConfiguration = aCurrentConfiguration;
   }
 
  protected:

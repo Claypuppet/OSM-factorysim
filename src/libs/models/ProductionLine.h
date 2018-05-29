@@ -20,10 +20,18 @@ typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
 class ProductionLine {
  public:
+  ProductionLine() = default;
+  virtual ~ProductionLine() = default;
+
   /**
-   * Default constructor
+   * ...
+   * @param name
+   * @param products
+   * @param machines
    */
-  ProductionLine();
+  ProductionLine(const std::string &name,
+                 const std::vector<ProductPtr> &products,
+                 const std::vector<MachinePtr> &machines);
 
   /**
    * Copy constructor
@@ -32,22 +40,11 @@ class ProductionLine {
   ProductionLine(const ProductionLine &other);
 
   /**
-   * The destructor
-   */
-  virtual ~ProductionLine();
-
-  /**
    * Assignment operator
    * @param other : The object to assign
    * @return The new object
    */
   ProductionLine &operator=(const ProductionLine &other);
-
-  /**
-   * A function to deserialize a production line node
-   * @param productionLineNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &productionLineNode);
 
   /**
    * Getter for name
@@ -59,18 +56,18 @@ class ProductionLine {
    * Getter for products
    * @return products
    */
-  const std::vector<Product> &getProducts() const;
+  const std::vector<ProductPtr> &getProducts() const;
 
   /**
    * Getter for machines
    * @return machines
    */
-  const std::vector<Machine> &getMachines() const;
+  const std::vector<MachinePtr> &getMachines() const;
 
  private:
   std::string name;
-  std::vector<Product> products;
-  std::vector<Machine> machines;
+  std::vector<ProductPtr> products;
+  std::vector<MachinePtr> machines;
 
   /**
    * A function to save a ProductionLine object in an archive

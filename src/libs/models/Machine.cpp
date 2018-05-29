@@ -2,12 +2,23 @@
 
 namespace models {
 
-Machine::Machine(uint16_t aId, const std::string &aName)
-	: id(aId), name(aName) {
+Machine::Machine(uint16_t id,
+                 const std::string &name,
+                 const std::vector<MachineConfigurationPtr> &configurations)
+    :id(id),
+     name(name),
+     configurations(configurations) {
+
+  if (configurations.size() == 0) {
+    throw std::runtime_error("Machine has no configurations configured");
+  }
+
 }
 
 Machine::Machine(const Machine &other)
-	: id(other.id), name(other.name), configurations(other.configurations) {
+	: id(other.id),
+      name(other.name),
+      configurations(other.configurations) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
@@ -21,17 +32,6 @@ Machine &Machine::operator=(const Machine &other) {
   return *this;
 }
 
-void Machine::deserialize(YAML::Node &machineNode) {
-  id = machineNode["id"].as<uint16_t>();
-  name = machineNode["name"].as<std::string>();
-
-  for (uint16_t i = 0; i < machineNode["configurations"].size(); ++i) {
-	configurations.push_back(MachineConfiguration());
-	auto machineConfigurationNode = machineNode["configurations"][i];
-	configurations.back().deserialize(machineConfigurationNode);
-  }
-}
-
 uint16_t Machine::getId() const {
   return id;
 }
@@ -40,14 +40,31 @@ const std::string &Machine::getName() const {
   return name;
 }
 
-const std::vector<MachineConfiguration> &Machine::getConfigurations() const {
+const std::vector<MachineConfigurationPtr> &Machine::getConfigurations() const {
   return configurations;
 }
-const MachineConfiguration &Machine::getConfigurationById(uint16_t configId) const {
-  for (const auto &config : configurations) {
-	if (config.getProductId() == configId) {
-	  return config;
+
+const MachineConfigurationPtr Machine::getConfigurationById(uint16_t machineConfigurationId) const {
+  for (const auto &machineConfiugration : configurations) {
+	if (machineConfiugration->getProductId() == machineConfigurationId) {
+	  return machineConfiugration;
 	}
   }
+
+  return nullptr;
 }
+
+void Machine::setId(uint16_t id) {
+  Machine::id = id;
+}
+
+void Machine::setName(const std::string &name) {
+  Machine::name = name;
+}
+
+const MachineConfigurationPtr Machine::addConfiguration(MachineConfigurationPtr machineConfiguration) {
+  configurations.emplace_back(machineConfiguration);
+  return configurations.back();
+}
+
 }
