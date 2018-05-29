@@ -107,6 +107,16 @@ class Manager {
   void stop();
 
   /**
+   * Stops the server
+   */
+  void stopServer();
+
+  /**
+   * Stops the client
+   */
+  void stopClient();
+
+  /**
    * Function to get the remoteHost
    * @return The ip-address of the host
    */

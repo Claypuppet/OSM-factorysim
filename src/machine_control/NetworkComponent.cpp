@@ -76,10 +76,10 @@ void NetworkComponent::sendStatusUpdate(models::Machine::MachineStatus status) {
 
 }
 
-void NetworkComponent::sendResponseNOK(const uint16_t errorCode) {
+void NetworkComponent::sendResponseNOK(models::Machine::MachineErrorCode errorCode) {
   network::Message message(network::Protocol::AppMessageType::kAppMessageTypeNOK);
-  message.setBodyObject<uint16_t>(errorCode);
-  sendMessage(message);
+  message.setBodyObject<models::Machine::MachineErrorCode>(errorCode);
+//  sendMessage(message);
 }
 
 void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {

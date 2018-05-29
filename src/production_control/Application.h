@@ -23,11 +23,11 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   Application();
   virtual ~Application();
 
-  virtual /**
+  /**
    * Set the machines used in this application
    * @param aMachines
    */
-  void setMachines(const std::vector<MachinePtr> &aMachines);
+  virtual void setMachines(const std::vector<MachinePtr> &aMachines);
 
   /**
   * A function to get a machine by its ID
@@ -70,10 +70,11 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   void registerMachine(uint16_t machineId, network::ConnectionPtr connection);
 
   /**
-   * Set the coniguration used by the execution of this application
-   * @param executaionConfiguration
+   * Set the pointer to productionline
+   * - Used in the set config
+   * @param productionLine shared pointer to productionLine
    */
-  void setProductionLine(const models::ProductionLine &executaionConfiguration);
+  void setProductionLine(const models::ProductionLinePtr &productionLine);
 
   /**
    * Executes the scheduler. Checks if a machine can process a product.
@@ -103,7 +104,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:
-  models::ProductionLine productionLine;
+  models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
   uint16_t currentProduct;
 

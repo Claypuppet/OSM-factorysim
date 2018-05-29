@@ -51,7 +51,6 @@ bool InOperationState::handleEvent(const applicationstates::EventPtr &event) {
 void InOperationState::onFinishedProcessing() {
   utils::Logger::log("-Handle event: kEventTypeFinishedProcessing");
 
-  //Notify controller?
   auto state = std::make_shared<IdleState>(context);
   context.setCurrentState(state);
 }

@@ -22,7 +22,6 @@ productionLine:
       outputEachMinute: 12
       initializationDurationInSeconds: 6
       outputBufferSize: 14
-      turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
@@ -34,7 +33,6 @@ productionLine:
       outputEachMinute: 8
       initializationDurationInSeconds: 9
       outputBufferSize: 43
-      turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
@@ -51,22 +49,20 @@ productionLine:
       outputEachMinute: 8
       initializationDurationInSeconds: 7
       outputBufferSize: 39
-      turnAroundTimeInSeconds: 17
       meanTimeBetweenFailureInHours: 8801
       meanTimeBetweenFailureStddevInHours: 31
       reparationTimeInMinutes: 25
       previousMachines:
-        - machineId: 15 # TODO
-          neededProducts: 7 # TODO
+        - machineId: 15
+          neededProducts: 7
 
     - productId: 88
       outputEachMinute: 8
       initializationDurationInSeconds: 10
       outputBufferSize: 69
-      turnAroundTimeInSeconds: 22
       meanTimeBetweenFailureInHours: 9801
       meanTimeBetweenFailureStddevInHours: 37
       reparationTimeInMinutes: 28
       previousMachines:
-        - machineId: 15 # TODO
-          neededProducts: 8 # TODO
+        - machineId: 15
+          neededProducts: 8

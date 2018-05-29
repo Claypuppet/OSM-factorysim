@@ -15,7 +15,6 @@ void patterns::statemachine::Context::setCurrentState(const StatePtr newState) {
   currentState = newState;
 
   currentState->entryAction();
-  currentState->doActivity();
 }
 
 void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
@@ -23,6 +22,7 @@ void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
 }
 
 void patterns::statemachine::Context::run() {
+  currentState->doActivity();
   while (!events.empty()) {
 	EventPtr e = events.front();
 	events.pop();
@@ -33,7 +33,6 @@ void patterns::statemachine::Context::run() {
 //			scheduleEvent(e);
 //		}
   }
-  currentState->doActivity();
 }
 const patterns::statemachine::StatePtr &patterns::statemachine::Context::getCurrentState() const {
   return currentState;

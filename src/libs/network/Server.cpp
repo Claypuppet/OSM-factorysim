@@ -86,7 +86,7 @@ void Server::stop() {
   }
   mAcceptor.close();
   if (!mFStopped) {
-	for (auto &connection : mConnections) {
+	for (auto connection : mConnections) {
 	  connection->close();
 	}
 	if (auto l = mServiceEventLister) {
@@ -161,9 +161,7 @@ void Server::onConnectionDisconnected(ConnectionPtr connection, const error_code
 	mManager.getIOService().post([self, h, connection, error]() { h->onConnectionDisconnected(connection, error); });
   }
   bool doAccept = mConnections.size() >= mMaxClients;
-  if(mFStopping.test_and_set()){
-  	mConnections.erase(connection);
-  }
+  mConnections.erase(connection);
   if (doAccept && mConnections.size() < mMaxClients) {
 	asyncAccept();
   }

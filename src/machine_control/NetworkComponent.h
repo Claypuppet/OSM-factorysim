@@ -30,7 +30,7 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
    * Send response: NOK
    * @param errorCode : error code
    */
-  void sendResponseNOK(const uint16_t errorCode);
+  void sendResponseNOK(models::Machine::MachineErrorCode errorCode);
  private:
   void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionEstablished(network::ConnectionPtr connection) override;

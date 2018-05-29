@@ -31,9 +31,7 @@ MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageS
 }
 
 MockNetwork::~MockNetwork(){
-  if(client && client->isRunning() || server && server->isRunning()){
-    throw std::runtime_error("Network still running!");
-  }
+  stop();
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
@@ -125,29 +123,11 @@ void MockNetwork::stop() {
 }
 
 void MockNetwork::stopServer() {
-  if (server && server->isRunning()){
-    auto s = server;
-    s->stop();
-    server.reset();
-    // busy wait
-    while (s->isRunning()) {
-      std::this_thread::yield();
-    }
-    s.reset();
-  }
+  serverManager.stopServer();
 }
 
 void MockNetwork::stopClient() {
-  if (client && client->isRunning()){
-    auto c = client;
-    c->stop();
-    client.reset();
-    // busy wait
-    while (c->isRunning()) {
-      std::this_thread::yield();
-    }
-    c.reset();
-  }
+  clientManager.stopClient();
 }
 
 void MockNetwork::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {

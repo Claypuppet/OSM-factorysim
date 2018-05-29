@@ -1,0 +1,43 @@
+---
+name: TestConfig
+simulationInfo:
+  durationInHours: 8760
+
+productionLine:
+  name: TestProduction
+  products:
+  - id: 12
+    proportion: 2
+  - id: 88
+    name: Testproduct88
+  machines:
+
+
+
+  - id: 15
+    name: Testmachine15
+    configurations:
+      outputBufferSize: 14
+      previousMachines:
+        - neededProducts: 5
+
+    - productId: 88
+      reparationTimeInMinutes: 27
+      previousMachines:
+        - machineId: 0
+
+
+
+  - id: 75
+    name: Testmachine75
+    configurations:
+    - productId: 12
+      outputEachMinute: 8
+      previousMachines:
+        - machineId: 15
+          neededProducts: 7
+
+    - productId: 88
+      outputEachMinute: 8
+      previousMachines:
+        - machineId: 15

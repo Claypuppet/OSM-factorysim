@@ -75,6 +75,7 @@ BOOST_AUTO_TEST_CASE(MachineControlTestControllerInitializeSimulationState){
   BOOST_REQUIRE_NO_THROW(controller.run());
 
   BOOST_REQUIRE_EQUAL(!!std::dynamic_pointer_cast<simulationstates::OffState>(controller.getCurrentState()), true);
+  productionControlServer->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlTestControllerOffState) {

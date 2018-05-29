@@ -25,12 +25,13 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
-#include "../../src/production_control/ConfigurationReader.h"
+#include "../../src/production_control/configuration_reader/ConfigurationReader.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
 BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
-  core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(12, "test_machine"));
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
 
   auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
@@ -68,7 +69,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // use the controller for loading the config and setup the application
   simulation::SimulationController controller;
-  controller.setConfigFromFile("./test_configs/test_config_one_machine.yaml");
+  controller.setConfiguration("./test_configs/test_config_one_machine.yaml");
 
   // get the application from controller
   auto &application = controller.getApplication();
@@ -95,6 +96,9 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
   // run the context
   BOOST_CHECK_NO_THROW(application->run());
 
+
+  application->stopServer();
+  controller.stop();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -102,7 +106,8 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
-  core::MachinePtr machine = std::make_shared<core::Machine>(models::Machine(1, "draaimachine"));
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
   core::InfiniteBuffer infiniteBuffer(1);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
@@ -136,7 +141,8 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
   simulation::SimulationController controller;
 
-  BOOST_REQUIRE_NO_THROW(controller.setConfigFromFile("./test_configs/test_config_two_machines.yaml"));
+  const std::string filePath = "./test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(filePath));
 
   auto machines = controller.getApplication()->getMachines();
 
@@ -150,20 +156,20 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
   auto m1Previous1 = machine1->getPreviousMachines(12);
   auto m1Previous2 = machine1->getPreviousMachines(88);
   BOOST_REQUIRE_EQUAL(m1Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous1.front().getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous1.front().getNeededProducts(), 5);
+  BOOST_CHECK_EQUAL(m1Previous1.front()->getMachineId(), 0);
+  BOOST_CHECK_EQUAL(m1Previous1.front()->getNeededProducts(), 5);
   BOOST_REQUIRE_EQUAL(m1Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous2.front().getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous2.front().getNeededProducts(), 10);
+  BOOST_CHECK_EQUAL(m1Previous2.front()->getMachineId(), 0);
+  BOOST_CHECK_EQUAL(m1Previous2.front()->getNeededProducts(), 10);
 
   auto m2Previous1 = machine2->getPreviousMachines(12);
   BOOST_REQUIRE_EQUAL(m2Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous1.front().getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous1.front().getNeededProducts(), 7);
+  BOOST_CHECK_EQUAL(m2Previous1.front()->getMachineId(), 15);
+  BOOST_CHECK_EQUAL(m2Previous1.front()->getNeededProducts(), 7);
   auto m2Previous2 = machine2->getPreviousMachines(88);
   BOOST_REQUIRE_EQUAL(m2Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous2.front().getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous2.front().getNeededProducts(), 8);
+  BOOST_CHECK_EQUAL(m2Previous2.front()->getMachineId(), 15);
+  BOOST_CHECK_EQUAL(m2Previous2.front()->getNeededProducts(), 8);
 
   auto m1InputBuffers = machine1->getInputBuffers();
   BOOST_REQUIRE_EQUAL(m1InputBuffers.size(), 2);
@@ -265,12 +271,14 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   //Making machines
   std::vector<core::MachinePtr> machines;
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(12, "machine12")));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(13, "machine13")));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(14, "machine14")));
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(12, "machine12", configs)));
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(13, "machine13", configs)));
+  machines.push_back(std::make_shared<core::Machine>(models::Machine(14, "machine14", configs)));
 
   //Making and setting up application
   core::Application app;
+  app.setProductionLine(std::make_shared<models::ProductionLine>());
   BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
   BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<applicationstates::InOperationState>(app)));
 

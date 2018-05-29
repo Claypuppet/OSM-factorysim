@@ -75,44 +75,8 @@ void Manager::stop() {
   }
   mFStopping = true;
 
-  auto s = mServer;
-  auto c = mClient;
-
-  if (s) {
-    std::stringstream message;
-    message << "----Stopping server...";
-    utils::Logger::log(message.str());
-    s->stop();
-    mServer.reset();
-  }
-  if (c) {
-    std::stringstream message;
-    message << "----Stopping client...";
-    utils::Logger::log(message.str());
-    c->stop();
-    mClient.reset();
-  }
-
-  // busy wait
-  if (s) {
-    while (s->isRunning()) {
-      std::this_thread::yield();
-    }
-    std::stringstream message;
-    message << "----Server stopped";
-    utils::Logger::log(message.str());
-    s.reset();
-  }
-
-  if (c) {
-    while (c->isRunning()) {
-      std::this_thread::yield();
-    }
-    std::stringstream message;
-    message << "----Client stopped";
-    utils::Logger::log(message.str());
-    c.reset();
-  }
+  stopClient();
+  stopServer();
 
   if (mServicerWorkPtr) {
 	mServicerWorkPtr.reset();
@@ -123,6 +87,32 @@ void Manager::stop() {
   }
 
   mFStopped = true;
+}
+
+void Manager::stopClient() {
+  if (auto c = mClient) {
+    c->stop();
+    mClient.reset();
+    // Busy wait loop
+    while (c->isRunning()) {
+      std::this_thread::yield();
+    }
+    c.reset();
+  }
+
+}
+
+void Manager::stopServer() {
+  if (auto s = mServer) {
+    s->stop();
+    mServer.reset();
+    // Busy wait loop
+    while (s->isRunning()) {
+      std::this_thread::yield();
+    }
+    s.reset();
+  }
+
 }
 
 void Manager::handleSingnal(error_code &error, int signal) {

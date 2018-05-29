@@ -16,10 +16,16 @@ typedef std::shared_ptr<Product> ProductPtr;
 
 class Product {
  public:
+  Product() = default;
+  virtual ~Product() = default;
+
   /**
-   * Default constructor
+   * ...
+   * @param id
+   * @param name
+   * @param proportion
    */
-  Product();
+  Product(uint16_t id, const std::string &name, uint16_t proportion);
 
   /**
    * Copy constructor
@@ -28,22 +34,11 @@ class Product {
   Product(const Product &other);
 
   /**
-   * The destructor
-   */
-  virtual ~Product();
-
-  /**
    * Assignment operator
    * @param other : The object to assign
    * @return The new object
    */
   Product &operator=(const Product &other);
-
-  /**
-   * A function to deserialize a product node
-   * @param productNode : The node to deserialize
-   */
-  void deserialize(YAML::Node &productNode);
 
   /**
    * Getter for id

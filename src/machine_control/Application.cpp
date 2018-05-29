@@ -29,7 +29,6 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
     }
 
     case kNotifyEventTypeServiceError : {
-
       break;
     }
 
@@ -52,14 +51,20 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
       break;
     }
 
-    case kNotifyEventMachineConfigured: {
+    case kNotifyEventTypeMachineConfigured: {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeConfigured);
       scheduleEvent(event);
       break;
     }
 
-    case kNotifyEventMachineFailedToConfigure: {
+    case kNotifyEventTypeMachineFailedToConfigure: {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeFailedToConfigure);
+      scheduleEvent(event);
+      break;
+    }
+
+    case kNotifyEventTypeMachineBroke: {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineBroke);
       scheduleEvent(event);
       break;
     }
@@ -103,4 +108,9 @@ void Application::registerMachine() {
 void Application::statusUpdate(models::Machine::MachineStatus status) {
   connectionHandler->sendStatusUpdate(status);
 }
+
+void Application::machineBroke(models::Machine::MachineErrorCode errorCode){
+  connectionHandler->sendResponseNOK(errorCode);
+}
+
 } // machinecore

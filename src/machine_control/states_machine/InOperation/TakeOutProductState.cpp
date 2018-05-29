@@ -16,6 +16,7 @@ void TakeOutProductState::entryAction() {
 }
 
 void TakeOutProductState::doActivity() {
+  MachineState::doActivity();
   context.takeOutProduct();
 }
 

@@ -1,25 +1,40 @@
----
-name: TestConfigMet1Machine
-simulationInfo:
-  durationInHours: 1
-productionLine:
-  name: Kantoortafels
-  products:
-  - id: 1
-    name: normalekantoortafels
-    proportion: 2
-  machines:
-  - id: 1
-    name: Zaagmachine
-    configurations:
-    - productId: 1
-      outputEachMinute: 12
-      initializationDurationInSeconds: 6
-      outputBufferSize: 68
-      turnAroundTimeInSeconds: 16
-      meanTimeBetweenFailureInHours: 8800
-      meanTimeBetweenFailureStddevInHours: 30
-      reparationTimeInMinutes: 24
-      previousMachines:
-        - machineId: 15
-          neededProducts: 7
+{
+  "name": "TestConfigMet1Machine",
+  "simulationInfo": {
+    "durationInHours": 1
+  },
+  "productionLine": {
+    "name": "Kantoortafels",
+    "products": [
+      {
+        "id": 1,
+        "name": "normalekantoortafels",
+        "proportion": 2
+      }
+    ],
+    "machines": [
+      {
+        "id": 1,
+        "name": "Zaagmachine",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "initializationDurationInSeconds": 6,
+            "outputBufferSize": 68,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 15,
+                "neededProducts": 7
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
