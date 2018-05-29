@@ -16,6 +16,7 @@ namespace visualizercore {
 class Machine : public models::Machine, patterns::notifyobserver::Notifier {
  public:
   explicit Machine(const models::Machine &aConfig);
+  Machine(uint16_t anId);
   Machine(const Machine &aMachine);
   Machine &operator=(const Machine &rhs);
  private:

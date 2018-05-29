@@ -19,3 +19,5 @@ visualizercore::Machine &visualizercore::Machine::operator=(const visualizercore
   }
   return *this;
 }
+visualizercore::Machine::Machine(uint16_t anId) :id(anId){
+}
