@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::Time::getInstance().syncTime(0);
   utils::FileLogger::getInstance().setupLogger("testlog.log", true);
 
-  for (int i = 0; i < 100; ++i) {
+  for (uint16_t i = 0; i < 100; ++i) {
     utils::FileLogger::getInstance().file()->info("test" + std::to_string(i));
   }
 
@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
 
   utils::FileLogger::getInstance().changePattern("(%v)");
 
-  for (int i = 0; i < 100; ++i) {
-    core::ResultLogger::getInstance().MachineStatusUpdate(i, models::Machine::kMachineStatusIdle);
+  for (uint16_t i = 0; i < 100; ++i) {
+    core::ResultLogger::getInstance().machineStatusUpdate(i, models::Machine::kMachineStatusIdle);
   }
   // check if testlog and newtestlog file exist
 }

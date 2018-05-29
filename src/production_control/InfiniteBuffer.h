@@ -65,6 +65,7 @@ class InfiniteBuffer : public Buffer {
    * @param list
    */
   void putInBuffer(const std::vector<ProductPtr> &list) override;
+  uint64_t getAmountInBuffer() const override;
 
 };
 

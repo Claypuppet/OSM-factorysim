@@ -25,14 +25,14 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    * @param machineId : Id of machine
    * @param status : machien status
    */
-  void MachineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status);
+  void machineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status);
 
   /**
    * Log a machine status update
    * @param machineId : Id of machine
    * @param status : machien status
    */
-  void MachineConfigChanged(uint16_t machineId, uint16_t configId);
+  void machineConfigChanged(uint16_t machineId, uint16_t configId);
 
   /**
    * Log the contents of a buffer
@@ -40,7 +40,7 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    * @param productId : Id of the product
    * @param amount : amount of items in buffer
    */
-  void BufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
+  void bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
 
 
  private:

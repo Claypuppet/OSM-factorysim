@@ -38,5 +38,8 @@ void InfiniteBuffer::putInBuffer(const ProductPtr &item) {
 void InfiniteBuffer::putInBuffer(const std::vector<ProductPtr> &list) {
   totalProcessed += list.size();
 }
+uint64_t InfiniteBuffer::getAmountInBuffer() const {
+  return totalProcessed;
+}
 
 }

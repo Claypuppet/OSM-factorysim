@@ -69,7 +69,7 @@ class FileLogger : public patterns::singleton::Singleton<FileLogger> {
   FileLogger();
   void assignLoggers();
   std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
-  std::shared_ptr<spdlog::sinks::simple_file_sink_mt> fileSink;
+  std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> fileSink;
   std::string pattern;
 
 };

@@ -12,7 +12,7 @@
 namespace core {
 
 ResultLogger::ResultLogger()
-    : networkEnabled(false), debugEnabled(true) {
+    : networkEnabled(false), debugEnabled(false) {
 }
 
 void ResultLogger::initializeLog(const std::string &configurationPath, const std::string &configurationName) {
@@ -27,21 +27,22 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
 
   // Setup logger
   utils::FileLogger::getInstance().setupLogger(outputFileName, false);
+  utils::FileLogger::getInstance().file()->info("\nevents:");
 }
 
-void ResultLogger::MachineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
+void ResultLogger::machineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
   std::stringstream stringstream;
   stringstream << "1," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << status;
   log(stringstream.str());
 }
 
-void ResultLogger::MachineConfigChanged(uint16_t machineId, uint16_t configId) {
+void ResultLogger::machineConfigChanged(uint16_t machineId, uint16_t configId) {
   std::stringstream stringstream;
   stringstream << "2," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << configId;
   log(stringstream.str());
 }
 
-void ResultLogger::BufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount) {
+void ResultLogger::bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount) {
   std::stringstream stringstream;
   stringstream << "3," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << productId << "," << amount;
   log(stringstream.str());
@@ -56,6 +57,7 @@ void ResultLogger::log(const std::string &message) {
   else {
     utils::FileLogger::getInstance().file()->info(logRow.str());
   }
+  utils::FileLogger::getInstance().file()->flush();
 }
 
 }

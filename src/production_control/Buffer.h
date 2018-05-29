@@ -88,16 +88,17 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   uint64_t getTotalProcessed() const;
 
+  /**
+   * get current amount in buffer
+   * @return : amount of items in buffer
+   */
+  virtual uint64_t getAmountInBuffer() const;
+
  protected:
   /**
    * Construct an buffer for machine, used by infinite buffer
    */
   explicit Buffer(uint16_t productId);
-
-  /**
-   * Logs buffer content change
-   */
-  void bufferContentChanged();
 
   uint32_t maxSize;
   MachinePtrW fromMachine;

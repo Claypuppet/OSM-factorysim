@@ -16,7 +16,7 @@ InOperationState::InOperationState(machinecore::Application &aContext) : Applica
 };
 
 void InOperationState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
   context.statusUpdate(models::Machine::kMachineStatusProcessingProduct);
 
   context.getMachine()->setInOperationStartState();
@@ -49,7 +49,7 @@ bool InOperationState::handleEvent(const applicationstates::EventPtr &event) {
 }
 
 void InOperationState::onFinishedProcessing() {
-  utils::Logger::log("-Handle event: kEventTypeFinishedProcessing");
+//  utils::Logger::log("-Handle event: kEventTypeFinishedProcessing");
 
   //Notify controller?
   auto state = std::make_shared<IdleState>(context);
@@ -57,7 +57,7 @@ void InOperationState::onFinishedProcessing() {
 }
 
 void InOperationState::onMachineBroke() {
-  utils::Logger::log("-Handle event: kEventTypeMachineBroke");
+//  utils::Logger::log("-Handle event: kEventTypeMachineBroke");
 
   auto state = std::make_shared<BrokenState>(context);
   context.setCurrentState(state);

@@ -9,12 +9,10 @@
 namespace core {
 
 Buffer::Buffer(uint16_t aProductId) : fromMachine(), maxSize(0), totalProcessed(0), productId(aProductId) {
-
 }
 
 Buffer::Buffer(const MachinePtrW &aFromMachine, uint16_t aProductId, uint32_t size)
     : fromMachine(aFromMachine), maxSize(size), totalProcessed(0), productId(aProductId) {
-
 }
 
 bool Buffer::checkAmountInBuffer(uint32_t amount) {
@@ -47,8 +45,6 @@ void Buffer::putInBuffer(const ProductPtr &item) {
   }
   enqueue(item);
   ++totalProcessed;
-  std::cout << "Placed item in buffer, currently " << size() << " products in buffer (max: " << maxSize << ")"
-            << std::endl;
 }
 
 void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
@@ -67,11 +63,8 @@ uint16_t Buffer::getFromMachineId() const {
 uint64_t Buffer::getTotalProcessed() const {
   return totalProcessed;
 }
-
-void Buffer::bufferContentChanged() {
-  if (auto machineId = getFromMachineId()) {
-    ResultLogger::getInstance().BufferContentsChanged(machineId, productId, size());
-  }
+uint64_t Buffer::getAmountInBuffer() const {
+  return size();
 }
 
 }

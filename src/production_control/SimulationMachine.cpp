@@ -80,8 +80,12 @@ void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &si
 }
 
 void SimulationMachine::sendMessage(network::Message &message) {
-  Machine::sendMessage(message);
   awaitingSimulationResponse = true;
+  Machine::sendMessage(message);
+}
+
+bool SimulationMachine::isWaitingForSimulationResponse() const {
+  return awaitingSimulationResponse;
 }
 
 bool SimulationMachine::isWaitingForResponse() const {

@@ -13,17 +13,8 @@ FileLogger::FileLogger() : pattern("%v") {
 }
 
 void FileLogger::setupLogger(const std::string &filename, bool empty) {
-  try {
-    consoleSink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
-    fileSink =std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, empty);
-
-    assignLoggers();
-
-  }
-  catch (const spdlog::spdlog_ex &ex) {
-    std::cout << "Log initialization failed: " << ex.what() << std::endl;
-    throw ex;
-  }
+  consoleSink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
+  newFile(filename, empty);
 }
 
 void FileLogger::assignLoggers() {
@@ -33,7 +24,6 @@ void FileLogger::assignLoggers() {
     std::vector<spdlog::sink_ptr> bothSinks;
     bothSinks.push_back(consoleSink);
     bothSinks.push_back(fileSink);
-
 
     spdlog::register_logger(std::make_shared<spdlog::logger>("file", fileSink));
     spdlog::register_logger(std::make_shared<spdlog::logger>("console", consoleSink));
@@ -53,15 +43,8 @@ void FileLogger::changePattern(const std::string &newPattern) {
 }
 
 void FileLogger::newFile(const std::string &filename, bool empty) {
-  try {
-
-    fileSink =
-        std::make_shared<spdlog::sinks::simple_file_sink_mt>(filename, empty);
-    assignLoggers();
-  } catch (const spdlog::spdlog_ex &ex) {
-    std::cout << "newfile failed: " << ex.what() << std::endl;
-    throw ex;
-  }
+  fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(filename, 1048576 * 200, 1);
+  assignLoggers();
 }
 
 std::shared_ptr<spdlog::logger> FileLogger::both() {
@@ -77,9 +60,7 @@ std::shared_ptr<spdlog::logger> FileLogger::console() {
 }
 
 void FileLogger::flushLoggers() {
-  spdlog::get("console")->flush();
   spdlog::get("both")->flush();
-  spdlog::get("file")->flush();
 }
 
 }

@@ -5,6 +5,7 @@
 #include <utils/time/Time.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
+#include "ResultLogger.h"
 
 namespace core {
 
@@ -27,16 +28,16 @@ bool Machine::isConnected() const {
 void Machine::sendMessage(network::Message &message) {
   message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
-	connection->writeMessage(message);
     awaitingResponse = true;
+	connection->writeMessage(message);
   }
 }
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
-  std::stringstream ss;
-  ss << "--sending process message to machine " << id;
-  utils::Logger::log(ss.str());
+//  std::stringstream ss;
+//  ss << "--sending process message to machine " << id;
+//  utils::Logger::log(ss.str());
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
@@ -44,9 +45,9 @@ void Machine::sendConfigureMessage(uint32_t configureId) {
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject(configureId);
   sendMessage(message);
-  std::stringstream ss;
-  ss << "--sending configure message to machine " << id;
-  utils::Logger::log(ss.str());
+//  std::stringstream ss;
+//  ss << "--sending configure message to machine " << id;
+//  utils::Logger::log(ss.str());
 }
 
 const BufferList &Machine::getCurrentInputBuffers() const {
@@ -86,7 +87,7 @@ void Machine::createInitialBuffers() {
 	auto bufferSize = machineConfiguration->getOutputBufferSize();
 	if (bufferSize > 0) {
 	  // Buffer with size
-	  buffer = std::make_shared<Buffer>(self, machineConfiguration->getOutputBufferSize(), productId);
+	  buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
 	} else {
 	  // Infinite buffer
 	  buffer = std::make_shared<InfiniteBuffer>(productId);
@@ -117,6 +118,9 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
         // Don processing product
         placeProductsInOutputBuffer();
       }
+      if (status == kMachineStatusConfiguring){
+        ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
+      }
       break;
     }
     case kMachineStatusProcessingProduct:{
@@ -135,6 +139,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       break;
   }
   status = newStatus;
+  ResultLogger::getInstance().machineStatusUpdate(id, status);
 }
 
 Machine::MachineStatus Machine::getStatus() {
@@ -173,6 +178,7 @@ void Machine::placeProductsInOutputBuffer() {
   }
   const auto outputBuffer = getCurrentOutputBuffer();
   outputBuffer->putInBuffer(processedProduct);
+  ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
 }
 
 const std::vector<std::shared_ptr<models::PreviousMachine>> &Machine::getPreviousMachines(uint16_t configureId) {
