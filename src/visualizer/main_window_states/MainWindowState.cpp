@@ -3,6 +3,6 @@
 //
 
 #include "MainWindowState.h"
-bool mainwindowstates::MainWindowState::handleEvent(const patterns::statemachine::EventPtr &e) {
+bool mainwindowstates::MainWindowState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }

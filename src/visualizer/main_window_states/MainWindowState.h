@@ -15,7 +15,7 @@ namespace mainwindowstates {
 class MainWindowState : public patterns::statemachine::State {
  public:
   MainWindowState() = default;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

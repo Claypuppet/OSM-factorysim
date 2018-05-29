@@ -12,6 +12,6 @@ void mainwindowstates::NeutralState::entryAction() {
 void mainwindowstates::NeutralState::exitAction() {
 
 }
-bool mainwindowstates::NeutralState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return MainWindowState::handleEvent(e);
+bool mainwindowstates::NeutralState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return MainWindowState::handleEvent(event);
 }

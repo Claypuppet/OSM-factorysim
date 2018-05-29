@@ -12,6 +12,6 @@ void mainwindowstates::FileFeedState::entryAction() {
 void mainwindowstates::FileFeedState::exitAction() {
 
 }
-bool mainwindowstates::FileFeedState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return MainWindowState::handleEvent(e);
+bool mainwindowstates::FileFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return MainWindowState::handleEvent(event);
 }

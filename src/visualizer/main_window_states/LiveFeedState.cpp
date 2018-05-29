@@ -12,6 +12,6 @@ void mainwindowstates::LiveFeedState::entryAction() {
 void mainwindowstates::LiveFeedState::exitAction() {
 
 }
-bool mainwindowstates::LiveFeedState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return MainWindowState::handleEvent(e);
+bool mainwindowstates::LiveFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return MainWindowState::handleEvent(event);
 }
