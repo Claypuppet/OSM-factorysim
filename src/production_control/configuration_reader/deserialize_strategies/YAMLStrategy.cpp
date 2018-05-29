@@ -1,10 +1,9 @@
-//
-// Created by bas on 23-5-18.
-//
 
 #include "YAMLStrategy.h"
 
-YAMLStrategy::YAMLStrategy(const YAMLStrategy& other) {
+namespace configurationserializer {
+
+YAMLStrategy::YAMLStrategy(const YAMLStrategy &other) {
 }
 
 const std::shared_ptr<models::Configuration> YAMLStrategy::deserialize(const std::string &filePath) const {
@@ -96,7 +95,8 @@ const std::shared_ptr<models::MachineConfiguration> YAMLStrategy::deserializeMac
   auto initializationDurationInSeconds = machineConfigurationYAMLNode["initializationDurationInSeconds"].as<uint16_t>();
   auto outputBufferSize = machineConfigurationYAMLNode["outputBufferSize"].as<uint16_t>();
   auto meanTimeBetweenFailureInHours = machineConfigurationYAMLNode["meanTimeBetweenFailureInHours"].as<uint16_t>();
-  auto meanTimeBetweenFailureStddevInHours = machineConfigurationYAMLNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
+  auto meanTimeBetweenFailureStddevInHours =
+      machineConfigurationYAMLNode["meanTimeBetweenFailureStddevInHours"].as<uint16_t>();
   auto reparationTimeInMinutes = machineConfigurationYAMLNode["reparationTimeInMinutes"].as<uint16_t>();
 
   std::vector<std::shared_ptr<models::PreviousMachine>> previousMachineModels;
@@ -121,4 +121,6 @@ const std::shared_ptr<models::PreviousMachine> YAMLStrategy::deserializePrevious
   uint16_t neededProducts = previousMachineYAMLNode["neededProducts"].as<uint16_t>();
 
   return std::make_shared<models::PreviousMachine>(machineId, neededProducts);
+}
+
 }

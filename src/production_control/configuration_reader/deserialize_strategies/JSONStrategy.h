@@ -9,8 +9,10 @@
 
 #include "YAMLStrategy.h"
 
+namespace configurationserializer {
+
 /**
- * JSONStrategy class to read JSON configuration files.
+ * Class to deserialize JSON configuration files.
  * Because YAML is a subset of JSON, the YAML library can also read JSON
  * Therefor the JSON Strategy subclasses the YAML strategy to use its functionality.
  */
@@ -23,5 +25,7 @@ class JSONStrategy : public YAMLStrategy {
 
   std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
 };
+
+}
 
 #endif //PRODUCTION_LINE_CONTROL_JSONSTRATEGY_H

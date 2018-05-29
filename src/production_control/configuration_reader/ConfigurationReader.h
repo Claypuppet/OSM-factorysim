@@ -4,21 +4,22 @@
 #include <string>
 #include <iostream>
 
-//#include <boost/filesystem/path.hpp>
-//#include <boost/algorithm/string.hpp>
 #include <patterns/singleton/Singleton.h>
 
-#include "deserialize_strategies/Strategy.h"
+#include "deserialize_strategies/DeserializeStrategy.h"
 #include "deserialize_strategies/YAMLStrategy.h"
 #include "deserialize_strategies/JSONStrategy.h"
 
-namespace ConfigLoader {
+namespace configurationserializer {
 
 enum StrategyType {
   JSONStrategyType,
   YAMLStrategyType
 };
 
+/**
+ * Singleton class to deserialize configuration files by filePath
+ */
 class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationReader> {
 
  public:
@@ -60,7 +61,7 @@ class ConfigurationReader : public patterns::singleton::Singleton<ConfigurationR
    */
   const std::string getFileExtension(const std::string & filePath) const;
 
-  std::shared_ptr<Strategy> strategy;
+  std::shared_ptr<configurationserializer::DeserializeStrategy> strategy;
 };
 
 }

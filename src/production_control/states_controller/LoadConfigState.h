@@ -11,7 +11,7 @@ namespace states {
 class LoadConfigState : public ControllerState {
  public:
   LoadConfigState(simulation::SimulationController &context);
-  bool handleEvent(const EventPtr &e) override;
+  bool handleEvent(const EventPtr &event) override;
 
   /**
    * Loads configuration and creates machine objects for the Application and SimulationController class

@@ -137,7 +137,7 @@ void SimulationController::setStartState() {
 }
 
 void SimulationController::setConfiguration(const std::string &filePath) {
-  auto configurationReader = ConfigLoader::ConfigurationReader::getInstance();
+  auto configurationReader = configurationserializer::ConfigurationReader::getInstance();
 
   const std::shared_ptr<models::Configuration> configurationModel = configurationReader.deserialize(filePath);
 

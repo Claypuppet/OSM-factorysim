@@ -1,6 +1,6 @@
 #include "ConfigurationReader.h"
 
-namespace ConfigLoader {
+namespace configurationserializer {
 
 ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
     : strategy(other.strategy){
