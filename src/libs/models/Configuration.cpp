@@ -2,48 +2,44 @@
 
 namespace models {
 
-Configuration::Configuration() {
+Configuration::Configuration(const std::string &name,
+                             const SimulationInfoPtr &simulationInfo,
+                             const ProductionLinePtr &productionLine)
+    : name(name),
+      simulationInfo(simulationInfo),
+      productionLine(productionLine) {
 }
 
 Configuration::Configuration(const Configuration &other)
-	: name(other.name),
-	  simulationInfoConfiguration(other.simulationInfoConfiguration),
-	  productionLineConfiguration(other.productionLineConfiguration) {
-}
-
-Configuration::~Configuration() {
+    : name(other.name),
+      simulationInfo(other.simulationInfo),
+      productionLine(other.productionLine) {
 }
 
 Configuration &Configuration::operator=(const Configuration &other) {
   if (this != &other) {
 	this->name = other.name;
-	this->simulationInfoConfiguration = other.simulationInfoConfiguration;
-	this->productionLineConfiguration = other.productionLineConfiguration;
+	this->simulationInfo = other.simulationInfo;
+	this->productionLine = other.productionLine;
   }
 
   return *this;
-}
-
-void Configuration::deserialize(YAML::Node &configurationNode) {
-  name = configurationNode["name"].as<std::string>();
-
-  auto simulationInfoNode = configurationNode["simulationInfo"];
-  simulationInfoConfiguration.deserialize(simulationInfoNode);
-
-  auto productionLineNode = configurationNode["productionLine"];
-  productionLineConfiguration.deserialize(productionLineNode);
 }
 
 const std::string &Configuration::getName() const {
   return name;
 }
 
-const SimulationInfo &Configuration::getSimulationInfoConfiguration() const {
-  return simulationInfoConfiguration;
+const SimulationInfoPtr Configuration::getSimulationInfo() const {
+  return simulationInfo;
 }
 
-const ProductionLine &Configuration::getProductionLineConfiguration() const {
-  return productionLineConfiguration;
+const ProductionLinePtr Configuration::getProductionLine() const {
+  return productionLine;
+}
+
+void Configuration::setName(const std::string &name) {
+  Configuration::name = name;
 }
 
 }

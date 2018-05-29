@@ -85,13 +85,13 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * @param configureId : config id (production line)
    * @return : ids of next machine in production line
    */
-  const std::vector<models::PreviousMachine> &getPreviousMachines(uint16_t configureId);
+  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines(uint16_t configureId);
 
   /**
    * Get the previous machines for this machine for current config
    * @return : ids of next machine in production line
    */
-  const std::vector<models::PreviousMachine> &getPreviousMachines();
+  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines();
 
   /**
    * Create the initial input and output buffers for this machine

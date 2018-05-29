@@ -26,6 +26,11 @@ class SimulationController
 	: public core::Controller, public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
+  // TODO : remove method
+  void printMachinesLength() {
+    std::cout << "length: " << machines.size() << std::endl;
+  }
+
   /**
    *
   */
@@ -71,7 +76,7 @@ class SimulationController
    * After that it will push imported machines into vector of machine
    * @param filePath : location of config file
    */
-  void setConfigFromFile(const std::string &filePath);
+  void setConfiguration(const std::string &filePath);
 
   /**
    * Saves connection in machines vector (if exists) and sends configuration to machine.
@@ -124,8 +129,7 @@ class SimulationController
    * Config properties
    */
   std::string configPath;
-  models::Configuration configuration;
-
+  std::shared_ptr<models::Configuration> configuration;
 };
 }
 

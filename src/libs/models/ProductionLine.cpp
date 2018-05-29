@@ -2,7 +2,21 @@
 
 namespace models {
 
-ProductionLine::ProductionLine() {
+ProductionLine::ProductionLine(const std::string &name,
+							   const std::vector<ProductPtr> &products,
+							   const std::vector<MachinePtr> &machines)
+		: name(name),
+		  products(products),
+		  machines(machines) {
+
+	if (products.size() == 0) {
+		throw std::runtime_error("ProductionLine has no products configured");
+	}
+
+	if (machines.size() == 0) {
+		throw std::runtime_error("ProductionLine has no machines configured");
+	}
+
 }
 
 ProductionLine::ProductionLine(const ProductionLine &other)
@@ -14,9 +28,6 @@ ProductionLine::ProductionLine(const ProductionLine &other)
   for (uint16_t i = 0; i < other.machines.size(); ++i) {
 	machines.push_back(other.machines[i]);
   }
-}
-
-ProductionLine::~ProductionLine() {
 }
 
 ProductionLine &ProductionLine::operator=(const ProductionLine &other) {
@@ -33,31 +44,15 @@ ProductionLine &ProductionLine::operator=(const ProductionLine &other) {
   }
 }
 
-void ProductionLine::deserialize(YAML::Node &productionLineNode) {
-  name = productionLineNode["name"].as<std::string>();
-
-  for (uint16_t i = 0; i < productionLineNode["products"].size(); ++i) {
-	products.push_back(Product());
-	auto productNode = productionLineNode["products"][i];
-	products.back().deserialize(productNode);
-  }
-
-  for (uint16_t i = 0; i < productionLineNode["machines"].size(); ++i) {
-	machines.push_back(Machine());
-	auto machineNode = productionLineNode["machines"][i];
-	machines.back().deserialize(machineNode);
-  }
-}
-
 const std::string &ProductionLine::getName() const {
   return name;
 }
 
-const std::vector<Product> &ProductionLine::getProducts() const {
+const std::vector<ProductPtr> &ProductionLine::getProducts() const {
   return products;
 }
 
-const std::vector<Machine> &ProductionLine::getMachines() const {
+const std::vector<MachinePtr> &ProductionLine::getMachines() const {
   return machines;
 }
 

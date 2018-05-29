@@ -54,8 +54,8 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToIdle) {
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
   // Create a sample vector for configurations
-  std::vector<models::MachineConfiguration> confVector;
-  models::MachineConfiguration config0 = models::MachineConfiguration(0);
+  std::vector<models::MachineConfigurationPtr> confVector;
+  auto config0 = std::make_shared<models::MachineConfiguration>(0);
   confVector.push_back(config0);
 
   // Set the configurations to the application
@@ -103,8 +103,8 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
-  std::vector<models::MachineConfiguration> confVector;
-  models::MachineConfiguration config0 = models::MachineConfiguration(0);
+  std::vector<models::MachineConfigurationPtr> confVector;
+  auto config0 = std::make_shared<models::MachineConfiguration>(0);
   confVector.push_back(config0);
   BOOST_CHECK_NO_THROW(application.getMachine()->setConfigurations(confVector));
 

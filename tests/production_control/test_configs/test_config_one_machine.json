@@ -1,0 +1,323 @@
+{
+  "name": "ProductieConfiguratie",
+  "simulationInfo": {
+    "durationInHours": 8760
+  },
+  "productionLine": {
+    "name": "Kantoortafels",
+    "products": [
+      {
+        "id": 1,
+        "name": "normalekantoortafels",
+        "proportion": 2
+      },
+      {
+        "id": 2,
+        "name": "luxekantoortafels",
+        "proportion": 1
+      }
+    ],
+    "machines": [
+      {
+        "id": 1,
+        "name": "Zaagmachine (hout)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Voorboormachine (hout)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 1,
+                "neededProducts": 3
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 1,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Schuurmachine (hout)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 2,
+                "neededProducts": 4
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Spuitmachine (hout)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 3,
+                "neededProducts": 1
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Zaagmachine (staal)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+
+            ]
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Lasmachine (staal)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 1,
+                "neededProducts": 3
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Poedercoatmachine (staal)",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 2,
+                "neededProducts": 0
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Inpakmachine",
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 6,
+            "turnAroundTimeInSeconds": 16,
+            "meanTimeBetweenFailureInHours": 8800,
+            "meanTimeBetweenFailureStddevInHours": 30,
+            "reparationTimeInMinutes": 24,
+            "previousMachines": [
+              {
+                "machineId": 7,
+                "neededProducts": 0
+              },
+              {
+                "machineId": 4,
+                "neededProducts": 5
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputEachMinute": 8,
+            "outputBufferSize": 9,
+            "initializationDurationInSeconds": 9,
+            "turnAroundTimeInSeconds": 21,
+            "meanTimeBetweenFailureInHours": 9800,
+            "meanTimeBetweenFailureStddevInHours": 36,
+            "reparationTimeInMinutes": 27,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              },
+              {
+                "machineId": 0,
+                "neededProducts": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
