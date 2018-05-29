@@ -3,13 +3,19 @@
 //
 
 #include "LiveNetwork.h"
-void live::LiveNetwork::onConnectionEstablished(network::ConnectionPtr connection) {
+
+namespace live{
+
+
+void LiveNetwork::onConnectionEstablished(network::ConnectionPtr connection) {
 
 }
-void live::LiveNetwork::onConnectionDisconnected(network::ConnectionPtr connection,
+void LiveNetwork::onConnectionDisconnected(network::ConnectionPtr connection,
                                                  const boost::system::error_code &error) {
 
 }
-void live::LiveNetwork::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+void LiveNetwork::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
+
+}
 
 }

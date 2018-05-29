@@ -3,6 +3,11 @@
 //
 
 #include "LiveState.h"
-bool livefeedstates::LiveState::handleEvent(const patterns::statemachine::EventPtr &event) {
+
+namespace livefeedstates {
+
+bool LiveState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
+}
+
 }

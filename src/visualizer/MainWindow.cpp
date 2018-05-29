@@ -5,7 +5,9 @@
 #include "MainWindow.h"
 #include <wx/wfstream.h>
 
-ui::MainWindow::MainWindow()
+namespace ui {
+
+MainWindow::MainWindow()
     : wxFrame(NULL, wxID_ANY, "Visualizer") {
   wxMenu *menuFile = new wxMenu;
   menuFile->Append(wxID_FILE, "Select file");
@@ -25,29 +27,29 @@ ui::MainWindow::MainWindow()
   Bind(wxEVT_MENU, &MainWindow::onExit, this, wxID_EXIT);
 }
 
-void ui::MainWindow::onExit(wxCommandEvent &event) {
+void MainWindow::onExit(wxCommandEvent &event) {
   Close(true);
 }
-void ui::MainWindow::onAbout(wxCommandEvent &event) {
+void MainWindow::onAbout(wxCommandEvent &event) {
   wxMessageBox("This is a wxWidgets Hello World example",
                "About Hello World", wxOK | wxICON_INFORMATION);
 }
-void ui::MainWindow::onOpenFile(wxCommandEvent &event) {
+void MainWindow::onOpenFile(wxCommandEvent &event) {
   wxFileDialog
       openFileDialog(this, _("Open yaml file"), "", "",
-                     "YAML files (*.yaml)|*.yaml", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+                     "YAML files (*.yaml)|*.yaml", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     return;     // the user changed idea...
 
   // proceed loading the file chosen by the user;
   // this can be done with e.g. wxWidgets input streams:
   wxFileInputStream input_stream(openFileDialog.GetPath());
-  if (!input_stream.IsOk())
-  {
+  if (!input_stream.IsOk()) {
     wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
     return;
-  }
-  else{
+  } else {
     //TODO go to FileFeedState and set the path to a variable
   }
+}
+
 }

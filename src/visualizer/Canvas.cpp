@@ -3,6 +3,11 @@
 //
 
 #include "Canvas.h"
-void ui::Canvas::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
+
+namespace ui {
+
+void Canvas::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
+
+}
 
 }

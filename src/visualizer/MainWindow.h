@@ -22,10 +22,17 @@ namespace ui {
  public:
   MainWindow();
  private:
-  visualizercore::Application application;
-  Canvas canvas;
-  void onHello(wxCommandEvent& event);
+
+  /**
+   * placeholder
+   * @param event
+   */
   void onExit(wxCommandEvent& event);
+
+  /**
+   * placeholder
+   * @param event
+   */
   void onAbout(wxCommandEvent& event);
 
   /**
@@ -33,6 +40,9 @@ namespace ui {
    * @param event
    */
   void onOpenFile(wxCommandEvent& event);
+
+   visualizercore::Application application;
+   Canvas canvas;
 };
 
 }

@@ -10,9 +10,17 @@
   #include <wx/wx.h>
 #endif
 
-class WindowApplication : public wxApp{
+namespace ui {
+
+class WindowApplication : public wxApp {
  public:
+  /**
+   * Function that is called when a wxWidgets app is implemented
+   * @return
+   */
   virtual bool OnInit();
 };
+
+}
 
 #endif //PRODUCTION_LINE_CONTROL_WINDOWAPPLICATION_H

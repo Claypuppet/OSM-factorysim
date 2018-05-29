@@ -4,20 +4,23 @@
 
 #include "Event.h"
 
-visualizercore::Event::Event(uint64_t aTimeStamp,
+namespace visualizercore {
+
+Event::Event(uint64_t aTimeStamp,
                              uint16_t aMachineId,
-                             visualizercore::eVisualizerEventTypes anEventType) {
+                             eVisualizerEventTypes anEventType) {
 
 }
 
-visualizercore::eVisualizerEventTypes visualizercore::Event::getEventType() const {
+eVisualizerEventTypes Event::getEventType() const {
   return eventType;
 }
-visualizercore::Event::Event(const visualizercore::Event &anEvent)
+
+Event::Event(const Event &anEvent)
     : timeStamp(anEvent.timeStamp), machineId(anEvent.machineId), eventType(anEvent.eventType) {
 
 }
-visualizercore::Event &visualizercore::Event::operator=(const visualizercore::Event &anEvent) {
+Event &Event::operator=(const Event &anEvent) {
   if (this != &anEvent) {
     timeStamp = anEvent.timeStamp;
     machineId = anEvent.machineId;
@@ -25,9 +28,11 @@ visualizercore::Event &visualizercore::Event::operator=(const visualizercore::Ev
   }
   return *this;
 }
-uint64_t visualizercore::Event::getTime() const {
+uint64_t Event::getTime() const {
   return timeStamp;
 }
-uint16_t visualizercore::Event::getMachineId() const {
+uint16_t Event::getMachineId() const {
   return machineId;
+}
+
 }

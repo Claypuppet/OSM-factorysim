@@ -3,15 +3,20 @@
 //
 
 #include "NeutralState.h"
-void mainwindowstates::NeutralState::doActivity() {
+
+namespace mainwindowstates {
+
+void NeutralState::doActivity() {
 
 }
-void mainwindowstates::NeutralState::entryAction() {
+void NeutralState::entryAction() {
 
 }
-void mainwindowstates::NeutralState::exitAction() {
+void NeutralState::exitAction() {
 
 }
-bool mainwindowstates::NeutralState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool NeutralState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return MainWindowState::handleEvent(event);
+}
+
 }

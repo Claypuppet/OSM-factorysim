@@ -3,15 +3,20 @@
 //
 
 #include "LiveFeedState.h"
-void mainwindowstates::LiveFeedState::doActivity() {
+
+namespace mainwindowstates {
+
+void LiveFeedState::doActivity() {
 
 }
-void mainwindowstates::LiveFeedState::entryAction() {
+void LiveFeedState::entryAction() {
 
 }
-void mainwindowstates::LiveFeedState::exitAction() {
+void LiveFeedState::exitAction() {
 
 }
-bool mainwindowstates::LiveFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool LiveFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return MainWindowState::handleEvent(event);
+}
+
 }

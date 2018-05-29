@@ -3,15 +3,20 @@
 //
 
 #include "ReadState.h"
-void filestates::ReadState::doActivity() {
+
+namespace filestates {
+
+void ReadState::doActivity() {
 
 }
-void filestates::ReadState::entryAction() {
+void ReadState::entryAction() {
 
 }
-void filestates::ReadState::exitAction() {
+void ReadState::exitAction() {
 
 }
-bool filestates::ReadState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool ReadState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return FileState::handleEvent(event);
+}
+
 }

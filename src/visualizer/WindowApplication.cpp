@@ -5,8 +5,10 @@
 #include "WindowApplication.h"
 #include "MainWindow.h"
 
+namespace ui {
+
 bool WindowApplication::OnInit() {
-  auto *window = new ui::MainWindow();
+  auto *window = new MainWindow();
 
   //Get screen size of device
   auto screenX = wxSystemSettings::GetMetric(wxSYS_SCREEN_X);
@@ -17,4 +19,6 @@ bool WindowApplication::OnInit() {
   window->SetInitialSize(windowSize);
   window->Show();
   return true;
+}
+
 }

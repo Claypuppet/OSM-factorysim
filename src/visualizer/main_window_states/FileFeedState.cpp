@@ -3,15 +3,20 @@
 //
 
 #include "FileFeedState.h"
-void mainwindowstates::FileFeedState::doActivity() {
+
+namespace mainwindowstates {
+
+void FileFeedState::doActivity() {
 
 }
-void mainwindowstates::FileFeedState::entryAction() {
+void FileFeedState::entryAction() {
 
 }
-void mainwindowstates::FileFeedState::exitAction() {
+void FileFeedState::exitAction() {
 
 }
-bool mainwindowstates::FileFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool FileFeedState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return MainWindowState::handleEvent(event);
+}
+
 }

@@ -3,6 +3,11 @@
 //
 
 #include "ApplicationState.h"
-bool applicationstates::ApplicationState::handleEvent(const patterns::statemachine::EventPtr &event) {
+
+namespace applicationstates {
+
+bool ApplicationState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
+}
+
 }

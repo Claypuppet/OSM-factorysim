@@ -4,12 +4,16 @@
 
 #include "Application.h"
 
-void visualizercore::Application::scheduleEvent(const visualizercore::Event &anEvent) {
+namespace visualizercore {
+
+void Application::scheduleEvent(const Event &anEvent) {
   //Check if time is not before the last event
-  if(anEvent.getTime() >= events.back().getTime()) {
+  if (anEvent.getTime() >= events.back().getTime()) {
     events.push_back(anEvent);
   }
 }
-void visualizercore::Application::addMachine(const visualizercore::Machine &aMachine) {
+void Application::addMachine(const Machine &aMachine) {
   machines.push_back(aMachine);
+}
+
 }

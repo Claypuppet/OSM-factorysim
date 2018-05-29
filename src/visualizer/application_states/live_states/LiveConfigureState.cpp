@@ -3,15 +3,20 @@
 //
 
 #include "LiveConfigureState.h"
-bool livefeedstates::LiveConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
+
+namespace livefeedstates {
+
+bool LiveConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
-void livefeedstates::LiveConfigureState::doActivity() {
+void LiveConfigureState::doActivity() {
 
 }
-void livefeedstates::LiveConfigureState::entryAction() {
+void LiveConfigureState::entryAction() {
 
 }
-void livefeedstates::LiveConfigureState::exitAction() {
+void LiveConfigureState::exitAction() {
+
+}
 
 }

@@ -3,15 +3,20 @@
 //
 
 #include "FileConfigureState.h"
-void filestates::FileConfigureState::doActivity() {
+
+namespace filestates{
+
+void FileConfigureState::doActivity() {
 
 }
-void filestates::FileConfigureState::entryAction() {
+void FileConfigureState::entryAction() {
 
 }
-void filestates::FileConfigureState::exitAction() {
+void FileConfigureState::exitAction() {
 
 }
-bool filestates::FileConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool FileConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return FileState::handleEvent(event);
+}
+
 }

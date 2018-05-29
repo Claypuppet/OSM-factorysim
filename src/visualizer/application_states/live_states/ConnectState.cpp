@@ -3,15 +3,20 @@
 //
 
 #include "ConnectState.h"
-bool livefeedstates::ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
+
+namespace livefeedstates {
+
+bool ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
-void livefeedstates::ConnectState::doActivity() {
+void ConnectState::doActivity() {
 
 }
-void livefeedstates::ConnectState::entryAction() {
+void ConnectState::entryAction() {
 
 }
-void livefeedstates::ConnectState::exitAction() {
+void ConnectState::exitAction() {
+
+}
 
 }

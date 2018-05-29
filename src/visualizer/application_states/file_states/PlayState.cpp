@@ -3,15 +3,20 @@
 //
 
 #include "PlayState.h"
-void filestates::PlayState::doActivity() {
+
+namespace filestates {
+
+void PlayState::doActivity() {
 
 }
-void filestates::PlayState::entryAction() {
+void PlayState::entryAction() {
 
 }
-void filestates::PlayState::exitAction() {
+void PlayState::exitAction() {
 
 }
-bool filestates::PlayState::handleEvent(const patterns::statemachine::EventPtr &event) {
+bool PlayState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return FileState::handleEvent(event);
+}
+
 }

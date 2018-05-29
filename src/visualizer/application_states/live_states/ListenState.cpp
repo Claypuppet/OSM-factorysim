@@ -3,15 +3,20 @@
 //
 
 #include "ListenState.h"
-bool livefeedstates::ListenState::handleEvent(const patterns::statemachine::EventPtr &event) {
+
+namespace livefeedstates {
+
+bool ListenState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
-void livefeedstates::ListenState::doActivity() {
+void ListenState::doActivity() {
 
 }
-void livefeedstates::ListenState::entryAction() {
+void ListenState::entryAction() {
 
 }
-void livefeedstates::ListenState::exitAction() {
+void ListenState::exitAction() {
+
+}
 
 }
