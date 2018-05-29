@@ -15,7 +15,7 @@ namespace livefeedstates {
 class LiveState : public patterns::statemachine::State{
  public:
   LiveState() = default;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

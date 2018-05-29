@@ -3,6 +3,6 @@
 //
 
 #include "FileState.h"
-bool filestates::FileState::handleEvent(const patterns::statemachine::EventPtr &e) {
+bool filestates::FileState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }

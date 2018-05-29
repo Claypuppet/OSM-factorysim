@@ -15,7 +15,7 @@ namespace filestates {
 class FileState : public patterns::statemachine::State {
  public:
   FileState() = default;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

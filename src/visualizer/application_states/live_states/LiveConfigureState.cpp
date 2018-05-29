@@ -3,7 +3,7 @@
 //
 
 #include "LiveConfigureState.h"
-bool livefeedstates::LiveConfigureState::handleEvent(const patterns::statemachine::EventPtr &e) {
+bool livefeedstates::LiveConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
 void livefeedstates::LiveConfigureState::doActivity() {

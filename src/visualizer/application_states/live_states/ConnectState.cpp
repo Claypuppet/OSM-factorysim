@@ -3,7 +3,7 @@
 //
 
 #include "ConnectState.h"
-bool livefeedstates::ConnectState::handleEvent(const patterns::statemachine::EventPtr &e) {
+bool livefeedstates::ConnectState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
 void livefeedstates::ConnectState::doActivity() {

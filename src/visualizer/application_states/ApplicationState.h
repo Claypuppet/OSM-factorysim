@@ -15,7 +15,7 @@ namespace applicationstates {
 class ApplicationState : public patterns::statemachine::State {
  public:
   ApplicationState() = default;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

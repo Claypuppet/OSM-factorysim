@@ -18,7 +18,7 @@ class ReadState : public FileState{
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

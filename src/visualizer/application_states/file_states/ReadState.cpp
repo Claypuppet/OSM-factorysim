@@ -12,6 +12,6 @@ void filestates::ReadState::entryAction() {
 void filestates::ReadState::exitAction() {
 
 }
-bool filestates::ReadState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return FileState::handleEvent(e);
+bool filestates::ReadState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return FileState::handleEvent(event);
 }

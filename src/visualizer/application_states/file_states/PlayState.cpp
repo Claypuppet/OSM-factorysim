@@ -12,6 +12,6 @@ void filestates::PlayState::entryAction() {
 void filestates::PlayState::exitAction() {
 
 }
-bool filestates::PlayState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return FileState::handleEvent(e);
+bool filestates::PlayState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return FileState::handleEvent(event);
 }

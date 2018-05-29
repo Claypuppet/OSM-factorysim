@@ -12,6 +12,6 @@ void filestates::FileConfigureState::entryAction() {
 void filestates::FileConfigureState::exitAction() {
 
 }
-bool filestates::FileConfigureState::handleEvent(const patterns::statemachine::EventPtr &e) {
-  return FileState::handleEvent(e);
+bool filestates::FileConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
+  return FileState::handleEvent(event);
 }

@@ -3,7 +3,7 @@
 //
 
 #include "ListenState.h"
-bool livefeedstates::ListenState::handleEvent(const patterns::statemachine::EventPtr &e) {
+bool livefeedstates::ListenState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return false;
 }
 void livefeedstates::ListenState::doActivity() {

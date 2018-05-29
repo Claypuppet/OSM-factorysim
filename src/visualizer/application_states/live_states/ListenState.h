@@ -14,7 +14,7 @@ namespace livefeedstates {
 class ListenState : LiveState{
  public:
   ListenState() = default;
-  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
