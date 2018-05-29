@@ -18,7 +18,7 @@ namespace ui {
 /**
  * Class that displays the application on the screen
  */
-class MainWindow : public patterns::statemachine::Context, wxFrame {
+ class MainWindow : public wxFrame, patterns::statemachine::Context {
  public:
   MainWindow();
  private:

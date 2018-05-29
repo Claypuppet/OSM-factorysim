@@ -7,8 +7,4 @@
 
 #include "WindowApplication.h"
 
-int main(int argc,
-         char **argv) {
-  wxIMPLEMENT_APP(WindowApplication);
-  return 0;
-}
+wxIMPLEMENT_APP(WindowApplication);
