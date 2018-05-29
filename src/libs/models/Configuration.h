@@ -1,3 +1,6 @@
+
+// All specializations of shared_ptr meet the requirements of CopyConstructible, CopyAssignable, and LessThanComparable and are contextually convertible to bool.
+
 #ifndef PRODUCTION_LINE_CONTROL_CONFIG_H
 #define PRODUCTION_LINE_CONTROL_CONFIG_H
 
@@ -18,10 +21,22 @@ typedef std::shared_ptr<Configuration> ConfigurationPtr;
 
 class Configuration {
  public:
+
+  Configuration() = default;
   /**
-   * Default constructor
+   * Default destructor
    */
-  Configuration();
+  virtual ~Configuration() = default;
+
+  /**
+   * ...
+   * @param name
+   * @param simulationInfo
+   * @param productionLine
+   */
+  Configuration(const std::string &name,
+                const SimulationInfoPtr &simulationInfo,
+                const ProductionLinePtr &productionLine);
 
   /**
    * Copy constructor
@@ -30,45 +45,24 @@ class Configuration {
   Configuration(const Configuration &other);
 
   /**
-   * The destructor
-   */
-  virtual ~Configuration();
-
-  /**
    * Asignment operator
    * @param other : other Configuration object
    * @return new Configuration object
    */
   Configuration &operator=(const Configuration &other);
 
-  /**
-   * A function to deserialize a configuartion node
-   * @param configurationNode : the configuration node to deserialise
-   */
-  void deserialize(YAML::Node &configurationNode);
-
-  /**
-   * Getter for name
-   * @return name
-   */
+  // NORMAL GETTERS
   const std::string &getName() const;
+  const SimulationInfoPtr getSimulationInfo() const;
+  const ProductionLinePtr getProductionLine() const;
 
-  /**
-   * Getter for simulationInfoConfiguration
-   * @return simulationInfoConfiguration
-   */
-  const SimulationInfo &getSimulationInfoConfiguration() const;
-
-  /**
-   * Getter for productionLineConfiguration
-   * @return productionLineConfiguration
-   */
-  const ProductionLine &getProductionLineConfiguration() const;
+  // NORMAL SETTERS
+  void setName(const std::string &name);
 
  private:
   std::string name;
-  SimulationInfo simulationInfoConfiguration;
-  ProductionLine productionLineConfiguration;
+  SimulationInfoPtr simulationInfo;
+  ProductionLinePtr productionLine;
 
   /**
    * Function to save class as archive
@@ -77,8 +71,10 @@ class Configuration {
    */
   template<class Archive>
   void save(Archive &ar) const {
-	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+    ar(name, simulationInfo, productionLine);
   }
+
+ private:
 
   /**
    * Function to load class from archive
@@ -87,7 +83,7 @@ class Configuration {
    */
   template<class Archive>
   void load(Archive &ar) {
-	ar(name, simulationInfoConfiguration, productionLineConfiguration);
+    ar(name, simulationInfo, productionLine);
   }
 
   friend class ::cereal::access;

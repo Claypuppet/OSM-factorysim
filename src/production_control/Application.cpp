@@ -25,15 +25,16 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   }
 
   // Links all buffers for each production line
-  for (const auto &product : productionLine.getProducts()) {
-    auto productId = product.getId();
+  for (const std::shared_ptr<models::Product> product : productionLine->getProducts()) {
+    auto productId = product->getId();
+
     for (const auto &machine : machines) {
       auto previousMachines = machine->getPreviousMachines(productId);
       if (previousMachines.empty()) {
         throw std::runtime_error("machine can not have empty previous machines");
       }
       for (const auto &previousMachine : previousMachines) {
-        auto previousMachineObj = getMachine(previousMachine.getMachineId());
+        auto previousMachineObj = getMachine(previousMachine->getMachineId());
         if (!previousMachineObj) {
           continue;
         }
@@ -143,8 +144,12 @@ void core::Application::stopServer() {
   }
 }
 
-void core::Application::setProductionLine(const models::ProductionLine &executaionConfiguration) {
-  productionLine = executaionConfiguration;
+void core::Application::setProductionLine(const models::ProductionLine &productionLine) {
+  this->productionLine = std::make_shared<models::ProductionLine>(productionLine);
+}
+
+void core::Application::setProductionLine(const std::shared_ptr<models::ProductionLine> &productionLine) {
+  this->productionLine = productionLine;
 }
 
 void core::Application::executeScheduler() {
@@ -157,7 +162,10 @@ void core::Application::executeScheduler() {
 
 void core::Application::prepareScheduler() {
   // TODO: make this more dynamic. now sets product with id 1 (default tables)
-  auto configId = !productionLine.getProducts().empty() ? productionLine.getProducts().front().getId() : (uint16_t) 0;
+  uint16_t configId = 0;
+  if (!productionLine->getProducts().empty()) {
+    configId = productionLine->getProducts().front()->getId();
+  }
   changeProductionLineProduct(configId);
 }
 

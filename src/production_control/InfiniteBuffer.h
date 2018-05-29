@@ -66,8 +66,6 @@ class InfiniteBuffer : public Buffer {
    */
   void putInBuffer(const std::vector<ProductPtr> &list) override;
 
-  uint16_t productId;
-
 };
 
 typedef std::shared_ptr<InfiniteBuffer> InfiniteBufferPtr;

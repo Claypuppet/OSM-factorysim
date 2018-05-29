@@ -26,7 +26,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(const MachinePtrW &fromMachine, uint32_t size);
+  explicit Buffer(const MachinePtrW &fromMachine, uint16_t productId, uint32_t size);
 
   /**
    * destruct
@@ -90,12 +90,19 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
 
  protected:
   /**
-   * Construct an buffer for machine, only used by infinite buffer
+   * Construct an buffer for machine, used by infinite buffer
    */
-  Buffer();
+  explicit Buffer(uint16_t productId);
+
+  /**
+   * Logs buffer content change
+   */
+  void bufferContentChanged();
 
   uint32_t maxSize;
   MachinePtrW fromMachine;
+
+  uint16_t productId;
 
   uint64_t totalProcessed;
 };

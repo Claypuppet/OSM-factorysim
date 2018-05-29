@@ -34,8 +34,8 @@ void SimulationMachine::setSimulationConnection(const network::ConnectionPtr &aC
 
 void SimulationMachine::sendSimulationConfiguration() {
   network::Message message(network::Protocol::kSimMessageTypeConfig);
-  models::Machine machineInfo = static_cast<models::Machine>(*this);
-  message.setBodyObject<models::Machine>(machineInfo);
+  auto machineInfo = std::make_shared<models::Machine>(*this);
+  message.setBodyObject<models::MachinePtr>(machineInfo);
   sendSimulationMessage(message);
 }
 

@@ -79,23 +79,27 @@ void Machine::addInputBuffer(uint16_t productId, BufferPtr inputbuffer) {
 
 void Machine::createInitialBuffers() {
   auto self = shared_from_this();
-  for (const auto &config : configurations) {
+  for (const std::shared_ptr<models::MachineConfiguration> &machineConfiguration : configurations) {
+    auto productId = machineConfiguration->getProductId();
 	BufferPtr buffer;
-	auto bufferSize = config.getOutputBufferSize();
+
+	auto bufferSize = machineConfiguration->getOutputBufferSize();
 	if (bufferSize > 0) {
 	  // Buffer with size
-	  buffer = std::make_shared<Buffer>(self, config.getOutputBufferSize());
+	  buffer = std::make_shared<Buffer>(self, machineConfiguration->getOutputBufferSize(), productId);
 	} else {
 	  // Infinite buffer
-	  buffer = std::make_shared<InfiniteBuffer>(config.getProductId());
+	  buffer = std::make_shared<InfiniteBuffer>(productId);
 	}
+
 	// set outputbuffer based on config
-	outputBuffers[config.getProductId()] = buffer;
-	// Set input buffer as infinite buffer for each previous buffer without machine
-	for (const auto &previousMachine : config.getPreviousMachines()) {
-	  if (previousMachine.getMachineId() == 0){
-        inputBuffers[config.getProductId()].emplace_back(std::make_shared<InfiniteBuffer>(config.getProductId()));
-	  }
+	outputBuffers[productId] = buffer;
+
+    // Set input buffer as infinite buffer for each previous buffer without machine
+    for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
+      if (previousMachine->getMachineId() == 0) {
+        inputBuffers[machineConfiguration->getProductId()].emplace_back(std::make_shared<InfiniteBuffer>(productId));
+      }
 	}
   }
 }
@@ -144,8 +148,8 @@ bool Machine::canDoAction() {
   }
   // Check if needed products in input buffers (previous machines)
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId).getPreviousMachineById(inputBuffer->getFromMachineId());
-	if (!inputBuffer->checkAmountInBuffer(previous.getNeededProducts())) {
+	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+	if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
 	  return false;
 	}
   }
@@ -156,8 +160,8 @@ bool Machine::canDoAction() {
 
 void Machine::takeProductsFromInputBuffers() {
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId).getPreviousMachineById(inputBuffer->getFromMachineId());
-	auto itemsTaken = inputBuffer->takeFromBuffer(previous.getNeededProducts());
+	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
 	// NOTE: We will only track one (first) product
 	processedProduct = itemsTaken.front();
   }
@@ -171,11 +175,11 @@ void Machine::placeProductsInOutputBuffer() {
   outputBuffer->putInBuffer(processedProduct);
 }
 
-const std::vector<models::PreviousMachine> &Machine::getPreviousMachines(uint16_t configureId) {
-  return getConfigurationById(configureId).getPreviousMachines();
+const std::vector<std::shared_ptr<models::PreviousMachine>> &Machine::getPreviousMachines(uint16_t configureId) {
+  return getConfigurationById(configureId)->getPreviousMachines();
 }
 
-const std::vector<models::PreviousMachine> &Machine::getPreviousMachines() {
+const std::vector<std::shared_ptr<models::PreviousMachine>> &Machine::getPreviousMachines() {
   return getPreviousMachines(currentConfigId);
 }
 bool Machine::isWaitingForResponse() const {

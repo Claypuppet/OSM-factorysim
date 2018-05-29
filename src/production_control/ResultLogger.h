@@ -7,6 +7,7 @@
 
 #include <string>
 #include <patterns/singleton/Singleton.h>
+#include "Machine.h"
 
 namespace core {
 
@@ -15,33 +16,41 @@ namespace core {
  */
 class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
  public:
-  ResultLogger();
   virtual ~ResultLogger() = default;
 
+  void initializeLog(const std::string &configurationPath, const std::string &configurationName);
 
   /**
-   * enable or disable logging of ProductionEvents
-   * @param enabled
-   */
-  static void setProductionEnabled(bool enabled);
-
-
-  /**
-   * enable or disable verbose logging of ProductionEvents
-   * @param message : string to log
-   */
-  static void setProductionDebugOutput(bool enabled);
-  /**
-   * Log a productionMessage
-   * @param eventId : Id of event
+   * Log a machine status update
    * @param machineId : Id of machine
+   * @param status : machien status
    */
-  static void LogProductionEvent(uint32_t machineId, uint32_t eventId);
+  void MachineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status);
+
+  /**
+   * Log a machine status update
+   * @param machineId : Id of machine
+   * @param status : machien status
+   */
+  void MachineConfigChanged(uint16_t machineId, uint16_t configId);
+
+  /**
+   * Log the contents of a buffer
+   * @param machineId : Id of machine (outputbuffer)
+   * @param productId : Id of the product
+   * @param amount : amount of items in buffer
+   */
+  void BufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
 
 
  private:
-  bool productionEnabled;
-  bool productionDebug;
+  friend patterns::singleton::Singleton<ResultLogger>;
+  ResultLogger();
+
+  void log(const std::string &s);
+
+  bool networkEnabled;
+  bool debugEnabled;
 
 };
 }

@@ -6,42 +6,54 @@
 #include <sstream>
 #include <utils/time/Time.h>
 #include <utils/FileLogger.h>
+#include <fstream>
 #include "ResultLogger.h"
 
 namespace core {
+
 ResultLogger::ResultLogger()
-    : productionEnabled(true), productionDebug(false) {
+    : networkEnabled(false), debugEnabled(true) {
 }
 
-void ResultLogger::LogProductionEvent(uint32_t machineId, uint32_t eventId) {
-  if (getInstance().productionEnabled) {
-    std::ostringstream stringstream;
+void ResultLogger::initializeLog(const std::string &configurationPath, const std::string &configurationName) {
+  std::stringstream ss;
+  ss << configurationName << ".yaml";
+  auto outputFileName = ss.str();
 
-    if (!getInstance().productionDebug) {
-      stringstream << "T:" << utils::Time::getInstance().getCurrentTime() << ",MID:" << machineId << ",EID:" << eventId;
-      utils::FileLogger::file()->info(stringstream.str());
+  // Copy used config as base for the production results
+  std::ifstream  src(configurationPath, std::ios::binary);
+  std::ofstream  dst(outputFileName, std::ios::binary);
+  dst << src.rdbuf();
 
-    } else {
-      stringstream << "Time:" << utils::Time::getInstance().getCurrentTime() << ",MachineId:" << machineId;
+  // Setup logger
+  utils::FileLogger::getInstance().setupLogger(outputFileName, false);
+}
 
-      switch (eventId) {
-        //TODO add switch cases and descriptions for events
-        default: {
-          stringstream << ",EventId:" << eventId << "-> no description";
-          break;
-        }
-      }
-      utils::FileLogger::both()->info(stringstream.str());
-    }
+void ResultLogger::MachineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
+  std::ostringstream stringstream;
+  stringstream << "1," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << status;
+  log(stringstream.str());
+}
+
+void ResultLogger::MachineConfigChanged(uint16_t machineId, uint16_t configId) {
+  std::ostringstream stringstream;
+  stringstream << "2," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << configId;
+  log(stringstream.str());
+}
+
+void ResultLogger::BufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount) {
+  std::ostringstream stringstream;
+  stringstream << "3," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << productId << "," << amount;
+  log(stringstream.str());
+}
+
+void ResultLogger::log(const std::string &message) {
+  if (debugEnabled) {
+    utils::FileLogger::getInstance().both()->info(message);
   }
-}
-
-void ResultLogger::setProductionEnabled(bool enabled) {
-  getInstance().productionEnabled = enabled;
-}
-
-void ResultLogger::setProductionDebugOutput(bool enabled) {
-  getInstance().productionDebug = enabled;
+  else {
+    utils::FileLogger::getInstance().file()->info(message);
+  }
 }
 
 }

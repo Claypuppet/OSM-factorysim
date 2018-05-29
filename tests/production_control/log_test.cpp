@@ -27,19 +27,19 @@ BOOST_AUTO_TEST_CASE(TestProductionLogger) {
 
 BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::Time::getInstance().setType(utils::customTime);
-  utils::Time::getInstance().setCurrentTime(0);
-  utils::FileLogger::setupLogger("testlog.log", true);
+  utils::Time::getInstance().syncTime(0);
+  utils::FileLogger::getInstance().setupLogger("testlog.log", true);
 
   for (int i = 0; i < 100; ++i) {
-    utils::FileLogger::file()->info("test" + std::to_string(i));
+    utils::FileLogger::getInstance().file()->info("test" + std::to_string(i));
   }
 
-  utils::FileLogger::newFile("newtestLog.log", true);
+  utils::FileLogger::getInstance().newFile("newtestLog.log", true);
 
-  utils::FileLogger::changePattern("(%v)");
+  utils::FileLogger::getInstance().changePattern("(%v)");
 
   for (int i = 0; i < 100; ++i) {
-    core::ResultLogger::LogProductionEvent(i, i);
+    core::ResultLogger::getInstance().MachineStatusUpdate(i, models::Machine::kMachineStatusIdle);
   }
   // check if testlog and newtestlog file exist
 }

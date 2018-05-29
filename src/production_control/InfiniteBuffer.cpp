@@ -7,7 +7,7 @@
 namespace core {
 
 InfiniteBuffer::InfiniteBuffer(uint16_t aProductId)
-	: Buffer(), productId(aProductId) {
+	: Buffer(aProductId) {
 
 }
 

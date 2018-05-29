@@ -20,9 +20,8 @@ namespace utils {
  * The filelogger has functions to set up a logger, the setupLogger function MUST be used before using the other functions
  * It has shortcuts to spdlog::logger instances and helper function to flush all loggers
  */
-class FileLogger : private patterns::singleton::Singleton<FileLogger> {
+class FileLogger : public patterns::singleton::Singleton<FileLogger> {
  public:
-  FileLogger() = default;
 
   virtual ~FileLogger() = default;
   /**
@@ -30,46 +29,48 @@ class FileLogger : private patterns::singleton::Singleton<FileLogger> {
    * @param filename : wished filename and extension
    * @param empty : if another file exists do we have to clear it?
    */
-  static void setupLogger(const std::string &filename, bool empty = false);
+  void setupLogger(const std::string &filename, bool empty = false);
 
   /**
    * makes a new file with the given parameters
    * @param filename wished filename and extension
    * @param empty : if another file exists do we have to clear it?
    */
-  static void newFile(const std::string &filename, bool empty = false);
+  void newFile(const std::string &filename, bool empty = false);
 
   /**
    * shortcut to logger of both
    * @return spdlog instance
    */
-  static std::shared_ptr<spdlog::logger> both();
+  std::shared_ptr<spdlog::logger> both();
 
   /**
  * shortcut to logger of file
  * @return spdlog instance
  */
-  static std::shared_ptr<spdlog::logger> file();
+  std::shared_ptr<spdlog::logger> file();
 
   /**
  * shortcut to logger of console
  * @return spdlog instance
  */
-  static std::shared_ptr<spdlog::logger> console();
+  std::shared_ptr<spdlog::logger> console();
 /**
  * changes pattern to wished format
  * @param newPattern
  */
-  static void changePattern(const std::string &newPattern);
+  void changePattern(const std::string &newPattern);
   /**
    * helper function to flush all loggers before continueing
    */
-  static void flushLoggers();
+  void flushLoggers();
  private:
+  friend patterns::singleton::Singleton<FileLogger>;
+  FileLogger();
   void assignLoggers();
   std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
   std::shared_ptr<spdlog::sinks::simple_file_sink_mt> fileSink;
-  std::string pattern = "%v";
+  std::string pattern;
 
 };
 }

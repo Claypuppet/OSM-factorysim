@@ -14,7 +14,8 @@
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
-#include "ConfigurationReader.h"
+#include "configuration_reader/ConfigurationReader.h"
+#include "ResultLogger.h"
 
 namespace simulation {
 
@@ -51,8 +52,8 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 
 	default: {
 	  std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+      break;
 	}
-	  break;
   }
 
 }
@@ -137,24 +138,22 @@ void SimulationController::setStartState() {
 
 }
 
+void SimulationController::setConfiguration(const std::string &filePath) {
+  auto configurationReader = configurationserializer::ConfigurationReader::getInstance();
 
-void SimulationController::setConfigFromFile(const std::string &filePath) {
+  const auto configurationModel = configurationReader.deserialize(filePath);
 
-  ConfigLoader::ConfigurationReader reader;
+  const auto &productionLineModel = configurationModel->getProductionLine();
+  application->setProductionLine(productionLineModel);
 
-  reader.readConfigurationFile(filePath, configuration);
-  auto simInfo = configuration.getSimulationInfoConfiguration();
+  const auto &machineModels = productionLineModel->getMachines();
 
-  auto productionline = configuration.getProductionLineConfiguration();
-  auto machineInfos = productionline.getMachines();
-
-  for (const models::Machine &m : machineInfos) {
-	machines.emplace_back(std::make_shared<SimulationMachine>(SimulationMachine(m)));
+  for (const auto &machineModel : machineModels) {
+	SimulationMachine machine(*machineModel);
+	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
   }
 
-  application->setProductionLine(configuration.getProductionLineConfiguration());
   application->setMachines(machines);
-
 
   // If simulation, add sim state event
   if (true) { //TODO: For now always true till we support non-simulations
@@ -165,6 +164,7 @@ void SimulationController::setConfigFromFile(const std::string &filePath) {
 	scheduleEvent(e);
   }
 
+  core::ResultLogger::getInstance().initializeLog(configuration->getName(), filePath);
 }
 
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
