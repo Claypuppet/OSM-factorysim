@@ -25,7 +25,7 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
-#include "../../src/production_control/configuration_reader/ConfigurationReader.h"
+#include "configuration_serializer/ConfigurationReader.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 

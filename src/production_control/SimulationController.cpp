@@ -14,7 +14,7 @@
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
-#include "configuration_reader/ConfigurationReader.h"
+#include "configuration_serializer/ConfigurationReader.h"
 
 namespace simulation {
 

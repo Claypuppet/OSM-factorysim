@@ -1,6 +1,3 @@
-//
-// Created by sven on 22-4-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONCONTROLLER_H
@@ -8,6 +5,8 @@
 #include <network/Server.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include <models/Configuration.h>
+#include <configuration_serializer/ConfigurationReader.h>
+
 #include "Controller.h"
 #include "SimulationMachine.h"
 #include "SimulationApplication.h"
