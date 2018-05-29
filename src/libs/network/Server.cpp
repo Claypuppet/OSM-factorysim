@@ -161,7 +161,9 @@ void Server::onConnectionDisconnected(ConnectionPtr connection, const error_code
 	mManager.getIOService().post([self, h, connection, error]() { h->onConnectionDisconnected(connection, error); });
   }
   bool doAccept = mConnections.size() >= mMaxClients;
-  mConnections.erase(connection);
+  if(mFStopping.test_and_set()){
+  	mConnections.erase(connection);
+  }
   if (doAccept && mConnections.size() < mMaxClients) {
 	asyncAccept();
   }

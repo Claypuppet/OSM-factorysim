@@ -257,6 +257,9 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  pcMock->stop();
+  mcMock->stop();
+
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {

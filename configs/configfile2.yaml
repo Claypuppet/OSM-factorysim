@@ -242,4 +242,14 @@ productionLine:
         - machineId: 7
           neededProducts: 0 
         - machineId: 4
-          neededProducts: 5 
+          neededProducts: 5
+
+events:
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4
+- e: 15314133,1,1,4

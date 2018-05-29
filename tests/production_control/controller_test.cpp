@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   machineEndpoint->awaitMessageReceived();
 
   machineEndpoint->stop();
-  productionServer->stop();
+  BOOST_REQUIRE_NO_THROW(productionServer->stop());
 }
 
 BOOST_AUTO_TEST_CASE(SendTurnOff) {
@@ -230,14 +230,14 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
   testutils::OnMessageFn callback = [](network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOff);
   };
-  machineEndpoint->setOnMessageFn(callback);
-  machine.sendTurnOffCommand();
+  BOOST_REQUIRE_NO_THROW(machineEndpoint->setOnMessageFn(callback));
+  BOOST_REQUIRE_NO_THROW(machine.sendTurnOffCommand());
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
 
-  machineEndpoint->stop();
-  productionServer->stop();
+  BOOST_REQUIRE_NO_THROW(machineEndpoint->stop());
+  BOOST_REQUIRE_NO_THROW(productionServer->stop());
 }
 
 // TODO !!! Move this to application_test after Bas has committed & merged it with dev
@@ -267,7 +267,7 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   machineEndpoint->awaitMessageReceived();
 
   machineEndpoint->stop();
-  productionServer->stop();
+  BOOST_REQUIRE_NO_THROW(productionServer->stop());
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTest2) {

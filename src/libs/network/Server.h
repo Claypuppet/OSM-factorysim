@@ -149,6 +149,7 @@ class Server : public IConnectionService, public IConnectionHandler, public std:
 
  private:
   Manager &mManager;
+  std::mutex safeDisconnector;
   Acceptor mAcceptor;
   Socket mSocket;
   uint16_t mPort;
