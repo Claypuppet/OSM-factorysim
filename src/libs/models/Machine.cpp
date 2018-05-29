@@ -8,6 +8,11 @@ Machine::Machine(uint16_t id,
     :id(id),
      name(name),
      configurations(configurations) {
+
+  if (configurations.size() == 0) {
+    throw std::runtime_error("Machine has no configurations configured");
+  }
+
 }
 
 Machine::Machine(const Machine &other)

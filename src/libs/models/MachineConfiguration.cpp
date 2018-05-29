@@ -18,6 +18,11 @@ MachineConfiguration::MachineConfiguration(uint16_t productId,
       meanTimeBetweenFailureStddevInHours(meanTimeBetweenFailureStddevInHours),
       reparationTimeInMinutes(reparationTimeInMinutes),
       previousMachines(previousMachines) {
+
+  if (previousMachines.size() == 0) {
+    throw std::runtime_error("MachineConfiguration has no PreviousMachines configured");
+  }
+
 }
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)

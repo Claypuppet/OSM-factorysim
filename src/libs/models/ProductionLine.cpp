@@ -8,6 +8,15 @@ ProductionLine::ProductionLine(const std::string &name,
 		: name(name),
 		  products(products),
 		  machines(machines) {
+
+	if (products.size() == 0) {
+		throw std::runtime_error("ProductionLine has no products configured");
+	}
+
+	if (machines.size() == 0) {
+		throw std::runtime_error("ProductionLine has no machines configured");
+	}
+
 }
 
 ProductionLine::ProductionLine(const ProductionLine &other)

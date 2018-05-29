@@ -11,20 +11,17 @@ const std::shared_ptr<models::Configuration> YAMLStrategy::deserialize(const std
   try {
 
     YAML::Node yamlFileNode = YAML::LoadFile(filePath);
+    return deserializeConfiguration(yamlFileNode);
 
-    try {
+  } catch (const YAML::Exception &exception) {
 
-      return deserializeConfiguration(yamlFileNode);
-
-    } catch (const std::exception &exception) {
-
-      std::cerr << "Configuration file incomplete: " << exception.what() << std::endl;
-
-    }
+    std::cerr << "YAML Exception: " << exception.what() << std::endl;
+    throw exception;
 
   } catch (const std::exception &exception) {
 
-    std::cerr << "Invalid configuration file path: " << exception.what() << std::endl;
+    std::cerr << exception.what() << std::endl;
+    throw exception;
 
   }
 }
