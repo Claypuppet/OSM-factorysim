@@ -66,22 +66,22 @@ visualisercore::EventPtr file::FileReader::deserializeEvent(YAML::Node &eventNod
     return nullptr;
   }
 
-  auto eventId = static_cast<uint8_t >(std::stoul(eventContents[0]));
+  auto eventId = static_cast<models::Machine::MachineLogEventIds >(std::stoul(eventContents[0]));
   auto timeStamp = static_cast<uint64_t>(std::stoull(eventContents[1]));
   auto machineId = static_cast<uint16_t>(std::stoul(eventContents[2]));
 
   switch (eventId) {
-    case 1: {
+    case models::Machine::MachineLogEventIds::kMachineLogEventMachineStatusUpdate: {
       auto machineStatus = static_cast<models::Machine::MachineStatus>(std::stoul(eventContents[3]));
       event = std::make_shared<visualisercore::StatusUpdateEvent>(timeStamp, machineId, machineStatus);
       break;
     }
-    case 2: {
+    case models::Machine::MachineLogEventIds::kMachineLogEventMachineReconfigured: {
       auto configId = static_cast<uint16_t>(std::stoul(eventContents[3]));
       event = std::make_shared<visualisercore::ConfigUpdateEvent>(timeStamp, machineId, configId);
       break;
     }
-    case 3: {
+    case models::Machine::MachineLogEventIds::kMachineLogEventMachineBufferUpdate: {
       if (eventContents.size() < 4) {
         return nullptr;
       }
@@ -97,22 +97,28 @@ visualisercore::EventPtr file::FileReader::deserializeEvent(YAML::Node &eventNod
 
   return event;
 }
-bool FileReader::deserializeMachines(const std::string &filePath, std::vector<visualisercore::MachinePtr> &machineList) {
+bool FileReader::deserializeMachines(const std::string &filePath,
+                                     std::vector<visualisercore::MachinePtr> &machineList) {
   configurationserializer::YAMLStrategy deserializer;
 
   auto config = deserializer.deserialize(filePath);
 
   auto machines = config->getProductionLine()->getMachines();
 
-  for(auto &machine : machines)
-  {
-    machineList.push_back(std::make_shared<visualisercore::MachinePtr>(machine));
+  if (machines.size() == 0) {
+    return false;
   }
 
-  return false;
+  for (auto &machine : machines) {
+    machineList.push_back(std::make_shared<visualisercore::Machine>(*machine.get()));
+  }
+
+  return true;
 }
-uint64_t FileReader::deserializeSimDuration(const std::string &filePath) {
-  return 0;
+
+models::ConfigurationPtr FileReader::deserializeSimConfig(const std::string &filePath) {
+  configurationserializer::YAMLStrategy deserializer;
+  return deserializer.deserialize(filePath);
 }
 
 }

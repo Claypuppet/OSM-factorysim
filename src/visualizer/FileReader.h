@@ -9,6 +9,7 @@
 #include <vector>
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
+#include <models/Configuration.h>
 #include "Event.h"
 #include "Machine.h"
 
@@ -20,9 +21,30 @@ namespace file {
 class FileReader {
  public:
   FileReader() = default;
+
+  /**
+   * Function that fills a vector of events with events from a yaml file
+   * @param filePath : Path to the yaml file
+   * @param eventList : The vector of events to fill
+   * @return : True if successful
+   */
   bool deserializeEvents(const std::string &filePath, std::vector<visualisercore::EventPtr> &eventList);
+
+  /**
+   * Function that fills a vector of machines with machines from a yaml file
+   * @param filePath : Path to the yaml file
+   * @param machineList : The vector of machines to fill
+   * @return : True if successful
+   */
   bool deserializeMachines(const std::string &filePath, std::vector<visualisercore::MachinePtr> &machineList);
-  uint64_t deserializeSimDuration(const std::string &filePath);
+
+  /**
+   * A function that deserializes configurations from a yaml result file
+   * @param filePath : Path to the yaml file
+   * @return : The deserialized configurations
+   */
+  models::ConfigurationPtr deserializeSimConfig(const std::string &filePath);
+
  private:
   const std::string getFileExtension(const std::string &filePath) const;
 

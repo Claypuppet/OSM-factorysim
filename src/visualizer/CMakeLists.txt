@@ -48,7 +48,7 @@ add_library(source_lib_app_visualizer SHARED
         WindowApplication.cpp
         WindowApplication.h StatusUpdateEvent.cpp StatusUpdateEvent.h ConfigUpdateEvent.cpp ConfigUpdateEvent.h BufferUpdateEvent.cpp BufferUpdateEvent.h)
 
-target_link_libraries(source_lib_app_visualizer ${wxWidgets_LIBRARIES} lib_models lib_network lib_patterns lib_utils lib_yaml-cpp)
+target_link_libraries(source_lib_app_visualizer ${wxWidgets_LIBRARIES} lib_models lib_network lib_patterns lib_utils lib_yaml-cpp lib_configuration_serializer)
 
 add_executable(app_visualizer
         Main.cpp)

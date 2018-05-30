@@ -12,9 +12,16 @@ namespace file {
 /**
  * Application when a result file is selected
  */
-class FileApplication : public visualisercore::Application{
+class FileApplication : public visualisercore::Application {
  public:
   FileApplication() = default;
+
+  /**
+   * Sets events, machines and configuration from a resultfile
+   * @param filePath : Path to the file
+   * @return : True if successful
+   */
+  bool loadResults(const std::string &filePath);
  private:
   file::FileReader fileReader;
 };

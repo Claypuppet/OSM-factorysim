@@ -32,9 +32,10 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
    * @param aMachine : The machine to add
    */
   void addMachine(const MachinePtr& aMachine);
- private:
+ protected:
   std::vector<EventPtr> events;
   std::vector<MachinePtr> machines;
+  models::ConfigurationPtr configuration;
 };
 
 }
