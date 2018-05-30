@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(machine, 3, 1);
+  core::Buffer limitedBuffer(machine, 1, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 

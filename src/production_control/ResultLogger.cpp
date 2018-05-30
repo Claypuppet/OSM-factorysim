@@ -32,19 +32,19 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
 
 void ResultLogger::machineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
   std::stringstream stringstream;
-  stringstream << "1," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << status;
+  stringstream << models::Machine::kMachineLogEventMachineStatusUpdate << "," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << status;
   log(stringstream.str());
 }
 
 void ResultLogger::machineConfigChanged(uint16_t machineId, uint16_t configId) {
   std::stringstream stringstream;
-  stringstream << "2," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << configId;
+  stringstream << models::Machine::kMachineLogEventMachineReconfigured << "," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << configId;
   log(stringstream.str());
 }
 
 void ResultLogger::bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount) {
   std::stringstream stringstream;
-  stringstream << "3," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << productId << "," << amount;
+  stringstream << models::Machine::kMachineLogEventMachineBufferUpdate << "," << utils::Time::getInstance().getCurrentTime() << "," << machineId << "," << productId << "," << amount;
   log(stringstream.str());
 }
 

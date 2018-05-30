@@ -32,11 +32,20 @@ class Machine {
 	kMachineStatusRepairing,
   };
 
-/**
- * Enum of all machine error codes
- */
+  /**
+   * Enum of all machine error codes
+   */
   enum MachineErrorCode {
     kMachineErrorCodeBroke
+  };
+
+  /**
+   * Enum of all machine error codes
+   */
+  enum MachineLogEventIds {
+    kMachineLogEventMachineStatusUpdate,
+    kMachineLogEventMachineReconfigured,
+    kMachineLogEventMachineBufferUpdate,
   };
 
   Machine() = default;
