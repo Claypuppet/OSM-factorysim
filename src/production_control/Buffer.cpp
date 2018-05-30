@@ -31,8 +31,11 @@ ProductPtr Buffer::takeFromBuffer() {
 }
 
 std::vector<ProductPtr> Buffer::takeFromBuffer(uint32_t amount) {
-  std::vector<ProductPtr> list;
+  if (size() < amount) {
+    throw std::runtime_error("Unable to take from buffer: insufficient items in buffer");
+  }
 
+  std::vector<ProductPtr> list;
   while (list.size() < amount) {
     list.emplace_back(takeFromBuffer());
   }

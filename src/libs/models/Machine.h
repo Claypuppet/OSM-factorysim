@@ -32,6 +32,12 @@ class Machine {
 	kMachineStatusRepairing,
   };
 
+/**
+ * Enum of all machine error codes
+ */
+  enum MachineErrorCode {
+    kMachineErrorCodeBroke
+  };
 
   Machine() = default;
   virtual ~Machine() = default;

@@ -1,10 +1,8 @@
-//
-// Created by sven on 22-4-18.
-//
 
 #include <cstdint>
 
 #include <cereal/archives/portable_binary.hpp>
+#include <configuration_serializer/ConfigurationReader.h>
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
@@ -14,7 +12,6 @@
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
-#include "configuration_reader/ConfigurationReader.h"
 #include "ResultLogger.h"
 
 namespace simulation {
@@ -32,10 +29,7 @@ SimulationController::SimulationController() : core::Controller() {
 
 SimulationController::~SimulationController() {
 
-  networkManager.stop();
-  if (serverThread && serverThread->joinable()) {
-	serverThread->join();
-  }
+  stop();
 }
 
 void SimulationController::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {

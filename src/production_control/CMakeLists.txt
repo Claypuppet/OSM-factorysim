@@ -1,10 +1,4 @@
 add_library(source_lib_app_production SHARED
-        configuration_reader/ConfigurationReader.cpp
-        configuration_reader/ConfigurationReader.h
-        configuration_reader/deserialize_strategies/JSONStrategy.cpp
-        configuration_reader/deserialize_strategies/JSONStrategy.h
-        configuration_reader/deserialize_strategies/YAMLStrategy.cpp
-        configuration_reader/deserialize_strategies/YAMLStrategy.h
         ConnectionHandler.h
         ConnectionHandler.cpp
         Machine.cpp
@@ -51,7 +45,7 @@ add_library(source_lib_app_production SHARED
         InfiniteBuffer.h)
 
 # Link to libs
-target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils)
+target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer)
 
 add_executable(app_production_control
         Main.cpp)
@@ -61,9 +55,12 @@ target_link_libraries(app_production_control source_lib_app_production)
 
 # For production control, move configuration dir to bin dir
 
+set(app_prodution_control_config_dir $<TARGET_FILE_DIR:app_prodution_control>/configs)
+
 add_custom_target(config_mover ALL
         DEPENDS move_config)
 
 add_custom_command(OUTPUT move_config
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" $<TARGET_FILE_DIR:app_production_control>/configs
-        DEPENDS app_production_control)
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" app_prodution_control_config_dir)
+
+add_dependencies(app_production_control config_mover)

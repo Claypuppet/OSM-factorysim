@@ -4,9 +4,21 @@
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
 
+#include <utils/time/Time.h>
+
 namespace simulator {
 
+bool SimulationMachine::canBreak = true;
+
+SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(3600000) {
+
+}
+
 bool SimulationMachine::configure() {
+  distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
+                                                         (magicNumber
+                                                             + currentConfiguration->getMeanTimeBetweenFailureInHours())
+                                                             * 3600000 / checkCycle);
   utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getInitializationDurationInMilliseconds());
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
@@ -24,7 +36,8 @@ void SimulationMachine::takeInProduct() {
 }
 
 void SimulationMachine::processProduct() {
-  utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getProcessTime());
+  uint16_t processTime = currentConfiguration ? currentConfiguration->getProcessTime() : 0;
+  utils::Time::getInstance().increaseCurrentTime(processTime);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductProcessed);
   scheduleEvent(event);
 }
@@ -42,5 +55,20 @@ void SimulationMachine::setConfigureStartState() {
 void SimulationMachine::setInOperationStartState() {
   auto state = std::make_shared<machinestates::TakeProductState>(*this);
   setCurrentState(state);
+}
+
+bool SimulationMachine::checkBroken() {
+  if (canBreak) {
+    if (utils::Time::getInstance().getCurrentTime() + checkCycle > timeSinceBrokenCheck) {
+      if (distribution(generator) == magicNumber) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+/* static */ void SimulationMachine::setCanBreak(bool canBreak) {
+  SimulationMachine::canBreak = canBreak;
 }
 } // simulator

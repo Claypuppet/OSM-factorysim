@@ -34,7 +34,7 @@ class MachineState : public patterns::statemachine::State {
   virtual ~MachineState() = default;
 
   void entryAction() override = 0;
-  void doActivity() override = 0;
+  void doActivity() override;
   void exitAction() override = 0;
   bool handleEvent(const EventPtr &event) override;
 
@@ -42,6 +42,12 @@ class MachineState : public patterns::statemachine::State {
   MachineState(machinecore::Machine &aContext);
 
   machinecore::Machine &context;
+
+ private:
+  /**
+   * Executed on machineBroke event
+   */
+  void onMachineBroke();
 };
 } // machinestates
 

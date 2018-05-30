@@ -8,12 +8,29 @@
 #include "HelperFunctions.h"
 #include <network/Client.h>
 #include <network/Server.h>
+#include <utils/time/Time.h>
+
+// Server static init
+network::Manager testutils::MockNetwork::serverManager;
+ThreadPtr testutils::MockNetwork::serverThread;
+
+// Client static init
+network::Manager testutils::MockNetwork::clientManager;
+ThreadPtr testutils::MockNetwork::clientThread;
 
 namespace testutils {
 
 MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageStatus(kMessageIdle),
                              onMessageFn([](const network::Message& m){}), onConnectionFn([](const network::ConnectionPtr& c){}){
-  networkThread = networkManager.runServiceThread();
+  // Start service threads and detach them.
+  if(!serverThread){
+    serverThread = serverManager.runServiceThread();
+    serverThread->detach();
+  }
+  if(!clientThread){
+    clientThread = clientManager.runServiceThread();
+    clientThread->detach();
+  }
 }
 
 MockNetwork::~MockNetwork(){
@@ -21,13 +38,10 @@ MockNetwork::~MockNetwork(){
 }
 
 void MockNetwork::startMockMCClientController(bool waitForConnected) {
-  networkManager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
-  if(connectionHandler){
-    client = networkManager.createClient(connectionHandler);
-  }
-  else{
-    client = networkManager.createClient(shared_from_this());
-  }
+  stopClient();
+  clientManager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  network::ConnectionHandlerPtr handler = customConnectionHandler ? customConnectionHandler : shared_from_this();
+  client = clientManager.createClient(handler);
   client->start();
   connectionStatus = kConnectionConnecting;
   if(waitForConnected){
@@ -36,13 +50,10 @@ void MockNetwork::startMockMCClientController(bool waitForConnected) {
 }
 
 void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
-  networkManager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
-  if(connectionHandler){
-    client = networkManager.createClient(connectionHandler);
-  }
-  else{
-    client = networkManager.createClient(shared_from_this());
-  }
+  stopClient();
+  clientManager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
+  network::ConnectionHandlerPtr handler = customConnectionHandler ? customConnectionHandler : shared_from_this();
+  client = clientManager.createClient(handler);
   client->start();
   connectionStatus = kConnectionConnecting;
   if(waitForConnected){
@@ -51,27 +62,23 @@ void MockNetwork::startMockMCClientApplication(bool waitForConnected) {
 }
 
 void MockNetwork::startMockPCServerController() {
-  networkManager.setLocalPort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
-  if(connectionHandler){
-    server = networkManager.createServer(connectionHandler,32);
-  }
-  else{
-    server = networkManager.createServer(shared_from_this(),32);
-  }
+  stopServer();
+  serverManager.setLocalPort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
+  network::ConnectionHandlerPtr handler = customConnectionHandler ? customConnectionHandler : shared_from_this();
+  server = serverManager.createServer(handler, 2);
   server->start();
   connectionStatus = kConnectionConnecting;
+  HelperFunctions::wait(20);
 }
 
 void MockNetwork::startMockPCServerApplication() {
-  networkManager.setLocalPort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
-  if(connectionHandler){
-    server = networkManager.createServer(connectionHandler,32);
-  }
-  else{
-    server = networkManager.createServer(shared_from_this(),32);
-  }
+  stopServer();
+  serverManager.setLocalPort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
+  network::ConnectionHandlerPtr handler = customConnectionHandler ? customConnectionHandler : shared_from_this();
+  server = serverManager.createServer(handler, 2);
   server->start();
   connectionStatus = kConnectionConnecting;
+  HelperFunctions::wait(20);
 }
 
 void MockNetwork::onConnectionEstablished(network::ConnectionPtr aConnection) {
@@ -92,6 +99,7 @@ void MockNetwork::onConnectionMessageReceived(network::ConnectionPtr connection,
 }
 
 void MockNetwork::sendMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if(connection && connection->isConnected()){
 	connection->writeMessage(message);
   }
@@ -110,18 +118,26 @@ const network::ConnectionPtr &MockNetwork::getConnection() const {
 }
 
 void MockNetwork::stop() {
-  networkManager.stop();
+  stopClient();
+  stopServer();
   if(connectionStatus != kConnectionDisconnected){
     Predicate disconnected = [this](){return connectionStatus == kConnectionDisconnected;};
     HelperFunctions::waitForPredicate(disconnected, 200);
   }
-  if (networkThread && networkThread->joinable()){
-    networkThread->join();
-  }
 }
+
+void MockNetwork::stopServer() {
+  serverManager.stopServer();
+}
+
+void MockNetwork::stopClient() {
+  clientManager.stopClient();
+}
+
 void MockNetwork::onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) {
   connectionStatus = kConnectionDisconnected;
 }
+
 void MockNetwork::awaitConnection(uint32_t timeout) {
   Predicate predicate = [this](){return connectionStatus != kConnectionConnecting;};
   HelperFunctions::waitForPredicate(predicate, timeout);
@@ -139,7 +155,7 @@ void MockNetwork::awaitClientConnecting(uint32_t timeout) {
   HelperFunctions::waitForPredicate(predicate, timeout);
 }
 void MockNetwork::setConnectionHandler(network::ConnectionHandlerPtr handler) {
-  connectionHandler = handler;
+  customConnectionHandler = handler;
 }
 
 }

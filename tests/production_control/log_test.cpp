@@ -21,9 +21,6 @@
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestLogger)
 
-BOOST_AUTO_TEST_CASE(TestProductionLogger) {
-  BOOST_REQUIRE_EQUAL(2, 2);
-}
 
 BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::Time::getInstance().setType(utils::customTime);

@@ -11,6 +11,7 @@
 
 #include <network/Client.h>
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <yaml-cpp/exceptions.h>
 
 #include "../test_helpers/MockNetwork.h"
 
@@ -68,8 +69,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto currentState = controller.getCurrentState();
   BOOST_CHECK(!!std::dynamic_pointer_cast<states::OperationState>(currentState));
 
-  machineNetwork->stop();
   controller.stop();
+  machineNetwork->stop();
 }
 
 // Einde state tests
@@ -90,8 +91,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlLoadConfigurationState)
 
   //Run the state
   BOOST_REQUIRE_NO_THROW(controller.run());
+  //Loadconfig state should go to the SimulationBroadcastState
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::SimulationBroadcastState>(controller.getCurrentState()), true);
 
-  //Loadconfig state should go to the SimulationBroadcastState but that state instantly switches to SimulationWaitForConnectionsState
+  BOOST_REQUIRE_NO_THROW(controller.run());
+
+  //Loadconfig state should go to the SimulationWaitForConnectionsState
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::SimulationWaitForConnectionsState>(controller.getCurrentState()), true);
   controller.stop();
 }
@@ -102,20 +107,20 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerPublicMethods)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfigInvalidFileThrow) {
-//  simulation::SimulationController controller;
-//  const std::string configurationFilePath = "./invalid/file/path.yaml";
-//  BOOST_CHECK_THROW(controller.setConfiguration(configurationFilePath), exception_type);
+  simulation::SimulationController controller;
+  const std::string configurationFilePath = "./invalid/file/path.yaml";
+  BOOST_CHECK_THROW(controller.setConfiguration(configurationFilePath), YAML::Exception);
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadConfigIncompleteFileThrow) {
-//  simulation::SimulationController controller;
-//  const std::string configurationFilePath = "../../../tests/production_control/test_configs/incomplete_configuration_file.yaml";
-//  BOOST_CHECK_THROW(controller.setConfiguration(configurationFilePath), exception_type);
+  simulation::SimulationController controller;
+  const std::string configurationFilePath = "./test_configs/incomplete_configuration_file.yaml";
+  BOOST_CHECK_THROW(controller.setConfiguration(configurationFilePath), YAML::Exception);
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
   simulation::SimulationController controller;
-  const std::string configurationFilePath = "../../../tests/production_control/test_configs/test_config_two_machines.yaml";
+  const std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
 
   { // machine1
@@ -233,7 +238,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadJSONConfig) {
   simulation::SimulationController controller;
-  const std::string configurationFilePath = "../../../tests/production_control/test_configs/test_config_two_machines.json";
+  const std::string configurationFilePath = "./test_configs/test_config_two_machines.json";
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
 
   { // machine1
@@ -366,7 +371,8 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   productionServer->awaitClientConnecting();
 
   // Create machine with connection (in production control)
-  auto machine = simulation::SimulationMachine(1);
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  simulation::SimulationMachine machine(models::Machine(1, "", configs));
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
@@ -379,8 +385,8 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
 
-  machineEndpoint->stop();
-  productionServer->stop();
+  machineEndpoint->stopClient();
+  productionServer->stopServer();
 }
 
 BOOST_AUTO_TEST_CASE(SendTurnOff) {
@@ -394,21 +400,22 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
   productionServer->awaitClientConnecting();
 
   // Create machine with connection (in production control)
-  auto machine = simulation::SimulationMachine(1);
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  simulation::SimulationMachine machine(models::Machine(1, "", configs));
   machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOff);
   };
-  machineEndpoint->setOnMessageFn(callback);
-  machine.sendTurnOffCommand();
+  BOOST_REQUIRE_NO_THROW(machineEndpoint->setOnMessageFn(callback));
+  BOOST_REQUIRE_NO_THROW(machine.sendTurnOffCommand());
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
 
-  machineEndpoint->stop();
-  productionServer->stop();
+  machineEndpoint->stopClient();
+  productionServer->stopServer();
 }
 
 // TODO !!! Move this to application_test after Bas has committed & merged it with dev
@@ -423,8 +430,9 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   productionServer->awaitClientConnecting();
 
   // Create machine with connection (in production control)
-  auto machine = core::Machine(1);
-  machine.setConnection(productionServer->getConnection());
+  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+  simulation::SimulationMachine machine(models::Machine(1, "", configs));
+  machine.setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](network::Message &message){
@@ -437,14 +445,10 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
 
-  machineEndpoint->stop();
-  productionServer->stop();
+  machineEndpoint->stopClient();
+  productionServer->stopServer();
 }
 
-BOOST_AUTO_TEST_CASE(ProductionControlTest2) {
 
-  BOOST_REQUIRE_EQUAL(2, 2);
-
-}
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()

@@ -73,4 +73,4 @@ productionLine:
       reparationTimeInMinutes: 27
       previousMachines:
         - machineId: 1
-          neededProducts: 8
+          neededProducts: 3 

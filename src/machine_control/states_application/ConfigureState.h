@@ -29,6 +29,11 @@ class ConfigureState : public ApplicationState {
    * Called when the configuration failed
    */
   void onFailedToConfigure();
+
+  /**
+   * Called on when machine breaks
+   */
+  void onMachineBroke();
 };
 } // appicationstates
 

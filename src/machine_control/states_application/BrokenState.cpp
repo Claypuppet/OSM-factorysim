@@ -13,16 +13,18 @@ BrokenState::BrokenState(machinecore::Application &aContext)
 
 void BrokenState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.statusUpdate(models::Machine::kMachineStatusBroken);
+  context.machineBroke(models::Machine::kMachineErrorCodeBroke);
 }
 
 void BrokenState::doActivity() {
-
+  auto event = std::make_shared<Event>(kEventTypeRepaired);
+  context.scheduleEvent(event);
 }
 
 void BrokenState::exitAction() {
 
 }
+
 bool BrokenState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
     case kEventTypeRepaired: {

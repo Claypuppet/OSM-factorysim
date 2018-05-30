@@ -22,10 +22,11 @@ enum NotifyEventType {
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
   kNotifyEventTypeStartProcess,
-  kNotifyEventMachineConfigured,
-  kNotifyEventMachineFailedToConfigure,
+  kNotifyEventTypeMachineConfigured,
+  kNotifyEventTypeMachineFailedToConfigure,
   kNotifyEventTypeConfigure,
   kNotifyEventTypeMachineFinishedProcess,
+  kNotifyEventTypeMachineBroke
 };
 
 class Application
@@ -93,6 +94,12 @@ class Application
    * @param status : new status
    */
   void statusUpdate(models::Machine::MachineStatus status);
+
+  /**
+   * Send a kMachineErrorCodeBroke to Production Control
+   * @param errorCode The error code
+   */
+  void machineBroke(models::Machine::MachineErrorCode errorCode);
 
  protected:
   uint16_t id;
