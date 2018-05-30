@@ -7,7 +7,8 @@
 
 #include <patterns/statemachine/Context.h>
 #include <patterns/notifyobserver/Observer.hpp>
-#include "Event.h"
+#include <models/ProductionLine.h>
+#include "Events/Event.h"
 #include "Machine.h"
 #include "FileReader.h"
 
@@ -24,17 +25,17 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
    * Schedules an event
    * @param anEvent : The event to schedule
    */
-  void scheduleEvent(const Event& anEvent);
+  void scheduleEvent(const EventPtr &anEvent);
 
   /**
    * Adds a machine to machines
    * @param aMachine : The machine to add
    */
-  void addMachine(const Machine& aMachine);
- private:
-  file::FileReader fileReader;
-  std::vector<Event> events;
-  std::vector<Machine> machines;
+  void addMachine(const MachinePtr& aMachine);
+ protected:
+  std::vector<EventPtr> events;
+  std::vector<MachinePtr> machines;
+  models::ConfigurationPtr configuration;
 };
 
 }
