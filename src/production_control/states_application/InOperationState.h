@@ -1,6 +1,3 @@
-//
-// Created by bas on 15-5-18.
-//
 
 #ifndef PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
 #define PRODUCTION_LINE_CONTROL_INOPERATIONSTATE_H
@@ -20,6 +17,13 @@ class InOperationState : public ApplicationState {
 
   bool handleEvent(const applicationstates::EventPtr &event) override;
 
+ private:
+
+  /**
+   * Function to execute when a machineStatusUpdate event is received.
+   * @param event the current event
+   */
+  void onMachineStatusUpdateEvent(const EventPtr &event);
 };
 
 }
