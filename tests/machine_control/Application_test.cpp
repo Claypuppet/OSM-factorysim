@@ -98,13 +98,14 @@ BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   BOOST_CHECK_NO_THROW(application.handleNotification(event));
 
-  BOOST_CHECK_NO_THROW(application.run()); // process request
-  BOOST_CHECK_NO_THROW(application.run()); // taken in
-  BOOST_CHECK_NO_THROW(application.run()); // processed
-  BOOST_CHECK_NO_THROW(application.run()); // taken out
-
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()),
-                    true);
+  BOOST_CHECK_NO_THROW(application.run()); // process request received
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::TakeProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is taken in
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::ProcessProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is processed
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::TakeOutProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is taken out
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
@@ -131,11 +132,13 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   BOOST_CHECK_NO_THROW(application.handleNotification(notification));
 
-  BOOST_CHECK_NO_THROW(application.run()); // configure request
-  BOOST_CHECK_NO_THROW(application.run()); // prepare
-  BOOST_CHECK_NO_THROW(application.run()); // configure
-  BOOST_CHECK_NO_THROW(application.run()); // sefltest
-
+  BOOST_CHECK_NO_THROW(application.run()); // configure request, will start machine in prepare configure
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::PrepareConfiguration>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // prepare will transition to configure
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::ConfiguringState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // configure will transition to selftest
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::SelfTestState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // sefltest is done, app will transition to idle
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 
   testutils::HelperFunctions::wait(50);
