@@ -53,7 +53,7 @@ productionLine:
     configurations:
     - productId: 1
       outputEachMinute: 12
-      outputBufferSize: 2000
+      outputBufferSize: 20
       initializationDurationInSeconds: 6
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800

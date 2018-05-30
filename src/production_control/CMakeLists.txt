@@ -55,12 +55,10 @@ target_link_libraries(app_production_control source_lib_app_production)
 
 # For production control, move configuration dir to bin dir
 
-set(app_prodution_control_config_dir $<TARGET_FILE_DIR:app_prodution_control>/configs)
-
 add_custom_target(config_mover ALL
         DEPENDS move_config)
 
 add_custom_command(OUTPUT move_config
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" app_prodution_control_config_dir)
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" ${CMAKE_CURRENT_BINARY_DIR}/configs)
 
 add_dependencies(app_production_control config_mover)
