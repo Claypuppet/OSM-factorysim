@@ -20,6 +20,8 @@ class InOperationState : public ApplicationState {
 
   bool handleEvent(const applicationstates::EventPtr &event) override;
 
+ private:
+  void onMachineStatusUpdateEvent(const EventPtr &event);
 };
 
 }

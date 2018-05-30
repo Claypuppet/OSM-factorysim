@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationNOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, models::Machine::MachineErrorCode::kMachineErrorCodeBroke)); // status update
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusBroken)); // status update
     BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
     BOOST_REQUIRE_NO_THROW(app.run());
   }

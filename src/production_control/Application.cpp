@@ -72,6 +72,7 @@ void core::Application::setupNetwork() {
 }
 void core::Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   // TODO: move the case implementation to own method (or not?)
+
   switch (notification.getEventId()) {
     case NotifyEventIds::eApplicationRegisterMachine: {
       auto time = notification.getArgumentAsType<uint64_t>(0);
@@ -97,11 +98,11 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
     case NotifyEventIds::eApplicationNOK: {
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
-      auto errorCode = notification.getArgumentAsType<uint16_t>(2);
+      auto errorCode = notification.getArgumentAsType<core::Machine::MachineStatus>(2);
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
       event->setArgument(1, errorCode);
-      //scheduleEvent(event);
+      scheduleEvent(event);
       break;
     }
     default: {
