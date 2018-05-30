@@ -25,8 +25,6 @@ add_library(source_lib_app_visualizer SHARED
         main_window_states/FileFeedState.h
         Application.cpp
         Application.h
-        Events/Event.cpp
-        Events/Event.h
         Machine.cpp
         Machine.h
         FileReader.cpp
@@ -47,6 +45,8 @@ add_library(source_lib_app_visualizer SHARED
         main_window_states/MainWindowState.h
         WindowApplication.cpp
         WindowApplication.h
+        Events/Event.cpp
+        Events/Event.h
         Events/StatusUpdateEvent.cpp
         Events/StatusUpdateEvent.h
         Events/ConfigUpdateEvent.cpp

@@ -16,10 +16,10 @@ bool FileApplication::loadResults(const std::string &filePath) {
 
   for(auto &machine : configuration->getProductionLine()->getMachines())
   {
-    machines.push_back(std::make_shared<visualisercore::Machine>(machine.get()));
+    machines.push_back(std::make_shared<visualisercore::Machine>(*machine.get()));
   }
 
-  return false;
+  return true;
 }
 
 }

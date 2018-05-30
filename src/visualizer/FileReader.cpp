@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <configuration_serializer/deserialize_strategies/YAMLStrategy.h>
+#include <configuration_serializer/ConfigurationReader.h>
 #include "FileReader.h"
 #include "Events/StatusUpdateEvent.h"
 #include "Events/ConfigUpdateEvent.h"
@@ -99,8 +100,8 @@ visualisercore::EventPtr file::FileReader::deserializeEvent(YAML::Node &eventNod
 }
 
 models::ConfigurationPtr FileReader::deserializeSimConfig(const std::string &filePath) {
-  configurationserializer::YAMLStrategy deserializer;
-  return deserializer.deserialize(filePath);
+  configurationserializer::ConfigurationReader reader;
+  return reader.deserialize(filePath);
 }
 
 }
