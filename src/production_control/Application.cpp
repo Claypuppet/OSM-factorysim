@@ -4,7 +4,6 @@
 // other library includes
 #include <network/Server.h>
 #include <network/Client.h>
-#include <utils/Logger.h>
 
 // project file includes
 #include "states_application/BroadCastState.h"

@@ -3,7 +3,6 @@
 //
 
 #include "ConnectionHandler.h"
-#include "network/Protocol.h"
 #include "NotificationTypes.h"
 
 communication::ConnectionHandler::ConnectionHandler() {}

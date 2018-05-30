@@ -2,6 +2,7 @@
 #include <cstdint>
 
 #include <cereal/archives/portable_binary.hpp>
+#include <configuration_serializer/ConfigurationReader.h>
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
@@ -11,7 +12,7 @@
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
-#include <configuration_serializer/ConfigurationReader.h>
+#include "ResultLogger.h"
 
 namespace simulation {
 
@@ -45,8 +46,8 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 
 	default: {
 	  std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+      break;
 	}
-	  break;
   }
 
 }
@@ -128,14 +129,15 @@ void SimulationController::setStartState() {
   auto event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
   event->setArgument<std::string>(configPath);
   scheduleEvent(event);
+
 }
 
 void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = configurationserializer::ConfigurationReader::getInstance();
 
-  const auto configurationModel = configurationReader.deserialize(filePath);
+  configuration = configurationReader.deserialize(filePath);
 
-  const auto &productionLineModel = configurationModel->getProductionLine();
+  const auto &productionLineModel = configuration->getProductionLine();
   application->setProductionLine(productionLineModel);
 
   const auto &machineModels = productionLineModel->getMachines();
@@ -155,6 +157,8 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 	auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
 	scheduleEvent(e);
   }
+
+  core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
 }
 
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {

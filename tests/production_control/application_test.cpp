@@ -4,7 +4,6 @@
 #define BOOST_TEST_DYN_LINK
 
 #include <memory>
-#include <climits>
 
 #include <boost/test/unit_test.hpp>
 #include <patterns/notifyobserver/Notifier.hpp>
@@ -16,11 +15,7 @@
 #include "../../src/production_control/states_application/WaitForConnectionsState.h"
 #include "../../src/production_control/SimulationController.h"
 #include "../../src/production_control/NotificationTypes.h"
-#include "../../src/machine_control/Machine.h"
-#include "../../src/production_control/Machine.h"
 
-#include "../../src/production_control/Buffer.h"
-#include "../../src/production_control/Product.h"
 #include "../test_helpers/MockObserver.h"
 #include "../../src/production_control/ConnectionHandler.h"
 #include "../test_helpers/HelperFunctions.h"
@@ -118,7 +113,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(machine, 3);
+  core::Buffer limitedBuffer(machine, 1, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 

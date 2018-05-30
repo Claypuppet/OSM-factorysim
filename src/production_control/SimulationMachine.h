@@ -94,6 +94,7 @@ class SimulationMachine : public core::Machine {
    * @param simulationEvent : Event to add
    */
   void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
+  bool isWaitingForSimulationResponse() const;
   bool isWaitingForResponse() const override;
 
  private:

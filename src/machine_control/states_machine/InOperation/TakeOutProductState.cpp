@@ -12,7 +12,7 @@ TakeOutProductState::TakeOutProductState(machinecore::Machine &aContext)
 }
 
 void TakeOutProductState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void TakeOutProductState::doActivity() {
@@ -38,7 +38,7 @@ bool TakeOutProductState::handleEvent(const EventPtr &event) {
 }
 
 void TakeOutProductState::onProductTakenOutEvent() {
-  utils::Logger::log("-Handle event: kEventTypeProductTakenOut");
+//  utils::Logger::log("-Handle event: kEventTypeProductTakenOut");
 
   auto notification =
       patterns::notifyobserver::NotifyEvent(machinecore::NotifyEventType::kNotifyEventTypeMachineFinishedProcess);

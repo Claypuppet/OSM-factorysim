@@ -7,6 +7,8 @@ add_library(source_lib_app_production SHARED
         Product.h
         Buffer.cpp
         Buffer.h
+        ResultLogger.cpp
+        ResultLogger.h
         Application.cpp
         Application.h
         SimulationConnectionHandler.cpp
@@ -57,5 +59,6 @@ add_custom_target(config_mover ALL
         DEPENDS move_config)
 
 add_custom_command(OUTPUT move_config
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" $<TARGET_FILE_DIR:app_production_control>/configs
-        DEPENDS app_production_control)
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/configs/" ${CMAKE_CURRENT_BINARY_DIR}/configs)
+
+add_dependencies(app_production_control config_mover)
