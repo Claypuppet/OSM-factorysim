@@ -21,11 +21,13 @@ namespace testutils {
 
 MockNetwork::MockNetwork() : connectionStatus(kConnectionDisconnected), messageStatus(kMessageIdle),
                              onMessageFn([](const network::Message& m){}), onConnectionFn([](const network::ConnectionPtr& c){}){
-  if(!serverThread && !clientThread){
-    // Start service threads and detach them.
+  // Start service threads and detach them.
+  if(!serverThread){
     serverThread = serverManager.runServiceThread();
-    clientThread = clientManager.runServiceThread();
     serverThread->detach();
+  }
+  if(!clientThread){
+    clientThread = clientManager.runServiceThread();
     clientThread->detach();
   }
 }

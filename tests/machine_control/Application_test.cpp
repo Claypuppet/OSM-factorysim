@@ -5,6 +5,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <models/Configuration.h>
+#include <utils/time/Time.h>
 
 #include "../test_helpers/MockNetwork.h"
 #include "../../src/machine_control/Application.h"
@@ -261,6 +262,7 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleConfigReceived) {
   pcMock->awaitConnection();
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject<uint16_t>(2);
+  message.setTime(100000);
 
   BOOST_REQUIRE_NO_THROW(pcMock->sendMessage(message));
 

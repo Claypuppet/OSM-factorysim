@@ -94,7 +94,10 @@ void Manager::stopClient() {
     c->stop();
     mClient.reset();
     // Busy wait loop
-    while (c->isRunning()) {
+    auto getTime = std::chrono::system_clock::now;
+    auto startTime = getTime();
+    auto timeoutMillis = std::chrono::milliseconds(50);
+    while (c->isRunning() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
       std::this_thread::yield();
     }
     c.reset();
@@ -107,7 +110,10 @@ void Manager::stopServer() {
     s->stop();
     mServer.reset();
     // Busy wait loop
-    while (s->isRunning()) {
+    auto getTime = std::chrono::system_clock::now;
+    auto startTime = getTime();
+    auto timeoutMillis = std::chrono::milliseconds(50);
+    while (s->isRunning() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
       std::this_thread::yield();
     }
     s.reset();
@@ -124,19 +130,24 @@ void Manager::runService() {
   if (!service) { // wtf?
 	return;
   }
+  bool canRerun = true;
+  while(canRerun){
+    canRerun = false;
+    try {
+      std::stringstream message;
+      message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service"
+              << std::dec;
+      utils::Logger::log(message.str());
+      service->run();
+    }
+    catch (std::exception &e) {
+      std::cerr << __PRETTY_FUNCTION__ << " -> exception: " << e.what() << std::endl;
+      canRerun = true;
+    }
+    catch (...) {
+      std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
+    }
 
-  try {
-	std::stringstream message;
-	message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service"
-			<< std::dec;
-	utils::Logger::log(message.str());
-	service->run();
-  }
-  catch (std::exception &e) {
-	std::cerr << __PRETTY_FUNCTION__ << " -> exception: " << e.what() << std::endl;
-  }
-  catch (...) {
-	std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
   }
   std::stringstream message;
   message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service"
