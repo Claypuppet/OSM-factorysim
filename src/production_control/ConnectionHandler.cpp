@@ -5,8 +5,6 @@
 #include "ConnectionHandler.h"
 #include "NotificationTypes.h"
 
-communication::ConnectionHandler::ConnectionHandler() {}
-
 void communication::ConnectionHandler::onConnectionFailed(network::ConnectionPtr connection,
 													const boost::system::error_code &error) {
   network::IConnectionHandler::onConnectionFailed(connection, error);

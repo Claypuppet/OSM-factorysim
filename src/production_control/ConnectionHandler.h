@@ -16,8 +16,7 @@ class ConnectionHandler :
 	public patterns::notifyobserver::Notifier,
 	public NetworkMapper {
  public:
-  ConnectionHandler();
-
+  ConnectionHandler() = default;
   virtual ~ConnectionHandler() = default;
 
  private:
