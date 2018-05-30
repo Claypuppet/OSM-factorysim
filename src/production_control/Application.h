@@ -20,7 +20,11 @@ namespace core {
 class Application : public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
-  Application();
+  Application() = default;
+
+  /**
+   * Destruct a Application object
+   */
   virtual ~Application();
 
   /**
@@ -106,7 +110,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
  protected:
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
-  uint16_t currentProduct;
+  uint16_t currentProductId;
 
   network::ServerPtr server;
   ThreadPtr serverThread;
