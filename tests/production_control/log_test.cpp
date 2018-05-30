@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(SetupLogger) {
   utils::FileLogger::getInstance().setupLogger("testlog.log", true);
 
   for (uint16_t i = 0; i < 100; ++i) {
-    utils::FileLogger::getInstance().file()->info("test" + std::to_string(i));
+    utils::FileLogger::getInstance().logToFile("test" + std::to_string(i));
   }
 
   utils::FileLogger::getInstance().newFile("newtestLog.log", true);

@@ -37,24 +37,6 @@ class FileLogger : public patterns::singleton::Singleton<FileLogger> {
    * @param empty : if another file exists do we have to clear it?
    */
   void newFile(const std::string &filename, bool empty = false);
-
-  /**
-   * shortcut to logger of both
-   * @return spdlog instance
-   */
-  std::shared_ptr<spdlog::logger> both();
-
-  /**
- * shortcut to logger of file
- * @return spdlog instance
- */
-  std::shared_ptr<spdlog::logger> file();
-
-  /**
- * shortcut to logger of console
- * @return spdlog instance
- */
-  std::shared_ptr<spdlog::logger> console();
 /**
  * changes pattern to wished format
  * @param newPattern
@@ -64,10 +46,49 @@ class FileLogger : public patterns::singleton::Singleton<FileLogger> {
    * helper function to flush all loggers before continueing
    */
   void flushLoggers();
+
+  /**
+   * Log to both console and file
+   */
+  void logToBoth(const std::string&);
+
+  /**
+   * Log to file
+   */
+  void logToFile(const std::string&);
+
+  /**
+   * Log to console
+   */
+  void logToConsole(const std::string&);
+
  private:
   friend patterns::singleton::Singleton<FileLogger>;
   FileLogger();
+
+  /**
+   * shortcut to logger of both
+   * @return spdlog instance
+   */
+  std::shared_ptr<spdlog::logger> both();
+
+  /**
+   * shortcut to logger of file
+   * @return spdlog instance
+   */
+  std::shared_ptr<spdlog::logger> file();
+
+  /**
+   * shortcut to logger of console
+   * @return spdlog instance
+   */
+  std::shared_ptr<spdlog::logger> console();
+
+  /**
+   * assign loggers to spdlog
+   */
   void assignLoggers();
+
   std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
   std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> fileSink;
   std::string pattern;

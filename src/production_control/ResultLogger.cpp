@@ -27,7 +27,7 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
 
   // Setup logger
   utils::FileLogger::getInstance().setupLogger(outputFileName, false);
-  utils::FileLogger::getInstance().file()->info("\nevents:");
+  utils::FileLogger::getInstance().logToFile("\nevents:");
 }
 
 void ResultLogger::machineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
@@ -52,12 +52,11 @@ void ResultLogger::log(const std::string &message) {
   std::stringstream logRow;
   logRow << "- " << message;
   if (debugEnabled) {
-    utils::FileLogger::getInstance().both()->info(logRow.str());
+    utils::FileLogger::getInstance().logToBoth(logRow.str());
   }
   else {
-    utils::FileLogger::getInstance().file()->info(logRow.str());
+    utils::FileLogger::getInstance().logToFile(logRow.str());
   }
-  utils::FileLogger::getInstance().file()->flush();
 }
 
 }

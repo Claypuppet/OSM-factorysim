@@ -63,4 +63,25 @@ void FileLogger::flushLoggers() {
   spdlog::get("both")->flush();
 }
 
+void FileLogger::logToBoth(const std::string &message) {
+  auto logger = both();
+  if(logger){
+    logger->info(message);
+  }
+}
+
+void FileLogger::logToFile(const std::string &message) {
+  auto logger = file();
+  if(logger){
+    logger->info(message);
+  }
+}
+
+void FileLogger::logToConsole(const std::string &message) {
+  auto logger = console();
+  if (logger) {
+    logger->info(message);
+  }
+}
+
 }
