@@ -21,6 +21,11 @@ class InOperationState : public ApplicationState {
   bool handleEvent(const applicationstates::EventPtr &event) override;
 
  private:
+
+  /**
+   * Function to execute when a machineStatusUpdate event is received.
+   * @param event the current event
+   */
   void onMachineStatusUpdateEvent(const EventPtr &event);
 };
 
