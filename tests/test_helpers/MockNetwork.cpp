@@ -8,6 +8,7 @@
 #include "HelperFunctions.h"
 #include <network/Client.h>
 #include <network/Server.h>
+#include <utils/time/Time.h>
 
 // Server static init
 network::Manager testutils::MockNetwork::serverManager;
@@ -98,6 +99,7 @@ void MockNetwork::onConnectionMessageReceived(network::ConnectionPtr connection,
 }
 
 void MockNetwork::sendMessage(network::Message &message) {
+  message.setTime(utils::Time::getInstance().getCurrentTime());
   if(connection && connection->isConnected()){
 	connection->writeMessage(message);
   }
