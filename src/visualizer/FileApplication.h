@@ -16,6 +16,7 @@ class FileApplication : public visualisercore::Application{
  public:
   FileApplication() = default;
  private:
+  file::FileReader fileReader;
 };
 
 }

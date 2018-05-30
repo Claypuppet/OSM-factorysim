@@ -7,24 +7,19 @@
 namespace visualisercore {
 
 Event::Event(uint64_t aTimeStamp,
-                             uint16_t aMachineId,
-                             eVisualizerEventTypes anEventType) {
+             uint16_t aMachineId)
+:timeStamp(aTimeStamp),machineId(aMachineId){
 
-}
-
-eVisualizerEventTypes Event::getEventType() const {
-  return eventType;
 }
 
 Event::Event(const Event &anEvent)
-    : timeStamp(anEvent.timeStamp), machineId(anEvent.machineId), eventType(anEvent.eventType) {
+    : timeStamp(anEvent.timeStamp), machineId(anEvent.machineId) {
 
 }
 Event &Event::operator=(const Event &anEvent) {
   if (this != &anEvent) {
     timeStamp = anEvent.timeStamp;
     machineId = anEvent.machineId;
-    eventType = anEvent.eventType;
   }
   return *this;
 }

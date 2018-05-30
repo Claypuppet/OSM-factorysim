@@ -5,6 +5,13 @@
 #ifndef PRODUCTION_LINE_CONTROL_FILEREADER_H
 #define PRODUCTION_LINE_CONTROL_FILEREADER_H
 
+#include <boost/asio/detail/shared_ptr.hpp>
+#include <vector>
+#include <yaml-cpp/node/node.h>
+#include <yaml-cpp/yaml.h>
+#include "Event.h"
+#include "Machine.h"
+
 namespace file {
 
 /**
@@ -13,6 +20,18 @@ namespace file {
 class FileReader {
  public:
   FileReader() = default;
+  bool deserializeEvents(const std::string &filePath, std::vector<visualisercore::EventPtr> &eventList);
+  bool deserializeMachines(const std::string &filePath, std::vector<visualisercore::MachinePtr> &machineList);
+  uint64_t deserializeSimDuration(const std::string &filePath);
+ private:
+  const std::string getFileExtension(const std::string &filePath) const;
+
+  /**
+   * Deserializes a single event
+   * @param eventNode : Yaml node of a single event
+   * @return : Pointer to the event
+   */
+  visualisercore::EventPtr deserializeEvent(YAML::Node &eventNode);
 };
 
 }

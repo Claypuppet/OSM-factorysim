@@ -46,7 +46,7 @@ add_library(source_lib_app_visualizer SHARED
         main_window_states/MainWindowState.cpp
         main_window_states/MainWindowState.h
         WindowApplication.cpp
-        WindowApplication.h)
+        WindowApplication.h StatusUpdateEvent.cpp StatusUpdateEvent.h ConfigUpdateEvent.cpp ConfigUpdateEvent.h BufferUpdateEvent.cpp BufferUpdateEvent.h)
 
 target_link_libraries(source_lib_app_visualizer ${wxWidgets_LIBRARIES} lib_models lib_network lib_patterns lib_utils lib_yaml-cpp)
 

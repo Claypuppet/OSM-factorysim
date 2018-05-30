@@ -15,13 +15,16 @@ namespace visualisercore {
  */
 class Machine : public models::Machine, patterns::notifyobserver::Notifier {
  public:
+  Machine() = delete;
   explicit Machine(const models::Machine &aConfig);
-  Machine(uint16_t anId);
+  explicit Machine(uint16_t anId);
   Machine(const Machine &aMachine);
   Machine &operator=(const Machine &rhs);
  private:
 
 };
+
+typedef std::shared_ptr<Machine> MachinePtr;
 
 }
 
