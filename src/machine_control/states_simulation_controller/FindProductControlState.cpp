@@ -17,6 +17,9 @@ namespace simulationstates {
 void FindProductControlState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
 
+}
+
+void FindProductControlState::doActivity() {
   // Create an event to signify receiving the IP-address
   EventPtr event = std::make_shared<Event>(Event(kEventTypeReceivedPCIP));
 
@@ -24,16 +27,13 @@ void FindProductControlState::entryAction() {
   const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
 
   if (!pcip) {
-	event->setArgument<std::string>(pcip.value);
+    event->setArgument<std::string>(pcip.value);
   } else {
-	event->setArgument<std::string>("localhost");
+    event->setArgument<std::string>("localhost");
   }
 
   // Schedule the event to continue through the statemachine
   context.scheduleEvent(event);
-}
-
-void FindProductControlState::doActivity() {
 }
 
 void FindProductControlState::exitAction() {

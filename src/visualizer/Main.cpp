@@ -7,4 +7,4 @@
 
 #include "WindowApplication.h"
 
-wxIMPLEMENT_APP(WindowApplication);
+wxIMPLEMENT_APP(ui::WindowApplication);

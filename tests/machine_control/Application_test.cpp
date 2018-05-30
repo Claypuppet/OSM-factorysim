@@ -5,13 +5,14 @@
 #include <boost/test/unit_test.hpp>
 
 #include <models/Configuration.h>
+#include <utils/time/Time.h>
 
 #include "../test_helpers/MockNetwork.h"
 #include "../../src/machine_control/Application.h"
 #include "../test_helpers/MockObserver.h"
 #include "../machine_control/SimulationController.h"
 #include "state_inclusions.h"
-
+#include "../test_helpers/HelperFunctions.h"
 
 BOOST_AUTO_TEST_SUITE(MachineControlApplicationTests)
 
@@ -32,8 +33,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConnectToInitialize) {
 
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
-  application.stop();
-  mockNetwork->stop();
+  testutils::HelperFunctions::wait(50);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
@@ -71,11 +71,20 @@ BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
   // Run the application
   BOOST_CHECK_NO_THROW(application.run());
 
+  // Check if the application reached it's ConfigureState (prepare configure)
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConfigureState>(application.getCurrentState()), true);
+
+  BOOST_CHECK_NO_THROW(application.run());
+  // Check if the application reached it's ConfigureState (configure)
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConfigureState>(application.getCurrentState()), true);
+
+  BOOST_CHECK_NO_THROW(application.run());
+  // Check if the application reached it's ConfigureState (selftesting)
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::ConfigureState>(application.getCurrentState()), true);
+
+  BOOST_CHECK_NO_THROW(application.run());
   // Check if the application reached it's IdleState
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
-
-  application.stop();
-  mockNetwork->stop();
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
@@ -89,10 +98,14 @@ BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   BOOST_CHECK_NO_THROW(application.handleNotification(event));
 
-  BOOST_CHECK_NO_THROW(application.run());
-
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()),
-                    true);
+  BOOST_CHECK_NO_THROW(application.run()); // process request received
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::TakeProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is taken in
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::ProcessProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is processed
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::TakeOutProductState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // product is taken out
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
@@ -119,12 +132,16 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
   BOOST_CHECK_NO_THROW(application.handleNotification(notification));
 
-  BOOST_CHECK_NO_THROW(application.run());
-
+  BOOST_CHECK_NO_THROW(application.run()); // configure request, will start machine in prepare configure
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::PrepareConfiguration>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // prepare will transition to configure
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::ConfiguringState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // configure will transition to selftest
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<machinestates::SelfTestState>(application.getMachine()->getCurrentState()), true);
+  BOOST_CHECK_NO_THROW(application.run()); // sefltest is done, app will transition to idle
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::IdleState>(application.getCurrentState()), true);
 
-  application.stop();
-  mockNetwork->stop();
+  testutils::HelperFunctions::wait(50);
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
@@ -136,13 +153,16 @@ BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
   patterns::notifyobserver::NotifyEvent event(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   BOOST_CHECK_NO_THROW(application.handleNotification(event));
 
+  BOOST_CHECK_NO_THROW(application.run());
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::InOperationState>(application.getCurrentState()), true);
+
   auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
   BOOST_CHECK_NO_THROW(application.getMachine()->scheduleEvent(stateEvent));
 
   BOOST_CHECK_NO_THROW(application.run());
 
-  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::BrokenState>(application.getCurrentState()),
-                    true);
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::BrokenState>(application.getCurrentState()),true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -179,12 +199,12 @@ BOOST_AUTO_TEST_CASE(MachineControlSendMachineUpdates) {
   machineNetwork->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
   productionServer->awaitMessageReceived();
 
-  machineEndpoint->stop();
-  productionServer->stop();
+  productionServer->stopServer();
+  machineEndpoint->stopClient();
+
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
-  // Deze moet opnieuw ivm gebruik van manager en client. hiervoor kan mocknetwork gebruikt worden.
   testutils::MockObserver mockObserver;
 
   testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &event) {
@@ -198,9 +218,11 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleStartProcess) {
 
   auto pcMock = std::make_shared<testutils::MockNetwork>();
 
+
   network::Manager manager;
   manager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION);
 
+  auto machineControl = std::make_shared<testutils::MockNetwork>();
   auto clientThread = manager.runServiceThread();
   auto client = manager.createClient(networkComponent);
 
@@ -232,26 +254,23 @@ BOOST_AUTO_TEST_CASE(MachineControlHandleConfigReceived) {
   BOOST_REQUIRE_NO_THROW(networkComponent->addObserver(mockObserver));
 
   auto pcMock = std::make_shared<testutils::MockNetwork>();
+  auto mcMock = std::make_shared<testutils::MockNetwork>();
 
-  network::Manager manager;
-  BOOST_REQUIRE_NO_THROW(manager.setRemotePort(network::Protocol::PORT_PRODUCTION_COMMUNICATION));
-
-  auto clientThread = manager.runServiceThread();
-  auto client = manager.createClient(networkComponent);
+  mcMock->setConnectionHandler(networkComponent);
 
   BOOST_REQUIRE_NO_THROW(pcMock->startMockPCServerApplication());
 
-  client->start();
+  mcMock->startMockMCClientApplication();
   pcMock->awaitConnection();
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
+  message.setBodyObject<uint16_t>(2);
 
   BOOST_REQUIRE_NO_THROW(pcMock->sendMessage(message));
 
   mockObserver.awaitNotificationReceived();
 
-  pcMock->stop();
-  manager.stop();
-  clientThread->join();
+  pcMock->stopServer();
+  mcMock->stopClient();
 }
 
 // Einde public method tests

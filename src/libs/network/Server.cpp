@@ -86,7 +86,8 @@ void Server::stop() {
   }
   mAcceptor.close();
   if (!mFStopped) {
-	for (auto connection : mConnections) {
+  	auto connections = mConnections;
+	for (auto connection : connections) {
 	  connection->close();
 	}
 	if (auto l = mServiceEventLister) {

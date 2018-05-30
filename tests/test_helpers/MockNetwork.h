@@ -66,10 +66,20 @@ class MockNetwork : public network::IConnectionHandler, public std::enable_share
    */
   void awaitClientConnecting(uint32_t timeout = 100);
 
-    /**
-     * Stop network
-     */
+  /**
+   * Stop network
+   */
   void stop();
+
+  /**
+   * Stop client instance
+   */
+  void stopClient();
+
+  /**
+   * Stop server instance
+   */
+  void stopServer();
 
   /**
    * Send message to the other side (the one you're testing)
@@ -124,17 +134,25 @@ class MockNetwork : public network::IConnectionHandler, public std::enable_share
     kMessageWaiting,
   };
 
+  network::ConnectionPtr connection;
+
   ConnectionStatus connectionStatus;
   MessageStatus messageStatus;
-  ThreadPtr networkThread;
-  network::Manager networkManager;
-  network::ConnectionPtr connection;
-  network::ConnectionHandlerPtr connectionHandler;
+
+  // Custom
+  network::ConnectionHandlerPtr customConnectionHandler;
   OnMessageFn onMessageFn;
   OnConnectionFn onConnectionFn;
 
-  network::ServerPtr server;
+  // Server manager
+  static network::Manager serverManager;
+  static ThreadPtr serverThread;
   network::ClientPtr client;
+
+  // Client manager
+  static network::Manager clientManager;
+  static ThreadPtr clientThread;
+  network::ServerPtr server;
 
 };
 

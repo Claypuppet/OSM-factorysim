@@ -73,46 +73,10 @@ void Manager::stop() {
   if (mFStopping || mFStopped) {
 	return;
   }
-
   mFStopping = true;
-  auto s = mServer;
-  auto c = mClient;
 
-  if (s) {
-	std::stringstream message;
-	message << "----Stopping server...";
-	utils::Logger::log(message.str());
-	s->stop();
-	mServer.reset();
-  }
-  if (c) {
-	std::stringstream message;
-	message << "----Stopping client...";
-	utils::Logger::log(message.str());
-	c->stop();
-	mClient.reset();
-  }
-
-  // busy wait
-  if (s) {
-	while (s->isRunning()) {
-	  std::this_thread::yield();
-	}
-	std::stringstream message;
-	message << "----Server stopped";
-	utils::Logger::log(message.str());
-	s.reset();
-  }
-
-  if (c) {
-	while (c->isRunning()) {
-	  std::this_thread::yield();
-	}
-	std::stringstream message;
-	message << "----Client stopped";
-	utils::Logger::log(message.str());
-	c.reset();
-  }
+  stopClient();
+  stopServer();
 
   if (mServicerWorkPtr) {
 	mServicerWorkPtr.reset();
@@ -125,6 +89,38 @@ void Manager::stop() {
   mFStopped = true;
 }
 
+void Manager::stopClient() {
+  if (auto c = mClient) {
+    c->stop();
+    mClient.reset();
+    // Busy wait loop
+    auto getTime = std::chrono::system_clock::now;
+    auto startTime = getTime();
+    auto timeoutMillis = std::chrono::milliseconds(50);
+    while (c->isRunning() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
+      std::this_thread::yield();
+    }
+    c.reset();
+  }
+
+}
+
+void Manager::stopServer() {
+  if (auto s = mServer) {
+    s->stop();
+    mServer.reset();
+    // Busy wait loop
+    auto getTime = std::chrono::system_clock::now;
+    auto startTime = getTime();
+    auto timeoutMillis = std::chrono::milliseconds(50);
+    while (s->isRunning() && std::chrono::duration_cast<std::chrono::milliseconds>(getTime() - startTime) < timeoutMillis) {
+      std::this_thread::yield();
+    }
+    s.reset();
+  }
+
+}
+
 void Manager::handleSingnal(error_code &error, int signal) {
   std::cerr << __PRETTY_FUNCTION__ << " signal: " << signal << " error: " << error.message() << std::endl;
 }
@@ -134,19 +130,24 @@ void Manager::runService() {
   if (!service) { // wtf?
 	return;
   }
+  bool canRerun = true;
+  while(canRerun){
+    canRerun = false;
+    try {
+      std::stringstream message;
+      message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service"
+              << std::dec;
+      utils::Logger::log(message.str());
+      service->run();
+    }
+    catch (std::exception &e) {
+      std::cerr << __PRETTY_FUNCTION__ << " -> exception: " << e.what() << std::endl;
+      canRerun = true;
+    }
+    catch (...) {
+      std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
+    }
 
-  try {
-	std::stringstream message;
-	message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " running Network service"
-			<< std::dec;
-	utils::Logger::log(message.str());
-	service->run();
-  }
-  catch (std::exception &e) {
-	std::cerr << __PRETTY_FUNCTION__ << " -> exception: " << e.what() << std::endl;
-  }
-  catch (...) {
-	std::cerr << __PRETTY_FUNCTION__ << " ->  unknown exception" << std::endl;
   }
   std::stringstream message;
   message << "----Thread with id: " << std::hex << std::this_thread::get_id() << " stopped running Network service"

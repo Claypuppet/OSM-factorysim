@@ -32,8 +32,11 @@ ProductPtr Buffer::takeFromBuffer() {
 }
 
 std::vector<ProductPtr> Buffer::takeFromBuffer(uint32_t amount) {
-  std::vector<ProductPtr> list;
+  if (size() < amount) {
+    throw std::runtime_error("Unable to take from buffer: insufficient items in buffer");
+  }
 
+  std::vector<ProductPtr> list;
   while (list.size() < amount) {
 	list.emplace_back(takeFromBuffer());
   }
@@ -46,7 +49,6 @@ void Buffer::putInBuffer(const ProductPtr &item) {
   }
   enqueue(item);
   ++totalProcessed;
-  std::cout << "Placed item in buffer, currently " << size() << " products in buffer (max: " << maxSize << ")" << std::endl;
 }
 
 void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {

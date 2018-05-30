@@ -158,6 +158,9 @@ bool Machine::canDoAction() {
 }
 
 void Machine::takeProductsFromInputBuffers() {
+  if(!currentConfigId){
+    return;
+  }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
 	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
 	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
@@ -167,6 +170,9 @@ void Machine::takeProductsFromInputBuffers() {
 }
 
 void Machine::placeProductsInOutputBuffer() {
+  if(!currentConfigId){
+    return;
+  }
   if (!processedProduct){
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }

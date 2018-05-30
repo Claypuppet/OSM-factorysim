@@ -22,7 +22,8 @@ Machine &visualisercore::Machine::operator=(const Machine &rhs) {
   return *this;
 }
 
-Machine::Machine(uint16_t anId) : id(anId) {
+Machine::Machine(uint16_t anId) {
+  id = anId;
 }
 
 }

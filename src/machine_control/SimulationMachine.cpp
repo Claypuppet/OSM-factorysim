@@ -36,7 +36,8 @@ void SimulationMachine::takeInProduct() {
 }
 
 void SimulationMachine::processProduct() {
-  utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getProcessTime());
+  uint16_t processTime = currentConfiguration ? currentConfiguration->getProcessTime() : 0;
+  utils::Time::getInstance().increaseCurrentTime(processTime);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductProcessed);
   scheduleEvent(event);
 }
