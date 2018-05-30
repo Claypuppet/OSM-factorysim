@@ -1,6 +1,4 @@
-//
-// Not created by Henk on 27-08-1783
-//
+
 #define BOOST_TEST_DYN_LINK
 
 #include <memory>
