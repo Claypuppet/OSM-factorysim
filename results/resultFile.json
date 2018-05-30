@@ -1,0 +1,44 @@
+  {
+    "configurations": {
+    },
+    "eventTypes": [
+      {
+        "name": "MachineStatusUpdate",
+        "fieldNames": [
+          "timestamp",
+          "machineId",
+          "machineStatus"
+        ]
+      },
+      {
+        "name": "MachineConfigurationChanged",
+        "fieldNames": [
+          "timestamp",
+          "machineId",
+          "MachineConfigurationId"
+        ]
+      },
+      {
+        "name": "BufferContentUpdate",
+        "fieldNames": [
+          "timestamp",
+          "machineID",
+          "productId",
+          "bufferAmmount"
+        ]
+      }
+    ],
+    "events": [
+      [1, 2, 3, 4],
+      [1, 2, 3, 4],
+      [1, 2, 3, 4],
+
+      [2, 3, 4, 5],
+      [2, 3, 4, 5],
+      [2, 3, 4, 5],
+
+      [3, 4, 5, 6, 7],
+      [3, 4, 5, 6, 7],
+      [3, 4, 5, 6, 7]
+    ]
+  }

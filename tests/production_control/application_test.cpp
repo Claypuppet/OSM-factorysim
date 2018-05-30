@@ -8,6 +8,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <patterns/notifyobserver/Notifier.hpp>
+#include <configuration_serializer/ConfigurationReader.h>
 
 #include "../../src/production_control/Application.h"
 #include "../test_helpers/MockNetwork.h"
@@ -25,7 +26,6 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
-#include "../../src/production_control/configuration_reader/ConfigurationReader.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
