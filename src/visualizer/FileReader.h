@@ -10,7 +10,7 @@
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
 #include <models/Configuration.h>
-#include "Event.h"
+#include "Events/Event.h"
 #include "Machine.h"
 
 namespace file {
@@ -29,14 +29,6 @@ class FileReader {
    * @return : True if successful
    */
   bool deserializeEvents(const std::string &filePath, std::vector<visualisercore::EventPtr> &eventList);
-
-  /**
-   * Function that fills a vector of machines with machines from a yaml file
-   * @param filePath : Path to the yaml file
-   * @param machineList : The vector of machines to fill
-   * @return : True if successful
-   */
-  bool deserializeMachines(const std::string &filePath, std::vector<visualisercore::MachinePtr> &machineList);
 
   /**
    * A function that deserializes configurations from a yaml result file

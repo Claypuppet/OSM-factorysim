@@ -9,6 +9,9 @@
 
 namespace visualisercore {
 
+/**
+ * Event that holds information about a buffer update
+ */
 class BufferUpdateEvent : public Event {
  public:
   BufferUpdateEvent() = delete;

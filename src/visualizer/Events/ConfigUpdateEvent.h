@@ -10,6 +10,9 @@
 
 namespace visualisercore {
 
+/**
+ * Event that holds information about a configuration update
+ */
 class ConfigUpdateEvent : public Event{
  public:
   ConfigUpdateEvent() = delete;

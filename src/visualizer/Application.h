@@ -8,7 +8,7 @@
 #include <patterns/statemachine/Context.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include <models/ProductionLine.h>
-#include "Event.h"
+#include "Events/Event.h"
 #include "Machine.h"
 #include "FileReader.h"
 

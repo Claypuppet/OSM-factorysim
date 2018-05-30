@@ -20,6 +20,11 @@ class Event {
   Event& operator=(const Event& anEvent);
   uint64_t getTime() const;
   uint16_t getMachineId() const;
+
+  /**
+   * A function that generates a string with information about the event
+   * @return : String with information about the event
+   */
   virtual const std::string toString() = 0;
  private:
   uint64_t timeStamp;

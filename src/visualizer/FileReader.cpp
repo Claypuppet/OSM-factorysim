@@ -5,9 +5,9 @@
 #include <iostream>
 #include <configuration_serializer/deserialize_strategies/YAMLStrategy.h>
 #include "FileReader.h"
-#include "StatusUpdateEvent.h"
-#include "ConfigUpdateEvent.h"
-#include "BufferUpdateEvent.h"
+#include "Events/StatusUpdateEvent.h"
+#include "Events/ConfigUpdateEvent.h"
+#include "Events/BufferUpdateEvent.h"
 
 namespace file {
 
@@ -96,24 +96,6 @@ visualisercore::EventPtr file::FileReader::deserializeEvent(YAML::Node &eventNod
   }
 
   return event;
-}
-bool FileReader::deserializeMachines(const std::string &filePath,
-                                     std::vector<visualisercore::MachinePtr> &machineList) {
-  configurationserializer::YAMLStrategy deserializer;
-
-  auto config = deserializer.deserialize(filePath);
-
-  auto machines = config->getProductionLine()->getMachines();
-
-  if (machines.size() == 0) {
-    return false;
-  }
-
-  for (auto &machine : machines) {
-    machineList.push_back(std::make_shared<visualisercore::Machine>(*machine.get()));
-  }
-
-  return true;
 }
 
 models::ConfigurationPtr FileReader::deserializeSimConfig(const std::string &filePath) {

@@ -12,11 +12,12 @@ bool FileApplication::loadResults(const std::string &filePath) {
     return false;
   }
 
-  if(!fileReader.deserializeMachines(filePath, machines)){
-    return false;
-  }
-
   configuration = fileReader.deserializeSimConfig(filePath);
+
+  for(auto &machine : configuration->getProductionLine()->getMachines())
+  {
+    machines.push_back(std::make_shared<visualisercore::Machine>(machine.get()));
+  }
 
   return false;
 }

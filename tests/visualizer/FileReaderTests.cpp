@@ -4,11 +4,11 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../../src/visualizer/Event.h"
+#include "../../src/visualizer/Events/Event.h"
 #include "../../src/visualizer/FileReader.h"
-#include "../../src/visualizer/BufferUpdateEvent.h"
-#include "../../src/visualizer/StatusUpdateEvent.h"
-#include "../../src/visualizer/ConfigUpdateEvent.h"
+#include "../../src/visualizer/Events/BufferUpdateEvent.h"
+#include "../../src/visualizer/Events/StatusUpdateEvent.h"
+#include "../../src/visualizer/Events/ConfigUpdateEvent.h"
 
 BOOST_AUTO_TEST_SUITE(Visualiser_File_Reader_Tests)
 

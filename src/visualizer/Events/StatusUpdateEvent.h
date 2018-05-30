@@ -6,7 +6,7 @@
 #define PRODUCTION_LINE_CONTROL_STATUSUPDATEEVENT_H
 
 #include "Event.h"
-#include "Machine.h"
+#include "../Machine.h"
 
 namespace visualisercore {
 

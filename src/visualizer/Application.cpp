@@ -11,6 +11,9 @@ void Application::scheduleEvent(const EventPtr &anEvent) {
   if (anEvent->getTime() >= events.back()->getTime()) {
     events.push_back(anEvent);
   }
+  else{
+    throw std::runtime_error("Can't schedule event!");
+  }
 }
 void Application::addMachine(const MachinePtr &aMachine) {
   machines.push_back(aMachine);
