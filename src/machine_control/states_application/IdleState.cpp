@@ -13,7 +13,7 @@ IdleState::IdleState(machinecore::Application &aContext)
 }
 
 void IdleState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
   context.statusUpdate(models::Machine::kMachineStatusIdle);
 }
 
@@ -44,7 +44,7 @@ bool IdleState::handleEvent(const EventPtr &event) {
 }
 
 void IdleState::onReceivedConfigEvent(const EventPtr &event) {
-  utils::Logger::log("-Handle event: kEventTypeReconfigure");
+//  utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
   context.setConfigToSet(event->getArgumentAsType<uint16_t>());
 
@@ -53,7 +53,7 @@ void IdleState::onReceivedConfigEvent(const EventPtr &event) {
 }
 
 void IdleState::onStartProcessing() {
-  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
+//  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
 
   auto state = std::make_shared<InOperationState>(context);
   context.setCurrentState(state);

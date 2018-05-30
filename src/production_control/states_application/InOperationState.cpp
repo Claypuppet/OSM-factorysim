@@ -25,8 +25,8 @@ void applicationstates::InOperationState::exitAction() {
 bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
 	case applicationstates::kEventTypeMachineStatusUpdate:
-		onMachineStatusUpdateEvent(event);
-		return true;
+	  onMachineStatusUpdateEvent(event);
+	  return true;
 
 	default: {
 	  return ApplicationState::handleEvent(event);
@@ -35,7 +35,7 @@ bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
 }
 
 void applicationstates::InOperationState::onMachineStatusUpdateEvent(const EventPtr &event) {
-	utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
+//	utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
 	context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
 							 event->getArgumentAsType<core::Machine::MachineStatus>(1));
 }

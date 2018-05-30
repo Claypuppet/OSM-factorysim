@@ -49,8 +49,8 @@ SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machin
 void SimulationApplication::executeScheduler() {
   bool allReady = true;
 
-  for (const auto &machine : machines){
-    if(machine->isWaitingForResponse()){
+  for (const auto &machine : getSimulationMachines()){
+    if(machine->isWaitingForSimulationResponse()){
       allReady = false;
       break;
     }

@@ -5,6 +5,7 @@
 #include <utils/time/Time.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
+#include "ResultLogger.h"
 
 namespace core {
 
@@ -27,16 +28,16 @@ bool Machine::isConnected() const {
 void Machine::sendMessage(network::Message &message) {
   message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
-	connection->writeMessage(message);
     awaitingResponse = true;
+	connection->writeMessage(message);
   }
 }
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
-  std::stringstream ss;
-  ss << "--sending process message to machine " << id;
-  utils::Logger::log(ss.str());
+//  std::stringstream ss;
+//  ss << "--sending process message to machine " << id;
+//  utils::Logger::log(ss.str());
 }
 
 void Machine::sendConfigureMessage(uint32_t configureId) {
@@ -44,9 +45,9 @@ void Machine::sendConfigureMessage(uint32_t configureId) {
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject(configureId);
   sendMessage(message);
-  std::stringstream ss;
-  ss << "--sending configure message to machine " << id;
-  utils::Logger::log(ss.str());
+//  std::stringstream ss;
+//  ss << "--sending configure message to machine " << id;
+//  utils::Logger::log(ss.str());
 }
 
 const BufferList &Machine::getCurrentInputBuffers() const {
@@ -79,25 +80,26 @@ void Machine::addInputBuffer(uint16_t productId, BufferPtr inputbuffer) {
 
 void Machine::createInitialBuffers() {
   auto self = shared_from_this();
-  for (const std::shared_ptr<models::MachineConfiguration> machineConfiguration : configurations) {
+  for (const std::shared_ptr<models::MachineConfiguration> &machineConfiguration : configurations) {
+    auto productId = machineConfiguration->getProductId();
 	BufferPtr buffer;
 
 	auto bufferSize = machineConfiguration->getOutputBufferSize();
 	if (bufferSize > 0) {
 	  // Buffer with size
-	  buffer = std::make_shared<Buffer>(self, machineConfiguration->getOutputBufferSize());
+	  buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
 	} else {
 	  // Infinite buffer
-	  buffer = std::make_shared<InfiniteBuffer>(machineConfiguration->getProductId());
+	  buffer = std::make_shared<InfiniteBuffer>(productId);
 	}
 
 	// set outputbuffer based on config
-	outputBuffers[machineConfiguration->getProductId()] = buffer;
+	outputBuffers[productId] = buffer;
 
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
       if (previousMachine->getMachineId() == 0) {
-        inputBuffers[machineConfiguration->getProductId()].emplace_back(std::make_shared<InfiniteBuffer>(machineConfiguration->getProductId()));
+        inputBuffers[machineConfiguration->getProductId()].emplace_back(std::make_shared<InfiniteBuffer>(productId));
       }
 	}
   }
@@ -115,6 +117,9 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       if (status == kMachineStatusProcessingProduct){
         // Don processing product
         placeProductsInOutputBuffer();
+      }
+      if (status == kMachineStatusConfiguring){
+        ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
       }
       break;
     }
@@ -134,6 +139,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       break;
   }
   status = newStatus;
+  ResultLogger::getInstance().machineStatusUpdate(id, status);
 }
 
 Machine::MachineStatus Machine::getStatus() {
@@ -178,6 +184,7 @@ void Machine::placeProductsInOutputBuffer() {
   }
   const auto outputBuffer = getCurrentOutputBuffer();
   outputBuffer->putInBuffer(processedProduct);
+  ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
 }
 
 const std::vector<std::shared_ptr<models::PreviousMachine>> &Machine::getPreviousMachines(uint16_t configureId) {

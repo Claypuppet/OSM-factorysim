@@ -12,7 +12,7 @@ TakeProductState::TakeProductState(machinecore::Machine &aContext) : MachineStat
 }
 
 void TakeProductState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void TakeProductState::doActivity() {
@@ -38,7 +38,7 @@ bool TakeProductState::handleEvent(const EventPtr &event) {
 }
 
 void TakeProductState::onProcessProductEvent() {
-  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
+//  utils::Logger::log("-Handle event: kEventTypeProductTakenIn");
 
   auto state = std::make_shared<ProcessProductState>(context);
   context.setCurrentState(state);
