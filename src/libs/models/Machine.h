@@ -40,7 +40,7 @@ class Machine {
   };
 
   /**
-   * Enum of all machine error codes
+   * Enum of result log ids
    */
   enum MachineLogEventIds {
     kMachineLogEventMachineStatusUpdate,
