@@ -198,6 +198,7 @@ void core::Application::tryChangeProduction() {
   for(auto &product : productionLine->getProducts()){
     if(currentProduct != product->getId()){
       changeProductionLineProduct(product->getId());
+      break;
     }
   }
 }

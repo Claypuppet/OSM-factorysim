@@ -125,7 +125,7 @@ class Machine
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
-  virtual bool isWaitingForResponse() const;
+  virtual bool isWaitingForResponse();
 
   // Input buffer getters
   const BufferList &getInputBuffers(uint16_t productId) const;

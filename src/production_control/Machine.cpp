@@ -251,7 +251,7 @@ const std::vector<std::shared_ptr<models::PreviousMachine>> &Machine::getPreviou
   return getPreviousMachines(currentConfigId);
 }
 
-bool Machine::isWaitingForResponse() const {
+bool Machine::isWaitingForResponse() {
   return awaitingResponse;
 }
 

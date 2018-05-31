@@ -31,7 +31,7 @@ productionLine:
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
       previousMachines:
-        - machineId: 0
+        - machineId: 0 # 0, no previous machine, infinite input
           neededProducts: 1
 
     - productId: 2
@@ -43,7 +43,7 @@ productionLine:
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
       previousMachines:
-        - machineId: 0
+        - machineId: 0 # 0, no previous machine, infinite input
           neededProducts: 1
 
 
@@ -53,7 +53,7 @@ productionLine:
     configurations:
     - productId: 1
       outputEachMinute: 2
-      outputBufferSize: 1000
+      outputBufferSize: 0 # 0, no output buffer size, infinite output
       initializationDurationInSeconds: 500
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
@@ -65,7 +65,7 @@ productionLine:
 
     - productId: 2
       outputEachMinute: 4
-      outputBufferSize: 1000
+      outputBufferSize: 0 # 0, no output buffer size, infinite output
       initializationDurationInSeconds: 200
       turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800

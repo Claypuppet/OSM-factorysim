@@ -75,6 +75,7 @@ std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(
 }
 
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
+  std::lock_guard<std::mutex> guard(eventPusher);
   simulationEvents.emplace(simulationEvent);
   awaitingSimulationResponse = false;
 }
@@ -88,7 +89,8 @@ bool SimulationMachine::isWaitingForSimulationResponse() const {
   return awaitingSimulationResponse;
 }
 
-bool SimulationMachine::isWaitingForResponse() const {
+bool SimulationMachine::isWaitingForResponse() {
+  std::lock_guard<std::mutex> guard(eventPusher);
   return Machine::isWaitingForResponse() && awaitingSimulationResponse;
 }
 
