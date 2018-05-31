@@ -11,6 +11,11 @@ InfiniteBuffer::InfiniteBuffer(uint16_t aProductId)
 
 }
 
+InfiniteBuffer::InfiniteBuffer(const MachinePtrW &aFromMachine, uint16_t aProductId)
+	: Buffer(aFromMachine, aProductId) {
+
+}
+
 bool InfiniteBuffer::checkAmountInBuffer(uint32_t amount) {
   return true;
 }

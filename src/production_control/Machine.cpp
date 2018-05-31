@@ -119,7 +119,7 @@ void Machine::createInitialBuffers() {
       buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
     } else {
       // Infinite buffer
-      buffer = std::make_shared<InfiniteBuffer>(productId);
+      buffer = std::make_shared<InfiniteBuffer>(self, productId);
     }
 
     // set outputbuffer based on config
@@ -128,7 +128,9 @@ void Machine::createInitialBuffers() {
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
       if (previousMachine->getMachineId() == 0) {
-        inputBuffers[machineConfiguration->getProductId()].emplace_back(std::make_shared<InfiniteBuffer>(productId));
+        auto inputBuffer = std::make_shared<InfiniteBuffer>(productId);
+        inputBuffers[machineConfiguration->getProductId()].emplace_back(inputBuffer);
+        inputBuffer->addToMachine(self);
       }
     }
   }

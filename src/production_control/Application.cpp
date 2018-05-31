@@ -48,6 +48,15 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
       }
     }
   }
+  for(const auto &machineList : firstMachinesInLine){
+    std::cout << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
+    for(const auto &machine : machineList.second){
+      for(const auto &input : machine->getInputBuffers(machineList.first)){
+        input->debugPrintBuffersChain();
+      }
+    }
+  }
+  std::cout << std::endl;
 }
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {

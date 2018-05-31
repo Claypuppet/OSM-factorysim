@@ -16,10 +16,16 @@ class InfiniteBuffer : public Buffer {
  public:
   /**
    * Construct infinite buffer
-   * @param fromMachine
    * @param productId
    */
   InfiniteBuffer(uint16_t productId);
+
+  /**
+   * Construct infinite buffer
+   * @param fromMachine
+   * @param productId
+   */
+  InfiniteBuffer(const MachinePtrW &aFromMachine, uint16_t productId);
 
   ~InfiniteBuffer() override = default;
 

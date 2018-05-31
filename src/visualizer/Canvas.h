@@ -7,13 +7,14 @@
 
 #include <patterns/notifyobserver/Observer.hpp>
 #include <cereal/types/vector.hpp>
+#include <wx/wx.h>
 #include "MachineView.h"
 namespace ui {
 
 /**
  * Class that displays machines and their status
  */
-class Canvas : public patterns::notifyobserver::Observer{
+class Canvas : public wxScrolledCanvas, public patterns::notifyobserver::Observer{
  public:
   Canvas() = default;
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
