@@ -21,9 +21,26 @@
 #include "../../src/production_control/states_controller/LoadConfigState.h"
 #include "../../src/production_control/states_controller/SimulationBroadcastState.h"
 #include "../../src/production_control/states_controller/OperationState.h"
+#include "../../src/production_control/states_controller/FinishedOperationState.h"
+#include "../../src/production_control/states_controller/ControllerState.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
+
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihed) {
+  simulation::SimulationController controller;
+
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_with_low_simulation_duration.yaml"));
+
+  controller.setCurrentState(std::make_shared<states::OperationState>(controller));
+
+  auto event = std::make_shared<states::Event>(states::kEventTypeSimulationFinished);
+  controller.scheduleEvent(event);
+
+  controller.run();
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
+}
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testutils::MockNetwork>();

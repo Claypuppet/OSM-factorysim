@@ -52,6 +52,21 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 
 }
 
+void SimulationController::setSimulationEndTime() {
+  uint16_t simulationDurationInHours = configuration->getSimulationInfo()->getDurationInHours();
+  uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
+  this->simulationEndTimeInMillis = simulationDurationInHours * 60 * 60 * 1000; // get millis from hours
+}
+
+const std::shared_ptr<models::Configuration> &SimulationController::getConfiguration() const {
+  return configuration;
+}
+
+bool SimulationController::simulationIsOver() const {
+  uint64_t currentTimeInMillis = utils::Time::getInstance().getCurrentTime();
+  return currentTimeInMillis > simulationEndTimeInMillis;
+}
+
 SimulationMachinePtr SimulationController::getSimulationMachine(uint16_t machineId) {
   auto machineItr = std::find_if(
 	  machines.begin(),

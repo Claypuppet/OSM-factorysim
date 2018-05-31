@@ -2,7 +2,7 @@
 
 namespace models {
 
-SimulationInfo::SimulationInfo(uint8_t durationInHours,
+SimulationInfo::SimulationInfo(uint16_t durationInHours,
                                uint8_t startHourOfWorkDay,
                                uint8_t workDayDurationInHours)
     : durationInHours(durationInHours),
@@ -26,7 +26,7 @@ SimulationInfo &SimulationInfo::operator=(const SimulationInfo &other) {
   return *this;
 }
 
-uint8_t SimulationInfo::getDurationInHours() const {
+uint16_t SimulationInfo::getDurationInHours() const {
   return durationInHours;
 }
 

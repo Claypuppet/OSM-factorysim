@@ -1,6 +1,8 @@
 
 #include "ControllerState.h"
 
+#include "FinishedOperationState.h"
+
 namespace states {
 
 ControllerState::ControllerState(simulation::SimulationController &aContext)

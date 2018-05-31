@@ -97,6 +97,17 @@ class SimulationController
    */
   bool allMachinesReady();
 
+
+  /**
+   * Set the simulation start time
+   */
+  void setSimulationEndTime();
+
+
+  bool simulationIsOver() const;
+
+  const std::shared_ptr<models::Configuration> &getConfiguration() const;
+
  private:
 
   /**
@@ -122,6 +133,8 @@ class SimulationController
   network::Manager networkManager;
   ThreadPtr serverThread;
   network::ServerPtr server;
+
+  uint64_t simulationEndTimeInMillis;
 
   /**
    * Config properties
