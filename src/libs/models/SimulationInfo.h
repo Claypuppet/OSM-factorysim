@@ -23,10 +23,12 @@ class SimulationInfo {
   virtual ~SimulationInfo() = default;
 
   /**
-   * ...
-   * @param durationInHours
+   * Construct a new SimulationFile object
+   * @param durationInHours the duration of the simulation in hours
+   * @param startHourOfWorkDay the start hours number of the work day (the production line turns on)
+   * @param workDayDurationInHours the number of hours a productionline produces
    */
-  SimulationInfo(uint8_t durationInHours);
+  SimulationInfo(uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
 
   /**
    * Copy constructor
@@ -41,14 +43,14 @@ class SimulationInfo {
    */
   SimulationInfo &operator=(const SimulationInfo &other);
 
-  /**
-   * Getter for durationInHours
-   * @return durationInHours
-   */
-  uint8_t getDurationInHours() const;
+  uint16_t getDurationInHours() const;
+  uint8_t getStartHourOfWorkDay() const;
+  uint8_t getWorkDayDurationInHours() const;
 
  private:
-  uint8_t durationInHours{};
+  uint16_t durationInHours;
+  uint8_t startHourOfWorkDay;
+  uint8_t workDayDurationInHours;
 
   /**
    * A function to save a SimulationInfo object in an archive

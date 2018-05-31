@@ -2,6 +2,7 @@
 name: TestConfig
 simulationInfo:
   durationInHours: 8760
+  startHourOfWorkDay: 9
 
 productionLine:
   name: TestProduction

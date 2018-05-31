@@ -6,12 +6,6 @@ ConfigurationReader::ConfigurationReader(const ConfigurationReader &other)
     : strategy(other.strategy){
 }
 
-///* static */ ConfigurationReader &ConfigurationReader::getInstance(StrategyType strategyType) {
-//  ConfigurationReader &instance = Singleton::getInstance();
-//  instance.setStrategy(strategyType);
-//  return instance;
-//}
-
 const std::string ConfigurationReader::getFileExtension(const std::string & filePath) const {
   return filePath.substr(filePath.find_last_of(".") + 1);
 }

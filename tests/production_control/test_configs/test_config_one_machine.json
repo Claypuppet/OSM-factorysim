@@ -1,7 +1,9 @@
 {
   "name": "ProductieConfiguratie",
   "simulationInfo": {
-    "durationInHours": 8760
+    "durationInHours": 876,
+    "startHourOfWorkDay":9,
+    "workDayDurationInHours":8
   },
   "productionLine": {
     "name": "Kantoortafels",
