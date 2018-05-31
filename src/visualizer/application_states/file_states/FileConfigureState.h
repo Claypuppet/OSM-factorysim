@@ -17,12 +17,12 @@ class FileConfigureState : public FileState {
   explicit FileConfigureState(file::FileApplication &application);
 
   /**
-   * TODO
    * Currently schedules an event to switch to filestates::PlayState
    */
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
+  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
 };
 
 }

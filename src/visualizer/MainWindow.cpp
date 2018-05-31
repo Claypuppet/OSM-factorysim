@@ -2,10 +2,11 @@
 // Created by don on 28-5-18.
 //
 
+#include <wx/wfstream.h>
+
 #include "MainWindow.h"
 #include "application_states/file_states/FileState.h"
 #include "FileApplication.h"
-#include <wx/wfstream.h>
 
 namespace ui {
 
@@ -56,7 +57,6 @@ void MainWindow::onOpenFile(wxCommandEvent &event) {
   } else {
     std::cout << "Selected file: " << pathToFile << std::endl;
     application = std::make_shared<file::FileApplication>(pathToFile);
-    application->setStartState();
     application->start();
   }
 }

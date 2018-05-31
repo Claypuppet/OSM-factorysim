@@ -28,12 +28,6 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
   ~Application() override;
 
   /**
-   * Schedules an event
-   * @param anEvent : The event to schedule
-   */
-  void scheduleProductionEvent(const EventPtr &anEvent);
-
-  /**
    * Adds a machine to machines
    * @param aMachine : The machine to add
    */
@@ -45,6 +39,7 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
   virtual void setStartState() = 0;
 
   /**
+   * Sets start state and,
    * Starts a thread where the state machine runs
    */
   void start();

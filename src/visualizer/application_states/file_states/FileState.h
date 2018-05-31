@@ -15,6 +15,7 @@ namespace filestates {
  */
 enum StateEventTypes{
   eDoneReading,
+  eFailedReading,
   eDoneConfiguring
 };
 
@@ -22,8 +23,6 @@ enum StateEventTypes{
  * Abstract state for file states
  */
 class FileState : public patterns::statemachine::State {
- public:
-  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
  protected:
   explicit FileState(file::FileApplication &application);
   file::FileApplication &context;

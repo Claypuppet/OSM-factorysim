@@ -6,20 +6,12 @@
 
 namespace visualisercore {
 
-void Application::scheduleProductionEvent(const EventPtr &anEvent) {
-  //Check if time is not before the last event
-  if (anEvent->getTime() >= productionEvents.back()->getTime()) {
-    productionEvents.push_back(anEvent);
-  } else {
-    throw std::runtime_error("Can't schedule event!");
-  }
-}
-
 void Application::addMachine(const MachinePtr &aMachine) {
   machines.push_back(aMachine);
 }
 
 void Application::start() {
+  setStartState();
   threadRunning = true;
   contextThread = std::make_shared<std::thread>([this]() {
     while (threadRunning) {
@@ -31,7 +23,9 @@ void Application::start() {
 void Application::stop() {
   if (contextThread) {
     threadRunning = false;
-    contextThread->join();
+    if(contextThread->joinable()) {
+      contextThread->join();
+    }
   }
 }
 
