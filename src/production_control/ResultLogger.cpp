@@ -57,6 +57,8 @@ void ResultLogger::log(const std::string &message) {
   else {
     utils::FileLogger::getInstance().logToFile(logRow.str());
   }
+  // Temp here till we have a production shutdown.
+  utils::FileLogger::getInstance().flushLoggers();
 }
 
 }

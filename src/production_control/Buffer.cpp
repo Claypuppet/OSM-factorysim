@@ -66,8 +66,17 @@ uint16_t Buffer::getFromMachineId() const {
 uint64_t Buffer::getTotalProcessed() const {
   return totalProcessed;
 }
+
 uint64_t Buffer::getAmountInBuffer() const {
   return size();
+}
+
+bool Buffer::isLastInLine() const {
+  return toMachines.empty();
+}
+
+void Buffer::addToMachine(const MachinePtrW machine) {
+  toMachines.emplace_back(machine);
 }
 
 }

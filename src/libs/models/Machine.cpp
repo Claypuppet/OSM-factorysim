@@ -44,6 +44,15 @@ const std::vector<MachineConfigurationPtr> &Machine::getConfigurations() const {
   return configurations;
 }
 
+bool Machine::hasConfiguration(uint16_t machineConfigurationId) const {
+  for (const auto &machineConfiugration : configurations) {
+    if (machineConfiugration->getProductId() == machineConfigurationId) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const MachineConfigurationPtr Machine::getConfigurationById(uint16_t machineConfigurationId) const {
   for (const auto &machineConfiugration : configurations) {
 	if (machineConfiugration->getProductId() == machineConfigurationId) {

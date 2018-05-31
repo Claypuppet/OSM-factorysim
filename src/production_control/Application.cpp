@@ -4,14 +4,13 @@
 // other library includes
 #include <network/Server.h>
 #include <network/Client.h>
+#include <utils/time/Time.h>
 
 // project file includes
 #include "states_application/BroadCastState.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
 
-core::Application::Application() {
-}
 
 core::Application::~Application() {
   stopServer();
@@ -19,27 +18,34 @@ core::Application::~Application() {
 
 void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   // Set machines
+  firstMachinesInLine.clear();
+  lastMachineInLine.clear();
   machines = aMachines;
   for (const auto &machine : machines) {
     machine->createInitialBuffers();
   }
 
-  // Links all buffers for each production line
-  for (const std::shared_ptr<models::Product> product : productionLine->getProducts()) {
+  // Links all buffers (for each product type in production line)
+  for (const std::shared_ptr<models::Product> &product : productionLine->getProducts()) {
     auto productId = product->getId();
-
     for (const auto &machine : machines) {
-      auto previousMachines = machine->getPreviousMachines(productId);
-      if (previousMachines.empty()) {
-        throw std::runtime_error("machine can not have empty previous machines");
+      if (!machine->hasConfiguration(productId)){
+        // Machine doesn't have a configuration for this product.
+        continue;
       }
-      for (const auto &previousMachine : previousMachines) {
-        auto previousMachineObj = getMachine(previousMachine->getMachineId());
-        if (!previousMachineObj) {
-          continue;
+      for (const auto &previousMachine : machine->getPreviousMachines(productId)) {
+        if (auto previousMachineObj = getMachine(previousMachine->getMachineId())) {
+          auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
+          machine->addInputBuffer(productId, previousBuffer);
         }
-        auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
-        machine->addInputBuffer(productId, previousBuffer);
+        else{
+          // This machine is the first in line because it doesnt have a previous machine
+          firstMachinesInLine[productId].emplace_back(machine);
+        }
+      }
+      if(machine->isLastInLine(productId)){
+        // This machine is last in line
+        lastMachineInLine[productId] = machine;
       }
     }
   }
@@ -150,28 +156,27 @@ void core::Application::setProductionLine(const models::ProductionLinePtr &produ
 }
 
 void core::Application::executeScheduler() {
+  tryChangeProduction();
   for (const auto &machine : machines) {
-    if (machine->canDoAction()) {
-      machine->sendStartProcessMessage();
-    }
+    machine->doNextAction();
   }
 }
 
 void core::Application::prepareScheduler() {
   // TODO: make this more dynamic. now sets product with id 1 (default tables)
   uint16_t configId = 0;
-  if (!productionLine->getProducts().empty()) {
+  if (productionLine && !productionLine->getProducts().empty()) {
     configId = productionLine->getProducts().front()->getId();
   }
   changeProductionLineProduct(configId);
 }
 
 void core::Application::changeProductionLineProduct(uint16_t productId) {
-  currentProduct = productId;
-
   for (const auto &machine : machines) {
-    machine->sendConfigureMessage(productId);
+    machine->prepareReconfigure(productId, currentProduct == 0);
   }
+  currentProduct = productId;
+  momentStartingCurrentProduct = utils::Time::getInstance().getCurrentTime();
 }
 
 bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status) {
@@ -181,4 +186,18 @@ bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::Mach
     return true;
   }
   return false;
+}
+
+void core::Application::tryChangeProduction() {
+  // Temp wait at least 4 hours
+  static uint64_t fourHoursInMillis = 14400000;
+  if(utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis){
+    return;
+  }
+  // Temp switch to next product which is not current product
+  for(auto &product : productionLine->getProducts()){
+    if(currentProduct != product->getId()){
+      changeProductionLineProduct(product->getId());
+    }
+  }
 }

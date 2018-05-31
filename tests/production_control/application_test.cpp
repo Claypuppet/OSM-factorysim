@@ -185,7 +185,10 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
   BOOST_CHECK_EQUAL(m2InputBuffer2.front()->getFromMachineId(), 15);
 
 
-
+  BOOST_CHECK(!machine1->isLastInLine(12));
+  BOOST_CHECK(machine2->isLastInLine(12));
+  BOOST_CHECK(!machine1->isLastInLine(88));
+  BOOST_CHECK(machine2->isLastInLine(88));
 
 }
 

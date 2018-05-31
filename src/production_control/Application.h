@@ -20,7 +20,7 @@ namespace core {
 class Application : public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
-  Application();
+  Application() = default;
   virtual ~Application();
 
   /**
@@ -87,11 +87,11 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   virtual void prepareScheduler();
 
   /**
-   *
    * Change configuration
    * @param configurationId : config id to set
+   * @param initial : first time calling this, default false
    */
-  virtual void changeProductionLineProduct(uint16_t configurationId);
+  void changeProductionLineProduct(uint16_t configurationId);
 
   /**
    * Sets the status of a machine
@@ -104,9 +104,19 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:
+  /**
+   * Checks if we need to change production, if so, prepare change.
+   */
+  void tryChangeProduction();
+
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
+
   uint16_t currentProduct;
+  uint64_t momentStartingCurrentProduct;
+
+  std::map<uint16_t, MachinePtr> lastMachineInLine;
+  std::map<uint16_t, std::vector<MachinePtr>> firstMachinesInLine;
 
   network::ServerPtr server;
   ThreadPtr serverThread;
