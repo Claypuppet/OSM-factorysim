@@ -51,6 +51,11 @@ class SimulationApplication : public core::Application {
    */
   void scheduleMachineNotifications();
 
+  /**
+   * Log statistics of the current operation
+   */
+  void logStatistics() const;
+
   // Overrides
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
   void executeScheduler() override;

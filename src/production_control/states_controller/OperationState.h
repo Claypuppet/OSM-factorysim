@@ -18,9 +18,6 @@ class OperationState : public ControllerState {
   bool handleEvent(const EventPtr &event) override;
   void exitAction() override;
 
- private:
-  // Log every hour, next moment is after this.
-  uint64_t logMoment;
 };
 }
 

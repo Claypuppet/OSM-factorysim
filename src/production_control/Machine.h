@@ -137,6 +137,10 @@ class Machine
   const BufferPtr &getCurrentOutputBuffer() const;
   const OutputBuffersMap &getOutputBuffers() const;
 
+  // Statistics getters
+  const std::map<MachineStatus, uint64_t> &getTimeSpendInState() const;
+  uint16_t getTimesBroken() const;
+
  protected:
 
   /**
@@ -166,6 +170,11 @@ class Machine
 
   bool lastInLine;
   NextActionType nextAction;
+
+  //statistics
+  uint64_t lastStatusChange;
+  std::map<models::Machine::MachineStatus, uint64_t> timeSpendInState;
+  uint16_t timesBroken;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;

@@ -27,7 +27,7 @@ productionLine:
       outputBufferSize: 1000
       initializationDurationInSeconds: 600
       turnAroundTimeInSeconds: 16
-      meanTimeBetweenFailureInHours: 8800
+      meanTimeBetweenFailureInHours: 3
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
       previousMachines:
@@ -39,7 +39,7 @@ productionLine:
       outputBufferSize: 1000
       initializationDurationInSeconds: 300
       turnAroundTimeInSeconds: 21
-      meanTimeBetweenFailureInHours: 9800
+      meanTimeBetweenFailureInHours: 3
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
       previousMachines:

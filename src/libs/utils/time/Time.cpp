@@ -15,12 +15,15 @@ Time::Time() {
 uint64_t Time::getCurrentTime() {
   return timer->getCurrentTime();
 }
+
 void Time::syncTime(uint64_t newMillis) {
   timer->syncTime(newMillis);
 }
+
 void Time::increaseCurrentTime(uint64_t increaseMillis) {
   timer->increaseCurrentTime(increaseMillis);
 }
+
 void Time::setType(utils::TimeType aType) {
   switch (aType) {
 	case TimeType::systemTime:
@@ -33,6 +36,20 @@ void Time::setType(utils::TimeType aType) {
 
 	  break;
   }
+}
+
+const std::string Time::getCurrentTimeString(const std::string &format) {
+	uint64_t millis = getCurrentTime();
+
+	// from https://www.experts-exchange.com/questions/23481267/C-millisecond-date-and-time-into-a-string.html
+	char timestamp[30] = "";
+	time_t secs = millis / 1000;
+	tm *ptm = gmtime(&secs);
+	size_t len = strftime(timestamp, 30, "%d-%m-%Y %H:%M:%S.", ptm);
+	uint64_t ms = millis % 1000;
+	sprintf(timestamp + len, "%03lu", ms);
+
+	return std::string(timestamp);
 }
 
 }

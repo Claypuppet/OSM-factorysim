@@ -3,11 +3,14 @@
 //
 
 #include <utils/time/Time.h>
+#include <utils/Logger.h>
 #include "SimulationApplication.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
 
 namespace simulation {
+
+static const uint64_t eightHoursInMillis = 28800000;
 
 void SimulationApplication::turnOnSimulationMachines() {
   for (const auto &machine : getSimulationMachines()) {
@@ -49,18 +52,48 @@ SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machin
 }
 
 void SimulationApplication::executeScheduler() {
-  for (const auto &machine : getSimulationMachines()){
-    if(machine->isWaitingForSimulationResponse()){
+  for (const auto &machine : getSimulationMachines()) {
+    if (machine->isWaitingForSimulationResponse()) {
       return;
     }
   }
   scheduleMachineNotifications();
   Application::executeScheduler();
+
+  // Temp, print statistics of machines etc. every few hours. move to
+  static auto logMoment = utils::Time::getInstance().getCurrentTime();
+  auto current = utils::Time::getInstance().getCurrentTime();
+  if (current > logMoment) {
+    logMoment = current + eightHoursInMillis; // log again in ~8 hours
+    logStatistics();
+  }
+}
+
+void SimulationApplication::logStatistics() const {
+  std::stringstream stream;
+  stream << "!Status update: current time: " << utils::Time::getInstance().getCurrentTimeString() << std::endl;
+  stream << " Products:" << std::endl;
+  for (const auto &product : productionLine->getProducts()) {
+    stream << "  \"" << product->getName() << "\" total produced: "
+           << lastMachineInLine.at(product->getId())->getAmountProcessed(product->getId()) << std::endl;
+  }
+  stream << " Machines:" << std::endl;
+  for (const auto &machine : machines) {
+    stream << "  \"" << machine->getName() << "\" " << std::endl
+           << "   current status: " << machine->getStatus() << std::endl
+           << "   times broke: " << machine->getTimesBroken() << std::endl
+           << "   Spend time in states:" << std::endl;
+    for (const auto &stateSpend : machine->getTimeSpendInState()) {
+      stream << "    " << stateSpend.first << ": " << stateSpend.second << std::endl;
+    }
+  }
+  // Log to console for now
+  utils::Logger::log(stream.str());
 }
 
 const std::vector<SimulationMachinePtr> SimulationApplication::getSimulationMachines() const {
   std::vector<SimulationMachinePtr> list;
-  for(const auto &machine : machines){
+  for (const auto &machine : machines) {
     list.emplace_back(std::dynamic_pointer_cast<SimulationMachine>(machine));
   }
   return list;
@@ -72,19 +105,18 @@ void SimulationApplication::scheduleMachineNotifications() {
   bool foundEvents = false;
   uint64_t lowestTime = 0;
 
-  for (const auto &machine : simulationMachines){
+  for (const auto &machine : simulationMachines) {
     auto machineEventTime = machine->getNextEventMoment();
-    if(machineEventTime && !foundEvents){
+    if (machineEventTime && !foundEvents) {
       lowestTime = machineEventTime;
       foundEvents = true;
-    }
-    else if (machineEventTime != 0 && machineEventTime < lowestTime) {
+    } else if (machineEventTime != 0 && machineEventTime < lowestTime) {
       lowestTime = machineEventTime;
     }
   }
-  if (foundEvents){
+  if (foundEvents) {
     utils::Time::getInstance().syncTime(lowestTime);
-    for(const auto &machine : simulationMachines){
+    for (const auto &machine : simulationMachines) {
       // Get events for this machine on lowest time
       auto delayedNotifications = machine->getEvents(lowestTime);
       for (const auto &notification : delayedNotifications) {

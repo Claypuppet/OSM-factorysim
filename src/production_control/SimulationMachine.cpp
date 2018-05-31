@@ -77,7 +77,9 @@ std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
   std::lock_guard<std::mutex> guard(eventPusher);
   simulationEvents.emplace(simulationEvent);
-  awaitingSimulationResponse = false;
+  if(simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle){
+    awaitingSimulationResponse = false;
+  }
 }
 
 void SimulationMachine::sendMessage(network::Message &message) {
