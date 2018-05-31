@@ -12,6 +12,7 @@ namespace core {
 Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
+      currentConfigId(0),
       awaitingResponse(false),
       nextAction(kNextActionTypeProcessProduct) {
 }
@@ -19,6 +20,7 @@ Machine::Machine(const models::Machine &aMachine)
 Machine::Machine(const Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
+      currentConfigId(0),
       awaitingResponse(false),
       nextAction(kNextActionTypeProcessProduct) {
 }
