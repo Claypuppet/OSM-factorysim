@@ -54,7 +54,7 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
   std::vector<MachinePtr> machines;
   models::ConfigurationPtr configuration;
   std::shared_ptr<std::thread> contextThread;
-  bool threadRunning;
+  bool running;
 };
 
 }

@@ -26,6 +26,8 @@ class FileState : public patterns::statemachine::State {
  protected:
   explicit FileState(file::FileApplication &application);
   file::FileApplication &context;
+ public:
+  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
 };
 
 }

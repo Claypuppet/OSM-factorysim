@@ -12,9 +12,9 @@ void Application::addMachine(const MachinePtr &aMachine) {
 
 void Application::start() {
   setStartState();
-  threadRunning = true;
+  running = true;
   contextThread = std::make_shared<std::thread>([this]() {
-    while (threadRunning) {
+    while (running) {
       run();
     }
   });
@@ -22,7 +22,7 @@ void Application::start() {
 
 void Application::stop() {
   if (contextThread) {
-    threadRunning = false;
+    running = false;
     if(contextThread->joinable()) {
       contextThread->join();
     }
@@ -30,7 +30,7 @@ void Application::stop() {
 }
 
 Application::Application()
-    : threadRunning(false) {
+    : running(false) {
 
 }
 

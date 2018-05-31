@@ -33,10 +33,11 @@ BOOST_AUTO_TEST_CASE(File_Reader_Events) {
 }
 
 BOOST_AUTO_TEST_CASE(Visualiser_Reader_Machines) {
-  std::vector<visualisercore::MachinePtr> machines;
 
   file::FileReader reader;
-  reader.deserializeMachines("./test_results/Kleine_productiestraat.yaml", machines);
+  auto config = reader.deserializeSimConfig("./test_results/Kleine_productiestraat.yaml");
+
+  auto machines = config->getProductionLine()->getMachines();
 
   BOOST_REQUIRE(machines.size() == 2);
   BOOST_CHECK(machines[0]->getName() == "Zaagmachine (hout)");
