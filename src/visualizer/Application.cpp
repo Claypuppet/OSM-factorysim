@@ -22,7 +22,6 @@ void Application::addMachine(const MachinePtr &aMachine) {
 void Application::start() {
   threadRunning = true;
   contextThread = std::make_shared<std::thread>([this]() {
-    std::cout << "thead running" << std::endl;
     while (threadRunning) {
       run();
     }

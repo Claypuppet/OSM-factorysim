@@ -13,12 +13,11 @@
 namespace file {
 
 bool FileReader::deserializeEvents(const std::string &filePath, std::vector<visualisercore::EventPtr> &eventList) {
-
   if (getFileExtension(filePath) == "yaml") {
     try {
 
       YAML::Node yamlFileNode = YAML::LoadFile(filePath);
-      auto eventsNode = yamlFileNode["productionEvents"];
+      auto eventsNode = yamlFileNode["events"];
       for (uint32_t i = 0; i < eventsNode.size(); ++i) {
         auto eventNode = eventsNode[i];
         auto event = deserializeEvent(eventNode);

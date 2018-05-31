@@ -14,11 +14,10 @@ namespace filestates {
  */
 class PlayState : public FileState{
  public:
-  PlayState(file::FileApplication &application);
+  explicit PlayState(file::FileApplication &application);
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
-  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

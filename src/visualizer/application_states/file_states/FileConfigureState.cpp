@@ -2,24 +2,23 @@
 // Created by don on 28-5-18.
 //
 
+#include <utils/Logger.h>
 #include "FileConfigureState.h"
 
 namespace filestates {
 
 void FileConfigureState::doActivity() {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  utils::Logger::log(__PRETTY_FUNCTION__);
+  auto event = std::make_shared<patterns::statemachine::Event>(StateEventTypes::eDoneConfiguring);
+  context.scheduleEvent(event);
 }
 
 void FileConfigureState::entryAction() {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
+  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void FileConfigureState::exitAction() {
 
-}
-
-bool FileConfigureState::handleEvent(const patterns::statemachine::EventPtr &event) {
-  return FileState::handleEvent(event);
 }
 
 FileConfigureState::FileConfigureState(file::FileApplication &application)

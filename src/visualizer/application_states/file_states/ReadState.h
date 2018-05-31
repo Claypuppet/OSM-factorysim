@@ -15,10 +15,13 @@ namespace filestates {
 class ReadState : public FileState{
  public:
   explicit ReadState(file::FileApplication &application);
+
+  /**
+   * Loads the selected file
+   */
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
-  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
 };
 
 }

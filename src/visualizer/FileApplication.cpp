@@ -2,13 +2,14 @@
 // Created by don on 28-5-18.
 //
 
+#include <utils/Logger.h>
 #include "FileApplication.h"
 #include "application_states/file_states/ReadState.h"
 
 namespace file {
 
 bool FileApplication::loadResults(const std::string &filePath) {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
   if (!fileReader.deserializeEvents(filePath, productionEvents)) {
     return false;
   }
@@ -19,10 +20,9 @@ bool FileApplication::loadResults(const std::string &filePath) {
     machines.push_back(std::make_shared<visualisercore::Machine>(*machine));
   }
 
-  for(auto &event : productionEvents)
-  {
-    std::cout << event->toString() << std::endl;
-  }
+  std::stringstream logMessage;
+  logMessage << "Loaded " << productionEvents.size() << " events!";
+  utils::Logger::log(logMessage.str());
 
   return true;
 }
@@ -36,18 +36,11 @@ void FileApplication::setPathToFile(const std::string &pathToAFile) {
 }
 
 void FileApplication::setStartState() {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
   setCurrentState(std::make_shared<filestates::ReadState>(*this));
 }
 
 FileApplication::FileApplication(const std::string &pathToAFile)
     : pathToFile(pathToAFile) {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
-}
-
-void FileApplication::run() {
-  std::cout << __PRETTY_FUNCTION__ << std::endl;
-  Context::run();
 }
 
 }

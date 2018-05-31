@@ -2,6 +2,7 @@
 // Created by don on 28-5-18.
 //
 
+#include <utils/Logger.h>
 #include "PlayState.h"
 
 namespace filestates {
@@ -10,13 +11,11 @@ void PlayState::doActivity() {
 
 }
 void PlayState::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
 }
+
 void PlayState::exitAction() {
 
-}
-bool PlayState::handleEvent(const patterns::statemachine::EventPtr &event) {
-  return FileState::handleEvent(event);
 }
 
 PlayState::PlayState(file::FileApplication &application)

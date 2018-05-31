@@ -25,8 +25,11 @@ class FileApplication : public visualisercore::Application {
 
   const std::string &getPathToFile() const;
   void setPathToFile(const std::string &pathToAFile);
+
+  /**
+   * Sets the state to filestates::ReadState
+   */
   void setStartState() override;
-  void run() override;
  private:
   file::FileReader fileReader;
   std::string pathToFile;

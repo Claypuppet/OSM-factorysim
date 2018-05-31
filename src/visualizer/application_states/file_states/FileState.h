@@ -10,6 +10,9 @@
 
 namespace filestates {
 
+/**
+ * Enum for filestate event types
+ */
 enum StateEventTypes{
   eDoneReading,
   eDoneConfiguring

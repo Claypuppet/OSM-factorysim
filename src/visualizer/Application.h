@@ -21,7 +21,11 @@ namespace visualisercore {
 class Application : public patterns::statemachine::Context, patterns::notifyobserver::Notifier {
  public:
   Application();
-  ~Application();
+
+  /**
+   * Destructs the object and runs the stop function
+   */
+  ~Application() override;
 
   /**
    * Schedules an event
@@ -40,7 +44,7 @@ class Application : public patterns::statemachine::Context, patterns::notifyobse
    */
   virtual void setStartState() = 0;
 
-  virtual /**
+  /**
    * Starts a thread where the state machine runs
    */
   void start();

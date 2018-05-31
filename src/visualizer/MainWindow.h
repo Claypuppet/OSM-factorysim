@@ -24,7 +24,7 @@ class MainWindow : public wxFrame, patterns::statemachine::Context {
  private:
 
   /**
-   * placeholder
+   * Closes the application and stops running threads
    * @param event
    */
   void onExit(wxCommandEvent &event);
