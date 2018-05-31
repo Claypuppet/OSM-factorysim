@@ -21,6 +21,10 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
  public:
 
   Application() = default;
+
+  /**
+   * Destruct a Application object
+   */
   virtual ~Application();
 
   /**
@@ -112,7 +116,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
 
-  uint16_t currentProduct;
+  uint16_t currentProductId;
   uint64_t momentStartingCurrentProduct;
 
   std::map<uint16_t, MachinePtr> lastMachineInLine;

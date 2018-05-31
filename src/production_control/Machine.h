@@ -139,11 +139,11 @@ class Machine
 
  protected:
 
-  virtual /**
+  /**
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
-  void sendMessage(network::Message &message);
+  virtual void sendMessage(network::Message &message);
 
   /**
    * Take products from previous buffers
@@ -158,7 +158,8 @@ class Machine
   MachineStatus status;
   bool awaitingResponse;
   network::ConnectionPtr connection;
-  ProductPtr processedProduct;
+  
+  ProductPtr productInProcess;
 
   uint16_t prepareConfigureId;
   uint16_t currentConfigId;

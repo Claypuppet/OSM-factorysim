@@ -11,7 +11,6 @@
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
 
-
 core::Application::~Application() {
   stopServer();
 }
@@ -68,6 +67,7 @@ void core::Application::setupNetwork() {
   if (server && server->isRunning()) {
     return;
   }
+
   communication::ConnectionHandler connectionHandler;
   handleNotificationsFor(connectionHandler);
 
@@ -75,6 +75,7 @@ void core::Application::setupNetwork() {
   server = manager.createServer(std::make_shared<communication::ConnectionHandler>(connectionHandler), 50);
   server->start();
 }
+
 void core::Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   // TODO: move the case implementation to own method (or not?)
 
@@ -90,6 +91,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       scheduleEvent(event);
       break;
     }
+
     case NotifyEventIds::eApplicationOK: {
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
@@ -100,6 +102,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       scheduleEvent(event);
       break;
     }
+
     case NotifyEventIds::eApplicationNOK: {
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
@@ -110,6 +113,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       scheduleEvent(event);
       break;
     }
+
     default: {
       std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
       break;
@@ -175,7 +179,7 @@ void core::Application::changeProductionLineProduct(uint16_t productId) {
   for (const auto &machine : machines) {
     machine->prepareReconfigure(productId, currentProduct == 0);
   }
-  currentProduct = productId;
+  currentProductId = productId;
   momentStartingCurrentProduct = utils::Time::getInstance().getCurrentTime();
 }
 
