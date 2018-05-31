@@ -14,7 +14,7 @@ namespace file {
  */
 class FileApplication : public visualisercore::Application {
  public:
-  FileApplication() = default;
+  explicit FileApplication(const std::string &pathToAFile);
 
   /**
    * Sets events, machines and configuration from a resultfile
@@ -22,8 +22,17 @@ class FileApplication : public visualisercore::Application {
    * @return : True if successful
    */
   bool loadResults(const std::string &filePath);
+
+  const std::string &getPathToFile() const;
+  void setPathToFile(const std::string &pathToAFile);
+
+  /**
+   * Sets the state to filestates::ReadState
+   */
+  void setStartState() override;
  private:
   file::FileReader fileReader;
+  std::string pathToFile;
 };
 
 }

@@ -14,11 +14,15 @@ namespace filestates {
  */
 class FileConfigureState : public FileState {
  public:
-  FileConfigureState() = default;
+  explicit FileConfigureState(file::FileApplication &application);
+
+  /**
+   * Currently schedules an event to switch to filestates::PlayState
+   */
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
-  bool handleEvent(const patterns::statemachine::EventPtr &event) override;
+  bool handleEvent(const patterns::statemachine::EventPtr &e) override;
 };
 
 }

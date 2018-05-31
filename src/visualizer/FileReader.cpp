@@ -13,7 +13,6 @@
 namespace file {
 
 bool FileReader::deserializeEvents(const std::string &filePath, std::vector<visualisercore::EventPtr> &eventList) {
-
   if (getFileExtension(filePath) == "yaml") {
     try {
 

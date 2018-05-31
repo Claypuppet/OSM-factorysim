@@ -9,6 +9,7 @@
 namespace simulator {
 
 bool SimulationMachine::canBreak = true;
+bool SimulationMachine::timeCycles = true;
 
 SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(3600000) {
 
@@ -59,8 +60,16 @@ void SimulationMachine::setInOperationStartState() {
 
 bool SimulationMachine::checkBroken() {
   if (canBreak) {
-    if (utils::Time::getInstance().getCurrentTime() + checkCycle > timeSinceBrokenCheck) {
-      if (distribution(generator) == magicNumber) {
+    if(timeCycles) {
+      if (utils::Time::getInstance().getCurrentTime() + checkCycle > timeSinceBrokenCheck) {
+        if (distribution(generator) == magicNumber) {
+          return true;
+        }
+      }
+    }
+    else{
+      uint64_t generated = distribution(generator);
+      if(generated == magicNumber){
         return true;
       }
     }
@@ -70,5 +79,9 @@ bool SimulationMachine::checkBroken() {
 
 /* static */ void SimulationMachine::setCanBreak(bool canBreak) {
   SimulationMachine::canBreak = canBreak;
+}
+
+/* static */ void SimulationMachine::setTimeCycles(bool timeCycles) {
+  SimulationMachine::timeCycles = timeCycles;
 }
 } // simulator

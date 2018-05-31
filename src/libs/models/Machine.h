@@ -23,12 +23,12 @@ class Machine {
    * Enum of all machine states
    */
   enum MachineStatus {
-	kMachineStatusInitializing,
-	kMachineStatusConfiguring,
-	kMachineStatusIdle,
-	kMachineStatusProcessingProduct,
-    kMachineStatusDisconnected,
-	kMachineStatusBroken,
+	kMachineStatusInitializing,       // 0
+	kMachineStatusConfiguring,        // 1
+	kMachineStatusIdle,               // 2
+	kMachineStatusProcessingProduct,  // 3
+    kMachineStatusDisconnected,       // 4
+	kMachineStatusBroken,             // 5
   };
 
   /**

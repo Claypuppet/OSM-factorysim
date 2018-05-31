@@ -54,6 +54,12 @@ class Time : public patterns::singleton::Singleton<Time> {
   uint64_t getCurrentTime();
 
   /**
+   * Gets current time as string
+   * @return : Current time as string
+   */
+  const std::string getCurrentTimeString(const std::string &format = "%A %B %d, %f");
+
+  /**
    * Executes the setCurrentTime function of the set strategy
    * @param newTimeMillis : The new time in milliseconds
    */

@@ -8,13 +8,14 @@
 namespace states {
 
 OperationState::OperationState(simulation::SimulationController &aContext)
-	: ControllerState(aContext), logMoment(0) {
+	: ControllerState(aContext){
 
 }
 
 void OperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
   context.getApplication()->setStartState();
+
   uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
   logMoment = currentTime;
 
@@ -23,7 +24,6 @@ void OperationState::entryAction() {
 
 void OperationState::doActivity() {
   context.getApplication()->run();
-
   if (context.simulationIsOver()) {
     auto event = std::make_shared<Event>(kEventTypeSimulationFinished);
     context.scheduleEvent(event);
