@@ -2,8 +2,11 @@
 // Created by don on 28-5-18.
 //
 
-#include "MainWindow.h"
 #include <wx/wfstream.h>
+
+#include "MainWindow.h"
+#include "application_states/file_states/FileState.h"
+#include "FileApplication.h"
 
 namespace ui {
 
@@ -28,6 +31,9 @@ MainWindow::MainWindow()
 }
 
 void MainWindow::onExit(wxCommandEvent &event) {
+  if(application){
+    application->stop();
+  }
   Close(true);
 }
 void MainWindow::onAbout(wxCommandEvent &event) {
@@ -43,12 +49,15 @@ void MainWindow::onOpenFile(wxCommandEvent &event) {
 
   // proceed loading the file chosen by the user;
   // this can be done with e.g. wxWidgets input streams:
-  wxFileInputStream input_stream(openFileDialog.GetPath());
+  std::string pathToFile = std::string(openFileDialog.GetPath());
+  wxFileInputStream input_stream(pathToFile);
   if (!input_stream.IsOk()) {
     wxLogError("Cannot open file '%s'.", openFileDialog.GetPath());
     return;
   } else {
-    //TODO go to FileFeedState and set the path to a variable
+    std::cout << "Selected file: " << pathToFile << std::endl;
+    application = std::make_shared<file::FileApplication>(pathToFile);
+    application->start();
   }
 }
 

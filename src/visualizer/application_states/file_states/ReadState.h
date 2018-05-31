@@ -14,7 +14,11 @@ namespace filestates {
  */
 class ReadState : public FileState{
  public:
-  ReadState() = default;
+  explicit ReadState(file::FileApplication &application);
+
+  /**
+   * Loads the selected file
+   */
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;

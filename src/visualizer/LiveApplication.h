@@ -14,6 +14,12 @@ namespace live {
 class LiveApplication : public visualisercore::Application, patterns::notifyobserver::Observer{
  public:
   LiveApplication() = default;
+
+  /**
+   * Schedules an event
+   * @param anEvent : The event to schedule
+   */
+  void scheduleProductionEvent(const visualisercore::EventPtr &anEvent);
 };
 
 }
