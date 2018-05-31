@@ -177,7 +177,7 @@ void core::Application::prepareScheduler() {
 
 void core::Application::changeProductionLineProduct(uint16_t productId) {
   for (const auto &machine : machines) {
-    machine->prepareReconfigure(productId, currentProduct == 0);
+    machine->prepareReconfigure(productId, currentProductId == 0);
   }
   currentProductId = productId;
   momentStartingCurrentProduct = utils::Time::getInstance().getCurrentTime();
@@ -200,7 +200,7 @@ void core::Application::tryChangeProduction() {
   }
   // Temp switch to next product which is not current product
   for(auto &product : productionLine->getProducts()){
-    if(currentProduct != product->getId()){
+    if(currentProductId != product->getId()){
       changeProductionLineProduct(product->getId());
       break;
     }

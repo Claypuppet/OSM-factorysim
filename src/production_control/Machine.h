@@ -158,7 +158,7 @@ class Machine
   MachineStatus status;
   bool awaitingResponse;
   network::ConnectionPtr connection;
-  
+
   ProductPtr productInProcess;
 
   uint16_t prepareConfigureId;
