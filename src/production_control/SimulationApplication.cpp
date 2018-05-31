@@ -25,6 +25,7 @@ void SimulationApplication::setupNetwork() {
   Application::setupNetwork();
   turnOnSimulationMachines();
 }
+
 void SimulationApplication::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
 
@@ -41,25 +42,19 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
     }
   }
 }
+
 SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machineId) {
   auto machine = getMachine(machineId);
   return std::dynamic_pointer_cast<SimulationMachine>(machine);
 }
 
 void SimulationApplication::executeScheduler() {
-  bool allReady = true;
-
   for (const auto &machine : getSimulationMachines()){
     if(machine->isWaitingForSimulationResponse()){
-      allReady = false;
-      break;
+      return;
     }
   }
-
-  if (allReady){
-    scheduleMachineNotifications();
-  }
-
+  scheduleMachineNotifications();
   Application::executeScheduler();
 }
 

@@ -29,7 +29,6 @@ class Machine {
 	kMachineStatusProcessingProduct,
     kMachineStatusDisconnected,
 	kMachineStatusBroken,
-	kMachineStatusRepairing,
   };
 
   /**
@@ -91,6 +90,13 @@ class Machine {
    * @return vector with all machines configurations of this machine
    */
   const std::vector<MachineConfigurationPtr> &getConfigurations() const;
+
+  /**
+   * Cehcks if machine has configuration
+   * @param configurationId
+   * @return : true if machine has given configuration
+   */
+  bool hasConfiguration(uint16_t configurationId) const;
 
   /**
    * Get machine configuration of this machine by id

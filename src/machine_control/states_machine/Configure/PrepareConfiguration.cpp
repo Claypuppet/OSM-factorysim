@@ -10,11 +10,10 @@
 namespace machinestates {
 
 PrepareConfiguration::PrepareConfiguration(machinecore::Machine &aContext) : MachineState(aContext) {
-  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void PrepareConfiguration::entryAction() {
-
+  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void PrepareConfiguration::doActivity() {
@@ -41,7 +40,7 @@ bool PrepareConfiguration::handleEvent(const machinestates::EventPtr &event) {
 void PrepareConfiguration::onReconfigure(const EventPtr &event) {
   utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
-  auto nextConfig = context.getConfigurations().at(event->getArgumentAsType<uint16_t>());
+  auto nextConfig = context.getConfigurationById(event->getArgumentAsType<uint16_t>());
   context.setCurrentConfiguration(nextConfig);
 
   auto state = std::make_shared<ConfiguringState>(context);

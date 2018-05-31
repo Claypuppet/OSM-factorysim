@@ -23,27 +23,27 @@ productionLine:
     name: Zaagmachine (hout)
     configurations:
     - productId: 1
-      outputEachMinute: 12
-      outputBufferSize: 20
-      initializationDurationInSeconds: 6
+      outputEachMinute: 3
+      outputBufferSize: 1000
+      initializationDurationInSeconds: 600
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
       reparationTimeInMinutes: 24
       previousMachines:
-        - machineId: 0
+        - machineId: 0 # 0, no previous machine, infinite input
           neededProducts: 1
 
     - productId: 2
-      outputEachMinute: 8
-      outputBufferSize: 80
-      initializationDurationInSeconds: 9
+      outputEachMinute: 4
+      outputBufferSize: 1000
+      initializationDurationInSeconds: 300
       turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36
       reparationTimeInMinutes: 27
       previousMachines:
-        - machineId: 0
+        - machineId: 0 # 0, no previous machine, infinite input
           neededProducts: 1
 
 
@@ -52,9 +52,9 @@ productionLine:
     name: Voorboormachine (hout)
     configurations:
     - productId: 1
-      outputEachMinute: 12
-      outputBufferSize: 20
-      initializationDurationInSeconds: 6
+      outputEachMinute: 2
+      outputBufferSize: 0 # 0, no output buffer size, infinite output
+      initializationDurationInSeconds: 500
       turnAroundTimeInSeconds: 16
       meanTimeBetweenFailureInHours: 8800
       meanTimeBetweenFailureStddevInHours: 30
@@ -64,9 +64,9 @@ productionLine:
           neededProducts: 2
 
     - productId: 2
-      outputEachMinute: 8
-      outputBufferSize: 10
-      initializationDurationInSeconds: 9
+      outputEachMinute: 4
+      outputBufferSize: 0 # 0, no output buffer size, infinite output
+      initializationDurationInSeconds: 200
       turnAroundTimeInSeconds: 21
       meanTimeBetweenFailureInHours: 9800
       meanTimeBetweenFailureStddevInHours: 36

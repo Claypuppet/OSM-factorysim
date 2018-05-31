@@ -94,6 +94,18 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   virtual uint64_t getAmountInBuffer() const;
 
+  /**
+   * Checks if this buffer is not used by any other machines as input buffer
+   * @return : true if its last in line
+   */
+  bool isLastInLine() const;
+
+  /**
+   * Add a machine that uses this buffer
+   * @param machine
+   */
+  void addToMachine(const MachinePtrW machine);
+
  protected:
   /**
    * Construct an buffer for machine, used by infinite buffer
@@ -102,6 +114,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
 
   uint32_t maxSize;
   MachinePtrW fromMachine;
+  std::vector<MachinePtrW> toMachines;
 
   uint16_t productId;
 

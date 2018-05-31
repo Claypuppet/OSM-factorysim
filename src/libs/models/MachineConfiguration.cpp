@@ -81,8 +81,8 @@ uint16_t MachineConfiguration::getInitializationDurationInSeconds() const {
   return initializationDurationInSeconds;
 }
 
-uint16_t MachineConfiguration::getInitializationDurationInMilliseconds() const {
-  return getInitializationDurationInSeconds() * 1000;
+uint32_t MachineConfiguration::getInitializationDurationInMilliseconds() const {
+  return static_cast<uint32_t>(getInitializationDurationInSeconds() * 1000);
 }
 
 uint16_t MachineConfiguration::getOutputBufferSize() const {

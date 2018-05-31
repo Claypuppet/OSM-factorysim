@@ -95,9 +95,10 @@ class SimulationMachine : public core::Machine {
    */
   void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
   bool isWaitingForSimulationResponse() const;
-  bool isWaitingForResponse() const override;
+  bool isWaitingForResponse() override;
 
  private:
+  std::mutex eventPusher;
   bool ready;
   network::ConnectionPtr simConnection;
 
