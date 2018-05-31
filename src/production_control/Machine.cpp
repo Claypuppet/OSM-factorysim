@@ -130,7 +130,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
     case kMachineStatusBroken:{
       if(status == kMachineStatusProcessingProduct){
         // Broke while processing product, product lost
-        processedProduct = nullptr;
+        productInProcess = nullptr;
       }
       break;
     }
@@ -171,7 +171,7 @@ void Machine::takeProductsFromInputBuffers() {
 	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
 	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
 	// NOTE: We will only track one (first) product
-	processedProduct = itemsTaken.front();
+	productInProcess = itemsTaken.front();
   }
 }
 
@@ -179,11 +179,11 @@ void Machine::placeProductsInOutputBuffer() {
   if(!currentConfigId){
     return;
   }
-  if (!processedProduct){
+  if (!productInProcess){
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }
   const auto outputBuffer = getCurrentOutputBuffer();
-  outputBuffer->putInBuffer(processedProduct);
+  outputBuffer->putInBuffer(productInProcess);
   ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
 }
 

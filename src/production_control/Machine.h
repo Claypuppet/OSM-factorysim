@@ -111,11 +111,11 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
 
  protected:
 
-  virtual /**
+  /**
   * A function to send a message to this machine
   * @param msg : The message to send to this machine
   */
-  void sendMessage(network::Message &message);
+  virtual void sendMessage(network::Message &message);
 
   /**
    * Take products from previous buffers
@@ -130,9 +130,9 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   MachineStatus status;
   bool awaitingResponse;
   network::ConnectionPtr connection;
-  ProductPtr processedProduct;
-
+  ProductPtr productInProcess;
   uint16_t currentConfigId;
+
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
   std::map<uint16_t, BufferPtr> outputBuffers;
