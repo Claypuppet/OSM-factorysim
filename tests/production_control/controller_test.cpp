@@ -12,6 +12,7 @@
 #include <network/Client.h>
 #include <patterns/notifyobserver/Notifier.hpp>
 #include <yaml-cpp/exceptions.h>
+#include <utils/time/Time.h>
 
 #include "../test_helpers/MockNetwork.h"
 
@@ -27,10 +28,10 @@
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
-BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihed) {
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithEvent) {
   simulation::SimulationController controller;
 
-  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_with_low_simulation_duration.yaml"));
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
 
   controller.setCurrentState(std::make_shared<states::OperationState>(controller));
 
@@ -39,6 +40,26 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihed) {
 
   controller.run();
 
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithTime) {
+  simulation::SimulationController controller;
+  utils::Time::getInstance().setType(utils::customTime);
+
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
+
+  controller.setCurrentState(std::make_shared<states::OperationState>(controller));
+
+  uint64_t totalSimulationTime = (uint64_t)8760 * 60 * 60 * 1000; // total simulation time
+  uint64_t simulationNotOverTime = totalSimulationTime - 10; // get timestamp just under the total time
+  utils::Time::getInstance().syncTime(simulationNotOverTime); // set this time
+  controller.run();
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::OperationState>(controller.getCurrentState()), true);
+
+  uint64_t millisToLetSimulationGetOverTime = 20;
+  utils::Time::getInstance().increaseCurrentTime(millisToLetSimulationGetOverTime);
+  controller.run();
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
 }
 
