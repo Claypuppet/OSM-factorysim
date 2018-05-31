@@ -166,6 +166,7 @@ BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
 }
 
 BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(true));
   simulator::SimulationApplication application(1);
 
   uint16_t meanTimeBetweenFailureInHours = 100;
@@ -181,7 +182,7 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   uint16_t nTests = 1000;
   uint16_t nFailures = 0;
   for(uint16_t i = 0; i < nTests; ++i) {
-    for (uint16_t i = 0; i < meanTimeBetweenFailureInHours; ++i) {
+    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours; ++j) {
       if (application.getMachine()->checkBroken()) {
         ++nFailures;
       }
@@ -189,6 +190,7 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   }
 
   BOOST_CHECK(nFailures > 0.9*nTests && nFailures < 1.1*nTests);
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
