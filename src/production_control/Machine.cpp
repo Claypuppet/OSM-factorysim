@@ -13,6 +13,7 @@ Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
       currentConfigId(0),
+      timesBroken(0),
       awaitingResponse(false),
       nextAction(kNextActionTypeProcessProduct) {
 }
@@ -21,6 +22,7 @@ Machine::Machine(const Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
       currentConfigId(0),
+      timesBroken(0),
       awaitingResponse(false),
       nextAction(kNextActionTypeProcessProduct) {
 }
@@ -28,6 +30,7 @@ Machine::Machine(const Machine &aMachine)
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
   if(connection && connection->isConnected()){
+    lastStatusChange = utils::Time::getInstance().getCurrentTime();
     setStatus(kMachineStatusInitializing);
   }
 }
@@ -132,7 +135,7 @@ void Machine::createInitialBuffers() {
 }
 
 void Machine::setStatus(Machine::MachineStatus newStatus) {
-  // Do specific action based on status
+  // Do specific action based on new status
   switch (newStatus) {
     case kMachineStatusIdle: {
       awaitingResponse = false;
@@ -175,6 +178,12 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       // Nothing interesting happening
       break;
   }
+  // Keep track of statistics
+  auto now = utils::Time::getInstance().getCurrentTime();
+  timeSpendInState[status] += (now -lastStatusChange);
+  lastStatusChange = now;
+
+  // Change status
   status = newStatus;
   ResultLogger::getInstance().machineStatusUpdate(id, status);
 }
@@ -263,6 +272,14 @@ uint64_t Machine::getAmountProcessed(uint16_t productId) {
 
 bool Machine::isLastInLine(uint16_t productId) {
   return getOutputBuffer(productId)->isLastInLine();
+}
+
+const std::map<Machine::MachineStatus, uint64_t> &Machine::getTimeSpendInState() const {
+  return timeSpendInState;
+}
+
+uint16_t Machine::getTimesBroken() const {
+  return timesBroken;
 }
 
 }
