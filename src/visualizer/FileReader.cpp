@@ -18,7 +18,7 @@ bool FileReader::deserializeEvents(const std::string &filePath, std::vector<visu
     try {
 
       YAML::Node yamlFileNode = YAML::LoadFile(filePath);
-      auto eventsNode = yamlFileNode["events"];
+      auto eventsNode = yamlFileNode["productionEvents"];
       for (uint32_t i = 0; i < eventsNode.size(); ++i) {
         auto eventNode = eventsNode[i];
         auto event = deserializeEvent(eventNode);

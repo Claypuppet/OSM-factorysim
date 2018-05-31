@@ -14,7 +14,7 @@ namespace filestates {
  */
 class PlayState : public FileState{
  public:
-  PlayState() = default;
+  PlayState(file::FileApplication &application);
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;

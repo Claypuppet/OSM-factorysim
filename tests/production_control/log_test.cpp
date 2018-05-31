@@ -18,7 +18,7 @@
 #include "../../src/production_control/ResultLogger.h"
 
 
-// Testen van events naar states (set state, add event, run, check new state)
+// Testen van productionEvents naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestLogger)
 
 

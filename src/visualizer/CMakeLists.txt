@@ -17,12 +17,6 @@ add_library(source_lib_app_visualizer SHARED
         application_states/file_states/ReadState.h
         application_states/file_states/PlayState.cpp
         application_states/file_states/PlayState.h
-        main_window_states/NeutralState.cpp
-        main_window_states/NeutralState.h
-        main_window_states/LiveFeedState.cpp
-        main_window_states/LiveFeedState.h
-        main_window_states/FileFeedState.cpp
-        main_window_states/FileFeedState.h
         Application.cpp
         Application.h
         Machine.cpp
@@ -41,8 +35,6 @@ add_library(source_lib_app_visualizer SHARED
         Canvas.h
         MainWindow.cpp
         MainWindow.h
-        main_window_states/MainWindowState.cpp
-        main_window_states/MainWindowState.h
         WindowApplication.cpp
         WindowApplication.h
         Events/Event.cpp

@@ -90,7 +90,7 @@ void SimulationApplication::scheduleMachineNotifications() {
   if (foundEvents){
     utils::Time::getInstance().syncTime(lowestTime);
     for(const auto &machine : simulationMachines){
-      // Get events for this machine on lowest time
+      // Get productionEvents for this machine on lowest time
       auto delayedNotifications = machine->getEvents(lowestTime);
       for (const auto &notification : delayedNotifications) {
         Application::handleNotification(notification);

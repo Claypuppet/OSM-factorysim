@@ -19,4 +19,9 @@ bool PlayState::handleEvent(const patterns::statemachine::EventPtr &event) {
   return FileState::handleEvent(event);
 }
 
+PlayState::PlayState(file::FileApplication &application)
+    : FileState(application) {
+
+}
+
 }

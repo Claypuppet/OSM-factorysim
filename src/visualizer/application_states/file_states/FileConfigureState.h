@@ -14,7 +14,7 @@ namespace filestates {
  */
 class FileConfigureState : public FileState {
  public:
-  FileConfigureState() = default;
+  explicit FileConfigureState(file::FileApplication &application);
   void doActivity() override;
   void entryAction() override;
   void exitAction() override;
