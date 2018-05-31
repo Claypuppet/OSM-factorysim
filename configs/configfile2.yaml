@@ -4,7 +4,7 @@
 name: Demostraat
 
 simulationInfo:
-  durationInHours: 8760
+  durationInHours: 168
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 
@@ -52,7 +52,7 @@ productionLine:
       outputEachMinute: 2
       outputBufferSize: 0
       initializationDurationInSeconds: 900
-      meanTimeBetweenFailureInHours: 500
+      meanTimeBetweenFailureInHours: 5
       reparationTimeInMinutes: 60
       meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
