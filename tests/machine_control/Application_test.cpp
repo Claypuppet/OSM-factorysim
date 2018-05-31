@@ -165,6 +165,32 @@ BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::BrokenState>(application.getCurrentState()),true);
 }
 
+BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
+  simulator::SimulationApplication application(1);
+
+  uint16_t meanTimeBetweenFailureInHours = 100;
+  std::vector<models::PreviousMachinePtr> previousMachines;
+  previousMachines.push_back(std::make_shared<models::PreviousMachine>());
+  models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
+  BOOST_CHECK_NO_THROW(application.getMachine()->setCurrentConfiguration(configuration));
+
+  BOOST_CHECK_NO_THROW(application.getMachine()->configure());
+
+  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setTimeCycles(false));
+
+  uint16_t nTests = 1000;
+  uint16_t nFailures = 0;
+  for(uint16_t i = 0; i < nTests; ++i) {
+    for (uint16_t i = 0; i < meanTimeBetweenFailureInHours; ++i) {
+      if (application.getMachine()->checkBroken()) {
+        ++nFailures;
+      }
+    }
+  }
+
+  BOOST_CHECK(nFailures > 0.9*nTests && nFailures < 1.1*nTests);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(MachineControlProductionNetworkTests)

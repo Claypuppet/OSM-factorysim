@@ -30,6 +30,7 @@ class SimulationMachine : public machinecore::Machine {
   void setInOperationStartState() override;
 
   static void setCanBreak(bool canBreak);
+  static void setTimeCycles(bool timeCycles);
 
  private:
   std::default_random_engine generator;
@@ -39,6 +40,7 @@ class SimulationMachine : public machinecore::Machine {
   uint64_t checkCycle;
 
   static bool canBreak;
+  static bool timeCycles;
 };
 
 typedef std::shared_ptr<SimulationMachine> SimulationMachinePtr;
