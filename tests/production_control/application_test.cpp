@@ -275,7 +275,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
   BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<applicationstates::InOperationState>(app)));
 
-  { // Scheduling notification and handle productionEvents
+  { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     notification.setArgument(0, (uint64_t) 0); // time
     notification.setArgument(1, (uint16_t) 12); // machine id
@@ -290,7 +290,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
 
-  { // Scheduling notification and handle productionEvents
+  { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
@@ -301,7 +301,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusConfiguring);
 
-  { // Scheduling notification and handle productionEvents
+  { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
@@ -312,7 +312,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusProcessingProduct);
 
-  { // Scheduling notification and handle productionEvents
+  { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
@@ -324,7 +324,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
 
 
-  { // Scheduling notification and handle productionEvents
+  { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationNOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id

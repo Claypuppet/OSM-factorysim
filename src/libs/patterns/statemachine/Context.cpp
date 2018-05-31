@@ -28,9 +28,9 @@ void patterns::statemachine::Context::run() {
 	events.pop();
 	auto handled = currentState->handleEvent(e);
 
-	// Re-add unhandled productionEvents ?
+	// Re-add unhandled events ?
 //		if (!handled){
-//			scheduleProductionEvent(e);
+//			scheduleEvent(e);
 //		}
   }
 }

@@ -22,7 +22,7 @@
 #include "../../src/production_control/states_controller/SimulationBroadcastState.h"
 #include "../../src/production_control/states_controller/OperationState.h"
 
-// Testen van productionEvents naar states (set state, add event, run, check new state)
+// Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {

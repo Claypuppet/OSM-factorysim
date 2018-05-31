@@ -137,10 +137,10 @@ void SimulationController::setupNetwork() {
   // Create the client
   client = networkManager.createClient(simulationNetworkComponent);
 
-  // Create and set up the event dispatcher which handles productionEvents for the connection service
+  // Create and set up the event dispatcher which handles events for the connection service
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
 
-  // Assign the event dispatcher to the client, to handle it's connection service productionEvents
+  // Assign the event dispatcher to the client, to handle it's connection service events
   client->setServiceEventListener(eventDispatcherPtr);
 
   // Set the controller to handle notifications for the event dispatcher
