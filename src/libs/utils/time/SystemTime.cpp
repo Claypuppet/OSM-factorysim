@@ -16,3 +16,7 @@ void utils::SystemTime::increaseCurrentTime(uint64_t increaseMillis) {
 void utils::SystemTime::syncTime(uint64_t newTimeMillis) {
   offset = newTimeMillis - getCurrentTime();
 }
+
+void utils::SystemTime::reset() {
+  offset = 0;
+}

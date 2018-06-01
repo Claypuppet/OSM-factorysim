@@ -23,5 +23,8 @@ void CustomTime::syncTime(uint64_t newTimeMillis) {
     throw std::runtime_error("Cannot time travel to the past you can only travel back to the future!");
   }
 }
+void CustomTime::reset() {
+  currentTime = 0;
+}
 
 }

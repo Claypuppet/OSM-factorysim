@@ -24,6 +24,10 @@ void Time::increaseCurrentTime(uint64_t increaseMillis) {
   timer->increaseCurrentTime(increaseMillis);
 }
 
+void Time::reset(){
+  timer->reset();
+}
+
 void Time::setType(utils::TimeType aType) {
   switch (aType) {
 	case TimeType::systemTime:

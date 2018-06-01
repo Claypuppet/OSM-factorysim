@@ -37,6 +37,11 @@ class ITime {
    * @param newTimeSeconds : The new time in milliseconds
    */
   virtual void syncTime(uint64_t newTimeMillis) = 0;
+
+  /**
+   * Resets the time
+   */
+  virtual void reset() = 0;
 };
 
 /*
@@ -76,6 +81,11 @@ class Time : public patterns::singleton::Singleton<Time> {
    * @param aType : Type of strategy to use
    */
   void setType(TimeType aType);
+
+  /**
+   * Resets the timer
+   */
+  void reset();
  protected:
   Time();
  private:
