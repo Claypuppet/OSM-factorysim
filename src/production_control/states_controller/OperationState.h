@@ -22,8 +22,9 @@ class OperationState : public ControllerState {
   // Log every hour, next moment is after this.
   uint64_t logMoment;
 
-
- private:
+  /**
+   * Function to execute when a simulationFinished event is received
+   */
   void onSimulationFinished();
 };
 

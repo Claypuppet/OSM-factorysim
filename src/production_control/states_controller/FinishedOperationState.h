@@ -6,6 +6,9 @@
 
 namespace states {
 
+/**
+ * State that gets active when a simulation is finished
+ */
 class FinishedOperationState : public ControllerState {
  public:
   FinishedOperationState(simulation::SimulationController &context);
