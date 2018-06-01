@@ -15,7 +15,7 @@ namespace simulator {
  */
 class SimulationApplication : public machinecore::Application {
  public:
-  SimulationApplication(uint16_t aMachineId);
+  explicit SimulationApplication(uint16_t aMachineId);
   virtual ~SimulationApplication() = default;
 
   void setStartState() override;

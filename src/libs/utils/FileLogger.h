@@ -49,11 +49,13 @@ class FileLogger : public patterns::singleton::Singleton<FileLogger> {
 
   /**
    * Log to both console and file
+   * @param message : The message to log
    */
   void logToBoth(const std::string &message);
 
   /**
    * Log to file
+   * @param message : The message to log
    */
   void logToFile(const std::string &message);
 

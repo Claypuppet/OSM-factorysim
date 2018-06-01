@@ -13,7 +13,7 @@
 namespace models {
 
 /**
- * Model class that holds information about a machines configuration
+ * Class that deserializes and holds information about a machines configuration
  */
 class MachineConfiguration {
  public:

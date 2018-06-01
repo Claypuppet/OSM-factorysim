@@ -12,7 +12,7 @@
 namespace models {
 
 /**
- * Model class that holds information about a product
+ * Class that deserializes and holds information about a product
  */
 class Product;
 typedef std::shared_ptr<Product> ProductPtr;

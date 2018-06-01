@@ -21,7 +21,7 @@ class State {
  public:
   /**
    * Function that handles events
-   * @param e : Event to handle
+   * @param event : Event to handle
    * @return bool : True when the event is handled
    */
   virtual bool handleEvent(const EventPtr &event) = 0;

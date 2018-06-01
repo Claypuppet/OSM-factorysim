@@ -98,6 +98,12 @@ class SimulationMachine : public core::Machine {
   bool isWaitingForResponse() override;
 
  private:
+  /**
+  * A function to send a message to this machine
+  * @param message : The message to send to this machine
+  */
+  void sendSimulationMessage(network::Message &message);
+
   std::mutex eventPusher;
   bool ready;
   network::ConnectionPtr simConnection;
@@ -105,13 +111,6 @@ class SimulationMachine : public core::Machine {
   bool awaitingSimulationResponse;
 
   std::queue<patterns::notifyobserver::NotifyEvent> simulationEvents;
-
-
-  /**
-  * A function to send a message to this machine
-  * @param message : The message to send to this machine
-  */
-  void sendSimulationMessage(network::Message &message);
 
 };
 

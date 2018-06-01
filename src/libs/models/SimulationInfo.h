@@ -15,7 +15,7 @@
 namespace models {
 
 /**
- * Class that holds information about a simulation
+ * Class that deserializes and holds information about a simulation
  */
 class SimulationInfo;
 typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;

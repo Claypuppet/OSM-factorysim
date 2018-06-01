@@ -47,7 +47,7 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
   friend patterns::singleton::Singleton<ResultLogger>;
   ResultLogger();
 
-  void log(const std::string &s);
+  void log(const std::string &message);
 
   bool networkEnabled;
   bool debugEnabled;

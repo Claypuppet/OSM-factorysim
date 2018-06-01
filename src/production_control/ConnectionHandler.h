@@ -11,6 +11,10 @@
 #include "NetworkMapper.h"
 
 namespace communication {
+
+/**
+ * Network component for an application that handles messages and connections
+ */
 class ConnectionHandler :
 	public network::IConnectionHandler,
 	public patterns::notifyobserver::Notifier,
