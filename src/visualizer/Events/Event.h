@@ -6,7 +6,9 @@
 #define PRODUCTION_LINE_CONTROL_EVENT_H
 
 #include <cstdint>
-#include <boost/asio/detail/shared_ptr.hpp>
+#include <string>
+#include <memory>
+
 namespace visualisercore {
 
 /**

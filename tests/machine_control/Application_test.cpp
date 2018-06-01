@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
 
   uint64_t millisecondsInHour = 3600000;
-  uint8_t factor = 2;
+  uint8_t factor = 60;
 
   for(uint16_t i = 0; i < nTests; ++i) {
     simulator::SimulationApplication application(1);
