@@ -30,7 +30,7 @@
             "reparationTimeInMinutes": 24,
             "previousMachines": [
               {
-                "machineId": 15,
+                "machineId": 0,
                 "neededProducts": 7
               }
             ]
