@@ -179,6 +179,9 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   previousMachines.push_back(std::make_shared<models::PreviousMachine>());
   models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
 
+  uint64_t millisecondsInHour = 3600000;
+  uint8_t factor = 2;
+
   for(uint16_t i = 0; i < nTests; ++i) {
     simulator::SimulationApplication application(1);
 
@@ -186,11 +189,11 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
 
     application.getMachine()->configure();
 
-    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours; ++j) {
+    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours*factor; ++j) {
       if (application.getMachine()->checkBroken()) {
         ++nFailures;
       }
-      utils::Time::getInstance().increaseCurrentTime(3600000);
+      utils::Time::getInstance().increaseCurrentTime(millisecondsInHour/factor);
     }
 
     utils::Time::getInstance().reset();
