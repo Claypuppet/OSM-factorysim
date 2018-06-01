@@ -104,6 +104,10 @@ class SimulationController
   void setSimulationEndTime();
 
 
+  /**
+   * Check if simulation is over
+   * @return simulationIsOver bool
+   */
   bool simulationIsOver() const;
 
   const std::shared_ptr<models::Configuration> &getConfiguration() const;

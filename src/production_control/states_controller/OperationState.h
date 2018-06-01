@@ -19,12 +19,13 @@ class OperationState : public ControllerState {
   void exitAction() override;
 
  private:
+  /**
+   * Function to execute when a simulationFinished event is received
+   */
+  void onSimulationFinished();
+
   // Log every hour, next moment is after this.
   uint64_t logMoment;
-
-
- private:
-  void onSimulationFinished();
 };
 
 }
