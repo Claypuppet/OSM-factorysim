@@ -4,9 +4,7 @@
 name: Kleine productiestraat
 
 simulationInfo:
-  durationInHours: 8760
-  startHourOfWorkDay: 9
-  workDayDurationInHours: 8
+  durationInHours: 168
 
 productionLine:
   name: Kantoortafels

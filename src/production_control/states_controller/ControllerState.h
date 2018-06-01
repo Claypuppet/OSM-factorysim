@@ -15,7 +15,7 @@ enum EventType {
   kEventTypeMachineRegistered,
   kEventTypeAllMachinesReadyForSimulation,
   kEventTypeMachineReady,
-//		kEventType,
+  kEventTypeSimulationFinished
 };
 
 typedef patterns::statemachine::Event Event;
@@ -33,7 +33,6 @@ class ControllerState : public patterns::statemachine::State {
  protected:
   ControllerState(simulation::SimulationController &aContext);
   simulation::SimulationController &context;
-
 };
 
 }

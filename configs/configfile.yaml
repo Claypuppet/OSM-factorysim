@@ -5,6 +5,8 @@ name: ProductieConfiguratie
 
 simulationInfo:
   durationInHours: 8760
+  startHourOfWorkDay: 9
+  workDayDurationInHours: 8
 
 productionLine:
   name: Kantoortafels

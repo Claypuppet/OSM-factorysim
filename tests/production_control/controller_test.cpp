@@ -12,6 +12,7 @@
 #include <network/Client.h>
 #include <patterns/notifyobserver/Notifier.hpp>
 #include <yaml-cpp/exceptions.h>
+#include <utils/time/Time.h>
 
 #include "../test_helpers/MockNetwork.h"
 
@@ -21,9 +22,46 @@
 #include "../../src/production_control/states_controller/LoadConfigState.h"
 #include "../../src/production_control/states_controller/SimulationBroadcastState.h"
 #include "../../src/production_control/states_controller/OperationState.h"
+#include "../../src/production_control/states_controller/FinishedOperationState.h"
+#include "../../src/production_control/states_controller/ControllerState.h"
 
 // Testen van events naar states (set state, add event, run, check new state)
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
+
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithEvent) {
+  simulation::SimulationController controller;
+
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
+
+  controller.setCurrentState(std::make_shared<states::OperationState>(controller));
+
+  auto event = std::make_shared<states::Event>(states::kEventTypeSimulationFinished);
+  controller.scheduleEvent(event);
+
+  controller.run();
+
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithTime) {
+  simulation::SimulationController controller;
+  utils::Time::getInstance().setType(utils::customTime);
+
+  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
+
+  controller.setCurrentState(std::make_shared<states::OperationState>(controller));
+
+  uint64_t totalSimulationTime = (uint64_t)8760 * 60 * 60 * 1000; // total simulation time
+  uint64_t simulationNotOverTime = totalSimulationTime - 10; // get timestamp just under the total time
+  utils::Time::getInstance().syncTime(simulationNotOverTime); // set this time
+  controller.run();
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::OperationState>(controller.getCurrentState()), true);
+
+  uint64_t millisToLetSimulationGetOverTime = 20;
+  utils::Time::getInstance().increaseCurrentTime(millisToLetSimulationGetOverTime);
+  controller.run();
+  BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
+}
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventMachineRegistered) {
   auto machineNetwork = std::make_shared<testutils::MockNetwork>();

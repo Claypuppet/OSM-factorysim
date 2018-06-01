@@ -1,7 +1,9 @@
 {
   "name": "TestConfigMet1Machine",
   "simulationInfo": {
-    "durationInHours": 1
+    "durationInHours":1,
+    "startHourOfWorkDay":9,
+    "workDayDurationInHours":8
   },
   "productionLine": {
     "name": "Kantoortafels",
