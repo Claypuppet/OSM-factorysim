@@ -15,6 +15,9 @@
 
 namespace models {
 
+/**
+ * Model class that holds information about a production line
+ */
 class ProductionLine;
 typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 

@@ -24,9 +24,9 @@ void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
 void patterns::statemachine::Context::run() {
   currentState->doActivity();
   while (!events.empty()) {
-	EventPtr e = events.front();
+	EventPtr event = events.front();
 	events.pop();
-	auto handled = currentState->handleEvent(e);
+	auto handled = currentState->handleEvent(event);
 
 	// Re-add unhandled events ?
 //		if (!handled){

@@ -50,17 +50,17 @@ class FileLogger : public patterns::singleton::Singleton<FileLogger> {
   /**
    * Log to both console and file
    */
-  void logToBoth(const std::string&);
+  void logToBoth(const std::string &message);
 
   /**
    * Log to file
    */
-  void logToFile(const std::string&);
+  void logToFile(const std::string &message);
 
   /**
    * Log to console
    */
-  void logToConsole(const std::string&);
+  void logToConsole(const std::string &message);
 
  private:
   friend patterns::singleton::Singleton<FileLogger>;

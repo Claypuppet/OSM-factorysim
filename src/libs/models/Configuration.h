@@ -16,6 +16,9 @@
 
 namespace models {
 
+/**
+ * Model class that holds all information about a simulation
+ */
 class Configuration;
 typedef std::shared_ptr<Configuration> ConfigurationPtr;
 

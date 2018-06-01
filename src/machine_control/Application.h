@@ -18,6 +18,9 @@
 //TODO: Implement Observer
 namespace machinecore {
 
+/**
+ * Event types for notifications
+ */
 enum NotifyEventType {
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
@@ -29,6 +32,9 @@ enum NotifyEventType {
   kNotifyEventTypeMachineBroke
 };
 
+/**
+ * Core class of machine control that controls the machine
+ */
 class Application
     : public patterns::statemachine::Context,
       public patterns::notifyobserver::Observer {
@@ -62,7 +68,7 @@ class Application
     id = aId;
   }
 
-  void setConfigToSet(uint16_t aConfigToSet){
+  void setConfigToSet(uint16_t aConfigToSet) {
     configToSet = aConfigToSet;
   }
 
