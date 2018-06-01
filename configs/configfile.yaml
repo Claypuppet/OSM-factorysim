@@ -73,8 +73,8 @@ productionLine:
       reparationTimeInMinutes: 60
       meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
-      - machineId: 1
-        neededProducts: 8
+      - machineId: 2
+        neededProducts: 1
 
 
 
@@ -249,7 +249,7 @@ productionLine:
       reparationTimeInMinutes: 60
       meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
-        - machineId: 2
+        - machineId: 9
           neededProducts: 1
 
 # -------------------- INPAKKEN --------------------

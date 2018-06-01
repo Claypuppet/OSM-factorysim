@@ -46,6 +46,11 @@ bool ConfigureState::handleEvent(const applicationstates::EventPtr &event) {
       return true;
     }
 
+    case kEventTypeMachineBroke: {
+      onMachineBroke();
+      return true;
+    }
+
     default: {
       return ApplicationState::handleEvent(event);
     }

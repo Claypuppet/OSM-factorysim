@@ -8,10 +8,12 @@
 
 namespace simulator {
 
+const uint64_t oneHourInMillis = 3600000;
+
 bool SimulationMachine::canBreak = true;
 bool SimulationMachine::timeCycles = true;
 
-SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(3600000) {
+SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(oneHourInMillis) {
 
 }
 
@@ -37,7 +39,7 @@ void SimulationMachine::takeInProduct() {
 }
 
 void SimulationMachine::processProduct() {
-  uint16_t processTime = currentConfiguration ? currentConfiguration->getProcessTime() : 0;
+  uint32_t processTime = currentConfiguration ? currentConfiguration->getProcessTime() : 0;
   utils::Time::getInstance().increaseCurrentTime(processTime);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductProcessed);
   scheduleEvent(event);
@@ -60,18 +62,19 @@ void SimulationMachine::setInOperationStartState() {
 
 bool SimulationMachine::checkBroken() {
   if (canBreak) {
-    if(timeCycles) {
-      if (utils::Time::getInstance().getCurrentTime() + checkCycle > timeSinceBrokenCheck) {
-        if (distribution(generator) == magicNumber) {
-          return true;
-        }
+    if (timeCycles) {
+      auto currentTime = utils::Time::getInstance().getCurrentTime();
+      if (currentTime < timeSinceBrokenCheck + checkCycle) {
+        return false;
       }
     }
-    else{
-      uint64_t generated = distribution(generator);
-      if(generated == magicNumber){
-        return true;
-      }
+    timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
+    uint64_t generated = distribution(generator);
+    generated = distribution(generator);
+    if (generated == magicNumber) {
+      auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
+      scheduleEvent(stateEvent);
+      return true;
     }
   }
   return false;

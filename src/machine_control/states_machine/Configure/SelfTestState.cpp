@@ -11,12 +11,13 @@ SelfTestState::SelfTestState(machinecore::Machine &aContext) :
 }
 
 void SelfTestState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void SelfTestState::doActivity() {
-  MachineState::doActivity();
-  context.selfTest();
+  if(!context.checkBroken()){
+    context.selfTest();
+  }
 }
 
 void SelfTestState::exitAction() {
@@ -42,7 +43,7 @@ bool SelfTestState::handleEvent(const EventPtr &event) {
 }
 
 void SelfTestState::onSelfTestSuccess() {
-  utils::Logger::log("-Handle event: kEventTypeSelfTestSuccess");
+//  utils::Logger::log("-Handle event: kEventTypeSelfTestSuccess");
 
   auto event = patterns::notifyobserver::NotifyEvent(machinecore::kNotifyEventTypeMachineConfigured);
   context.notifyObservers(event);

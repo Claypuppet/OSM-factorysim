@@ -16,8 +16,9 @@ void TakeProductState::entryAction() {
 }
 
 void TakeProductState::doActivity() {
-  MachineState::doActivity();
-  context.takeInProduct();
+  if(!context.checkBroken()){
+    context.takeInProduct();
+  }
 }
 
 void TakeProductState::exitAction() {

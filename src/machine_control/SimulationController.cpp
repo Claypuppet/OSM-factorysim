@@ -1,5 +1,6 @@
 #include <network/Protocol.h>
 #include <utils/time/Time.h>
+#include <utils/Logger.h>
 #include "SimulationController.h"
 #include "states_simulation_controller/FindProductControlState.h"
 #include "ControllerNotificationEventIds.h"
@@ -181,6 +182,9 @@ void SimulationController::stop() {
 void SimulationController::setMachineInfo(const models::MachinePtr &machine) {
   application->getMachine()->setConfigurations(machine->getConfigurations());
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsSet);
+  std::stringstream stream;
+  stream << std::endl << " I will be simulating \"" << machine->getName() << "\" (id " << machine->getId() << ")" << std::endl;
+  utils::Logger::log(stream.str());
   scheduleEvent(event);
 }
 

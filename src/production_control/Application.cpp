@@ -48,6 +48,15 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
       }
     }
   }
+  for(const auto &machineList : firstMachinesInLine){
+    std::cout << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
+    for(const auto &machine : machineList.second){
+      for(const auto &input : machine->getInputBuffers(machineList.first)){
+        input->debugPrintBuffersChain();
+      }
+    }
+  }
+  std::cout << std::endl;
 }
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {
@@ -106,11 +115,15 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
     case NotifyEventIds::eApplicationNOK: {
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
-      auto errorCode = notification.getArgumentAsType<core::Machine::MachineStatus>(2);
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, errorCode);
-      scheduleEvent(event);
+      auto errorCode = notification.getArgumentAsType<models::Machine::MachineErrorCode>(2);
+      switch(errorCode){
+        case models::Machine::MachineErrorCode::kMachineErrorCodeBroke :{
+          auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
+          event->setArgument(0, id);
+          event->setArgument(1, models::Machine::kMachineStatusBroken);
+          scheduleEvent(event);
+        }
+      }
       break;
     }
 

@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 BOOST_AUTO_TEST_CASE(TestBuffer) {
   std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
   auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
-  core::InfiniteBuffer infiniteBuffer(1);
+  core::InfiniteBuffer infiniteBuffer(machine, 1);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 

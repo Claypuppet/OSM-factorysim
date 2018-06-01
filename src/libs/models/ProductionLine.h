@@ -59,6 +59,12 @@ class ProductionLine {
   const std::vector<ProductPtr> &getProducts() const;
 
   /**
+   * Getter for products
+   * @return products
+   */
+  const ProductPtr &getProductById(uint16_t productId) const;
+
+  /**
    * Getter for machines
    * @return machines
    */

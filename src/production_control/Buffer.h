@@ -106,11 +106,17 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   void addToMachine(const MachinePtrW machine);
 
+  /**
+   * Print list of buffers after this.
+   */
+  void debugPrintBuffersChain();
+
  protected:
   /**
    * Construct an buffer for machine, used by infinite buffer
    */
   explicit Buffer(uint16_t productId);
+  explicit Buffer(const MachinePtrW &aFromMachine, uint16_t productId);
 
   uint32_t maxSize;
   MachinePtrW fromMachine;

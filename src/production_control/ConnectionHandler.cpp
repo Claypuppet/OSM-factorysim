@@ -70,7 +70,7 @@ void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connecti
 
   notification.setArgument(0, message.getTime());
   notification.setArgument(1, machineId);
-  notification.setArgument(2, message.getBodyObject<uint16_t>());
+  notification.setArgument(2, message.getBodyObject<models::Machine::MachineErrorCode>());
 
   notifyObservers(notification);
 }

@@ -97,9 +97,8 @@ class Application
 
   /**
    * Send a kMachineErrorCodeBroke to Production Control
-   * @param errorCode The error code
    */
-  void machineBroke(models::Machine::MachineErrorCode errorCode);
+  void machineBroke();
 
  protected:
   uint16_t id;

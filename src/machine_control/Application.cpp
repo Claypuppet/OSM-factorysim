@@ -3,6 +3,7 @@
 //
 
 #include <models/Machine.h>
+#include <utils/CommandLineArguments.h>
 #include "Application.h"
 #include "states_application/ConnectState.h"
 #include "states_machine/MachineState.h"
@@ -92,6 +93,14 @@ void Application::setupNetwork() {
 
   handleNotificationsFor(*connectionHandler);
 
+  // Because someone forgot to implement the find PC in the application, hardcoded here
+  const auto &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
+  if (!pcip) {
+    manager.setRemoteHost(pcip.value);
+  } else {
+    manager.setRemoteHost("localhost");
+  }
+
   client = manager.createClient(connectionHandler);
 
   auto eventDispatcherPtr = std::make_shared<NetworkEventDispatcher>();
@@ -109,8 +118,8 @@ void Application::statusUpdate(models::Machine::MachineStatus status) {
   connectionHandler->sendStatusUpdate(status);
 }
 
-void Application::machineBroke(models::Machine::MachineErrorCode errorCode){
-  connectionHandler->sendResponseNOK(errorCode);
+void Application::machineBroke(){
+  connectionHandler->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
 }
 
 } // machinecore
