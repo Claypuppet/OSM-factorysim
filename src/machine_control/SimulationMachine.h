@@ -35,7 +35,7 @@ class SimulationMachine : public machinecore::Machine {
  private:
   std::default_random_engine generator;
   std::uniform_int_distribution<uint64_t> distribution;
-  uint8_t magicNumber = 0;
+  uint16_t magicNumber = 0;
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
 

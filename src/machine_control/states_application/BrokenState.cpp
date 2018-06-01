@@ -2,6 +2,7 @@
 #include "BrokenState.h"
 
 #include <utils/Logger.h>
+#include <utils/time/Time.h>
 
 #include "ConfigureState.h"
 
@@ -13,10 +14,12 @@ BrokenState::BrokenState(machinecore::Application &aContext)
 
 void BrokenState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
-  context.machineBroke(models::Machine::kMachineErrorCodeBroke);
+  context.machineBroke();
 }
 
 void BrokenState::doActivity() {
+  // 15 min repair hardcoded
+  utils::Time::getInstance().increaseCurrentTime(900000);
   auto event = std::make_shared<Event>(kEventTypeRepaired);
   context.scheduleEvent(event);
 }

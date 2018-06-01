@@ -167,13 +167,12 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       }
     }
     case kMachineStatusBroken: {
-      if (status == kMachineStatusProcessingProduct) {
-        // Broke while processing product, product lost
-        productInProcess = nullptr;
-        std::stringstream stream;
-        stream << "machine \"" << name << "\" broke @ " << utils::Time::getInstance().getCurrentTime();
-        utils::Logger::log(stream.str());
-      }
+      // Broke while processing product , product lost
+      productInProcess = nullptr;
+      ++timesBroken;
+      std::stringstream stream;
+      stream << "machine \"" << name << "\" broke @ " << utils::Time::getInstance().getCurrentTime();
+      utils::Logger::log(stream.str());
       break;
     }
     default:

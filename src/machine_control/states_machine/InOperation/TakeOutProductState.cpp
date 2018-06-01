@@ -16,8 +16,9 @@ void TakeOutProductState::entryAction() {
 }
 
 void TakeOutProductState::doActivity() {
-  MachineState::doActivity();
-  context.takeOutProduct();
+  if(!context.checkBroken()){
+    context.takeOutProduct();
+  }
 }
 
 void TakeOutProductState::exitAction() {

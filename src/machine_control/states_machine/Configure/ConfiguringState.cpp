@@ -10,11 +10,10 @@
 namespace machinestates {
 
 void ConfiguringState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
+//  utils::Logger::log(__PRETTY_FUNCTION__);
 }
 
 void ConfiguringState::doActivity() {
-  MachineState::doActivity();
   context.configure();
 }
 
@@ -36,7 +35,7 @@ bool ConfiguringState::handleEvent(const patterns::statemachine::EventPtr &event
 }
 
 void ConfiguringState::onConfigured() {
-  utils::Logger::log("-Handle event: kEventTypeConfigured");
+//  utils::Logger::log("-Handle event: kEventTypeConfigured");
 
   auto state = std::make_shared<SelfTestState>(context);
   context.setCurrentState(state);

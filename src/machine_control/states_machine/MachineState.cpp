@@ -9,7 +9,6 @@ MachineState::MachineState(machinecore::Machine &aContext) : context(aContext){
 }
 
 void MachineState::doActivity() {
-  context.checkBroken();
 }
 
 bool MachineState::handleEvent(const EventPtr &event){

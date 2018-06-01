@@ -16,8 +16,9 @@ void ProcessProductState::entryAction() {
 }
 
 void ProcessProductState::doActivity() {
-  MachineState::doActivity();
-  context.processProduct();
+  if(!context.checkBroken()){
+    context.processProduct();
+  }
 }
 
 void ProcessProductState::exitAction() {

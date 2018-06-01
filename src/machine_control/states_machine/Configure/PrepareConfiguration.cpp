@@ -17,7 +17,6 @@ void PrepareConfiguration::entryAction() {
 }
 
 void PrepareConfiguration::doActivity() {
-  MachineState::doActivity();
 }
 
 void PrepareConfiguration::exitAction() {
@@ -38,10 +37,14 @@ bool PrepareConfiguration::handleEvent(const machinestates::EventPtr &event) {
 }
 
 void PrepareConfiguration::onReconfigure(const EventPtr &event) {
-  utils::Logger::log("-Handle event: kEventTypeReconfigure");
+//  utils::Logger::log("-Handle event: kEventTypeReconfigure");
 
   auto nextConfig = context.getConfigurationById(event->getArgumentAsType<uint16_t>());
   context.setCurrentConfiguration(nextConfig);
+
+  std::stringstream ss;
+  ss << "-Reconfiguring for new product: " << nextConfig;
+  utils::Logger::log(ss.str());
 
   auto state = std::make_shared<ConfiguringState>(context);
   context.setCurrentState(state);

@@ -77,8 +77,13 @@ std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
   std::lock_guard<std::mutex> guard(eventPusher);
   simulationEvents.emplace(simulationEvent);
-  if(simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle){
-    awaitingSimulationResponse = false;
+  try{
+    if(simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle){
+      awaitingSimulationResponse = false;
+    }
+  }
+  catch (const std::exception &e){
+    // temp because derp
   }
 }
 

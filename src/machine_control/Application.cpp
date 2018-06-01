@@ -118,8 +118,8 @@ void Application::statusUpdate(models::Machine::MachineStatus status) {
   connectionHandler->sendStatusUpdate(status);
 }
 
-void Application::machineBroke(models::Machine::MachineErrorCode errorCode){
-  connectionHandler->sendResponseNOK(errorCode);
+void Application::machineBroke(){
+  connectionHandler->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
 }
 
 } // machinecore
