@@ -13,7 +13,8 @@
 namespace models {
 
 /**
- * Class that deserializes and holds information about a machines configuration
+ * Class that holds information about a machines configuration
+ * product id, output each minute, initialization duration, size of output buffer, MBTF and reparation time
  */
 class MachineConfiguration {
  public:

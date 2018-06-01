@@ -17,7 +17,8 @@
 namespace models {
 
 /**
- * Class that deserializes and hold information about a machine
+ * Class that holds information about a machine
+ * id, name and machine configurations
  */
 class Machine {
  public:
