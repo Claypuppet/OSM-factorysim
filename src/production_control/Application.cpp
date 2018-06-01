@@ -5,6 +5,7 @@
 #include <network/Server.h>
 #include <network/Client.h>
 #include <utils/time/Time.h>
+#include <utils/Logger.h>
 
 // project file includes
 #include "states_application/BroadCastState.h"
@@ -48,15 +49,17 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
       }
     }
   }
+  std::stringstream stream;
   for(const auto &machineList : firstMachinesInLine){
-    std::cout << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
+    stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
     for(const auto &machine : machineList.second){
       for(const auto &input : machine->getInputBuffers(machineList.first)){
-        input->debugPrintBuffersChain();
+        input->debugPrintBuffersChain(stream);
       }
     }
   }
-  std::cout << std::endl;
+  stream << std::endl;
+  utils::Logger::log(stream.str());
 }
 
 core::MachinePtr core::Application::getMachine(uint16_t machineId) {

@@ -109,7 +109,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   /**
    * Print list of buffers after this.
    */
-  void debugPrintBuffersChain();
+  std::stringstream &debugPrintBuffersChain(std::stringstream &stream);
 
  protected:
   /**

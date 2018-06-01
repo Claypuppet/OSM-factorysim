@@ -82,19 +82,19 @@ void Buffer::addToMachine(const MachinePtrW machine) {
   toMachines.emplace_back(machine);
 }
 
-void Buffer::debugPrintBuffersChain() {
+std::stringstream &Buffer::debugPrintBuffersChain(std::stringstream &stream) {
   if (auto machine = fromMachine.lock()) {
-    std::cout << machine->getName() << " (id " << machine->getId() << ") -> ";
+    stream << machine->getName() << " (id " << machine->getId() << ") -> ";
   }
   else {
-    std::cout << "Input -> ";
+    stream << "Input -> ";
   }
   if(toMachines.empty()){
-    std::cout << "End product" << std::endl;
+    stream << "End product" << std::endl;
   }
   for (const auto &machinew : toMachines){
     if (auto machine = machinew.lock()) {
-      machine->getOutputBuffer(productId)->debugPrintBuffersChain();
+      machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);
     }
   }
 }

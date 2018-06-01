@@ -247,12 +247,12 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   // Executing NOK status update test
   message.clear();
   message.setMessageType(network::Protocol::kAppMessageTypeNOK);
-  message.setBodyObject<uint16_t>(404);
+  message.setBodyObject<models::Machine::MachineErrorCode>(models::Machine::kMachineErrorCodeBroke);
 
   notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
     BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 12);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(2) == 404);
+    BOOST_CHECK(notification.getArgumentAsType<models::Machine::MachineErrorCode>(2) == models::Machine::kMachineErrorCodeBroke);
   };
 
   observer.setHandleNotificationFn(notificationHandler);
@@ -331,7 +331,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationNOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusBroken)); // status update
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, models::Machine::MachineErrorCode::kMachineErrorCodeBroke)); // error code
     BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
     BOOST_REQUIRE_NO_THROW(app.run());
   }
