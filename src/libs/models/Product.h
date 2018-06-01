@@ -14,6 +14,7 @@ namespace models {
 /**
  * Class that holds information about a product
  * id, name and proportion
+ * Is used in a production line
  */
 class Product;
 typedef std::shared_ptr<Product> ProductPtr;
