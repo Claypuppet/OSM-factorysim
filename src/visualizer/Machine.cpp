@@ -3,7 +3,6 @@
 //
 
 #include "Machine.h"
-#include "../machine_control/Machine.h"
 
 namespace visualisercore {
 
