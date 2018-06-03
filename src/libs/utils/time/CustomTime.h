@@ -33,6 +33,11 @@ class CustomTime : public ITime {
    * @see ITimer::setCurrentTime(uint64_t newTimeMillis)
    */
   void syncTime(uint64_t newTimeMillis) override;
+
+  /**
+   * Resets the current time by setting it to 0
+   */
+  void reset() override;
  private:
 
   /**

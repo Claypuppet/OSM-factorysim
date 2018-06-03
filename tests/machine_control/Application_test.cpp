@@ -167,26 +167,36 @@ BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
 
 BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(true));
-  simulator::SimulationApplication application(1);
+  utils::Time::getInstance().setType(utils::TimeType::customTime);
+  utils::Time::getInstance().reset();
+
+  uint16_t nTests = 1000;
+  uint16_t nFailures = 0;
+
 
   uint16_t meanTimeBetweenFailureInHours = 100;
   std::vector<models::PreviousMachinePtr> previousMachines;
   previousMachines.push_back(std::make_shared<models::PreviousMachine>());
   models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
-  BOOST_CHECK_NO_THROW(application.getMachine()->setCurrentConfiguration(configuration));
 
-  BOOST_CHECK_NO_THROW(application.getMachine()->configure());
+  uint64_t millisecondsInHour = 3600000;
+  uint8_t factor = 60;
 
-  BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setTimeCycles(false));
-
-  uint16_t nTests = 1000;
-  uint16_t nFailures = 0;
   for(uint16_t i = 0; i < nTests; ++i) {
-    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours; ++j) {
+    simulator::SimulationApplication application(1);
+
+    application.getMachine()->setCurrentConfiguration(configuration);
+
+    application.getMachine()->configure();
+
+    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours*factor; ++j) {
       if (application.getMachine()->checkBroken()) {
         ++nFailures;
       }
+      utils::Time::getInstance().increaseCurrentTime(millisecondsInHour/factor);
     }
+
+    utils::Time::getInstance().reset();
   }
 
   BOOST_CHECK(nFailures > 0.9*nTests && nFailures < 1.1*nTests);

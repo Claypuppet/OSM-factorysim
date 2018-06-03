@@ -1,4 +1,4 @@
-
+#include <ctime>
 #include <utils/time/Time.h>
 #include "SimulationMachine.h"
 #include "states_machine/Configure/PrepareConfiguration.h"
@@ -11,13 +11,13 @@ namespace simulator {
 const uint64_t oneHourInMillis = 3600000;
 
 bool SimulationMachine::canBreak = true;
-bool SimulationMachine::timeCycles = true;
 
 SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(oneHourInMillis) {
 
 }
 
 bool SimulationMachine::configure() {
+  generator = std::mt19937(static_cast<uint64_t >(std::clock()));
   distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
                                                          (magicNumber
                                                              + currentConfiguration->getMeanTimeBetweenFailureInHours())
@@ -62,15 +62,15 @@ void SimulationMachine::setInOperationStartState() {
 
 bool SimulationMachine::checkBroken() {
   if (canBreak) {
-    if (timeCycles) {
-      auto currentTime = utils::Time::getInstance().getCurrentTime();
-      if (currentTime < timeSinceBrokenCheck + checkCycle) {
-        return false;
-      }
+    auto currentTime = utils::Time::getInstance().getCurrentTime();
+    if (currentTime < timeSinceBrokenCheck + checkCycle) {
+      return false;
     }
-    timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
+
+    timeSinceBrokenCheck = currentTime;
+
     uint64_t generated = distribution(generator);
-    generated = distribution(generator);
+
     if (generated == magicNumber) {
       auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
       scheduleEvent(stateEvent);
@@ -82,9 +82,5 @@ bool SimulationMachine::checkBroken() {
 
 /* static */ void SimulationMachine::setCanBreak(bool canBreak) {
   SimulationMachine::canBreak = canBreak;
-}
-
-/* static */ void SimulationMachine::setTimeCycles(bool timeCycles) {
-  SimulationMachine::timeCycles = timeCycles;
 }
 } // simulator

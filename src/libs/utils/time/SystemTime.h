@@ -31,6 +31,11 @@ class SystemTime : public ITime {
    */
   void syncTime(uint64_t newTimeMillis) override;
 
+  /**
+   * Resets the current time by setting the offset to 0
+   */
+  void reset() override;
+
  private:
   int64_t offset;
 };
