@@ -12,10 +12,6 @@ namespace simulation {
 
 static const uint64_t eightHoursInMillis = 28800000;
 
-SimulationApplication::SimulationApplication() : scheduledStateEvents(false) {
-
-}
-
 void SimulationApplication::turnOnSimulationMachines() {
   for (const auto &machine : getSimulationMachines()) {
     machine->sendTurnOnCommand();
@@ -56,16 +52,9 @@ SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machin
 }
 
 void SimulationApplication::executeScheduler() {
-  // Check if we are still waiting for responses...
-  for (const auto &machine : getSimulationMachines()) {
-    if (machine->isWaitingForSimulationResponse()) {
-      return;
-    }
-  }
-
-  scheduleMachineNotifications();
-
-  if (!scheduledStateEvents){
+  bool scheduledEvents = scheduleMachineNotifications();
+  if (!scheduledEvents){
+    // If no events have been scheduled, run scheduler.
     Application::executeScheduler();
   }
 
@@ -108,7 +97,7 @@ const std::vector<SimulationMachinePtr> SimulationApplication::getSimulationMach
   return list;
 }
 
-void SimulationApplication::scheduleMachineNotifications() {
+bool SimulationApplication::scheduleMachineNotifications() {
   auto simulationMachines = getSimulationMachines();
 
   bool foundEvents = false;
@@ -132,10 +121,9 @@ void SimulationApplication::scheduleMachineNotifications() {
         Application::handleNotification(notification);
       }
     }
-    scheduledStateEvents = true;
-  } else{
-    scheduledStateEvents = false;
+    return true;
   }
+  return false;
 }
 
 }
