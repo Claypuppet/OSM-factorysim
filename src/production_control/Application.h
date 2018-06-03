@@ -113,6 +113,27 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   void tryChangeProduction();
 
+  /**
+   * Handle register notification
+   * @param id : Machine id
+   * @param connection : Connection to this machine
+   */
+  void onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection);
+
+  /**
+   * Handle OK notification
+   * @param id : Machine id
+   * @param status : New status of this machine
+   */
+  void onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status);
+
+  /**
+   * Handle NOK notification
+   * @param id : Machine id
+   * @param errorCode : Some error code
+   */
+  void onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode);
+
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
 
