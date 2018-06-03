@@ -165,6 +165,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
         stream << "machine \"" << name << "\" repaired @ " << utils::Time::getInstance().getCurrentTime();
         utils::Logger::log(stream.str());
       }
+      break;
     }
     case kMachineStatusBroken: {
       // Broke while processing product , product lost

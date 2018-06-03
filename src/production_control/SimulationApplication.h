@@ -17,7 +17,7 @@ namespace simulation {
  */
 class SimulationApplication : public core::Application {
  public:
-  SimulationApplication() = default;
+  SimulationApplication();
   virtual ~SimulationApplication() = default;
 
   /**
@@ -59,6 +59,9 @@ class SimulationApplication : public core::Application {
   // Overrides
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
   void executeScheduler() override;
+
+ private:
+  bool scheduledStateEvents;
 
 };
 

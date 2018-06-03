@@ -43,7 +43,7 @@ void PrepareConfiguration::onReconfigure(const EventPtr &event) {
   context.setCurrentConfiguration(nextConfig);
 
   std::stringstream ss;
-  ss << "-Reconfiguring for new product: " << nextConfig;
+  ss << "-Reconfiguring for new product: " << nextConfig->getProductId();
   utils::Logger::log(ss.str());
 
   auto state = std::make_shared<ConfiguringState>(context);

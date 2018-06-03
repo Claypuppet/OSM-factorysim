@@ -108,6 +108,9 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(2);
+      if(status == models::Machine::MachineStatus::kMachineStatusBroken){
+        int a= 1;
+      }
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
       event->setArgument(1, status);
@@ -120,11 +123,15 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto errorCode = notification.getArgumentAsType<models::Machine::MachineErrorCode>(2);
       switch(errorCode){
-        case models::Machine::MachineErrorCode::kMachineErrorCodeBroke :{
-          auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
+        case models::Machine::MachineErrorCode::kMachineErrorCodeBroke : {
+           auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
           event->setArgument(0, id);
           event->setArgument(1, models::Machine::kMachineStatusBroken);
           scheduleEvent(event);
+          break;
+        }
+        default : {
+          break;
         }
       }
       break;

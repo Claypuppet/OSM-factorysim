@@ -8,11 +8,12 @@
 
 namespace simulator {
 
-const uint64_t oneHourInMillis = 3600000;
+const uint64_t oneMinuteInMillis = 60000;
+const uint64_t oneHourInMillis = oneMinuteInMillis * 60;
 
 bool SimulationMachine::canBreak = true;
 
-SimulationMachine::SimulationMachine() : Machine(), timeSinceBrokenCheck(0), checkCycle(oneHourInMillis) {
+SimulationMachine::SimulationMachine(const models::Machine &machine) : machinecore::Machine(machine), timeSinceBrokenCheck(0), checkCycle(oneMinuteInMillis) {
 
 }
 
@@ -21,8 +22,9 @@ bool SimulationMachine::configure() {
   distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
                                                          (magicNumber
                                                              + currentConfiguration->getMeanTimeBetweenFailureInHours())
-                                                             * 3600000 / checkCycle);
+                                                             * oneHourInMillis / checkCycle);
   utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getInitializationDurationInMilliseconds());
+  timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
   return true;
@@ -67,14 +69,19 @@ bool SimulationMachine::checkBroken() {
       return false;
     }
 
-    timeSinceBrokenCheck = currentTime;
+    while(currentTime > timeSinceBrokenCheck){
+      // Catch up with history
+      timeSinceBrokenCheck += checkCycle;
 
-    uint64_t generated = distribution(generator);
+      uint64_t generated = distribution(generator);
 
-    if (generated == magicNumber) {
-      auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
-      scheduleEvent(stateEvent);
-      return true;
+      if (generated == magicNumber) {
+        // It broke, set time since last check to now
+        timeSinceBrokenCheck = currentTime;
+        auto stateEvent = std::make_shared<machinestates::Event>(machinestates::kEventTypeMachineBroke);
+        scheduleEvent(stateEvent);
+        return true;
+      }
     }
   }
   return false;

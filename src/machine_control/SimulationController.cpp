@@ -179,8 +179,9 @@ void SimulationController::stop() {
   }
 }
 
-void SimulationController::setMachineInfo(const models::MachinePtr &machine) {
-  application->getMachine()->setConfigurations(machine->getConfigurations());
+void SimulationController::setMachineInfo(const models::MachinePtr &aMachine) {
+  auto machine = std::make_shared<SimulationMachine>(*aMachine);
+  application->setMachine(machine);
   auto event = std::make_shared<patterns::statemachine::Event>(simulationstates::kEventTypeSimulationConfigurationsSet);
   std::stringstream stream;
   stream << std::endl << " I will be simulating \"" << machine->getName() << "\" (id " << machine->getId() << ")" << std::endl;

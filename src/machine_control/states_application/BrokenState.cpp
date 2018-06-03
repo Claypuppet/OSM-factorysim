@@ -18,8 +18,9 @@ void BrokenState::entryAction() {
 }
 
 void BrokenState::doActivity() {
-  // 15 min repair hardcoded
-  utils::Time::getInstance().increaseCurrentTime(900000);
+  auto &config = context.getMachine()->getConfigurationById(context.getConfigToSet());
+
+  utils::Time::getInstance().increaseCurrentTime(1000ul * config->getReparationTimeInMinutes());
   auto event = std::make_shared<Event>(kEventTypeRepaired);
   context.scheduleEvent(event);
 }
