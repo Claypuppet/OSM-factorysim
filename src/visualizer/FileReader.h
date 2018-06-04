@@ -5,7 +5,7 @@
 #ifndef PRODUCTION_LINE_CONTROL_FILEREADER_H
 #define PRODUCTION_LINE_CONTROL_FILEREADER_H
 
-#include <boost/asio/detail/shared_ptr.hpp>
+#include <memory>
 #include <vector>
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
