@@ -17,6 +17,9 @@
 
 namespace simulator {
 
+/**
+ * Class that controls a simulation application
+ */
 class SimulationController
 	: public machinecore::Controller,
 	  public patterns::statemachine::Context,

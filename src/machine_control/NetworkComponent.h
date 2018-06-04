@@ -10,6 +10,10 @@
 #include "network/Connection.h"
 
 namespace Communication {
+
+/**
+ * Network component that handles messages for application
+ */
 class NetworkComponent : public network::IConnectionHandler, public patterns::notifyobserver::Notifier {
  public:
   NetworkComponent();

@@ -9,6 +9,10 @@
 #include "Machine.h"
 
 namespace machinecore {
+
+/**
+ * Class that controls an application
+ */
 class Controller {
  public:
   /**

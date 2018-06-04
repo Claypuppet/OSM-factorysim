@@ -12,6 +12,9 @@
 
 namespace models {
 
+/**
+ * Machines use the class to hold information about their configurations
+ */
 class MachineConfiguration {
  public:
   MachineConfiguration() = default;

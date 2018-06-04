@@ -1,6 +1,5 @@
 
 add_library(source_lib_app_machine_control SHARED
-        config.h
         ControllerNotificationEventIds.h
         SimulationNetworkComponent.cpp
         SimulationNetworkComponent.h

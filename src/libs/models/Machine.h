@@ -16,6 +16,13 @@
 
 namespace models {
 
+/**
+ * Class that holds information about a machine
+ * Machine objects in the visualiser, production control and machine extend this class
+ * Id of the machine
+ * Name of the machine
+ * Configurations of the machine
+ */
 class Machine {
  public:
 
