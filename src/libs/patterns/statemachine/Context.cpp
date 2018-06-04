@@ -26,12 +26,7 @@ void patterns::statemachine::Context::run() {
   while (!events.empty()) {
 	EventPtr event = events.front();
 	events.pop();
-	auto handled = currentState->handleEvent(event);
-
-	// Re-add unhandled events ?
-//		if (!handled){
-//			scheduleEvent(e);
-//		}
+	currentState->handleEvent(event);
   }
 }
 const patterns::statemachine::StatePtr &patterns::statemachine::Context::getCurrentState() const {

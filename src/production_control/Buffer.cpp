@@ -61,9 +61,7 @@ void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
 
 uint16_t Buffer::getFromMachineId() const {
   auto machine = fromMachine.lock();
-  if (machine) {
-    return machine->getId();
-  }
+  return machine ? machine->getId() : (uint16_t) 0 ;
 }
 
 uint64_t Buffer::getTotalProcessed() const {
@@ -78,11 +76,11 @@ bool Buffer::isLastInLine() const {
   return toMachines.empty();
 }
 
-void Buffer::addToMachine(const MachinePtrW machine) {
+void Buffer::addToMachine(const MachinePtrW &machine) {
   toMachines.emplace_back(machine);
 }
 
-std::stringstream &Buffer::debugPrintBuffersChain(std::stringstream &stream) {
+void Buffer::debugPrintBuffersChain(std::stringstream &stream) {
   if (auto machine = fromMachine.lock()) {
     stream << machine->getName() << " (id " << machine->getId() << ") -> ";
   }

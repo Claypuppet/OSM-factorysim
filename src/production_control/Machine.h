@@ -105,7 +105,7 @@ class Machine
   /**
    * Executes the next action, based on next action type
    */
-  virtual bool doNextAction();
+  virtual void doNextAction();
 
   /**
    *
@@ -168,7 +168,6 @@ class Machine
   uint16_t prepareConfigureId;
   uint16_t currentConfigId;
 
-  bool lastInLine;
   NextActionType nextAction;
 
   //statistics

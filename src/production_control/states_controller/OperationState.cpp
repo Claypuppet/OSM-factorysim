@@ -15,10 +15,6 @@ OperationState::OperationState(simulation::SimulationController &aContext)
 void OperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
   context.getApplication()->setStartState();
-
-  uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
-  logMoment = currentTime;
-
   context.setSimulationEndTime();
 }
 

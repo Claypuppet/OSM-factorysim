@@ -10,11 +10,7 @@
 namespace simulation {
 
 SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
-}
-
-SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
+	core::Machine(aMachine), eventPusher(), ready(false), simConnection(), awaitingSimulationResponse(false), simulationEvents() {
 }
 
 bool SimulationMachine::isSimulationConnected() const {

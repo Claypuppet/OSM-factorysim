@@ -13,7 +13,7 @@ JSONStrategy::JSONStrategy(const JSONStrategy &other) {
 }
 
 std::shared_ptr<models::Configuration> JSONStrategy::deserialize(const std::string &filePath) {
-  YAMLStrategy::deserialize(filePath);
+  return YAMLStrategy::deserialize(filePath);
 }
 
 }

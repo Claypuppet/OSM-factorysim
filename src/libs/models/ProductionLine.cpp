@@ -9,39 +9,27 @@ ProductionLine::ProductionLine(const std::string &name,
       products(products),
       machines(machines) {
 
-  if (products.size() == 0) {
+  if (products.empty()) {
     throw std::runtime_error("ProductionLine has no products configured");
   }
 
-  if (machines.size() == 0) {
+  if (machines.empty()) {
     throw std::runtime_error("ProductionLine has no machines configured");
   }
 
 }
 
 ProductionLine::ProductionLine(const ProductionLine &other)
-    : name(other.name) {
-  for (uint16_t i = 0; i < other.products.size(); ++i) {
-    products.push_back(other.products[i]);
-  }
-
-  for (uint16_t i = 0; i < other.machines.size(); ++i) {
-    machines.push_back(other.machines[i]);
-  }
+    : name(other.name), products(other.products), machines(other.machines) {
 }
 
 ProductionLine &ProductionLine::operator=(const ProductionLine &other) {
   if (this != &other) {
     name = other.name;
-
-    for (uint16_t i = 0; i < other.products.size(); ++i) {
-      products.push_back(other.products[i]);
-    }
-
-    for (uint16_t i = 0; i < other.machines.size(); ++i) {
-      machines.push_back(other.machines[i]);
-    }
+    products = other.products;
+    machines = other.machines;
   }
+  return *this;
 }
 
 const std::string &ProductionLine::getName() const {
@@ -55,7 +43,7 @@ const std::vector<ProductPtr> &ProductionLine::getProducts() const {
 const std::vector<MachinePtr> &ProductionLine::getMachines() const {
   return machines;
 }
-const ProductPtr &ProductionLine::getProductById(uint16_t productId) const {
+const ProductPtr ProductionLine::getProductById(uint16_t productId) const {
   for (const auto &product : products) {
     if (product->getId() == productId) {
       return product;

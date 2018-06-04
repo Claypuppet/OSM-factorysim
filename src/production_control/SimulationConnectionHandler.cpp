@@ -19,7 +19,7 @@ void SimulationConnectionHandler::onConnectionEstablished(network::ConnectionPtr
 
 void SimulationConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection,
 														   const boost::system::error_code &error) {
-
+  disconnectMachineConnection(connection);
 }
 
 void SimulationConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection,
