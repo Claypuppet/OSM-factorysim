@@ -93,7 +93,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
 
   switch (notification.getEventId()) {
     case NotifyEventIds::eApplicationRegisterMachine: {
-      auto time = notification.getArgumentAsType<uint64_t>(0);
+//      auto time = notification.getArgumentAsType<uint64_t>(0); // Unused at the moment
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto connection = notification.getArgumentAsType<network::ConnectionPtr>(2);
       onHandleRegisterNotification(id, connection);
@@ -101,7 +101,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
     }
 
     case NotifyEventIds::eApplicationOK: {
-      auto time = notification.getArgumentAsType<uint64_t>(0);
+//      auto time = notification.getArgumentAsType<uint64_t>(0); // Unused at the moment
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(2);
       onHandleOKNotification(id, status);
@@ -109,7 +109,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
     }
 
     case NotifyEventIds::eApplicationNOK: {
-      auto time = notification.getArgumentAsType<uint64_t>(0);
+//      auto time = notification.getArgumentAsType<uint64_t>(0); // Unused at the moment
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto errorCode = notification.getArgumentAsType<models::Machine::MachineErrorCode>(2);
       onHandleNOKNotification(id, errorCode);

@@ -9,22 +9,37 @@
 
 namespace core {
 
+
 Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
-      currentConfigId(0),
-      timesBroken(0),
       awaitingResponse(false),
-      nextAction(kNextActionTypeProcessProduct) {
+      connection(),
+      productInProcess(),
+      prepareConfigureId(0),
+      currentConfigId(0),
+      nextAction(kNextActionTypeProcessProduct),
+      lastStatusChange(0),
+      timeSpendInState(),
+      timesBroken(0),
+      inputBuffers(),
+      outputBuffers() {
 }
 
 Machine::Machine(const Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
-      currentConfigId(0),
-      timesBroken(0),
       awaitingResponse(false),
-      nextAction(kNextActionTypeProcessProduct) {
+      connection(),
+      productInProcess(),
+      prepareConfigureId(0),
+      currentConfigId(0),
+      nextAction(kNextActionTypeProcessProduct),
+      lastStatusChange(0),
+      timeSpendInState(),
+      timesBroken(0),
+      inputBuffers(),
+      outputBuffers() {
 }
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
@@ -219,7 +234,7 @@ bool Machine::canDoAction() {
   return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(1);
 }
 
-bool Machine::doNextAction() {
+void Machine::doNextAction() {
   if(canDoAction()){
     switch (nextAction){
       case kNextActionTypeProcessProduct:

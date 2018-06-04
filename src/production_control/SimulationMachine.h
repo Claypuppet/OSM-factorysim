@@ -24,15 +24,6 @@ class SimulationMachine : public core::Machine {
    * @param aMachine : A machine model
    */
   explicit SimulationMachine(const models::Machine &aMachine);
- protected:
-  void sendMessage(network::Message &message) override;
- public:
-
-  /**
-  * Copy constructor
-  * @param aMachine : The machine to copy
-  */
-  SimulationMachine(const SimulationMachine &aMachine);
 
   /**
    * Destruct
@@ -103,6 +94,13 @@ class SimulationMachine : public core::Machine {
   * @param message : The message to send to this machine
   */
   void sendSimulationMessage(network::Message &message);
+
+  /**
+   * Overrides Machine::sendMessage, sets awaitingSimulationResponse to true
+   * @param message
+   */
+  void sendMessage(network::Message &message) override;
+
 
   std::mutex eventPusher;
   bool ready;

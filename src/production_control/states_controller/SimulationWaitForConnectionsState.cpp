@@ -30,17 +30,17 @@ bool states::SimulationWaitForConnectionsState::handleEvent(const EventPtr &even
 	case kEventTypeMachineReady: {
 	  utils::Logger::log("-Handle event: kEventTypeMachineReady");
 	  onMachineReady(event);
-	  break;
+	  return true;
 	}
 	case kEventTypeMachineRegistered: {
 	  utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
-		onMachineRegistered(event);
-	  break;
+	  onMachineRegistered(event);
+	  return true;
 	}
 	case kEventTypeAllMachinesReadyForSimulation: {
 	  utils::Logger::log("-Handle event: kEventTypeAllMachinesReadyForSimulation");
 	  onAllMachinesReadyForSimulation();
-	  break;
+	  return true;
 	}
 
 	default:

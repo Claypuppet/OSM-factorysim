@@ -19,7 +19,7 @@ namespace simulation {
 // 1 jan 2018 07:00:00:000
 const uint64_t DEFAULT_START_TIME = 1514786400000;
 
-SimulationController::SimulationController() : core::Controller() {
+SimulationController::SimulationController() : core::Controller(), simulationEndTimeInMillis(0) {
   application = std::make_shared<SimulationApplication>();
   // Use custom time
   auto& time = utils::Time::getInstance();
@@ -56,10 +56,6 @@ void SimulationController::setSimulationEndTime() {
   uint64_t simulationDurationInHours = configuration->getSimulationInfo()->getDurationInHours();
   uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
   this->simulationEndTimeInMillis = currentTime + (simulationDurationInHours * 60 * 60 * 1000); // get millis from hours
-}
-
-const std::shared_ptr<models::Configuration> &SimulationController::getConfiguration() const {
-  return configuration;
 }
 
 bool SimulationController::simulationIsOver() const {
@@ -158,8 +154,7 @@ void SimulationController::setConfiguration(const std::string &filePath) {
   const auto &machineModels = productionLineModel->getMachines();
 
   for (const auto &machineModel : machineModels) {
-	SimulationMachine machine(*machineModel);
-	machines.emplace_back(std::make_shared<SimulationMachine>(machine));
+	machines.emplace_back(std::make_shared<SimulationMachine>(*machineModel));
   }
 
   application->setMachines(machines);
