@@ -1,0 +1,8 @@
+add_subdirectory(yaml-cpp)
+add_subdirectory(configuration_serializer)
+add_subdirectory(utils)
+add_subdirectory(silly_objects)
+add_subdirectory(patterns)
+add_subdirectory(models)
+add_subdirectory(network)
+add_subdirectory(cereal)

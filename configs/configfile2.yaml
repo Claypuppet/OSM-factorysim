@@ -1,0 +1,75 @@
+# Productiestraat Spaanders B.V.
+
+---
+name: Demostraat
+
+simulationInfo:
+  durationInHours: 168
+  startHourOfWorkDay: 9
+  workDayDurationInHours: 8
+
+productionLine:
+  name: Kantoortafels
+  products:
+  - id: 1
+    name: normalekantoortafels
+    proportion: 2
+  - id: 2
+    name: luxekantoortafels
+    proportion: 1
+  machines:
+
+  - id: 1
+    name: Tafelbladmaker
+    configurations:
+    - productId: 1
+      outputEachMinute: 2
+      outputBufferSize: 20
+      initializationDurationInSeconds: 300
+      meanTimeBetweenFailureInHours: 50
+      reparationTimeInMinutes: 60
+      meanTimeBetweenFailureStddevInHours: 1
+      previousMachines:
+      - machineId: 0
+        neededProducts: 1
+
+    - productId: 2
+      outputEachMinute: 1
+      outputBufferSize: 30
+      initializationDurationInSeconds: 300
+      meanTimeBetweenFailureInHours: 50
+      reparationTimeInMinutes: 60
+      meanTimeBetweenFailureStddevInHours: 1
+      previousMachines:
+      - machineId: 0
+        neededProducts: 3
+
+
+  - id: 2
+    name: Standaard Potenplakker
+    configurations:
+    - productId: 1
+      outputEachMinute: 2
+      outputBufferSize: 0
+      initializationDurationInSeconds: 900
+      meanTimeBetweenFailureInHours: 500
+      reparationTimeInMinutes: 60
+      meanTimeBetweenFailureStddevInHours: 1
+      previousMachines:
+      - machineId: 1
+        neededProducts: 1
+
+
+  - id: 3
+    name: Mooie Potenplakker
+    configurations:
+    - productId: 2
+      outputEachMinute: 2
+      outputBufferSize: 0
+      initializationDurationInSeconds: 300
+      meanTimeBetweenFailureInHours: 500
+      reparationTimeInMinutes: 60
+      meanTimeBetweenFailureStddevInHours: 1
+      previousMachines:
+      - machineId: 1
+        neededProducts: 1

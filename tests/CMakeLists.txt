@@ -1,0 +1,4 @@
+add_subdirectory(test_helpers)
+add_subdirectory(production_control)
+add_subdirectory(machine_control)
+add_subdirectory(visualizer)

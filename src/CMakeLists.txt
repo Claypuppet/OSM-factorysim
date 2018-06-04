@@ -1,0 +1,5 @@
+
+add_subdirectory(libs)
+add_subdirectory(machine_control)
+add_subdirectory(production_control)
+add_subdirectory(visualizer)
