@@ -26,7 +26,7 @@ productionLine:
       outputEachMinute: 2
       outputBufferSize: 20
       initializationDurationInSeconds: 300
-      meanTimeBetweenFailureInHours: 5
+      meanTimeBetweenFailureInHours: 50
       reparationTimeInMinutes: 60
       meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
@@ -37,7 +37,7 @@ productionLine:
       outputEachMinute: 1
       outputBufferSize: 30
       initializationDurationInSeconds: 300
-      meanTimeBetweenFailureInHours: 5
+      meanTimeBetweenFailureInHours: 50
       reparationTimeInMinutes: 60
       meanTimeBetweenFailureStddevInHours: 1
       previousMachines:

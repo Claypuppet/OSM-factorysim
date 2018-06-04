@@ -54,12 +54,12 @@ BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<applicationstates::Initialize>(application.getCurrentState()), true);
 
   // Create a sample vector for configurations
-  std::vector<models::MachineConfigurationPtr> confVector;
-  auto config0 = std::make_shared<models::MachineConfiguration>(0);
-  confVector.push_back(config0);
+  std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
+  models::Machine modelMachine(1, "", confVector);
+  auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
 
   // Set the configurations to the application
-  BOOST_CHECK_NO_THROW(application.getMachine()->setConfigurations(confVector));
+  BOOST_CHECK_NO_THROW(application.setMachine(machine));
 
   // Create a ReceivedConfig event and attach the configurations to it
   auto event = std::make_shared<patterns::statemachine::Event>(applicationstates::kEventTypeReconfigure);
@@ -89,6 +89,10 @@ BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
 
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   simulator::SimulationApplication application(1);
+  std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
+  models::Machine modelMachine(1, "", confVector);
+  auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
+  application.setMachine(machine);
 
   BOOST_CHECK_NO_THROW(simulator::SimulationMachine::setCanBreak(false));
 
@@ -121,10 +125,11 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
-  std::vector<models::MachineConfigurationPtr> confVector;
-  auto config0 = std::make_shared<models::MachineConfiguration>(0);
-  confVector.push_back(config0);
-  BOOST_CHECK_NO_THROW(application.getMachine()->setConfigurations(confVector));
+  std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
+  models::Machine modelMachine(1, "", confVector);
+  auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
+
+  BOOST_CHECK_NO_THROW(application.setMachine(machine));
 
   patterns::notifyobserver::NotifyEvent
       notification(machinecore::NotifyEventType::kNotifyEventTypeConfigure);
@@ -146,6 +151,10 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 
 BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
   simulator::SimulationApplication application(1);
+  std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
+  models::Machine modelMachine(1, "", confVector);
+  auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
+  application.setMachine(machine);
 
   auto state = std::make_shared<applicationstates::IdleState>(applicationstates::IdleState(application));
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
@@ -174,26 +183,28 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   uint16_t nFailures = 0;
 
 
-  uint16_t meanTimeBetweenFailureInHours = 100;
+  uint16_t meanTimeBetweenFailureInHours = 250;
   std::vector<models::PreviousMachinePtr> previousMachines;
   previousMachines.push_back(std::make_shared<models::PreviousMachine>());
   models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
 
+  simulator::SimulationApplication application(1);
+  std::vector<models::MachineConfigurationPtr> confVector = {configuration};
+  models::Machine modelMachine(1, "", confVector);
+  auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
+  machine->setCurrentConfiguration(configuration);
+  application.setMachine(machine);
+
   uint64_t millisecondsInHour = 3600000;
-  uint8_t factor = 60;
 
   for(uint16_t i = 0; i < nTests; ++i) {
-    simulator::SimulationApplication application(1);
-
-    application.getMachine()->setCurrentConfiguration(configuration);
-
     application.getMachine()->configure();
 
-    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours*factor; ++j) {
+    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours; ++j) {
       if (application.getMachine()->checkBroken()) {
         ++nFailures;
       }
-      utils::Time::getInstance().increaseCurrentTime(millisecondsInHour/factor);
+      utils::Time::getInstance().increaseCurrentTime(millisecondsInHour);
     }
 
     utils::Time::getInstance().reset();

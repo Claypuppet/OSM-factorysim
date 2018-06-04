@@ -52,6 +52,9 @@ class Application
 
   void setMachine(const MachinePtr &aMachine) {
     machine = aMachine;
+    if(machine){
+      handleNotificationsFor(*machine);
+    }
   }
 
   uint16_t getId() const {

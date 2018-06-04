@@ -9,8 +9,6 @@
 namespace simulator {
 SimulationApplication::SimulationApplication(uint16_t aMachineId)
     : Application(aMachineId) {
-  machine = std::make_shared<SimulationMachine>();
-  handleNotificationsFor(*machine);
 }
 
 void SimulationApplication::setStartState() {

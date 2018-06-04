@@ -96,11 +96,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto connection = notification.getArgumentAsType<network::ConnectionPtr>(2);
-
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
-      event->addArgument(id);
-      event->addArgument(connection);
-      scheduleEvent(event);
+      onHandleRegisterNotification(id, connection);
       break;
     }
 
@@ -108,10 +104,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto status = notification.getArgumentAsType<models::Machine::MachineStatus>(2);
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
-      event->setArgument(0, id);
-      event->setArgument(1, status);
-      scheduleEvent(event);
+      onHandleOKNotification(id, status);
       break;
     }
 
@@ -119,14 +112,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       auto time = notification.getArgumentAsType<uint64_t>(0);
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto errorCode = notification.getArgumentAsType<models::Machine::MachineErrorCode>(2);
-      switch(errorCode){
-        case models::Machine::MachineErrorCode::kMachineErrorCodeBroke :{
-          auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
-          event->setArgument(0, id);
-          event->setArgument(1, models::Machine::kMachineStatusBroken);
-          scheduleEvent(event);
-        }
-      }
+      onHandleNOKNotification(id, errorCode);
       break;
     }
 
@@ -135,8 +121,40 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
   }
-
 }
+
+void core::Application::onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection){
+
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
+  event->addArgument(id);
+  event->addArgument(connection);
+  scheduleEvent(event);
+}
+
+
+void core::Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status){
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
+  event->setArgument(0, id);
+  event->setArgument(1, status);
+  scheduleEvent(event);
+}
+
+
+void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode){
+  switch(errorCode){
+    case models::Machine::MachineErrorCode::kMachineErrorCodeBroke : {
+      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
+      event->setArgument(0, id);
+      event->setArgument(1, models::Machine::kMachineStatusBroken);
+      scheduleEvent(event);
+      break;
+    }
+    default : {
+      break;
+    }
+  }
+}
+
 
 void core::Application::setStartState() {
   auto startState = std::make_shared<applicationstates::WaitForConnectionsState>(*this);
