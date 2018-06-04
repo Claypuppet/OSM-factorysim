@@ -5,7 +5,7 @@
 #ifndef PRODUCTION_LINE_CONTROL_MACHINEVIEW_H
 #define PRODUCTION_LINE_CONTROL_MACHINEVIEW_H
 
-#include <boost/asio/detail/shared_ptr.hpp>
+#include <memory>
 #include "Machine.h"
 namespace ui {
 
