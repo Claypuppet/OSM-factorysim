@@ -5,6 +5,8 @@ name: Kleine productiestraat
 
 simulationInfo:
   durationInHours: 8760
+  startHourOfWorkDay: 9
+  workDayDurationInHours: 8
 
 productionLine:
   name: Kantoortafels
@@ -73,7 +75,7 @@ productionLine:
       reparationTimeInMinutes: 27
       previousMachines:
         - machineId: 1
-          neededProducts: 3 
+          neededProducts: 3
 
 events:
 - 0,1514786400000,1,1
