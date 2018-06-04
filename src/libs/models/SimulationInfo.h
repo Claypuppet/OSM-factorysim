@@ -14,6 +14,10 @@
 
 namespace models {
 
+/**
+ * Class that holds information about a simulation
+ * Duration of the simulation, time of day te production starts and the production time on a day
+ */
 class SimulationInfo;
 typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 

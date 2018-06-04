@@ -13,6 +13,9 @@
 
 namespace utils {
 
+/**
+ * Util class for logging messages to the console
+ */
 class Logger : public patterns::singleton::Singleton<Logger> {
  public:
   Logger();

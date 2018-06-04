@@ -18,6 +18,9 @@ class SimulationConnectionHandler;
 
 typedef std::shared_ptr<SimulationConnectionHandler> SimulationConnectionHandlerPtr;
 
+/**
+ * Network component for a simulation control that handles messages and connections
+ */
 class SimulationConnectionHandler :
 	public network::IConnectionHandler,
 	public patterns::notifyobserver::Notifier,

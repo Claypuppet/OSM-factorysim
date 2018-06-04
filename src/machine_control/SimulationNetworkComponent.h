@@ -12,6 +12,9 @@
 // other includes
 // -
 
+/**
+ * Network component that handles messages for a simulation controler
+ */
 namespace SimulationCommunication {
 
 class SimulationNetworkComponent;
