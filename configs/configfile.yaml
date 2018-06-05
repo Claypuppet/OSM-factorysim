@@ -31,13 +31,14 @@ productionLine:
     meanTimeBetweenFailureInHours: 500
     reparationTimeInMinutes: 60
     reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
       outputEachMinute: 2
       outputBufferSize: 20
       previousMachines:
-      - machineId: 0
+      - machineId: 25
         neededProducts: 1
 
     - productId: 2
@@ -55,8 +56,11 @@ productionLine:
     meanTimeBetweenFailureInHours: 500
     reparationTimeInMinutes: 60
     reparationTimeStddevInMinutes: 1
-
+    postProcessInfo:
+      inputDelayInSeconds: 120
+      postProcessDurationInMinutes: 30
     configurations:
+
     - productId: 2
       outputEachMinute: 1
       outputBufferSize: 10
@@ -68,11 +72,13 @@ productionLine:
 
   - id: 3
     name: Freesmachine (hout)
-initializationDurationInSeconds: 300
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
+
     - productId: 2
       outputEachMinute: 2
       outputBufferSize: 20
@@ -84,11 +90,13 @@ reparationTimeStddevInMinutes: 1
 
   - id: 4
     name: Voorboormachine (hout)
-initializationDurationInSeconds: 120
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 120
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
+
     - productId: 1
       outputEachMinute: 10
       outputBufferSize: 100
@@ -107,10 +115,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 5
     name: Schuurmachine (hout)
-initializationDurationInSeconds: 120
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 120
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
@@ -131,15 +140,16 @@ reparationTimeStddevInMinutes: 1
 
   - id: 6
     name: Spuitmachine (hout)
-outputBufferSize: 20
-initializationDurationInSeconds: 900
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 900
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
       outputEachMinute: 2
+      outputBufferSize: 20
       previousMachines:
       - machineId: 5
         neededProducts: 1
@@ -159,10 +169,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 7
     name: Zaagmachine (staal)
-initializationDurationInSeconds: 300
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
@@ -183,10 +194,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 8
     name: Buigmachine (staal)
-initializationDurationInSeconds: 300
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 2
@@ -200,10 +212,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 9
     name: Lasmachine (staal)
-initializationDurationInSeconds: 300
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
@@ -224,10 +237,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 10
     name: Poedercoatmachine (staal)
-initializationDurationInSeconds: 900
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 900
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
     - productId: 1
       outputEachMinute: 5
@@ -240,10 +254,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 11
     name: Polijstmachine (staal)
-initializationDurationInSeconds: 120
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 120
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 2
@@ -261,10 +276,11 @@ reparationTimeStddevInMinutes: 1
 
   - id: 12
     name: Inpakmachine
-initializationDurationInSeconds: 300
-meanTimeBetweenFailureInHours: 500
-reparationTimeInMinutes: 60
-reparationTimeStddevInMinutes: 1
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    reparationTimeStddevInMinutes: 1
+    postProcessInfo:
     configurations:
 
     - productId: 1
@@ -281,7 +297,7 @@ reparationTimeStddevInMinutes: 1
       outputBufferSize: 300
       previousMachines:
         - machineId: 6
-          neededProducts: 1
+          neededProducts: 1.
         - machineId: 11
           neededProducts: 4
 

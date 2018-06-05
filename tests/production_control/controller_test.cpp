@@ -168,9 +168,21 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
     BOOST_CHECK(machine1->getId() == 15);
     BOOST_CHECK(machine1->getName() == "Testmachine15");
+    BOOST_CHECK(machine1->getInitializationDurationInSeconds() == 6);
+    BOOST_CHECK(machine1->getMeanTimeBetweenFailureInHours()== 8800);
+    BOOST_CHECK(machine1->getReparationTimeInMinutes() == 24);
+    BOOST_CHECK(machine1->getReparationTimeStddevInMinutes() == 30);
+
+    auto machine1PostProcessInfo = machine1->getPostProcessInfo();
+    BOOST_REQUIRE(machine1PostProcessInfo);
 
     auto machine1Configurations = machine1->getConfigurations();
     BOOST_REQUIRE(machine1Configurations.size() == 2);
+
+    { // machine1 --> postProcessInfo
+      BOOST_CHECK(machine1PostProcessInfo->getInputDelayInSeconds() == 20);
+      BOOST_CHECK(machine1PostProcessInfo->getPostProcessDurationInMinutes() == 30);
+    }
 
     { // machine1 --> machineConfiguration[0]
       auto machine1Configuration1 = machine1Configurations[0];
@@ -178,10 +190,6 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
       BOOST_CHECK(machine1Configuration1->getProductId() == 12);
       BOOST_CHECK(machine1Configuration1->getOutputEachMinute() == 12);
       BOOST_CHECK(machine1Configuration1->getOutputBufferSize() == 14);
-      BOOST_CHECK(machine1Configuration1->getInitializationDurationInSeconds() == 6);
-      BOOST_CHECK(machine1Configuration1->getMeanTimeBetweenFailureInHours()== 8800);
-      BOOST_CHECK(machine1Configuration1->getMeanTimeBetweenFailureStddevInHours() == 30);
-      BOOST_CHECK(machine1Configuration1->getReparationTimeInMinutes() == 24);
 
       auto machine1Configuration1PreviousMachines = machine1Configuration1->getPreviousMachines();
       BOOST_REQUIRE(machine1Configuration1PreviousMachines.size() == 1);
