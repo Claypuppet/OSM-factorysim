@@ -23,16 +23,15 @@
       {
         "id": 1,
         "name": "Zaagmachine (hout)",
+        "meanTimeBetweenFailureInHours": 8800,
+        "reparationTimeInMinutes": 24,
+        "reparationTimeStddevInMinutes": 30,
+        "initializationDurationInSeconds": 6,
         "configurations": [
           {
             "productId": 1,
             "outputEachMinute": 12,
             "outputBufferSize": 9,
-            "initializationDurationInSeconds": 6,
-            "turnAroundTimeInSeconds": 16,
-            "meanTimeBetweenFailureInHours": 8800,
-            "meanTimeBetweenFailureStddevInHours": 30,
-            "reparationTimeInMinutes": 24,
             "previousMachines": [
               {
                 "machineId": 0,
@@ -44,11 +43,6 @@
             "productId": 2,
             "outputEachMinute": 8,
             "outputBufferSize": 9,
-            "initializationDurationInSeconds": 9,
-            "turnAroundTimeInSeconds": 21,
-            "meanTimeBetweenFailureInHours": 9800,
-            "meanTimeBetweenFailureStddevInHours": 36,
-            "reparationTimeInMinutes": 27,
             "previousMachines": [
               {
                 "machineId": 0,
