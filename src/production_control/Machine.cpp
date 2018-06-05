@@ -9,7 +9,6 @@
 
 namespace core {
 
-
 Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
@@ -22,6 +21,7 @@ Machine::Machine(const models::Machine &aMachine)
       lastStatusChange(0),
       timeSpendInState(),
       timesBroken(0),
+      lostProducts(0),
       inputBuffers(),
       outputBuffers() {
 }
@@ -38,13 +38,14 @@ Machine::Machine(const Machine &aMachine)
       lastStatusChange(0),
       timeSpendInState(),
       timesBroken(0),
+      lostProducts(0),
       inputBuffers(),
       outputBuffers() {
 }
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
-  if(connection && connection->isConnected()){
+  if (connection && connection->isConnected()) {
     lastStatusChange = utils::Time::getInstance().getCurrentTime();
     setStatus(kMachineStatusInitializing);
   }
@@ -64,22 +65,9 @@ void Machine::sendMessage(network::Message &message) {
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
-}
-
-void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
-  if(const auto &configuration = getConfigurationById(configureId)){
-    // Configuration exists
-    prepareConfigureId = configureId;
-    nextAction = kNextActionTypeReconfigure;
-  }
-  else if(firstTime){
-    // First config, but requested config doest not exist, machine will initialize in first known config
-    if(!configurations.empty()){
-      // Configuration exists
-      prepareConfigureId = configurations.front()->getProductId();
-      nextAction = kNextActionTypeReconfigure;
-    }
-  }
+  std::stringstream ss;
+  ss << "--sending process message to machine " << id;
+  utils::Logger::log(ss.str());
 }
 
 void Machine::sendConfigureMessage(uint16_t configureId) {
@@ -87,9 +75,24 @@ void Machine::sendConfigureMessage(uint16_t configureId) {
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject(configureId);
   sendMessage(message);
-//  std::stringstream ss;
-//  ss << "--sending configure message to machine " << id;
-//  utils::Logger::log(ss.str());
+  std::stringstream ss;
+  ss << "--sending configure message to machine " << id;
+  utils::Logger::log(ss.str());
+}
+
+void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
+  if (const auto &configuration = getConfigurationById(configureId)) {
+    // Configuration exists
+    prepareConfigureId = configureId;
+    nextAction = kNextActionTypeReconfigure;
+  } else if (firstTime) {
+    // First config, but requested config doest not exist, machine will initialize in first known config
+    if (!configurations.empty()) {
+      // Configuration exists
+      prepareConfigureId = configurations.front()->getProductId();
+      nextAction = kNextActionTypeReconfigure;
+    }
+  }
 }
 
 const BufferList &Machine::getCurrentInputBuffers() const {
@@ -159,8 +162,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       if (status == kMachineStatusProcessingProduct) {
         // Don processing product
         placeProductsInOutputBuffer();
-      }
-      else if (status == kMachineStatusConfiguring) {
+      } else if (status == kMachineStatusConfiguring) {
         // Don (re)configuring
         currentConfigId = prepareConfigureId;
         nextAction = kNextActionTypeProcessProduct;
@@ -184,8 +186,10 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
     }
     case kMachineStatusBroken: {
       // Broke while processing product , product lost
-      productInProcess = nullptr;
       ++timesBroken;
+      lostProducts += productInProcess.size();
+      std::queue<ProductPtr> empty;
+      std::swap(productInProcess, empty);
       std::stringstream stream;
       stream << "machine \"" << name << "\" broke @ " << utils::Time::getInstance().getCurrentTime();
       utils::Logger::log(stream.str());
@@ -197,7 +201,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
-  timeSpendInState[status] += (now -lastStatusChange);
+  timeSpendInState[status] += (now - lastStatusChange);
   lastStatusChange = now;
 
   // Change status
@@ -214,29 +218,36 @@ bool Machine::canDoAction() {
   if (!isConnected() || awaitingResponse) {
     return false;
   }
-  // If machine is wants to reconfigure, we can do that in the init state or idle state
-  if(nextAction == kNextActionTypeReconfigure){
-    return status == kMachineStatusInitializing || status == kMachineStatusIdle;
-  }
-  // If machine is not in idle state, it can't do much...
-  if(status != kMachineStatusIdle){
-    return false;
-  }
-  // Check if needed products in input buffers (previous machines)
-  for (const auto &inputBuffer : getCurrentInputBuffers()) {
-    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
-    if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
+  switch (nextAction) {
+    case kNextActionTypeProcessProduct:{
+      // If machine is not in idle state, it can't do much...
+      if (status != kMachineStatusIdle) {
+        return false;
+      }
+      // Check if needed products in input buffers
+      for (const auto &inputBuffer : getCurrentInputBuffers()) {
+        auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+        if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
+          return false;
+        }
+      }
+      // Check if there is room in the output buffer
+      // NOTE: currently we only support machines that produce 1 product per process (plus current products in process)
+      return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(static_cast<uint32_t>(productInProcess.size() + 1));
+    }
+    case kNextActionTypeReconfigure:{
+      // If machine is wants to reconfigure, we can do that in the init state or idle state
+      return status == kMachineStatusIdle || status == kMachineStatusInitializing;
+    }
+    default:{
       return false;
     }
   }
-  // Final check: check if enough space in output buffer
-  // NOTE: currently we only support machines that produce 1 product per process
-  return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(1);
 }
 
 void Machine::doNextAction() {
-  if(canDoAction()){
-    switch (nextAction){
+  if (canDoAction()) {
+    switch (nextAction) {
       case kNextActionTypeProcessProduct:
         sendStartProcessMessage();
         break;
@@ -252,10 +263,10 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
-	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
-	// NOTE: We will only track one (first) product
-	productInProcess = itemsTaken.front();
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+    auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
+    // NOTE: We will only track one (first) product
+    productInProcess.emplace(itemsTaken.front());
   }
 }
 
@@ -263,11 +274,12 @@ void Machine::placeProductsInOutputBuffer() {
   if (!currentConfigId) {
     return;
   }
-  if (!productInProcess){
+  if (productInProcess.empty()) {
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }
   const auto outputBuffer = getCurrentOutputBuffer();
-  outputBuffer->putInBuffer(productInProcess);
+  outputBuffer->putInBuffer(productInProcess.front());
+  productInProcess.pop();
   ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
 }
 

@@ -26,7 +26,7 @@ void FindProductControlState::doActivity() {
   // Get the "pcip" commandline argument from the given commandline arguments
   const utils::CommandlineArgument &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
 
-  if (!pcip) {
+  if (pcip) {
     event->setArgument<std::string>(pcip.value);
   } else {
     event->setArgument<std::string>("localhost");

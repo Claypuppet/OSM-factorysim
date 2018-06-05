@@ -163,7 +163,7 @@ class Machine
   bool awaitingResponse;
   network::ConnectionPtr connection;
 
-  ProductPtr productInProcess;
+  std::queue<ProductPtr> productInProcess;
 
   uint16_t prepareConfigureId;
   uint16_t currentConfigId;
@@ -174,6 +174,7 @@ class Machine
   uint64_t lastStatusChange;
   std::map<models::Machine::MachineStatus, uint64_t> timeSpendInState;
   uint16_t timesBroken;
+  uint64_t lostProducts;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;

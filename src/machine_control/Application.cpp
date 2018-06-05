@@ -70,6 +70,16 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
       break;
     }
 
+    case kNotifyEventTypeProductTakenFromBuffer: {
+      connectionHandler->sendProductTakenFromBufferMessage();
+      break;
+    }
+
+    case kNotifyEventTypeProductAddedToBuffer: {
+      connectionHandler->sendProductAddedToBufferMessage();
+      break;
+    }
+
     default: break;
   }
 }
