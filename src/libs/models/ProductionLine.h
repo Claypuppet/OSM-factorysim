@@ -66,7 +66,7 @@ class ProductionLine {
    * Getter for products
    * @return products
    */
-  const ProductPtr &getProductById(uint16_t productId) const;
+  const ProductPtr getProductById(uint16_t productId) const;
 
   /**
    * Getter for machines

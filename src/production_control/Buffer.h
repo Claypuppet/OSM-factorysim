@@ -104,12 +104,12 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Add a machine that uses this buffer
    * @param machine
    */
-  void addToMachine(const MachinePtrW machine);
+  void addToMachine(const MachinePtrW &machine);
 
   /**
    * Print list of buffers after this.
    */
-  std::stringstream &debugPrintBuffersChain(std::stringstream &stream);
+  void debugPrintBuffersChain(std::stringstream &stream);
 
  protected:
   /**
@@ -118,13 +118,13 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   explicit Buffer(uint16_t productId);
   explicit Buffer(const MachinePtrW &aFromMachine, uint16_t productId);
 
-  uint32_t maxSize;
   MachinePtrW fromMachine;
-  std::vector<MachinePtrW> toMachines;
-
-  uint16_t productId;
+  uint32_t maxSize;
 
   uint64_t totalProcessed;
+  uint16_t productId;
+
+  std::vector<MachinePtrW> toMachines;
 };
 
 typedef std::shared_ptr<Buffer> BufferPtr;

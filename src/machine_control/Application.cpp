@@ -13,8 +13,8 @@ namespace machinecore {
 Application::Application(uint16_t aMachineId)
     : patterns::statemachine::Context(),
       id(aMachineId),
-      configToSet(0) {
-  connectionHandler = std::make_shared<Communication::NetworkComponent>();
+      configToSet(0),
+      connectionHandler(std::make_shared<Communication::NetworkComponent>()) {
 }
 
 Application::~Application() {

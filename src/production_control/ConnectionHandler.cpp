@@ -15,6 +15,7 @@ void communication::ConnectionHandler::onConnectionEstablished(network::Connecti
 
 void communication::ConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection,
 														  const boost::system::error_code &error) {
+  disconnectMachineConnection(connection);
 }
 
 void communication::ConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection,
@@ -30,6 +31,12 @@ void communication::ConnectionHandler::onConnectionMessageReceived(network::Conn
 	case network::Protocol::kAppMessageTypeNOK:
 	  handleNOK(connection, message);
 	  break;
+    case network::Protocol::kAppMessageTypeProductAddedToBuffer:
+      handleProductAddedToBuffer(connection, message);
+      break;
+    case network::Protocol::kAppMessageTypeProductTakenFromBuffer:
+      handleProductTakenFromBuffer(connection, message);
+      break;
 	default:
 	  break;
   }
@@ -71,6 +78,28 @@ void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connecti
   notification.setArgument(0, message.getTime());
   notification.setArgument(1, machineId);
   notification.setArgument(2, message.getBodyObject<models::Machine::MachineErrorCode>());
+
+  notifyObservers(notification);
+}
+
+void communication::ConnectionHandler::handleProductAddedToBuffer(network::ConnectionPtr connection,
+                                                                  network::Message &message) {
+  auto machineId = getMachineIdForConnection(connection);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductAddedToBuffer);
+
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
+
+  notifyObservers(notification);
+}
+
+void communication::ConnectionHandler::handleProductTakenFromBuffer(network::ConnectionPtr connection,
+                                                                    network::Message &message) {
+  auto machineId = getMachineIdForConnection(connection);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductTakenFromBuffer);
+
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
 
   notifyObservers(notification);
 }
