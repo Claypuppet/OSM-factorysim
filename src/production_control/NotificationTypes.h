@@ -10,7 +10,9 @@ namespace NotifyEventIds {
 enum ApplicationNotificationTypes {
   eApplicationRegisterMachine = 0,
   eApplicationOK,
-  eApplicationNOK
+  eApplicationNOK,
+  eApplicationProductTakenFromBuffer,
+  eApplicationProductAddedToBuffer
 };
 
 enum SimulationNotificationTypes {
