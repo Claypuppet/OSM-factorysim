@@ -66,13 +66,13 @@ class ConnectionHandler :
    * Makes a notification to indicate a machine send a product added message
    * @param connection : The connection that send the message
    */
-   void handleProductAdded(network::ConnectionPtr connection, network::Message &message);
+   void handleProductAddedToBuffer(network::ConnectionPtr connection, network::Message &message);
 
    /**
     * Makes a notification to indicate a machine send a product taken message
     * @param connection : The connection that send the message
     */
-   void handleProductTaken(network::ConnectionPtr connection, network::Message &message);
+   void handleProductTakenFromBuffer(network::ConnectionPtr connection, network::Message &message);
 };
 }
 

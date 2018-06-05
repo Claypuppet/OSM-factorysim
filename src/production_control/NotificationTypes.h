@@ -11,8 +11,8 @@ enum ApplicationNotificationTypes {
   eApplicationRegisterMachine = 0,
   eApplicationOK,
   eApplicationNOK,
-  eApplicationProductTaken,
-  eApplicationProductAdded
+  eApplicationProductTakenFromBuffer,
+  eApplicationProductAddedToBuffer
 };
 
 enum SimulationNotificationTypes {

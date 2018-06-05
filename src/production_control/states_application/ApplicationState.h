@@ -12,8 +12,8 @@ enum EventType {
   kEventTypeMachineRegistered,
   kEventTypeAllMachinesRegistered,
   kEventTypeMachineStatusUpdate,
-  kEventTypeMachineProductTaken,
-  kEventTypeMachineProductAdded
+  kEventTypeMachineProductTakenFromBuffer,
+  kEventTypeMachineProductAddedToBuffer
 };
 
 typedef patterns::statemachine::Event Event;

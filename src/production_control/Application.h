@@ -138,13 +138,13 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    * Handles a product taken notification
    * @param machineId : Id of the machine that took products
    */
-  void handleProductTakenNotification(uint16_t machineId);
+  void onHandleProductTakenFromBufferNotification(uint16_t machineId);
 
   /**
    * Handles a product added notification
    * @param machineId : Id of the machine that added products
    */
-  void handleProductAddedNotification(uint16_t machineId);
+  void onHandleProductAddedToBufferNotification(uint16_t machineId);
 
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;

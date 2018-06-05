@@ -85,12 +85,12 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
 }
 
 void NetworkComponent::sendProductTakenMessage() {
-  network::Message message(network::Protocol::AppMessageType::kAppMessageProductTaken);
+  network::Message message(network::Protocol::AppMessageType::kAppMessageTypeProductTakenFromBuffer);
   sendMessage(message);
 }
 
 void NetworkComponent::sendProductAddedMessage() {
-  network::Message message(network::Protocol::AppMessageType::kAppMessageProductAdded);
+  network::Message message(network::Protocol::AppMessageType::kAppMessageTypeProductAddedToBuffer);
   sendMessage(message);
 }
 
