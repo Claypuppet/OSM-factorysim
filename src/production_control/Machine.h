@@ -6,6 +6,7 @@
 
 #include <network/Connection.h>
 #include <models/Machine.h>
+#include <models/MachineStatistics.h>
 
 #include "Buffer.h"
 
@@ -137,7 +138,7 @@ class Machine
   const BufferPtr &getCurrentOutputBuffer() const;
   const OutputBuffersMap &getOutputBuffers() const;
 
-  // Statistics getters
+  // MachineStatistics getters
   const std::map<MachineStatus, uint64_t> &getTimeSpendInState() const;
   uint16_t getTimesBroken() const;
 
@@ -174,6 +175,8 @@ class Machine
   uint64_t lastStatusChange;
   std::map<models::Machine::MachineStatus, uint64_t> timeSpendInState;
   uint16_t timesBroken;
+
+  std::vector<models::MachineStatistics> weeklyStatistics;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
