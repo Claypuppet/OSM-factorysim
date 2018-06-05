@@ -95,10 +95,10 @@ void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &si
     case NotifyEventIds::eApplicationNOK:
       simulationStatusEvents.emplace(simulationEvent);
       break;
-//    case NotifyEventIds::eApplicationProductTakenFromBuffer:
-//    case NotifyEventIds::eApplicationProductAddedToBuffer:
-//      simulationBufferEvents.emplace(simulationEvent);
-//      break;
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:
+    case NotifyEventIds::eApplicationProductAddedToBuffer:
+      simulationBufferEvents.emplace(simulationEvent);
+      break;
     default:
       break;
   }

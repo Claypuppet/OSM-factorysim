@@ -37,7 +37,9 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
   switch (notification.getEventId()) {
 
     case NotifyEventIds::eApplicationOK:
-    case NotifyEventIds::eApplicationNOK: {
+    case NotifyEventIds::eApplicationNOK:
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:
+    case NotifyEventIds::eApplicationProductAddedToBuffer: {
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto machine = getSimulationMachine(id);
       machine->addEvent(notification);
