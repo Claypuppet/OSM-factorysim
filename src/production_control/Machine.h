@@ -122,10 +122,21 @@ class Machine
    */
   bool isLastInLine(uint16_t productId);
 
+  /**
+   * Take products from previous buffers
+   */
+  void takeProductsFromInputBuffers();
+
+  /**
+   * Place products in output buffer
+   */
+  void placeProductsInOutputBuffer();
+
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
   virtual bool isWaitingForResponse();
+  const models::MachineConfigurationPtr getCurrentConfiguration() const;
 
   // Input buffer getters
   const BufferList &getInputBuffers(uint16_t productId) const;
@@ -148,16 +159,6 @@ class Machine
   * @param msg : The message to send to this machine
   */
   virtual void sendMessage(network::Message &message);
-
-  /**
-   * Take products from previous buffers
-   */
-  void takeProductsFromInputBuffers();
-
-  /**
-   * Place products in output buffer
-   */
-  void placeProductsInOutputBuffer();
 
   MachineStatus status;
   bool awaitingResponse;

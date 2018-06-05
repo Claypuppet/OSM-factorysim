@@ -107,6 +107,8 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   virtual const std::vector<MachinePtr> &getMachines() const;
 
+  const ProductPtr getProductById(uint16_t productId) const;
+
  protected:
   /**
    * Checks if we need to change production, if so, prepare change.

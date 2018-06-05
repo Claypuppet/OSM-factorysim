@@ -3,6 +3,7 @@
 #include <memory>
 #include <utils/Logger.h>
 #include <utils/time/Time.h>
+#include <models/Configuration.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
 #include "ResultLogger.h"
@@ -297,6 +298,9 @@ const std::map<Machine::MachineStatus, uint64_t> &Machine::getTimeSpendInState()
 
 uint16_t Machine::getTimesBroken() const {
   return timesBroken;
+}
+const models::MachineConfigurationPtr Machine::getCurrentConfiguration() const{
+  return getConfigurationById(currentConfigId);
 }
 
 }

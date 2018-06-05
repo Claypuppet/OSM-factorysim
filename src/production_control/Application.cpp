@@ -264,3 +264,6 @@ void core::Application::handleProductAddedNotification(uint16_t machineId) {
   event->setArgument(0, machineId);
   scheduleEvent(event);
 }
+const core::ProductPtr core::Application::getProductById(uint16_t productId) const {
+  return productionLine->getProductById(productId);
+}
