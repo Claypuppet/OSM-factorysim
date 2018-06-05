@@ -43,15 +43,9 @@ void applicationstates::InOperationState::onMachineStatusUpdateEvent(const Event
 }
 
 void applicationstates::InOperationState::onMachineProductTaken(const applicationstates::EventPtr &event) {
-  auto machine = context.getMachine(event->getArgumentAsType<uint16_t>(0));
-  if (machine) {
-    machine->takeProductsFromInputBuffers();
-  }
+  context.takeProductsFromBuffer(event->getArgumentAsType<uint16_t>(0));
 }
 
 void applicationstates::InOperationState::onMachineProductAdded(const applicationstates::EventPtr &event) {
-  auto machine = context.getMachine(event->getArgumentAsType<uint16_t>(0));
-  if (machine) {
-    machine->placeProductsInOutputBuffer();
-  }
+  context.addProductsToBuffer(event->getArgumentAsType<uint16_t>(0));
 }
