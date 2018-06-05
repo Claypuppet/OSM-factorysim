@@ -116,15 +116,15 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
 
-    case NotifyEventIds::eApplicationProductAdded:{
+    case NotifyEventIds::eApplicationProductAddedToBuffer:{
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
-      handleProductAddedNotification(machineId);
+      onHandleProductAddedToBufferNotification(machineId);
       break;
     }
 
-    case NotifyEventIds::eApplicationProductTaken:{
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:{
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
-      handleProductTakenNotification(machineId);
+      onHandleProductTakenFromBufferNotification(machineId);
       break;
     }
 
@@ -165,6 +165,18 @@ void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::Ma
       break;
     }
   }
+}
+
+void core::Application::onHandleProductTakenFromBufferNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductTakenFromBuffer);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
+}
+
+void core::Application::onHandleProductAddedToBufferNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductAddedToBuffer);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
 }
 
 
@@ -251,19 +263,4 @@ void core::Application::tryChangeProduction() {
       break;
     }
   }
-}
-
-void core::Application::handleProductTakenNotification(uint16_t machineId) {
-  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductTaken);
-  event->setArgument(0, machineId);
-  scheduleEvent(event);
-}
-
-void core::Application::handleProductAddedNotification(uint16_t machineId) {
-  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductAdded);
-  event->setArgument(0, machineId);
-  scheduleEvent(event);
-}
-const core::ProductPtr core::Application::getProductById(uint16_t productId) const {
-  return productionLine->getProductById(productId);
 }

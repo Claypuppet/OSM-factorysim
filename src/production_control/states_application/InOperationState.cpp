@@ -24,10 +24,10 @@ bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
     case applicationstates::kEventTypeMachineStatusUpdate:
       onMachineStatusUpdateEvent(event);
       return true;
-    case applicationstates::kEventTypeMachineProductTaken:
+    case applicationstates::kEventTypeMachineProductTakenFromBuffer:
       onMachineProductTaken(event);
       return true;
-    case applicationstates::kEventTypeMachineProductAdded:
+    case applicationstates::kEventTypeMachineProductAddedToBuffer:
       onMachineProductAdded(event);
       return true;
     default: {

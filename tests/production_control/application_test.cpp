@@ -199,10 +199,12 @@ BOOST_AUTO_TEST_SUITE(ProductionControlApplicationHandleMessages)
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   testutils::MockObserver observer;
 
+  const uint16_t MACHINE_ID = 12;
+
   // Making the notificationhandler for the observer
   testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
-    BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
   };
 
   observer.setHandleNotificationFn(notificationHandler);
@@ -224,7 +226,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   // Registering a machine
   network::Message message;
   message.setMessageType(network::Protocol::kAppMessageTypeRegisterMachine);
-  message.setBodyObject<uint16_t>(12);
+  message.setBodyObject<uint16_t>(MACHINE_ID);
 
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
@@ -236,7 +238,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
     BOOST_CHECK_EQUAL(notification.getArgumentAsType<models::Machine::MachineStatus>(2), models::Machine::kMachineStatusIdle);
   };
 
@@ -251,7 +253,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
     BOOST_CHECK(notification.getArgumentAsType<models::Machine::MachineErrorCode>(2) == models::Machine::kMachineErrorCodeBroke);
   };
 
@@ -262,6 +264,68 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   pcMock->stop();
   mcMock->stop();
 
+}
+
+BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleBufferUpdates){
+  testutils::MockObserver observer;
+
+  const uint16_t MACHINE_ID = 12;
+
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationProductTakenFromBuffer);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
+  };
+
+  // Making the connectionhandler
+  auto connectionHandler = std::make_shared<communication::ConnectionHandler>();
+  connectionHandler->addObserver(observer);
+
+  // Making network mocks
+  auto mcMock = std::make_shared<testutils::MockNetwork>();
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  pcMock->setConnectionHandler(connectionHandler);
+
+  // Starting the network objects
+  pcMock->startMockPCServerApplication();
+  mcMock->startMockMCClientApplication();
+
+  // Registering a machine
+  network::Message message;
+  message.setMessageType(network::Protocol::kAppMessageTypeRegisterMachine);
+  message.setBodyObject<uint16_t>(MACHINE_ID);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing product taken from buffer test
+  message.clear();
+  message.setMessageType(network::Protocol::kAppMessageTypeProductTakenFromBuffer);
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  observer.awaitNotificationReceived();
+
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationProductAddedToBuffer);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  message.clear();
+  message.setMessageType(network::Protocol::kAppMessageTypeProductAddedToBuffer);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  observer.awaitNotificationReceived();
+
+  mcMock->stop();
+  pcMock->stop();
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {

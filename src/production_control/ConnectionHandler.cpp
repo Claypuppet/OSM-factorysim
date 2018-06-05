@@ -31,11 +31,11 @@ void communication::ConnectionHandler::onConnectionMessageReceived(network::Conn
 	case network::Protocol::kAppMessageTypeNOK:
 	  handleNOK(connection, message);
 	  break;
-    case network::Protocol::kAppMessageProductAdded:
-      handleProductAdded(connection, message);
+    case network::Protocol::kAppMessageTypeProductAddedToBuffer:
+      handleProductAddedToBuffer(connection, message);
       break;
-    case network::Protocol::kAppMessageProductTaken:
-      handleProductTaken(connection, message);
+    case network::Protocol::kAppMessageTypeProductTakenFromBuffer:
+      handleProductTakenFromBuffer(connection, message);
       break;
 	default:
 	  break;
@@ -82,9 +82,10 @@ void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connecti
   notifyObservers(notification);
 }
 
-void communication::ConnectionHandler::handleProductAdded(network::ConnectionPtr connection, network::Message &message) {
+void communication::ConnectionHandler::handleProductAddedToBuffer(network::ConnectionPtr connection,
+                                                                  network::Message &message) {
   auto machineId = getMachineIdForConnection(connection);
-  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductAdded);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductAddedToBuffer);
 
   notification.setArgument(0, message.getTime());
   notification.setArgument(1, machineId);
@@ -92,9 +93,10 @@ void communication::ConnectionHandler::handleProductAdded(network::ConnectionPtr
   notifyObservers(notification);
 }
 
-void communication::ConnectionHandler::handleProductTaken(network::ConnectionPtr connection, network::Message &message) {
+void communication::ConnectionHandler::handleProductTakenFromBuffer(network::ConnectionPtr connection,
+                                                                    network::Message &message) {
   auto machineId = getMachineIdForConnection(connection);
-  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductTaken);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductTakenFromBuffer);
 
   notification.setArgument(0, message.getTime());
   notification.setArgument(1, machineId);
