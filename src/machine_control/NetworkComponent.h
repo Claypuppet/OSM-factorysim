@@ -39,12 +39,12 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
   /**
    * Sends a message to production control to tell this machine took products from its input buffer
    */
-  void sendProductTakenMessage();
+  void sendProductTakenFromBufferMessage();
 
   /**
    * Sends a message to production control to tell this machine added products to its output buffer
    */
-  void sendProductAddedMessage();
+  void sendProductAddedToBufferMessage();
  private:
   void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionEstablished(network::ConnectionPtr connection) override;
