@@ -31,7 +31,8 @@ class SimulationMachine : public machinecore::Machine {
 
   static void setCanBreak(bool canBreak);
 
- private:
+ protected:
+
   std::mt19937 generator;
   std::uniform_int_distribution<uint64_t> distribution;
   uint16_t magicNumber = 0;

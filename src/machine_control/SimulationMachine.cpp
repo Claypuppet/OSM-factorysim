@@ -3,6 +3,7 @@
 #include "SimulationMachine.h"
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
+#include "Application.h"
 
 #include <utils/time/Time.h>
 
@@ -36,6 +37,8 @@ void SimulationMachine::selfTest() {
 }
 
 void SimulationMachine::takeInProduct() {
+  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductTakenFromBuffer);
+  notifyObservers(notification);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenIn);
   scheduleEvent(event);
 }
@@ -48,6 +51,8 @@ void SimulationMachine::processProduct() {
 }
 
 void SimulationMachine::takeOutProduct() {
+  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
+  notifyObservers(notification);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenOut);
   scheduleEvent(event);
 }

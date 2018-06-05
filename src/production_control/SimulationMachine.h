@@ -108,7 +108,8 @@ class SimulationMachine : public core::Machine {
 
   bool awaitingSimulationResponse;
 
-  std::queue<patterns::notifyobserver::NotifyEvent> simulationEvents;
+  std::queue<patterns::notifyobserver::NotifyEvent> simulationStatusEvents;
+  std::queue<patterns::notifyobserver::NotifyEvent> simulationBufferEvents;
 
 };
 

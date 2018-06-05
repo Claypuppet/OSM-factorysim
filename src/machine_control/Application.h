@@ -25,9 +25,11 @@ enum NotifyEventType {
   kNotifyEventTypeServiceStarted,
   kNotifyEventTypeServiceError,
   kNotifyEventTypeStartProcess,
+  kNotifyEventTypeProductTakenFromBuffer,
   kNotifyEventTypeMachineConfigured,
   kNotifyEventTypeMachineFailedToConfigure,
   kNotifyEventTypeConfigure,
+  kNotifyEventTypeProductAddedToBuffer,
   kNotifyEventTypeMachineFinishedProcess,
   kNotifyEventTypeMachineBroke
 };
