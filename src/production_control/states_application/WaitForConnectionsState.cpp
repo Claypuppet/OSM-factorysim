@@ -25,12 +25,12 @@ bool applicationstates::WaitForConnectionsState::handleEvent(const EventPtr &eve
 	case kEventTypeMachineRegistered:
 	  utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
 	  onMachineRegistered(event);
-	  break;
+	  return true;
 
 	case kEventTypeAllMachinesRegistered:
 	  utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
 	  onAllMachinesConnected();
-	  break;
+	  return true;
 
 	default:
 	  return ApplicationState::handleEvent(event);

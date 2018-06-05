@@ -54,9 +54,8 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
 
   network::ConnectionPtr mConnection;
 
-  void handleReconfigureMessage();
   void handleProcessProductMessage();
-  void handleProcessReconfigureMessage(network::Message &message);
+  void handleReconfigureMessage(network::Message &message);
 
 };
 

@@ -15,6 +15,7 @@ void communication::ConnectionHandler::onConnectionEstablished(network::Connecti
 
 void communication::ConnectionHandler::onConnectionDisconnected(network::ConnectionPtr connection,
 														  const boost::system::error_code &error) {
+  disconnectMachineConnection(connection);
 }
 
 void communication::ConnectionHandler::onConnectionMessageReceived(network::ConnectionPtr connection,

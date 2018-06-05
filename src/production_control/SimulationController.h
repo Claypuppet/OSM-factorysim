@@ -102,8 +102,6 @@ class SimulationController
    */
   bool simulationIsOver() const;
 
-  const std::shared_ptr<models::Configuration> &getConfiguration() const;
-
  private:
 
   /**

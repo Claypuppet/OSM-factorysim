@@ -18,17 +18,17 @@ bool LoadConfigState::handleEvent(const EventPtr &event) {
 	case kEventTypeReadConfigFile:
 	  utils::Logger::log("-Handle event: kEventTypeReadConfigFile");
       context.setConfiguration(event->getArgumentAsType<std::string>());
-	  break;
+	  return true;
 
 	case kEventTypeSimulationConfigLoaded:
 	  utils::Logger::log("-Handle event: kEventTypeSimulationConfigLoaded");
 	  context.setCurrentState(std::make_shared<SimulationBroadcastState>(context));
-	  break;
+	  return true;
 
 	case kEventTypeProductionConfigLoaded:
 	  utils::Logger::log("-Handle event: kEventTypeProductionConfigLoaded");
 	  context.setCurrentState(std::make_shared<OperationState>(context));
-	  break;
+	  return true;
 
 	default:
 	  return ControllerState::handleEvent(event);
