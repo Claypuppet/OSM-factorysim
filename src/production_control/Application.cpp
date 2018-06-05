@@ -116,6 +116,18 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
 
+    case NotifyEventIds::eApplicationProductAdded:{
+      auto machineId = notification.getArgumentAsType<uint16_t>(1);
+      handleProductAddedNotification(machineId);
+      break;
+    }
+
+    case NotifyEventIds::eApplicationProductTaken:{
+      auto machineId = notification.getArgumentAsType<uint16_t>(1);
+      handleProductTakenNotification(machineId);
+      break;
+    }
+
     default: {
       std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
       break;
@@ -239,4 +251,16 @@ void core::Application::tryChangeProduction() {
       break;
     }
   }
+}
+
+void core::Application::handleProductTakenNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductTaken);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
+}
+
+void core::Application::handleProductAddedNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductAdded);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
 }

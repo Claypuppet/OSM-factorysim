@@ -88,4 +88,14 @@ void NetworkComponent::sendRegisterMachineMessage(uint16_t machineId) {
   sendMessage(message);
 }
 
+void NetworkComponent::sendProductTakenMessage() {
+  network::Message message(network::Protocol::AppMessageType::kAppMessageProductTaken);
+  sendMessage(message);
+}
+
+void NetworkComponent::sendProductAddedMessage() {
+  network::Message message(network::Protocol::AppMessageType::kAppMessageProductAdded);
+  sendMessage(message);
+}
+
 }

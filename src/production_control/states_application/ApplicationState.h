@@ -11,7 +11,9 @@ namespace applicationstates {
 enum EventType {
   kEventTypeMachineRegistered,
   kEventTypeAllMachinesRegistered,
-  kEventTypeMachineStatusUpdate
+  kEventTypeMachineStatusUpdate,
+  kEventTypeMachineProductTaken,
+  kEventTypeMachineProductAdded
 };
 
 typedef patterns::statemachine::Event Event;

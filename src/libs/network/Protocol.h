@@ -65,6 +65,8 @@ enum AppMessageType {
 
   kAppMessageTypeStartProcess = 10,
   kAppMessageTypeReconfigure,
+  kAppMessageProductTaken,
+  kAppMessageProductAdded,
 
   kAppMessageTypeOK = 50,
   kAppMessageTypeNOK,

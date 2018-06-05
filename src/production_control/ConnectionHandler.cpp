@@ -30,6 +30,12 @@ void communication::ConnectionHandler::onConnectionMessageReceived(network::Conn
 	case network::Protocol::kAppMessageTypeNOK:
 	  handleNOK(connection, message);
 	  break;
+    case network::Protocol::kAppMessageProductAdded:
+      handleProductAdded(connection, message);
+      break;
+    case network::Protocol::kAppMessageProductTaken:
+      handleProductTaken(connection, message);
+      break;
 	default:
 	  break;
   }
@@ -71,6 +77,26 @@ void communication::ConnectionHandler::handleNOK(network::ConnectionPtr connecti
   notification.setArgument(0, message.getTime());
   notification.setArgument(1, machineId);
   notification.setArgument(2, message.getBodyObject<models::Machine::MachineErrorCode>());
+
+  notifyObservers(notification);
+}
+
+void communication::ConnectionHandler::handleProductAdded(network::ConnectionPtr connection, network::Message &message) {
+  auto machineId = getMachineIdForConnection(connection);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductAdded);
+
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
+
+  notifyObservers(notification);
+}
+
+void communication::ConnectionHandler::handleProductTaken(network::ConnectionPtr connection, network::Message &message) {
+  auto machineId = getMachineIdForConnection(connection);
+  auto notification = makeNotifcation(patterns::notifyobserver::NotifyTrigger(), NotifyEventIds::eApplicationProductTaken);
+
+  notification.setArgument(0, message.getTime());
+  notification.setArgument(1, machineId);
 
   notifyObservers(notification);
 }
