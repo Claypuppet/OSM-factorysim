@@ -18,7 +18,7 @@ void IdleState::entryAction() {
 }
 
 void IdleState::doActivity() {
-
+  std::this_thread::yield();
 }
 
 void IdleState::exitAction() {

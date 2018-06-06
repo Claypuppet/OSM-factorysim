@@ -24,6 +24,10 @@ void SimulationNetworkComponent::onConnectionEstablished(network::ConnectionPtr 
 
 void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr connection,
                                                           const boost::system::error_code &error) {
+  auto event = makeNotificationForNotifier(this,
+                                           patterns::notifyobserver::NotifyTrigger(),
+                                           ControllerEvents::kNotifyEventTypeServiceStopped);
+  notifyObservers(event);
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,

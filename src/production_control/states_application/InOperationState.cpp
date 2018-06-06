@@ -13,6 +13,7 @@ void applicationstates::InOperationState::entryAction() {
 
 void applicationstates::InOperationState::doActivity() {
   context.executeScheduler();
+  std::this_thread::yield();
 }
 
 void applicationstates::InOperationState::exitAction() {

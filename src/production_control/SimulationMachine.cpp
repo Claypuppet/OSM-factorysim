@@ -71,17 +71,15 @@ uint64_t SimulationMachine::getNextEventMoment() {
   return lowest;
 }
 
-std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(uint64_t moment) {
-  std::vector<patterns::notifyobserver::NotifyEvent> list;
-  while(!simulationStatusEvents.empty() && simulationStatusEvents.front().getArgumentAsType<uint64_t>(0) == moment){
-    list.emplace_back(simulationStatusEvents.front());
-    simulationStatusEvents.pop();
-  }
+void SimulationMachine::getEvents(uint64_t moment, std::vector<patterns::notifyobserver::NotifyEvent> &list) {
   while(!simulationBufferEvents.empty() && simulationBufferEvents.front().getArgumentAsType<uint64_t>(0) == moment){
     list.emplace_back(simulationBufferEvents.front());
     simulationBufferEvents.pop();
   }
-  return list;
+  while(!simulationStatusEvents.empty() && simulationStatusEvents.front().getArgumentAsType<uint64_t>(0) == moment){
+    list.emplace_back(simulationStatusEvents.front());
+    simulationStatusEvents.pop();
+  }
 }
 
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {

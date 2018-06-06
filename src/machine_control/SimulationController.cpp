@@ -77,10 +77,17 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 
 	case ControllerEvents::kNotifyEventTypeServiceStarted: {
 	  onServiceStarted();
+      break;
 	}
 
 	case ControllerEvents::kNotifyEventTypeServiceError: {
 	  onServiceError();
+      break;
+	}
+
+	case ControllerEvents::kNotifyEventTypeServiceStopped: {
+	  stop();
+      break;
 	}
 
 	default:

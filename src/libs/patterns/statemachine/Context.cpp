@@ -24,9 +24,9 @@ void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
 void patterns::statemachine::Context::run() {
   currentState->doActivity();
   while (!events.empty()) {
-	EventPtr event = events.front();
-	events.pop();
+	EventPtr &event = events.front();
 	currentState->handleEvent(event);
+    events.pop();
   }
 }
 const patterns::statemachine::StatePtr &patterns::statemachine::Context::getCurrentState() const {

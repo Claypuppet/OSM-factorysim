@@ -12,11 +12,13 @@
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
 
-core::Application::~Application() {
+namespace core {
+
+Application::~Application() {
   stopServer();
 }
 
-void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
+void Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   // Set machines
   firstMachinesInLine.clear();
   lastMachineInLine.clear();
@@ -29,7 +31,7 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   for (const std::shared_ptr<models::Product> &product : productionLine->getProducts()) {
     auto productId = product->getId();
     for (const auto &machine : machines) {
-      if (!machine->hasConfiguration(productId)){
+      if (!machine->hasConfiguration(productId)) {
         // Machine doesn't have a configuration for this product.
         continue;
       }
@@ -37,23 +39,23 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
         if (auto previousMachineObj = getMachine(previousMachine->getMachineId())) {
           auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
           machine->addInputBuffer(productId, previousBuffer);
-        }
-        else{
+        } else {
           // This machine is the first in line because it doesnt have a previous machine
           firstMachinesInLine[productId].emplace_back(machine);
         }
       }
-      if(machine->isLastInLine(productId)){
+      if (machine->isLastInLine(productId)) {
         // This machine is last in line
         lastMachineInLine[productId] = machine;
       }
     }
   }
   std::stringstream stream;
-  for(const auto &machineList : firstMachinesInLine){
-    stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
-    for(const auto &machine : machineList.second){
-      for(const auto &input : machine->getInputBuffers(machineList.first)){
+  for (const auto &machineList : firstMachinesInLine) {
+    stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName()
+           << std::endl;
+    for (const auto &machine : machineList.second) {
+      for (const auto &input : machine->getInputBuffers(machineList.first)) {
         input->debugPrintBuffersChain(stream);
       }
     }
@@ -62,20 +64,17 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   utils::Logger::log(stream.str());
 }
 
-core::MachinePtr core::Application::getMachine(uint16_t machineId) {
-  for (const auto &machine : machines) {
-    if (machine->getId() == machineId) {
-      return machine;
-    }
-  }
-  return nullptr;
+MachinePtr Application::getMachine(uint16_t machineId) {
+  auto machineItr = std::find_if(machines.begin(), machines.end(),
+                   [machineId](const MachinePtr &machine){return machine->getId() == machineId;});
+  return (machineItr == machines.end()) ? nullptr : *machineItr;
 }
 
-const std::vector<core::MachinePtr> &core::Application::getMachines() const {
+const std::vector<MachinePtr> &Application::getMachines() const {
   return machines;
 }
 
-void core::Application::setupNetwork() {
+void Application::setupNetwork() {
   if (server && server->isRunning()) {
     return;
   }
@@ -88,7 +87,7 @@ void core::Application::setupNetwork() {
   server->start();
 }
 
-void core::Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
+void Application::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   // TODO: move the case implementation to own method (or not?)
 
   switch (notification.getEventId()) {
@@ -116,13 +115,13 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
 
-    case NotifyEventIds::eApplicationProductAddedToBuffer:{
+    case NotifyEventIds::eApplicationProductAddedToBuffer: {
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
       onHandleProductAddedToBufferNotification(machineId);
       break;
     }
 
-    case NotifyEventIds::eApplicationProductTakenFromBuffer:{
+    case NotifyEventIds::eApplicationProductTakenFromBuffer: {
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
       onHandleProductTakenFromBufferNotification(machineId);
       break;
@@ -135,7 +134,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
   }
 }
 
-void core::Application::onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection){
+void Application::onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection) {
 
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
   event->addArgument(id);
@@ -143,17 +142,15 @@ void core::Application::onHandleRegisterNotification(uint16_t id, const network:
   scheduleEvent(event);
 }
 
-
-void core::Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status){
+void Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status) {
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
   event->setArgument(0, id);
   event->setArgument(1, status);
   scheduleEvent(event);
 }
 
-
-void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode){
-  switch(errorCode){
+void Application::onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode) {
+  switch (errorCode) {
     case models::Machine::MachineErrorCode::kMachineErrorCodeBroke : {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
@@ -167,25 +164,24 @@ void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::Ma
   }
 }
 
-void core::Application::onHandleProductTakenFromBufferNotification(uint16_t machineId) {
+void Application::onHandleProductTakenFromBufferNotification(uint16_t machineId) {
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductTakenFromBuffer);
   event->setArgument(0, machineId);
   scheduleEvent(event);
 }
 
-void core::Application::onHandleProductAddedToBufferNotification(uint16_t machineId) {
+void Application::onHandleProductAddedToBufferNotification(uint16_t machineId) {
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductAddedToBuffer);
   event->setArgument(0, machineId);
   scheduleEvent(event);
 }
 
-
-void core::Application::setStartState() {
+void Application::setStartState() {
   auto startState = std::make_shared<applicationstates::WaitForConnectionsState>(*this);
   setCurrentState(startState);
 }
 
-bool core::Application::allMachinesRegistered() {
+bool Application::allMachinesRegistered() {
   for (const auto &machine : machines) {
     if (!machine->isConnected()) {
       return false;
@@ -194,7 +190,7 @@ bool core::Application::allMachinesRegistered() {
   return true;
 }
 
-void core::Application::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
+void Application::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
   auto machine = getMachine(machineId);
   if (machine) {
     machine->setConnection(connection);
@@ -206,25 +202,25 @@ void core::Application::registerMachine(uint16_t machineId, network::ConnectionP
   }
 }
 
-void core::Application::stopServer() {
+void Application::stopServer() {
   manager.stop();
   if (serverThread && serverThread->joinable()) {
     serverThread->join();
   }
 }
 
-void core::Application::setProductionLine(const models::ProductionLinePtr &productionLine) {
+void Application::setProductionLine(const models::ProductionLinePtr &productionLine) {
   this->productionLine = productionLine;
 }
 
-void core::Application::executeScheduler() {
+void Application::executeScheduler() {
   tryChangeProduction();
   for (const auto &machine : machines) {
     machine->doNextAction();
   }
 }
 
-void core::Application::prepareScheduler() {
+void Application::prepareScheduler() {
   // TODO: make this more dynamic. now sets product with id 1 (default tables)
   uint16_t configId = 0;
   if (productionLine && !productionLine->getProducts().empty()) {
@@ -233,7 +229,7 @@ void core::Application::prepareScheduler() {
   changeProductionLineProduct(configId);
 }
 
-void core::Application::changeProductionLineProduct(uint16_t productId) {
+void Application::changeProductionLineProduct(uint16_t productId) {
   for (const auto &machine : machines) {
     machine->prepareReconfigure(productId, currentProductId == 0);
   }
@@ -241,7 +237,7 @@ void core::Application::changeProductionLineProduct(uint16_t productId) {
   momentStartingCurrentProduct = utils::Time::getInstance().getCurrentTime();
 }
 
-bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status) {
+bool Application::setMachineStatus(uint16_t machineId, Machine::MachineStatus status) {
   auto machine = getMachine(machineId);
   if (machine) {
     machine->setStatus(status);
@@ -250,17 +246,19 @@ bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::Mach
   return false;
 }
 
-void core::Application::tryChangeProduction() {
+void Application::tryChangeProduction() {
   // Temp wait at least 4 hours
   static uint64_t fourHoursInMillis = 14400000;
-  if(utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis){
+  if (utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis) {
     return;
   }
   // Temp switch to next product which is not current product
-  for(auto &product : productionLine->getProducts()){
-    if(currentProductId != product->getId()){
+  for (auto &product : productionLine->getProducts()) {
+    if (currentProductId != product->getId()) {
       changeProductionLineProduct(product->getId());
       break;
     }
   }
+}
+
 }

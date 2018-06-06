@@ -4,7 +4,7 @@
 name: Demostraat
 
 simulationInfo:
-  durationInHours: 168
+  durationInHours: 9
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 

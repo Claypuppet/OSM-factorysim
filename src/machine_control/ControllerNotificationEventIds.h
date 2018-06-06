@@ -7,7 +7,8 @@ enum NotifyEventType {
   kNotifyEventTypeTurnOffReceived,
   kNotifyEventTypeTurnOnReceived,
   kNotifyEventTypeServiceStarted,
-  kNotifyEventTypeServiceError
+  kNotifyEventTypeServiceError,
+  kNotifyEventTypeServiceStopped
 };
 }
 
