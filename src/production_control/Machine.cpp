@@ -128,7 +128,7 @@ void Machine::createInitialBuffers() {
     auto productId = machineConfiguration->getProductId();
     BufferPtr buffer;
 
-    auto bufferSize = machineConfiguration->getOutputBufferSize();
+    auto bufferSize = machineConfiguration->getgetOutputBufferSize();
     if (bufferSize > 0) {
       // Buffer with size
       buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());

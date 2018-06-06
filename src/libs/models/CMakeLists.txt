@@ -3,7 +3,7 @@ file(GLOB lib_models_SRC
         "**.cpp")
 
 add_library(lib_models SHARED
-        ${lib_models_SRC})
+        ${lib_models_SRC} PostProcessInfo.cpp PostProcessInfo.h)
 
 install(TARGETS
         lib_models

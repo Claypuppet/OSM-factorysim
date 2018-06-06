@@ -7,7 +7,8 @@
 namespace models {
 
 PreviousMachine::PreviousMachine(uint16_t machineId,
-                                 uint16_t neededProducts)
+                                 uint16_t neededProducts,
+                                 uint16_t inputBufferSize)
     : machineId(machineId),
       neededProducts(neededProducts) {
 }
@@ -32,6 +33,10 @@ uint16_t PreviousMachine::getMachineId() const {
 
 uint16_t PreviousMachine::getNeededProducts() const {
   return neededProducts;
+}
+
+uint16_t PreviousMachine::getInputBufferSize() const {
+  return inputBufferSize;
 }
 
 }

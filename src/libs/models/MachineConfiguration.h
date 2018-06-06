@@ -23,19 +23,10 @@ class MachineConfiguration {
    * Construct a new MachineConfiguration object
    * @param productId id of the product that this configuration creates
    * @param outputEachMinute production each minute
-   * @param initializationDurationInSeconds initialization duration in seconds
-   * @param outputBufferSize output buffer size
-   * @param meanTimeBetweenFailureInHours mean time between failure in hours
-   * @param meanTimeBetweenFailureStddevInHours standard deviation of the mean time between failure in hours
-   * @param reparationTimeInMinutes reparation time
+   * @param previousMachines all previous machines of this machine configuration
    */
   MachineConfiguration(uint16_t productId,
                        uint16_t outputEachMinute,
-                       uint16_t initializationDurationInSeconds,
-                       uint16_t outputBufferSize,
-                       uint16_t meanTimeBetweenFailureInHours,
-                       uint16_t meanTimeBetweenFailureStddevInHours,
-                       uint16_t reparationTimeInMinutes,
                        const std::vector<PreviousMachinePtr> &previousMachines);
 
   /**
@@ -82,42 +73,6 @@ class MachineConfiguration {
   uint16_t getProcessTime() const;
 
   /**
-   * Getter for initializationDurationInSeconds
-   * @return initializationDurationInSeconds
-   */
-  uint16_t getInitializationDurationInSeconds() const;
-
-  /**
-   * Getter for initializationDuration in milliseconds
-   * @return initializationDurationInSeconds * 1000
-   */
-  uint32_t getInitializationDurationInMilliseconds() const;
-
-  /**
-   * Getter for inputBufferSize
-   * @return inputBufferSize
-   */
-  uint16_t getOutputBufferSize() const;
-
-  /**
-   * Getter for meanTimeBetweenFailureInHours
-   * @return meanTimeBetweenFailureInHours
-   */
-  uint16_t getMeanTimeBetweenFailureInHours() const;
-
-  /**
-   * Getter for meanTimeBetweenFailureStddevInHours
-   * @return meanTimeBetweenFailureStddevInHours
-   */
-  uint16_t getMeanTimeBetweenFailureStddevInHours() const;
-
-  /**
-   * Getter for reparationTimeInMinutes
-   * @return reparationTimeInMinutes
-   */
-  uint16_t getReparationTimeInMinutes() const;
-
-  /**
    * Get all previous machines of this configuration
    * @return a vector with the previous machines of this configuration
    */
@@ -133,11 +88,6 @@ class MachineConfiguration {
  private:
   uint16_t productId;
   uint16_t outputEachMinute;
-  uint16_t initializationDurationInSeconds;
-  uint16_t outputBufferSize;;
-  uint16_t meanTimeBetweenFailureInHours;
-  uint16_t meanTimeBetweenFailureStddevInHours;
-  uint16_t reparationTimeInMinutes;
   std::vector<PreviousMachinePtr> previousMachines;
 
   /**
@@ -147,8 +97,7 @@ class MachineConfiguration {
    */
   template<class Archive>
   void save(Archive &ar) const {
-	ar(productId, outputEachMinute, initializationDurationInSeconds, previousMachines,
-	   outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+	ar(productId, outputEachMinute, previousMachines);
   }
 
   /**
@@ -158,8 +107,7 @@ class MachineConfiguration {
    */
   template<class Archive>
   void load(Archive &ar) {
-	ar(productId, outputEachMinute, initializationDurationInSeconds, previousMachines,
-	   outputBufferSize, meanTimeBetweenFailureInHours, meanTimeBetweenFailureStddevInHours, reparationTimeInMinutes);
+	ar(productId, outputEachMinute, previousMachines);
   }
 
   friend class ::cereal::access;

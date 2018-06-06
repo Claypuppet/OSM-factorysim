@@ -3,10 +3,19 @@
 namespace models {
 
 Machine::Machine(uint16_t id,
+                 uint16_t meanTimeBetweenFailureInHours,
+                 uint16_t reparationTimeInMinutes,
+                 uint16_t reparationTimeStddevInMinutes,
+                 uint16_t initializationDurationInSeconds,
+                 std::shared_ptr<PostProcessInfo> postProcesInfo,
                  const std::string &name,
                  const std::vector<MachineConfigurationPtr> &configurations)
     :id(id),
      name(name),
+     meanTimeBetweenFailureInHours(meanTimeBetweenFailureInHours),
+     reparationTimeInMinutes(reparationTimeInMinutes),
+     reparationTimeStddevInMinutes(reparationTimeStddevInMinutes),
+     initializationDurationInSeconds(initializationDurationInSeconds),
      configurations(configurations) {
 
   if (configurations.size() == 0) {
@@ -16,9 +25,13 @@ Machine::Machine(uint16_t id,
 }
 
 Machine::Machine(const Machine &other)
-	: id(other.id),
-      name(other.name),
-      configurations(other.configurations) {
+    :id(other.id),
+     name(other.name),
+     meanTimeBetweenFailureInHours(other.meanTimeBetweenFailureInHours),
+     reparationTimeInMinutes(other.reparationTimeInMinutes),
+     reparationTimeStddevInMinutes(other.reparationTimeStddevInMinutes),
+     initializationDurationInSeconds(other.initializationDurationInSeconds),
+     configurations(other.configurations) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
@@ -26,7 +39,11 @@ Machine &Machine::operator=(const Machine &other) {
   if (this != &other) {
 	id = other.id;
 	name = other.name;
-	configurations = other.configurations;
+	meanTimeBetweenFailureInHours = other.meanTimeBetweenFailureInHours;
+	reparationTimeInMinutes = other.reparationTimeInMinutes;
+	reparationTimeStddevInMinutes = other.reparationTimeStddevInMinutes;
+	initializationDurationInSeconds = other.initializationDurationInSeconds;
+    configurations = other.configurations;
   }
 
   return *this;
@@ -63,17 +80,36 @@ const MachineConfigurationPtr Machine::getConfigurationById(uint16_t machineConf
   return nullptr;
 }
 
-void Machine::setId(uint16_t id) {
+void Machine::setId(uint16_t id) { // TODO : remove?
   Machine::id = id;
 }
 
-void Machine::setName(const std::string &name) {
+void Machine::setName(const std::string &name) { // TODO : remove?
   Machine::name = name;
 }
 
-const MachineConfigurationPtr Machine::addConfiguration(MachineConfigurationPtr machineConfiguration) {
-  configurations.emplace_back(machineConfiguration);
-  return configurations.back();
+uint16_t Machine::getMeanTimeBetweenFailureInHours() const {
+  return meanTimeBetweenFailureInHours;
+}
+
+uint16_t Machine::getReparationTimeInMinutes() const {
+  return reparationTimeInMinutes;
+}
+
+uint16_t Machine::getReparationTimeStddevInMinutes() const {
+  return reparationTimeStddevInMinutes;
+}
+
+uint16_t Machine::getInitializationDurationInSeconds() const {
+  return initializationDurationInSeconds;
+}
+
+uint32_t Machine::getInitializationDurationInMilliseconds() const {
+  return static_cast<uint32_t>(getInitializationDurationInSeconds() * 1000);
+}
+
+const std::shared_ptr<PostProcessInfo> Machine::getPostProcessInfo() const {
+  return postProcessInfo;
 }
 
 }

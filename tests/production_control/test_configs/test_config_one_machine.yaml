@@ -18,20 +18,19 @@
       {
         "id": 1,
         "name": "Zaagmachine",
+        "initializationDurationInSeconds": 6,
+        "meanTimeBetweenFailureInHours": 8800,
+        "reparationTimeStddevInMinutes": 30,
+        "reparationTimeInMinutes": 24,
         "configurations": [
           {
             "productId": 1,
             "outputEachMinute": 12,
-            "initializationDurationInSeconds": 6,
-            "outputBufferSize": 68,
-            "turnAroundTimeInSeconds": 16,
-            "meanTimeBetweenFailureInHours": 8800,
-            "meanTimeBetweenFailureStddevInHours": 30,
-            "reparationTimeInMinutes": 24,
             "previousMachines": [
               {
                 "machineId": 0,
-                "neededProducts": 7
+                "neededProducts": 7,
+                "inputBufferSize": 9
               }
             ]
           }

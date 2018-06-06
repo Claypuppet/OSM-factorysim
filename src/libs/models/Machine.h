@@ -13,6 +13,7 @@
 
 // other includes
 #include "MachineConfiguration.h"
+#include "PostProcessInfo.h"
 
 namespace models {
 
@@ -58,12 +59,21 @@ class Machine {
   virtual ~Machine() = default;
 
   /**
-   * ...
-   * @param id
-   * @param name
-   * @param configurations
+   * Construct a new instance of the Machine object
+   * @param id machine id
+   * @param meanTimeBetweenFailureInHours mean time between failure in hours
+   * @param reparationTimeInMinutes reparation time in minutes
+   * @param reparationTimeStddevInMinutes reparation time standard deviation in minutes
+   * @param initializationDurationInSeconds initialisation duration in seconds
+   * @param name the name of the machine
+   * @param configurations alle differen configurations of this machine
    */
   Machine(uint16_t id,
+          uint16_t meanTimeBetweenFailureInHours,
+          uint16_t reparationTimeInMinutes,
+          uint16_t reparationTimeStddevInMinutes,
+          uint16_t initializationDurationInSeconds,
+          std::shared_ptr<PostProcessInfo> postProcesInfo,
           const std::string &name = "",
           const std::vector<MachineConfigurationPtr> &configurations = std::vector<MachineConfigurationPtr>());
 
@@ -116,25 +126,42 @@ class Machine {
    * Set the machine id
    * @param id the new machine id
    */
-  void setId(uint16_t id);
+  void setId(uint16_t id); // TODO : remove?
 
   /**
    * Set the machine name
    * @param name the new machine name
    */
-  void setName(const std::string &name);
+  void setName(const std::string &name); // TODO : remove?
 
   /**
    * Add a machine configuration to this machine
    * @param machineConfiguration machine configuration model
    * @return the new machine configuration
    */
-  const MachineConfigurationPtr addConfiguration(MachineConfigurationPtr machineConfiguration);
+  const MachineConfigurationPtr addConfiguration(MachineConfigurationPtr machineConfiguration); // TODO : remove?
+
+  uint16_t getMeanTimeBetweenFailureInHours() const;
+  uint16_t getReparationTimeInMinutes() const;
+  uint16_t getReparationTimeStddevInMinutes() const;
+  uint16_t getInitializationDurationInSeconds() const;
+  const std::shared_ptr<PostProcessInfo> getPostProcessInfo() const;
+
+  /**
+   * Getter for initializationDuration in milliseconds
+   * @return initializationDurationInSeconds * 1000
+   */
+  uint32_t getInitializationDurationInMilliseconds() const;
 
  protected:
   uint16_t id;
   std::string name;
+  uint16_t meanTimeBetweenFailureInHours;
+  uint16_t reparationTimeInMinutes;
+  uint16_t reparationTimeStddevInMinutes;
+  uint16_t initializationDurationInSeconds;
   std::vector<MachineConfigurationPtr> configurations;
+  std::shared_ptr<PostProcessInfo> postProcessInfo;
 
  private:
 
