@@ -5,6 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <utils/time/Time.h>
 #include "../../src/production_control/SimulationController.h"
+#include "../../src/production_control/ResultLogger.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlMachineTests)
 

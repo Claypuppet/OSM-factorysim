@@ -138,6 +138,12 @@ class Machine
    */
   void addWeeklyStatistics();
 
+  /**
+   * Function that calculates the mean time between failure
+   * @return : the MTBF
+   */
+  uint16_t getMTBF();
+
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();

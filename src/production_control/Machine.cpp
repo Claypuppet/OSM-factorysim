@@ -303,4 +303,9 @@ void Machine::addWeeklyStatistics() {
   lostProducts.clear();
 }
 
+uint16_t Machine::getMTBF() {
+  //TODO calculate mbtf
+  return 1;
+}
+
 }

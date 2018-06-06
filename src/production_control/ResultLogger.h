@@ -42,12 +42,21 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    */
   void bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
 
+  /**
+   * Writes the statistics of a production line to a JSON statistics file
+   * @param machines : List of machines
+   */
+  void logStatistics(const std::vector<MachinePtr> &machines);
 
  private:
   friend patterns::singleton::Singleton<ResultLogger>;
   ResultLogger();
 
   void log(const std::string &message);
+
+  void logWeeklyStatistics(const std::vector<MachinePtr> &machines);
+
+  void logAverageStatistics(const std::vector<MachinePtr> &machines);
 
   bool networkEnabled;
   bool debugEnabled;
