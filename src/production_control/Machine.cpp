@@ -157,11 +157,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   switch (newStatus) {
     case kMachineStatusIdle: {
       awaitingResponse = false;
-      if (status == kMachineStatusProcessingProduct) {
-        // Don processing product
-        placeProductsInOutputBuffer();
-      }
-      else if (status == kMachineStatusConfiguring) {
+      if (status == kMachineStatusConfiguring) {
         // Don (re)configuring
         currentConfigId = prepareConfigureId;
         nextAction = kNextActionTypeProcessProduct;
@@ -171,7 +167,6 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
     }
     case kMachineStatusProcessingProduct: {
       // Started processing product (product taken from buffer)
-      takeProductsFromInputBuffers();
       break;
     }
     case kMachineStatusConfiguring: {
@@ -298,9 +293,6 @@ const std::map<Machine::MachineStatus, uint64_t> &Machine::getTimeSpendInState()
 
 uint16_t Machine::getTimesBroken() const {
   return timesBroken;
-}
-const models::MachineConfigurationPtr Machine::getCurrentConfiguration() const{
-  return getConfigurationById(currentConfigId);
 }
 
 }

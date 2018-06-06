@@ -136,7 +136,6 @@ class Machine
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
   virtual bool isWaitingForResponse();
-  const models::MachineConfigurationPtr getCurrentConfiguration() const;
 
   // Input buffer getters
   const BufferList &getInputBuffers(uint16_t productId) const;
