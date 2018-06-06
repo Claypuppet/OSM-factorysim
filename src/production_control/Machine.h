@@ -192,7 +192,6 @@ class Machine
   uint16_t timesBroken;
 
   std::vector<models::MachineStatistics> weeklyStatistics;
- protected:
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
