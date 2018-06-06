@@ -299,4 +299,8 @@ uint16_t Machine::getTimesBroken() const {
   return timesBroken;
 }
 
+const std::vector<models::MachineStatistics> &Machine::getWeeklyStatistics() const {
+  return weeklyStatistics;
+}
+
 }
