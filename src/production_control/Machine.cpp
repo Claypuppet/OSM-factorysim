@@ -57,7 +57,8 @@ void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false
     // Configuration exists
     prepareConfigureId = configureId;
     nextAction = kNextActionTypeReconfigure;
-  } else if (firstTime) {
+  }
+  else if (firstTime) {
     // First config, but requested config doest not exist, machine will initialize in first known config
     if (!configurations.empty()) {
       // Configuration exists
@@ -117,7 +118,8 @@ void Machine::createInitialBuffers() {
     if (bufferSize > 0) {
       // Buffer with size
       buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
-    } else {
+    }
+    else {
       // Infinite buffer
       buffer = std::make_shared<InfiniteBuffer>(self, productId);
     }
@@ -283,19 +285,19 @@ uint16_t Machine::getTimesBroken() const {
 const std::vector<models::MachineStatistics> &Machine::getWeeklyStatistics() const {
   return weeklyStatistics;
 }
+
 void Machine::addWeeklyStatistics() {
   uint32_t productionTime = timeSpendInState[models::Machine::kMachineStatusProcessingProduct];
   uint32_t idleTime = timeSpendInState[models::Machine::kMachineStatusIdle];
   uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
-      + timeSpendInState[models::Machine::kMachineStatusInitializing]
-      + timeSpendInState[models::Machine::kMachineStatusDisconnected];
+      + timeSpendInState[models::Machine::kMachineStatusInitializing];
   uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
   weeklyStatistics.emplace_back(models::MachineStatistics(producedProducts,
-                                                       lostProducts,
-                                                       downTime,
-                                                       productionTime,
-                                                       idleTime,
-                                                       configureTime));
+                                                          lostProducts,
+                                                          downTime,
+                                                          productionTime,
+                                                          idleTime,
+                                                          configureTime));
   timeSpendInState.clear();
   producedProducts.clear();
   lostProducts.clear();
