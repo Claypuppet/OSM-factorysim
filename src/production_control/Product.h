@@ -20,6 +20,7 @@ class Product {
    * @param aProductId
    */
   Product(uint16_t aProductId);
+  uint16_t getProductId() const;
   virtual ~Product() = default;
 
  private:
