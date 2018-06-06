@@ -40,7 +40,6 @@ class Machine
   * Copy constructor
   * @param aMachine : The machine to copy
   */
-  Machine(const Machine &aMachine);
 
   virtual ~Machine() = default;
 
@@ -99,6 +98,16 @@ class Machine
   void createInitialBuffers();
 
   /**
+   * Take products from previous buffers
+   */
+  void takeProductsFromInputBuffers();
+
+  /**
+   * Place products in output buffer
+   */
+  void placeProductsInOutputBuffer();
+  
+  /**
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
    */
   virtual bool canDoAction();
@@ -123,6 +132,12 @@ class Machine
    */
   bool isLastInLine(uint16_t productId);
 
+  /**
+   * Creates a machineStatistics object with the statistic variables and adds it to weeklyStatistics
+   * also resets the statistic variables
+   */
+  void addWeeklyStatistics();
+
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
@@ -140,7 +155,7 @@ class Machine
   const OutputBuffersMap &getOutputBuffers() const;
 
   // MachineStatistics getters
-  const std::map<MachineStatus, uint64_t> &getTimeSpendInState() const;
+  const std::map<MachineStatus, uint32_t> &getTimeSpendInState() const;
   uint16_t getTimesBroken() const;
 
  protected:
@@ -150,16 +165,6 @@ class Machine
   * @param msg : The message to send to this machine
   */
   virtual void sendMessage(network::Message &message);
-
-  /**
-   * Take products from previous buffers
-   */
-  void takeProductsFromInputBuffers();
-
-  /**
-   * Place products in output buffer
-   */
-  void placeProductsInOutputBuffer();
 
   MachineStatus status;
   bool awaitingResponse;
@@ -174,7 +179,16 @@ class Machine
 
   //statistics
   uint64_t lastStatusChange;
-  std::map<models::Machine::MachineStatus, uint64_t> timeSpendInState;
+
+  /**
+   * productId, amount of produced products
+   */
+  std::map<uint16_t, uint16_t> producedProducts;
+  /**
+   * ProductId, amount of lost products
+   */
+  std::map<uint16_t, uint16_t> lostProducts;
+  std::map<models::Machine::MachineStatus, uint32_t> timeSpendInState;
   uint16_t timesBroken;
 
   std::vector<models::MachineStatistics> weeklyStatistics;

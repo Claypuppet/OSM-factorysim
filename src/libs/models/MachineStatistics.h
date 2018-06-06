@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <stdint-gcc.h>
+#include <map>
 
 namespace models {
 
@@ -15,21 +16,27 @@ namespace models {
  */
 class MachineStatistics {
  public:
-  MachineStatistics(uint16_t producedProducts,
-                    uint16_t lostProducts,
+  MachineStatistics(const std::map<uint16_t, uint16_t> &producedProducts,
+                    const std::map<uint16_t, uint16_t> &lostProducts,
                     uint32_t downTime,
                     uint32_t productionTime,
                     uint32_t idleTime,
                     uint32_t configureTime);
-  uint16_t getProducedProducts() const;
-  uint16_t getLostProducts() const;
+  const std::map<uint16_t, uint16_t> &getProducedProducts() const;
+  const std::map<uint16_t, uint16_t> &getLostProducts() const;
   uint32_t getDownTime() const;
   uint32_t getProductionTime() const;
   uint32_t getIdleTime() const;
   uint32_t getConfigureTime() const;
  private:
-  uint16_t producedProducts;
-  uint16_t lostProducts;
+  /**
+   * product_id, amount of produced products
+   */
+  std::map<uint16_t, uint16_t> producedProducts;
+  /**
+   * product_id, amount of lost products
+   */
+  std::map<uint16_t, uint16_t> lostProducts;
   uint32_t downTime;
   uint32_t productionTime;
   uint32_t idleTime;

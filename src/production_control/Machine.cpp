@@ -9,7 +9,6 @@
 
 namespace core {
 
-
 Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
       status(kMachineStatusDisconnected),
@@ -20,22 +19,8 @@ Machine::Machine(const models::Machine &aMachine)
       currentConfigId(0),
       nextAction(kNextActionTypeProcessProduct),
       lastStatusChange(0),
-      timeSpendInState(),
-      timesBroken(0),
-      inputBuffers(),
-      outputBuffers() {
-}
-
-Machine::Machine(const Machine &aMachine)
-    : models::Machine(aMachine),
-      status(kMachineStatusDisconnected),
-      awaitingResponse(false),
-      connection(),
-      productInProcess(),
-      prepareConfigureId(0),
-      currentConfigId(0),
-      nextAction(kNextActionTypeProcessProduct),
-      lastStatusChange(0),
+      producedProducts(),
+      lostProducts(),
       timeSpendInState(),
       timesBroken(0),
       inputBuffers(),
@@ -44,7 +29,7 @@ Machine::Machine(const Machine &aMachine)
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
-  if(connection && connection->isConnected()){
+  if (connection && connection->isConnected()) {
     lastStatusChange = utils::Time::getInstance().getCurrentTime();
     setStatus(kMachineStatusInitializing);
   }
@@ -67,14 +52,13 @@ void Machine::sendStartProcessMessage() {
 }
 
 void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
-  if(const auto &configuration = getConfigurationById(configureId)){
+  if (const auto &configuration = getConfigurationById(configureId)) {
     // Configuration exists
     prepareConfigureId = configureId;
     nextAction = kNextActionTypeReconfigure;
-  }
-  else if(firstTime){
+  } else if (firstTime) {
     // First config, but requested config doest not exist, machine will initialize in first known config
-    if(!configurations.empty()){
+    if (!configurations.empty()) {
       // Configuration exists
       prepareConfigureId = configurations.front()->getProductId();
       nextAction = kNextActionTypeReconfigure;
@@ -159,8 +143,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
       if (status == kMachineStatusProcessingProduct) {
         // Don processing product
         placeProductsInOutputBuffer();
-      }
-      else if (status == kMachineStatusConfiguring) {
+      } else if (status == kMachineStatusConfiguring) {
         // Don (re)configuring
         currentConfigId = prepareConfigureId;
         nextAction = kNextActionTypeProcessProduct;
@@ -197,7 +180,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
-  timeSpendInState[status] += (now -lastStatusChange);
+  timeSpendInState[status] += (now - lastStatusChange);
   lastStatusChange = now;
 
   // Change status
@@ -215,11 +198,11 @@ bool Machine::canDoAction() {
     return false;
   }
   // If machine is wants to reconfigure, we can do that in the init state or idle state
-  if(nextAction == kNextActionTypeReconfigure){
+  if (nextAction == kNextActionTypeReconfigure) {
     return status == kMachineStatusInitializing || status == kMachineStatusIdle;
   }
   // If machine is not in idle state, it can't do much...
-  if(status != kMachineStatusIdle){
+  if (status != kMachineStatusIdle) {
     return false;
   }
   // Check if needed products in input buffers (previous machines)
@@ -235,8 +218,8 @@ bool Machine::canDoAction() {
 }
 
 void Machine::doNextAction() {
-  if(canDoAction()){
-    switch (nextAction){
+  if (canDoAction()) {
+    switch (nextAction) {
       case kNextActionTypeProcessProduct:
         sendStartProcessMessage();
         break;
@@ -252,10 +235,10 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
-	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
-	// NOTE: We will only track one (first) product
-	productInProcess = itemsTaken.front();
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+    auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
+    // NOTE: We will only track one (first) product
+    productInProcess = itemsTaken.front();
   }
 }
 
@@ -263,9 +246,10 @@ void Machine::placeProductsInOutputBuffer() {
   if (!currentConfigId) {
     return;
   }
-  if (!productInProcess){
+  if (!productInProcess) {
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }
+  producedProducts[productInProcess->getProductId()]++;
   const auto outputBuffer = getCurrentOutputBuffer();
   outputBuffer->putInBuffer(productInProcess);
   ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
@@ -291,7 +275,7 @@ bool Machine::isLastInLine(uint16_t productId) {
   return getOutputBuffer(productId)->isLastInLine();
 }
 
-const std::map<Machine::MachineStatus, uint64_t> &Machine::getTimeSpendInState() const {
+const std::map<Machine::MachineStatus, uint32_t> &Machine::getTimeSpendInState() const {
   return timeSpendInState;
 }
 
@@ -301,6 +285,23 @@ uint16_t Machine::getTimesBroken() const {
 
 const std::vector<models::MachineStatistics> &Machine::getWeeklyStatistics() const {
   return weeklyStatistics;
+}
+void Machine::addWeeklyStatistics() {
+  uint32_t productionTime = timeSpendInState[models::Machine::kMachineStatusProcessingProduct];
+  uint32_t idleTime = timeSpendInState[models::Machine::kMachineStatusIdle];
+  uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
+      + timeSpendInState[models::Machine::kMachineStatusInitializing]
+      + timeSpendInState[models::Machine::kMachineStatusDisconnected];
+  uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
+  weeklyStatistics.emplace_back(models::MachineStatistics(producedProducts,
+                                                       lostProducts,
+                                                       downTime,
+                                                       productionTime,
+                                                       idleTime,
+                                                       configureTime));
+  timeSpendInState.clear();
+  producedProducts.clear();
+  lostProducts.clear();
 }
 
 }

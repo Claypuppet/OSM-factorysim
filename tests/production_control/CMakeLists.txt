@@ -2,7 +2,7 @@ add_executable(test_production_control
         Main.cpp
         controller_test.cpp
         log_test.cpp
-        application_test.cpp)
+        application_test.cpp machine_test.cpp)
 
 target_link_libraries(test_production_control source_lib_app_production lib_test_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
