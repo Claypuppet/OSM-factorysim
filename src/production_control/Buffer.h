@@ -77,10 +77,10 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   virtual void putInBuffer(const std::vector<ProductPtr> &list);
 
   /**
-   * get machine id from the owner of this buffer
+   * get machine id from the inputFor machine of this buffer
    * @return : machine id
    */
-  uint16_t getFromMachineId() const;
+  uint16_t getMachineIdOfInputFor() const;
 
   /**
    * Get number of total processed items that went through the buffer

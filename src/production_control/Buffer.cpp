@@ -59,6 +59,10 @@ void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
   }
 }
 
+uint16_t Buffer::getMachineIdOfInputFor() const {
+  return inputFor.lock()->getId();
+}
+
 MachinePtrW Buffer::getOutputFor() const {
   return outputFor;
 }

@@ -23,8 +23,17 @@
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
 BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>();
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  uint16_t machineIdOfMachineToTestWith = 12; // needs to be in the config
+
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machineIdOfMachineToTestWith);
+  BOOST_REQUIRE(machine);
 
   auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
@@ -99,8 +108,21 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>();
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  uint16_t machineIdOfMachineToTestWith = 12; // needs to be in the config
+
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machineIdOfMachineToTestWith);
+  BOOST_REQUIRE(machine);
+
+//  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+//  auto machine = std::make_shared<core::Machine>();
+
   core::InfiniteBuffer infiniteBuffer(machine, 1);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
@@ -132,64 +154,91 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 }
 
 BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
-  simulation::SimulationController controller;
-
   const std::string filePath = "./test_configs/test_config_two_machines.yaml";
+
+  simulation::SimulationController controller;
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(filePath));
 
   auto machines = controller.getApplication()->getMachines();
-
   BOOST_REQUIRE_EQUAL(machines.size(), 2);
-  auto machine1 = machines[0];
-  auto machine2 = machines[1];
 
-  BOOST_CHECK_EQUAL(machine1->getId(), 15);
-  BOOST_CHECK_EQUAL(machine2->getId(), 75);
+  { // machines[0]
+    auto machine = machines[0];
+    BOOST_CHECK_EQUAL(machine->getId(), 15);
+    auto inputBuffers = machine->getInputBuffers();
+    BOOST_REQUIRE_EQUAL(inputBuffers.size(), 2);
 
-  auto m1Previous1 = machine1->getPreviousMachines(12);
-  auto m1Previous2 = machine1->getPreviousMachines(88);
-  BOOST_REQUIRE_EQUAL(m1Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous1.front()->getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous1.front()->getNeededProducts(), 5);
-  BOOST_REQUIRE_EQUAL(m1Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous2.front()->getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous2.front()->getNeededProducts(), 10);
+    { // machines[0].previousMachines
+      uint16_t configurationId = 12; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 0);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 5);
+      BOOST_CHECK(!machine->isLastInLine(configurationId));
+    }
 
-  auto m2Previous1 = machine2->getPreviousMachines(12);
-  BOOST_REQUIRE_EQUAL(m2Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous1.front()->getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous1.front()->getNeededProducts(), 7);
-  auto m2Previous2 = machine2->getPreviousMachines(88);
-  BOOST_REQUIRE_EQUAL(m2Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous2.front()->getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous2.front()->getNeededProducts(), 8);
+    { // machine[0].inputBuffers
+      uint16_t configurationId = 12; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 0);
+    }
 
-  auto m1InputBuffers = machine1->getInputBuffers();
-  BOOST_REQUIRE_EQUAL(m1InputBuffers.size(), 2);
+    { // machines[0].previousMachines
+      uint16_t configurationId = 88; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 0);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 10);
+      BOOST_CHECK(!machine->isLastInLine(configurationId));
+    }
 
-  auto m1InputBuffer1 = machine1->getInputBuffers(12);
-  BOOST_REQUIRE_EQUAL(m1InputBuffer1.size(), 1);
-  BOOST_CHECK_EQUAL(m1InputBuffer1.front()->getFromMachineId(), 0);
-  auto m1InputBuffer2 = machine1->getInputBuffers(88);
-  BOOST_REQUIRE_EQUAL(m1InputBuffer2.size(), 1);
-  BOOST_CHECK_EQUAL(m1InputBuffer2.front()->getFromMachineId(), 0);
+    { // machine[0].inputBuffers
+      uint16_t configurationId = 88; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 0);
+    }
+  }
 
-  auto m2InputBuffers = machine2->getInputBuffers();
-  BOOST_REQUIRE_EQUAL(m2InputBuffers.size(), 2);
+  { // machines[1]
+    auto machine = machines[1];
+    BOOST_REQUIRE_EQUAL(machine->getId(), 75);
+    auto inputBuffers = machine->getInputBuffers();
+    BOOST_REQUIRE_EQUAL(inputBuffers.size(), 2);
 
-  auto m2InputBuffer1 = machine2->getInputBuffers(12);
-  BOOST_REQUIRE_EQUAL(m2InputBuffer1.size(), 1);
-  BOOST_CHECK_EQUAL(m2InputBuffer1.front()->getFromMachineId(), 15);
-  auto m2InputBuffer2 = machine2->getInputBuffers(88);
-  BOOST_REQUIRE_EQUAL(m2InputBuffer2.size(), 1);
-  BOOST_CHECK_EQUAL(m2InputBuffer2.front()->getFromMachineId(), 15);
+    { // machines[1].previousMachines
+      uint16_t configurationId = 12; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 15);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 7);
+      BOOST_CHECK(machine->isLastInLine(configurationId));
+    }
 
+    { // machines[1].inputBuffers
+      uint16_t configurationId = 12; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 15);
+    }
 
-  BOOST_CHECK(!machine1->isLastInLine(12));
-  BOOST_CHECK(machine2->isLastInLine(12));
-  BOOST_CHECK(!machine1->isLastInLine(88));
-  BOOST_CHECK(machine2->isLastInLine(88));
+    { // machines[1].previousMachines
+      uint16_t configurationId = 88; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 15);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 8);
+      BOOST_CHECK(machine->isLastInLine(configurationId));
+    }
 
+    { // machines[1].inputBuffers
+      uint16_t configurationId = 88; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 15);
+    }
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -335,8 +384,9 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
 
   auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
 
-  auto currentState = std::make_shared<applicationstates::InOperationState>(application);
+  auto currentState = std::make_shared<applicationstates::InOperationState>(*application);
   BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
 
   auto machine = application->getMachine(12);

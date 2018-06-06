@@ -404,21 +404,8 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerNetwork)
 
 BOOST_AUTO_TEST_CASE(SendTurnOn) {
-  simulation::SimulationController controller;
-
   std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
-  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
-
-  auto application = controller.getApplication();
-
-  auto currentState = std::make_shared<applicationstates::InOperationState>(application);
-  BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
-
-  auto machine = application->getMachine(12);
-  BOOST_REQUIRE(machine);
-
-
-
+  uint16_t machineIdOfMachineToTestWith = 12;
 
   // Create server and client
   auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
@@ -429,17 +416,28 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   machineEndpoint->startMockMCClientController();
   productionServer->awaitClientConnecting();
 
-  // Create machine with connection (in production control)
-//  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  simulation::SimulationMachine machine(models::Machine(1, "", configs));
-  machine.setSimulationConnection(productionServer->getConnection());
+  // Get the simulation machine and set its connection
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machineIdOfMachineToTestWith);
+  BOOST_REQUIRE(machine);
+
+  auto simulationMachine = std::dynamic_pointer_cast<simulation::SimulationMachine>(machine);
+  BOOST_REQUIRE(simulationMachine);
+
+  simulationMachine->setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOn);
   };
+
   machineEndpoint->setOnMessageFn(callback);
-  machine.sendTurnOnCommand();
+  simulationMachine->sendTurnOnCommand();
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
@@ -449,6 +447,9 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
 }
 
 BOOST_AUTO_TEST_CASE(SendTurnOff) {
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  uint16_t machineIdOfMachineToTestWith = 12;
+
   // Create server and client
   auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
   auto productionServer = std::make_shared<testutils::MockNetwork>();
@@ -458,17 +459,28 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
   machineEndpoint->startMockMCClientController();
   productionServer->awaitClientConnecting();
 
-  // Create machine with connection (in production control)
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  simulation::SimulationMachine machine(models::Machine(1, "", configs));
-  machine.setSimulationConnection(productionServer->getConnection());
+  // Get simulation machine and set its connection
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machineIdOfMachineToTestWith);
+  BOOST_REQUIRE(machine);
+
+  auto simulationMachine = std::dynamic_pointer_cast<simulation::SimulationMachine>(machine);
+  BOOST_REQUIRE(simulationMachine);
+
+  simulationMachine->setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kSimMessageTypeTurnOff);
   };
+
   BOOST_REQUIRE_NO_THROW(machineEndpoint->setOnMessageFn(callback));
-  BOOST_REQUIRE_NO_THROW(machine.sendTurnOffCommand());
+  BOOST_REQUIRE_NO_THROW(simulationMachine->sendTurnOffCommand());
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
@@ -479,6 +491,9 @@ BOOST_AUTO_TEST_CASE(SendTurnOff) {
 
 // TODO !!! Move this to application_test after Bas has committed & merged it with dev
 BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  uint16_t machineIdOfMachineToTestWith = 12;
+
   // Create server and client
   auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
   auto productionServer = std::make_shared<testutils::MockNetwork>();
@@ -488,18 +503,29 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   machineEndpoint->startMockMCClientApplication();
   productionServer->awaitClientConnecting();
 
-  // Create machine with connection (in production control)
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  simulation::SimulationMachine machine(models::Machine(1, "", configs));
-  machine.setSimulationConnection(productionServer->getConnection());
+  // Get simulation machine and set its connection
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machineIdOfMachineToTestWith);
+  BOOST_REQUIRE(machine);
+
+  auto simulationMachine = std::dynamic_pointer_cast<simulation::SimulationMachine>(machine);
+  BOOST_REQUIRE(simulationMachine);
+
+  simulationMachine->setSimulationConnection(productionServer->getConnection());
 
   // prepare test on machine control when message will receive
   testutils::OnMessageFn callback = [](network::Message &message){
     BOOST_CHECK_EQUAL(message.getMessageType(), network::Protocol::kAppMessageTypeReconfigure);
     BOOST_CHECK_EQUAL(message.getBodyObject<uint16_t>(), 1);
   };
+
   machineEndpoint->setOnMessageFn(callback);
-  machine.sendConfigureMessage(1);
+  simulationMachine->sendConfigureMessage(1);
 
   // wait for the message received
   machineEndpoint->awaitMessageReceived();
@@ -507,7 +533,6 @@ BOOST_AUTO_TEST_CASE(SendTurnReconfigure) {
   machineEndpoint->stopClient();
   productionServer->stopServer();
 }
-
 
 // Einde public method tests
 BOOST_AUTO_TEST_SUITE_END()
