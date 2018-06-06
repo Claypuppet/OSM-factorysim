@@ -264,3 +264,15 @@ void core::Application::tryChangeProduction() {
     }
   }
 }
+void core::Application::takeProductsFromBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->takeProductsFromInputBuffers();
+  }
+}
+void core::Application::addProductsToBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->placeProductsInOutputBuffer();
+  }
+}
