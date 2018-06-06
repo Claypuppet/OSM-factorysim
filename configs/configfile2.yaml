@@ -21,55 +21,56 @@ productionLine:
 
   - id: 1
     name: Tafelbladmaker
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 50
+    reparationTimeInMinutes: 60
+    meanTimeBetweenFailureStddevInHours: 1
+    postProcessInfo:
     configurations:
+
     - productId: 1
       outputEachMinute: 2
-      outputBufferSize: 20
-      initializationDurationInSeconds: 300
-      meanTimeBetweenFailureInHours: 50
-      reparationTimeInMinutes: 60
-      meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
       - machineId: 0
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 1
-      outputBufferSize: 30
-      initializationDurationInSeconds: 300
-      meanTimeBetweenFailureInHours: 50
-      reparationTimeInMinutes: 60
-      meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
       - machineId: 0
         neededProducts: 3
+        inputBufferSize: 2
 
 
   - id: 2
     name: Standaard Potenplakker
+    initializationDurationInSeconds: 900
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    meanTimeBetweenFailureStddevInHours: 1
+    postProcessInfo:
     configurations:
     - productId: 1
       outputEachMinute: 2
       outputBufferSize: 0
-      initializationDurationInSeconds: 900
-      meanTimeBetweenFailureInHours: 500
-      reparationTimeInMinutes: 60
-      meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
       - machineId: 1
         neededProducts: 1
+        inputBufferSize: 2
 
 
   - id: 3
     name: Mooie Potenplakker
+    initializationDurationInSeconds: 300
+    meanTimeBetweenFailureInHours: 500
+    reparationTimeInMinutes: 60
+    meanTimeBetweenFailureStddevInHours: 1
+    postProcessInfo:
     configurations:
     - productId: 2
       outputEachMinute: 2
-      outputBufferSize: 0
-      initializationDurationInSeconds: 300
-      meanTimeBetweenFailureInHours: 500
-      reparationTimeInMinutes: 60
-      meanTimeBetweenFailureStddevInHours: 1
       previousMachines:
       - machineId: 1
         neededProducts: 1
+        inputBufferSize: 2

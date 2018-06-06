@@ -36,17 +36,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 25
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 40
-      outputBufferSize: 400
       previousMachines:
       - machineId: 0
         neededProducts: 3
+        inputBufferSize: 2
 
 
 
@@ -63,10 +63,10 @@ productionLine:
 
     - productId: 2
       outputEachMinute: 1
-      outputBufferSize: 10
       previousMachines:
       - machineId: 1
         neededProducts: 8
+        inputBufferSize: 2
 
 
 
@@ -81,10 +81,10 @@ productionLine:
 
     - productId: 2
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 2
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -99,17 +99,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 10
-      outputBufferSize: 100
       previousMachines:
       - machineId: 1
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 10
-      outputBufferSize: 100
       previousMachines:
       - machineId: 3
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -124,17 +124,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 4
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 4
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -149,17 +149,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 5
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 2
-      outputBufferSize: 20
       previousMachines:
       - machineId: 5
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -178,17 +178,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 30
-      outputBufferSize: 300
       previousMachines:
       - machineId: 0
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 30
-      outputBufferSize: 300
       previousMachines:
       - machineId: 0
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -203,10 +203,10 @@ productionLine:
 
     - productId: 2
       outputEachMinute: 10
-      outputBufferSize: 100
       previousMachines:
         - machineId: 7
           neededProducts: 1
+          inputBufferSize: 2
 
 
 
@@ -221,17 +221,17 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 4
-      outputBufferSize: 40
       previousMachines:
       - machineId: 7
         neededProducts: 1
+        inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 4
-      outputBufferSize: 40
       previousMachines:
       - machineId: 8
         neededProducts: 1
+        inputBufferSize: 2
 
 
 
@@ -245,10 +245,10 @@ productionLine:
     configurations:
     - productId: 1
       outputEachMinute: 5
-      outputBufferSize: 50
       previousMachines:
         - machineId: 9
           neededProducts: 1
+          inputBufferSize: 2
 
 
 
@@ -263,10 +263,10 @@ productionLine:
 
     - productId: 2
       outputEachMinute: 1
-      outputBufferSize: 10
       previousMachines:
         - machineId: 9
           neededProducts: 1
+          inputBufferSize: 2
 
 
 
@@ -285,19 +285,21 @@ productionLine:
 
     - productId: 1
       outputEachMinute: 30
-      outputBufferSize: 300
       previousMachines:
         - machineId: 6
           neededProducts: 1
+          inputBufferSize: 2
         - machineId: 10
           neededProducts: 4
+          inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 30
-      outputBufferSize: 300
       previousMachines:
         - machineId: 6
-          neededProducts: 1.
+          neededProducts: 1
+          inputBufferSize: 2
         - machineId: 11
           neededProducts: 4
+          inputBufferSize: 2
 

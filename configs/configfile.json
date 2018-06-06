@@ -31,17 +31,16 @@
           {
             "productId": 1,
             "outputEachMinute": 12,
-            "outputBufferSize": 9,
             "previousMachines": [
               {
                 "machineId": 0,
-                "neededProducts": 1
+                "neededProducts": 1,
+                "inputBufferSize": 1
               }
             ]
           },
           {
             "productId": 2,
-            "outputEachMinute": 8,
             "outputBufferSize": 9,
             "previousMachines": [
               {
