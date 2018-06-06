@@ -18,11 +18,7 @@ void BrokenState::entryAction() {
 }
 
 void BrokenState::doActivity() {
-  auto &config = context.getMachine()->getConfigurationById(context.getConfigToSet());
-
-  utils::Time::getInstance().increaseCurrentTime(1000ul * config->getReparationTimeInMinutes());
-  auto event = std::make_shared<Event>(kEventTypeRepaired);
-  context.scheduleEvent(event);
+  context.startReparation();
 }
 
 void BrokenState::exitAction() {

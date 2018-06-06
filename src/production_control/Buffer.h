@@ -26,7 +26,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(const MachinePtrW &fromMachine, uint16_t productId, uint32_t size);
+  explicit Buffer(const MachinePtrW &inputFor, uint16_t productId, uint32_t size);
 
   /**
    * destruct
@@ -106,6 +106,9 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   void addToMachine(const MachinePtrW &machine);
 
+
+  MachinePtrW getOutputFor() const;
+
   /**
    * Print list of buffers after this.
    */
@@ -118,13 +121,13 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   explicit Buffer(uint16_t productId);
   explicit Buffer(const MachinePtrW &aFromMachine, uint16_t productId);
 
-  MachinePtrW fromMachine;
+  MachinePtrW inputFor, outputFor;
+
   uint32_t maxSize;
 
   uint64_t totalProcessed;
   uint16_t productId;
 
-  std::vector<MachinePtrW> toMachines;
 };
 
 typedef std::shared_ptr<Buffer> BufferPtr;

@@ -25,7 +25,7 @@ class InfiniteBuffer : public Buffer {
    * @param fromMachine
    * @param productId
    */
-  InfiniteBuffer(const MachinePtrW &aFromMachine, uint16_t productId);
+  InfiniteBuffer(const MachinePtrW &inputFor, uint16_t productId);
 
   ~InfiniteBuffer() override = default;
 

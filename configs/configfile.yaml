@@ -37,9 +37,9 @@ productionLine:
     - productId: 1
       outputEachMinute: 2
       previousMachines:
-      - machineId: 25
+      - machineId: 0
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 0
 
     - productId: 2
       outputEachMinute: 40

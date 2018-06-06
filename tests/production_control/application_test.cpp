@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
 BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
   std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
+  auto machine = std::make_shared<core::Machine>();
 
   auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
   std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
+  auto machine = std::make_shared<core::Machine>();
   core::InfiniteBuffer infiniteBuffer(machine, 1);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
@@ -329,41 +329,37 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleBufferUpdates){
 }
 
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
-  //Making machines
-  std::vector<core::MachinePtr> machines;
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(12, "machine12", configs)));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(13, "machine13", configs)));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(14, "machine14", configs)));
+  simulation::SimulationController controller;
 
-  //Making and setting up application
-  core::Application app;
-  app.setProductionLine(std::make_shared<models::ProductionLine>());
-  BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
-  BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<applicationstates::InOperationState>(app)));
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+
+  auto currentState = std::make_shared<applicationstates::InOperationState>(application);
+  BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
+
+  auto machine = application->getMachine(12);
+  BOOST_REQUIRE(machine);
 
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    notification.setArgument(0, (uint64_t) 0); // time
-    notification.setArgument(1, (uint16_t) 12); // machine id
-    notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle); // status update
-    app.handleNotification(notification);
-    app.run();
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
   }
 
-  auto machine = app.getMachine(12);
-
-  BOOST_REQUIRE(machine);
-
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusIdle);
 
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusConfiguring)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
   }
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusConfiguring);
@@ -373,8 +369,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusProcessingProduct)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
   }
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusProcessingProduct);
@@ -384,8 +380,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
   }
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
@@ -396,8 +392,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, models::Machine::MachineErrorCode::kMachineErrorCodeBroke)); // error code
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
   }
 
   BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusBroken);

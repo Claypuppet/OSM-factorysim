@@ -19,11 +19,13 @@ SimulationMachine::SimulationMachine(const models::Machine &machine) : machineco
 
 bool SimulationMachine::configure() {
   generator = std::mt19937(static_cast<uint64_t >(std::clock()));
-  distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
-                                                         (magicNumber
-                                                             + currentConfiguration->getMeanTimeBetweenFailureInHours())
-                                                             * oneHourInMillis / checkCycle);
-  utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getInitializationDurationInMilliseconds());
+
+  uint64_t maxNumber = magicNumber + meanTimeBetweenFailureInHours;
+  maxNumber *= (oneHourInMillis / checkCycle);
+
+  distribution = std::uniform_int_distribution<uint64_t>(magicNumber, maxNumber);
+
+  utils::Time::getInstance().increaseCurrentTime(getInitializationDurationInMilliseconds());
   timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);

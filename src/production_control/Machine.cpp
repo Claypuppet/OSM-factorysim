@@ -124,29 +124,27 @@ void Machine::addInputBuffer(uint16_t productId, BufferPtr inputbuffer) {
 
 void Machine::createInitialBuffers() {
   auto self = shared_from_this();
-  for (const std::shared_ptr<models::MachineConfiguration> &machineConfiguration : configurations) {
-    auto productId = machineConfiguration->getProductId();
-    BufferPtr buffer;
 
-    auto bufferSize = machineConfiguration->getgetOutputBufferSize();
-    if (bufferSize > 0) {
-      // Buffer with size
-      buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
-    } else {
-      // Infinite buffer
-      buffer = std::make_shared<InfiniteBuffer>(self, productId);
-    }
+  for (const auto &machineConfiguration : configurations) {
+    auto productId = machineConfiguration->getProductId();
 
     // set outputbuffer based on config
-    outputBuffers[productId] = buffer;
+    outputBuffers[productId] = std::make_shared<InfiniteBuffer>(self, productId);
 
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
-      if (previousMachine->getMachineId() == 0) {
-        auto inputBuffer = std::make_shared<InfiniteBuffer>(productId);
-        inputBuffers[machineConfiguration->getProductId()].emplace_back(inputBuffer);
-        inputBuffer->addToMachine(self);
+      BufferPtr buffer;
+
+      auto bufferSize = previousMachine->getInputBufferSize();
+      if (bufferSize > 0 && previousMachine->getMachineId() > 0) {
+        // Buffer with size
+        buffer = std::make_shared<Buffer>(self, productId, bufferSize);
+      } else {
+        // Infinite buffer
+        buffer = std::make_shared<InfiniteBuffer>(productId);
       }
+      inputBuffers[machineConfiguration->getProductId()].emplace_back(buffer);
+      buffer->addToMachine(self);
     }
   }
 }

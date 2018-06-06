@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
     BOOST_REQUIRE(machine1PostProcessInfo);
 
     auto machine1Configurations = machine1->getConfigurations();
-    BOOST_CHECK_EQUAL(machine1Configurations.size(), 2);
+    BOOST_REQUIRE_EQUAL(machine1Configurations.size(), 2);
 
     { // machine1 --> postProcessInfo
       BOOST_CHECK_EQUAL(machine1PostProcessInfo->getInputDelayInSeconds(), 20);
@@ -198,7 +198,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
         BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getMachineId(), 0);
         BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getNeededProducts(), 5);
-        BOOST_CHECK_EQUAL(machine1Configuration2->getInputBufferSize(), 43);
+        BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getInputBufferSize(), 43);
       }
     }
 
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
         BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getMachineId(), 0);
         BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getNeededProducts(), 10);
-        BOOST_CHECK_EQUAL(machine1Configuration2->getInputBufferSize(), 43);
+        BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getInputBufferSize(), 43);
       }
     }
   }
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
         BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getMachineId(), 15);
         BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getNeededProducts(), 7);
-        BOOST_CHECK_EQUAL(machine2Configuration1->getInputBufferSize(), 39);
+        BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getInputBufferSize(), 39);
       }
     }
 
@@ -281,7 +281,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadYAMLConfig) {
 
         BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getMachineId(), 15);
         BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getNeededProducts(), 8);
-        BOOST_CHECK_EQUAL(machine2Configuration2->getOutputBufferSize(), 69);
+        BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getInputBufferSize(), 69);
       }
     }
   }
@@ -294,52 +294,52 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadJSONConfig) {
 
   { // machine1
     uint16_t machineId = 15;
-    auto machine1 = controller.getSimulationMachine(machineId);
-    BOOST_REQUIRE(machine1);
+    auto machine = controller.getSimulationMachine(machineId);
+    BOOST_REQUIRE(machine);
 
-    BOOST_CHECK(machine1->getId() == 15);
-    BOOST_CHECK(machine1->getName() == "Testmachine15");
-    BOOST_CHECK(machine1->getInitializationDurationInSeconds() == 6);
-    BOOST_CHECK(machine1->getMeanTimeBetweenFailureInHours()== 8800);
-    BOOST_CHECK(machine1->getReparationTimeStddevInMinutes() == 30);
-    BOOST_CHECK(machine1->getReparationTimeInMinutes() == 24);
+    BOOST_CHECK(machine->getId() == 15);
+    BOOST_CHECK(machine->getName() == "Testmachine15");
+    BOOST_CHECK(machine->getInitializationDurationInSeconds() == 6);
+    BOOST_CHECK(machine->getMeanTimeBetweenFailureInHours()== 8800);
+    BOOST_CHECK(machine->getReparationTimeStddevInMinutes() == 30);
+    BOOST_CHECK(machine->getReparationTimeInMinutes() == 24);
 
-    auto machine1Configurations = machine1->getConfigurations();
-    BOOST_REQUIRE(machine1Configurations.size() == 2);
+    auto machinesConfigurations = machine->getConfigurations();
+    BOOST_REQUIRE(machinesConfigurations.size() == 2);
 
     { // machine1 --> machineConfiguration[0]
-      auto machine1Configuration1 = machine1Configurations[0];
+      auto machineConfiguration = machinesConfigurations[0];
 
-      BOOST_CHECK(machine1Configuration1->getProductId() == 12);
-      BOOST_CHECK(machine1Configuration1->getOutputEachMinute() == 12);
+      BOOST_CHECK(machineConfiguration->getProductId() == 12);
+      BOOST_CHECK(machineConfiguration->getOutputEachMinute() == 12);
 
-      auto machine1Configuration1PreviousMachines = machine1Configuration1->getPreviousMachines();
+      auto machine1Configuration1PreviousMachines = machineConfiguration->getPreviousMachines();
       BOOST_REQUIRE(machine1Configuration1PreviousMachines.size() == 1);
 
       { // machine1 --> machineConfiguration[0] --> previousMachine[0]
-        auto machine1Configuration1PreviousMachine1 = machine1Configuration1PreviousMachines[0];
+        auto previousMachine = machine1Configuration1PreviousMachines[0];
 
-        BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getMachineId(), 0);
-        BOOST_CHECK_EQUAL(machine1Configuration1PreviousMachine1->getNeededProducts(), 5);
-        BOOST_CHECK_EQUAL(machine1Configuration1->getInputBufferSize(), 14);
+        BOOST_CHECK_EQUAL(previousMachine->getMachineId(), 0);
+        BOOST_CHECK_EQUAL(previousMachine->getNeededProducts(), 5);
+        BOOST_CHECK_EQUAL(previousMachine->getInputBufferSize(), 14);
       }
     }
 
     { // machine1 --> machineConfiguration[1]
-      auto machine1Configuration2 = machine1Configurations[1];
+      auto machineConfiguration = machinesConfigurations[1];
 
-      BOOST_CHECK_EQUAL(machine1Configuration2->getProductId(), 88);
-      BOOST_CHECK_EQUAL(machine1Configuration2->getOutputEachMinute(), 8);
+      BOOST_CHECK_EQUAL(machineConfiguration->getProductId(), 88);
+      BOOST_CHECK_EQUAL(machineConfiguration->getOutputEachMinute(), 8);
 
-      auto machine1Configuration2PreviousMachines = machine1Configuration2->getPreviousMachines();
-      BOOST_REQUIRE_EQUAL(machine1Configuration2PreviousMachines.size(), 1);
+      auto previousMachines = machineConfiguration->getPreviousMachines();
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
 
       { // machine1 --> machineConfiguration[1] --> previousMachine[0]
-        auto machine1Configuration2PreviousMachine1 = machine1Configuration2PreviousMachines[0];
+        auto previousMachine = previousMachines[0];
 
-        BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getMachineId(), 0);
-        BOOST_CHECK_EQUAL(machine1Configuration2PreviousMachine1->getNeededProducts(), 10);
-        BOOST_CHECK_EQUAL(machine1Configuration2->getInputBufferSize(), 43);
+        BOOST_CHECK_EQUAL(previousMachine->getMachineId(), 0);
+        BOOST_CHECK_EQUAL(previousMachine->getNeededProducts(), 10);
+        BOOST_CHECK_EQUAL(previousMachine->getInputBufferSize(), 43);
       }
     }
   }
@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadJSONConfig) {
 
         BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getMachineId(), 15);
         BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getNeededProducts(), 7);
-        BOOST_CHECK_EQUAL(machine2Configuration1->getInputBufferSize(), 39);
+        BOOST_CHECK_EQUAL(machine2Configuration1PreviousMachine1->getInputBufferSize(), 39);
       }
     }
 
@@ -391,7 +391,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerLoadJSONConfig) {
 
         BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getMachineId(), 15);
         BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getNeededProducts(), 8);
-        BOOST_CHECK_EQUAL(machine2Configuration2->getOutputBufferSize(), 69);
+        BOOST_CHECK_EQUAL(machine2Configuration2PreviousMachine1->getInputBufferSize(), 69);
       }
     }
   }
@@ -404,6 +404,22 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerNetwork)
 
 BOOST_AUTO_TEST_CASE(SendTurnOn) {
+  simulation::SimulationController controller;
+
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+
+  auto currentState = std::make_shared<applicationstates::InOperationState>(application);
+  BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
+
+  auto machine = application->getMachine(12);
+  BOOST_REQUIRE(machine);
+
+
+
+
   // Create server and client
   auto machineEndpoint = std::make_shared<testutils::MockNetwork>();
   auto productionServer = std::make_shared<testutils::MockNetwork>();
@@ -414,7 +430,7 @@ BOOST_AUTO_TEST_CASE(SendTurnOn) {
   productionServer->awaitClientConnecting();
 
   // Create machine with connection (in production control)
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+//  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
   simulation::SimulationMachine machine(models::Machine(1, "", configs));
   machine.setSimulationConnection(productionServer->getConnection());
 

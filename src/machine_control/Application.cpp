@@ -4,6 +4,8 @@
 
 #include <models/Machine.h>
 #include <utils/CommandLineArguments.h>
+#include <utils/time/Time.h>
+
 #include "Application.h"
 #include "states_application/ConnectState.h"
 #include "states_machine/MachineState.h"
@@ -120,6 +122,14 @@ void Application::statusUpdate(models::Machine::MachineStatus status) {
 
 void Application::machineBroke(){
   connectionHandler->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
+}
+
+void Application::startReparation() {
+  uint16_t minutesToSeconds = 60;
+  uint16_t secondsToMillis = 1000;
+  uint16_t reparationTime = getMachine()->getReparationTimeInMinutes();
+  reparationTime *= (minutesToSeconds * secondsToMillis);
+  utils::Time::getInstance().increaseCurrentTime(reparationTime);
 }
 
 } // machinecore
