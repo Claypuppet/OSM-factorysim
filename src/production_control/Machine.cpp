@@ -3,6 +3,7 @@
 #include <memory>
 #include <utils/Logger.h>
 #include <utils/time/Time.h>
+#include <models/Configuration.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
 #include "ResultLogger.h"
@@ -140,10 +141,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   switch (newStatus) {
     case kMachineStatusIdle: {
       awaitingResponse = false;
-      if (status == kMachineStatusProcessingProduct) {
-        // Don processing product
-        placeProductsInOutputBuffer();
-      } else if (status == kMachineStatusConfiguring) {
+      if (status == kMachineStatusConfiguring) {
         // Don (re)configuring
         currentConfigId = prepareConfigureId;
         nextAction = kNextActionTypeProcessProduct;
@@ -153,7 +151,6 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
     }
     case kMachineStatusProcessingProduct: {
       // Started processing product (product taken from buffer)
-      takeProductsFromInputBuffers();
       break;
     }
     case kMachineStatusConfiguring: {

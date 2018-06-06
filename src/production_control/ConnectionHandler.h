@@ -61,6 +61,18 @@ class ConnectionHandler :
    * @param message : The incoming message, contains the error code
    */
   void handleNOK(network::ConnectionPtr connection, network::Message &message);
+
+  /**
+   * Makes a notification to indicate a machine send a product added message
+   * @param connection : The connection that send the message
+   */
+   void handleProductAddedToBuffer(network::ConnectionPtr connection, network::Message &message);
+
+   /**
+    * Makes a notification to indicate a machine send a product taken message
+    * @param connection : The connection that send the message
+    */
+   void handleProductTakenFromBuffer(network::ConnectionPtr connection, network::Message &message);
 };
 }
 

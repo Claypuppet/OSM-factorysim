@@ -116,6 +116,18 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
 
+    case NotifyEventIds::eApplicationProductAddedToBuffer:{
+      auto machineId = notification.getArgumentAsType<uint16_t>(1);
+      onHandleProductAddedToBufferNotification(machineId);
+      break;
+    }
+
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:{
+      auto machineId = notification.getArgumentAsType<uint16_t>(1);
+      onHandleProductTakenFromBufferNotification(machineId);
+      break;
+    }
+
     default: {
       std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
       break;
@@ -153,6 +165,18 @@ void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::Ma
       break;
     }
   }
+}
+
+void core::Application::onHandleProductTakenFromBufferNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductTakenFromBuffer);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
+}
+
+void core::Application::onHandleProductAddedToBufferNotification(uint16_t machineId) {
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineProductAddedToBuffer);
+  event->setArgument(0, machineId);
+  scheduleEvent(event);
 }
 
 
@@ -238,5 +262,17 @@ void core::Application::tryChangeProduction() {
       changeProductionLineProduct(product->getId());
       break;
     }
+  }
+}
+void core::Application::takeProductsFromBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->takeProductsFromInputBuffers();
+  }
+}
+void core::Application::addProductsToBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if(machine){
+    machine->placeProductsInOutputBuffer();
   }
 }

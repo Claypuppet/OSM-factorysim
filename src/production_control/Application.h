@@ -105,6 +105,18 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
+  /**
+   * Makes a machine take products from its input buffer
+   * @param machineId : The machine
+   */
+  void takeProductsFromBuffer(uint16_t machineId);
+
+  /**
+   * Makes a machine add products to its output buffer
+   * @param machineId : The machine
+   */
+  void addProductsToBuffer(uint16_t machineId);
+
   virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:
@@ -133,6 +145,18 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    * @param errorCode : Some error code
    */
   void onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode);
+
+  /**
+   * Handles a product taken notification
+   * @param machineId : Id of the machine that took products
+   */
+  void onHandleProductTakenFromBufferNotification(uint16_t machineId);
+
+  /**
+   * Handles a product added notification
+   * @param machineId : Id of the machine that added products
+   */
+  void onHandleProductAddedToBufferNotification(uint16_t machineId);
 
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
