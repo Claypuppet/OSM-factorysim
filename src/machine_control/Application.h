@@ -109,6 +109,11 @@ class Application
    */
   void machineBroke();
 
+  /**
+   * Star the reparation of a broken machine
+   */
+  void startReparation();
+
  protected:
   uint16_t id;
   MachinePtr machine;

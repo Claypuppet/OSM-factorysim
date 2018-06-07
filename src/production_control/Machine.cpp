@@ -78,62 +78,60 @@ void Machine::sendConfigureMessage(uint16_t configureId) {
 //  utils::Logger::log(ss.str());
 }
 
-const BufferList &Machine::getCurrentInputBuffers() const {
+const InputBuffersPerMachineMap &Machine::getCurrentInputBuffers() const {
   return inputBuffers.at(currentConfigId);
+}
+
+const InputBuffersPerMachineMap &Machine::getInputBuffers(uint16_t productId) const {
+  return inputBuffers.at(productId);
 }
 
 const BufferPtr &Machine::getCurrentOutputBuffer() const {
   return outputBuffers.at(currentConfigId);
 }
 
-const BufferList &Machine::getInputBuffers(uint16_t productId) const {
-  return inputBuffers.at(productId);
-}
-
 const BufferPtr &Machine::getOutputBuffer(uint16_t productId) const {
   return outputBuffers.at(productId);
 }
 
-const InputBuffersMap &Machine::getInputBuffers() const {
+const InputBuffersPerConfigMap &Machine::getInputBuffers() const {
   return inputBuffers;
 }
 
-const OutputBuffersMap &Machine::getOutputBuffers() const {
+const OutputBuffersPerConfigMap &Machine::getOutputBuffers() const {
   return outputBuffers;
 }
 
-void Machine::addInputBuffer(uint16_t productId, BufferPtr inputbuffer) {
+void Machine::setOutputBuffer(uint16_t productId, BufferPtr outputBuffer) {
   auto self = shared_from_this();
-  inputBuffers[productId].emplace_back(inputbuffer);
-  inputbuffer->addToMachine(self);
+  outputBuffers[productId] = outputBuffer;
+  outputBuffer->setPutterMachine(self);
 }
 
 void Machine::createInitialBuffers() {
   auto self = shared_from_this();
-  for (const std::shared_ptr<models::MachineConfiguration> &machineConfiguration : configurations) {
-    auto productId = machineConfiguration->getProductId();
-    BufferPtr buffer;
 
-    auto bufferSize = machineConfiguration->getOutputBufferSize();
-    if (bufferSize > 0) {
-      // Buffer with size
-      buffer = std::make_shared<Buffer>(self, productId, machineConfiguration->getOutputBufferSize());
-    }
-    else {
-      // Infinite buffer
-      buffer = std::make_shared<InfiniteBuffer>(self, productId);
-    }
+  for (const auto &machineConfiguration : configurations) {
+    auto productId = machineConfiguration->getProductId();
 
     // set outputbuffer based on config
-    outputBuffers[productId] = buffer;
+    auto outputBuffer = std::make_shared<InfiniteBuffer>(productId);
+    outputBuffer->setPutterMachine(self);
+    outputBuffers[productId] = outputBuffer;
 
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
-      if (previousMachine->getMachineId() == 0) {
-        auto inputBuffer = std::make_shared<InfiniteBuffer>(productId);
-        inputBuffers[machineConfiguration->getProductId()].emplace_back(inputBuffer);
-        inputBuffer->addToMachine(self);
+      BufferPtr buffer;
+
+      auto bufferSize = previousMachine->getInputBufferSize();
+      if (bufferSize > 0 && previousMachine->getMachineId() > 0) {
+        // Buffer with size
+        buffer = std::make_shared<Buffer>(self, productId, bufferSize);
+      } else {
+        // Infinite buffer
+        buffer = std::make_shared<InfiniteBuffer>(self, productId);
       }
+      inputBuffers[machineConfiguration->getProductId()][previousMachine->getMachineId()] = buffer;
     }
   }
 }
@@ -196,21 +194,22 @@ bool Machine::canDoAction() {
   if (!isConnected() || awaitingResponse) {
     return false;
   }
-  // If machine is wants to reconfigure, we can do that in the init state or idle state
-  if (nextAction == kNextActionTypeReconfigure) {
-    return status == kMachineStatusInitializing || status == kMachineStatusIdle;
+  // If machine wants to reconfigure, we can do that in the init state or idle state
+  if(nextAction == kNextActionTypeReconfigure){
+    return (status == kMachineStatusInitializing || status == kMachineStatusIdle);
   }
   // If machine is not in idle state, it can't do much...
-  if (status != kMachineStatusIdle) {
+  if(status != kMachineStatusIdle) {
     return false;
   }
   // Check if needed products in input buffers (previous machines)
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
-    if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
+    if (!inputBuffer.second->checkAmountInBuffer(previous->getNeededProducts())) {
       return false;
     }
   }
+
   // Final check: check if enough space in output buffer
   // NOTE: currently we only support machines that produce 1 product per process
   return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(1);
@@ -234,10 +233,10 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
-    auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
-    // NOTE: We will only track one (first) product
-    productInProcess = itemsTaken.front();
+	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
+	auto itemsTaken = inputBuffer.second->takeFromBuffer(previous->getNeededProducts());
+	// NOTE: We will only track one (first) product
+	productInProcess = itemsTaken.front();
   }
 }
 

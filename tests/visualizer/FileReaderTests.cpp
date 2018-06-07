@@ -38,22 +38,45 @@ BOOST_AUTO_TEST_CASE(Visualiser_Reader_Machines) {
   auto config = reader.deserializeSimConfig("./test_results/Kleine_productiestraat.yaml");
 
   auto machines = config->getProductionLine()->getMachines();
+  BOOST_REQUIRE_EQUAL(machines.size(), 2);
 
   BOOST_REQUIRE(machines.size() == 2);
   BOOST_CHECK(machines[0]->getName() == "Zaagmachine (hout)");
   BOOST_CHECK(machines[1]->getName() == "Voorboormachine (hout)");
   BOOST_CHECK(machines[0]->getId() == 1);
   BOOST_CHECK(machines[1]->getId() == 2);
-  BOOST_CHECK(machines[0]->getConfigurations()[0]->getInitializationDurationInSeconds() == 6);
-  BOOST_CHECK(machines[1]->getConfigurations()[1]->getProductId() == 2);
-  BOOST_CHECK(machines[0]->getConfigurations()[1]->getProcessTime() == 60000 / 8);
-  BOOST_CHECK(machines[1]->getConfigurations()[0]->getOutputEachMinute() == 12);
-  BOOST_CHECK(machines[0]->getConfigurations()[0]->getReparationTimeInMinutes() == 24);
-  BOOST_CHECK(machines[1]->getConfigurations()[1]->getMeanTimeBetweenFailureStddevInHours() == 36);
-  BOOST_CHECK(machines[0]->getConfigurations()[1]->getMeanTimeBetweenFailureInHours() == 9800);
-  BOOST_CHECK(machines[1]->getConfigurations()[0]->getInitializationDurationInMilliseconds() == 6000);
-  BOOST_CHECK(machines[0]->getConfigurations()[0]->getOutputBufferSize() == 20);
-  BOOST_CHECK(machines[1]->getConfigurations()[1]->getPreviousMachines()[0]->getMachineId() == 1);
+
+  { // machines[0]
+    auto machine = machines[0];
+
+    auto machineConfigurations = machine->getConfigurations();
+    BOOST_REQUIRE_EQUAL(machineConfigurations.size(), 2);
+
+    BOOST_CHECK_EQUAL(machine->getInitializationDurationInSeconds(), 6);
+    BOOST_CHECK_EQUAL(machine->getInitializationDurationInMilliseconds(), 6000);
+    BOOST_CHECK_EQUAL(machine->getReparationTimeInMinutes(), 24);
+    BOOST_CHECK_EQUAL(machine->getReparationTimeStddevInMinutes(), 30);
+    BOOST_CHECK_EQUAL(machine->getMeanTimeBetweenFailureInHours(), 9800);
+
+    { // machines[0].configurations[0]
+      auto machineConfiguration = machineConfigurations[0];
+
+      auto previousMachines = machineConfiguration->getPreviousMachines();
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+
+      BOOST_CHECK_EQUAL(machineConfiguration->getProductId(), 2);
+      BOOST_CHECK_EQUAL(machineConfiguration->getOutputEachMinute(), 12);
+      BOOST_CHECK_EQUAL(machineConfiguration->getProcessTime(), 60000 / 8);
+
+      { // machines[0].configurations[0].previousmachines[0]
+        auto previousMachine = previousMachines[0];
+
+        BOOST_CHECK_EQUAL(previousMachine->getMachineId(), 0);
+        BOOST_CHECK_EQUAL(previousMachine->getNeededProducts(), 1);
+        BOOST_CHECK_EQUAL(previousMachine->getInputBufferSize(), 4);
+      }
+    }
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()

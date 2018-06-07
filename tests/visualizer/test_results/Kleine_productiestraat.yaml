@@ -23,59 +23,48 @@ productionLine:
 
   - id: 1
     name: Zaagmachine (hout)
+    initializationDurationInSeconds: 6
+    meanTimeBetweenFailureInHours: 8800
+    reparationTimeStddevInMinutes: 30
+    reparationTimeInMinutes: 24
     configurations:
     - productId: 1
       outputEachMinute: 12
-      outputBufferSize: 20
-      initializationDurationInSeconds: 6
-      turnAroundTimeInSeconds: 16
-      meanTimeBetweenFailureInHours: 8800
-      meanTimeBetweenFailureStddevInHours: 30
-      reparationTimeInMinutes: 24
       previousMachines:
         - machineId: 0
           neededProducts: 1
+          inputBufferSize: 4
 
     - productId: 2
       outputEachMinute: 8
-      outputBufferSize: 80
-      initializationDurationInSeconds: 9
-      turnAroundTimeInSeconds: 21
-      meanTimeBetweenFailureInHours: 9800
-      meanTimeBetweenFailureStddevInHours: 36
-      reparationTimeInMinutes: 27
       previousMachines:
         - machineId: 0
           neededProducts: 1
+          inputBufferSize: 6
 
 
 
   - id: 2
     name: Voorboormachine (hout)
+    initializationDurationInSeconds: 9
+    turnAroundTimeInSeconds: 21
+    meanTimeBetweenFailureInHours: 9800
+    reparationTimeStddevInMinutes: 36
+    reparationTimeInMinutes: 27
     configurations:
     - productId: 1
       outputEachMinute: 12
-      outputBufferSize: 2000
-      initializationDurationInSeconds: 6
-      turnAroundTimeInSeconds: 16
-      meanTimeBetweenFailureInHours: 8800
-      meanTimeBetweenFailureStddevInHours: 30
-      reparationTimeInMinutes: 24
       previousMachines:
         - machineId: 1
           neededProducts: 2
+          inputBufferSize: 2
 
     - productId: 2
       outputEachMinute: 8
-      outputBufferSize: 10
-      initializationDurationInSeconds: 9
-      turnAroundTimeInSeconds: 21
-      meanTimeBetweenFailureInHours: 9800
-      meanTimeBetweenFailureStddevInHours: 36
-      reparationTimeInMinutes: 27
       previousMachines:
         - machineId: 1
           neededProducts: 3
+          inputBufferSize: 3
 
 events:
 - 0,1514786400000,1,1
