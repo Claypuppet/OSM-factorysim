@@ -9,6 +9,11 @@ PostProcessInfo::PostProcessInfo(uint16_t inputDelayInSeconds, uint16_t postProc
       postProcessDurationInMinutes(postProcessDurationInMinutes) {
 }
 
+PostProcessInfo::PostProcessInfo(const PostProcessInfo &other)
+    : inputDelayInSeconds(other.inputDelayInSeconds),
+      postProcessDurationInMinutes(other.postProcessDurationInMinutes) {
+}
+
 const uint16_t &PostProcessInfo::getInputDelayInSeconds() const {
   return inputDelayInSeconds;
 }
@@ -16,10 +21,13 @@ const uint16_t &PostProcessInfo::getInputDelayInSeconds() const {
 const uint16_t &PostProcessInfo::getPostProcessDurationInMinutes() const {
   return postProcessDurationInMinutes;
 }
-PostProcessInfo::PostProcessInfo(const PostProcessInfo &other)
-    : inputDelayInSeconds(other.inputDelayInSeconds),
-      postProcessDurationInMinutes(other.postProcessDurationInMinutes) {
 
+const uint32_t PostProcessInfo::getInputDelayInMillis() const {
+  return 1000u * inputDelayInSeconds;
+}
+
+const uint32_t PostProcessInfo::getPostProcessDurationInMillis() const {
+  return 60000u * postProcessDurationInMinutes;
 }
 
 }

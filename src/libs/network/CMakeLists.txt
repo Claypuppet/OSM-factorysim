@@ -1,10 +1,15 @@
 
-file(GLOB lib_network_SRC
-        "**.h"
-        "**.cpp")
-
 add_library(lib_network SHARED
-        ${lib_network_SRC})
+        Message.h
+        Manager.cpp
+        Connection.h
+        Connection.cpp
+        Client.cpp
+        Client.h
+        Server.h
+        Manager.h
+        Protocol.h
+        Server.cpp)
 
 target_link_libraries(lib_network lib_utils ${Boost_SYSTEM_LIBRARY})
 
