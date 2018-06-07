@@ -39,6 +39,8 @@ class SimulationMachine : public machinecore::Machine {
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
 
+  uint64_t momentOfLastItemProcessed;
+
   static bool canBreak;
 };
 

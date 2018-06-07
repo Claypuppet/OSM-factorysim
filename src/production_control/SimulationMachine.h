@@ -30,13 +30,13 @@ class SimulationMachine : public core::Machine {
    */
   virtual ~SimulationMachine() = default;
 
-  /**
+  virtual /**
   * A function to check if a connection is established with the machine
   * @return True if theres a connection establised with the machine
   */
   bool isSimulationConnected() const;
 
-  /**
+  virtual /**
   * A function to check if the machine is ready for configuration
   * @return True if theres a connection establised with the machine and its configured
   */

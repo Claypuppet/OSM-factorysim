@@ -51,8 +51,29 @@ void SimulationMachine::processProduct() {
 }
 
 void SimulationMachine::takeOutProduct() {
-  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
-  notifyObservers(notification);
+  // Default is instant done with taken out (normal machines)
+  if(auto postProcess = currentConfiguration->getPostProcess()){
+    auto &time = utils::Time::getInstance();
+    auto currentTime = time.getCurrentTime();
+    if (momentOfLastItemProcessed + postProcess->getDelayInMillis > currentTime){
+      time.increaseCurrentTime(momentOfLastItemProcessed + postProcess->getDelayInMillis - currentTime);
+      currentTime = time.getCurrentTime();
+    }
+    uint32_t durationOfPostProcess = 1500000; // 25 min, todo: get from configuration
+
+    time.increaseCurrentTime(durationOfPostProcess);
+    auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
+    notifyObservers(notification);
+
+    // Set current time again
+    time.reset();
+    time.syncTime(currentTime);
+  }
+  else {
+    auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
+    notifyObservers(notification);
+  }
+
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenOut);
   scheduleEvent(event);
 }

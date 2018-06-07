@@ -43,13 +43,13 @@ class Machine
 
   virtual ~Machine() = default;
 
-  /**
+  virtual /**
   * A function to check if a connection is established with the machine
   * @return True if theres a connection establised with the machine
   */
   bool isConnected() const;
 
-  /**
+  virtual /**
   * A function that sets the connection with this machine
   * @param aConnection : The connection with this machine
   */

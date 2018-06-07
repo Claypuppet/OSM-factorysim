@@ -78,8 +78,8 @@ void SimulationApplication::executeScheduler() {
   if(canScheduleNotifications && scheduleMachineNotifications()){
     return;
   }
-
   Application::executeScheduler();
+
   canScheduleNotifications = true;
 
   // Temp, print statistics of machines etc. every few hours. move to
