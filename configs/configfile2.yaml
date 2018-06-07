@@ -24,7 +24,7 @@ productionLine:
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 50
     reparationTimeInMinutes: 60
-    meanTimeBetweenFailureStddevInHours: 1
+    reparationTimeStddevInMinutes: 1
     postProcessInfo:
     configurations:
 
@@ -33,14 +33,14 @@ productionLine:
       previousMachines:
       - machineId: 0
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 0
 
     - productId: 2
       outputEachMinute: 1
       previousMachines:
       - machineId: 0
         neededProducts: 3
-        inputBufferSize: 2
+        inputBufferSize: 0
 
 
   - id: 2
@@ -48,7 +48,7 @@ productionLine:
     initializationDurationInSeconds: 900
     meanTimeBetweenFailureInHours: 500
     reparationTimeInMinutes: 60
-    meanTimeBetweenFailureStddevInHours: 1
+    reparationTimeStddevInMinutes: 1
     postProcessInfo:
     configurations:
     - productId: 1
@@ -57,7 +57,7 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
 
   - id: 3
@@ -65,7 +65,7 @@ productionLine:
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 500
     reparationTimeInMinutes: 60
-    meanTimeBetweenFailureStddevInHours: 1
+    reparationTimeStddevInMinutes: 1
     postProcessInfo:
     configurations:
     - productId: 2
@@ -73,4 +73,4 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5

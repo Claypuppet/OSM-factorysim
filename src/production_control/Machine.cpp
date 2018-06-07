@@ -115,7 +115,9 @@ void Machine::createInitialBuffers() {
     auto productId = machineConfiguration->getProductId();
 
     // set outputbuffer based on config
-    outputBuffers[productId] = std::make_shared<InfiniteBuffer>(productId);
+    auto outputBuffer = std::make_shared<InfiniteBuffer>(productId);
+    outputBuffer->setPutterMachine(self);
+    outputBuffers[productId] = outputBuffer;
 
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {

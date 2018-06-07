@@ -95,19 +95,16 @@ void Buffer::setPutterMachine(const MachinePtrW &machine) {
 }
 
 void Buffer::debugPrintBuffersChain(std::stringstream &stream) {
+  if (!putter.lock()) {
+    stream << "(Input) ";
+  }
+  stream << "Buffer (" <<  (maxSize ? std::to_string(maxSize) : "infinite") << ")";
   if (auto machine = taker.lock()) {
-    stream << machine->getName() << " (id " << machine->getId() << ") -> ";
+    stream << " -> " << machine->getName() << " (id " << machine->getId() << ") -> ";
+    machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);
   }
   else {
-    stream << "Input -> ";
-  }
-
-  if(putter.lock() == nullptr){
-    stream << "End product" << std::endl;
-  }
-
-  if (auto machine = putter.lock()) {
-    machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);
+    stream << " (End product)" << std::endl;
   }
 }
 
