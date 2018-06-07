@@ -28,17 +28,16 @@ void Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   }
 
   // Links all buffers (for each product type in production line)
-  for (const std::shared_ptr<models::Product> &product : productionLine->getProducts()) {
+  for (const auto &product : productionLine->getProducts()) {
     auto productId = product->getId();
     for (const auto &machine : machines) {
       if (!machine->hasConfiguration(productId)) {
         // Machine doesn't have a configuration for this product.
         continue;
       }
-      for (const auto &previousMachine : machine->getPreviousMachines(productId)) {
-        if (auto previousMachineObj = getMachine(previousMachine->getMachineId())) {
-          auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
-          machine->addInputBuffer(productId, previousBuffer);
+      for (const auto &inputBufferPair : machine->getInputBuffers(productId)) {
+        if (auto previousMachineObj = getMachine(inputBufferPair.first)) {
+          previousMachineObj->setOutputBuffer(productId, inputBufferPair.second);
         } else {
           // This machine is the first in line because it doesnt have a previous machine
           firstMachinesInLine[productId].emplace_back(machine);
@@ -56,7 +55,7 @@ void Application::setMachines(const std::vector<MachinePtr> &aMachines) {
            << std::endl;
     for (const auto &machine : machineList.second) {
       for (const auto &input : machine->getInputBuffers(machineList.first)) {
-        input->debugPrintBuffersChain(stream);
+        input.second->debugPrintBuffersChain(stream);
       }
     }
   }
@@ -66,7 +65,7 @@ void Application::setMachines(const std::vector<MachinePtr> &aMachines) {
 
 MachinePtr Application::getMachine(uint16_t machineId) {
   auto machineItr = std::find_if(machines.begin(), machines.end(),
-                   [machineId](const MachinePtr &machine){return machine->getId() == machineId;});
+                                 [machineId](const MachinePtr &machine) { return machine->getId() == machineId; });
   return (machineItr == machines.end()) ? nullptr : *machineItr;
 }
 
@@ -258,6 +257,20 @@ void Application::tryChangeProduction() {
       changeProductionLineProduct(product->getId());
       break;
     }
+  }
+}
+
+void Application::takeProductsFromBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if (machine) {
+    machine->takeProductsFromInputBuffers();
+  }
+}
+
+void Application::addProductsToBuffer(uint16_t machineId) {
+  auto machine = getMachine(machineId);
+  if (machine) {
+    machine->placeProductsInOutputBuffer();
   }
 }
 

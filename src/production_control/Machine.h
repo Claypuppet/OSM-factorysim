@@ -6,13 +6,15 @@
 
 #include <network/Connection.h>
 #include <models/Machine.h>
+#include <models/MachineStatistics.h>
 
 #include "Buffer.h"
 
 namespace core {
 
-typedef std::map<uint16_t, BufferList> InputBuffersMap;
-typedef std::map<uint16_t, BufferPtr> OutputBuffersMap;
+typedef std::map<uint16_t, BufferPtr> InputBuffersPerMachineMap;
+typedef std::map<uint16_t, InputBuffersPerMachineMap> InputBuffersPerConfigMap;
+typedef std::map<uint16_t, BufferPtr> OutputBuffersPerConfigMap;
 
 /**
  * Machine contains the connection to the machine control to send instructions.
@@ -39,7 +41,6 @@ class Machine
   * Copy constructor
   * @param aMachine : The machine to copy
   */
-  Machine(const Machine &aMachine);
 
   virtual ~Machine() = default;
 
@@ -77,26 +78,36 @@ class Machine
    * @param productId : id of product
    * @param outputBuffer : buffer for the product
    */
-  void addInputBuffer(uint16_t productId, BufferPtr outputBuffer);
+  void setOutputBuffer(uint16_t productId, BufferPtr outputBuffer);
 
   /**
    * Get the previous machines for this machine, by given config id
    * @param configureId : config id (production line)
    * @return : ids of next machine in production line
    */
-  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines(uint16_t configureId);
+  const std::vector<models::PreviousMachinePtr> &getPreviousMachines(uint16_t configureId);
 
   /**
    * Get the previous machines for this machine for current config
    * @return : ids of next machine in production line
    */
-  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines();
+  const std::vector<models::PreviousMachinePtr> &getPreviousMachines();
 
   /**
    * Create the initial input and output buffers for this machine
    */
   void createInitialBuffers();
 
+  /**
+   * Take products from previous buffers
+   */
+  void takeProductsFromInputBuffers();
+
+  /**
+   * Place products in output buffer
+   */
+  void placeProductsInOutputBuffer();
+  
   /**
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
    */
@@ -122,23 +133,30 @@ class Machine
    */
   bool isLastInLine(uint16_t productId);
 
+  /**
+   * Creates a machineStatistics object with the statistic variables and adds it to weeklyStatistics
+   * also resets the statistic variables
+   */
+  void addWeeklyStatistics();
+
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
   virtual bool isWaitingForResponse();
+  const std::vector<models::MachineStatistics> &getWeeklyStatistics() const;
 
   // Input buffer getters
-  const BufferList &getInputBuffers(uint16_t productId) const;
-  const BufferList &getCurrentInputBuffers() const;
-  const InputBuffersMap &getInputBuffers() const;
+  const InputBuffersPerMachineMap &getInputBuffers(uint16_t productId) const;
+  const InputBuffersPerMachineMap &getCurrentInputBuffers() const;
+  const InputBuffersPerConfigMap &getInputBuffers() const;
 
   // Output buffer getters
   const BufferPtr &getOutputBuffer(uint16_t productId) const;
   const BufferPtr &getCurrentOutputBuffer() const;
-  const OutputBuffersMap &getOutputBuffers() const;
+  const OutputBuffersPerConfigMap &getOutputBuffers() const;
 
-  // Statistics getters
-  const std::map<MachineStatus, uint64_t> &getTimeSpendInState() const;
+  // MachineStatistics getters
+  const std::map<MachineStatus, uint32_t> &getTimeSpendInState() const;
   uint16_t getTimesBroken() const;
 
  protected:
@@ -148,16 +166,6 @@ class Machine
   * @param msg : The message to send to this machine
   */
   virtual void sendMessage(network::Message &message);
-
-  /**
-   * Take products from previous buffers
-   */
-  void takeProductsFromInputBuffers();
-
-  /**
-   * Place products in output buffer
-   */
-  void placeProductsInOutputBuffer();
 
   MachineStatus status;
   bool awaitingResponse;
@@ -172,13 +180,23 @@ class Machine
 
   //statistics
   uint64_t lastStatusChange;
-  std::map<models::Machine::MachineStatus, uint64_t> timeSpendInState;
+
+  /**
+   * productId, amount of produced products
+   */
+  std::map<uint16_t, uint16_t> producedProducts;
+  /**
+   * ProductId, amount of lost products
+   */
+  std::map<uint16_t, uint16_t> lostProducts;
+  std::map<models::Machine::MachineStatus, uint32_t> timeSpendInState;
   uint16_t timesBroken;
-  uint64_t lostProducts;
+
+  std::vector<models::MachineStatistics> weeklyStatistics;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
-  std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
-  std::map<uint16_t, BufferPtr> outputBuffers;
+  InputBuffersPerConfigMap inputBuffers;
+  OutputBuffersPerConfigMap outputBuffers;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;

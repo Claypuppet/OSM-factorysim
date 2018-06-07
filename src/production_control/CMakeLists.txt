@@ -45,8 +45,7 @@ add_library(source_lib_app_production SHARED
         states_application/InOperationState.h
         InfiniteBuffer.cpp
         InfiniteBuffer.h
-        LocalSimulationMachine.cpp
-        LocalSimulationMachine.h)
+        )
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer source_lib_app_machine_control)

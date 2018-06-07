@@ -24,7 +24,8 @@ class PreviousMachine {
    * @param neededProducts
    */
   PreviousMachine(uint16_t machineId,
-                  uint16_t neededProducts);
+                  uint16_t neededProducts,
+                  uint16_t inputBufferSize);
 
   /**
    * Destruct a PreviousMachine object
@@ -46,10 +47,12 @@ class PreviousMachine {
 
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;
+  uint16_t getInputBufferSize() const;
 
  private:
   uint16_t machineId;
   uint16_t neededProducts;
+  uint16_t inputBufferSize;
 
   /**
    * A function to save a MachineConfiguration object in an archive

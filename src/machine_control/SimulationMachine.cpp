@@ -20,11 +20,13 @@ SimulationMachine::SimulationMachine(const models::Machine &machine) : machineco
 
 bool SimulationMachine::configure() {
   generator = std::mt19937(static_cast<uint64_t >(std::clock()));
-  distribution = std::uniform_int_distribution<uint64_t>(magicNumber,
-                                                         (magicNumber
-                                                             + currentConfiguration->getMeanTimeBetweenFailureInHours())
-                                                             * oneHourInMillis / checkCycle);
-  utils::Time::getInstance().increaseCurrentTime(currentConfiguration->getInitializationDurationInMilliseconds());
+
+  uint64_t maxNumber = magicNumber + meanTimeBetweenFailureInHours;
+  maxNumber *= (oneHourInMillis / checkCycle);
+
+  distribution = std::uniform_int_distribution<uint64_t>(magicNumber, maxNumber);
+
+  utils::Time::getInstance().increaseCurrentTime(getInitializationDurationInMilliseconds());
   timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
   scheduleEvent(event);
@@ -52,14 +54,15 @@ void SimulationMachine::processProduct() {
 
 void SimulationMachine::takeOutProduct() {
   // Default is instant done with taken out (normal machines)
-  if(auto postProcess = currentConfiguration->getPostProcess()){
+  if(auto postProcess = getPostProcessInfo()){
     auto &time = utils::Time::getInstance();
     auto currentTime = time.getCurrentTime();
-    if (momentOfLastItemProcessed + postProcess->getDelayInMillis > currentTime){
-      time.increaseCurrentTime(momentOfLastItemProcessed + postProcess->getDelayInMillis - currentTime);
+    if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > currentTime){
+      time.increaseCurrentTime(momentOfLastItemProcessed + postProcess->getInputDelayInMillis() - currentTime);
+      // Update current time variable to reset to here after sending product placed in buffer
       currentTime = time.getCurrentTime();
     }
-    uint32_t durationOfPostProcess = 1500000; // 25 min, todo: get from configuration
+    uint32_t durationOfPostProcess = postProcess->getPostProcessDurationInMillis();
 
     time.increaseCurrentTime(durationOfPostProcess);
     auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);

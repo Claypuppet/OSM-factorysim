@@ -1,39 +1,57 @@
 
-#include <utils/Logger.h>
 #include "InOperationState.h"
 
-applicationstates::InOperationState::InOperationState(core::Application &context) :
-	ApplicationState(context) {
+#include <utils/Logger.h>
+
+namespace applicationstates {
+
+InOperationState::InOperationState(core::Application &context) :
+		ApplicationState(context) {
 }
 
-void applicationstates::InOperationState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
-  context.prepareScheduler();
+void InOperationState::entryAction() {
+	utils::Logger::log(__PRETTY_FUNCTION__);
+	context.prepareScheduler();
 }
 
-void applicationstates::InOperationState::doActivity() {
+void InOperationState::doActivity() {
   context.executeScheduler();
   std::this_thread::yield();
 }
 
-void applicationstates::InOperationState::exitAction() {
+void InOperationState::exitAction() {
 
 }
 
 bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case applicationstates::kEventTypeMachineStatusUpdate:
-	  onMachineStatusUpdateEvent(event);
-	  return true;
-
-	default: {
-	  return ApplicationState::handleEvent(event);
-	}
+    case applicationstates::kEventTypeMachineStatusUpdate:
+      onMachineStatusUpdateEvent(event);
+      return true;
+    case applicationstates::kEventTypeMachineProductTakenFromBuffer:
+      onMachineProductTaken(event);
+      return true;
+    case applicationstates::kEventTypeMachineProductAddedToBuffer:
+      onMachineProductAdded(event);
+      return true;
+    default: {
+      return ApplicationState::handleEvent(event);
+    }
   }
 }
 
-void applicationstates::InOperationState::onMachineStatusUpdateEvent(const EventPtr &event) {
+void InOperationState::onMachineStatusUpdateEvent(const EventPtr &event) {
 //	utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
-	context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
-							 event->getArgumentAsType<core::Machine::MachineStatus>(1));
+  context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
+                           event->getArgumentAsType<core::Machine::MachineStatus>(1));
+}
+
+void applicationstates::InOperationState::onMachineProductTaken(const applicationstates::EventPtr &event) {
+  context.takeProductsFromBuffer(event->getArgumentAsType<uint16_t>(0));
+}
+
+void applicationstates::InOperationState::onMachineProductAdded(const applicationstates::EventPtr &event) {
+  context.addProductsToBuffer(event->getArgumentAsType<uint16_t>(0));
+}
+
 }
