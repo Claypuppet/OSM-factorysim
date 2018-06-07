@@ -5,7 +5,6 @@
 #include <boost/test/unit_test.hpp>
 #include <utils/time/Time.h>
 #include "../../src/production_control/SimulationController.h"
-#include "../../src/production_control/ResultLogger.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlMachineTests)
 
@@ -80,8 +79,6 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   BOOST_CHECK(stats.getConfigureTime() == 0);
   BOOST_CHECK(stats.getIdleTime() == 0);
   BOOST_CHECK(stats.getProductionTime() == 0);
-
-  core::ResultLogger::getInstance().logStatistics(app->getMachines());
 }
 
 
