@@ -55,23 +55,15 @@ class PreviousMachine {
   uint16_t inputBufferSize;
 
   /**
-   * A function to save a MachineConfiguration object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-    ar(machineId, neededProducts);
-  }
-
-  /**
-   * A function to load a MachineConfiguration object from an archive
+   * A function to serialize a MachineConfiguration object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-    ar(machineId, neededProducts);
+  void serialize(Archive &ar) {
+    ar(machineId,
+       neededProducts,
+       inputBufferSize);
   }
 
   friend class ::cereal::access;

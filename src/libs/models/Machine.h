@@ -122,25 +122,6 @@ class Machine {
    */
   const MachineConfigurationPtr getConfigurationById(uint16_t machineConfigurationId) const;
 
-  /**
-   * Set the machine id
-   * @param id the new machine id
-   */
-  void setId(uint16_t id); // TODO : remove?
-
-  /**
-   * Set the machine name
-   * @param name the new machine name
-   */
-  void setName(const std::string &name); // TODO : remove?
-
-  /**
-   * Add a machine configuration to this machine
-   * @param machineConfiguration machine configuration model
-   * @return the new machine configuration
-   */
-  const MachineConfigurationPtr addConfiguration(MachineConfigurationPtr machineConfiguration); // TODO : remove?
-
   uint16_t getMeanTimeBetweenFailureInHours() const;
   uint16_t getReparationTimeInMinutes() const;
   uint16_t getReparationTimeStddevInMinutes() const;
@@ -166,23 +147,20 @@ class Machine {
  private:
 
   /**
-   * A function to save the object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &archive) const {
-    archive(id, name, configurations);
-  }
-
-  /**
-   * A function to load a machine object from an archive
+   * A function to serialize a machine object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &archive) {
-    archive(id, name, configurations);
+  void serialize(Archive &archive) {
+    archive(id,
+            name,
+            meanTimeBetweenFailureInHours,
+            reparationTimeInMinutes,
+            reparationTimeStddevInMinutes,
+            initializationDurationInSeconds,
+            configurations,
+            postProcessInfo);
   };
 
   friend class ::cereal::access;

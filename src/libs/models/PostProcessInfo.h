@@ -2,9 +2,10 @@
 #ifndef PRODUCTION_LINE_CONTROL_POSTPROCESSINFO_H
 #define PRODUCTION_LINE_CONTROL_POSTPROCESSINFO_H
 
-
 #include <cstdint>
 #include <memory>
+
+#include <cereal/cereal.hpp>
 
 namespace models {
 
@@ -13,8 +14,10 @@ namespace models {
  */
 class PostProcessInfo {
  public:
-  PostProcessInfo(uint16_t inputDelayInSeconds, uint16_t postProcessDurationInMinutes);
+  PostProcessInfo() = default;
   virtual ~PostProcessInfo() = default;
+
+  PostProcessInfo(uint16_t inputDelayInSeconds, uint16_t postProcessDurationInMinutes);
   PostProcessInfo(const PostProcessInfo &other);
 
   const uint16_t &getInputDelayInSeconds() const;
@@ -34,6 +37,19 @@ class PostProcessInfo {
  private:
   uint16_t inputDelayInSeconds;
   uint16_t postProcessDurationInMinutes;
+
+  /**
+   * A function to serialize a MachineConfiguration object from an archive
+   * @tparam Archive
+   * @param ar : The archive to load
+   */
+  template<class Archive>
+  void serialize(Archive &ar) {
+    ar(inputDelayInSeconds,
+       postProcessDurationInMinutes);
+  }
+
+  friend class ::cereal::access;
 };
 
 typedef std::shared_ptr<PostProcessInfo> PostProcessInfoPtr;

@@ -83,14 +83,6 @@ const MachineConfigurationPtr Machine::getConfigurationById(uint16_t machineConf
   return nullptr;
 }
 
-void Machine::setId(uint16_t id) { // TODO : remove?
-  Machine::id = id;
-}
-
-void Machine::setName(const std::string &name) { // TODO : remove?
-  Machine::name = name;
-}
-
 uint16_t Machine::getMeanTimeBetweenFailureInHours() const {
   return meanTimeBetweenFailureInHours;
 }

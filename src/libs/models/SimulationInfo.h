@@ -57,23 +57,15 @@ class SimulationInfo {
   uint8_t workDayDurationInHours;
 
   /**
-   * A function to save a SimulationInfo object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(durationInHours);
-  }
-
-  /**
-   * A function to load a SimulationInfo object from an archive
+   * A function to serialize a SimulationInfo object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-	ar(durationInHours);
+  void serialize(Archive &ar) {
+	ar(durationInHours,
+       startHourOfWorkDay,
+       workDayDurationInHours);
   }
 
   friend class cereal::access;
