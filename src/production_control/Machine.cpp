@@ -3,12 +3,12 @@
 #include <memory>
 #include <utils/Logger.h>
 #include <utils/time/Time.h>
+#include <models/Configuration.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
 #include "ResultLogger.h"
 
 namespace core {
-
 
 Machine::Machine(const models::Machine &aMachine)
     : models::Machine(aMachine),
@@ -20,22 +20,8 @@ Machine::Machine(const models::Machine &aMachine)
       currentConfigId(0),
       nextAction(kNextActionTypeProcessProduct),
       lastStatusChange(0),
-      timeSpendInState(),
-      timesBroken(0),
-      inputBuffers(),
-      outputBuffers() {
-}
-
-Machine::Machine(const Machine &aMachine)
-    : models::Machine(aMachine),
-      status(kMachineStatusDisconnected),
-      awaitingResponse(false),
-      connection(),
-      productInProcess(),
-      prepareConfigureId(0),
-      currentConfigId(0),
-      nextAction(kNextActionTypeProcessProduct),
-      lastStatusChange(0),
+      producedProducts(),
+      lostProducts(),
       timeSpendInState(),
       timesBroken(0),
       inputBuffers(),
@@ -44,7 +30,7 @@ Machine::Machine(const Machine &aMachine)
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
-  if(connection && connection->isConnected()){
+  if (connection && connection->isConnected()) {
     lastStatusChange = utils::Time::getInstance().getCurrentTime();
     setStatus(kMachineStatusInitializing);
   }
@@ -67,14 +53,14 @@ void Machine::sendStartProcessMessage() {
 }
 
 void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
-  if(const auto &configuration = getConfigurationById(configureId)){
+  if (const auto &configuration = getConfigurationById(configureId)) {
     // Configuration exists
     prepareConfigureId = configureId;
     nextAction = kNextActionTypeReconfigure;
   }
-  else if(firstTime){
+  else if (firstTime) {
     // First config, but requested config doest not exist, machine will initialize in first known config
-    if(!configurations.empty()){
+    if (!configurations.empty()) {
       // Configuration exists
       prepareConfigureId = configurations.front()->getProductId();
       nextAction = kNextActionTypeReconfigure;
@@ -153,11 +139,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   switch (newStatus) {
     case kMachineStatusIdle: {
       awaitingResponse = false;
-      if (status == kMachineStatusProcessingProduct) {
-        // Don processing product
-        placeProductsInOutputBuffer();
-      }
-      else if (status == kMachineStatusConfiguring) {
+      if (status == kMachineStatusConfiguring) {
         // Don (re)configuring
         currentConfigId = prepareConfigureId;
         nextAction = kNextActionTypeProcessProduct;
@@ -167,7 +149,6 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
     }
     case kMachineStatusProcessingProduct: {
       // Started processing product (product taken from buffer)
-      takeProductsFromInputBuffers();
       break;
     }
     case kMachineStatusConfiguring: {
@@ -194,7 +175,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
-  timeSpendInState[status] += (now -lastStatusChange);
+  timeSpendInState[status] += (now - lastStatusChange);
   lastStatusChange = now;
 
   // Change status
@@ -233,8 +214,8 @@ bool Machine::canDoAction() {
 }
 
 void Machine::doNextAction() {
-  if(canDoAction()){
-    switch (nextAction){
+  if (canDoAction()) {
+    switch (nextAction) {
       case kNextActionTypeProcessProduct:
         sendStartProcessMessage();
         break;
@@ -261,9 +242,10 @@ void Machine::placeProductsInOutputBuffer() {
   if (!currentConfigId) {
     return;
   }
-  if (!productInProcess){
+  if (!productInProcess) {
     throw std::runtime_error("Trying to put a rotten potato in output buffer! Send help!");
   }
+  producedProducts[productInProcess->getProductId()]++;
   const auto outputBuffer = getCurrentOutputBuffer();
   outputBuffer->putInBuffer(productInProcess);
   ResultLogger::getInstance().bufferContentsChanged(id, currentConfigId, outputBuffer->getAmountInBuffer());
@@ -289,12 +271,33 @@ bool Machine::isLastInLine(uint16_t productId) {
   return getOutputBuffer(productId)->isLastInLine();
 }
 
-const std::map<Machine::MachineStatus, uint64_t> &Machine::getTimeSpendInState() const {
+const std::map<Machine::MachineStatus, uint32_t> &Machine::getTimeSpendInState() const {
   return timeSpendInState;
 }
 
 uint16_t Machine::getTimesBroken() const {
   return timesBroken;
+}
+
+const std::vector<models::MachineStatistics> &Machine::getWeeklyStatistics() const {
+  return weeklyStatistics;
+}
+
+void Machine::addWeeklyStatistics() {
+  uint32_t productionTime = timeSpendInState[models::Machine::kMachineStatusProcessingProduct];
+  uint32_t idleTime = timeSpendInState[models::Machine::kMachineStatusIdle];
+  uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
+      + timeSpendInState[models::Machine::kMachineStatusInitializing];
+  uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
+  weeklyStatistics.emplace_back(models::MachineStatistics(producedProducts,
+                                                          lostProducts,
+                                                          downTime,
+                                                          productionTime,
+                                                          idleTime,
+                                                          configureTime));
+  timeSpendInState.clear();
+  producedProducts.clear();
+  lostProducts.clear();
 }
 
 }

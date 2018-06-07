@@ -105,6 +105,18 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
+  /**
+   * Makes a machine take products from its input buffer
+   * @param machineId : The machine
+   */
+  void takeProductsFromBuffer(uint16_t machineId);
+
+  /**
+   * Makes a machine add products to its output buffer
+   * @param machineId : The machine
+   */
+  void addProductsToBuffer(uint16_t machineId);
+
   virtual const std::vector<MachinePtr> &getMachines() const;
 
  protected:

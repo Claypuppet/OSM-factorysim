@@ -24,6 +24,18 @@ class InOperationState : public ApplicationState {
    * @param event the current event
    */
   void onMachineStatusUpdateEvent(const EventPtr &event);
+
+  /**
+   * Function to execute when a machineProductTaken event is received
+   * @param event : The received event
+   */
+  void onMachineProductTaken(const EventPtr &event);
+
+  /**
+   * Function to execute when a machineProductAdded event is received
+   * @param event
+   */
+  void onMachineProductAdded(const EventPtr &event);
 };
 
 }
