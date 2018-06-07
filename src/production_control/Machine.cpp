@@ -308,4 +308,48 @@ uint16_t Machine::getMTBF() {
   return 1;
 }
 
+models::MachineFinalStatisticsPtr Machine::calculateFinalStatistics() {
+  std::map<uint16_t, uint16_t> totalProduced;
+  std::map<uint16_t, uint16_t> totalLost;
+  std::map<uint16_t, uint16_t> avgProduced;
+  std::map<uint16_t, uint16_t> avgLost;
+  uint64_t totalProductionTime = 0;
+  uint64_t totalIdleTime = 0;
+  uint64_t totalDownTime = 0;
+  uint64_t totalConfigureTime = 0;
+
+  auto nWeeks = static_cast<uint16_t >(weeklyStatistics.size());
+
+  for (auto &weekStats : weeklyStatistics) {
+    for (auto &item : weekStats.getProducedProducts()) {
+      totalProduced[item.first] += item.second;
+    }
+    for (auto &item : weekStats.getLostProducts()) {
+      totalLost[item.first] += item.second;
+    }
+    totalProductionTime += weekStats.getProductionTime();
+    totalIdleTime += weekStats.getIdleTime();
+    totalDownTime += weekStats.getDownTime();
+    totalConfigureTime += weekStats.getConfigureTime();
+  }
+
+  for (auto &item : totalProduced) {
+    avgProduced[item.first] = item.second / nWeeks;
+  }
+
+  for (auto &item : totalLost) {
+    avgLost[item.first] = item.second / nWeeks;
+  }
+
+  return std::make_shared<models::MachineFinalStatistics>(avgProduced,
+                                        avgLost,
+                                        static_cast<uint32_t>(totalDownTime / nWeeks),
+                                        static_cast<uint32_t>(totalProductionTime / nWeeks),
+                                        static_cast<uint32_t>(totalIdleTime / nWeeks),
+                                        static_cast<uint32_t>(totalConfigureTime / nWeeks),
+                                        totalProduced,
+                                        totalLost,
+                                        getMTBF());
+}
+
 }

@@ -5,31 +5,48 @@
 #ifndef PRODUCTION_LINE_CONTROL_MACHINEFINALSTATISTICS_H
 #define PRODUCTION_LINE_CONTROL_MACHINEFINALSTATISTICS_H
 
-#include "MachineStatistics.h"
+#include <cstdint>
+#include <map>
+#include <memory>
 
 namespace models {
 
-class MachineFinalStatistics : public MachineStatistics {
+/**
+ * Model that holds all statistics of a machine for a completed simulation
+ */
+class MachineFinalStatistics{
  public:
-  MachineFinalStatistics(const std::map<uint16_t, uint16_t> &producedProducts,
-                         const std::map<uint16_t, uint16_t> &lostProducts,
-                         uint32_t downTime,
-                         uint32_t productionTime,
-                         uint32_t idleTime,
-                         uint32_t configureTime,
-                         uint32_t totalProducedProducts,
-                         uint32_t totalLostProducts,
+  MachineFinalStatistics(const std::map<uint16_t, uint16_t> &avgProducedProducts,
+                         const std::map<uint16_t, uint16_t> &avgLostProducts,
+                         uint32_t avgDownTime,
+                         uint32_t avgProductionTime,
+                         uint32_t avgIdleTime,
+                         uint32_t avgConfigureTime,
+                         const std::map<uint16_t, uint16_t> &totalProducedProducts,
+                         const std::map<uint16_t, uint16_t> &totalLostProducts,
                          uint16_t MTBF);
- private:
- public:
-  uint32_t getTotalProducedProducts() const;
-  uint32_t getTotalLostProducts() const;
+  const std::map<uint16_t, uint16_t> &getTotalProducedProducts() const;
+  const std::map<uint16_t, uint16_t> &getTotalLostProducts() const;
+  const std::map<uint16_t, uint16_t> &getAvgProducedProducts() const;
+  const std::map<uint16_t, uint16_t> &getAvgLostProducts() const;
+  uint32_t getAvgDownTime() const;
+  uint32_t getAvgProductionTime() const;
+  uint32_t getAvgIdleTime() const;
+  uint32_t getAvgConfigureTime() const;
   uint16_t getMTBF() const;
  private:
-  uint32_t totalProducedProducts;
-  uint32_t totalLostProducts;
+  std::map<uint16_t, uint16_t> avgProducedProducts;
+  std::map<uint16_t, uint16_t> avgLostProducts;
+  uint32_t avgDownTime;
+  uint32_t avgProductionTime;
+  uint32_t avgIdleTime;
+  uint32_t avgConfigureTime;
+  std::map<uint16_t, uint16_t> totalProducedProducts;
+  std::map<uint16_t, uint16_t> totalLostProducts;
   uint16_t MTBF;
 };
+
+typedef std::shared_ptr<MachineFinalStatistics> MachineFinalStatisticsPtr;
 
 }
 

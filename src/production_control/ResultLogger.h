@@ -43,7 +43,7 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
   void bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
 
   /**
-   * Writes the statistics of a production line to a JSON statistics file
+   * Writes the statistics of machines to a JSON statistics file
    * @param machines : List of machines
    */
   void logStatistics(const std::vector<MachinePtr> &machines);
@@ -54,9 +54,17 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
 
   void log(const std::string &message);
 
+  /**
+   * Logs the weekly statistics of machines
+   * @param machines : The machines to log the weekly statistics of
+   */
   void logWeeklyStatistics(const std::vector<MachinePtr> &machines);
 
-  void logAverageStatistics(const std::vector<MachinePtr> &machines);
+  /**
+   * Logs the final statistics of machines
+   * @param machines : The machines to log the final statistics of
+   */
+  void logFinalStatistics(const std::vector<MachinePtr> &machines);
 
   bool networkEnabled;
   bool debugEnabled;

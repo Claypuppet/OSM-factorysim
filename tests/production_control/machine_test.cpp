@@ -80,6 +80,8 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   BOOST_CHECK(stats.getConfigureTime() == 0);
   BOOST_CHECK(stats.getIdleTime() == 0);
   BOOST_CHECK(stats.getProductionTime() == 0);
+
+  core::ResultLogger::getInstance().logStatistics(app->getMachines());
 }
 
 

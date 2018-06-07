@@ -7,6 +7,7 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 #include <models/MachineStatistics.h>
+#include <models/MachineFinalStatistics.h>
 
 #include "Buffer.h"
 
@@ -106,7 +107,7 @@ class Machine
    * Place products in output buffer
    */
   void placeProductsInOutputBuffer();
-  
+
   /**
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
    */
@@ -143,6 +144,12 @@ class Machine
    * @return : the MTBF
    */
   uint16_t getMTBF();
+
+  /**
+   * Calculates and returns the statistics of this machine of a simulation
+   * @return : A pointer to the MachineFinalStatistics model
+   */
+  models::MachineFinalStatisticsPtr calculateFinalStatistics();
 
   // Getters and setters
   void setStatus(MachineStatus newStatus);

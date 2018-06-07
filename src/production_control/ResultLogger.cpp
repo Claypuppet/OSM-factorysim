@@ -72,7 +72,7 @@ void ResultLogger::logStatistics(const std::vector<MachinePtr> &machines) {
 
   logger.logToFile("{");
   logWeeklyStatistics(machines);
-  logAverageStatistics(machines);
+  logFinalStatistics(machines);
   logger.logToFile("}");
 
 }
@@ -134,12 +134,17 @@ void ResultLogger::logWeeklyStatistics(const std::vector<MachinePtr> &machines) 
       }
     }
     logger.logToFile("\t\t\t]");
-    logger.logToFile("\t\t},");
+    if(i == weeks -1){
+      logger.logToFile("\t\t}");
+    }
+    else {
+      logger.logToFile("\t\t},");
+    }
   }
   logger.logToFile("\t]");
 }
 
-void ResultLogger::logAverageStatistics(const std::vector<MachinePtr> &machines) {
+void ResultLogger::logFinalStatistics(const std::vector<MachinePtr> &machines) {
   auto &logger = utils::FileLogger::getInstance();
 
   logger.logToFile("\t\"Average\":{");
@@ -158,58 +163,55 @@ void ResultLogger::logAverageStatistics(const std::vector<MachinePtr> &machines)
     idStream << "\t\t\t\t\"id\" : " << machine->getId() << ",";
     logger.logToFile(idStream.str());
 
-    auto weeklyStats = machine->getWeeklyStatistics();
+    auto finalStats = machine->calculateFinalStatistics();
 
-    std::map<uint16_t, uint16_t> totalProduced;
-    std::map<uint16_t, uint16_t> totalLost;
-    uint64_t totalProductionTime = 0;
-    uint64_t totalIdleTime = 0;
-    uint64_t totalDownTime = 0;
-    uint64_t totalConfigureTime = 0;
 
-    for(auto &weekStats : weeklyStats){
-      for(auto &item : weekStats.getProducedProducts()){
-        totalProduced[item.first] += item.second;
-      }
-      for(auto &item : weekStats.getLostProducts()){
-        totalLost[item.first] += item.second;
-      }
-      totalProductionTime += weekStats.getProductionTime();
-      totalIdleTime += weekStats.getIdleTime();
-      totalDownTime += weekStats.getDownTime();
-      totalConfigureTime += weekStats.getConfigureTime();
+    std::stringstream totalProducedStream;
+    totalProducedStream << "\t\t\t\t\"totalProducedProducts\" : {";
+    for(auto& item : finalStats->getTotalProducedProducts()){
+      totalProducedStream << "\"" << item.first << "\":" << item.second << ",";
     }
+    totalProducedStream << "},";
+    logger.logToFile(totalProducedStream.str());
 
-    std::stringstream producedStream;
-    producedStream << "\t\t\t\t\"producedProducts\" : {";
-    for(auto& item : totalProduced){
-      producedStream << "\"" << item.first << "\":" << item.second / nWeeks << ",";
+    std::stringstream avgProducedStream;
+    avgProducedStream << "\t\t\t\t\"avgProducedProducts\" : {";
+    for(auto& item : finalStats->getAvgProducedProducts()){
+      avgProducedStream << "\"" << item.first << "\":" << item.second << ",";
     }
-    producedStream << "},";
-    logger.logToFile(producedStream.str());
+    avgProducedStream << "},";
+    logger.logToFile(avgProducedStream.str());
 
-    std::stringstream lostStream;
-    lostStream << "\t\t\t\t\"lostProducts\" : {";
-    for(auto& item : totalLost){
-      producedStream << "\"" << item.first << "\":" << item.second / nWeeks << ",";
+    std::stringstream totalLostStream;
+    totalLostStream << "\t\t\t\t\"totalLostProducts\" : {";
+    for(auto& item : finalStats->getTotalLostProducts()){
+      totalLostStream << "\"" << item.first << "\":" << item.second << ",";
     }
-    lostStream << "},";
-    logger.logToFile(lostStream.str());
+    totalLostStream << "},";
+    logger.logToFile(totalLostStream.str());
+
+    std::stringstream avgLostStream;
+    avgLostStream << "\t\t\t\t\"avgLostProducts\" : {";
+    for(auto& item : finalStats->getAvgLostProducts()){
+      avgLostStream << "\"" << item.first << "\":" << item.second << ",";
+    }
+    avgLostStream << "},";
+    logger.logToFile(avgLostStream.str());
 
     std::stringstream productionStream;
-    productionStream << "\t\t\t\t\"productionTime\" : " << totalProductionTime / nWeeks << ",";
+    productionStream << "\t\t\t\t\"avgProductionTime\" : " << finalStats->getAvgProductionTime() << ",";
     logger.logToFile(productionStream.str());
 
     std::stringstream idleStream;
-    idleStream << "\t\t\t\t\"idleTime\" : " << totalIdleTime / nWeeks << ",";
+    idleStream << "\t\t\t\t\"avgIdleTime\" : " << finalStats->getAvgIdleTime() << ",";
     logger.logToFile(idleStream.str());
 
     std::stringstream downTimeStream;
-    downTimeStream << "\t\t\t\t\"downTime\" : " << totalDownTime / nWeeks << ",";
+    downTimeStream << "\t\t\t\t\"avgDownTime\" : " << finalStats->getAvgDownTime() << ",";
     logger.logToFile(downTimeStream.str());
 
     std::stringstream configureStream;
-    configureStream << "\t\t\t\t\"configureTime\" : " << totalConfigureTime / nWeeks << ",";
+    configureStream << "\t\t\t\t\"avgConfigureTime\" : " << finalStats->getAvgConfigureTime() << ",";
     logger.logToFile(configureStream.str());
 
     std::stringstream mtbfStream;
