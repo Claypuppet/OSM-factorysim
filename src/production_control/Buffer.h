@@ -110,7 +110,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Add a machine that uses this buffer
    * @param machine
    */
-  void addToMachine(const MachinePtrW &machine);
+  void setPutterMachine(const MachinePtrW &machine);
 
 
   MachinePtrW getPutter() const;

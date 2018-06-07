@@ -83,9 +83,9 @@ const std::shared_ptr<models::Machine> YAMLStrategy::deserializeMachine(YAML::No
   auto reparationTimeStddevInMinutes = machineYAMLNode["reparationTimeStddevInMinutes"].as<uint16_t>();
 
   YAML::Node postProcesInfoYAMLNode = machineYAMLNode["postProcessInfo"];
-  const std::shared_ptr<models::PostProcessInfo> postProcessInfo = deserializePostProcesInfo(postProcesInfoYAMLNode);
+  const models::PostProcessInfoPtr postProcessInfo = deserializePostProcesInfo(postProcesInfoYAMLNode);
 
-  std::vector<std::shared_ptr<models::MachineConfiguration>> configurationModels;
+  std::vector<models::MachineConfigurationPtr> configurationModels;
   for (uint16_t i = 0; i < machineYAMLNode["configurations"].size(); ++i) {
     YAML::Node machineConfigurationYAMLNode = machineYAMLNode["configurations"][i];
     const auto machineConfigurationModel = deserializeMachineConfiguration(machineConfigurationYAMLNode);
@@ -103,10 +103,13 @@ const std::shared_ptr<models::Machine> YAMLStrategy::deserializeMachine(YAML::No
 }
 
 const std::shared_ptr<models::PostProcessInfo> YAMLStrategy::deserializePostProcesInfo(YAML::Node &postProcesInfoYAMLNode) const {
-  auto inputDelayInSeconds = postProcesInfoYAMLNode["postProcessDurationInMinutes"].as<uint16_t>();;
-  auto postProcessDurationInMinutes = postProcesInfoYAMLNode["postProcessDurationInMinutes"].as<uint16_t>();;
+  if(postProcesInfoYAMLNode.IsMap()){
+    auto inputDelayInSeconds = postProcesInfoYAMLNode["inputDelayInSeconds"].as<uint16_t>();;
+    auto postProcessDurationInMinutes = postProcesInfoYAMLNode["postProcessDurationInMinutes"].as<uint16_t>();;
 
-  return std::make_shared<models::PostProcessInfo>(inputDelayInSeconds, postProcessDurationInMinutes);
+    return std::make_shared<models::PostProcessInfo>(inputDelayInSeconds, postProcessDurationInMinutes);
+  }
+  return std::shared_ptr<models::PostProcessInfo>();
 }
 
 const std::shared_ptr<models::MachineConfiguration> YAMLStrategy::deserializeMachineConfiguration(YAML::Node &machineConfigurationYAMLNode) const {

@@ -73,7 +73,7 @@ class Machine {
           uint16_t reparationTimeInMinutes,
           uint16_t reparationTimeStddevInMinutes,
           uint16_t initializationDurationInSeconds,
-          std::shared_ptr<PostProcessInfo> postProcesInfo,
+          const PostProcessInfoPtr &postProcesInfo,
           const std::string &name = "",
           const std::vector<MachineConfigurationPtr> &configurations = std::vector<MachineConfigurationPtr>());
 

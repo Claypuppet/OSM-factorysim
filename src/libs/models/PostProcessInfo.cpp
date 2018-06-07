@@ -16,5 +16,10 @@ const uint16_t &PostProcessInfo::getInputDelayInSeconds() const {
 const uint16_t &PostProcessInfo::getPostProcessDurationInMinutes() const {
   return postProcessDurationInMinutes;
 }
+PostProcessInfo::PostProcessInfo(const PostProcessInfo &other)
+    : inputDelayInSeconds(other.inputDelayInSeconds),
+      postProcessDurationInMinutes(other.postProcessDurationInMinutes) {
+
+}
 
 }

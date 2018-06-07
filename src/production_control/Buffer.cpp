@@ -90,7 +90,7 @@ bool Buffer::isLastInLine() const {
   return (lockedTaker == nullptr);
 }
 
-void Buffer::addToMachine(const MachinePtrW &machine) {
+void Buffer::setPutterMachine(const MachinePtrW &machine) {
   putter = machine;
 }
 

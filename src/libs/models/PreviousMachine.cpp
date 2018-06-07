@@ -10,12 +10,14 @@ PreviousMachine::PreviousMachine(uint16_t machineId,
                                  uint16_t neededProducts,
                                  uint16_t inputBufferSize)
     : machineId(machineId),
-      neededProducts(neededProducts) {
+      neededProducts(neededProducts),
+      inputBufferSize(inputBufferSize) {
 }
 
 PreviousMachine::PreviousMachine(const models::PreviousMachine &other)
     : machineId(other.machineId),
-      neededProducts(other.neededProducts) {
+      neededProducts(other.neededProducts),
+      inputBufferSize(other.inputBufferSize) {
 }
 
 
@@ -23,6 +25,7 @@ PreviousMachine &PreviousMachine::operator=(const PreviousMachine &other) {
   if(&other != this) {
     machineId = other.machineId;
     neededProducts = other.neededProducts;
+    inputBufferSize = other.inputBufferSize;
   }
   return *this;
 }

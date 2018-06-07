@@ -92,34 +92,34 @@ void Machine::sendConfigureMessage(uint16_t configureId) {
 //  utils::Logger::log(ss.str());
 }
 
-const BufferList &Machine::getCurrentInputBuffers() const {
+const InputBuffersPerMachineMap &Machine::getCurrentInputBuffers() const {
   return inputBuffers.at(currentConfigId);
+}
+
+const InputBuffersPerMachineMap &Machine::getInputBuffers(uint16_t productId) const {
+  return inputBuffers.at(productId);
 }
 
 const BufferPtr &Machine::getCurrentOutputBuffer() const {
   return outputBuffers.at(currentConfigId);
 }
 
-const BufferList &Machine::getInputBuffers(uint16_t productId) const {
-  return inputBuffers.at(productId);
-}
-
 const BufferPtr &Machine::getOutputBuffer(uint16_t productId) const {
   return outputBuffers.at(productId);
 }
 
-const InputBuffersMap &Machine::getInputBuffers() const {
+const InputBuffersPerConfigMap &Machine::getInputBuffers() const {
   return inputBuffers;
 }
 
-const OutputBuffersMap &Machine::getOutputBuffers() const {
+const OutputBuffersPerConfigMap &Machine::getOutputBuffers() const {
   return outputBuffers;
 }
 
-void Machine::addInputBuffer(uint16_t productId, BufferPtr inputbuffer) {
+void Machine::setOutputBuffer(uint16_t productId, BufferPtr outputBuffer) {
   auto self = shared_from_this();
-  inputBuffers[productId].emplace_back(inputbuffer);
-  inputbuffer->addToMachine(self);
+  outputBuffers[productId] = outputBuffer;
+  outputBuffer->setPutterMachine(self);
 }
 
 void Machine::createInitialBuffers() {
@@ -129,7 +129,7 @@ void Machine::createInitialBuffers() {
     auto productId = machineConfiguration->getProductId();
 
     // set outputbuffer based on config
-    outputBuffers[productId] = std::make_shared<InfiniteBuffer>(self, productId);
+    outputBuffers[productId] = std::make_shared<InfiniteBuffer>(productId);
 
     // Set input buffer as infinite buffer for each previous buffer without machine
     for (const auto &previousMachine : machineConfiguration->getPreviousMachines()) {
@@ -141,10 +141,9 @@ void Machine::createInitialBuffers() {
         buffer = std::make_shared<Buffer>(self, productId, bufferSize);
       } else {
         // Infinite buffer
-        buffer = std::make_shared<InfiniteBuffer>(productId);
+        buffer = std::make_shared<InfiniteBuffer>(self, productId);
       }
-      inputBuffers[machineConfiguration->getProductId()].emplace_back(buffer);
-      buffer->addToMachine(self);
+      inputBuffers[machineConfiguration->getProductId()][previousMachine->getMachineId()] = buffer;
     }
   }
 }
@@ -207,10 +206,6 @@ Machine::MachineStatus Machine::getStatus() {
   return status;
 }
 
-uint16_t Machine::getNeededProductsOfCurrentConfiguration() const {
-  auto currentConfiguration = getConfigurationById(currentConfigId);
-}
-
 bool Machine::canDoAction() {
   // can't do action if not connected or waiting for response
   if (!isConnected() || awaitingResponse) {
@@ -226,8 +221,8 @@ bool Machine::canDoAction() {
   }
   // Check if needed products in input buffers (previous machines)
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getMachineIdOfPutter());
-    if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
+    if (!inputBuffer.second->checkAmountInBuffer(previous->getNeededProducts())) {
       return false;
     }
   }
@@ -255,8 +250,8 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getMachineIdOfPutter());
-	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
+	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
+	auto itemsTaken = inputBuffer.second->takeFromBuffer(previous->getNeededProducts());
 	// NOTE: We will only track one (first) product
 	productInProcess = itemsTaken.front();
   }

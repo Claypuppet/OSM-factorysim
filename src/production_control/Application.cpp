@@ -33,10 +33,9 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
         // Machine doesn't have a configuration for this product.
         continue;
       }
-      for (const auto &previousMachine : machine->getPreviousMachines(productId)) {
-        if (auto previousMachineObj = getMachine(previousMachine->getMachineId())) {
-          auto previousBuffer = previousMachineObj->getOutputBuffer(productId);
-          machine->addInputBuffer(productId, previousBuffer);
+      for (const auto &inputBufferPair : machine->getInputBuffers(productId)) {
+        if (auto previousMachineObj = getMachine(inputBufferPair.first)) {
+          previousMachineObj->setOutputBuffer(productId, inputBufferPair.second);
         }
         else{
           // This machine is the first in line because it doesnt have a previous machine
@@ -54,7 +53,7 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
     stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
     for(const auto &machine : machineList.second){
       for(const auto &input : machine->getInputBuffers(machineList.first)){
-        input->debugPrintBuffersChain(stream);
+        input.second->debugPrintBuffersChain(stream);
       }
     }
   }

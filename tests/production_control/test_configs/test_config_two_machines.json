@@ -1,9 +1,9 @@
 {
-  "name": "TestConfig",
+  "name": "TestConfig2Machines",
   "simulationInfo": {
     "durationInHours": 8760,
-    "startHourOfWorkDay":9,
-    "workDayDurationInHours":8
+    "startHourOfWorkDay": 9,
+    "workDayDurationInHours": 8
   },
   "productionLine": {
     "name": "TestProduction",
@@ -27,6 +27,10 @@
         "meanTimeBetweenFailureInHours": 8800,
         "reparationTimeStddevInMinutes": 30,
         "reparationTimeInMinutes": 24,
+        "postProcessInfo": {
+          "inputDelayInSeconds": 20,
+          "postProcessDurationInMinutes": 30
+        },
         "configurations": [
           {
             "productId": 12,
@@ -35,7 +39,7 @@
               {
                 "machineId": 0,
                 "neededProducts": 5,
-                "inputBufferSize": 1
+                "inputBufferSize": 0
               }
             ]
           },
@@ -46,7 +50,7 @@
               {
                 "machineId": 0,
                 "neededProducts": 10,
-                "inputBufferSize": 1
+                "inputBufferSize": 0
               }
             ]
           }
@@ -59,6 +63,7 @@
         "meanTimeBetweenFailureInHours": 8801,
         "reparationTimeStddevInMinutes": 31,
         "reparationTimeInMinutes": 25,
+        "postProcessInfo": null,
         "configurations": [
           {
             "productId": 12,
@@ -67,7 +72,7 @@
               {
                 "machineId": 15,
                 "neededProducts": 7,
-                "inputBufferSize": 1
+                "inputBufferSize": 35
               }
             ]
           },
@@ -78,7 +83,7 @@
               {
                 "machineId": 15,
                 "neededProducts": 8,
-                "inputBufferSize": 1
+                "inputBufferSize": 40
               }
             ]
           }

@@ -7,7 +7,7 @@ Machine::Machine(uint16_t id,
                  uint16_t reparationTimeInMinutes,
                  uint16_t reparationTimeStddevInMinutes,
                  uint16_t initializationDurationInSeconds,
-                 std::shared_ptr<PostProcessInfo> postProcesInfo,
+                 const PostProcessInfoPtr &postProcesInfo,
                  const std::string &name,
                  const std::vector<MachineConfigurationPtr> &configurations)
     :id(id),
@@ -16,9 +16,10 @@ Machine::Machine(uint16_t id,
      reparationTimeInMinutes(reparationTimeInMinutes),
      reparationTimeStddevInMinutes(reparationTimeStddevInMinutes),
      initializationDurationInSeconds(initializationDurationInSeconds),
-     configurations(configurations) {
+     configurations(configurations),
+     postProcessInfo(postProcesInfo){
 
-  if (configurations.size() == 0) {
+  if (configurations.empty()) {
     throw std::runtime_error("Machine has no configurations configured");
   }
 
@@ -31,7 +32,8 @@ Machine::Machine(const Machine &other)
      reparationTimeInMinutes(other.reparationTimeInMinutes),
      reparationTimeStddevInMinutes(other.reparationTimeStddevInMinutes),
      initializationDurationInSeconds(other.initializationDurationInSeconds),
-     configurations(other.configurations) {
+     configurations(other.configurations),
+     postProcessInfo(other.postProcessInfo) {
 }
 
 Machine &Machine::operator=(const Machine &other) {
@@ -44,6 +46,7 @@ Machine &Machine::operator=(const Machine &other) {
 	reparationTimeStddevInMinutes = other.reparationTimeStddevInMinutes;
 	initializationDurationInSeconds = other.initializationDurationInSeconds;
     configurations = other.configurations;
+    postProcessInfo = other.postProcessInfo;
   }
 
   return *this;
