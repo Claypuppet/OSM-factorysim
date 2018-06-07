@@ -11,6 +11,7 @@
 #include "states_application/BroadCastState.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
+#include "ResultLogger.h"
 
 core::Application::~Application() {
   stopServer();
@@ -29,7 +30,7 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   for (const auto &product : productionLine->getProducts()) {
     auto productId = product->getId();
     for (const auto &machine : machines) {
-      if (!machine->hasConfiguration(productId)){
+      if (!machine->hasConfiguration(productId)) {
         // Machine doesn't have a configuration for this product.
         continue;
       }
@@ -37,22 +38,23 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
         if (auto previousMachineObj = getMachine(inputBufferPair.first)) {
           previousMachineObj->setOutputBuffer(productId, inputBufferPair.second);
         }
-        else{
+        else {
           // This machine is the first in line because it doesnt have a previous machine
           firstMachinesInLine[productId].emplace_back(machine);
         }
       }
-      if(machine->isLastInLine(productId)){
+      if (machine->isLastInLine(productId)) {
         // This machine is last in line
         lastMachineInLine[productId] = machine;
       }
     }
   }
   std::stringstream stream;
-  for(const auto &machineList : firstMachinesInLine){
-    stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName() << std::endl;
-    for(const auto &machine : machineList.second){
-      for(const auto &input : machine->getInputBuffers(machineList.first)){
+  for (const auto &machineList : firstMachinesInLine) {
+    stream << std::endl << "Machines for product: " << productionLine->getProductById(machineList.first)->getName()
+           << std::endl;
+    for (const auto &machine : machineList.second) {
+      for (const auto &input : machine->getInputBuffers(machineList.first)) {
         input.second->debugPrintBuffersChain(stream);
       }
     }
@@ -115,13 +117,13 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
       break;
     }
 
-    case NotifyEventIds::eApplicationProductAddedToBuffer:{
+    case NotifyEventIds::eApplicationProductAddedToBuffer: {
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
       onHandleProductAddedToBufferNotification(machineId);
       break;
     }
 
-    case NotifyEventIds::eApplicationProductTakenFromBuffer:{
+    case NotifyEventIds::eApplicationProductTakenFromBuffer: {
       auto machineId = notification.getArgumentAsType<uint16_t>(1);
       onHandleProductTakenFromBufferNotification(machineId);
       break;
@@ -134,7 +136,7 @@ void core::Application::handleNotification(const patterns::notifyobserver::Notif
   }
 }
 
-void core::Application::onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection){
+void core::Application::onHandleRegisterNotification(uint16_t id, const network::ConnectionPtr &connection) {
 
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineRegistered);
   event->addArgument(id);
@@ -142,17 +144,15 @@ void core::Application::onHandleRegisterNotification(uint16_t id, const network:
   scheduleEvent(event);
 }
 
-
-void core::Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status){
+void core::Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status) {
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
   event->setArgument(0, id);
   event->setArgument(1, status);
   scheduleEvent(event);
 }
 
-
-void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode){
-  switch(errorCode){
+void core::Application::onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode) {
+  switch (errorCode) {
     case models::Machine::MachineErrorCode::kMachineErrorCodeBroke : {
       auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
       event->setArgument(0, id);
@@ -177,7 +177,6 @@ void core::Application::onHandleProductAddedToBufferNotification(uint16_t machin
   event->setArgument(0, machineId);
   scheduleEvent(event);
 }
-
 
 void core::Application::setStartState() {
   auto startState = std::make_shared<applicationstates::WaitForConnectionsState>(*this);
@@ -252,12 +251,12 @@ bool core::Application::setMachineStatus(uint16_t machineId, core::Machine::Mach
 void core::Application::tryChangeProduction() {
   // Temp wait at least 4 hours
   static uint64_t fourHoursInMillis = 14400000;
-  if(utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis){
+  if (utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis) {
     return;
   }
   // Temp switch to next product which is not current product
-  for(auto &product : productionLine->getProducts()){
-    if(currentProductId != product->getId()){
+  for (auto &product : productionLine->getProducts()) {
+    if (currentProductId != product->getId()) {
       changeProductionLineProduct(product->getId());
       break;
     }
@@ -265,13 +264,89 @@ void core::Application::tryChangeProduction() {
 }
 void core::Application::takeProductsFromBuffer(uint16_t machineId) {
   auto machine = getMachine(machineId);
-  if(machine){
+  if (machine) {
     machine->takeProductsFromInputBuffers();
   }
 }
 void core::Application::addProductsToBuffer(uint16_t machineId) {
   auto machine = getMachine(machineId);
-  if(machine){
+  if (machine) {
     machine->placeProductsInOutputBuffer();
   }
+}
+
+const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> &core::Application::getMachineStatistics() const {
+  return machineStatistics;
+}
+
+void core::Application::saveMachineStatistics() {
+  auto currentTime = utils::Time::getInstance().getCurrentTime();
+  for (auto &machine : machines) {
+    machineStatistics[currentTime].push_back(machine->getStatistics());
+  }
+}
+
+void core::Application::calculateFinalStatistics() {
+
+  std::vector<models::MachineFinalStatistics> newFinalStatistics;
+  for (auto &machine : machines) {
+    std::vector<models::MachineStatisticsPtr> stats;
+
+    for (auto &item : machineStatistics) {
+      for (auto &stat : item.second) {
+        if (stat->getMachineId() == machine->getId()) {
+          stats.push_back(stat);
+        }
+      }
+    }
+
+    std::map<uint16_t, uint32_t> totalProduced;
+    std::map<uint16_t, uint32_t> totalLost;
+    std::map<uint16_t, uint16_t> avgProduced;
+    std::map<uint16_t, uint16_t> avgLost;
+    uint64_t totalProductionTime = 0;
+    uint64_t totalIdleTime = 0;
+    uint64_t totalDownTime = 0;
+    uint64_t totalConfigureTime = 0;
+
+    for (auto &stat : stats) {
+      for (auto &item : stat->getProducedProducts()) {
+        totalProduced[item.first] += item.second;
+      }
+      for (auto &item : stat->getLostProducts()) {
+        totalLost[item.first] += item.second;
+      }
+      totalProductionTime += stat->getProductionTime();
+      totalIdleTime += stat->getIdleTime();
+      totalDownTime += stat->getDownTime();
+      totalConfigureTime += stat->getConfigureTime();
+    }
+
+    auto nStats = stats.size();
+
+    for (auto &item : totalProduced) {
+      avgProduced[item.first] = static_cast<uint16_t >(item.second / nStats);
+    }
+
+    for (auto &item : totalLost) {
+      avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
+    }
+
+    newFinalStatistics.push_back(models::MachineFinalStatistics(machine->getId(),
+                                                                avgProduced,
+                                                                avgLost,
+                                                                static_cast<uint32_t>(totalDownTime / nStats),
+                                                                static_cast<uint32_t>(totalProductionTime / nStats),
+                                                                static_cast< uint32_t>(totalIdleTime / nStats),
+                                                                static_cast<uint32_t>(totalConfigureTime / nStats),
+                                                                totalProduced,
+                                                                totalLost,
+                                                                machine->getMTBFinHours()));
+
+  }
+  finalStatistics = newFinalStatistics;
+}
+void core::Application::logStatistics(const std::string& fileName) {
+  calculateFinalStatistics();
+  ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics, fileName);
 }

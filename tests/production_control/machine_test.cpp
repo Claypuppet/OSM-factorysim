@@ -5,6 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <utils/time/Time.h>
 #include "../../src/production_control/SimulationController.h"
+#include "../../src/production_control/ResultLogger.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlMachineTests)
 
@@ -54,31 +55,126 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   utils::Time::getInstance().syncTime(30000);
   machine->setStatus(models::Machine::kMachineStatusConfiguring);
 
-  // Getting stats of the first week
-  machine->addWeeklyStatistics();
+  app->saveMachineStatistics();
 
-  auto stats = machine->getWeeklyStatistics()[0];
-  auto producedProducts = stats.getProducedProducts();
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(12);
 
-  BOOST_CHECK(producedProducts[12] == 100);
-  BOOST_CHECK(producedProducts[88] == 50);
-  BOOST_CHECK(stats.getDownTime() == 5000);
-  BOOST_CHECK(stats.getConfigureTime() == 1000);
-  BOOST_CHECK(stats.getIdleTime() == 9000);
-  BOOST_CHECK(stats.getProductionTime() == 15000);
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 200 products with id 12
+  for(uint8_t i = 0; i < 200; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(88);
+
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 150 products with id 88
+  for(uint8_t i = 0; i < 150; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  //Setting time spend in state
+  utils::Time::getInstance().syncTime(30000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  utils::Time::getInstance().syncTime(31500);
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+  utils::Time::getInstance().syncTime(42000);
+  machine->setStatus(models::Machine::kMachineStatusProcessingProduct);
+  utils::Time::getInstance().syncTime(50000);
+  machine->setStatus(models::Machine::kMachineStatusBroken);
+  utils::Time::getInstance().syncTime(60000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
 
   // Check if stats get reset
-  machine->addWeeklyStatistics();
+  app->saveMachineStatistics();
 
-  stats = machine->getWeeklyStatistics()[1];
-  producedProducts = stats.getProducedProducts();
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(12);
 
-  BOOST_CHECK(producedProducts[12] == 0);
-  BOOST_CHECK(producedProducts[88] == 0);
-  BOOST_CHECK(stats.getDownTime() == 0);
-  BOOST_CHECK(stats.getConfigureTime() == 0);
-  BOOST_CHECK(stats.getIdleTime() == 0);
-  BOOST_CHECK(stats.getProductionTime() == 0);
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 180 products with id 12
+  for(uint8_t i = 0; i < 180; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(88);
+
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 110 products with id 88
+  for(uint8_t i = 0; i < 110; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  //Setting time spend in state
+  utils::Time::getInstance().syncTime(60000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  utils::Time::getInstance().syncTime(62000);
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+  utils::Time::getInstance().syncTime(72000);
+  machine->setStatus(models::Machine::kMachineStatusProcessingProduct);
+  utils::Time::getInstance().syncTime(83000);
+  machine->setStatus(models::Machine::kMachineStatusBroken);
+  utils::Time::getInstance().syncTime(90000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+
+  // Check if stats get reset
+  app->saveMachineStatistics();
+
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(12);
+
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 210 products with id 12
+  for(uint8_t i = 0; i < 210; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  machine->prepareReconfigure(88);
+
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+
+  // Producing 170 products with id 88
+  for(uint8_t i = 0; i < 170; ++i){
+    machine->takeProductsFromInputBuffers();
+    machine->placeProductsInOutputBuffer();
+    machine->getCurrentOutputBuffer()->takeFromBuffer(1);
+  }
+
+  //Setting time spend in state
+  utils::Time::getInstance().syncTime(90000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+  utils::Time::getInstance().syncTime(92500);
+  machine->setStatus(models::Machine::kMachineStatusIdle);
+  utils::Time::getInstance().syncTime(101000);
+  machine->setStatus(models::Machine::kMachineStatusProcessingProduct);
+  utils::Time::getInstance().syncTime(109000);
+  machine->setStatus(models::Machine::kMachineStatusBroken);
+  utils::Time::getInstance().syncTime(120000);
+  machine->setStatus(models::Machine::kMachineStatusConfiguring);
+
+  // Check if stats get reset
+  app->saveMachineStatistics();
+  
+  app->logStatistics("test_statistics");
 }
 
 

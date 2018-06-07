@@ -127,7 +127,8 @@ void Machine::createInitialBuffers() {
       if (bufferSize > 0 && previousMachine->getMachineId() > 0) {
         // Buffer with size
         buffer = std::make_shared<Buffer>(self, productId, bufferSize);
-      } else {
+      }
+      else {
         // Infinite buffer
         buffer = std::make_shared<InfiniteBuffer>(self, productId);
       }
@@ -195,11 +196,11 @@ bool Machine::canDoAction() {
     return false;
   }
   // If machine wants to reconfigure, we can do that in the init state or idle state
-  if(nextAction == kNextActionTypeReconfigure){
+  if (nextAction == kNextActionTypeReconfigure) {
     return (status == kMachineStatusInitializing || status == kMachineStatusIdle);
   }
   // If machine is not in idle state, it can't do much...
-  if(status != kMachineStatusIdle) {
+  if (status != kMachineStatusIdle) {
     return false;
   }
   // Check if needed products in input buffers (previous machines)
@@ -233,10 +234,10 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
-	auto itemsTaken = inputBuffer.second->takeFromBuffer(previous->getNeededProducts());
-	// NOTE: We will only track one (first) product
-	productInProcess = itemsTaken.front();
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
+    auto itemsTaken = inputBuffer.second->takeFromBuffer(previous->getNeededProducts());
+    // NOTE: We will only track one (first) product
+    productInProcess = itemsTaken.front();
   }
 }
 
@@ -281,74 +282,28 @@ uint16_t Machine::getTimesBroken() const {
   return timesBroken;
 }
 
-const std::vector<models::MachineStatistics> &Machine::getWeeklyStatistics() const {
-  return weeklyStatistics;
-}
-
-void Machine::addWeeklyStatistics() {
+models::MachineStatisticsPtr Machine::getStatistics() {
   uint32_t productionTime = timeSpendInState[models::Machine::kMachineStatusProcessingProduct];
   uint32_t idleTime = timeSpendInState[models::Machine::kMachineStatusIdle];
   uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
       + timeSpendInState[models::Machine::kMachineStatusInitializing];
   uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
-  weeklyStatistics.emplace_back(models::MachineStatistics(producedProducts,
-                                                          lostProducts,
-                                                          downTime,
-                                                          productionTime,
-                                                          idleTime,
-                                                          configureTime));
+  auto stats = std::make_shared<models::MachineStatistics>(id,
+                                                              producedProducts,
+                                                              lostProducts,
+                                                              downTime,
+                                                              productionTime,
+                                                              idleTime,
+                                                              configureTime);
   timeSpendInState.clear();
   producedProducts.clear();
   lostProducts.clear();
+  return stats;
 }
 
 uint16_t Machine::getMTBFinHours() {
-  //TODO calculate mtbf
+  //TODO
   return 1;
-}
-
-models::MachineFinalStatisticsPtr Machine::calculateFinalStatistics() {
-  std::map<uint16_t, uint16_t> totalProduced;
-  std::map<uint16_t, uint16_t> totalLost;
-  std::map<uint16_t, uint16_t> avgProduced;
-  std::map<uint16_t, uint16_t> avgLost;
-  uint64_t totalProductionTime = 0;
-  uint64_t totalIdleTime = 0;
-  uint64_t totalDownTime = 0;
-  uint64_t totalConfigureTime = 0;
-
-  auto nWeeks = static_cast<uint16_t >(weeklyStatistics.size());
-
-  for (auto &weekStats : weeklyStatistics) {
-    for (auto &item : weekStats.getProducedProducts()) {
-      totalProduced[item.first] += item.second;
-    }
-    for (auto &item : weekStats.getLostProducts()) {
-      totalLost[item.first] += item.second;
-    }
-    totalProductionTime += weekStats.getProductionTime();
-    totalIdleTime += weekStats.getIdleTime();
-    totalDownTime += weekStats.getDownTime();
-    totalConfigureTime += weekStats.getConfigureTime();
-  }
-
-  for (auto &item : totalProduced) {
-    avgProduced[item.first] = item.second / nWeeks;
-  }
-
-  for (auto &item : totalLost) {
-    avgLost[item.first] = item.second / nWeeks;
-  }
-
-  return std::make_shared<models::MachineFinalStatistics>(avgProduced,
-                                        avgLost,
-                                        static_cast<uint32_t>(totalDownTime / nWeeks),
-                                        static_cast<uint32_t>(totalProductionTime / nWeeks),
-                                        static_cast<uint32_t>(totalIdleTime / nWeeks),
-                                        static_cast<uint32_t>(totalConfigureTime / nWeeks),
-                                        totalProduced,
-                                        totalLost,
-                                        getMTBFinHours());
 }
 
 }

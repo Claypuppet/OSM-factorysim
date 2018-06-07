@@ -138,7 +138,7 @@ class Machine
    * Creates a machineStatistics object with the statistic variables and adds it to weeklyStatistics
    * also resets the statistic variables
    */
-  void addWeeklyStatistics();
+  models::MachineStatisticsPtr getStatistics();
 
   /**
    * Function that calculates the mean time between failure
@@ -146,17 +146,10 @@ class Machine
    */
   uint16_t getMTBFinHours();
 
-  /**
-   * Calculates and returns the statistics of this machine of a simulation
-   * @return : A pointer to the MachineFinalStatistics model
-   */
-  models::MachineFinalStatisticsPtr calculateFinalStatistics();
-
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
   virtual bool isWaitingForResponse();
-  const std::vector<models::MachineStatistics> &getWeeklyStatistics() const;
 
   // Input buffer getters
   const InputBuffersPerMachineMap &getInputBuffers(uint16_t productId) const;
@@ -204,8 +197,6 @@ class Machine
   std::map<uint16_t, uint16_t> lostProducts;
   std::map<models::Machine::MachineStatus, uint32_t> timeSpendInState;
   uint16_t timesBroken;
-
-  std::vector<models::MachineStatistics> weeklyStatistics;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   InputBuffersPerConfigMap inputBuffers;

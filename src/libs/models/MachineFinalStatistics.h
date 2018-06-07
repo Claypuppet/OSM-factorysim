@@ -16,17 +16,18 @@ namespace models {
  */
 class MachineFinalStatistics{
  public:
-  MachineFinalStatistics(const std::map<uint16_t, uint16_t> &avgProducedProducts,
+  MachineFinalStatistics(uint16_t machinedId,
+                         const std::map<uint16_t, uint16_t> &avgProducedProducts,
                          const std::map<uint16_t, uint16_t> &avgLostProducts,
                          uint32_t avgDownTime,
                          uint32_t avgProductionTime,
                          uint32_t avgIdleTime,
                          uint32_t avgConfigureTime,
-                         const std::map<uint16_t, uint16_t> &totalProducedProducts,
-                         const std::map<uint16_t, uint16_t> &totalLostProducts,
+                         const std::map<uint16_t, uint32_t> &totalProducedProducts,
+                         const std::map<uint16_t, uint32_t> &totalLostProducts,
                          uint16_t MTBF);
-  const std::map<uint16_t, uint16_t> &getTotalProducedProducts() const;
-  const std::map<uint16_t, uint16_t> &getTotalLostProducts() const;
+  const std::map<uint16_t, uint32_t> &getTotalProducedProducts() const;
+  const std::map<uint16_t, uint32_t> &getTotalLostProducts() const;
   const std::map<uint16_t, uint16_t> &getAvgProducedProducts() const;
   const std::map<uint16_t, uint16_t> &getAvgLostProducts() const;
   uint32_t getAvgDownTime() const;
@@ -35,14 +36,18 @@ class MachineFinalStatistics{
   uint32_t getAvgConfigureTime() const;
   uint16_t getMTBFinHours() const;
  private:
+  uint16_t machineId;
+ public:
+  uint16_t getMachineId() const;
+ private:
   std::map<uint16_t, uint16_t> avgProducedProducts;
   std::map<uint16_t, uint16_t> avgLostProducts;
   uint32_t avgDownTime;
   uint32_t avgProductionTime;
   uint32_t avgIdleTime;
   uint32_t avgConfigureTime;
-  std::map<uint16_t, uint16_t> totalProducedProducts;
-  std::map<uint16_t, uint16_t> totalLostProducts;
+  std::map<uint16_t, uint32_t> totalProducedProducts;
+  std::map<uint16_t, uint32_t> totalLostProducts;
   uint16_t MTBFinHours;
 };
 
