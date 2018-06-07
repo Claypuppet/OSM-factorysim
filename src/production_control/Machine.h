@@ -12,8 +12,9 @@
 
 namespace core {
 
-typedef std::map<uint16_t, BufferList> InputBuffersMap;
-typedef std::map<uint16_t, BufferPtr> OutputBuffersMap;
+typedef std::map<uint16_t, BufferPtr> InputBuffersPerMachineMap;
+typedef std::map<uint16_t, InputBuffersPerMachineMap> InputBuffersPerConfigMap;
+typedef std::map<uint16_t, BufferPtr> OutputBuffersPerConfigMap;
 
 /**
  * Machine contains the connection to the machine control to send instructions.
@@ -77,20 +78,20 @@ class Machine
    * @param productId : id of product
    * @param outputBuffer : buffer for the product
    */
-  void addInputBuffer(uint16_t productId, BufferPtr outputBuffer);
+  void setOutputBuffer(uint16_t productId, BufferPtr outputBuffer);
 
   /**
    * Get the previous machines for this machine, by given config id
    * @param configureId : config id (production line)
    * @return : ids of next machine in production line
    */
-  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines(uint16_t configureId);
+  const std::vector<models::PreviousMachinePtr> &getPreviousMachines(uint16_t configureId);
 
   /**
    * Get the previous machines for this machine for current config
    * @return : ids of next machine in production line
    */
-  const std::vector<std::shared_ptr<models::PreviousMachine>> &getPreviousMachines();
+  const std::vector<models::PreviousMachinePtr> &getPreviousMachines();
 
   /**
    * Create the initial input and output buffers for this machine
@@ -145,14 +146,14 @@ class Machine
   const std::vector<models::MachineStatistics> &getWeeklyStatistics() const;
 
   // Input buffer getters
-  const BufferList &getInputBuffers(uint16_t productId) const;
-  const BufferList &getCurrentInputBuffers() const;
-  const InputBuffersMap &getInputBuffers() const;
+  const InputBuffersPerMachineMap &getInputBuffers(uint16_t productId) const;
+  const InputBuffersPerMachineMap &getCurrentInputBuffers() const;
+  const InputBuffersPerConfigMap &getInputBuffers() const;
 
   // Output buffer getters
   const BufferPtr &getOutputBuffer(uint16_t productId) const;
   const BufferPtr &getCurrentOutputBuffer() const;
-  const OutputBuffersMap &getOutputBuffers() const;
+  const OutputBuffersPerConfigMap &getOutputBuffers() const;
 
   // MachineStatistics getters
   const std::map<MachineStatus, uint32_t> &getTimeSpendInState() const;
@@ -194,8 +195,8 @@ class Machine
   std::vector<models::MachineStatistics> weeklyStatistics;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
-  std::map<uint16_t, std::vector<BufferPtr>> inputBuffers;
-  std::map<uint16_t, BufferPtr> outputBuffers;
+  InputBuffersPerConfigMap inputBuffers;
+  OutputBuffersPerConfigMap outputBuffers;
 };
 
 typedef std::shared_ptr<Machine> MachinePtr;

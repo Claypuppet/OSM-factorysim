@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
 
   // Create a sample vector for configurations
   std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
-  models::Machine modelMachine(1, "", confVector);
+  models::Machine modelMachine(1, 50, 10, 1, 300, nullptr, "", confVector);
   auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
 
   // Set the configurations to the application
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(MachineControlInitializeToIdle) {
 BOOST_AUTO_TEST_CASE(MachineControlRunCycle) {
   simulator::SimulationApplication application(1);
   std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
-  models::Machine modelMachine(1, "", confVector);
+  models::Machine modelMachine(1, 50, 10, 1, 300, nullptr, "", confVector);
   auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
   application.setMachine(machine);
 
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
   BOOST_CHECK_NO_THROW(application.setCurrentState(state));
 
   std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
-  models::Machine modelMachine(1, "", confVector);
+  models::Machine modelMachine(1, 50, 10, 1, 300, nullptr, "", confVector);
   auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
 
   BOOST_CHECK_NO_THROW(application.setMachine(machine));
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE(MachineControlConfigCycle) {
 BOOST_AUTO_TEST_CASE(MachineControlBreakingDuringConfig){
   simulator::SimulationApplication application(1);
   std::vector<models::MachineConfigurationPtr> confVector = {std::make_shared<models::MachineConfiguration>(0)};
-  models::Machine modelMachine(1, "", confVector);
+  models::Machine modelMachine(1, 50, 10, 1, 300, nullptr, "", confVector);
   auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
   application.setMachine(machine);
 
@@ -186,11 +186,11 @@ BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking){
   uint16_t meanTimeBetweenFailureInHours = 250;
   std::vector<models::PreviousMachinePtr> previousMachines;
   previousMachines.push_back(std::make_shared<models::PreviousMachine>());
-  models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, 1, 1, meanTimeBetweenFailureInHours, 1, 1, previousMachines);
+  models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, previousMachines);
 
   simulator::SimulationApplication application(1);
   std::vector<models::MachineConfigurationPtr> confVector = {configuration};
-  models::Machine modelMachine(1, "", confVector);
+  models::Machine modelMachine(1, meanTimeBetweenFailureInHours, 10, 1, 300, nullptr, "", confVector);
   auto machine = std::make_shared<simulator::SimulationMachine>(modelMachine);
   machine->setCurrentConfiguration(configuration);
   application.setMachine(machine);

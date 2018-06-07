@@ -1,21 +1,24 @@
 
-#include <utils/Logger.h>
 #include "InOperationState.h"
 
-applicationstates::InOperationState::InOperationState(core::Application &context) :
-    ApplicationState(context) {
+#include <utils/Logger.h>
+
+namespace applicationstates {
+
+InOperationState::InOperationState(core::Application &context) :
+		ApplicationState(context) {
 }
 
-void applicationstates::InOperationState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
-  context.prepareScheduler();
+void InOperationState::entryAction() {
+	utils::Logger::log(__PRETTY_FUNCTION__);
+	context.prepareScheduler();
 }
 
-void applicationstates::InOperationState::doActivity() {
-  context.executeScheduler();
+void InOperationState::doActivity() {
+	context.executeScheduler();
 }
 
-void applicationstates::InOperationState::exitAction() {
+void InOperationState::exitAction() {
 
 }
 
@@ -36,7 +39,7 @@ bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
   }
 }
 
-void applicationstates::InOperationState::onMachineStatusUpdateEvent(const EventPtr &event) {
+void InOperationState::onMachineStatusUpdateEvent(const EventPtr &event) {
 //	utils::Logger::log("-Handle event: kEventTypeMachineStatusUpdate");
   context.setMachineStatus(event->getArgumentAsType<uint16_t>(0),
                            event->getArgumentAsType<core::Machine::MachineStatus>(1));
@@ -48,4 +51,6 @@ void applicationstates::InOperationState::onMachineProductTaken(const applicatio
 
 void applicationstates::InOperationState::onMachineProductAdded(const applicationstates::EventPtr &event) {
   context.addProductsToBuffer(event->getArgumentAsType<uint16_t>(0));
+}
+
 }

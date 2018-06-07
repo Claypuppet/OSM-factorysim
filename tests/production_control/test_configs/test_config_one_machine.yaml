@@ -1,42 +1,42 @@
-{
-  "name": "TestConfigMet1Machine",
-  "simulationInfo": {
-    "durationInHours":1,
-    "startHourOfWorkDay":9,
-    "workDayDurationInHours":8
-  },
-  "productionLine": {
-    "name": "Kantoortafels",
-    "products": [
-      {
-        "id": 1,
-        "name": "normalekantoortafels",
-        "proportion": 2
-      }
-    ],
-    "machines": [
-      {
-        "id": 1,
-        "name": "Zaagmachine",
-        "configurations": [
-          {
-            "productId": 1,
-            "outputEachMinute": 12,
-            "initializationDurationInSeconds": 6,
-            "outputBufferSize": 68,
-            "turnAroundTimeInSeconds": 16,
-            "meanTimeBetweenFailureInHours": 8800,
-            "meanTimeBetweenFailureStddevInHours": 30,
-            "reparationTimeInMinutes": 24,
-            "previousMachines": [
-              {
-                "machineId": 0,
-                "neededProducts": 7
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
+---
+name: TestConfig2Machines
+simulationInfo:
+  durationInHours: 8760
+  startHourOfWorkDay: 9
+  workDayDurationInHours: 8
+
+productionLine:
+  name: TestProduction
+  products:
+  - id: 12
+    name: Testproduct12
+    proportion: 2
+  - id: 88
+    name: Testproduct88
+    proportion: 3
+  machines:
+
+  - id: 15
+    name: Testmachine15
+    initializationDurationInSeconds: 6
+    meanTimeBetweenFailureInHours: 8800
+    reparationTimeStddevInMinutes: 30
+    reparationTimeInMinutes: 24
+    postProcessInfo:
+      inputDelayInSeconds: 20
+      postProcessDurationInMinutes: 30
+    configurations:
+
+    - productId: 12
+      outputEachMinute: 12
+      previousMachines:
+      - machineId: 0
+        neededProducts: 5
+        inputBufferSize: 0
+
+    - productId: 88
+      outputEachMinute: 8
+      previousMachines:
+      - machineId: 0
+        neededProducts: 10
+        inputBufferSize: 0

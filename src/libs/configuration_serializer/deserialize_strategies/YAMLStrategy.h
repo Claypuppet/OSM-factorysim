@@ -68,6 +68,13 @@ class YAMLStrategy : public DeserializeStrategy {
   const std::shared_ptr<models::Machine> deserializeMachine(YAML::Node &machineYAMLNode) const;
 
   /**
+   * Deserilize a postProcesInfo node
+   * @param postProcesInfoYAMLNode node with all information that postProcesInfo needs
+   * @return shared pointer to the formatted post proces info
+   */
+  const std::shared_ptr<models::PostProcessInfo> deserializePostProcesInfo(YAML::Node &postProcesInfoYAMLNode) const;
+
+  /**
    * Deserialize a machineConfiguration node
    * @param machineConfigurationYAMLNode node with all information that machineConfiguration needs
    * @return shared pointer to the formatted machineConfiguration object

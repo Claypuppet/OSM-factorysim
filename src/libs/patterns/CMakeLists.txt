@@ -3,7 +3,18 @@ file(GLOB_RECURSE lib_patterns_SRC
         "**.cpp")
 
 add_library(lib_patterns SHARED
-        ${lib_patterns_SRC})
+        notifyobserver/Notifier.cpp
+        notifyobserver/Notifier.hpp
+        notifyobserver/Observer.cpp
+        notifyobserver/Observer.hpp
+        producerconsumer/Queue.cpp
+        producerconsumer/Queue.h
+        singleton/Singleton.cpp
+        singleton/Singleton.h
+        statemachine/Context.cpp
+        statemachine/Context.h
+        statemachine/Event.h
+        statemachine/State.h)
 
 target_link_libraries(lib_patterns ${Boost_SYSTEM_LIBRARY})
 
