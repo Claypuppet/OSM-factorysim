@@ -90,13 +90,15 @@ class ProductionLine {
   }
 
   /**
-   * A function to load a ProductionLine object from an archive
+   * A function to serialize a ProductionLine object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-	ar(name, products, machines);
+  void serialize(Archive &ar) {
+	ar(name,
+       products,
+       machines);
   }
 
   friend class cereal::access;
