@@ -13,26 +13,12 @@
 
 #include "Machine.h"
 #include "NetworkComponent.h"
+#include "NotificationEventTypes.h"
 
 
 //TODO: Implement Observer
 namespace machinecore {
 
-/**
- * Event types for notifications
- */
-enum NotifyEventType {
-  kNotifyEventTypeServiceStarted,
-  kNotifyEventTypeServiceError,
-  kNotifyEventTypeStartProcess,
-  kNotifyEventTypeProductTakenFromBuffer,
-  kNotifyEventTypeMachineConfigured,
-  kNotifyEventTypeMachineFailedToConfigure,
-  kNotifyEventTypeConfigure,
-  kNotifyEventTypeProductAddedToBuffer,
-  kNotifyEventTypeMachineFinishedProcess,
-  kNotifyEventTypeMachineBroke
-};
 
 /**
  * Core class of machine control that controls the machine

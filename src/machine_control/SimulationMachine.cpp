@@ -1,11 +1,11 @@
 #include <ctime>
 #include <utils/time/Time.h>
+
 #include "SimulationMachine.h"
+#include "NotificationEventTypes.h"
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
-#include "Application.h"
 
-#include <utils/time/Time.h>
 
 namespace simulator {
 

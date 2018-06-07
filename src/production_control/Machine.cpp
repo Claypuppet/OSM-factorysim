@@ -50,19 +50,12 @@ void Machine::sendMessage(network::Message &message) {
 void Machine::sendStartProcessMessage() {
   network::Message message(network::Protocol::kAppMessageTypeStartProcess);
   sendMessage(message);
-//  std::stringstream ss;
-//  ss << "--sending process message to machine " << id;
-//  utils::Logger::log(ss.str());
 }
 
 void Machine::sendConfigureMessage(uint16_t configureId) {
-  currentConfigId = static_cast<uint16_t>(configureId);
   network::Message message(network::Protocol::kAppMessageTypeReconfigure);
   message.setBodyObject(configureId);
   sendMessage(message);
-//  std::stringstream ss;
-//  ss << "--sending configure message to machine " << id;
-//  utils::Logger::log(ss.str());
 }
 
 void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {

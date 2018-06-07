@@ -3,7 +3,7 @@
 #include <utils/Logger.h>
 #include "SimulationController.h"
 #include "states_simulation_controller/FindProductControlState.h"
-#include "ControllerNotificationEventIds.h"
+#include "NotificationEventTypes.h"
 
 namespace models {
 typedef std::shared_ptr<Machine> MachinePtr;

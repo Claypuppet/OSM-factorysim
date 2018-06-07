@@ -119,15 +119,17 @@ const std::vector<SimulationMachinePtr> &SimulationApplication::getSimulationMac
 
 bool SimulationApplication::scheduleMachineNotifications() {
   uint64_t nextLowestTime = 0;
+  bool foundEvents = false;
   for (const auto &machine : simulationMachines) {
     // Get events for this machine on lowest time
     auto nextMachineEventMoment = machine->getNextEventMoment();
     if (nextMachineEventMoment != 0 && (nextLowestTime == 0 || nextMachineEventMoment < nextLowestTime)) {
       nextLowestTime = nextMachineEventMoment;
+      foundEvents = true;
     }
   }
 
-  if (nextLowestTime != 0) {
+  if (foundEvents) {
     utils::Time::getInstance().syncTime(nextLowestTime);
     std::vector<patterns::notifyobserver::NotifyEvent> delayedNotifications;
     for (const auto &machine : simulationMachines) {

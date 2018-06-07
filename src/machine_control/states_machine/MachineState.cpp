@@ -1,6 +1,5 @@
 #include "MachineState.h"
-
-#include "../Application.h"
+#include "../NotificationEventTypes.h"
 
 namespace machinestates {
 
