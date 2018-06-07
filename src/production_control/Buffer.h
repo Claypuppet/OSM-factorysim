@@ -26,7 +26,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(const MachinePtrW &inputFor, uint16_t productId, uint32_t size);
+  explicit Buffer(const MachinePtrW &taker, uint16_t productId, uint32_t size);
 
   /**
    * destruct
@@ -77,10 +77,16 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   virtual void putInBuffer(const std::vector<ProductPtr> &list);
 
   /**
-   * get machine id from the inputFor machine of this buffer
+   * get machine id from the taker machine of this buffer
    * @return : machine id
    */
-  uint16_t getMachineIdOfInputFor() const;
+  uint16_t getMachineIdOfTaker() const;
+
+  /**
+   * get machine id from the putter machine of this buffer
+   * @return : machine id
+   */
+  uint16_t getMachineIdOfPutter() const;
 
   /**
    * Get number of total processed items that went through the buffer
@@ -107,7 +113,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   void addToMachine(const MachinePtrW &machine);
 
 
-  MachinePtrW getOutputFor() const;
+  MachinePtrW getPutter() const;
 
   /**
    * Print list of buffers after this.
@@ -119,9 +125,9 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Construct an buffer for machine, used by infinite buffer
    */
   explicit Buffer(uint16_t productId);
-  explicit Buffer(const MachinePtrW &aFromMachine, uint16_t productId);
+  explicit Buffer(const MachinePtrW &taker, uint16_t productId);
 
-  MachinePtrW inputFor, outputFor;
+  MachinePtrW taker, putter;
 
   uint32_t maxSize;
 

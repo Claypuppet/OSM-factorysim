@@ -159,6 +159,8 @@ class Machine
    */
   void placeProductsInOutputBuffer();
 
+  uint16_t getNeededProductsOfCurrentConfiguration() const;
+
   MachineStatus status;
   bool awaitingResponse;
   network::ConnectionPtr connection;

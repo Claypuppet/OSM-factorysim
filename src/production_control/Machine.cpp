@@ -207,26 +207,31 @@ Machine::MachineStatus Machine::getStatus() {
   return status;
 }
 
+uint16_t Machine::getNeededProductsOfCurrentConfiguration() const {
+  auto currentConfiguration = getConfigurationById(currentConfigId);
+}
+
 bool Machine::canDoAction() {
   // can't do action if not connected or waiting for response
   if (!isConnected() || awaitingResponse) {
     return false;
   }
-  // If machine is wants to reconfigure, we can do that in the init state or idle state
+  // If machine wants to reconfigure, we can do that in the init state or idle state
   if(nextAction == kNextActionTypeReconfigure){
-    return status == kMachineStatusInitializing || status == kMachineStatusIdle;
+    return (status == kMachineStatusInitializing || status == kMachineStatusIdle);
   }
   // If machine is not in idle state, it can't do much...
-  if(status != kMachineStatusIdle){
+  if(status != kMachineStatusIdle) {
     return false;
   }
   // Check if needed products in input buffers (previous machines)
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+    auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getMachineIdOfPutter());
     if (!inputBuffer->checkAmountInBuffer(previous->getNeededProducts())) {
       return false;
     }
   }
+
   // Final check: check if enough space in output buffer
   // NOTE: currently we only support machines that produce 1 product per process
   return getCurrentOutputBuffer()->checkFreeSpaceInBuffer(1);
@@ -250,7 +255,7 @@ void Machine::takeProductsFromInputBuffers() {
     return;
   }
   for (const auto &inputBuffer : getCurrentInputBuffers()) {
-	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getFromMachineId());
+	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer->getMachineIdOfPutter());
 	auto itemsTaken = inputBuffer->takeFromBuffer(previous->getNeededProducts());
 	// NOTE: We will only track one (first) product
 	productInProcess = itemsTaken.front();

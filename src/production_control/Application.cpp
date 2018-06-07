@@ -26,7 +26,7 @@ void core::Application::setMachines(const std::vector<MachinePtr> &aMachines) {
   }
 
   // Links all buffers (for each product type in production line)
-  for (const std::shared_ptr<models::Product> &product : productionLine->getProducts()) {
+  for (const auto &product : productionLine->getProducts()) {
     auto productId = product->getId();
     for (const auto &machine : machines) {
       if (!machine->hasConfiguration(productId)){

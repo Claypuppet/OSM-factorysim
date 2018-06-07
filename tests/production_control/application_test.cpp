@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
       uint16_t configurationId = 12; // is actually the productId
       auto inputBuffers = machine->getInputBuffers(configurationId);
       BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
-      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 0);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfTaker(), 0);
     }
 
     { // machines[0].previousMachines
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
       uint16_t configurationId = 88; // is actually the productId
       auto inputBuffers = machine->getInputBuffers(configurationId);
       BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
-      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 0);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfTaker(), 0);
     }
   }
 
@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
       uint16_t configurationId = 12; // is actually the productId
       auto inputBuffers = machine->getInputBuffers(configurationId);
       BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
-      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 15);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfTaker(), 15);
     }
 
     { // machines[1].previousMachines
@@ -236,7 +236,7 @@ BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
       uint16_t configurationId = 88; // is actually the productId
       auto inputBuffers = machine->getInputBuffers(configurationId);
       BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
-      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfInputFor(), 15);
+      BOOST_CHECK_EQUAL(inputBuffers.front()->getMachineIdOfTaker(), 15);
     }
   }
 }
