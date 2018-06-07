@@ -215,7 +215,7 @@ void ResultLogger::logFinalStatistics(const std::vector<MachinePtr> &machines) {
     logger.logToFile(configureStream.str());
 
     std::stringstream mtbfStream;
-    mtbfStream << "\t\t\t\t\"mtbf\" : " << machine->getMTBF();
+    mtbfStream << "\t\t\t\t\"MTBFinHours\" : " << finalStats->getMTBFinHours();
     logger.logToFile(mtbfStream.str());
 
     logger.logToFile("\t\t\t}");

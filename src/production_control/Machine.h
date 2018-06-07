@@ -143,7 +143,7 @@ class Machine
    * Function that calculates the mean time between failure
    * @return : the MTBF
    */
-  uint16_t getMTBF();
+  uint16_t getMTBFinHours();
 
   /**
    * Calculates and returns the statistics of this machine of a simulation

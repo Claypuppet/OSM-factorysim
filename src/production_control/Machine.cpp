@@ -303,8 +303,8 @@ void Machine::addWeeklyStatistics() {
   lostProducts.clear();
 }
 
-uint16_t Machine::getMTBF() {
-  //TODO calculate mbtf
+uint16_t Machine::getMTBFinHours() {
+  //TODO calculate mtbf
   return 1;
 }
 
@@ -349,7 +349,7 @@ models::MachineFinalStatisticsPtr Machine::calculateFinalStatistics() {
                                         static_cast<uint32_t>(totalConfigureTime / nWeeks),
                                         totalProduced,
                                         totalLost,
-                                        getMTBF());
+                                        getMTBFinHours());
 }
 
 }

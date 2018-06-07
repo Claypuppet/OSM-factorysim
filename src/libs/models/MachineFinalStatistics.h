@@ -33,7 +33,7 @@ class MachineFinalStatistics{
   uint32_t getAvgProductionTime() const;
   uint32_t getAvgIdleTime() const;
   uint32_t getAvgConfigureTime() const;
-  uint16_t getMTBF() const;
+  uint16_t getMTBFinHours() const;
  private:
   std::map<uint16_t, uint16_t> avgProducedProducts;
   std::map<uint16_t, uint16_t> avgLostProducts;
@@ -43,7 +43,7 @@ class MachineFinalStatistics{
   uint32_t avgConfigureTime;
   std::map<uint16_t, uint16_t> totalProducedProducts;
   std::map<uint16_t, uint16_t> totalLostProducts;
-  uint16_t MTBF;
+  uint16_t MTBFinHours;
 };
 
 typedef std::shared_ptr<MachineFinalStatistics> MachineFinalStatisticsPtr;

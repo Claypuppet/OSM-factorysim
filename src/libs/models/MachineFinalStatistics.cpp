@@ -23,7 +23,7 @@ MachineFinalStatistics::MachineFinalStatistics(const std::map<uint16_t, uint16_t
       avgConfigureTime(avgConfigureTime),
       totalProducedProducts(totalProducedProducts),
       totalLostProducts(totalLostProducts),
-      MTBF(MTBF) {}
+      MTBFinHours(MTBF) {}
 
 const std::map<uint16_t, uint16_t> &MachineFinalStatistics::getTotalProducedProducts() const {
   return totalProducedProducts;
@@ -33,8 +33,8 @@ const std::map<uint16_t, uint16_t> &MachineFinalStatistics::getTotalLostProducts
   return totalLostProducts;
 }
 
-uint16_t MachineFinalStatistics::getMTBF() const {
-  return MTBF;
+uint16_t MachineFinalStatistics::getMTBFinHours() const {
+  return MTBFinHours;
 }
 
 const std::map<uint16_t, uint16_t> &MachineFinalStatistics::getAvgProducedProducts() const {
