@@ -87,8 +87,8 @@ uint16_t Machine::getMeanTimeBetweenFailureInHours() const {
   return meanTimeBetweenFailureInHours;
 }
 
-uint32_t Machine::getMeanTimeBetweenFailureInSeconds() const {
-  return 3600u * meanTimeBetweenFailureInHours;
+uint32_t Machine::getMeanTimeBetweenFailureInMillis() const {
+  return 3600000u * meanTimeBetweenFailureInHours;
 }
 
 uint16_t Machine::getReparationTimeInMinutes() const {

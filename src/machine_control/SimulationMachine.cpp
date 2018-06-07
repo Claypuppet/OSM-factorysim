@@ -21,7 +21,7 @@ SimulationMachine::SimulationMachine(const models::Machine &machine) : machineco
 bool SimulationMachine::configure() {
   generator = std::mt19937(static_cast<uint64_t >(std::clock()));
 
-  uint64_t maxNumber = magicNumber + getMeanTimeBetweenFailureInSeconds();
+  uint64_t maxNumber = magicNumber + (getMeanTimeBetweenFailureInMillis() / checkCycle);
 
   distribution = std::uniform_int_distribution<uint64_t>(magicNumber, maxNumber);
 
