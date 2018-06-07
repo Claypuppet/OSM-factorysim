@@ -90,10 +90,10 @@ void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &si
       if(simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle){
         awaitingSimulationResponse = false;
       }
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:
     case NotifyEventIds::eApplicationNOK:
       simulationStatusEvents.emplace(simulationEvent);
       break;
-    case NotifyEventIds::eApplicationProductTakenFromBuffer:
     case NotifyEventIds::eApplicationProductAddedToBuffer:
       simulationBufferEvents.emplace(simulationEvent);
       break;

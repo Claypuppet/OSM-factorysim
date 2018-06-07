@@ -27,7 +27,9 @@ void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr
   auto event = makeNotificationForNotifier(this,
                                            patterns::notifyobserver::NotifyTrigger(),
                                            ControllerEvents::kNotifyEventTypeServiceStopped);
-  notifyObservers(event);
+  if(error){
+    notifyObservers(event);
+  }
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,

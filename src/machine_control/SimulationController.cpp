@@ -86,7 +86,9 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 	}
 
 	case ControllerEvents::kNotifyEventTypeServiceStopped: {
-	  stop();
+	  if (executing){
+        stop();
+	  }
       break;
 	}
 

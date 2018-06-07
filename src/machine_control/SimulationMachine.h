@@ -30,6 +30,7 @@ class SimulationMachine : public machinecore::Machine {
   void setInOperationStartState() override;
 
   static void setCanBreak(bool canBreak);
+  uint64_t getMomentOfLastItemProcessed() const;
 
  protected:
 

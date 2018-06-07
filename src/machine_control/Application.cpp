@@ -135,11 +135,9 @@ void Application::machineBroke(){
 }
 
 void Application::startReparation() {
-  uint16_t minutesToSeconds = 60;
-  uint16_t secondsToMillis = 1000;
-  uint16_t reparationTime = getMachine()->getReparationTimeInMinutes();
-  reparationTime *= (minutesToSeconds * secondsToMillis);
-  utils::Time::getInstance().increaseCurrentTime(reparationTime);
+  utils::Time::getInstance().increaseCurrentTime(machine->getReparationTimeInMillis());
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeRepaired);
+  scheduleEvent(event);
 }
 
 } // machinecore
