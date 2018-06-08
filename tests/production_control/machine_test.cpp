@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlMachineTests)
 
 BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   simulation::SimulationController controller;
-  controller.setConfiguration("test_configs/test_config_two_machines.yaml");
+  controller.setConfiguration("./test_configs/test_config_two_machines.yaml");
   auto app = controller.getApplication();
 
   auto machine = app->getMachine(15);
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   // Check if stats get reset
   app->saveMachineStatistics();
   
-  app->logStatistics("test_statistics");
+  app->logStatistics();
 }
 
 
