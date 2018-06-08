@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(Visualiser_Reader_Machines) {
     BOOST_CHECK_EQUAL(machine->getInitializationDurationInMilliseconds(), 6000);
     BOOST_CHECK_EQUAL(machine->getReparationTimeInMinutes(), 24);
     BOOST_CHECK_EQUAL(machine->getReparationTimeStddevInMinutes(), 30);
-    BOOST_CHECK_EQUAL(machine->getMeanTimeBetweenFailureInHours(), 9800);
+    BOOST_CHECK_EQUAL(machine->getMeanTimeBetweenFailureInHours(), 8800);
 
     { // machines[0].configurations[0]
       auto machineConfiguration = machineConfigurations[0];
@@ -64,9 +64,9 @@ BOOST_AUTO_TEST_CASE(Visualiser_Reader_Machines) {
       auto previousMachines = machineConfiguration->getPreviousMachines();
       BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
 
-      BOOST_CHECK_EQUAL(machineConfiguration->getProductId(), 2);
+      BOOST_CHECK_EQUAL(machineConfiguration->getProductId(), 1);
       BOOST_CHECK_EQUAL(machineConfiguration->getOutputEachMinute(), 12);
-      BOOST_CHECK_EQUAL(machineConfiguration->getProcessTime(), 60000 / 8);
+      BOOST_CHECK_EQUAL(machineConfiguration->getProcessTime(), 40000 / 8);
 
       { // machines[0].configurations[0].previousmachines[0]
         auto previousMachine = previousMachines[0];
