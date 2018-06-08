@@ -60,7 +60,6 @@ class SimulationApplication : public core::Application {
   // Overrides
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
   void executeScheduler() override;
-  void checkAllResponsesIn();
 
  private:
   bool canScheduleNotifications;
