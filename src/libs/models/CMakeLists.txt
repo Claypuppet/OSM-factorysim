@@ -7,6 +7,8 @@ add_library(lib_models SHARED
         MachineConfiguration.h
         MachineStatistics.cpp
         MachineStatistics.h
+        MachineFinalStatistics.h
+        MachineFinalStatistics.cpp
         PostProcessInfo.cpp
         PostProcessInfo.h
         PreviousMachine.cpp

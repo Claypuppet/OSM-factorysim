@@ -6,13 +6,15 @@
 
 namespace models {
 
-MachineStatistics::MachineStatistics(const std::map<uint16_t, uint16_t> &producedProducts,
+MachineStatistics::MachineStatistics(uint16_t machineId,
+                                     const std::map<uint16_t, uint16_t> &producedProducts,
                                      const std::map<uint16_t, uint16_t> &lostProducts,
                                      uint32_t downTime,
                                      uint32_t productionTime,
                                      uint32_t idleTime,
                                      uint32_t configureTime)
-    : producedProducts(producedProducts),
+    : machineId(machineId),
+      producedProducts(producedProducts),
       lostProducts(lostProducts),
       downTime(downTime),
       productionTime(productionTime),
@@ -43,6 +45,14 @@ uint32_t MachineStatistics::getIdleTime() const {
 
 uint32_t MachineStatistics::getConfigureTime() const {
   return configureTime;
+}
+
+uint16_t MachineStatistics::getMachineId() const {
+  return machineId;
+}
+
+void MachineStatistics::setMachineId(uint16_t machineId) {
+  MachineStatistics::machineId = machineId;
 }
 
 }
