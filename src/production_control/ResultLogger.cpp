@@ -28,6 +28,8 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
   // Setup logger
   utils::FileLogger::getInstance().setupLogger(outputFileName, false);
   utils::FileLogger::getInstance().logToFile("\nevents:");
+
+  this->configurationName = configurationName;
 }
 
 void ResultLogger::machineStatusUpdate(uint16_t machineId, models::Machine::MachineStatus status) {
@@ -64,12 +66,11 @@ void ResultLogger::log(const std::string &message) {
   utils::FileLogger::getInstance().flushLoggers();
 }
 
-void ResultLogger::logStatistics(const std::map<uint64_t,
-                                                std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
-                                 const std::vector<models::MachineFinalStatistics> &finalStats,
-                                 const std::string &statisticsFileName) {
+void ResultLogger::logStatistics(
+    const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
+    const std::vector<models::MachineFinalStatistics> &finalStats) {
   std::stringstream outputFileName;
-  outputFileName << "./" << statisticsFileName << ".json";
+  outputFileName << "./" << configurationName <<  "_statistics" <<".json";
 
   auto &logger = utils::FileLogger::i();
 

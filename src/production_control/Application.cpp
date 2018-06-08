@@ -275,20 +275,19 @@ void core::Application::addProductsToBuffer(uint16_t machineId) {
   }
 }
 
-const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> &core::Application::getMachineStatistics() const {
-  return machineStatistics;
-}
-
 void core::Application::saveMachineStatistics() {
   auto currentTime = utils::Time::getInstance().getCurrentTime();
-  for (auto &machine : machines) {
-    machineStatistics[currentTime].push_back(machine->getStatistics());
+  if(machineStatistics[currentTime].empty()) {
+    for (auto &machine : machines) {
+      machineStatistics[currentTime].push_back(machine->getStatistics());
+    }
   }
 }
 
 void core::Application::calculateFinalStatistics() {
 
-  std::vector<models::MachineFinalStatistics> newFinalStatistics;
+  finalStatistics.clear();
+
   for (auto &machine : machines) {
     std::vector<models::MachineStatisticsPtr> stats;
 
@@ -332,7 +331,7 @@ void core::Application::calculateFinalStatistics() {
       avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
     }
 
-    newFinalStatistics.push_back(models::MachineFinalStatistics(machine->getId(),
+    finalStatistics.push_back(models::MachineFinalStatistics(machine->getId(),
                                                                 avgProduced,
                                                                 avgLost,
                                                                 static_cast<uint32_t>(totalDownTime / nStats),
@@ -344,9 +343,9 @@ void core::Application::calculateFinalStatistics() {
                                                                 machine->getMTBFinHours()));
 
   }
-  finalStatistics = newFinalStatistics;
 }
-void core::Application::logStatistics(const std::string& fileName) {
+
+void core::Application::logStatistics() {
   calculateFinalStatistics();
-  ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics, fileName);
+  ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics);
 }

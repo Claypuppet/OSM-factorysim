@@ -124,12 +124,10 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   void saveMachineStatistics();
 
-  const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> &getMachineStatistics() const;
-
   /**
    * Logs statistics of a simulation to a result file
    */
-  void logStatistics(const std::string &fileName);
+  void logStatistics();
 
  protected:
 

@@ -49,8 +49,7 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    * @return
    */
   void logStatistics(const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
-                     const std::vector<models::MachineFinalStatistics> &finalStats,
-                     const std::string &statisticsFileName);
+                     const std::vector<models::MachineFinalStatistics> &finalStats);
 
  private:
   friend patterns::singleton::Singleton<ResultLogger>;
@@ -72,6 +71,8 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
 
   bool networkEnabled;
   bool debugEnabled;
+
+  std::string configurationName;
 
 };
 }
