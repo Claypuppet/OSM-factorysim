@@ -168,9 +168,9 @@ void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,
 void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStatistics> &finalStatistics) {
   auto &logger = utils::FileLogger::getInstance();
 
-  logger.logToFile("\t\"FinalStatistics\":");
+  logger.logToFile("\t\"finalStatistics\":");
   logger.logToFile("\t{");
-  logger.logToFile("\t\t\"Machines\":");
+  logger.logToFile("\t\t\"machines\":");
   logger.logToFile("\t\t[");
 
   bool first = true;
