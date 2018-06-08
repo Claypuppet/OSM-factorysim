@@ -241,7 +241,7 @@ void Machine::takeProductsFromInputBuffers() {
 	auto previous = getConfigurationById(currentConfigId)->getPreviousMachineById(inputBuffer.first);
 	auto itemsTaken = inputBuffer.second->takeFromBuffer(previous->getNeededProducts());
 	// NOTE: We will only track one (first) product
-    productInProcess.emplace(itemsTaken.front());=
+    productInProcess.emplace(itemsTaken.front());
   }
 }
 
