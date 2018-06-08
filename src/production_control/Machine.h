@@ -140,12 +140,6 @@ class Machine
    */
   models::MachineStatisticsPtr getStatistics();
 
-  /**
-   * Function that calculates the mean time between failure
-   * @return : the MTBF
-   */
-  uint16_t getMTBFinHours();
-
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();

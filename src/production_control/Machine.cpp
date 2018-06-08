@@ -301,9 +301,4 @@ models::MachineStatisticsPtr Machine::getStatistics() {
   return stats;
 }
 
-uint16_t Machine::getMTBFinHours() {
-  //TODO
-  return 1;
-}
-
 }

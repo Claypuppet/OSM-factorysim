@@ -30,12 +30,10 @@ class MachineStatistics {
   uint32_t getProductionTime() const;
   uint32_t getIdleTime() const;
   uint32_t getConfigureTime() const;
- private:
-  uint16_t machineId;
- public:
   uint16_t getMachineId() const;
   void setMachineId(uint16_t machineId);
  private:
+  uint16_t machineId;
   /**
    * product_id, amount of produced products
    */

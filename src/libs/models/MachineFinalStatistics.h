@@ -35,11 +35,9 @@ class MachineFinalStatistics{
   uint32_t getAvgIdleTime() const;
   uint32_t getAvgConfigureTime() const;
   uint16_t getMTBFinHours() const;
- private:
-  uint16_t machineId;
- public:
   uint16_t getMachineId() const;
  private:
+  uint16_t machineId;
   std::map<uint16_t, uint16_t> avgProducedProducts;
   std::map<uint16_t, uint16_t> avgLostProducts;
   uint32_t avgDownTime;

@@ -340,7 +340,7 @@ void core::Application::calculateFinalStatistics() {
                                                                 static_cast<uint32_t>(totalConfigureTime / nStats),
                                                                 totalProduced,
                                                                 totalLost,
-                                                                machine->getMTBFinHours()));
+                                                                machine->getTimesBroken()));
 
   }
 }
