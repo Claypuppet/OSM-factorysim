@@ -6,7 +6,6 @@
 #define PRODUCTION_LINE_CONTROL_CONTROLLER_H
 
 #include "Application.h"
-#include "Machine.h"
 
 namespace machinecore {
 

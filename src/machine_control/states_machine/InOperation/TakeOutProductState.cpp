@@ -3,8 +3,6 @@
 
 #include <utils/Logger.h>
 
-#include "../../states_application/IdleState.h"
-
 namespace machinestates {
 
 TakeOutProductState::TakeOutProductState(machinecore::Machine &aContext)

@@ -16,9 +16,7 @@
 #include "NotificationEventTypes.h"
 
 
-//TODO: Implement Observer
 namespace machinecore {
-
 
 /**
  * Core class of machine control that controls the machine
