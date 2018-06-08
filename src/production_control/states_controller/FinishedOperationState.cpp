@@ -23,7 +23,8 @@ void FinishedOperationState::exitAction() {
 
 bool FinishedOperationState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-    default:return ControllerState::handleEvent(event);
+    default:
+      return ControllerState::handleEvent(event);
   }
 }
 

@@ -119,7 +119,23 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   virtual const std::vector<MachinePtr> &getMachines() const;
 
+  /**
+   * Saves statistics of all machines for the current timestamp
+   */
+  void saveMachineStatistics();
+
+  /**
+   * Logs statistics of a simulation to a result file
+   */
+  void logStatistics();
+
  protected:
+
+  /**
+   * Calculates final statistics of all machines
+   */
+  void calculateFinalStatistics();
+
   /**
    * Checks if we need to change production, if so, prepare change.
    */
@@ -170,6 +186,13 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   network::ServerPtr server;
   ThreadPtr serverThread;
   network::Manager manager;
+
+  /**
+   * Timestamp, statistics
+   */
+  std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> machineStatistics;
+
+  std::vector<models::MachineFinalStatistics> finalStatistics;
 };
 
 typedef std::shared_ptr<Application> ApplicationPtr;

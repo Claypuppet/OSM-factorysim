@@ -42,6 +42,14 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    */
   void bufferContentsChanged(uint16_t machineId, uint16_t productId, size_t amount);
 
+  /**
+   * Writes statistics of the simulation to a JSON result file
+   * @param timeStampStatistics : Map with machineStatistics per time stamp
+   * @param finalStats : Final statistics of the simulation
+   * @return
+   */
+  void logStatistics(const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
+                     const std::vector<models::MachineFinalStatistics> &finalStats);
 
  private:
   friend patterns::singleton::Singleton<ResultLogger>;
@@ -49,8 +57,22 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
 
   void log(const std::string &message);
 
+  /**
+   * Logs all statistics of a timestamp
+   * @param machines : The machines to log the weekly statistics of
+   */
+  void logTimeStampStatistics(const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> &timeStamps);
+
+  /**
+   * Logs the final statistics of machines
+   * @param machines : The machines to log the final statistics of
+   */
+  void logFinalStatistics(const std::vector<models::MachineFinalStatistics> &finalStatistics);
+
   bool networkEnabled;
   bool debugEnabled;
+
+  std::string configurationName;
 
 };
 }

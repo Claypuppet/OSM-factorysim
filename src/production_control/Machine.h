@@ -7,6 +7,7 @@
 #include <network/Connection.h>
 #include <models/Machine.h>
 #include <models/MachineStatistics.h>
+#include <models/MachineFinalStatistics.h>
 
 #include "Buffer.h"
 
@@ -107,7 +108,7 @@ class Machine
    * Place products in output buffer
    */
   void placeProductsInOutputBuffer();
-  
+
   /**
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.
    */
@@ -137,13 +138,12 @@ class Machine
    * Creates a machineStatistics object with the statistic variables and adds it to weeklyStatistics
    * also resets the statistic variables
    */
-  void addWeeklyStatistics();
+  models::MachineStatisticsPtr getStatistics();
 
   // Getters and setters
   void setStatus(MachineStatus newStatus);
   MachineStatus getStatus();
   virtual bool isWaitingForResponse();
-  const std::vector<models::MachineStatistics> &getWeeklyStatistics() const;
 
   // Input buffer getters
   const InputBuffersPerMachineMap &getInputBuffers(uint16_t productId) const;
@@ -191,8 +191,6 @@ class Machine
   std::map<uint16_t, uint16_t> lostProducts;
   std::map<models::Machine::MachineStatus, uint32_t> timeSpendInState;
   uint16_t timesBroken;
-
-  std::vector<models::MachineStatistics> weeklyStatistics;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
   InputBuffersPerConfigMap inputBuffers;

@@ -113,7 +113,7 @@ class SimulationController
   // The network's client
   network::ClientPtr client;
 
-  SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
+  simulationcommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };
 }
 

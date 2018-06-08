@@ -50,7 +50,7 @@ class NetworkEventDispatcher : public network::IServiceEventListener, public pat
 SimulationController::SimulationController(uint16_t aMachineId)
 	: Controller(aMachineId) {
   utils::Time::getInstance().setType(utils::customTime);
-  simulationNetworkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
+  simulationNetworkComponent = std::make_shared<simulationcommunication::SimulationNetworkComponent>();
   application = std::make_shared<SimulationApplication>(aMachineId);
 }
 

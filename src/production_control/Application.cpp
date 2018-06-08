@@ -11,6 +11,7 @@
 #include "states_application/BroadCastState.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
+#include "ResultLogger.h"
 
 namespace core {
 
@@ -272,6 +273,81 @@ void Application::addProductsToBuffer(uint16_t machineId) {
   if (machine) {
     machine->placeProductsInOutputBuffer();
   }
+}
+
+void Application::saveMachineStatistics() {
+  auto currentTime = utils::Time::getInstance().getCurrentTime();
+  if (machineStatistics[currentTime].empty()) {
+    for (auto &machine : machines) {
+      machineStatistics[currentTime].push_back(machine->getStatistics());
+    }
+  }
+}
+
+void Application::calculateFinalStatistics() {
+
+  finalStatistics.clear();
+
+  for (auto &machine : machines) {
+    std::vector<models::MachineStatisticsPtr> stats;
+
+    for (auto &item : machineStatistics) {
+      for (auto &stat : item.second) {
+        if (stat->getMachineId() == machine->getId()) {
+          stats.push_back(stat);
+        }
+      }
+    }
+
+    std::map<uint16_t, uint32_t> totalProduced;
+    std::map<uint16_t, uint32_t> totalLost;
+    std::map<uint16_t, uint16_t> avgProduced;
+    std::map<uint16_t, uint16_t> avgLost;
+    uint64_t totalProductionTime = 0;
+    uint64_t totalIdleTime = 0;
+    uint64_t totalDownTime = 0;
+    uint64_t totalConfigureTime = 0;
+
+    for (auto &stat : stats) {
+      for (auto &item : stat->getProducedProducts()) {
+        totalProduced[item.first] += item.second;
+      }
+      for (auto &item : stat->getLostProducts()) {
+        totalLost[item.first] += item.second;
+      }
+      totalProductionTime += stat->getProductionTime();
+      totalIdleTime += stat->getIdleTime();
+      totalDownTime += stat->getDownTime();
+      totalConfigureTime += stat->getConfigureTime();
+    }
+
+    auto nStats = stats.size();
+
+    for (auto &item : totalProduced) {
+      avgProduced[item.first] = static_cast<uint16_t >(item.second / nStats);
+    }
+
+    for (auto &item : totalLost) {
+      avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
+    }
+
+    finalStatistics.push_back(models::MachineFinalStatistics(machine->getId(),
+                                                             avgProduced,
+                                                             avgLost,
+                                                             static_cast<uint32_t>(totalDownTime / nStats),
+                                                             static_cast<uint32_t>(totalProductionTime / nStats),
+                                                             static_cast< uint32_t>(totalIdleTime / nStats),
+                                                             static_cast<uint32_t>(totalConfigureTime / nStats),
+                                                             totalProduced,
+                                                             totalLost,
+                                                             machine->getTimesBroken()));
+
+  }
+}
+
+void Application::logStatistics() {
+  calculateFinalStatistics();
+  ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics);
 }
 
 }

@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <stdint-gcc.h>
 #include <map>
+#include <memory>
 
 namespace models {
 
@@ -16,7 +17,8 @@ namespace models {
  */
 class MachineStatistics {
  public:
-  MachineStatistics(const std::map<uint16_t, uint16_t> &producedProducts,
+  MachineStatistics(uint16_t machineId,
+                    const std::map<uint16_t, uint16_t> &producedProducts,
                     const std::map<uint16_t, uint16_t> &lostProducts,
                     uint32_t downTime,
                     uint32_t productionTime,
@@ -28,7 +30,10 @@ class MachineStatistics {
   uint32_t getProductionTime() const;
   uint32_t getIdleTime() const;
   uint32_t getConfigureTime() const;
+  uint16_t getMachineId() const;
+  void setMachineId(uint16_t machineId);
  private:
+  uint16_t machineId;
   /**
    * product_id, amount of produced products
    */
@@ -42,6 +47,8 @@ class MachineStatistics {
   uint32_t idleTime;
   uint32_t configureTime;
 };
+
+typedef std::shared_ptr<MachineStatistics> MachineStatisticsPtr;
 
 }
 

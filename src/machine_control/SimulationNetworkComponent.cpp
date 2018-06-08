@@ -11,7 +11,7 @@
 #include "SimulationNetworkComponent.h"
 #include "NotificationEventTypes.h"
 
-namespace SimulationCommunication {
+namespace simulationcommunication {
 
 void SimulationNetworkComponent::onConnectionFailed(network::ConnectionPtr connection,
                                                     const boost::system::error_code &error) {
