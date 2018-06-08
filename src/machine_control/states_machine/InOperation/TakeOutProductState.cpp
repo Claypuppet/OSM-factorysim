@@ -3,6 +3,8 @@
 
 #include <utils/Logger.h>
 
+#include "../../NotificationEventTypes.h"
+
 namespace machinestates {
 
 TakeOutProductState::TakeOutProductState(machinecore::Machine &aContext)
