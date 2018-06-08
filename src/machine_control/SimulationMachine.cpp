@@ -1,10 +1,11 @@
 #include <ctime>
 #include <utils/time/Time.h>
+
 #include "SimulationMachine.h"
+#include "NotificationEventTypes.h"
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
 
-#include <utils/time/Time.h>
 
 namespace simulator {
 
@@ -13,15 +14,14 @@ const uint64_t oneHourInMillis = oneMinuteInMillis * 60;
 
 bool SimulationMachine::canBreak = true;
 
-SimulationMachine::SimulationMachine(const models::Machine &machine) : machinecore::Machine(machine), timeSinceBrokenCheck(0), checkCycle(oneMinuteInMillis) {
+SimulationMachine::SimulationMachine(const models::Machine &machine) : machinecore::Machine(machine), timeSinceBrokenCheck(0), checkCycle(oneMinuteInMillis), momentOfLastItemProcessed(0) {
 
 }
 
 bool SimulationMachine::configure() {
   generator = std::mt19937(static_cast<uint64_t >(std::clock()));
 
-  uint64_t maxNumber = magicNumber + meanTimeBetweenFailureInHours;
-  maxNumber *= (oneHourInMillis / checkCycle);
+  uint64_t maxNumber = magicNumber + (getMeanTimeBetweenFailureInMillis() / checkCycle);
 
   distribution = std::uniform_int_distribution<uint64_t>(magicNumber, maxNumber);
 
@@ -38,6 +38,8 @@ void SimulationMachine::selfTest() {
 }
 
 void SimulationMachine::takeInProduct() {
+  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductTakenFromBuffer);
+  notifyObservers(notification);
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenIn);
   scheduleEvent(event);
 }
@@ -50,6 +52,32 @@ void SimulationMachine::processProduct() {
 }
 
 void SimulationMachine::takeOutProduct() {
+  auto &time = utils::Time::getInstance();
+  auto currentTime = time.getCurrentTime();
+  // Default is instant done with taken out (normal machines)
+  if(auto postProcess = getPostProcessInfo()){
+    if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > currentTime){
+      uint64_t timeToWait = (momentOfLastItemProcessed + postProcess->getInputDelayInMillis()) - currentTime;
+      time.increaseCurrentTime(timeToWait);
+      // Update current time variable to reset to here after sending product placed in buffer
+      currentTime = time.getCurrentTime();
+    }
+    uint32_t durationOfPostProcess = postProcess->getPostProcessDurationInMillis();
+
+    time.increaseCurrentTime(durationOfPostProcess);
+    auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
+    notifyObservers(notification);
+
+    // Set current time again
+    time.reset();
+    time.syncTime(currentTime);
+  }
+  else {
+    auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeProductAddedToBuffer);
+    notifyObservers(notification);
+  }
+
+  momentOfLastItemProcessed = currentTime;
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeProductTakenOut);
   scheduleEvent(event);
 }
@@ -89,7 +117,12 @@ bool SimulationMachine::checkBroken() {
   return false;
 }
 
+uint64_t SimulationMachine::getMomentOfLastItemProcessed() const {
+  return momentOfLastItemProcessed;
+}
+
 /* static */ void SimulationMachine::setCanBreak(bool canBreak) {
   SimulationMachine::canBreak = canBreak;
 }
+
 } // simulator

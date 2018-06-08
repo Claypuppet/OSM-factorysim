@@ -57,13 +57,13 @@ void ResultLogger::log(const std::string &message) {
   std::stringstream logRow;
   logRow << "- " << message;
   if (debugEnabled) {
-    utils::FileLogger::getInstance().logToBoth(logRow.str());
+//    utils::FileLogger::getInstance().logToBoth(logRow.str());
   }
   else {
-    utils::FileLogger::getInstance().logToFile(logRow.str());
+//    utils::FileLogger::getInstance().logToFile(logRow.str());
   }
   // Temp here till we have a production shutdown.
-  utils::FileLogger::getInstance().flushLoggers();
+//  utils::FileLogger::getInstance().flushLoggers();
 }
 
 void ResultLogger::logStatistics(

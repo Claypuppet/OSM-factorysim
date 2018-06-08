@@ -87,8 +87,16 @@ uint16_t Machine::getMeanTimeBetweenFailureInHours() const {
   return meanTimeBetweenFailureInHours;
 }
 
+uint32_t Machine::getMeanTimeBetweenFailureInMillis() const {
+  return 3600000u * meanTimeBetweenFailureInHours;
+}
+
 uint16_t Machine::getReparationTimeInMinutes() const {
   return reparationTimeInMinutes;
+}
+
+uint32_t Machine::getReparationTimeInMillis() const {
+  return 60000u * reparationTimeInMinutes;
 }
 
 uint16_t Machine::getReparationTimeStddevInMinutes() const {
@@ -100,7 +108,7 @@ uint16_t Machine::getInitializationDurationInSeconds() const {
 }
 
 uint32_t Machine::getInitializationDurationInMilliseconds() const {
-  return static_cast<uint32_t>(getInitializationDurationInSeconds() * 1000);
+  return 1000u * initializationDurationInSeconds;
 }
 
 const std::shared_ptr<PostProcessInfo> Machine::getPostProcessInfo() const {

@@ -18,7 +18,6 @@ class SimulationApplication : public machinecore::Application {
   explicit SimulationApplication(uint16_t aMachineId);
   virtual ~SimulationApplication() = default;
 
-  void setStartState() override;
 };
 
 typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;

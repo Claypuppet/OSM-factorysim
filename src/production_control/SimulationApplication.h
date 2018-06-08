@@ -19,7 +19,7 @@ class SimulationApplication : public core::Application {
  public:
   SimulationApplication();
   virtual ~SimulationApplication() = default;
-
+  void setMachines(const std::vector<core::MachinePtr> &aMachines) override;
   /**
    * Calls the core application. After that this method will call turn on sim machines.
    */
@@ -34,7 +34,7 @@ class SimulationApplication : public core::Application {
    * Get all machines as simulation machines
    * @return : simulation machine list
    */
-  const std::vector<SimulationMachinePtr> getSimulationMachines() const;
+  const std::vector<SimulationMachinePtr> &getSimulationMachines() const;
 
   /**
    * Send message to all connected simulation machines to turn on
@@ -63,6 +63,7 @@ class SimulationApplication : public core::Application {
 
  private:
   bool canScheduleNotifications;
+  std::vector<SimulationMachinePtr> simulationMachines;
 
 };
 

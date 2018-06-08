@@ -4,7 +4,7 @@
 name: Demostraat
 
 simulationInfo:
-  durationInHours: 168
+  durationInHours: 9
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 
@@ -26,6 +26,8 @@ productionLine:
     reparationTimeInMinutes: 60
     reparationTimeStddevInMinutes: 1
     postProcessInfo:
+      inputDelayInSeconds: 120
+      postProcessDurationInMinutes: 30
     configurations:
 
     - productId: 1
@@ -57,7 +59,7 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 1
-        inputBufferSize: 5
+        inputBufferSize: 20
 
 
   - id: 3
@@ -73,4 +75,4 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 1
-        inputBufferSize: 5
+        inputBufferSize: 20

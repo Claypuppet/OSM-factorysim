@@ -30,13 +30,17 @@ class SimulationMachine : public machinecore::Machine {
   void setInOperationStartState() override;
 
   static void setCanBreak(bool canBreak);
+  uint64_t getMomentOfLastItemProcessed() const;
 
- private:
+ protected:
+
   std::mt19937 generator;
   std::uniform_int_distribution<uint64_t> distribution;
   uint16_t magicNumber = 0;
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
+
+  uint64_t momentOfLastItemProcessed;
 
   static bool canBreak;
 };

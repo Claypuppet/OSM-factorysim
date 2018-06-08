@@ -15,7 +15,7 @@
 /**
  * Network component that handles messages for a simulation controler
  */
-namespace SimulationCommunication {
+namespace simulationcommunication {
 
 class SimulationNetworkComponent;
 typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;

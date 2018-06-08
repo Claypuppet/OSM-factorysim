@@ -15,7 +15,8 @@ void InOperationState::entryAction() {
 }
 
 void InOperationState::doActivity() {
-	context.executeScheduler();
+  context.executeScheduler();
+  std::this_thread::yield();
 }
 
 void InOperationState::exitAction() {

@@ -171,7 +171,7 @@ class Machine
   bool awaitingResponse;
   network::ConnectionPtr connection;
 
-  ProductPtr productInProcess;
+  std::queue<ProductPtr> productInProcess;
 
   uint16_t prepareConfigureId;
   uint16_t currentConfigId;

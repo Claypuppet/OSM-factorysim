@@ -69,10 +69,10 @@ ServerPtr Manager::createServer(ConnectionHandlerPtr handler, uint16_t maxClient
 }
 
 void Manager::stop() {
-  std::lock_guard<std::mutex> lockGuard(mMutex);
   if (mFStopping || mFStopped) {
-	return;
+    return;
   }
+  std::lock_guard<std::mutex> lockGuard(mMutex);
   mFStopping = true;
 
   stopClient();

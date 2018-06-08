@@ -9,9 +9,9 @@
 
 // other
 #include "SimulationNetworkComponent.h"
-#include "ControllerNotificationEventIds.h"
+#include "NotificationEventTypes.h"
 
-namespace SimulationCommunication {
+namespace simulationcommunication {
 
 void SimulationNetworkComponent::onConnectionFailed(network::ConnectionPtr connection,
                                                     const boost::system::error_code &error) {
@@ -24,6 +24,10 @@ void SimulationNetworkComponent::onConnectionEstablished(network::ConnectionPtr 
 
 void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr connection,
                                                           const boost::system::error_code &error) {
+  auto event = makeNotifcation(ControllerEvents::kNotifyEventTypeServiceStopped);
+  if(error){
+    notifyObservers(event);
+  }
 }
 
 void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,

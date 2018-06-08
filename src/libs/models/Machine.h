@@ -123,16 +123,13 @@ class Machine {
   const MachineConfigurationPtr getConfigurationById(uint16_t machineConfigurationId) const;
 
   uint16_t getMeanTimeBetweenFailureInHours() const;
+  uint32_t getMeanTimeBetweenFailureInMillis() const;
   uint16_t getReparationTimeInMinutes() const;
+  uint32_t getReparationTimeInMillis() const;
   uint16_t getReparationTimeStddevInMinutes() const;
   uint16_t getInitializationDurationInSeconds() const;
-  const std::shared_ptr<PostProcessInfo> getPostProcessInfo() const;
-
-  /**
-   * Getter for initializationDuration in milliseconds
-   * @return initializationDurationInSeconds * 1000
-   */
   uint32_t getInitializationDurationInMilliseconds() const;
+  const std::shared_ptr<PostProcessInfo> getPostProcessInfo() const;
 
  protected:
   uint16_t id;

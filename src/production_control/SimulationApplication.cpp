@@ -12,8 +12,17 @@ namespace simulation {
 
 static const uint64_t eightHoursInMillis = 28800000;
 
-SimulationApplication::SimulationApplication() : canScheduleNotifications(false) {
+SimulationApplication::SimulationApplication() : canScheduleNotifications(false), simulationMachines(){
 
+}
+
+void SimulationApplication::setMachines(const std::vector<core::MachinePtr> &aMachines) {
+  Application::setMachines(aMachines);
+
+  // Add machines as simulation machines
+  for (const auto &machine : machines) {
+    simulationMachines.emplace_back(std::dynamic_pointer_cast<SimulationMachine>(machine));
+  }
 }
 
 void SimulationApplication::turnOnSimulationMachines() {
@@ -37,7 +46,9 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
   switch (notification.getEventId()) {
 
     case NotifyEventIds::eApplicationOK:
-    case NotifyEventIds::eApplicationNOK: {
+    case NotifyEventIds::eApplicationNOK:
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:
+    case NotifyEventIds::eApplicationProductAddedToBuffer: {
       auto id = notification.getArgumentAsType<uint16_t>(1);
       auto machine = getSimulationMachine(id);
       machine->addEvent(notification);
@@ -51,13 +62,14 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
 }
 
 SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machineId) {
-  auto machine = getMachine(machineId);
-  return std::dynamic_pointer_cast<SimulationMachine>(machine);
+  auto machineItr = std::find_if(simulationMachines.begin(), simulationMachines.end(),
+                                 [machineId](const SimulationMachinePtr &machine){return machine->getId() == machineId;});
+  return (simulationMachines.end() == machineItr) ? nullptr : *machineItr;
 }
 
 void SimulationApplication::executeScheduler() {
   // Check if we are still waiting for responses...
-  for (const auto &machine : getSimulationMachines()) {
+  for (const auto &machine : simulationMachines) {
     if (machine->isWaitingForSimulationResponse()) {
       return;
     }
@@ -66,8 +78,8 @@ void SimulationApplication::executeScheduler() {
   if(canScheduleNotifications && scheduleMachineNotifications()){
     return;
   }
-
   Application::executeScheduler();
+
   canScheduleNotifications = true;
 
   // Temp, print statistics of machines etc. every few hours. move to
@@ -101,37 +113,31 @@ void SimulationApplication::logStatistics() const {
   utils::Logger::log(stream.str());
 }
 
-const std::vector<SimulationMachinePtr> SimulationApplication::getSimulationMachines() const {
-  std::vector<SimulationMachinePtr> list;
-  for (const auto &machine : machines) {
-    list.emplace_back(std::dynamic_pointer_cast<SimulationMachine>(machine));
-  }
-  return list;
+const std::vector<SimulationMachinePtr> &SimulationApplication::getSimulationMachines() const {
+  return simulationMachines;
 }
 
 bool SimulationApplication::scheduleMachineNotifications() {
-  auto simulationMachines = getSimulationMachines();
-
+  uint64_t nextLowestTime = 0;
   bool foundEvents = false;
-  uint64_t lowestTime = 0;
-
   for (const auto &machine : simulationMachines) {
-    auto machineEventTime = machine->getNextEventMoment();
-    if (machineEventTime && !foundEvents) {
-      lowestTime = machineEventTime;
+    // Get events for this machine on lowest time
+    auto nextMachineEventMoment = machine->getNextEventMoment();
+    if (nextMachineEventMoment != 0 && (nextLowestTime == 0 || nextMachineEventMoment < nextLowestTime)) {
+      nextLowestTime = nextMachineEventMoment;
       foundEvents = true;
-    } else if (machineEventTime != 0 && machineEventTime < lowestTime) {
-      lowestTime = machineEventTime;
     }
   }
+
   if (foundEvents) {
-    utils::Time::getInstance().syncTime(lowestTime);
+    utils::Time::getInstance().syncTime(nextLowestTime);
+    std::vector<patterns::notifyobserver::NotifyEvent> delayedNotifications;
     for (const auto &machine : simulationMachines) {
       // Get events for this machine on lowest time
-      auto delayedNotifications = machine->getEvents(lowestTime);
-      for (const auto &notification : delayedNotifications) {
-        Application::handleNotification(notification);
-      }
+      machine->getEvents(nextLowestTime, delayedNotifications);
+    }
+    for (const auto &notification : delayedNotifications) {
+      Application::handleNotification(notification);
     }
     canScheduleNotifications = false;
     return true;
