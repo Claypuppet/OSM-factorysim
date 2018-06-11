@@ -87,6 +87,7 @@ class SimulationMachine : public core::Machine {
   void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
   bool isWaitingForSimulationResponse() const;
   bool isWaitingForResponse() override;
+  bool isIdle(bool completelyIdle) override;
 
  protected:
 

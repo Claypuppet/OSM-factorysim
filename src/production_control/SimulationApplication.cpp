@@ -169,7 +169,7 @@ void SimulationApplication::debugLogCurrentStats() {
 bool SimulationApplication::checkAllMachinesDisconnected() {
   // Send turn off to machines that are ready to be turned off
   for (const auto &machine : simulationMachines) {
-    if (machine->isConnected() && machine->isIdle()) {
+    if (machine->isConnected() && machine->isIdle(false)) {
       machine->sendTurnOffCommand();
     }
   }

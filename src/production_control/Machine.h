@@ -146,7 +146,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * @param completelyIdle : if true, also checks if the input/output buffers are empty
    * @return : true if (completely) idle
    */
-  bool isIdle(bool completelyIdle = false);
+  virtual bool isIdle(bool completelyIdle);
 
   // Getters and setters
   void setStatus(MachineStatus newStatus);
