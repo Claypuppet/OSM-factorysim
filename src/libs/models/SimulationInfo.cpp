@@ -2,27 +2,35 @@
 
 namespace models {
 
-SimulationInfo::SimulationInfo(uint16_t durationInHours,
+SimulationInfo::SimulationInfo(bool local,
+                               uint16_t durationInHours,
                                uint8_t startHourOfWorkDay,
                                uint8_t workDayDurationInHours)
-    : durationInWeeks(durationInHours),
+    : local(local),
+      durationInWeeks(durationInHours),
       startHourOfWorkDay(startHourOfWorkDay),
       workDayDurationInHours(workDayDurationInHours) {
 }
 
 SimulationInfo::SimulationInfo(const SimulationInfo &other)
-	: durationInWeeks(other.durationInWeeks),
+	: local(other.local),
+      durationInWeeks(other.durationInWeeks),
       startHourOfWorkDay(other.startHourOfWorkDay),
       workDayDurationInHours(other.workDayDurationInHours) {
 }
 
 SimulationInfo &SimulationInfo::operator=(const SimulationInfo &other) {
   if (this != &other) {
+	local = other.local;
 	durationInWeeks = other.durationInWeeks;
     startHourOfWorkDay = other.startHourOfWorkDay;
     workDayDurationInHours = other.workDayDurationInHours;
   }
   return *this;
+}
+
+bool SimulationInfo::isLocal() const {
+  return local;
 }
 
 uint16_t SimulationInfo::getDurationInWeeks() const {

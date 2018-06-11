@@ -39,11 +39,12 @@ const std::shared_ptr<models::Configuration> YAMLStrategy::deserializeConfigurat
 }
 
 const std::shared_ptr<models::SimulationInfo> YAMLStrategy::deserializeSimulationInfo(YAML::Node &simulationInfoYAMLNode) const {
+  auto local = simulationInfoYAMLNode["local"].as<bool>();
   auto durationInWeeks = simulationInfoYAMLNode["durationInWeeks"].as<uint16_t>();
   auto startHourOfWorkDay = simulationInfoYAMLNode["startHourOfWorkDay"].as<uint16_t>();
   auto workDayDurationInHours = simulationInfoYAMLNode["workDayDurationInHours"].as<uint16_t>();
 
-  return std::make_shared<models::SimulationInfo>(durationInWeeks, startHourOfWorkDay, workDayDurationInHours);
+  return std::make_shared<models::SimulationInfo>(local, durationInWeeks, startHourOfWorkDay, workDayDurationInHours);
 }
 
 const std::shared_ptr<models::ProductionLine> YAMLStrategy::deserializeProductionLine(YAML::Node &productionLineYAMLNode) const {

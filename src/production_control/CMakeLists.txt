@@ -19,6 +19,8 @@ add_library(source_lib_app_production SHARED
         SimulationController.h
         SimulationMachine.cpp
         SimulationMachine.h
+        SimulationMachineLocal.cpp
+        SimulationMachineLocal.h
         SimulationApplication.cpp
         SimulationApplication.h
         Controller.cpp

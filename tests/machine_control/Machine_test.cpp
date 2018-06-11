@@ -13,7 +13,7 @@
 
 BOOST_AUTO_TEST_SUITE(MachineControlMachineTests)
 
-BOOST_AUTO_TEST_CASE(MachineControlMachineBreaking) {
+BOOST_AUTO_TEST_CASE(MachineControlTestPostProcess) {
   testutils::MockObserver mockObserver;
   simulator::SimulationMachine::setCanBreak(false);
 

@@ -4,7 +4,8 @@ add_executable(test_production_control
         log_test.cpp
         machine_test.cpp
         application_test.cpp
-        InOperationStateTests.cpp)
+        InOperationStateTests.cpp
+        util_tests.cpp)
 
 target_link_libraries(test_production_control source_lib_app_production lib_test_utils ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 

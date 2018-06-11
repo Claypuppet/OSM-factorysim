@@ -32,7 +32,7 @@ class SimulationInfo {
    * @param startHourOfWorkDay the start hours number of the work day (the production line turns on)
    * @param workDayDurationInHours the number of hours a productionline produces
    */
-  SimulationInfo(uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
+  SimulationInfo(bool local, uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
 
   /**
    * Copy constructor
@@ -47,11 +47,13 @@ class SimulationInfo {
    */
   SimulationInfo &operator=(const SimulationInfo &other);
 
+  bool isLocal() const;
   uint16_t getDurationInWeeks() const;
   uint8_t getStartHourOfWorkDay() const;
   uint8_t getWorkDayDurationInHours() const;
 
  private:
+  bool local;
   uint16_t durationInWeeks;
   uint8_t startHourOfWorkDay;
   uint8_t workDayDurationInHours;

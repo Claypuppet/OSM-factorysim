@@ -18,11 +18,13 @@ void OperationState::entryAction() {
 }
 
 void OperationState::doActivity() {
-  context.getApplication()->run();
   if (context.simulationIsOver()) {
+    // Simulation is over
     auto event = std::make_shared<Event>(kEventTypeSimulationFinished);
     context.scheduleEvent(event);
+    return;
   }
+  context.getApplication()->run();
 }
 
 void OperationState::exitAction() {

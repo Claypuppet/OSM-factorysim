@@ -3,7 +3,8 @@
   "simulationInfo": {
     "durationInWeeks": 52,
     "startHourOfWorkDay":9,
-    "workDayDurationInHours":8
+    "workDayDurationInHours":8,
+    "local":false
   },
   "productionLine": {
     "name": "Kantoortafels",

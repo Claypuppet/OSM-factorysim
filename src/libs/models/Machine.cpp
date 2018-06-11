@@ -103,6 +103,10 @@ uint16_t Machine::getReparationTimeStddevInMinutes() const {
   return reparationTimeStddevInMinutes;
 }
 
+uint32_t Machine::getReparationTimeStddevInMillis() const {
+  return 60000u * reparationTimeStddevInMinutes;
+}
+
 uint16_t Machine::getInitializationDurationInSeconds() const {
   return initializationDurationInSeconds;
 }

@@ -8,6 +8,7 @@
 #include "Machine.h"
 
 #include <random>
+#include <utils/RandomHelper.h>
 
 namespace simulator {
 
@@ -34,9 +35,9 @@ class SimulationMachine : public machinecore::Machine {
 
  protected:
 
-  std::mt19937 generator;
-  std::uniform_int_distribution<uint64_t> distribution;
-  uint16_t magicNumber = 0;
+  utils::UnsignedUniformDistribution breakDistribution;
+  utils::NormalDistribution repairDistribution;
+  uint64_t magicNumber = 0;
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
 

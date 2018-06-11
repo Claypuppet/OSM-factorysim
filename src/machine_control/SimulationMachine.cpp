@@ -1,5 +1,5 @@
-#include <ctime>
 #include <utils/time/Time.h>
+#include <utils/RandomHelper.h>
 
 #include "SimulationMachine.h"
 #include "NotificationEventTypes.h"
@@ -15,16 +15,14 @@ const uint64_t oneHourInMillis = oneMinuteInMillis * 60;
 bool SimulationMachine::canBreak = true;
 
 SimulationMachine::SimulationMachine(const models::Machine &machine) : machinecore::Machine(machine), timeSinceBrokenCheck(0), checkCycle(oneMinuteInMillis), momentOfLastItemProcessed(0) {
+  uint64_t maxNumber = magicNumber + (getMeanTimeBetweenFailureInMillis() / checkCycle);
 
+  // Dit compiled, maar geeft in clion een rode lijn ??
+  breakDistribution = utils::UnsignedUniformDistribution(magicNumber, maxNumber);
+  repairDistribution = utils::NormalDistribution(getReparationTimeInMillis(), getReparationTimeStddevInMillis());
 }
 
 bool SimulationMachine::configure() {
-  generator = std::mt19937(static_cast<uint64_t >(std::clock()));
-
-  uint64_t maxNumber = magicNumber + (getMeanTimeBetweenFailureInMillis() / checkCycle);
-
-  distribution = std::uniform_int_distribution<uint64_t>(magicNumber, maxNumber);
-
   utils::Time::getInstance().increaseCurrentTime(getInitializationDurationInMilliseconds());
   timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
   auto event = std::make_shared<machinestates::Event>(machinestates::kEventTypeConfigured);
@@ -103,7 +101,7 @@ bool SimulationMachine::checkBroken() {
       // Catch up with history
       timeSinceBrokenCheck += checkCycle;
 
-      uint64_t generated = distribution(generator);
+      uint64_t generated = utils::RandomHelper::getRandom(breakDistribution);
 
       if (generated == magicNumber) {
         // It broke, set time since last check to now

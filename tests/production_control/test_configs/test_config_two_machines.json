@@ -3,7 +3,8 @@
   "simulationInfo": {
     "durationInWeeks": 1,
     "startHourOfWorkDay": 9,
-    "workDayDurationInHours": 8
+    "workDayDurationInHours": 8,
+    "local": false
   },
   "productionLine": {
     "name": "TestProduction",

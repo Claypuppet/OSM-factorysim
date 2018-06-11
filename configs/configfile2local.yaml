@@ -4,10 +4,10 @@
 name: Demostraat
 
 simulationInfo:
-  durationInWeeks: 9
+  durationInWeeks: 500
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
-  local: false
+  local: true
 
 productionLine:
   name: Kantoortafels

@@ -7,12 +7,14 @@
 #include <models/Configuration.h>
 #include <utils/time/Time.h>
 #include <utils/TimeHelper.h>
+#include <utils/Logger.h>
 
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
 #include "states_controller/LoadConfigState.h"
 #include "NotificationTypes.h"
 #include "ResultLogger.h"
+#include "SimulationMachineLocal.h"
 
 namespace simulation {
 
@@ -147,24 +149,38 @@ void SimulationController::setConfiguration(const std::string &filePath) {
   const auto &productionLineModel = configuration->getProductionLine();
   application->setProductionLine(productionLineModel);
 
-  const auto &machineModels = productionLineModel->getMachines();
-
-  for (const auto &machineModel : machineModels) {
-    machines.emplace_back(std::make_shared<SimulationMachine>(*machineModel));
+  // Create machine models
+  if(simulationInfo->isLocal()){
+    for (const auto &machineModel : productionLineModel->getMachines()) {
+      auto machine = std::make_shared<SimulationMachineLocal>(*machineModel);
+      machines.emplace_back(machine);
+      application->handleNotificationsFor(*machine);
+    }
+  }
+  else {
+    for (const auto &machineModel : productionLineModel->getMachines()) {
+      machines.emplace_back(std::make_shared<SimulationMachine>(*machineModel));
+    }
   }
 
+  // Set machines on application, this will init the buffers and link the machines etc.
   application->setMachines(machines);
 
-  // If simulation, add sim state event
-  if (true) { //TODO: For now always true till we support non-simulations
-    auto event = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
-    scheduleEvent(event);
-  } else {
-    auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
-    scheduleEvent(e);
-  }
-
+  // Initialize logger for this simulation
   core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
+
+  if (simulationInfo && simulationInfo->isLocal()) {
+    // Local simulation loaded
+    createAndScheduleStateEvent(states::kEventTypeLocalSimulationConfigLoaded);
+  }
+  else if (simulationInfo && !simulationInfo->isLocal()) {
+    // Simulation with remove machine controllers loaded
+    createAndScheduleStateEvent(states::kEventTypeSimulationConfigLoaded);
+  }
+  else{
+    // Production configuration loaded.
+    createAndScheduleStateEvent(states::kEventTypeProductionConfigLoaded);
+  }
 }
 
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
