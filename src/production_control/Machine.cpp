@@ -33,8 +33,7 @@ void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   if (connection && connection->isConnected()) {
     setStatus(kMachineStatusInitializing);
     nextAction = kNextActionTypeIdle; // will be re-set by scheduler when preparing reconfigure
-  }
-  else {
+  } else {
     setStatus(kMachineStatusDisconnected);
   }
 }
@@ -139,7 +138,7 @@ void Machine::createInitialBuffers() {
 }
 
 void Machine::setStatus(Machine::MachineStatus newStatus) {
-  if (newStatus == status){
+  if (newStatus == status) {
     // Already in this state!
     return;
   }
@@ -317,13 +316,15 @@ models::MachineStatisticsPtr Machine::getStatistics() {
   uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
       + timeSpendInState[models::Machine::kMachineStatusInitializing];
   uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
-  auto stats = std::make_shared<models::MachineStatistics>(id,
-                                                           producedProducts,
-                                                           lostProducts,
-                                                           downTime,
-                                                           productionTime,
-                                                           idleTime,
-                                                           configureTime);
+  auto stats = std::make_shared<models::MachineStatistics>(
+      id,
+      producedProducts,
+      lostProducts,
+      downTime,
+      productionTime,
+      idleTime,
+      configureTime
+  );
   timeSpendInState.clear();
   producedProducts.clear();
   lostProducts.clear();
@@ -344,19 +345,19 @@ void Machine::handleBreak() {
 void Machine::handleDoneReconfigure() {
 
   currentConfigId = prepareConfigureId;
-  if(nextAction == kNextActionTypeReconfigure){
+  if (nextAction == kNextActionTypeReconfigure) {
     nextAction = kNextActionTypeProcessProduct;
   }
   ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
 }
 
 bool Machine::isIdle(bool completelyIdle) {
-  if (completelyIdle){
-    if (getCurrentOutputBuffer()->getAmountInBuffer() > 0){
+  if (completelyIdle) {
+    if (getCurrentOutputBuffer()->getAmountInBuffer() > 0) {
       return false;
     }
-    for (const auto &in : getCurrentInputBuffers()){
-      if (in.second->getAmountInBuffer() > 0){
+    for (const auto &in : getCurrentInputBuffers()) {
+      if (in.second->getAmountInBuffer() > 0) {
         return false;
       }
     }

@@ -8,8 +8,8 @@
 
 namespace utils {
 
-const uint64_t hourInMillis = 3600000;
-const uint64_t minuteInMillis = 60000;
+const uint32_t hourInMillis = 3600000;
+const uint16_t minuteInMillis = 60000;
 const uint8_t daysInWeek = 7;
 
 TimeHelper::TimeHelper()
