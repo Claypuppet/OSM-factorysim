@@ -34,10 +34,22 @@ class Logger : public patterns::singleton::Singleton<Logger> {
   static void log(const std::string &message);
 
   /**
+   * Quick method for error logging, calls getInstance and uses the logError
+   * @param message : string to log
+   */
+  static void error(const std::string &message);
+
+  /**
    * the actual log method
    * @param message
    */
   void logMessage(const std::string &message);
+
+  /**
+   * the actual log error method
+   * @param message
+   */
+  void logError(const std::string &message);
 
  private:
 

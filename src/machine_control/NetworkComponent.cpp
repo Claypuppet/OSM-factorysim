@@ -5,6 +5,7 @@
 #include <iostream>
 #include <models/Machine.h>
 #include <utils/time/Time.h>
+#include <utils/Logger.h>
 #include "NetworkComponent.h"
 #include "Application.h"
 
@@ -23,35 +24,33 @@ void NetworkComponent::onConnectionEstablished(network::ConnectionPtr connection
 }
 
 void NetworkComponent::onConnectionDisconnected(network::ConnectionPtr connection,
-												const boost::system::error_code &error) {
+                                                const boost::system::error_code &error) {
 }
 
 void NetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection, network::Message &message) {
   utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
-	case network::Protocol::kAppMessageTypeReconfigure : {
+    case network::Protocol::kAppMessageTypeReconfigure : {
       handleReconfigureMessage(message);
-	  break;
-	}
-	case network::Protocol::kAppMessageTypeStartProcess:
-	  handleProcessProductMessage();
-	  break;
-	default:
-	  break;
+      break;
+    }
+    case network::Protocol::kAppMessageTypeStartProcess:
+      handleProcessProductMessage();
+      break;
+    default:
+      break;
   }
 }
 
 void NetworkComponent::handleProcessProductMessage() {
-  patterns::notifyobserver::NotifyEvent notification(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
+  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeStartProcess);
   notifyObservers(notification);
 }
 
 void NetworkComponent::handleReconfigureMessage(network::Message &message) {
-  auto event =
-	  makeNotifcation(patterns::notifyobserver::NotifyTrigger(), machinecore::NotifyEventType::kNotifyEventTypeConfigure
-	  );
-  event.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
-  notifyObservers(event);
+  auto notification = makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeConfigure);
+  notification.addArgument<uint16_t>(message.getBodyObject<uint16_t>());
+  notifyObservers(notification);
 }
 
 bool NetworkComponent::isConnected() {
@@ -61,7 +60,7 @@ bool NetworkComponent::isConnected() {
 void NetworkComponent::sendMessage(network::Message &message) {
   message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isConnected()) {
-	mConnection->writeMessage(message);
+    mConnection->writeMessage(message);
   }
 }
 

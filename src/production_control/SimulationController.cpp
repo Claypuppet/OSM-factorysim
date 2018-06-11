@@ -1,12 +1,12 @@
 
 #include <cstdint>
 
-#include <cereal/archives/portable_binary.hpp>
 #include <configuration_serializer/ConfigurationReader.h>
 #include <network/Protocol.h>
 #include <utils/CommandLineArguments.h>
 #include <models/Configuration.h>
 #include <utils/time/Time.h>
+#include <utils/TimeHelper.h>
 
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"
@@ -16,68 +16,58 @@
 
 namespace simulation {
 
-// 1 jan 2018 07:00:00:000
-const uint64_t DEFAULT_START_TIME = 1514786400000;
+// monday jan 1st 2018 00:00:00:000
+const uint64_t ABSOLUTE_START_TIME = 1514764800000;
 
 SimulationController::SimulationController() : core::Controller(), simulationEndTimeInMillis(0) {
   application = std::make_shared<SimulationApplication>();
   // Use custom time
-  auto& time = utils::Time::getInstance();
+  auto &time = utils::Time::getInstance();
   time.setType(utils::customTime);
-  time.syncTime(DEFAULT_START_TIME);
+  time.syncTime(ABSOLUTE_START_TIME);
 }
 
 SimulationController::~SimulationController() {
-
   stop();
 }
 
 void SimulationController::handleNotification(const patterns::notifyobserver::NotifyEvent &notification) {
   switch (notification.getEventId()) {
-	case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine: {
-	  handleRegisterMachine(notification);
-	  break;
-	}
-
-	case NotifyEventIds::eSimMachineReady: {
-	  handleMachineReady(notification);
-	  break;
-	}
-
-	default: {
-	  std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+    case NotifyEventIds::SimulationNotificationTypes::eSimRegisterMachine: {
+      handleRegisterMachine(notification);
       break;
-	}
+    }
+    case NotifyEventIds::eSimMachineReady: {
+      handleMachineReady(notification);
+      break;
+    }
+    default: {
+      std::cerr << "unhandled notification with id " << notification.getEventId() << std::endl;
+      break;
+    }
   }
 
 }
 
-void SimulationController::setSimulationEndTime() {
-  uint64_t simulationDurationInHours = configuration->getSimulationInfo()->getDurationInHours();
-  uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
-  this->simulationEndTimeInMillis = currentTime + (simulationDurationInHours * 60 * 60 * 1000); // get millis from hours
-}
-
 bool SimulationController::simulationIsOver() const {
-  uint64_t currentTimeInMillis = utils::Time::getInstance().getCurrentTime();
-  return currentTimeInMillis > simulationEndTimeInMillis;
+  return utils::TimeHelper::getInstance().getCurrentWeek() == configuration->getSimulationInfo()->getDurationInWeeks();
 }
 
 SimulationMachinePtr SimulationController::getSimulationMachine(uint16_t machineId) {
   auto machineItr = std::find_if(
-	  machines.begin(),
-	  machines.end(),
-	  [machineId](const core::MachinePtr &m1) { return m1->getId() == machineId; }
+      machines.begin(),
+      machines.end(),
+      [machineId](const core::MachinePtr &m1) { return m1->getId() == machineId; }
   );
   if (machineItr != machines.end()) {
-	return std::dynamic_pointer_cast<SimulationMachine>(*machineItr);
+    return std::dynamic_pointer_cast<SimulationMachine>(*machineItr);
   }
   return nullptr;
 }
 
 void SimulationController::setupNetwork() {
   if (server && server->isRunning()) {
-	return;
+    return;
   }
 
   simulationcommunication::SimulationConnectionHandler connectionHandler;
@@ -85,7 +75,8 @@ void SimulationController::setupNetwork() {
 
   networkManager.setLocalPort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
   serverThread = networkManager.runServiceThread();
-  server = networkManager.createServer(std::make_shared<simulationcommunication::SimulationConnectionHandler>(connectionHandler), 50);
+  server = networkManager.createServer(std::make_shared<simulationcommunication::SimulationConnectionHandler>(
+      connectionHandler), 50);
   server->start();
 }
 
@@ -109,13 +100,13 @@ void SimulationController::handleMachineReady(const patterns::notifyobserver::No
 
 void SimulationController::execute() {
   if (executing) {
-	return;
+    return;
   }
   executing = true;
   setStartState();
   while (executing) {
-	// Main
-	run();
+    // Main
+    run();
   }
 }
 
@@ -123,7 +114,7 @@ void SimulationController::stop() {
   Controller::stop();
   networkManager.stop();
   if (serverThread && serverThread->joinable()) {
-	serverThread->join();
+    serverThread->join();
   }
 }
 
@@ -134,8 +125,8 @@ void SimulationController::setStartState() {
   // TEMP!!!!? set first config file as event for LoadConfigState
   configPath = utils::CommandLineArguments::i().getArg(0);
   if (configPath.empty()) {
-	// throw exception when no argument is given.
-	throw std::runtime_error("No configuration file argument found!");
+    // throw exception when no argument is given.
+    throw std::runtime_error("No configuration file argument found!");
   }
   auto event = std::make_shared<states::Event>(states::kEventTypeReadConfigFile);
   event->setArgument<std::string>(configPath);
@@ -148,24 +139,29 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 
   configuration = configurationReader.deserialize(filePath);
 
+  auto simulationInfo = configuration->getSimulationInfo();
+
+  utils::TimeHelper::getInstance().initialize(simulationInfo->getStartHourOfWorkDay(),
+                                              simulationInfo->getWorkDayDurationInHours());
+
   const auto &productionLineModel = configuration->getProductionLine();
   application->setProductionLine(productionLineModel);
 
   const auto &machineModels = productionLineModel->getMachines();
 
   for (const auto &machineModel : machineModels) {
-	machines.emplace_back(std::make_shared<SimulationMachine>(*machineModel));
+    machines.emplace_back(std::make_shared<SimulationMachine>(*machineModel));
   }
 
   application->setMachines(machines);
 
   // If simulation, add sim state event
   if (true) { //TODO: For now always true till we support non-simulations
-	auto event = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
-	scheduleEvent(event);
+    auto event = std::make_shared<states::Event>(states::kEventTypeSimulationConfigLoaded);
+    scheduleEvent(event);
   } else {
-	auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
-	scheduleEvent(e);
+    auto e = std::make_shared<states::Event>(states::kEventTypeProductionConfigLoaded);
+    scheduleEvent(e);
   }
 
   core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
@@ -174,17 +170,17 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 void SimulationController::registerMachine(uint16_t machineId, network::ConnectionPtr connection) {
   auto machine = getSimulationMachine(machineId);
   if (machine) {
-	machine->setSimulationConnection(connection);
-	machine->sendSimulationConfiguration();
+    machine->setSimulationConnection(connection);
+    machine->sendSimulationConfiguration();
   }
 }
 
 bool SimulationController::allMachinesReady() {
   for (const auto &machine : machines) {
-	auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
-	if (!simMachine || !simMachine->isReadyForSimulation()) {
-	  return false;
-	}
+    auto simMachine = std::dynamic_pointer_cast<SimulationMachine>(machine);
+    if (!simMachine || !simMachine->isReadyForSimulation()) {
+      return false;
+    }
   }
   return true;
 }
@@ -192,13 +188,13 @@ bool SimulationController::allMachinesReady() {
 void SimulationController::machineReady(uint16_t machineId) {
   auto machine = getSimulationMachine(machineId);
   if (machine) {
-	machine->setReady(true);
+    machine->setReady(true);
 
-	// Add new event if all machines are now connected
-	if (allMachinesReady()) {
-	  auto event = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
-	  scheduleEvent(event);
-	}
+    // Add new event if all machines are now connected
+    if (allMachinesReady()) {
+      auto event = std::make_shared<states::Event>(states::kEventTypeAllMachinesReadyForSimulation);
+      scheduleEvent(event);
+    }
   }
 }
 } // simulation

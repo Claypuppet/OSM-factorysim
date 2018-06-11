@@ -23,6 +23,9 @@ bool Buffer::checkAmountInBuffer(uint32_t amount) {
 }
 
 bool Buffer::checkFreeSpaceInBuffer(uint32_t amount) {
+  if(auto nextMachine = taker.lock()){
+    return nextMachine->getCurrentConfigId() == productId && (maxSize - size()) >= amount;
+  }
   return (maxSize - size()) >= amount;
 }
 

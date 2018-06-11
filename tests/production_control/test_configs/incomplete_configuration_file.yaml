@@ -1,7 +1,7 @@
 ---
-name: TestConfig
+name: IncompleteTestConfig
 simulationInfo:
-  durationInHours: 8760
+  durationInWeeks: 8760
   startHourOfWorkDay: 9
 
 productionLine:

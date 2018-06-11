@@ -29,8 +29,7 @@ class ConnectionHandler :
 
   void onConnectionEstablished(network::ConnectionPtr connection) override;
 
-  void
-  onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
   /**
    * Handles incoming messages

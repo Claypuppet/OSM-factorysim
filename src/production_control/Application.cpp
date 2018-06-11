@@ -6,6 +6,7 @@
 #include <network/Client.h>
 #include <utils/time/Time.h>
 #include <utils/Logger.h>
+#include <utils/TimeHelper.h>
 
 // project file includes
 #include "states_application/BroadCastState.h"
@@ -98,6 +99,12 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
       onHandleRegisterNotification(id, connection);
       break;
     }
+    case NotifyEventIds::eApplicationMachineDisconnected: {
+//      auto time = notification.getArgumentAsType<uint64_t>(0); // Unused at the moment
+      auto id = notification.getArgumentAsType<uint16_t>(1);
+      onHandleMachineDisconnected(id);
+      break;
+    }
 
     case NotifyEventIds::eApplicationOK: {
 //      auto time = notification.getArgumentAsType<uint64_t>(0); // Unused at the moment
@@ -142,6 +149,12 @@ void Application::onHandleRegisterNotification(uint16_t id, const network::Conne
   scheduleEvent(event);
 }
 
+void Application::onHandleMachineDisconnected(uint16_t id) {
+  auto event = createStateEvent(applicationstates::kEventTypeMachineDisconnected);
+  event->addArgument(id);
+  scheduleEvent(event);
+}
+
 void Application::onHandleOKNotification(uint16_t id, models::Machine::MachineStatus status) {
   auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeMachineStatusUpdate);
   event->setArgument(0, id);
@@ -181,12 +194,14 @@ void Application::setStartState() {
   setCurrentState(startState);
 }
 
-bool Application::allMachinesRegistered() {
+bool Application::checkAllMachinesRegistered() {
   for (const auto &machine : machines) {
     if (!machine->isConnected()) {
       return false;
     }
   }
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeAllMachinesRegistered);
+  scheduleEvent(event);
   return true;
 }
 
@@ -195,10 +210,7 @@ void Application::registerMachine(uint16_t machineId, network::ConnectionPtr con
   if (machine) {
     machine->setConnection(connection);
 
-    if (allMachinesRegistered()) {
-      auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeAllMachinesRegistered);
-      scheduleEvent(event);
-    }
+    checkAllMachinesRegistered();
   }
 }
 
@@ -211,22 +223,33 @@ void Application::stopServer() {
 
 void Application::setProductionLine(const models::ProductionLinePtr &productionLine) {
   this->productionLine = productionLine;
+  for (const auto &product : productionLine->getProducts()) {
+    productPorportions[product->getId()] = product->getProportion();
+  }
 }
 
 void Application::executeScheduler() {
-  tryChangeProduction();
+  shouldChangeProduction();
   for (const auto &machine : machines) {
     machine->doNextAction();
   }
 }
 
 void Application::prepareScheduler() {
-  // TODO: make this more dynamic. now sets product with id 1 (default tables)
-  uint16_t configId = 0;
-  if (productionLine && !productionLine->getProducts().empty()) {
-    configId = productionLine->getProducts().front()->getId();
+  auto configId = currentProductId;
+  if (configId == 0) {
+    // First time, all buffers are empty etc. so no problem changing
+    if (productionLine && !productionLine->getProducts().empty()) {
+      configId = productionLine->getProducts().front()->getId();
+    }
+    changeProductionLineProduct(configId);
+    createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
+  } else if (!shouldChangeProduction()) {
+    // Ccontinue producing what we were doing yesterday
+    changeProductionLineProduct(currentProductId);
+    createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
   }
-  changeProductionLineProduct(configId);
+
 }
 
 void Application::changeProductionLineProduct(uint16_t productId) {
@@ -246,19 +269,36 @@ bool Application::setMachineStatus(uint16_t machineId, Machine::MachineStatus st
   return false;
 }
 
-void Application::tryChangeProduction() {
-  // Temp wait at least 4 hours
-  static uint64_t fourHoursInMillis = 14400000;
-  if (utils::Time::getInstance().getCurrentTime() < momentStartingCurrentProduct + fourHoursInMillis) {
-    return;
+bool Application::shouldChangeProduction() {
+  static const uint16_t threeHoursInMinutes = 180;
+  static uint64_t timeSinceLastChange = utils::Time::getInstance().getCurrentTime();
+  // Don't change if not yet 3 hours passed since last change, or if it's < three hours before closing
+  if (timeSinceLastChange + (threeHoursInMinutes * 60000) > utils::Time::getInstance().getCurrentTime() ||
+      utils::TimeHelper::getInstance().isClosingTime(threeHoursInMinutes)) {
+    return false;
   }
-  // Temp switch to next product which is not current product
-  for (auto &product : productionLine->getProducts()) {
-    if (currentProductId != product->getId()) {
-      changeProductionLineProduct(product->getId());
-      break;
+  // Get produced proportions
+  std::map<uint16_t, uint64_t> producedProportions;
+  auto newId = currentProductId;
+  for (const auto &productPorportion : productPorportions) {
+    auto &productId = productPorportion.first;
+    producedProportions[productId] =
+        lastMachineInLine[productId]->getAmountProcessed(productId) / productPorportion.second;
+  }
+  // Check if there is another product which is ~150 products behind
+  for (const auto &producedProportion : producedProportions) {
+    if (producedProportion.second + 150 < producedProportions[newId]) {
+      newId = producedProportion.first;
     }
   }
+  if (currentProductId == newId) {
+    // No change :)
+    return false;
+  }
+  auto event = createStateEvent(applicationstates::kEventTypeProductionChange);
+  event->setArgument(0, newId);
+  scheduleEvent(event);
+  return true;
 }
 
 void Application::takeProductsFromBuffer(uint16_t machineId) {
@@ -331,23 +371,58 @@ void Application::calculateFinalStatistics() {
       avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
     }
 
-    finalStatistics.push_back(models::MachineFinalStatistics(machine->getId(),
-                                                             avgProduced,
-                                                             avgLost,
-                                                             static_cast<uint32_t>(totalDownTime / nStats),
-                                                             static_cast<uint32_t>(totalProductionTime / nStats),
-                                                             static_cast< uint32_t>(totalIdleTime / nStats),
-                                                             static_cast<uint32_t>(totalConfigureTime / nStats),
-                                                             totalProduced,
-                                                             totalLost,
-                                                             machine->getTimesBroken()));
-
+    finalStatistics.emplace_back(
+        machine->getId(),
+        avgProduced,
+        avgLost,
+        static_cast<uint32_t>(totalDownTime / nStats),
+        static_cast<uint32_t>(totalProductionTime / nStats),
+        static_cast< uint32_t>(totalIdleTime / nStats),
+        static_cast<uint32_t>(totalConfigureTime / nStats),
+        totalProduced,
+        totalLost,
+        machine->getTimesBroken()
+    );
   }
 }
 
-void Application::logStatistics() {
+void Application::logFinalStatistics() {
   calculateFinalStatistics();
   ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics);
+}
+
+void Application::prepareForShutdown() {
+  for (const auto &machine : machines) {
+    machine->youreDoneForToday();
+  }
+}
+
+void Application::workDayOver() {
+  // Woohoo!
+}
+
+void Application::checkTimeToStartAgain() {
+  // TODO: flush daily log
+}
+
+bool Application::checkAllMachinesIdle(bool completelyIdle) {
+  for (const auto &machine : machines) {
+    if (!machine->isIdle(completelyIdle)) {
+      return false;
+    }
+  }
+  createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesIdle);
+  return true;
+}
+
+bool Application::checkAllMachinesDisconnected() {
+  for (const auto &machine : machines) {
+    if (machine->isConnected()) {
+      return false;
+    }
+  }
+  createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesDisconnected);
+  return true;
 }
 
 }

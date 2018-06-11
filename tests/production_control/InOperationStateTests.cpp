@@ -6,6 +6,7 @@
 #include "../../src/production_control/Application.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/SimulationController.h"
+#include "../../src/production_control/states_application/in_operation/OperatingState.h"
 
 BOOST_AUTO_TEST_SUITE(InOperationStateTests);
 
@@ -42,7 +43,7 @@ BOOST_AUTO_TEST_CASE(BufferUpdateTest){
   BOOST_CHECK(machine1->getCurrentOutputBuffer()->getAmountInBuffer() == 0);
 
   //Setting the InOperationState
-  app->setCurrentState(std::make_shared<applicationstates::InOperationState>(*app));
+  app->setCurrentState(std::make_shared<applicationstates::OperatingState>(*app));
 
   //Scheduling events for processing a product
   auto event = std::make_shared<applicationstates::Event>(applicationstates::EventType::kEventTypeMachineProductTakenFromBuffer);

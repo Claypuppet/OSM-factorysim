@@ -11,7 +11,9 @@ add_library(lib_utils SHARED
         FileLogger.cpp
         FileLogger.h
         Logger.cpp
-        Logger.h)
+        Logger.h
+        TimeHelper.cpp
+        TimeHelper.h)
 
 target_link_libraries(lib_utils lib_patterns)
 

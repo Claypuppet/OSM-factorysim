@@ -32,7 +32,6 @@ void SimulationNetworkComponent::onConnectionDisconnected(network::ConnectionPtr
 
 void SimulationNetworkComponent::onConnectionMessageReceived(network::ConnectionPtr connection,
                                                              network::Message &message) {
-  utils::Time::getInstance().syncTime(message.getTime());
   switch (message.getMessageType()) {
     case network::Protocol::kSimMessageTypeConfig : {
       auto machineInfo = message.getBodyObject<models::MachinePtr>();
@@ -63,14 +62,12 @@ void SimulationNetworkComponent::onSimulationMachineInfoReceived(models::Machine
 }
 
 void SimulationNetworkComponent::onTurnOffReceived() {
-  auto notification =
-      makeNotifcation(patterns::notifyobserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOffReceived);
+  auto notification = makeNotifcation(ControllerEvents::kNotifyEventTypeTurnOffReceived);
   notifyObservers(notification);
 }
 
 void SimulationNetworkComponent::onTurnOnReceived() {
-  auto notification =
-      makeNotifcation(patterns::notifyobserver::NotifyTrigger(), ControllerEvents::kNotifyEventTypeTurnOnReceived);
+  auto notification = makeNotifcation(ControllerEvents::kNotifyEventTypeTurnOnReceived);
   notifyObservers(notification);
 }
 

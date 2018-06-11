@@ -41,6 +41,18 @@ class Context {
    */
   const StatePtr &getCurrentState() const;
 
+  /**
+   * Create a new event
+   * @param id : id of the event
+   */
+  EventPtr createStateEvent(uint32_t id) const;
+
+  /**
+   * Create a new event and schedule it right away. Handy when creating events without arguments
+   * @param id : id of the event
+   */
+  void createAndScheduleStateEvent(uint32_t id);
+
  protected:
   Context() = default;
 

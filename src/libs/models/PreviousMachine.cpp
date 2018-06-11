@@ -12,6 +12,12 @@ PreviousMachine::PreviousMachine(uint16_t machineId,
     : machineId(machineId),
       neededProducts(neededProducts),
       inputBufferSize(inputBufferSize) {
+  if (neededProducts == 0) {
+    throw std::runtime_error("Machine requires at least one product from PreviousMachine");
+  }
+  if (inputBufferSize > 0 && inputBufferSize < neededProducts) {
+    throw std::runtime_error("PreviousMachine bufferSize is smaller than neededProducts");
+  }
 }
 
 PreviousMachine::PreviousMachine(const models::PreviousMachine &other)
