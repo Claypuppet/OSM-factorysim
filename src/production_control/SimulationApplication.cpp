@@ -136,7 +136,6 @@ bool SimulationApplication::scheduleMachineNotifications() {
 
 void SimulationApplication::workDayOver() {
   Application::workDayOver();
-  debugLogCurrentStats();
 }
 
 void SimulationApplication::checkTimeToStartAgain() {
@@ -147,6 +146,7 @@ void SimulationApplication::checkTimeToStartAgain() {
 
   if (timeHelper.getCurrentWeek() > weekBeforeNextDay) {
     saveMachineStatistics();
+    debugLogCurrentStats();
   }
   createAndScheduleStateEvent(applicationstates::kEventTypeNewWorkDayStarted);
 }

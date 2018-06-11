@@ -17,14 +17,14 @@ const uint64_t magicalNumber = 0;
 SimulationMachineLocal::SimulationMachineLocal(const models::Machine &aMachine)
     : SimulationMachine(aMachine),
       connected(false),
-      timeSinceBrokenCheck(0),
+      timeSinceBrokenCheck(utils::Time::getInstance().getCurrentTime()),
       momentOfLastItemProcessed(0),
       currentConfig()
 {
   // Set distributions
   uint64_t maxNumber = +(getMeanTimeBetweenFailureInMillis() / checkCycle);
   breakDistribution = utils::UnsignedUniformDistribution(magicalNumber, maxNumber);
-  repairDistribution = utils::NormalDistribution(getReparationTimeInMillis(), getReparationTimeStddevInMillis());
+  repairDistribution = utils::NormalDistribution(getReparationTimeInMinutes(), getReparationTimeStddevInMinutes());
 }
 
 bool SimulationMachineLocal::isSimulationConnected() const {
@@ -36,7 +36,9 @@ bool SimulationMachineLocal::isReadyForSimulation() const {
 }
 
 void SimulationMachineLocal::sendTurnOnCommand() {
-  notifyRegisterMachine(utils::Time::getInstance().getCurrentTime());
+  auto currentTime = utils::Time::getInstance().getCurrentTime();
+  notifyRegisterMachine(currentTime);
+  timeSinceBrokenCheck = currentTime;
 }
 
 void SimulationMachineLocal::sendTurnOffCommand() {
@@ -67,7 +69,16 @@ void SimulationMachineLocal::sendStartProcessMessage() {
   }
   else {
     // Not broken
-    notifyProductAddedToBuffer(startTime + currentConfig->getProcessTime());
+    uint64_t timeSpendProcessing = startTime + currentConfig->getProcessTime();
+    if(auto postProcess = getPostProcessInfo()){
+      if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > timeSpendProcessing){
+        timeSpendProcessing += (momentOfLastItemProcessed + postProcess->getInputDelayInMillis()) - timeSpendProcessing;
+      }
+      notifyProductAddedToBuffer(timeSpendProcessing + postProcess->getPostProcessDurationInMillis());
+    }
+    else{
+      notifyProductAddedToBuffer(timeSpendProcessing);
+    }
     notifyOK(startTime + currentConfig->getProcessTime(), kMachineStatusIdle);
   }
 }
@@ -170,7 +181,7 @@ bool SimulationMachineLocal::checkBroken(uint64_t currentTime) {
 }
 
 uint64_t SimulationMachineLocal::calculateRepairTime() {
-  return utils::RandomHelper::getRandom(repairDistribution);
+  return oneMinuteInMillis * utils::RandomHelper::getRandom(repairDistribution);
 }
 
 }
