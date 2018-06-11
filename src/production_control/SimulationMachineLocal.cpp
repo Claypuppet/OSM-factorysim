@@ -40,6 +40,12 @@ void SimulationMachineLocal::setConnection(const network::ConnectionPtr &aConnec
 }
 
 void SimulationMachineLocal::sendStartProcessMessage() {
+  auto startTime = utils::Time::getInstance().getCurrentTime();
+  notifyOK(startTime, kMachineStatusProcessingProduct);
+  notifyProductTakenFromBuffer(startTime);
+  notifyProductAddedToBuffer(startTime + currentConfig->getProcessTime());
+  notifyOK(startTime + currentConfig->getProcessTime(), kMachineStatusIdle);
+
   // TODO: notify app -> state processing
   // TODO: notify app -> taken product from buffer
   // TODO: check broken ?
@@ -55,6 +61,10 @@ void SimulationMachineLocal::sendStartProcessMessage() {
 }
 
 void SimulationMachineLocal::sendConfigureMessage(uint16_t configureId) {
+  auto startTime = utils::Time::getInstance().getCurrentTime();
+  notifyOK(startTime, kMachineStatusConfiguring);
+  notifyOK(startTime, kMachineStatusIdle);
+  currentConfig = getConfigurationById(configureId);
   // TODO: notify app -> configuring
   // TODO: check broken ?
 
@@ -63,7 +73,7 @@ void SimulationMachineLocal::sendConfigureMessage(uint16_t configureId) {
   // TODO: notify app -> state configuring
   // TODO: notify app -> state idle
 
-  // Not borken
+  // Not broken
   // TODO: notify app -> state idle
 }
 

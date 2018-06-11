@@ -7,6 +7,7 @@
 #include <models/Configuration.h>
 #include <utils/time/Time.h>
 #include <utils/TimeHelper.h>
+#include <utils/Logger.h>
 
 #include "SimulationController.h"
 #include "SimulationConnectionHandler.h"

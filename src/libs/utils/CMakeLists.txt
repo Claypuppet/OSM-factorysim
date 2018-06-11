@@ -13,7 +13,9 @@ add_library(lib_utils SHARED
         Logger.cpp
         Logger.h
         TimeHelper.cpp
-        TimeHelper.h)
+        TimeHelper.h
+        RandomHelper.cpp
+        RandomHelper.h)
 
 target_link_libraries(lib_utils lib_patterns)
 

@@ -33,6 +33,12 @@ class SimulationMachineLocal : public SimulationMachine, public patterns::notify
   void notifyRegisterMachine(uint64_t time);
 
   /**
+   * Notify application of machine disconnected event
+   * @param time : time this event happens
+   */
+  void notifyMachineDisconnected(uint64_t time);
+
+  /**
    * Notify application of a status update event
    * @param time : time this event happens
    * @param status : the new status
@@ -58,8 +64,9 @@ class SimulationMachineLocal : public SimulationMachine, public patterns::notify
    */
   void notifyProductTakenFromBuffer(uint64_t time);
 
+  // To keep track if its  "connected"  or not
   bool connected;
-  void notifyMachineDisconnected(uint64_t time);
+  models::MachineConfigurationPtr currentConfig;
 };
 
 }

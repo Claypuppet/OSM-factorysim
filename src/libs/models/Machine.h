@@ -127,9 +127,10 @@ class Machine {
   uint16_t getReparationTimeInMinutes() const;
   uint32_t getReparationTimeInMillis() const;
   uint16_t getReparationTimeStddevInMinutes() const;
+  uint32_t getReparationTimeStddevInMillis() const;
   uint16_t getInitializationDurationInSeconds() const;
   uint32_t getInitializationDurationInMilliseconds() const;
-  const std::shared_ptr<PostProcessInfo> getPostProcessInfo() const;
+  const PostProcessInfoPtr getPostProcessInfo() const;
 
  protected:
   uint16_t id;
