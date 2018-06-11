@@ -223,7 +223,7 @@ void Application::stopServer() {
 
 void Application::setProductionLine(const models::ProductionLinePtr &productionLine) {
   this->productionLine = productionLine;
-  for(const auto &product : productionLine->getProducts()){
+  for (const auto &product : productionLine->getProducts()) {
     productPorportions[product->getId()] = product->getProportion();
   }
 }
@@ -244,8 +244,7 @@ void Application::prepareScheduler() {
     }
     changeProductionLineProduct(configId);
     createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
-  }
-  else if (!shouldChangeProduction()) {
+  } else if (!shouldChangeProduction()) {
     // Ccontinue producing what we were doing yesterday
     changeProductionLineProduct(currentProductId);
     createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
@@ -274,21 +273,21 @@ bool Application::shouldChangeProduction() {
   static const uint16_t threeHoursInMinutes = 180;
   static uint64_t timeSinceLastChange = utils::Time::getInstance().getCurrentTime();
   // Don't change if not yet 3 hours passed since last change, or if it's < three hours before closing
-  if(timeSinceLastChange + (threeHoursInMinutes * 60000) > utils::Time::getInstance().getCurrentTime() ||
-      utils::TimeHelper::getInstance().isClosingTime(threeHoursInMinutes))
-  {
+  if (timeSinceLastChange + (threeHoursInMinutes * 60000) > utils::Time::getInstance().getCurrentTime() ||
+      utils::TimeHelper::getInstance().isClosingTime(threeHoursInMinutes)) {
     return false;
   }
   // Get produced proportions
   std::map<uint16_t, uint64_t> producedProportions;
   auto newId = currentProductId;
   for (const auto &productPorportion : productPorportions) {
-    auto& productId = productPorportion.first;
-    producedProportions[productId] = lastMachineInLine[productId]->getAmountProcessed(productId) / productPorportion.second;
+    auto &productId = productPorportion.first;
+    producedProportions[productId] =
+        lastMachineInLine[productId]->getAmountProcessed(productId) / productPorportion.second;
   }
   // Check if there is another product which is ~150 products behind
   for (const auto &producedProportion : producedProportions) {
-    if (producedProportion.second + 150 < producedProportions[newId]){
+    if (producedProportion.second + 150 < producedProportions[newId]) {
       newId = producedProportion.first;
     }
   }
@@ -372,17 +371,18 @@ void Application::calculateFinalStatistics() {
       avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
     }
 
-    finalStatistics.emplace_back(machine->getId(),
-                                 avgProduced,
-                                 avgLost,
-                                 static_cast<uint32_t>(totalDownTime / nStats),
-                                 static_cast<uint32_t>(totalProductionTime / nStats),
-                                 static_cast< uint32_t>(totalIdleTime / nStats),
-                                 static_cast<uint32_t>(totalConfigureTime / nStats),
-                                 totalProduced,
-                                 totalLost,
-                                 machine->getTimesBroken());
-
+    finalStatistics.emplace_back(
+        machine->getId(),
+        avgProduced,
+        avgLost,
+        static_cast<uint32_t>(totalDownTime / nStats),
+        static_cast<uint32_t>(totalProductionTime / nStats),
+        static_cast< uint32_t>(totalIdleTime / nStats),
+        static_cast<uint32_t>(totalConfigureTime / nStats),
+        totalProduced,
+        totalLost,
+        machine->getTimesBroken()
+    );
   }
 }
 
@@ -398,13 +398,14 @@ void Application::prepareForShutdown() {
 }
 
 void Application::workDayOver() {
+  // Woohoo!
 }
 
 void Application::checkTimeToStartAgain() {
   // TODO: flush daily log
 }
 
-bool Application::checkAllMachinesIdle(bool completelyIdle /* false */) {
+bool Application::checkAllMachinesIdle(bool completelyIdle) {
   for (const auto &machine : machines) {
     if (!machine->isIdle(completelyIdle)) {
       return false;

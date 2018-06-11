@@ -344,7 +344,9 @@ void Machine::handleBreak() {
 void Machine::handleDoneReconfigure() {
 
   currentConfigId = prepareConfigureId;
-  nextAction = kNextActionTypeProcessProduct;
+  if(nextAction == kNextActionTypeReconfigure){
+    nextAction = kNextActionTypeProcessProduct;
+  }
   ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
 }
 

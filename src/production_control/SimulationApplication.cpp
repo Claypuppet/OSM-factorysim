@@ -8,12 +8,13 @@
 #include "SimulationApplication.h"
 #include "states_application/WaitForConnectionsState.h"
 #include "NotificationTypes.h"
+#include "states_application/in_operation/PrepareShutdownState.h"
 
 namespace simulation {
 
 static const uint64_t eightHoursInMillis = 28800000;
 
-SimulationApplication::SimulationApplication() : canScheduleNotifications(false), simulationMachines(){
+SimulationApplication::SimulationApplication() : canScheduleNotifications(false), simulationMachines() {
 
 }
 
@@ -64,7 +65,9 @@ void SimulationApplication::handleNotification(const patterns::notifyobserver::N
 
 SimulationMachinePtr SimulationApplication::getSimulationMachine(uint16_t machineId) {
   auto machineItr = std::find_if(simulationMachines.begin(), simulationMachines.end(),
-                                 [machineId](const SimulationMachinePtr &machine){return machine->getId() == machineId;});
+                                 [machineId](const SimulationMachinePtr &machine) {
+                                   return machine->getId() == machineId;
+                                 });
   return (simulationMachines.end() == machineItr) ? nullptr : *machineItr;
 }
 
@@ -76,16 +79,12 @@ void SimulationApplication::executeScheduler() {
     }
   }
 
-  if(canScheduleNotifications && scheduleMachineNotifications()){
+  if (canScheduleNotifications && scheduleMachineNotifications()) {
     return;
   }
   Application::executeScheduler();
 
   canScheduleNotifications = true;
-
-  if (utils::TimeHelper::getInstance().isClosingTime()) {
-    createAndScheduleStateEvent(applicationstates::kEventTypeWorkDayOver);
-  }
 }
 
 const std::vector<SimulationMachinePtr> &SimulationApplication::getSimulationMachines() const {
@@ -105,13 +104,21 @@ bool SimulationApplication::scheduleMachineNotifications() {
   }
 
   // Make sure we dont go over next work day hours
-  if (foundEvents && nextLowestTime > utils::TimeHelper::getInstance().getStartOfNextWorkDay()){
+  if (foundEvents && nextLowestTime > utils::TimeHelper::getInstance().getStartOfNextWorkDay()) {
     // for now schedule all disconnected event so shutdown can continue
     return false;
   }
 
   if (foundEvents) {
     utils::Time::getInstance().syncTime(nextLowestTime);
+
+    // Check if closing time.
+    if (!std::dynamic_pointer_cast<applicationstates::PrepareShutdownState>(currentState)
+        && utils::TimeHelper::getInstance().isClosingTime()) {
+      createAndScheduleStateEvent(applicationstates::kEventTypeWorkDayOver);
+      return true;
+    }
+
     std::vector<patterns::notifyobserver::NotifyEvent> delayedNotifications;
     for (const auto &machine : simulationMachines) {
       // Get events for this machine on lowest time
@@ -138,7 +145,7 @@ void SimulationApplication::checkTimeToStartAgain() {
   auto weekBeforeNextDay = timeHelper.getCurrentWeek();
   timeHelper.goToNextWorkDay();
 
-  if (timeHelper.getCurrentWeek() > weekBeforeNextDay){
+  if (timeHelper.getCurrentWeek() > weekBeforeNextDay) {
     saveMachineStatistics();
   }
   createAndScheduleStateEvent(applicationstates::kEventTypeNewWorkDayStarted);

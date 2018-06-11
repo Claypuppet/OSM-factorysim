@@ -22,7 +22,7 @@ productionLine:
   - id: 1
     name: Tafelbladmaker
     initializationDurationInSeconds: 300
-    meanTimeBetweenFailureInHours: 50
+    meanTimeBetweenFailureInHours: 20
     reparationTimeInMinutes: 600
     reparationTimeStddevInMinutes: 1
     postProcessInfo:

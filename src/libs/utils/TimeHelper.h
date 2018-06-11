@@ -45,7 +45,7 @@ class TimeHelper : public patterns::singleton::Singleton<TimeHelper> {
    * @param finishUpMinutes : time in minutes as slack before workday finish. default 0
    * @return : true if the work day is over
    */
-  bool isClosingTime(uint16_t finishUpMinutes = 5) const;
+  bool isClosingTime(uint16_t finishUpMinutes = 0) const;
 
  private:
   friend patterns::singleton::Singleton<TimeHelper>;
