@@ -3,13 +3,28 @@
 //
 
 #include <utils/time/Time.h>
+#include <utils/RandomHelper.h>
+
 #include "SimulationMachineLocal.h"
 #include "NotificationTypes.h"
 
 namespace simulation {
 
+const uint16_t oneMinuteInMillis = 60000;
+const uint16_t checkCycle = oneMinuteInMillis;
+const uint64_t magicalNumber = 0;
+
 SimulationMachineLocal::SimulationMachineLocal(const models::Machine &aMachine)
-    : SimulationMachine(aMachine), connected(false) {
+    : SimulationMachine(aMachine),
+      connected(false),
+      timeSinceBrokenCheck(0),
+      momentOfLastItemProcessed(0),
+      currentConfig()
+{
+  // Set distributions
+  uint64_t maxNumber = +(getMeanTimeBetweenFailureInMillis() / checkCycle);
+  breakDistribution = utils::UnsignedUniformDistribution(magicalNumber, maxNumber);
+  repairDistribution = utils::NormalDistribution(getReparationTimeInMillis(), getReparationTimeStddevInMillis());
 }
 
 bool SimulationMachineLocal::isSimulationConnected() const {

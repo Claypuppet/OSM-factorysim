@@ -19,6 +19,8 @@ add_library(source_lib_app_production SHARED
         SimulationController.h
         SimulationMachine.cpp
         SimulationMachine.h
+        SimulationMachineLocal.cpp
+        SimulationMachineLocal.h
         SimulationApplication.cpp
         SimulationApplication.h
         Controller.cpp
@@ -54,7 +56,7 @@ add_library(source_lib_app_production SHARED
         states_application/in_operation/PreChangeState.cpp
         states_application/in_operation/PreChangeState.h
         states_application/in_operation/OperatingState.cpp
-        states_application/in_operation/OperatingState.h SimulationMachineLocal.cpp SimulationMachineLocal.h)
+        states_application/in_operation/OperatingState.h)
 
 # Link to libs
 target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer)

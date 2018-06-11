@@ -5,6 +5,8 @@
 #ifndef PRODUCTION_LINE_CONTROL_SIMULATIONMACHINELOCAL_H
 #define PRODUCTION_LINE_CONTROL_SIMULATIONMACHINELOCAL_H
 
+#include <utils/RandomHelper.h>
+
 #include "SimulationMachine.h"
 
 namespace simulation {
@@ -69,6 +71,12 @@ class SimulationMachineLocal : public SimulationMachine, public patterns::notify
 
   // To keep track if its  "connected"  or not
   bool connected;
+
+  // To simulate a machine
+  utils::UnsignedUniformDistribution breakDistribution;
+  utils::NormalDistribution repairDistribution;
+  uint64_t timeSinceBrokenCheck;
+  uint64_t momentOfLastItemProcessed;
   models::MachineConfigurationPtr currentConfig;
 };
 

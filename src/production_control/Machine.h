@@ -46,28 +46,28 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
 
   virtual ~Machine() = default;
 
-  virtual /**
+  /**
   * A function to check if a connection is established with the machine
   * @return True if theres a connection establised with the machine
   */
-  bool isConnected() const;
+  virtual bool isConnected() const;
 
-  virtual /**
+  /**
   * A function that sets the connection with this machine
   * @param aConnection : The connection with this machine
   */
-  void setConnection(const network::ConnectionPtr &aConnection);
+  virtual void setConnection(const network::ConnectionPtr &aConnection);
 
-  virtual /**
+  /**
    * Sends a message to the machine to start processing a product
    */
-  void sendStartProcessMessage();
+  virtual void sendStartProcessMessage();
 
-  virtual /**
+  /**
    * Send message to machine to (re)configure.
    * @param configureId : configuration id
    */
-  void sendConfigureMessage(uint16_t configureId);
+  virtual void sendConfigureMessage(uint16_t configureId);
 
   /**
    * Next action will be reconfigure
