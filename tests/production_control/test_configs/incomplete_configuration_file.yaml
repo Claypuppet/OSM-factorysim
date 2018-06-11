@@ -3,6 +3,7 @@ name: IncompleteTestConfig
 simulationInfo:
   durationInWeeks: 8760
   startHourOfWorkDay: 9
+  local: false
 
 productionLine:
   name: TestProduction

@@ -30,6 +30,11 @@ bool LoadConfigState::handleEvent(const EventPtr &event) {
 	  context.setCurrentState(std::make_shared<OperationState>(context));
 	  return true;
 
+	case kEventTypeLocalSimulationConfigLoaded:
+	  utils::Logger::log("-Handle event: kEventTypeLocalSimulationConfigLoaded");
+	  context.setCurrentState(std::make_shared<OperationState>(context));
+	  return true;
+
 	default:
 	  return ControllerState::handleEvent(event);
   }
