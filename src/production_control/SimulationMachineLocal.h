@@ -9,6 +9,9 @@
 
 namespace simulation {
 
+/**
+ * A simulation machine that also simulates the network connection to the remote "simulation" machine control.
+ */
 class SimulationMachineLocal : public SimulationMachine, public patterns::notifyobserver::Notifier{
  public:
   explicit SimulationMachineLocal(const models::Machine &aMachine);
