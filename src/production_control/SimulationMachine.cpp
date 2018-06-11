@@ -41,6 +41,13 @@ void SimulationMachine::sendTurnOnCommand() {
   network::Message message(network::Protocol::kSimMessageTypeTurnOn);
   sendSimulationMessage(message);
   awaitingSimulationResponse = false;
+
+  // Clear in process queue (needs fix! bugsies!). missed place in buffer event?? ??
+  while (!productInProcess.empty()){
+    placeProductsInOutputBuffer();
+  }
+  std::queue<patterns::notifyobserver::NotifyEvent> empty;
+  std::swap(simulationBufferEvents, empty);
 }
 
 void SimulationMachine::sendTurnOffCommand() {
