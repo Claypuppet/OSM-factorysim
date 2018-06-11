@@ -9,10 +9,9 @@ MachineConfiguration::MachineConfiguration(uint16_t productId,
       outputEachMinute(outputEachMinute),
       previousMachines(previousMachines) {
 
-  if (previousMachines.size() == 0) {
+  if (previousMachines.empty()) {
     throw std::runtime_error("MachineConfiguration has no PreviousMachines configured");
   }
-
 }
 
 MachineConfiguration::MachineConfiguration(const MachineConfiguration &other)

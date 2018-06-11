@@ -13,6 +13,7 @@
 #include <patterns/notifyobserver/Notifier.hpp>
 #include <yaml-cpp/exceptions.h>
 #include <utils/time/Time.h>
+#include <utils/TimeHelper.h>
 
 #include "../test_helpers/MockNetwork.h"
 
@@ -48,21 +49,56 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithE
 
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithTime) {
   simulation::SimulationController controller;
-  utils::Time::getInstance().setType(utils::customTime);
+  auto &time = utils::Time::getInstance();
+  auto &timeHelper = utils::TimeHelper::getInstance();
+  time.setType(utils::customTime);
+
+  // 1 jan 2018, 00:00
+  uint64_t appCurrentTime = 1514764800000;
+  uint32_t hourInMillis = 3600000;
+  uint8_t startHour = 9;
+  uint8_t hoursInDay = 24;
+
+  time.syncTime(appCurrentTime);
 
   BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
-
   controller.setCurrentState(std::make_shared<states::OperationState>(controller));
 
-  uint64_t totalSimulationTime = (uint64_t)8760 * 60 * 60 * 1000; // total simulation time
-  uint64_t simulationNotOverTime = totalSimulationTime - 10; // get timestamp just under the total time
-  utils::Time::getInstance().syncTime(simulationNotOverTime); // set this time
+  appCurrentTime += (hourInMillis * startHour);
   controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+
+  timeHelper.goToNextWorkDay();  // Go to tuesday
+  appCurrentTime += (hourInMillis * hoursInDay);
+  controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+
+  timeHelper.goToNextWorkDay();  // Go to wednesday
+  appCurrentTime += (hourInMillis * hoursInDay);
+  controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+
+  timeHelper.goToNextWorkDay();  // Go to thursday
+  appCurrentTime += (hourInMillis * hoursInDay);
+  controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+
+  timeHelper.goToNextWorkDay();  // Go to friday
+  appCurrentTime += (hourInMillis * hoursInDay);
+  controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+  BOOST_CHECK_EQUAL(timeHelper.getCurrentWeek(), 0); // Week 0
+
+  // Should still be operating
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::OperationState>(controller.getCurrentState()), true);
 
-  uint64_t millisToLetSimulationGetOverTime = 20;
-  utils::Time::getInstance().increaseCurrentTime(millisToLetSimulationGetOverTime);
+  timeHelper.goToNextWorkDay();
+  appCurrentTime += ((hourInMillis * hoursInDay) * 3); // Weekend!
   controller.run();
+  BOOST_CHECK_EQUAL(time.getCurrentTime(), appCurrentTime);
+  BOOST_CHECK_EQUAL(timeHelper.getCurrentWeek(), 1); // Week 1!
+
+  // test config runs for 1 week, so it should be done now
   BOOST_CHECK_EQUAL(!!std::dynamic_pointer_cast<states::FinishedOperationState>(controller.getCurrentState()), true);
 }
 

@@ -88,6 +88,10 @@ class SimulationMachine : public core::Machine {
   bool isWaitingForSimulationResponse() const;
   bool isWaitingForResponse() override;
 
+ protected:
+
+  void handleBreak() override;
+
  private:
   /**
   * A function to send a message to this machine

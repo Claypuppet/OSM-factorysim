@@ -47,12 +47,12 @@ class SimulationInfo {
    */
   SimulationInfo &operator=(const SimulationInfo &other);
 
-  uint16_t getDurationInHours() const;
+  uint16_t getDurationInWeeks() const;
   uint8_t getStartHourOfWorkDay() const;
   uint8_t getWorkDayDurationInHours() const;
 
  private:
-  uint16_t durationInHours;
+  uint16_t durationInWeeks;
   uint8_t startHourOfWorkDay;
   uint8_t workDayDurationInHours;
 
@@ -63,7 +63,7 @@ class SimulationInfo {
    */
   template<class Archive>
   void serialize(Archive &ar) {
-	ar(durationInHours,
+	ar(durationInWeeks,
        startHourOfWorkDay,
        workDayDurationInHours);
   }

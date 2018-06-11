@@ -55,11 +55,30 @@ class SimulationApplication : public core::Application {
   /**
    * Log statistics of the current operation
    */
-  void logStatistics() const;
+  void debugLogCurrentStats();
 
-  // Overrides
+  /**
+   * Keeps specific notifications separate in machine, for later scheduling
+   * @param notification : notification that arrived
+   */
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
+
+  /**
+   * Applies delayed notifications and executes the scheduler
+   */
   void executeScheduler() override;
+
+  /**
+   * also turns off the simulation machines
+   */
+  void workDayOver() override;
+
+  /**
+   * will finialize day log and move on to next day
+   */
+  void checkTimeToStartAgain() override;
+
+  bool checkAllMachinesDisconnected() override;
 
  private:
   bool canScheduleNotifications;

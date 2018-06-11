@@ -17,6 +17,8 @@ Application::Application(uint16_t aMachineId)
       id(aMachineId),
       configToSet(0),
       connectionHandler(std::make_shared<Communication::NetworkComponent>()) {
+  handleNotificationsFor(*connectionHandler);
+  clientThread = manager.runServiceThread();
 }
 
 Application::~Application() {
@@ -90,20 +92,27 @@ void Application::setStartState() {
   setCurrentState(std::make_shared<applicationstates::ConnectState>(*this));
 }
 
+void Application::stopClient() {
+  manager.stopClient();
+  client = nullptr;
+}
+
 void Application::stop() {
   // Stop the manager
   manager.stop();
+  currentState = nullptr;
 
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
     clientThread->join();
   }
+  client = nullptr;
 }
 
 void Application::setupNetwork() {
-  clientThread = manager.runServiceThread();
-
-  handleNotificationsFor(*connectionHandler);
+  if(client && client->isRunning()){
+    return;
+  }
 
   // Because someone forgot to implement the find PC in the application, hardcoded here
   const auto &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");

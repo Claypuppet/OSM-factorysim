@@ -5,29 +5,28 @@ namespace models {
 SimulationInfo::SimulationInfo(uint16_t durationInHours,
                                uint8_t startHourOfWorkDay,
                                uint8_t workDayDurationInHours)
-    : durationInHours(durationInHours),
+    : durationInWeeks(durationInHours),
       startHourOfWorkDay(startHourOfWorkDay),
       workDayDurationInHours(workDayDurationInHours) {
 }
 
 SimulationInfo::SimulationInfo(const SimulationInfo &other)
-	: durationInHours(other.durationInHours),
+	: durationInWeeks(other.durationInWeeks),
       startHourOfWorkDay(other.startHourOfWorkDay),
       workDayDurationInHours(other.workDayDurationInHours) {
 }
 
 SimulationInfo &SimulationInfo::operator=(const SimulationInfo &other) {
   if (this != &other) {
-	durationInHours = durationInHours;
-    startHourOfWorkDay = startHourOfWorkDay;
-    workDayDurationInHours = workDayDurationInHours;
+	durationInWeeks = other.durationInWeeks;
+    startHourOfWorkDay = other.startHourOfWorkDay;
+    workDayDurationInHours = other.workDayDurationInHours;
   }
-
   return *this;
 }
 
-uint16_t SimulationInfo::getDurationInHours() const {
-  return durationInHours;
+uint16_t SimulationInfo::getDurationInWeeks() const {
+  return durationInWeeks;
 }
 
 uint8_t SimulationInfo::getStartHourOfWorkDay() const {

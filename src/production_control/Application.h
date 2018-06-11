@@ -64,7 +64,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   /**
    * Check if all machines are ready
    */
-  bool allMachinesRegistered();
+  bool checkAllMachinesRegistered();
 
   /**
    * set the connection of a machine by a specific machineId
@@ -82,6 +82,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   /**
    * Executes the scheduler. Checks if a machine can process a product.
+   * @param preparingShutdown : true if preparing to shutdown, changes the functionality of the scheduler
    */
   virtual void executeScheduler();
 
@@ -127,7 +128,35 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   /**
    * Logs statistics of a simulation to a result file
    */
-  void logStatistics();
+  void logFinalStatistics();
+
+  /**
+   * Called by the prepare shutdown state to stop all machines
+   */
+  virtual void prepareForShutdown();
+
+  /**
+   * Called by the shutdown state to let the application know the work day is over.
+   */
+  virtual void workDayOver();
+
+  /**
+   * Called by the shutdown state to let the application know that all machines are shutdown.
+   */
+  virtual void checkTimeToStartAgain();
+
+  /**
+   * Check if all machines are idle
+   * @param completelyIdle : Checks not only if state is idle, but also if input / output buffer is empty. default false
+   * @return : True if all connected machines are in the idle state
+   */
+  bool checkAllMachinesIdle(bool completelyIdle = false);
+
+  /**
+   * Check if all machines are disconnected. used by shutdown state
+   * @return : True if all connected machines are disconnected
+   */
+  virtual bool checkAllMachinesDisconnected();
 
  protected:
 
@@ -139,7 +168,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   /**
    * Checks if we need to change production, if so, prepare change.
    */
-  void tryChangeProduction();
+  bool shouldChangeProduction();
 
   /**
    * Handle register notification
@@ -177,9 +206,10 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
 
-  uint16_t currentProductId;
-  uint64_t momentStartingCurrentProduct;
+  uint16_t currentProductId{};
+  uint64_t momentStartingCurrentProduct{};
 
+  std::map<uint16_t, uint16_t> productPorportions;
   std::map<uint16_t, MachinePtr> lastMachineInLine;
   std::map<uint16_t, std::vector<MachinePtr>> firstMachinesInLine;
 
@@ -193,6 +223,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> machineStatistics;
 
   std::vector<models::MachineFinalStatistics> finalStatistics;
+  void onHandleMachineDisconnected(uint16_t id);
 };
 
 typedef std::shared_ptr<Application> ApplicationPtr;

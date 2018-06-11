@@ -5,6 +5,7 @@
  *      Author: Vuurvlieg
  */
 
+#include <thread>
 #include "Connection.h"
 
 namespace network {
@@ -31,6 +32,7 @@ void Connection::readMessage() {
   boost::asio::async_read(mSocket, boost::asio::buffer((void *) &mRecvMsg.mHeader, sizeof(Message::MessageHeader)),
 						  [this, self](const error_code &error, size_t bytes_transferred) {
 							this->handleHeaderRead(error, bytes_transferred);
+							std::this_thread::yield();
 						  });
 }
 

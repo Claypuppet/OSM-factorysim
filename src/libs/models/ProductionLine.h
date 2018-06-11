@@ -79,15 +79,6 @@ class ProductionLine {
   std::vector<ProductPtr> products;
   std::vector<MachinePtr> machines;
 
-  /**
-   * A function to save a ProductionLine object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(name, products, machines);
-  }
 
   /**
    * A function to serialize a ProductionLine object from an archive

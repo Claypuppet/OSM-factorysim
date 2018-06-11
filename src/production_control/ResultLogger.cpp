@@ -80,7 +80,7 @@ void ResultLogger::logStatistics(
   logTimeStampStatistics(timeStampStatistics);
   logFinalStatistics(finalStats);
   logger.logToFile("}");
-
+  logger.flushLoggers();
 }
 
 void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,

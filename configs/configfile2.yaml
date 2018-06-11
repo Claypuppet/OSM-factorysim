@@ -4,7 +4,7 @@
 name: Demostraat
 
 simulationInfo:
-  durationInHours: 9
+  durationInWeeks: 9
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 
@@ -23,7 +23,7 @@ productionLine:
     name: Tafelbladmaker
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 50
-    reparationTimeInMinutes: 60
+    reparationTimeInMinutes: 600
     reparationTimeStddevInMinutes: 1
     postProcessInfo:
       inputDelayInSeconds: 120

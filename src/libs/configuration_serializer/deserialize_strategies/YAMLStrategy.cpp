@@ -1,4 +1,5 @@
 
+#include <utils/Logger.h>
 #include "YAMLStrategy.h"
 
 namespace configurationserializer {
@@ -14,13 +15,12 @@ const std::shared_ptr<models::Configuration> YAMLStrategy::deserialize(const std
     return deserializeConfiguration(yamlFileNode);
 
   } catch (const YAML::Exception &exception) {
-
-    std::cerr << "YAML Exception: " << exception.what() << std::endl;
+    utils::Logger::error(exception.what());
     throw exception;
 
   } catch (const std::exception &exception) {
 
-    std::cerr << exception.what() << std::endl;
+    utils::Logger::error(exception.what());
     throw exception;
 
   }
@@ -39,11 +39,11 @@ const std::shared_ptr<models::Configuration> YAMLStrategy::deserializeConfigurat
 }
 
 const std::shared_ptr<models::SimulationInfo> YAMLStrategy::deserializeSimulationInfo(YAML::Node &simulationInfoYAMLNode) const {
-  auto durationInHours = simulationInfoYAMLNode["durationInHours"].as<uint16_t>();
+  auto durationInWeeks = simulationInfoYAMLNode["durationInWeeks"].as<uint16_t>();
   auto startHourOfWorkDay = simulationInfoYAMLNode["startHourOfWorkDay"].as<uint16_t>();
   auto workDayDurationInHours = simulationInfoYAMLNode["workDayDurationInHours"].as<uint16_t>();
 
-  return std::make_shared<models::SimulationInfo>(durationInHours, startHourOfWorkDay, workDayDurationInHours);
+  return std::make_shared<models::SimulationInfo>(durationInWeeks, startHourOfWorkDay, workDayDurationInHours);
 }
 
 const std::shared_ptr<models::ProductionLine> YAMLStrategy::deserializeProductionLine(YAML::Node &productionLineYAMLNode) const {

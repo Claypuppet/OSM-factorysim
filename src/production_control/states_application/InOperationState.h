@@ -6,18 +6,17 @@
 
 namespace applicationstates {
 
+/**
+ * the operation state, where products are produced!
+ */
 class InOperationState : public ApplicationState {
  public:
-  InOperationState(core::Application &context);
   virtual ~InOperationState() = default;
-
-  void entryAction() override;
   void doActivity() override;
-  void exitAction() override;
-
   bool handleEvent(const applicationstates::EventPtr &event) override;
 
- private:
+ protected:
+  InOperationState(core::Application &context);
 
   /**
    * Function to execute when a machineStatusUpdate event is received.
@@ -36,6 +35,18 @@ class InOperationState : public ApplicationState {
    * @param event
    */
   void onMachineProductAdded(const EventPtr &event);
+
+  /**
+   * Function to execute when a machineDisconnected event is received
+   * @param event
+   */
+  void onMachineDisconnected(const EventPtr &event);
+
+  /**
+   * Function to execute when a work day over event is received
+   * @param event
+   */
+  void onWorkDayOver();
 };
 
 }

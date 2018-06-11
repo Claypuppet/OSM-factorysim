@@ -40,11 +40,14 @@ void SimulationMachine::sendSimulationConfiguration() {
 void SimulationMachine::sendTurnOnCommand() {
   network::Message message(network::Protocol::kSimMessageTypeTurnOn);
   sendSimulationMessage(message);
+  awaitingSimulationResponse = false;
 }
 
 void SimulationMachine::sendTurnOffCommand() {
   network::Message message(network::Protocol::kSimMessageTypeTurnOff);
   sendSimulationMessage(message);
+  setStatus(kMachineStatusDisconnected);
+  awaitingSimulationResponse = false;
 }
 
 bool SimulationMachine::isReadyForSimulation() const {
@@ -114,6 +117,13 @@ bool SimulationMachine::isWaitingForSimulationResponse() const {
 bool SimulationMachine::isWaitingForResponse() {
   std::lock_guard<std::mutex> guard(eventPusher);
   return Machine::isWaitingForResponse() && awaitingSimulationResponse;
+}
+
+void SimulationMachine::handleBreak() {
+  Machine::handleBreak();
+  // Machine broke, so clear all buffer events
+  std::queue<patterns::notifyobserver::NotifyEvent> empty;
+  std::swap(simulationBufferEvents, empty);
 }
 
 } // simulation

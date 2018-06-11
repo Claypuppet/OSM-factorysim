@@ -1,7 +1,7 @@
 ---
 name: TestConfig2Machines
 simulationInfo:
-  durationInHours: 8760
+  durationInWeeks: 1
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 

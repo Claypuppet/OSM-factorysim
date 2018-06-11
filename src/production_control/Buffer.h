@@ -41,7 +41,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   virtual bool checkAmountInBuffer(uint32_t amount);
 
   /**
-   * checks if given amount can be placed in buffer
+   * checks if given amount can be placed in buffer and the buffer is currently active
    * @param amount : amount to check
    * @return : true if its possible
    */

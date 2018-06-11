@@ -37,7 +37,7 @@ class SimulationController
   /**
    * Stops the networkManager and execution of the controller
    */
-  void stop();
+  void stop() override;
 
   /**
    * Called to set simulation configurations of it's application to the parameter's configurations

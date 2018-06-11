@@ -20,7 +20,7 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
-
+#include "../../src/production_control/states_application/in_operation/PrepareSchedulerState.h"
 
 const uint16_t machine1Id = 15;
 const uint16_t machine2Id = 75;
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 //  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
 //  auto machine = std::make_shared<core::Machine>();
 
-  core::InfiniteBuffer infiniteBuffer(machine, 1);
+  core::InfiniteBuffer infiniteBuffer(machine, 0);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(machine, 1, 3);
+  core::Buffer limitedBuffer(machine, 0, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 
@@ -321,6 +321,13 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Set empty for disconnections
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineDisconnected);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
   pcMock->stop();
   mcMock->stop();
 
@@ -382,6 +389,13 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleBufferUpdates){
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineDisconnected);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
   observer.awaitNotificationReceived();
 
   mcMock->stop();
@@ -399,7 +413,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   auto application = controller.getApplication();
   BOOST_REQUIRE(application);
 
-  auto currentState = std::make_shared<applicationstates::InOperationState>(*application);
+  auto currentState = std::make_shared<applicationstates::PrepareSchedulerState>(*application);
   BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
 
   auto machine = application->getMachine(machine1Id);

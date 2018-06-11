@@ -173,8 +173,8 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
 
   // Check if stats get reset
   app->saveMachineStatistics();
-  
-  app->logStatistics();
+
+  app->logFinalStatistics();
 }
 
 

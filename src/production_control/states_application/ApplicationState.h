@@ -10,10 +10,17 @@ namespace applicationstates {
 
 enum EventType {
   kEventTypeMachineRegistered,
+  kEventTypeMachineDisconnected,
+  kEventTypeAllMachinesDisconnected,
   kEventTypeAllMachinesRegistered,
+  kEventTypeAllMachinesIdle,
   kEventTypeMachineStatusUpdate,
   kEventTypeMachineProductTakenFromBuffer,
-  kEventTypeMachineProductAddedToBuffer
+  kEventTypeMachineProductAddedToBuffer,
+  kEventTypeWorkDayOver,
+  kEventTypeNewWorkDayStarted,
+  kEventTypeProductionChange,
+  kEventTypeCanSchedule
 };
 
 typedef patterns::statemachine::Event Event;
@@ -33,7 +40,6 @@ class ApplicationState : public patterns::statemachine::State {
   core::Application &context;
 
 };
-
 }
 
 #endif //PRODUCTION_LINE_CONTROL_APPLICATIONSTATE_H

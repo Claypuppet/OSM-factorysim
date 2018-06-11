@@ -1,7 +1,7 @@
 {
   "name": "ProductieConfiguratie",
   "simulationInfo": {
-    "durationInHours": 8760,
+    "durationInWeeks": 52,
     "startHourOfWorkDay":9,
     "workDayDurationInHours":8
   },

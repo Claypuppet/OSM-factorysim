@@ -1,26 +1,18 @@
 
 #include "InOperationState.h"
+#include "WaitForConnectionsState.h"
+#include "in_operation/PrepareShutdownState.h"
 
 #include <utils/Logger.h>
 
 namespace applicationstates {
 
-InOperationState::InOperationState(core::Application &context) :
-		ApplicationState(context) {
-}
-
-void InOperationState::entryAction() {
-	utils::Logger::log(__PRETTY_FUNCTION__);
-	context.prepareScheduler();
+InOperationState::InOperationState(core::Application &context) : ApplicationState(context) {
 }
 
 void InOperationState::doActivity() {
   context.executeScheduler();
   std::this_thread::yield();
-}
-
-void InOperationState::exitAction() {
-
 }
 
 bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
@@ -33,6 +25,12 @@ bool applicationstates::InOperationState::handleEvent(const EventPtr &event) {
       return true;
     case applicationstates::kEventTypeMachineProductAddedToBuffer:
       onMachineProductAdded(event);
+      return true;
+    case applicationstates::kEventTypeMachineDisconnected:
+      onMachineDisconnected(event);
+      return true;
+    case applicationstates::kEventTypeWorkDayOver:
+      onWorkDayOver();
       return true;
     default: {
       return ApplicationState::handleEvent(event);
@@ -52,6 +50,15 @@ void applicationstates::InOperationState::onMachineProductTaken(const applicatio
 
 void applicationstates::InOperationState::onMachineProductAdded(const applicationstates::EventPtr &event) {
   context.addProductsToBuffer(event->getArgumentAsType<uint16_t>(0));
+}
+
+void applicationstates::InOperationState::onMachineDisconnected(const applicationstates::EventPtr &event) {
+  // A machine disconnected mid production? wait for machine again...
+  context.setCurrentState(std::make_shared<WaitForConnectionsState>(context));
+}
+
+void applicationstates::InOperationState::onWorkDayOver() {
+  context.setCurrentState(std::make_shared<PrepareShutdownState>(context));
 }
 
 }

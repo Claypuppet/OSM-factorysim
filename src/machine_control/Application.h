@@ -71,17 +71,23 @@ class Application
   virtual void setStartState();
 
   /**
+   * Stops the client
+   */
+  void stopClient();
+
+  /**
    * Stops the network manager and joins the client thread
    */
   void stop();
 
   /**
- * Executes network
- */
+   * Executes network
+   */
   void setupNetwork();
-/**
- * sends register machine message to PC
- */
+
+  /**
+   * sends register machine message to PC
+   */
   void registerMachine();
 
   /**

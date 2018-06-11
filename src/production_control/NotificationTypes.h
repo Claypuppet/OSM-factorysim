@@ -12,7 +12,8 @@ enum ApplicationNotificationTypes {
   eApplicationOK,
   eApplicationNOK,
   eApplicationProductTakenFromBuffer,
-  eApplicationProductAddedToBuffer
+  eApplicationProductAddedToBuffer,
+  eApplicationMachineDisconnected,
 };
 
 enum SimulationNotificationTypes {

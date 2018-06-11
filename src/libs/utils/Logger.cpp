@@ -27,6 +27,20 @@ void Logger::logMessage(const std::string &message) {
   }
 
 }
+
+void Logger::error(const std::string &message) {
+  getInstance().logError(message);
+}
+
+void Logger::logError(const std::string &message) {
+  if (enabled) {
+	lock.lock();
+	std::cerr << message << std::endl;
+	lock.unlock();
+  }
+
+}
+
 void Logger::setEnabled(bool enabled) {
   getInstance().enabled = enabled;
 }

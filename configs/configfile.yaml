@@ -4,7 +4,7 @@
 name: ProductieConfiguratie
 
 simulationInfo:
-  durationInHours: 8760
+  durationInWeeks: 2
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
 
@@ -46,7 +46,7 @@ productionLine:
       previousMachines:
       - machineId: 0
         neededProducts: 3
-        inputBufferSize: 2
+        inputBufferSize: 0
 
 
 
@@ -66,7 +66,7 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 8
-        inputBufferSize: 2
+        inputBufferSize: 40
 
 
 
@@ -84,7 +84,7 @@ productionLine:
       previousMachines:
       - machineId: 2
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 15
 
 
 
@@ -102,14 +102,14 @@ productionLine:
       previousMachines:
       - machineId: 1
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
     - productId: 2
       outputEachMinute: 10
       previousMachines:
       - machineId: 3
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
 
 
@@ -127,14 +127,14 @@ productionLine:
       previousMachines:
       - machineId: 4
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
     - productId: 2
       outputEachMinute: 2
       previousMachines:
       - machineId: 4
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
 
 
@@ -145,21 +145,23 @@ productionLine:
     reparationTimeInMinutes: 60
     reparationTimeStddevInMinutes: 1
     postProcessInfo:
+      inputDelayInSeconds: 120
+      postProcessDurationInMinutes: 25
     configurations:
 
     - productId: 1
-      outputEachMinute: 2
+      outputEachMinute: 1
       previousMachines:
       - machineId: 5
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
     - productId: 2
-      outputEachMinute: 2
+      outputEachMinute: 1
       previousMachines:
       - machineId: 5
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
 
 
@@ -181,14 +183,14 @@ productionLine:
       previousMachines:
       - machineId: 0
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 0
 
     - productId: 2
       outputEachMinute: 30
       previousMachines:
       - machineId: 0
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 0
 
 
 
@@ -206,7 +208,7 @@ productionLine:
       previousMachines:
         - machineId: 7
           neededProducts: 1
-          inputBufferSize: 2
+          inputBufferSize: 5
 
 
 
@@ -224,14 +226,14 @@ productionLine:
       previousMachines:
       - machineId: 7
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
     - productId: 2
       outputEachMinute: 4
       previousMachines:
       - machineId: 8
         neededProducts: 1
-        inputBufferSize: 2
+        inputBufferSize: 5
 
 
 
@@ -248,7 +250,7 @@ productionLine:
       previousMachines:
         - machineId: 9
           neededProducts: 1
-          inputBufferSize: 2
+          inputBufferSize: 5
 
 
 
@@ -266,7 +268,7 @@ productionLine:
       previousMachines:
         - machineId: 9
           neededProducts: 1
-          inputBufferSize: 2
+          inputBufferSize: 5
 
 
 
@@ -288,18 +290,18 @@ productionLine:
       previousMachines:
         - machineId: 6
           neededProducts: 1
-          inputBufferSize: 2
+          inputBufferSize: 15
         - machineId: 10
           neededProducts: 4
-          inputBufferSize: 2
+          inputBufferSize: 15
 
     - productId: 2
       outputEachMinute: 30
       previousMachines:
         - machineId: 6
           neededProducts: 1
-          inputBufferSize: 2
+          inputBufferSize: 16
         - machineId: 11
           neededProducts: 4
-          inputBufferSize: 2
+          inputBufferSize: 16
 
