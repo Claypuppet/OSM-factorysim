@@ -32,7 +32,7 @@ class SimulationInfo {
    * @param startHourOfWorkDay the start hours number of the work day (the production line turns on)
    * @param workDayDurationInHours the number of hours a productionline produces
    */
-  SimulationInfo(bool local, uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
+  SimulationInfo(bool local, uint64_t randomSeed, uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
 
   /**
    * Copy constructor
@@ -48,12 +48,14 @@ class SimulationInfo {
   SimulationInfo &operator=(const SimulationInfo &other);
 
   bool isLocal() const;
+  uint64_t getRandomSeed() const;
   uint16_t getDurationInWeeks() const;
   uint8_t getStartHourOfWorkDay() const;
   uint8_t getWorkDayDurationInHours() const;
 
  private:
   bool local;
+  uint64_t randomSeed;
   uint16_t durationInWeeks;
   uint8_t startHourOfWorkDay;
   uint8_t workDayDurationInHours;
@@ -65,7 +67,9 @@ class SimulationInfo {
    */
   template<class Archive>
   void serialize(Archive &ar) {
-	ar(durationInWeeks,
+	ar(local,
+       randomSeed,
+       durationInWeeks,
        startHourOfWorkDay,
        workDayDurationInHours);
   }

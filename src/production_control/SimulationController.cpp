@@ -143,6 +143,10 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 
   auto simulationInfo = configuration->getSimulationInfo();
 
+  if(auto randomSeed = simulationInfo->getRandomSeed()){
+    utils::RandomHelper::getInstance().setSeed(randomSeed);
+  }
+
   utils::TimeHelper::getInstance().initialize(simulationInfo->getStartHourOfWorkDay(),
                                               simulationInfo->getWorkDayDurationInHours());
 

@@ -69,6 +69,18 @@ class SimulationMachineLocal : public SimulationMachine, public patterns::notify
    */
   void notifyProductTakenFromBuffer(uint64_t time);
 
+  /**
+   * Checks if the machine broke betwee last time and given time.
+   * @param time : time to check broken on
+   */
+  bool checkBroken(uint64_t time);
+
+  /**
+   * calculate a new repair time
+   * @return : time it takes to repair machine
+   */
+  uint64_t calculateRepairTime();
+
   // To keep track if its  "connected"  or not
   bool connected;
 
