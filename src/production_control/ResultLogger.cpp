@@ -215,6 +215,10 @@ void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStat
     idStream << "\t\t\t\t\"id\" : " << stats.getMachineId() << ",";
     logger->info(idStream.str());
 
+    std::stringstream nameStream;
+    nameStream << "\t\t\t\t\"name\" : " << stats.getMachineName() << ",";
+    logger->info(nameStream.str());
+
     std::stringstream totalProducedStream;
     totalProducedStream << "\t\t\t\t\"totalProducedProducts\" : {";
     for (auto &item : stats.getTotalProducedProducts()) {
@@ -274,6 +278,10 @@ void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStat
     std::stringstream configureStream;
     configureStream << "\t\t\t\t\"avgConfigureTime\" : " << stats.getAvgConfigureTime() << ",";
     logger->info(configureStream.str());
+
+    std::stringstream timesBrokenStream;
+    timesBrokenStream << "\t\t\t\t\"timesBroken\" : " << stats.getTimesBroken() << ",";
+    logger->info(timesBrokenStream.str());
 
     std::stringstream mtbfStream;
     mtbfStream << "\t\t\t\t\"MTBFinHours\" : " << stats.getMTBFinHours();
