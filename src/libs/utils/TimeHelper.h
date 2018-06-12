@@ -47,6 +47,10 @@ class TimeHelper : public patterns::singleton::Singleton<TimeHelper> {
    */
   bool isClosingTime(uint16_t finishUpMinutes = 0) const;
 
+  /**
+   * Calculates the amount of hours the production line was producing
+   * @return : The total amount of hours the production line has been producing
+   */
   uint32_t getTotalHoursWorked();
 
  private:
