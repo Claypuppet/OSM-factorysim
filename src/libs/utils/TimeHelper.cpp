@@ -79,7 +79,7 @@ void TimeHelper::reset() {
   currentWeek = 0;
 }
 uint32_t TimeHelper::getTotalHoursWorked() {
-  return static_cast<uint32_t>((currentWeek - 1 + currentDayOfWeek) * workDayDuration);
+  return static_cast<uint32_t>(((currentWeek - 1) * 5 + currentDayOfWeek) * workDayDuration);
 }
 
 }

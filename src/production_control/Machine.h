@@ -168,6 +168,12 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   const std::map<MachineStatus, uint32_t> &getTimeSpendInState() const;
   uint16_t getTimesBroken() const;
 
+  /**
+   * Calculate the MTBF of the machine
+   * @return : the MTBF in hours
+   */
+  uint16_t calculateMTBF();
+
  protected:
   /**
    * Check if this machine can do an action. must be idle and be able to take products from previous buffers.

@@ -3,6 +3,7 @@
 #include <memory>
 #include <utils/Logger.h>
 #include <utils/time/Time.h>
+#include <utils/TimeHelper.h>
 #include <models/Configuration.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
@@ -363,6 +364,12 @@ bool Machine::isIdle(bool completelyIdle) {
     }
   }
   return status == kMachineStatusIdle && productInProcess.empty();
+}
+uint16_t Machine::calculateMTBF() {
+  if(timesBroken == 0){
+    return 0;
+  }
+  return static_cast<uint16_t>(utils::TimeHelper::i().getTotalHoursWorked() / timesBroken);
 }
 
 }

@@ -390,7 +390,7 @@ void Application::calculateFinalStatistics() {
         totalProduced,
         totalLost,
         machine->getTimesBroken(),
-        getMTBFforTimesBroken(machine->getTimesBroken())
+        machine->calculateMTBF()
     );
   }
 }
@@ -432,12 +432,6 @@ bool Application::checkAllMachinesDisconnected() {
   }
   createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesDisconnected);
   return true;
-}
-uint16_t Application::getMTBFforTimesBroken(uint16_t timesBroken) {
-  if(timesBroken == 0){
-    return 0;
-  }
-  return static_cast<uint16_t>(utils::TimeHelper::i().getTotalHoursWorked() / timesBroken);
 }
 
 }
