@@ -27,6 +27,7 @@ SimulationController::SimulationController() : core::Controller(), simulationEnd
   auto &time = utils::Time::getInstance();
   time.setType(utils::customTime);
   time.syncTime(ABSOLUTE_START_TIME);
+  utils::Logger::setEnabled(false);
 }
 
 SimulationController::~SimulationController() {
@@ -51,7 +52,7 @@ void SimulationController::handleNotification(const patterns::notifyobserver::No
 
 }
 
-bool SimulationController::simulationIsOver() const {
+bool SimulationController::isSimulationOver() const {
   return utils::TimeHelper::getInstance().getCurrentWeek() == configuration->getSimulationInfo()->getDurationInWeeks();
 }
 
@@ -139,13 +140,29 @@ void SimulationController::setStartState() {
 void SimulationController::setConfiguration(const std::string &filePath) {
   auto configurationReader = configurationserializer::ConfigurationReader::getInstance();
 
-  configuration = configurationReader.deserialize(filePath);
+  // Reset time
+  auto &time = utils::Time::getInstance();
+  time.setType(utils::customTime);
+  time.reset();
+  time.syncTime(ABSOLUTE_START_TIME);
 
+  // Deserialize confguration file
+  configuration = configurationReader.deserialize(filePath);
   auto simulationInfo = configuration->getSimulationInfo();
 
+  // Initialize logger for this simulation
+  core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
+
+  // Initialize time helper
   utils::TimeHelper::getInstance().initialize(simulationInfo->getStartHourOfWorkDay(),
                                               simulationInfo->getWorkDayDurationInHours());
 
+  // Set random seed if there is one
+  if(auto randomSeed = simulationInfo->getRandomSeed()){
+    utils::RandomHelper::getInstance().setSeed(randomSeed);
+  }
+
+  // Initiate application and machines
   const auto &productionLineModel = configuration->getProductionLine();
   application->setProductionLine(productionLineModel);
 
@@ -165,9 +182,6 @@ void SimulationController::setConfiguration(const std::string &filePath) {
 
   // Set machines on application, this will init the buffers and link the machines etc.
   application->setMachines(machines);
-
-  // Initialize logger for this simulation
-  core::ResultLogger::getInstance().initializeLog(filePath, configuration->getName());
 
   if (simulationInfo && simulationInfo->isLocal()) {
     // Local simulation loaded

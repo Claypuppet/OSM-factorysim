@@ -9,31 +9,21 @@
 
 namespace utils {
 
-FileLogger::FileLogger() : pattern("%v") {
+FileLogger::FileLogger() : debug(false), pattern("%v"), consoleSink(std::make_shared<spdlog::sinks::stdout_sink_mt>()){
+  spdlog::register_logger(std::make_shared<spdlog::logger>(CONSOLE_LOG, consoleSink));
+  useConsoleLogger(false);
 }
 
-void FileLogger::setupLogger(const std::string &filename, bool empty) {
-  consoleSink = std::make_shared<spdlog::sinks::stdout_sink_mt>();
-  newFile(filename, empty);
+void FileLogger::setDebug(bool aDebug) {
+  debug = aDebug;
 }
 
-void FileLogger::assignLoggers() {
-  try {
-    spdlog::drop_all();
-
-    std::vector<spdlog::sink_ptr> bothSinks;
-    bothSinks.push_back(consoleSink);
-    bothSinks.push_back(fileSink);
-
-    spdlog::register_logger(std::make_shared<spdlog::logger>("file", fileSink));
-    spdlog::register_logger(std::make_shared<spdlog::logger>("console", consoleSink));
-    spdlog::register_logger(std::make_shared<spdlog::logger>("both", begin(bothSinks), end(bothSinks)));
-
-    spdlog::set_pattern(pattern);
-
-  } catch (const spdlog::spdlog_ex &ex) {
-    std::cout << "assiging loggers failed: " << ex.what() << std::endl;
-    throw ex;
+void FileLogger::useConsoleLogger(bool useDebug) {
+  if (useDebug){
+    consoleSink->set_level(spdlog::level::info);
+  }
+  else {
+    consoleSink->set_level(spdlog::level::off);
   }
 }
 
@@ -42,45 +32,33 @@ void FileLogger::changePattern(const std::string &newPattern) {
   spdlog::set_pattern(pattern);
 }
 
-void FileLogger::newFile(const std::string &filename, bool empty) {
-  fileSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(filename, 1048576 * 200, 1);
-  assignLoggers();
-}
-
-std::shared_ptr<spdlog::logger> FileLogger::both() {
-  return spdlog::get("both");
-}
-
-std::shared_ptr<spdlog::logger> FileLogger::file() {
-  return spdlog::get("file");
-}
-
-std::shared_ptr<spdlog::logger> FileLogger::console() {
-  return spdlog::get("console");
-}
-
-void FileLogger::flushLoggers() {
-  spdlog::get("both")->flush();
-}
-
-void FileLogger::logToBoth(const std::string &message) {
-  auto logger = both();
-  if(logger){
-    logger->info(message);
+LoggerPtr FileLogger::addFileLogger(const std::string &name, const std::string &location, bool clearExisting /* = true */) {
+  if(auto log = get(name)){
+    // already existing
+    log->flush();
+    spdlog::drop(name);
   }
-}
-
-void FileLogger::logToFile(const std::string &message) {
-  auto logger = file();
-  if(logger){
-    logger->info(message);
+  auto fileSink = std::make_shared<spdlog::sinks::simple_file_sink_mt>(location, clearExisting);
+  if(debug){
+    std::vector<spdlog::sink_ptr> bothSinks;
+    bothSinks.push_back(consoleSink);
+    bothSinks.push_back(fileSink);
+    spdlog::register_logger(std::make_shared<spdlog::logger>(name, begin(bothSinks), end(bothSinks)));
   }
+  else{
+    spdlog::register_logger(std::make_shared<spdlog::logger>(name, fileSink));
+  }
+  spdlog::set_pattern(pattern);
+  return spdlog::get(name);
 }
 
-void FileLogger::logToConsole(const std::string &message) {
-  auto logger = console();
-  if (logger) {
-    logger->info(message);
+LoggerPtr FileLogger::get(const std::string &name) {
+  return spdlog::get(name);
+}
+
+void FileLogger::flush(const std::string &name) {
+  if(auto logger = spdlog::get(name)){
+    logger->flush();
   }
 }
 

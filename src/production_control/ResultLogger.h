@@ -21,6 +21,11 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
   void initializeLog(const std::string &configurationPath, const std::string &configurationName);
 
   /**
+   * Setup new daily logger
+   */
+  void setNewDayLogger();
+
+  /**
    * Log a machine status update
    * @param machineId : Id of machine
    * @param status : machien status

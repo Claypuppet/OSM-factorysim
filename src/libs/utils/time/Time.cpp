@@ -49,9 +49,7 @@ const std::string Time::getCurrentTimeString(const std::string &format) {
 	char timestamp[30] = "";
 	time_t secs = millis / 1000;
 	tm *ptm = gmtime(&secs);
-	size_t len = strftime(timestamp, 30, "%d-%m-%Y %H:%M:%S.", ptm);
-	uint64_t ms = millis % 1000;
-	sprintf(timestamp + len, "%03lu", ms);
+	strftime(timestamp, 30, format.c_str(), ptm);
 
 	return std::string(timestamp);
 }

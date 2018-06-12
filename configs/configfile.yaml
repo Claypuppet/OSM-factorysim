@@ -1,13 +1,14 @@
 # Productiestraat Spaanders B.V.
 
 ---
-name: ProductieConfiguratie
+name: ProductieConfiguratieAllesGoedkoop
 
 simulationInfo:
-  durationInWeeks: 2
+  durationInWeeks: 52
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
-  local: false
+  local: true
+  randomSeed: 0
 
 productionLine:
   name: Kantoortafels
@@ -30,8 +31,8 @@ productionLine:
     name: Zaagmachine (hout)
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -55,8 +56,8 @@ productionLine:
     name: Lijmmachine (hout)
     initializationDurationInSeconds: 900
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
       inputDelayInSeconds: 120
       postProcessDurationInMinutes: 30
@@ -74,9 +75,9 @@ productionLine:
   - id: 3
     name: Freesmachine (hout)
     initializationDurationInSeconds: 300
-    meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    meanTimeBetweenFailureInHours: 1000
+    reparationTimeInMinutes: 240
+    reparationTimeStddevInMinutes: 15
     postProcessInfo:
     configurations:
 
@@ -93,8 +94,8 @@ productionLine:
     name: Voorboormachine (hout)
     initializationDurationInSeconds: 120
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -117,9 +118,9 @@ productionLine:
   - id: 5
     name: Schuurmachine (hout)
     initializationDurationInSeconds: 120
-    meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    meanTimeBetweenFailureInHours: 2500
+    reparationTimeInMinutes: 120
+    reparationTimeStddevInMinutes: 6
     postProcessInfo:
     configurations:
 
@@ -143,8 +144,8 @@ productionLine:
     name: Spuitmachine (hout)
     initializationDurationInSeconds: 900
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 360
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
       inputDelayInSeconds: 120
       postProcessDurationInMinutes: 25
@@ -174,8 +175,8 @@ productionLine:
     name: Zaagmachine (staal)
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -198,9 +199,9 @@ productionLine:
   - id: 8
     name: Buigmachine (staal)
     initializationDurationInSeconds: 300
-    meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    meanTimeBetweenFailureInHours: 2000
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -217,8 +218,8 @@ productionLine:
     name: Lasmachine (staal)
     initializationDurationInSeconds: 300
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 240
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -242,8 +243,8 @@ productionLine:
     name: Poedercoatmachine (staal)
     initializationDurationInSeconds: 900
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
     - productId: 1
@@ -259,8 +260,8 @@ productionLine:
     name: Polijstmachine (staal)
     initializationDurationInSeconds: 120
     meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 30
     postProcessInfo:
     configurations:
 
@@ -280,9 +281,9 @@ productionLine:
   - id: 12
     name: Inpakmachine
     initializationDurationInSeconds: 300
-    meanTimeBetweenFailureInHours: 500
-    reparationTimeInMinutes: 60
-    reparationTimeStddevInMinutes: 1
+    meanTimeBetweenFailureInHours: 800
+    reparationTimeInMinutes: 480
+    reparationTimeStddevInMinutes: 120
     postProcessInfo:
     configurations:
 

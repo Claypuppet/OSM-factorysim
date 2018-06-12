@@ -123,7 +123,7 @@ class Machine {
   const MachineConfigurationPtr getConfigurationById(uint16_t machineConfigurationId) const;
 
   uint16_t getMeanTimeBetweenFailureInHours() const;
-  uint32_t getMeanTimeBetweenFailureInMillis() const;
+  uint64_t getMeanTimeBetweenFailureInMillis() const;
   uint16_t getReparationTimeInMinutes() const;
   uint32_t getReparationTimeInMillis() const;
   uint16_t getReparationTimeStddevInMinutes() const;

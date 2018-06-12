@@ -100,7 +100,7 @@ class SimulationController
    * Check if simulation is over
    * @return simulationIsOver bool
    */
-  bool simulationIsOver() const;
+  bool isSimulationOver() const;
 
  private:
 
