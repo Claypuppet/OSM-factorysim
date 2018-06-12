@@ -24,7 +24,9 @@ add_library(lib_models SHARED
         MachineProductStatistics.cpp
         MachineProductStatistics.h
         MachineProductFinalStatistics.cpp
-        MachineProductFinalStatistics.h FinalStatistics.cpp FinalStatistics.h)
+        MachineProductFinalStatistics.h
+        FinalStatistics.cpp
+        FinalStatistics.h)
 
 install(TARGETS
         lib_models
