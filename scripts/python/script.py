@@ -18,7 +18,7 @@ config['simulationInfo']['name'] = raw_input("Simulation name?")
 config['simulationInfo']['durationInWeeks'] = int(raw_input("Simulation duration in weeks?"))
 config['simulationInfo']['startHourOfWorkDay'] = int(raw_input("Starting hour?"))
 config['simulationInfo']['workDayDurationInHours'] = int(raw_input("Working hours per day?"))
-config['simulationInfo']['local'] = "true" if int(raw_input("local?")) else "false"
+config['simulationInfo']['local'] = True if int(raw_input("local?")) else False
 config['simulationInfo']['randomSeed'] = int(raw_input("Seed? (0 for none)"))
 
 print("Select 0 for a cheap machine and 1 for an expensive machine!")
