@@ -4,11 +4,11 @@
 name: ProductieConfiguratieAllesGoedkoop
 
 simulationInfo:
-  durationInWeeks: 52
+  durationInWeeks: 1
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
   local: true
-  randomSeed: 0
+  randomSeed: 666
 
 productionLine:
   name: Kantoortafels
@@ -16,9 +16,6 @@ productionLine:
   - id: 1
     name: normalekantoortafels
     proportion: 2
-  - id: 2
-    name: luxekantoortafels
-    proportion: 1
   machines:
 
 

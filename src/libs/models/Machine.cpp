@@ -112,7 +112,8 @@ uint16_t Machine::getInitializationDurationInSeconds() const {
 }
 
 uint32_t Machine::getInitializationDurationInMilliseconds() const {
-  return 1000u * initializationDurationInSeconds;
+  auto a = 1000u * initializationDurationInSeconds;
+  return a;
 }
 
 const std::shared_ptr<PostProcessInfo> Machine::getPostProcessInfo() const {
