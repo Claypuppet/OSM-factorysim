@@ -1,0 +1,6031 @@
+{
+	"timeStamps":
+	[
+		{
+			"timeStamp" : 1515402000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":482,"2":3161},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19201500,
+					"idleTime" : 123340000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":391},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24900000,
+					"idleTime" : 119954000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":376},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11280000,
+					"idleTime" : 131266000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":477,"2":371},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5088000,
+					"idleTime" : 138334000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":472,"2":366},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 25140000,
+					"idleTime" : 118330000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":467,"2":361},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78180000,
+					"idleTime" : 68916000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1837,"2":1396},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6466000,
+					"idleTime" : 136052000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1391},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8346000,
+					"idleTime" : 134180000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1832,"2":1386},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 48270000,
+					"idleTime" : 94287000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1827},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21924000,
+					"idleTime" : 117597500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1381},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 82860000,
+					"idleTime" : 60674000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":453,"2":345},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1596000,
+					"idleTime" : 140922000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1516006800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":936,"2":959},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29518500,
+					"idleTime" : 113103500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7380000,
+					"idleTime" : 133824000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3570000,
+					"idleTime" : 138956000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":936,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6330000,
+					"idleTime" : 137096000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":936,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31650000,
+					"idleTime" : 111872000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":936,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119460000,
+					"idleTime" : 27900000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8446000,
+					"idleTime" : 134080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139656000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 63345000,
+					"idleTime" : 79194000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3744},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44928000,
+					"idleTime" : 94598000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 114564000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":936,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2110000,
+					"idleTime" : 140416000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1516611600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3832},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12768000,
+					"idleTime" : 129769500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 116646000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 128172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4278000,
+					"idleTime" : 139140000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21390000,
+					"idleTime" : 122076000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57960000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5704000,
+					"idleTime" : 136810000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 131034000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 42780000,
+					"idleTime" : 99786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128281500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114960000,
+					"idleTime" : 28686000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1426000,
+					"idleTime" : 141088000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1517216400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1920},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23940000,
+					"idleTime" : 118654000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 15060000,
+					"idleTime" : 127998000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 135322000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5652000,
+					"idleTime" : 137770000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28260000,
+					"idleTime" : 115234000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 99120000,
+					"idleTime" : 48180000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7532000,
+					"idleTime" : 134990000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56490000,
+					"idleTime" : 86058000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 105826000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":955},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57300000,
+					"idleTime" : 86238000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1884000,
+					"idleTime" : 140638000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1517821200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":657,"2":1912},
+					"lostProducts" : {"1":1},
+					"downTime" : 28920000,
+					"productionTime" : 22578000,
+					"idleTime" : 112905500,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14880000,
+					"idleTime" : 150012000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 157214000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":657,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5376000,
+					"idleTime" : 159884000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":657,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26880000,
+					"idleTime" : 138452000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":657,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 93540000,
+					"idleTime" : 73980000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2628,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7172000,
+					"idleTime" : 157184000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 158616000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2628,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 53790000,
+					"idleTime" : 110592000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2628},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31536000,
+					"idleTime" : 129819500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":961},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57660000,
+					"idleTime" : 107712000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":657,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1792000,
+					"idleTime" : 162564000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1518426000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2720},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18120000,
+					"idleTime" : 143044000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":340},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21900000,
+					"idleTime" : 139632000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":340},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10200000,
+					"idleTime" : 150916000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":339},
+					"lostProducts" : {"2":1},
+					"downTime" : 28020000,
+					"productionTime" : 4842000,
+					"idleTime" : 129154000,
+					"configureTime" : 720000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":339},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24210000,
+					"idleTime" : 137854000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":339},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78480000,
+					"idleTime" : 85680000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1356},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6456000,
+					"idleTime" : 154660000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1356},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8136000,
+					"idleTime" : 152988000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1356},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 48420000,
+					"idleTime" : 112722000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 135652000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1356},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 81360000,
+					"idleTime" : 80772000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":339},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1614000,
+					"idleTime" : 159502000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1519030800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2873},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18349500,
+					"idleTime" : 124216000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22560000,
+					"idleTime" : 122352000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10800000,
+					"idleTime" : 131746000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4968000,
+					"idleTime" : 138454000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24840000,
+					"idleTime" : 118654000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78600000,
+					"idleTime" : 68640000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1434},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86040000,
+					"idleTime" : 57552000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1656000,
+					"idleTime" : 140862000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1519635600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1919},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23938500,
+					"idleTime" : 118655500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14940000,
+					"idleTime" : 127998000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 135352000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5646000,
+					"idleTime" : 137776000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28230000,
+					"idleTime" : 115264000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 99000000,
+					"idleTime" : 48180000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7532000,
+					"idleTime" : 134990000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56490000,
+					"idleTime" : 86058000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 105826000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57480000,
+					"idleTime" : 86058000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1882000,
+					"idleTime" : 140640000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1520240400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1464},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23256000,
+					"idleTime" : 120776000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":183},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11580000,
+					"idleTime" : 131178000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":182},
+					"lostProducts" : {"2":1},
+					"downTime" : 15120000,
+					"productionTime" : 5460000,
+					"idleTime" : 123380000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":187},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5334000,
+					"idleTime" : 139526000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":192},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26820000,
+					"idleTime" : 118112000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":197},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 96480000,
+					"idleTime" : 50820000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":865},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7346000,
+					"idleTime" : 136614000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":865},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5190000,
+					"idleTime" : 138774000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":865},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 55095000,
+					"idleTime" : 88878000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 107264000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":865},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 51900000,
+					"idleTime" : 93018000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":213},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1830000,
+					"idleTime" : 142130000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1520845200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18252000,
+					"idleTime" : 145492000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":351},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22560000,
+					"idleTime" : 141552000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":351},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10530000,
+					"idleTime" : 153166000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":346},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4884000,
+					"idleTime" : 159712000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":341},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24270000,
+					"idleTime" : 140374000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":336},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 77700000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1268},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6280000,
+					"idleTime" : 157416000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1268},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7608000,
+					"idleTime" : 156096000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1268},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 47100000,
+					"idleTime" : 116622000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 138232000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1270},
+					"lostProducts" : {"2":1},
+					"downTime" : 28980000,
+					"productionTime" : 76200000,
+					"idleTime" : 59532000,
+					"configureTime" : 720000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":320},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1576000,
+					"idleTime" : 162120000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1521450000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18348000,
+					"idleTime" : 124217500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22380000,
+					"idleTime" : 122472000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 131776000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4962000,
+					"idleTime" : 138460000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24810000,
+					"idleTime" : 118684000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78420000,
+					"idleTime" : 68760000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1434},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86040000,
+					"idleTime" : 57552000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1654000,
+					"idleTime" : 140864000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1522054800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":936,"2":960},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29520000,
+					"idleTime" : 113102000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7560000,
+					"idleTime" : 133704000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 138926000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6336000,
+					"idleTime" : 137090000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31680000,
+					"idleTime" : 111842000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119640000,
+					"idleTime" : 27780000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8446000,
+					"idleTime" : 134080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139656000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 63345000,
+					"idleTime" : 79194000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3744},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44928000,
+					"idleTime" : 94598000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 114564000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2112000,
+					"idleTime" : 140414000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1522659600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3832},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12768000,
+					"idleTime" : 129769500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 116646000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 128172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4278000,
+					"idleTime" : 139140000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21390000,
+					"idleTime" : 122076000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57960000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5704000,
+					"idleTime" : 136810000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 131034000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 42780000,
+					"idleTime" : 99786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128281500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114960000,
+					"idleTime" : 28686000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1426000,
+					"idleTime" : 141088000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1523264400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":809,"2":960},
+					"lostProducts" : {"1":1},
+					"downTime" : 30300000,
+					"productionTime" : 25710000,
+					"idleTime" : 99962000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7500000,
+					"idleTime" : 147198000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 152300000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":809,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5574000,
+					"idleTime" : 151226000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":809,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 27870000,
+					"idleTime" : 129002000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":809,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 104340000,
+					"idleTime" : 54900000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3236,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7430000,
+					"idleTime" : 148470000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 153030000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3236,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 55725000,
+					"idleTime" : 100188000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3236},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 38832000,
+					"idleTime" : 114068000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":476},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28560000,
+					"idleTime" : 128298000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":809,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1858000,
+					"idleTime" : 154042000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1523869200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2600},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 17940000,
+					"idleTime" : 127983500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 20400000,
+					"idleTime" : 126012000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 9750000,
+					"idleTime" : 136154000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4758000,
+					"idleTime" : 142022000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23790000,
+					"idleTime" : 123062000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 76440000,
+					"idleTime" : 72600000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1294},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6332000,
+					"idleTime" : 139544000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1294},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7764000,
+					"idleTime" : 138120000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1293},
+					"lostProducts" : {"2":1},
+					"downTime" : 11940000,
+					"productionTime" : 47475000,
+					"idleTime" : 86487000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 120411500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1298},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 77880000,
+					"idleTime" : 69012000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":325},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1586000,
+					"idleTime" : 144290000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1524474000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2857},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18325500,
+					"idleTime" : 124253000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22200000,
+					"idleTime" : 122667000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10740000,
+					"idleTime" : 131819000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4956000,
+					"idleTime" : 138479000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24780000,
+					"idleTime" : 118727000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78240000,
+					"idleTime" : 68955000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1438},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6620000,
+					"idleTime" : 135911000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1438},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8628000,
+					"idleTime" : 133911000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1438},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49650000,
+					"idleTime" : 92907000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117066500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1436},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86160000,
+					"idleTime" : 57387000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":358},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1652000,
+					"idleTime" : 140879000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1525078800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2879},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18358500,
+					"idleTime" : 124207500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22440000,
+					"idleTime" : 122292000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 131748000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4962000,
+					"idleTime" : 138456000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24810000,
+					"idleTime" : 118656000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78480000,
+					"idleTime" : 68580000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117054000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1434},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86040000,
+					"idleTime" : 57552000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1654000,
+					"idleTime" : 140864000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1525683600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":798,"2":953},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 25369500,
+					"idleTime" : 123462000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7500000,
+					"idleTime" : 140118000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 145188000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":798,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5508000,
+					"idleTime" : 144156000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":798,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 27540000,
+					"idleTime" : 122220000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":784,"2":120},
+					"lostProducts" : {"1":14},
+					"downTime" : 22800000,
+					"productionTime" : 102900000,
+					"idleTime" : 26460000,
+					"configureTime" : 5400000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3136,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7230000,
+					"idleTime" : 141530000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 145890000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3136,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 54225000,
+					"idleTime" : 94548000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3136},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 37632000,
+					"idleTime" : 108127500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28740000,
+					"idleTime" : 120978000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":784,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1808000,
+					"idleTime" : 146952000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1526288400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1919},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23938500,
+					"idleTime" : 118655500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14940000,
+					"idleTime" : 127998000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 135352000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5646000,
+					"idleTime" : 137776000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28230000,
+					"idleTime" : 115264000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 99000000,
+					"idleTime" : 48180000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7532000,
+					"idleTime" : 134990000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56490000,
+					"idleTime" : 86058000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 105826000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":961},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57660000,
+					"idleTime" : 85878000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1882000,
+					"idleTime" : 140640000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1526893200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18348000,
+					"idleTime" : 124217500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22380000,
+					"idleTime" : 122472000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 131776000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4962000,
+					"idleTime" : 138460000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24810000,
+					"idleTime" : 118684000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78420000,
+					"idleTime" : 68760000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86220000,
+					"idleTime" : 57372000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1654000,
+					"idleTime" : 140864000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1527498000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":2920},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11400000,
+					"idleTime" : 140256000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":365},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23280000,
+					"idleTime" : 130566000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":365},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10950000,
+					"idleTime" : 140682000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":365},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3594000,
+					"idleTime" : 148938000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":365},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 17970000,
+					"idleTime" : 134586000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":365},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 51300000,
+					"idleTime" : 103260000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1458},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4788000,
+					"idleTime" : 146844000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1458},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8748000,
+					"idleTime" : 142896000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1458},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 35910000,
+					"idleTime" : 115761000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 137400000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1455},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 87300000,
+					"idleTime" : 65406000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":364},
+					"lostProducts" : {"2":1},
+					"downTime" : 37320000,
+					"productionTime" : 1196000,
+					"idleTime" : 113116000,
+					"configureTime" : 1800000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1528102800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":665,"2":1912},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22818000,
+					"idleTime" : 144645500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14880000,
+					"idleTime" : 153072000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 160274000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":664,"2":239},
+					"lostProducts" : {"1":1},
+					"downTime" : 30540000,
+					"productionTime" : 5418000,
+					"idleTime" : 132362000,
+					"configureTime" : 720000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":664,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 27090000,
+					"idleTime" : 141302000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":664,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 94380000,
+					"idleTime" : 76200000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2656,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7228000,
+					"idleTime" : 160188000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 161676000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2656,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 54210000,
+					"idleTime" : 113232000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2656},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31872000,
+					"idleTime" : 132543500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57480000,
+					"idleTime" : 110952000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":664,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1806000,
+					"idleTime" : 165610000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1528707600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":936,"2":960},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29520000,
+					"idleTime" : 113102000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7560000,
+					"idleTime" : 133704000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 138926000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6336000,
+					"idleTime" : 137090000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31680000,
+					"idleTime" : 111842000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119640000,
+					"idleTime" : 27780000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8446000,
+					"idleTime" : 134080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139656000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 63345000,
+					"idleTime" : 79194000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3744},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44928000,
+					"idleTime" : 94598000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 114564000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2112000,
+					"idleTime" : 140414000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1529312400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3832},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12768000,
+					"idleTime" : 129769500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 116646000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 128172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4278000,
+					"idleTime" : 139140000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21390000,
+					"idleTime" : 122076000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57960000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5704000,
+					"idleTime" : 136810000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 131034000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 42780000,
+					"idleTime" : 99786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128281500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114960000,
+					"idleTime" : 28686000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1426000,
+					"idleTime" : 141088000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1529917200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":635,"2":1913},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21919500,
+					"idleTime" : 143204000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 15000000,
+					"idleTime" : 150732000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 157904000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":635,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5250000,
+					"idleTime" : 160730000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":635,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26250000,
+					"idleTime" : 139802000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":635,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 91020000,
+					"idleTime" : 77340000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2525,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6966000,
+					"idleTime" : 158110000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 159336000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2525,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 52245000,
+					"idleTime" : 112857000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2524},
+					"lostProducts" : {"1":1},
+					"downTime" : 31020000,
+					"productionTime" : 30288000,
+					"idleTime" : 100767500,
+					"configureTime" : 5400000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":955},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57300000,
+					"idleTime" : 108792000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":634,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1748000,
+					"idleTime" : 163328000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1530522000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":688,"2":1495},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22882500,
+					"idleTime" : 119727500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":186},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12600000,
+					"idleTime" : 130518000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":185},
+					"lostProducts" : {"2":1},
+					"downTime" : 14460000,
+					"productionTime" : 5550000,
+					"idleTime" : 122276000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":688,"2":190},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5268000,
+					"idleTime" : 138218000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":688,"2":195},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26490000,
+					"idleTime" : 117020000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":688,"2":199},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 95700000,
+					"idleTime" : 49878000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2764,"2":820},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7168000,
+					"idleTime" : 135418000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":820},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4920000,
+					"idleTime" : 137670000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2764,"2":820},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 53760000,
+					"idleTime" : 88839000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2764},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33168000,
+					"idleTime" : 106418000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":823},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49380000,
+					"idleTime" : 94164000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":687,"2":202},
+					"lostProducts" : {"1":1},
+					"downTime" : 21180000,
+					"productionTime" : 1778000,
+					"idleTime" : 139008000,
+					"configureTime" : 1800000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1531126800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3152},
+					"lostProducts" : {"2":1},
+					"downTime" : 24840000,
+					"productionTime" : 11748000,
+					"idleTime" : 123410000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":394},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 25980000,
+					"idleTime" : 119714000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":394},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11820000,
+					"idleTime" : 133516000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":389},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3738000,
+					"idleTime" : 142498000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":384},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18540000,
+					"idleTime" : 127720000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":380},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 52380000,
+					"idleTime" : 94328000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":940,"2":1480},
+					"lostProducts" : {"2":1},
+					"downTime" : 27300000,
+					"productionTime" : 4840000,
+					"idleTime" : 113196000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1485},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8910000,
+					"idleTime" : 136434000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":940,"2":1490},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 36450000,
+					"idleTime" : 108912000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":940},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11280000,
+					"idleTime" : 131056000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1492},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 89520000,
+					"idleTime" : 56832000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":235,"2":377},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1224000,
+					"idleTime" : 144112000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1531731600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":799,"2":944},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 25386000,
+					"idleTime" : 145187000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 162029000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3540000,
+					"idleTime" : 167009000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":799,"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5502000,
+					"idleTime" : 165947000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":799,"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 27510000,
+					"idleTime" : 143963000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":799,"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 102840000,
+					"idleTime" : 69203000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3202,"2":490},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7384000,
+					"idleTime" : 163165000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":485},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2910000,
+					"idleTime" : 167639000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3201,"2":480},
+					"lostProducts" : {"1":1},
+					"downTime" : 15540000,
+					"productionTime" : 55215000,
+					"idleTime" : 99794000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3200},
+					"lostProducts" : {"1":1},
+					"downTime" : 29820000,
+					"productionTime" : 38400000,
+					"idleTime" : 99329000,
+					"configureTime" : 5400000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":478},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28680000,
+					"idleTime" : 142769000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":800,"2":118},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1836000,
+					"idleTime" : 168713000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1532336400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3248},
+					"lostProducts" : {"2":1},
+					"downTime" : 30420000,
+					"productionTime" : 11892000,
+					"idleTime" : 104547500,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26040000,
+					"idleTime" : 123132000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12180000,
+					"idleTime" : 134684000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3840000,
+					"idleTime" : 143900000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19200000,
+					"idleTime" : 128588000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 53220000,
+					"idleTime" : 96666000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":932,"2":1624},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5112000,
+					"idleTime" : 141724000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1624},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 9744000,
+					"idleTime" : 137100000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":932,"2":1624},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 38340000,
+					"idleTime" : 108522000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":932},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11184000,
+					"idleTime" : 132651500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1621},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 97260000,
+					"idleTime" : 50592000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":233,"2":406},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1278000,
+					"idleTime" : 145558000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1532941200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":936,"2":960},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29520000,
+					"idleTime" : 113102000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7500000,
+					"idleTime" : 133824000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 138926000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6336000,
+					"idleTime" : 137090000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31680000,
+					"idleTime" : 111842000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119580000,
+					"idleTime" : 27900000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8446000,
+					"idleTime" : 134080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139656000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 63345000,
+					"idleTime" : 79194000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3744},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44928000,
+					"idleTime" : 94598000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 114564000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2112000,
+					"idleTime" : 140414000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1533546000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":241,"2":2872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11538000,
+					"idleTime" : 132857500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22440000,
+					"idleTime" : 124206000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 133630000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":241,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 141676000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":241,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18000000,
+					"idleTime" : 127324000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":241,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 51240000,
+					"idleTime" : 96120000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1437},
+					"lostProducts" : {"1":1},
+					"downTime" : 29760000,
+					"productionTime" : 4746000,
+					"idleTime" : 109866000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 135762000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":941,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 35670000,
+					"idleTime" : 108741000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":946},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11352000,
+					"idleTime" : 130019500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86220000,
+					"idleTime" : 59226000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":240,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1198000,
+					"idleTime" : 143174000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1534150800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":467,"2":2608},
+					"lostProducts" : {"2":1},
+					"downTime" : 24960000,
+					"productionTime" : 17922000,
+					"idleTime" : 108002000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21000000,
+					"idleTime" : 130338000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 9780000,
+					"idleTime" : 141080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":467,"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4758000,
+					"idleTime" : 147002000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":467,"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23790000,
+					"idleTime" : 127994000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":467,"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 76080000,
+					"idleTime" : 77802000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1896,"2":1303},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6398000,
+					"idleTime" : 144462000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1303},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7818000,
+					"idleTime" : 143046000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1891,"2":1303},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 47910000,
+					"idleTime" : 102963000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1886},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22632000,
+					"idleTime" : 125234000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1300},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78000000,
+					"idleTime" : 73818000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":326},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1588000,
+					"idleTime" : 149272000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1534755600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":809,"2":953},
+					"lostProducts" : {"1":1},
+					"downTime" : 24900000,
+					"productionTime" : 25699500,
+					"idleTime" : 101772000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7500000,
+					"idleTime" : 143658000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 148728000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":814,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5604000,
+					"idleTime" : 147600000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":819,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28170000,
+					"idleTime" : 125130000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":824,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 106140000,
+					"idleTime" : 49560000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3352,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7662000,
+					"idleTime" : 144638000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 149430000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3352,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57465000,
+					"idleTime" : 94848000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3352},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 40224000,
+					"idleTime" : 109075500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 124338000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":838,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1916000,
+					"idleTime" : 150384000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1535360400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":248,"2":3263},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12334500,
+					"idleTime" : 134557500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":399},
+					"lostProducts" : {"2":8},
+					"downTime" : 29220000,
+					"productionTime" : 26100000,
+					"idleTime" : 93728000,
+					"configureTime" : 5400000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":399},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11970000,
+					"idleTime" : 134922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":243,"2":399},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3852000,
+					"idleTime" : 143940000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":238,"2":399},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19110000,
+					"idleTime" : 128682000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":233,"2":399},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 52740000,
+					"idleTime" : 96936000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":879,"2":1597},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4952000,
+					"idleTime" : 141940000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1597},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 9582000,
+					"idleTime" : 137318000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":879,"2":1597},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 37140000,
+					"idleTime" : 109791000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":879},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10548000,
+					"idleTime" : 133348000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1597},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 95820000,
+					"idleTime" : 52088000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":220,"2":399},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1238000,
+					"idleTime" : 145654000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1535965200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1912},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23928000,
+					"idleTime" : 118665500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14880000,
+					"idleTime" : 128178000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 135380000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5646000,
+					"idleTime" : 137780000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28230000,
+					"idleTime" : 115292000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 98940000,
+					"idleTime" : 48360000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2805,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7526000,
+					"idleTime" : 134996000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2805,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56445000,
+					"idleTime" : 86103000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2805},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33660000,
+					"idleTime" : 105861500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":955},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57300000,
+					"idleTime" : 86238000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":701,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1880000,
+					"idleTime" : 140642000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1536570000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":547,"2":1920},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19290000,
+					"idleTime" : 127354000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 15060000,
+					"idleTime" : 132072000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 139396000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":547,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4722000,
+					"idleTime" : 142774000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":547,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23610000,
+					"idleTime" : 123934000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":547,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 80520000,
+					"idleTime" : 69240000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2184,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6284000,
+					"idleTime" : 140312000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 140856000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2184,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 47130000,
+					"idleTime" : 99492000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2184},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26208000,
+					"idleTime" : 117388000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":961},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57660000,
+					"idleTime" : 89952000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":545,"2":240},
+					"lostProducts" : {"1":1},
+					"downTime" : 22860000,
+					"productionTime" : 1570000,
+					"idleTime" : 122166000,
+					"configureTime" : 1800000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1537174800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":288,"2":2872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12948000,
+					"idleTime" : 137909500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22440000,
+					"idleTime" : 130692000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 140116000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":288,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3882000,
+					"idleTime" : 147880000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":288,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19410000,
+					"idleTime" : 132376000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":288,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56880000,
+					"idleTime" : 96852000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1161,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5196000,
+					"idleTime" : 145662000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 142248000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1161,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 38970000,
+					"idleTime" : 111927000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1160},
+					"lostProducts" : {"1":1},
+					"downTime" : 30240000,
+					"productionTime" : 13920000,
+					"idleTime" : 103697500,
+					"configureTime" : 5400000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1434},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86040000,
+					"idleTime" : 65892000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":290,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1298000,
+					"idleTime" : 149560000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1537779600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":675,"2":1913},
+					"lostProducts" : {"1":1},
+					"downTime" : 29760000,
+					"productionTime" : 23119500,
+					"idleTime" : 116324000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 15000000,
+					"idleTime" : 128232000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 135404000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":680,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5520000,
+					"idleTime" : 137960000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":685,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 27750000,
+					"idleTime" : 115802000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":690,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 97620000,
+					"idleTime" : 48360000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2804,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7524000,
+					"idleTime" : 135052000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136836000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2804,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56430000,
+					"idleTime" : 86172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2804},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33648000,
+					"idleTime" : 105927500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57480000,
+					"idleTime" : 86112000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":701,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1882000,
+					"idleTime" : 140694000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1538384400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":950,"2":959},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29938500,
+					"idleTime" : 112655500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7380000,
+					"idleTime" : 133820000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3570000,
+					"idleTime" : 138952000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":945,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6384000,
+					"idleTime" : 137038000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":940,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31770000,
+					"idleTime" : 111724000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":935,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119340000,
+					"idleTime" : 27930000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3692,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8342000,
+					"idleTime" : 134180000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139652000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3692,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 62565000,
+					"idleTime" : 79983000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3692},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44304000,
+					"idleTime" : 95222000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 114560000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":923,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2084000,
+					"idleTime" : 140438000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1538989200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3832},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12768000,
+					"idleTime" : 129769500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 116646000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 128172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4278000,
+					"idleTime" : 139140000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21390000,
+					"idleTime" : 122076000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57960000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5704000,
+					"idleTime" : 136810000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 131034000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 42780000,
+					"idleTime" : 99786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128281500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114960000,
+					"idleTime" : 28686000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1426000,
+					"idleTime" : 141088000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1539594000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1920},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23940000,
+					"idleTime" : 118654000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 15060000,
+					"idleTime" : 127998000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7200000,
+					"idleTime" : 135322000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5652000,
+					"idleTime" : 137770000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28260000,
+					"idleTime" : 115234000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 99120000,
+					"idleTime" : 48180000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7532000,
+					"idleTime" : 134990000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56490000,
+					"idleTime" : 86058000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 105826000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":955},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57300000,
+					"idleTime" : 86238000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":240},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1884000,
+					"idleTime" : 140638000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1540198800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":702,"2":1912},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 23928000,
+					"idleTime" : 118665500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14880000,
+					"idleTime" : 128178000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7170000,
+					"idleTime" : 135380000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5646000,
+					"idleTime" : 137780000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28230000,
+					"idleTime" : 115292000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 98940000,
+					"idleTime" : 48360000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7532000,
+					"idleTime" : 134990000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5748000,
+					"idleTime" : 136782000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2808,"2":958},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 56490000,
+					"idleTime" : 86058000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2808},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 33696000,
+					"idleTime" : 105825500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":961},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57660000,
+					"idleTime" : 85878000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":702,"2":239},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1882000,
+					"idleTime" : 140640000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1540803600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3832},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12768000,
+					"idleTime" : 129769500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 116646000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 128172000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4278000,
+					"idleTime" : 139140000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 21390000,
+					"idleTime" : 122076000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 57960000,
+					"idleTime" : 89040000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5704000,
+					"idleTime" : 136810000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 131034000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 42780000,
+					"idleTime" : 99786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128281500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1913},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114780000,
+					"idleTime" : 28866000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1426000,
+					"idleTime" : 141088000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1541408400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":936,"2":960},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29520000,
+					"idleTime" : 113102000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7560000,
+					"idleTime" : 133704000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3600000,
+					"idleTime" : 138926000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6336000,
+					"idleTime" : 137090000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31680000,
+					"idleTime" : 111842000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 119640000,
+					"idleTime" : 27780000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8446000,
+					"idleTime" : 134080000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 139656000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3744,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 63345000,
+					"idleTime" : 79194000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3744},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 44928000,
+					"idleTime" : 94598000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28740000,
+					"idleTime" : 114744000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":936,"2":120},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2112000,
+					"idleTime" : 140414000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1542013200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18348000,
+					"idleTime" : 124217500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22380000,
+					"idleTime" : 122472000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10770000,
+					"idleTime" : 131776000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4962000,
+					"idleTime" : 138460000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24810000,
+					"idleTime" : 118684000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78420000,
+					"idleTime" : 68760000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1440},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86400000,
+					"idleTime" : 57192000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":359},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1654000,
+					"idleTime" : 140864000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1542618000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2873},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18349500,
+					"idleTime" : 124216000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22560000,
+					"idleTime" : 122352000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10800000,
+					"idleTime" : 131746000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4968000,
+					"idleTime" : 138454000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24840000,
+					"idleTime" : 118654000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78600000,
+					"idleTime" : 68640000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1434},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86040000,
+					"idleTime" : 57552000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1656000,
+					"idleTime" : 140862000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1543222800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":848,"2":959},
+					"lostProducts" : {"1":1},
+					"downTime" : 28740000,
+					"productionTime" : 26878500,
+					"idleTime" : 103473500,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7380000,
+					"idleTime" : 150318000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3570000,
+					"idleTime" : 155450000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":848,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5802000,
+					"idleTime" : 154118000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":848,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29010000,
+					"idleTime" : 130982000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":848,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 108900000,
+					"idleTime" : 53340000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":3392,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7742000,
+					"idleTime" : 151278000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2874000,
+					"idleTime" : 156150000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":3392,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 58065000,
+					"idleTime" : 100968000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":3392},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 40704000,
+					"idleTime" : 115316000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":482},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 28920000,
+					"idleTime" : 131058000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":848,"2":119},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1934000,
+					"idleTime" : 157086000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1543827600000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":468,"2":2873},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18349500,
+					"idleTime" : 124216000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22560000,
+					"idleTime" : 122352000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10800000,
+					"idleTime" : 131746000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4968000,
+					"idleTime" : 138454000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24840000,
+					"idleTime" : 118654000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 78600000,
+					"idleTime" : 68640000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6618000,
+					"idleTime" : 135900000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8622000,
+					"idleTime" : 133908000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":1872,"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 49635000,
+					"idleTime" : 92922000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":1872},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22464000,
+					"idleTime" : 117053500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1437},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 86220000,
+					"idleTime" : 57372000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":468,"2":360},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1656000,
+					"idleTime" : 140862000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1544432400000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":234,"2":3344},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12036000,
+					"idleTime" : 130514500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 26280000,
+					"idleTime" : 120261000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 12540000,
+					"idleTime" : 130015000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":234,"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3912000,
+					"idleTime" : 139519000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":234,"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 19560000,
+					"idleTime" : 123919000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":234,"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 54300000,
+					"idleTime" : 92655000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":936,"2":1673},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5218000,
+					"idleTime" : 137309000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1673},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 10038000,
+					"idleTime" : 132501000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":936,"2":1672},
+					"lostProducts" : {"2":1},
+					"downTime" : 14580000,
+					"productionTime" : 39120000,
+					"idleTime" : 88566000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":936},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11232000,
+					"idleTime" : 128294500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1669},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 100140000,
+					"idleTime" : 43461000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":234,"2":418},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1304000,
+					"idleTime" : 141223000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1545037200000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":1005},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 30150000,
+					"idleTime" : 119886000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 0,
+					"idleTime" : 146964000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 0,
+					"idleTime" : 149964000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":1005},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 6030000,
+					"idleTime" : 144834000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":1005},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 30150000,
+					"idleTime" : 120786000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":1005},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 120300000,
+					"idleTime" : 33036000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":4020},
+					"lostProducts" : {"1":1},
+					"downTime" : 27900000,
+					"productionTime" : 8040000,
+					"idleTime" : 114024000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 0,
+					"idleTime" : 149964000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":4020},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 60300000,
+					"idleTime" : 89664000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":4020},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 48240000,
+					"idleTime" : 98730000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":3},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 180000,
+					"idleTime" : 150684000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":1005},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 2010000,
+					"idleTime" : 147954000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1545642000000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":125,"2":3832},
+					"lostProducts" : {"1":1},
+					"downTime" : 29580000,
+					"productionTime" : 9498000,
+					"idleTime" : 120049500,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 29940000,
+					"idleTime" : 133260000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 14370000,
+					"idleTime" : 144786000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":130,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3654000,
+					"idleTime" : 156378000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":135,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 18420000,
+					"idleTime" : 141636000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":140,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 46680000,
+					"idleTime" : 115320000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":616,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 5064000,
+					"idleTime" : 154064000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 11496000,
+					"idleTime" : 147648000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":616,"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 37980000,
+					"idleTime" : 121200000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":616},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 7392000,
+					"idleTime" : 148735500,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":1916},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 114960000,
+					"idleTime" : 45300000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":154,"2":479},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1266000,
+					"idleTime" : 157862000,
+					"configureTime" : 1500000
+				}
+			]
+		},
+		{
+			"timeStamp" : 1546246800000,
+			"machines" : [
+				{
+					"id" : 1,
+					"producedProducts" : {"1":698,"2":1047},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 22510500,
+					"idleTime" : 134687500,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 2,
+					"producedProducts" : {"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 8400000,
+					"idleTime" : 149132000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 3,
+					"producedProducts" : {"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3900000,
+					"idleTime" : 153274000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 4,
+					"producedProducts" : {"1":693,"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 4938000,
+					"idleTime" : 153136000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 5,
+					"producedProducts" : {"1":688,"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 24540000,
+					"idleTime" : 133558000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 6,
+					"producedProducts" : {"1":683,"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 90180000,
+					"idleTime" : 69911000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 7,
+					"producedProducts" : {"1":2677,"2":522},
+					"lostProducts" : {"2":1},
+					"downTime" : 26700000,
+					"productionTime" : 6398000,
+					"idleTime" : 123776000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 8,
+					"producedProducts" : {"2":522},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 3132000,
+					"idleTime" : 154046000,
+					"configureTime" : 1500000
+				},
+				{
+					"id" : 9,
+					"producedProducts" : {"1":2676,"2":522},
+					"lostProducts" : {"1":1},
+					"downTime" : 17460000,
+					"productionTime" : 47970000,
+					"idleTime" : 91757000,
+					"configureTime" : 1800000
+				},
+				{
+					"id" : 10,
+					"producedProducts" : {"1":2676},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 32112000,
+					"idleTime" : 122071000,
+					"configureTime" : 4500000
+				},
+				{
+					"id" : 11,
+					"producedProducts" : {"2":519},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 31140000,
+					"idleTime" : 126992000,
+					"configureTime" : 600000
+				},
+				{
+					"id" : 12,
+					"producedProducts" : {"1":669,"2":130},
+					"lostProducts" : {},
+					"downTime" : 0,
+					"productionTime" : 1598000,
+					"idleTime" : 155576000,
+					"configureTime" : 1500000
+				}
+			]
+		}
+	],
+	"finalStatistics":
+	{
+		"machines":
+		[
+			{
+				"id" : 1,
+				"totalProducedProducts" : {"1":29282,"2":117136},
+				"avgProducedProducts" : {"1":563,"2":2252},
+				"totalLostProducts" : {"1":6,"2":3},
+				"avgLostProducts" : {"1":0,"2":0},
+				"avgProductionTime" : 20272384,
+				"avgIdleTime" : 123424144,
+				"avgDownTime" : 4854230,
+				"avgConfigureTime" : 1551923,
+				"MTBFinHours" : 9
+			},
+			{
+				"id" : 2,
+				"totalProducedProducts" : {"2":14629},
+				"avgProducedProducts" : {"2":281},
+				"totalLostProducts" : {"2":8},
+				"avgLostProducts" : {"2":0},
+				"avgProductionTime" : 17723076,
+				"avgIdleTime" : 130420557,
+				"avgDownTime" : 561923,
+				"avgConfigureTime" : 4517307,
+				"MTBFinHours" : 1
+			},
+			{
+				"id" : 3,
+				"totalProducedProducts" : {"2":14612},
+				"avgProducedProducts" : {"2":281},
+				"totalLostProducts" : {"2":2},
+				"avgLostProducts" : {"2":0},
+				"avgProductionTime" : 8430000,
+				"avgIdleTime" : 138719365,
+				"avgDownTime" : 568846,
+				"avgConfigureTime" : 1511538,
+				"MTBFinHours" : 2
+			},
+			{
+				"id" : 4,
+				"totalProducedProducts" : {"1":29276,"2":14606},
+				"avgProducedProducts" : {"1":563,"2":280},
+				"totalLostProducts" : {"1":1,"2":1},
+				"avgLostProducts" : {"1":0,"2":0},
+				"avgProductionTime" : 5063307,
+				"avgIdleTime" : 142422057,
+				"avgDownTime" : 1126153,
+				"avgConfigureTime" : 604615,
+				"MTBFinHours" : 2
+			},
+			{
+				"id" : 5,
+				"totalProducedProducts" : {"1":29271,"2":14601},
+				"avgProducedProducts" : {"1":562,"2":280},
+				"totalLostProducts" : {},
+				"avgLostProducts" : {},
+				"avgProductionTime" : 25310769,
+				"avgIdleTime" : 123362134,
+				"avgDownTime" : 0,
+				"avgConfigureTime" : 600000,
+				"MTBFinHours" : 0
+			},
+			{
+				"id" : 6,
+				"totalProducedProducts" : {"1":29252,"2":14596},
+				"avgProducedProducts" : {"1":562,"2":280},
+				"totalLostProducts" : {"1":14},
+				"avgLostProducts" : {"1":0},
+				"avgProductionTime" : 84990000,
+				"avgIdleTime" : 66150923,
+				"avgDownTime" : 438461,
+				"avgConfigureTime" : 4517307,
+				"MTBFinHours" : 1
+			},
+			{
+				"id" : 7,
+				"totalProducedProducts" : {"1":116982,"2":58341},
+				"avgProducedProducts" : {"1":2249,"2":1121},
+				"totalLostProducts" : {"1":2,"2":2},
+				"avgLostProducts" : {"1":0,"2":0},
+				"avgProductionTime" : 6743192,
+				"avgIdleTime" : 138813173,
+				"avgDownTime" : 2147307,
+				"avgConfigureTime" : 1523076,
+				"MTBFinHours" : 4
+			},
+			{
+				"id" : 8,
+				"totalProducedProducts" : {"2":58336},
+				"avgProducedProducts" : {"2":1121},
+				"totalLostProducts" : {},
+				"avgLostProducts" : {},
+				"avgProductionTime" : 6731076,
+				"avgIdleTime" : 140986750,
+				"avgDownTime" : 0,
+				"avgConfigureTime" : 1500000,
+				"MTBFinHours" : 0
+			},
+			{
+				"id" : 9,
+				"totalProducedProducts" : {"1":116975,"2":58329},
+				"avgProducedProducts" : {"1":2249,"2":1121},
+				"totalLostProducts" : {"1":2,"2":2},
+				"avgLostProducts" : {"1":0,"2":0},
+				"avgProductionTime" : 50568461,
+				"avgIdleTime" : 96018596,
+				"avgDownTime" : 1144615,
+				"avgConfigureTime" : 1523076,
+				"MTBFinHours" : 4
+			},
+			{
+				"id" : 10,
+				"totalProducedProducts" : {"1":116967},
+				"avgProducedProducts" : {"1":2249},
+				"totalLostProducts" : {"1":3},
+				"avgLostProducts" : {"1":0},
+				"avgProductionTime" : 26992384,
+				"avgIdleTime" : 115965894,
+				"avgDownTime" : 1751538,
+				"avgConfigureTime" : 4551923,
+				"MTBFinHours" : 3
+			},
+			{
+				"id" : 11,
+				"totalProducedProducts" : {"2":58323},
+				"avgProducedProducts" : {"2":1121},
+				"totalLostProducts" : {"2":1},
+				"avgLostProducts" : {"2":0},
+				"avgProductionTime" : 67295769,
+				"avgIdleTime" : 80877942,
+				"avgDownTime" : 557307,
+				"avgConfigureTime" : 602307,
+				"MTBFinHours" : 1
+			},
+			{
+				"id" : 12,
+				"totalProducedProducts" : {"1":29236,"2":14579},
+				"avgProducedProducts" : {"1":562,"2":280},
+				"totalLostProducts" : {"1":2,"2":1},
+				"avgLostProducts" : {"1":0,"2":0},
+				"avgProductionTime" : 1685192,
+				"avgIdleTime" : 144832326,
+				"avgDownTime" : 1564615,
+				"avgConfigureTime" : 1517307,
+				"MTBFinHours" : 3
+			}
+		]
+	}
+}
