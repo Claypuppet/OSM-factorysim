@@ -288,7 +288,7 @@ productionLine:
     configurations:
 
     - productId: 1
-      outputEachMinute: 30
+      outputEachMinute: 2
       previousMachines:
         - machineId: 6
           neededProducts: 1
@@ -298,7 +298,7 @@ productionLine:
           inputBufferSize: 15
 
     - productId: 2
-      outputEachMinute: 30
+      outputEachMinute: 1
       previousMachines:
         - machineId: 6
           neededProducts: 1

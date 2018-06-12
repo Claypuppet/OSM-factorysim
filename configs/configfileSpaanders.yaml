@@ -4,11 +4,11 @@
 name: ProductieConfiguratieAllesGoedkoopAlleenStandaard
 
 simulationInfo:
-  durationInWeeks: 1
+  durationInWeeks: 3
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
   local: true
-  randomSeed: 666
+  randomSeed: 0
 
 productionLine:
   name: Kantoortafels
@@ -274,7 +274,6 @@ productionLine:
 # -------------------- INPAKKEN --------------------
 
 
-
   - id: 12
     name: Inpakmachine
     initializationDurationInSeconds: 300
@@ -285,7 +284,7 @@ productionLine:
     configurations:
 
     - productId: 1
-      outputEachMinute: 30
+      outputEachMinute: 2
       previousMachines:
         - machineId: 6
           neededProducts: 1
@@ -295,7 +294,7 @@ productionLine:
           inputBufferSize: 15
 
     - productId: 2
-      outputEachMinute: 30
+      outputEachMinute: 1
       previousMachines:
         - machineId: 6
           neededProducts: 1
@@ -303,4 +302,3 @@ productionLine:
         - machineId: 11
           neededProducts: 4
           inputBufferSize: 16
-
