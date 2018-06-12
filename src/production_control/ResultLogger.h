@@ -20,6 +20,9 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
 
   void initializeLog(const std::string &configurationPath, const std::string &configurationName);
 
+  /**
+   * Setup new daily logger
+   */
   void setNewDayLogger();
 
   /**
