@@ -32,7 +32,7 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
   dirToCreate << "./" << configurationName;
   boost::filesystem::path dir(dirToCreate.str().c_str());
 
-  if (boost::filesystem::exists(dirToCreate.str())){
+  if (boost::filesystem::exists(dirToCreate.str())) {
     boost::filesystem::remove_all(dirToCreate.str());
   }
 
@@ -43,7 +43,7 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
   boost::filesystem::create_directory(dir);
 
   std::stringstream statisticsLocation;
-  statisticsLocation << "./" << configurationName <<  "/statistics.json";
+  statisticsLocation << "./" << configurationName << "/statistics.json";
 
   utils::FileLogger::getInstance().addFileLogger(STATISTICS_LOG, statisticsLocation.str());
 
@@ -61,7 +61,8 @@ void ResultLogger::initializeLog(const std::string &configurationPath, const std
 void ResultLogger::setNewDayLogger() {
   // Setup daily logger
   std::stringstream dailyLogLocation;
-  dailyLogLocation << "./" << configurationName << "/daily_logs/" << utils::Time::getInstance().getCurrentTimeString("%Y_%m_%d") << "-log.yaml";
+  dailyLogLocation << "./" << configurationName << "/daily_logs/"
+                   << utils::Time::getInstance().getCurrentTimeString("%Y_%m_%d") << "-log.yaml";
   auto &logger = utils::FileLogger::getInstance();
   logger.addFileLogger(DAY_LOG_NAME, dailyLogLocation.str());
   logger.get(DAY_LOG_NAME)->info("events:");
@@ -129,7 +130,8 @@ void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,
     std::stringstream weekInfo;
     weekInfo << "\t\t\t\"timeStamp\" : " << item.first << ",";
     logger->info(weekInfo.str());
-    logger->info("\t\t\t\"machines\" : [");
+    logger->info("\t\t\t\"machines\" :");
+    logger->info("\t\t\t[");
 
     bool firstMachine = true;
 
@@ -146,43 +148,55 @@ void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,
       idInfo << "\t\t\t\t\t\"id\" : " << machineStats->getMachineId() << ",";
       logger->info(idInfo.str());
 
-      std::stringstream producedProducts;
-      producedProducts << "\t\t\t\t\t\"producedProducts\" : {";
-      for (auto &item1 : machineStats->getProducedProducts()) {
-        producedProducts << "\"" << item1.first << "\"" << ":" << item1.second << ",";
+      logger->info("\t\t\t\t\t\"products\" :");
+      logger->info("\t\t\t\t\t[");
+
+      bool firstProduct = true;
+
+      for (auto &product : machineStats->getProductStatistics()) {
+
+        if (product.getProductId() != 0) {
+
+          if (!firstProduct) {
+            logger->info("\t\t\t\t\t\t},");
+          }
+          firstProduct = false;
+
+          logger->info("\t\t\t\t\t\t{");
+
+          std::stringstream productIdStream;
+          productIdStream << "\t\t\t\t\t\t\t\"productId\" : " << product.getProductId() << ",";
+          logger->info(productIdStream.str());
+
+          std::stringstream producedStream;
+          producedStream << "\t\t\t\t\t\t\t\"produced\" : " << product.getProduced() << ",";
+          logger->info(producedStream.str());
+
+          std::stringstream lostStream;
+          lostStream << "\t\t\t\t\t\t\t\"lost\" : " << product.getLost() << ",";
+          logger->info(lostStream.str());
+
+          std::stringstream productionTimeStream;
+          productionTimeStream << "\t\t\t\t\t\t\t\"productionTime\" : " << product.getProductionTime() << ",";
+          logger->info(productionTimeStream.str());
+
+          std::stringstream idleTimeStream;
+          idleTimeStream << "\t\t\t\t\t\t\t\"idleTime\" : " << product.getIdleTime() << ",";
+          logger->info(idleTimeStream.str());
+
+          std::stringstream downTimeStream;
+          downTimeStream << "\t\t\t\t\t\t\t\"downTime\" : " << product.getDownTime() << ",";
+          logger->info(downTimeStream.str());
+
+          std::stringstream configureTimeStream;
+          configureTimeStream << "\t\t\t\t\t\t\t\"configureTime\" : " << product.getConfigureTime();
+          logger->info(configureTimeStream.str());
+        }
       }
-      if (producedProducts.str()[producedProducts.str().size() - 1] == ',') {
-        producedProducts.seekp(-1, std::ios_base::end);
+      if(!machineStats->getProductStatistics().empty()) {
+        logger->info("\t\t\t\t\t\t}");
       }
-      producedProducts << "},";
-      logger->info(producedProducts.str());
-
-      std::stringstream lostProducts;
-      lostProducts << "\t\t\t\t\t\"lostProducts\" : {";
-      for (auto &item1 : machineStats->getLostProducts()) {
-        lostProducts << "\"" << item1.first << "\"" << ":" << item1.second << ",";
-      }
-      if (lostProducts.str()[lostProducts.str().size() - 1] == ',') {
-        lostProducts.seekp(-1, std::ios_base::end);
-      }
-      lostProducts << "},";
-      logger->info(lostProducts.str());
-
-      std::stringstream downTime;
-      downTime << "\t\t\t\t\t\"downTime\" : " << machineStats->getDownTime() << ",";
-      logger->info(downTime.str());
-
-      std::stringstream productionTime;
-      productionTime << "\t\t\t\t\t\"productionTime\" : " << machineStats->getProductionTime() << ",";
-      logger->info(productionTime.str());
-
-      std::stringstream idleTime;
-      idleTime << "\t\t\t\t\t\"idleTime\" : " << machineStats->getIdleTime() << ",";
-      logger->info(idleTime.str());
-
-      std::stringstream configureTime;
-      configureTime << "\t\t\t\t\t\"configureTime\" : " << machineStats->getConfigureTime();
-      logger->info(configureTime.str());
+      logger->info("\t\t\t\t\t]");
     }
     logger->info("\t\t\t\t}");
     logger->info("\t\t\t]");
@@ -216,76 +230,80 @@ void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStat
     logger->info(idStream.str());
 
     std::stringstream nameStream;
-    nameStream << "\t\t\t\t\"name\" : " << stats.getMachineName() << ",";
+    nameStream << "\t\t\t\t\"name\" : \"" << stats.getMachineName() << "\",";
     logger->info(nameStream.str());
 
-    std::stringstream totalProducedStream;
-    totalProducedStream << "\t\t\t\t\"totalProducedProducts\" : {";
-    for (auto &item : stats.getTotalProducedProducts()) {
-      totalProducedStream << "\"" << item.first << "\":" << item.second << ",";
-    }
-    if (totalProducedStream.str()[totalProducedStream.str().size() - 1] == ',') {
-      totalProducedStream.seekp(-1, std::ios_base::end);
-    }
-    totalProducedStream << "},";
-    logger->info(totalProducedStream.str());
-
-    std::stringstream avgProducedStream;
-    avgProducedStream << "\t\t\t\t\"avgProducedProducts\" : {";
-    for (auto &item : stats.getAvgProducedProducts()) {
-      avgProducedStream << "\"" << item.first << "\":" << item.second << ",";
-    }
-    if (avgProducedStream.str()[avgProducedStream.str().size() - 1] == ',') {
-      avgProducedStream.seekp(-1, std::ios_base::end);
-    }
-    avgProducedStream << "},";
-    logger->info(avgProducedStream.str());
-
-    std::stringstream totalLostStream;
-    totalLostStream << "\t\t\t\t\"totalLostProducts\" : {";
-    for (auto &item : stats.getTotalLostProducts()) {
-      totalLostStream << "\"" << item.first << "\":" << item.second << ",";
-    }
-    if (totalLostStream.str()[totalLostStream.str().size() - 1] == ',') {
-      totalLostStream.seekp(-1, std::ios_base::end);
-    }
-    totalLostStream << "},";
-    logger->info(totalLostStream.str());
-
-    std::stringstream avgLostStream;
-    avgLostStream << "\t\t\t\t\"avgLostProducts\" : {";
-    for (auto &item : stats.getAvgLostProducts()) {
-      avgLostStream << "\"" << item.first << "\":" << item.second << ",";
-    }
-    if (avgLostStream.str()[avgLostStream.str().size() - 1] == ',') {
-      avgLostStream.seekp(-1, std::ios_base::end);
-    }
-    avgLostStream << "},";
-    logger->info(avgLostStream.str());
-
-    std::stringstream productionStream;
-    productionStream << "\t\t\t\t\"avgProductionTime\" : " << stats.getAvgProductionTime() << ",";
-    logger->info(productionStream.str());
-
-    std::stringstream idleStream;
-    idleStream << "\t\t\t\t\"avgIdleTime\" : " << stats.getAvgIdleTime() << ",";
-    logger->info(idleStream.str());
-
-    std::stringstream downTimeStream;
-    downTimeStream << "\t\t\t\t\"avgDownTime\" : " << stats.getAvgDownTime() << ",";
-    logger->info(downTimeStream.str());
-
-    std::stringstream configureStream;
-    configureStream << "\t\t\t\t\"avgConfigureTime\" : " << stats.getAvgConfigureTime() << ",";
-    logger->info(configureStream.str());
+    std::stringstream mtbfStream;
+    mtbfStream << "\t\t\t\t\"MTBFinHours\" : " << stats.getMTBFinHours() << ",";
+    logger->info(mtbfStream.str());
 
     std::stringstream timesBrokenStream;
-    timesBrokenStream << "\t\t\t\t\"timesBroken\" : " << stats.getTimesBroken() << ",";
+    timesBrokenStream << "\t\t\t\t\"totalTimesBroken\" : " << stats.getTimesBroken() << ",";
     logger->info(timesBrokenStream.str());
 
-    std::stringstream mtbfStream;
-    mtbfStream << "\t\t\t\t\"MTBFinHours\" : " << stats.getMTBFinHours();
-    logger->info(mtbfStream.str());
+    std::stringstream totalDownTimeStream;
+    totalDownTimeStream << "\t\t\t\t\"totalDownTime\" : " << stats.getTotalDownTime() << ",";
+    logger->info(totalDownTimeStream.str());
+
+    logger->info("\t\t\t\t\"products\" :");
+    logger->info("\t\t\t\t[");
+
+    bool firstProduct = true;
+
+    for (auto &product : stats.getProductStatistics()) {
+
+      if (product.getId() != 0) {
+
+        if (!firstProduct) {
+          logger->info("\t\t\t\t\t},");
+        }
+
+        logger->info("\t\t\t\t\t{");
+        firstProduct = false;
+
+        std::stringstream productIdStream;
+        productIdStream << "\t\t\t\t\t\t\"productId\" : " << product.getId() << ",";
+        logger->info(productIdStream.str());
+
+        std::stringstream totalProducedStream;
+        totalProducedStream << "\t\t\t\t\t\t\"totalProduced\" : " << product.getTotalProduced() << ",";
+        logger->info(totalProducedStream.str());
+
+        std::stringstream avgProducedStream;
+        avgProducedStream << "\t\t\t\t\t\t\"avgProduced\" : " << product.getAvgProduced() << ",";
+        logger->info(avgProducedStream.str());
+
+        std::stringstream totalLostStream;
+        totalLostStream << "\t\t\t\t\t\t\"totalLost\" : " << product.getTotalLost() << ",";
+        logger->info(totalLostStream.str());
+
+        std::stringstream avgLostStream;
+        avgLostStream << "\t\t\t\t\t\t\"avgLost\" : " << product.getAvgLost() << ",";
+        logger->info(avgLostStream.str());
+
+        std::stringstream avgProductionTimeStream;
+        avgProductionTimeStream << "\t\t\t\t\t\t\"avgProductionTime\" : " << product.getAvgProductionTime() << ",";
+        logger->info(avgProductionTimeStream.str());
+
+        std::stringstream avgIdleTimeStream;
+        avgIdleTimeStream << "\t\t\t\t\t\t\"avgIdleTime\" : " << product.getAvgIdleTime() << ",";
+        logger->info(avgIdleTimeStream.str());
+
+        std::stringstream avgDownTimeStream;
+        avgDownTimeStream << "\t\t\t\t\t\t\"avgDownTime\" : " << product.getAvgDownTime() << ",";
+        logger->info(avgDownTimeStream.str());
+
+        std::stringstream avgConfigureTimeStream;
+        avgConfigureTimeStream << "\t\t\t\t\t\t\"avgConfigureTime\" : " << product.getAvgConfigureTime();
+        logger->info(avgConfigureTimeStream.str());
+
+      }
+    }
+    if(!stats.getProductStatistics().empty()) {
+      logger->info("\t\t\t\t\t}");
+    }
+    logger->info("\t\t\t\t]");
+
   }
   logger->info("\t\t\t}");
   logger->info("\t\t]");

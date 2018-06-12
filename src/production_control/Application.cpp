@@ -40,7 +40,8 @@ void Application::setMachines(const std::vector<MachinePtr> &aMachines) {
       for (const auto &inputBufferPair : machine->getInputBuffers(productId)) {
         if (auto previousMachineObj = getMachine(inputBufferPair.first)) {
           previousMachineObj->setOutputBuffer(productId, inputBufferPair.second);
-        } else {
+        }
+        else {
           // This machine is the first in line because it doesnt have a previous machine
           firstMachinesInLine[productId].emplace_back(machine);
         }
@@ -244,7 +245,8 @@ void Application::prepareScheduler() {
     }
     changeProductionLineProduct(configId);
     createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
-  } else if (!shouldChangeProduction()) {
+  }
+  else if (!shouldChangeProduction()) {
     // Ccontinue producing what we were doing yesterday
     changeProductionLineProduct(currentProductId);
     createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
@@ -325,7 +327,7 @@ void Application::saveMachineStatistics() {
 }
 
 void Application::calculateFinalStatistics() {
-  if(machineStatistics.empty()){
+  if (machineStatistics.empty()) {
     return;
   }
 
@@ -342,55 +344,64 @@ void Application::calculateFinalStatistics() {
       }
     }
 
-    if(stats.size() == 0){
+    if (stats.empty()) {
       break;
     }
 
     std::map<uint16_t, uint32_t> totalProduced;
-    std::map<uint16_t, uint32_t> totalLost;
-    std::map<uint16_t, uint16_t> avgProduced;
-    std::map<uint16_t, uint16_t> avgLost;
-    uint64_t totalProductionTime = 0;
-    uint64_t totalIdleTime = 0;
-    uint64_t totalDownTime = 0;
-    uint64_t totalConfigureTime = 0;
+    std::map<uint16_t, uint16_t> totalLost;
+
+    std::map<uint16_t, uint64_t> totalIdleTime;
+    std::map<uint16_t, uint64_t> totalProductionTime;
+    std::map<uint16_t, uint64_t> totalDownTime;
+    std::map<uint16_t, uint64_t> totalConfigureTime;
 
     for (auto &stat : stats) {
-      for (auto &item : stat->getProducedProducts()) {
-        totalProduced[item.first] += item.second;
+      auto productStats = stat->getProductStatistics();
+      for (auto &product : productStats) {
+        auto productId = product.getProductId();
+        totalProduced[productId] += product.getProduced();
+        totalLost[productId] += product.getLost();
+        totalIdleTime[productId] += product.getIdleTime();
+        totalProductionTime[productId] += product.getProductionTime();
+        totalDownTime[productId] += product.getDownTime();
+        totalConfigureTime[productId] += product.getConfigureTime();
       }
-      for (auto &item : stat->getLostProducts()) {
-        totalLost[item.first] += item.second;
-      }
-      totalProductionTime += stat->getProductionTime();
-      totalIdleTime += stat->getIdleTime();
-      totalDownTime += stat->getDownTime();
-      totalConfigureTime += stat->getConfigureTime();
     }
 
-    auto nStats = stats.size();
+    std::vector<models::MachineProductFinalStatistics> productFinalStats;
+
+    auto nStats = static_cast<uint16_t>(stats.size());
 
     for (auto &item : totalProduced) {
-      avgProduced[item.first] = static_cast<uint16_t >(item.second / nStats);
+      auto productId = item.first;
+      productFinalStats.emplace_back(models::MachineProductFinalStatistics(
+          productId,
+          totalProduced[productId],
+          static_cast<uint16_t>(totalProduced[productId] / nStats),
+          totalLost[productId],
+          totalLost[productId] / nStats,
+          static_cast<uint32_t>(totalProductionTime[productId] / nStats),
+          static_cast<uint32_t>(totalIdleTime[productId] / nStats),
+          static_cast<uint32_t>(totalDownTime[productId] / nStats),
+          static_cast<uint32_t>(totalConfigureTime[productId] / nStats)));
     }
 
-    for (auto &item : totalLost) {
-      avgLost[item.first] = static_cast<uint16_t>(item.second / nStats);
+    uint64_t downTime = 0;
+
+    for (auto &item : totalDownTime) {
+      downTime += item.second;
     }
 
     finalStatistics.emplace_back(
-        machine->getId(),
-        machine->getName(),
-        avgProduced,
-        avgLost,
-        static_cast<uint32_t>(totalDownTime / nStats),
-        static_cast<uint32_t>(totalProductionTime / nStats),
-        static_cast<uint32_t>(totalIdleTime / nStats),
-        static_cast<uint32_t>(totalConfigureTime / nStats),
-        totalProduced,
-        totalLost,
-        machine->getTimesBroken(),
-        machine->calculateMTBF()
+        models::MachineFinalStatistics(
+            machine->getName(),
+            machine->getId(),
+            machine->calculateMTBF(),
+            machine->getTimesBroken(),
+            downTime,
+            productFinalStats
+        )
     );
   }
 }

@@ -20,7 +20,7 @@ add_library(lib_models SHARED
         SimulationInfo.cpp
         SimulationInfo.h
         PostProcessInfo.cpp
-        PostProcessInfo.h)
+        PostProcessInfo.h MachineProductStatistics.cpp MachineProductStatistics.h MachineProductFinalStatistics.cpp MachineProductFinalStatistics.h)
 
 install(TARGETS
         lib_models

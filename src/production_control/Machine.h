@@ -165,7 +165,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   const OutputBuffersPerConfigMap &getOutputBuffers() const;
 
   // MachineStatistics getters
-  const std::map<MachineStatus, uint32_t> &getTimeSpendInState() const;
+  const std::map<uint16_t, std::map<MachineStatus, uint32_t>> &getTimeSpendInState() const;
   uint16_t getTimesBroken() const;
 
   /**
@@ -217,7 +217,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * ProductId, amount of lost products
    */
   std::map<uint16_t, uint16_t> lostProducts;
-  std::map<models::Machine::MachineStatus, uint32_t> timeSpendInState;
+  std::map<uint16_t ,std::map<models::Machine::MachineStatus, uint32_t>> timeSpendInState;
   uint16_t timesBroken;
 
   // Maps with the different buffers a machine can have. the uint16_t is the configuration id (different production line)
