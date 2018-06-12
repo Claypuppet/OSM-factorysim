@@ -1,7 +1,7 @@
 # Productiestraat Spaanders B.V.
 
 ---
-name: ProductieConfiguratieAllesGoedkoop
+name: ProductieConfiguratieAllesGoedkoopAlleenStandaard
 
 simulationInfo:
   durationInWeeks: 1
@@ -16,9 +16,6 @@ productionLine:
   - id: 1
     name: normalekantoortafels
     proportion: 2
-  - id: 2
-    name: luxekantoortafels
-    proportion: 1
   machines:
 
 
