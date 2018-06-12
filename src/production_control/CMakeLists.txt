@@ -59,7 +59,7 @@ add_library(source_lib_app_production SHARED
         states_application/in_operation/OperatingState.h)
 
 # Link to libs
-target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer)
+target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer ${Boost_SYSTEM_LIBRARY} ${Boost_FILESYSTEM_LIBRARY})
 
 add_executable(app_production_control
         Main.cpp)

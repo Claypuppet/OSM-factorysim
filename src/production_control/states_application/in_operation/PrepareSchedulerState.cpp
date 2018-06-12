@@ -6,6 +6,7 @@
 #include "PrepareSchedulerState.h"
 #include "OperatingState.h"
 #include "PreChangeState.h"
+#include "../../ResultLogger.h"
 
 namespace applicationstates {
 
@@ -14,6 +15,7 @@ PrepareSchedulerState::PrepareSchedulerState(core::Application &aContext) : InOp
 
 void PrepareSchedulerState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
+  core::ResultLogger::getInstance().setNewDayLogger();
   context.prepareScheduler();
 }
 

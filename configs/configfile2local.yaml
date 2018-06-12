@@ -8,6 +8,7 @@ simulationInfo:
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
   local: true
+  randomSeed: 0
 
 productionLine:
   name: Kantoortafels

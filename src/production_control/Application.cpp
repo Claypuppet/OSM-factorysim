@@ -325,6 +325,9 @@ void Application::saveMachineStatistics() {
 }
 
 void Application::calculateFinalStatistics() {
+  if(machineStatistics.empty()){
+    return;
+  }
 
   finalStatistics.clear();
 
@@ -404,7 +407,7 @@ void Application::workDayOver() {
 }
 
 void Application::checkTimeToStartAgain() {
-  // TODO: flush daily log
+
 }
 
 bool Application::checkAllMachinesIdle(bool completelyIdle) {
