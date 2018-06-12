@@ -98,13 +98,13 @@ void ResultLogger::log(const std::string &message) {
 
 void ResultLogger::logStatistics(
     const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
-    const std::vector<models::MachineFinalStatistics> &finalStats) {
+    const std::vector<models::MachineFinalStatistics> &finalStats, models::FinalStatisticsPtr finalStatistics) {
 
   auto logger = utils::FileLogger::getInstance().get(STATISTICS_LOG);
 
   logger->info("{");
   logTimeStampStatistics(timeStampStatistics);
-  logFinalStatistics(finalStats);
+  logFinalStatistics(finalStats, finalStatistics);
   logger->info("}");
 
   utils::FileLogger::getInstance().flush(STATISTICS_LOG);
@@ -193,7 +193,7 @@ void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,
           logger->info(configureTimeStream.str());
         }
       }
-      if(!machineStats->getProductStatistics().empty()) {
+      if (!machineStats->getProductStatistics().empty()) {
         logger->info("\t\t\t\t\t\t}");
       }
       logger->info("\t\t\t\t\t]");
@@ -205,17 +205,39 @@ void ResultLogger::logTimeStampStatistics(const std::map<uint64_t,
   logger->info("\t],");
 }
 
-void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStatistics> &finalStatistics) {
+void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStatistics> &machineFinalStatistics,
+                                      models::FinalStatisticsPtr finalStatistics) {
   auto logger = utils::FileLogger::getInstance().get(STATISTICS_LOG);
 
-  logger->info("\t\"finalStatistics\":");
+  logger->info("\t\"machineFinalStatistics\":");
   logger->info("\t{");
+
+  if (!finalStatistics->getProducedEndProducts().empty()) {
+    std::stringstream totalEndProductsStream;
+    totalEndProductsStream << "\t\t\"totalEndProducts\" : {";
+    for (const auto &product : finalStatistics->getProducedEndProducts()) {
+      totalEndProductsStream << '\"' << product.first << "\":" << product.second << ",";
+    }
+    totalEndProductsStream.seekp(-1, std::ios_base::end);
+    totalEndProductsStream << "},";
+    logger->info(totalEndProductsStream.str());
+  }
+
+  std::stringstream simulationDurationStream;
+  simulationDurationStream << "\t\t\"simulationDurationInHours\" : " << finalStatistics->getSimulationDurationInHours()
+                           << ",";
+  logger->info(simulationDurationStream.str());
+
+  std::stringstream timesReconfiguredStream;
+  timesReconfiguredStream << "\t\t\"timesReconfigured\" : " << finalStatistics->getTimesReconfigured() << ",";
+  logger->info(timesReconfiguredStream.str());
+
   logger->info("\t\t\"machines\":");
   logger->info("\t\t[");
 
   bool first = true;
 
-  for (auto &stats : finalStatistics) {
+  for (auto &stats : machineFinalStatistics) {
 
     if (!first) {
       logger->info("\t\t\t},");
@@ -299,7 +321,7 @@ void ResultLogger::logFinalStatistics(const std::vector<models::MachineFinalStat
 
       }
     }
-    if(!stats.getProductStatistics().empty()) {
+    if (!stats.getProductStatistics().empty()) {
       logger->info("\t\t\t\t\t}");
     }
     logger->info("\t\t\t\t]");

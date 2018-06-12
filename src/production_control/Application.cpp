@@ -260,6 +260,7 @@ void Application::changeProductionLineProduct(uint16_t productId) {
   }
   currentProductId = productId;
   momentStartingCurrentProduct = utils::Time::getInstance().getCurrentTime();
+  ++timesReconfigured;
 }
 
 bool Application::setMachineStatus(uint16_t machineId, Machine::MachineStatus status) {
@@ -326,12 +327,12 @@ void Application::saveMachineStatistics() {
   }
 }
 
-void Application::calculateFinalStatistics() {
+void Application::calculateMachineFinalStatistics() {
   if (machineStatistics.empty()) {
     return;
   }
 
-  finalStatistics.clear();
+  machineFinalStatistics.clear();
 
   for (auto &machine : machines) {
     std::vector<models::MachineStatisticsPtr> stats;
@@ -393,7 +394,7 @@ void Application::calculateFinalStatistics() {
       downTime += item.second;
     }
 
-    finalStatistics.emplace_back(
+    machineFinalStatistics.emplace_back(
         models::MachineFinalStatistics(
             machine->getName(),
             machine->getId(),
@@ -407,8 +408,8 @@ void Application::calculateFinalStatistics() {
 }
 
 void Application::logFinalStatistics() {
-  calculateFinalStatistics();
-  ResultLogger::getInstance().logStatistics(machineStatistics, finalStatistics);
+  calculateMachineFinalStatistics();
+  ResultLogger::getInstance().logStatistics(machineStatistics, machineFinalStatistics, calculateFinalStatistics());
 }
 
 void Application::prepareForShutdown() {
@@ -443,6 +444,21 @@ bool Application::checkAllMachinesDisconnected() {
   }
   createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesDisconnected);
   return true;
+}
+models::FinalStatisticsPtr Application::calculateFinalStatistics() {
+  std::map<uint16_t, uint32_t> endProducts;
+
+  for (const auto &item : lastMachineInLine) {
+    endProducts[item.first] = static_cast<uint32_t>(item.second->getOutputBuffer(item.first)->getTotalProcessed());
+  }
+
+  return std::make_shared<models::FinalStatistics>(endProducts,
+                                                   timesReconfigured,
+                                                   utils::TimeHelper::i().getTotalHoursWorked());
+}
+
+uint16_t Application::getTimesReconfigured() const {
+  return timesReconfigured;
 }
 
 }
