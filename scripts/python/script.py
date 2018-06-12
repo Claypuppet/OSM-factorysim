@@ -39,7 +39,7 @@ for machineset in configs['machinesets']:
 
 	config['productionLine']['machines'].append(machine)
 
-yamlfile = file("generatedConfig.yaml", "w")
+yamlfile = file("config_"+config['simulationInfo']['name']+".yaml", "w")
 yaml.dump(config, yamlfile)
 
 print yaml.dump(config)
