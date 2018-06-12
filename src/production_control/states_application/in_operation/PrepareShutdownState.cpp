@@ -30,7 +30,7 @@ bool PrepareShutdownState::handleEvent(const applicationstates::EventPtr &event)
       // Do nothing because we're already in this state. no need to trigger this again
       return true;
     case applicationstates::kEventTypeMachineDisconnected:
-      // Do nothing because we are actually waiting for all to disconnect
+      context.getMachine(event->getArgumentAsType<uint16_t>(0))->setStatus(core::Machine::kMachineStatusDisconnected);
       return true;
     case applicationstates::kEventTypeAllMachinesDisconnected:
       onAllMachinesDisconnected();

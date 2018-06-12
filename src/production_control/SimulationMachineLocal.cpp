@@ -54,12 +54,14 @@ void SimulationMachineLocal::setConnection(const network::ConnectionPtr &aConnec
   connected = true;
   setStatus(kMachineStatusInitializing);
   nextAction = kNextActionTypeIdle; // will be re-set by scheduler when preparing reconfigure
+  momentOfLastItemProcessed = utils::Time::i().getCurrentTime();
 }
 
 void SimulationMachineLocal::sendStartProcessMessage() {
   auto startTime = utils::Time::getInstance().getCurrentTime();
   notifyOK(startTime, kMachineStatusProcessingProduct);
   notifyProductTakenFromBuffer(startTime);
+
   if(checkBroken(startTime)){
     // Broken
     notifyNOK(startTime, kMachineErrorCodeBroke);
@@ -72,14 +74,15 @@ void SimulationMachineLocal::sendStartProcessMessage() {
     uint64_t timeSpendProcessing = startTime + currentConfig->getProcessTime();
     if(auto postProcess = getPostProcessInfo()){
       if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > timeSpendProcessing){
-        timeSpendProcessing += (momentOfLastItemProcessed + postProcess->getInputDelayInMillis()) - timeSpendProcessing;
+        timeSpendProcessing = (momentOfLastItemProcessed + postProcess->getInputDelayInMillis());
       }
       notifyProductAddedToBuffer(timeSpendProcessing + postProcess->getPostProcessDurationInMillis());
     }
     else{
       notifyProductAddedToBuffer(timeSpendProcessing);
     }
-    notifyOK(startTime + currentConfig->getProcessTime(), kMachineStatusIdle);
+    momentOfLastItemProcessed = timeSpendProcessing;
+    notifyOK(timeSpendProcessing, kMachineStatusIdle);
   }
 }
 
