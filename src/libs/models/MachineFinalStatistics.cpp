@@ -7,6 +7,7 @@
 namespace models {
 
 MachineFinalStatistics::MachineFinalStatistics(uint16_t machinedId,
+                                               const std::string &machineName,
                                                const std::map<uint16_t, uint16_t> &avgProducedProducts,
                                                const std::map<uint16_t, uint16_t> &avgLostProducts,
                                                uint32_t avgDownTime,
@@ -15,8 +16,10 @@ MachineFinalStatistics::MachineFinalStatistics(uint16_t machinedId,
                                                uint32_t avgConfigureTime,
                                                const std::map<uint16_t, uint32_t> &totalProducedProducts,
                                                const std::map<uint16_t, uint32_t> &totalLostProducts,
+                                               uint16_t timesBroken,
                                                uint16_t MTBF)
     : machineId(machinedId),
+      machineName(machineName),
       avgProducedProducts(avgProducedProducts),
       avgLostProducts(avgLostProducts),
       avgDownTime(avgDownTime),
@@ -25,6 +28,7 @@ MachineFinalStatistics::MachineFinalStatistics(uint16_t machinedId,
       avgConfigureTime(avgConfigureTime),
       totalProducedProducts(totalProducedProducts),
       totalLostProducts(totalLostProducts),
+      timesBroken(timesBroken),
       MTBFinHours(MTBF) {}
 
 const std::map<uint16_t, uint32_t> &MachineFinalStatistics::getTotalProducedProducts() const {
@@ -65,6 +69,14 @@ uint32_t MachineFinalStatistics::getAvgConfigureTime() const {
 
 uint16_t MachineFinalStatistics::getMachineId() const {
   return machineId;
+}
+
+const std::string &MachineFinalStatistics::getMachineName() const {
+  return machineName;
+}
+
+uint16_t MachineFinalStatistics::getTimesBroken() const {
+  return timesBroken;
 }
 
 }

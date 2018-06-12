@@ -202,12 +202,19 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    * @param machineId : Id of the machine that added products
    */
   void onHandleProductAddedToBufferNotification(uint16_t machineId);
+  
+  /**
+   * Calculates the MTBF for a simulation with the times broken
+   * @param timesBroken 
+   */
+  uint16_t getMTBFforTimesBroken(uint16_t timesBroken);
 
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
 
   uint16_t currentProductId{};
   uint64_t momentStartingCurrentProduct{};
+  uint64_t startTimeStamp;
 
   std::map<uint16_t, uint16_t> productPorportions;
   std::map<uint16_t, MachinePtr> lastMachineInLine;

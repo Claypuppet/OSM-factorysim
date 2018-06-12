@@ -373,15 +373,17 @@ void Application::calculateFinalStatistics() {
 
     finalStatistics.emplace_back(
         machine->getId(),
+        machine->getName(),
         avgProduced,
         avgLost,
         static_cast<uint32_t>(totalDownTime / nStats),
         static_cast<uint32_t>(totalProductionTime / nStats),
-        static_cast< uint32_t>(totalIdleTime / nStats),
+        static_cast<uint32_t>(totalIdleTime / nStats),
         static_cast<uint32_t>(totalConfigureTime / nStats),
         totalProduced,
         totalLost,
-        machine->getTimesBroken()
+        machine->getTimesBroken(),
+        getMTBFforTimesBroken(machine->getTimesBroken())
     );
   }
 }
@@ -423,6 +425,11 @@ bool Application::checkAllMachinesDisconnected() {
   }
   createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesDisconnected);
   return true;
+}
+uint16_t Application::getMTBFforTimesBroken(uint16_t timesBroken) {
+  auto duration = utils::Time::getInstance().getCurrentTime() - startTimeStamp;
+  auto simulatedDays = static_cast<uint16_t>(duration / (1000 * 60 * 60 * 24));
+  return (simulatedDays * (uint16_t)8) / timesBroken;
 }
 
 }
