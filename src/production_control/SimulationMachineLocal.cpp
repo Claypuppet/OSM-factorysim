@@ -62,9 +62,6 @@ void SimulationMachineLocal::sendStartProcessMessage() {
   notifyOK(startTime, kMachineStatusProcessingProduct);
   notifyProductTakenFromBuffer(startTime);
 
-  if(startTime == 1514798490000 && id == 6){
-    int a = 1;
-  }
   if(checkBroken(startTime)){
     // Broken
     notifyNOK(startTime, kMachineErrorCodeBroke);
