@@ -5,6 +5,7 @@
 #include <utils/time/Time.h>
 #include "TimeHelper.h"
 #include "Logger.h"
+#include "FileLogger.h"
 
 namespace utils {
 
@@ -34,8 +35,8 @@ void TimeHelper::initialize(uint32_t aWorkDayStartHour, uint8_t aWorkDayDuration
   auto &time = Time::getInstance();
   lastWorkDayStart = time.getCurrentTime() + (hourInMillis * workDayStartHour);
   time.syncTime(lastWorkDayStart);
-  Logger::log("The very first day of work has started!");
-  Logger::log(time.getCurrentTimeString());
+  FileLogger::getInstance().get(CONSOLE_LOG)->info("_______________________\nThe very first week has started! " + std::to_string(currentWeek + 1));
+  FileLogger::getInstance().get(CONSOLE_LOG)->info("The very first day of work has started! " + time.getCurrentTimeString("%d-%m-%Y"));
 }
 
 uint64_t TimeHelper::getStartOfNextWorkDay() {
@@ -54,17 +55,15 @@ void TimeHelper::goToNextWorkDay() {
   } while (currentDayOfWeek == 5 || currentDayOfWeek == 6); // Skip weekend...
   // Increase week if monday
   if (currentDayOfWeek == 0) {
-    Logger::log("_______________________");
-    Logger::log("A new week has started!");
     ++currentWeek;
+    FileLogger::getInstance().get(CONSOLE_LOG)->info("_______________________\nA new week has started! " + std::to_string(currentWeek + 1));
   }
   auto &time = Time::getInstance();
   if (time.getCurrentTime() > lastWorkDayStart) {
     throw std::runtime_error("Wow you can't do this... the new work day already started for some reason!");
   }
   time.syncTime(lastWorkDayStart);
-  Logger::log("A new day has started!");
-  Logger::log(time.getCurrentTimeString());
+  FileLogger::getInstance().get(CONSOLE_LOG)->info("A new day has started! " + time.getCurrentTimeString("%d-%m-%Y"));
 }
 
 bool TimeHelper::isClosingTime(uint16_t finishUpMinutes /* = 5 */) const {

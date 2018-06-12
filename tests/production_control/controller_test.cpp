@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_SUITE(ProductionControlTestControllerEventProcesses)
 BOOST_AUTO_TEST_CASE(ProductionControlTestControllerEventSimulationFinsihedWithEvent) {
   simulation::SimulationController controller;
 
-  BOOST_CHECK_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
+  controller.setConfiguration("./test_configs/test_config_two_machines.yaml");
 
   controller.setCurrentState(std::make_shared<states::OperationState>(controller));
 

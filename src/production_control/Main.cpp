@@ -6,6 +6,7 @@
 #include "SimulationController.h"
 
 int main(int argc, char **argv) {
+  utils::FileLogger::i().useConsoleLogger(true);
   utils::CommandLineArguments::i().setCommandlineArguments(argc, argv);
   simulation::SimulationController controller;
   controller.execute();

@@ -10,6 +10,7 @@ FinishedOperationState::FinishedOperationState(simulation::SimulationController 
 
 void FinishedOperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
+  context.getApplication()->logFinalStatistics();
   context.stop();
 }
 
