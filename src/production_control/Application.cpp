@@ -342,6 +342,10 @@ void Application::calculateFinalStatistics() {
       }
     }
 
+    if(stats.size() == 0){
+      break;
+    }
+
     std::map<uint16_t, uint32_t> totalProduced;
     std::map<uint16_t, uint32_t> totalLost;
     std::map<uint16_t, uint16_t> avgProduced;
@@ -430,9 +434,10 @@ bool Application::checkAllMachinesDisconnected() {
   return true;
 }
 uint16_t Application::getMTBFforTimesBroken(uint16_t timesBroken) {
-  auto duration = utils::Time::getInstance().getCurrentTime() - startTimeStamp;
-  auto simulatedDays = static_cast<uint16_t>(duration / (1000 * 60 * 60 * 24));
-  return (simulatedDays * (uint16_t)8) / timesBroken;
+  if(timesBroken == 0){
+    return 0;
+  }
+  return static_cast<uint16_t>(utils::TimeHelper::i().getTotalHoursWorked() / timesBroken);
 }
 
 }

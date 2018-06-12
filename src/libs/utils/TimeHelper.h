@@ -47,6 +47,8 @@ class TimeHelper : public patterns::singleton::Singleton<TimeHelper> {
    */
   bool isClosingTime(uint16_t finishUpMinutes = 0) const;
 
+  uint32_t getTotalHoursWorked();
+
  private:
   friend patterns::singleton::Singleton<TimeHelper>;
   TimeHelper();
