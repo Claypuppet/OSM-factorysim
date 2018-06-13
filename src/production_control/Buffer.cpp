@@ -19,13 +19,6 @@ Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId, uint32_t size)
     : taker(taker), maxSize(size), totalProcessed(0), productId(aProductId) {
 }
 
-Buffer::Buffer(const Buffer &other)
-    : taker(other.taker),
-      putter(other.putter),
-      maxSize(other.maxSize),
-      totalProcessed(other.totalProcessed),
-      productId(other.productId) {}
-
 bool Buffer::checkAmountInBuffer(uint32_t amount) {
   return size() >= amount;
 }

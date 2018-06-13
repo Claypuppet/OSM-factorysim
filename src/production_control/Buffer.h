@@ -28,7 +28,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    */
   explicit Buffer(const MachinePtrW &taker, uint16_t productId, uint32_t size);
   
-  Buffer(const Buffer &other);
+  Buffer(const Buffer &other)= delete;
 
   /**
    * destruct

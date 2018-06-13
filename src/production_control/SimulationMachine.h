@@ -24,7 +24,7 @@ class SimulationMachine : public core::Machine {
    * @param aMachine : A machine model
    */
   explicit SimulationMachine(const models::Machine &aMachine);
-  SimulationMachine(const SimulationMachine &other);
+  SimulationMachine(const SimulationMachine &other) = delete;
 
   /**
    * Destruct

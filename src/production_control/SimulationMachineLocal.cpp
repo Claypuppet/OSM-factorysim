@@ -26,17 +26,6 @@ SimulationMachineLocal::SimulationMachineLocal(const models::Machine &aMachine)
   repairDistribution = utils::NormalDistribution(getReparationTimeInMinutes(), getReparationTimeStddevInMinutes());
 }
 
-SimulationMachineLocal::SimulationMachineLocal(const SimulationMachineLocal &other)
-    : SimulationMachine(other),
-      connected(other.connected),
-      breakDistribution(other.breakDistribution),
-      repairDistribution(other.repairDistribution),
-      timeSinceBrokenCheck(other.timeSinceBrokenCheck),
-      momentOfLastItemProcessed(other.momentOfLastItemProcessed),
-      currentConfig(other.currentConfig) {
-
-}
-
 bool SimulationMachineLocal::isSimulationConnected() const {
   return true;
 }

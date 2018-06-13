@@ -16,8 +16,6 @@ InfiniteBuffer::InfiniteBuffer(const MachinePtrW &aFromMachine, uint16_t aProduc
 
 }
 
-InfiniteBuffer::InfiniteBuffer(const InfiniteBuffer &other) : Buffer(other) {}
-
 bool InfiniteBuffer::checkAmountInBuffer(uint32_t amount) {
   return true;
 }

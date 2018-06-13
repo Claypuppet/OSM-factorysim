@@ -26,25 +26,7 @@ Machine::Machine(const models::Machine &aMachine)
       timeSpendInState(),
       timesBroken(0),
       inputBuffers(),
-      outputBuffers() {
-}
-
-Machine::Machine(const Machine &other)
-    : models::Machine(other),
-      status(other.status),
-      awaitingResponse(other.awaitingResponse),
-      connection(other.connection),
-      productInProcess(other.productInProcess),
-      prepareConfigureId(other.prepareConfigureId),
-      currentConfigId(other.currentConfigId),
-      nextAction(other.nextAction),
-      lastStatusChange(other.lastStatusChange),
-      producedProducts(other.producedProducts),
-      lostProducts(other.lostProducts),
-      timeSpendInState(other.timeSpendInState),
-      timesBroken(other.timesBroken),
-      inputBuffers(other.inputBuffers),
-      outputBuffers(other.outputBuffers) {}
+      outputBuffers() {}
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;

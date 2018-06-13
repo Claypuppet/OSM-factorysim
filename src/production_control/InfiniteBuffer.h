@@ -20,7 +20,7 @@ class InfiniteBuffer : public Buffer {
    */
   InfiniteBuffer(uint16_t productId);
   
-  InfiniteBuffer(const InfiniteBuffer &other);
+  InfiniteBuffer(const InfiniteBuffer &other) = delete;
 
   /**
    * Construct infinite buffer

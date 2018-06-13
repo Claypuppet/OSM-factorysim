@@ -21,17 +21,6 @@ SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
     simulationBufferEvents() {
 }
 
-SimulationMachine::SimulationMachine(const SimulationMachine &other) :
-    core::Machine(other),
-    eventPusher(),
-    ready(other.ready),
-    simConnection(other.simConnection),
-    awaitingSimulationResponse(other.awaitingSimulationResponse),
-    simulationStatusEvents(other.simulationStatusEvents),
-    simulationBufferEvents(other.simulationBufferEvents) {
-
-}
-
 bool SimulationMachine::isSimulationConnected() const {
   return !!simConnection;
 }

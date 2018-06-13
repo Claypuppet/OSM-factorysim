@@ -39,7 +39,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   explicit Machine(const models::Machine &aMachine);
   
-  Machine(const Machine &other);
+  Machine(const Machine &other) = delete;
 
   /**
   * Copy constructor
