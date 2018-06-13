@@ -23,6 +23,7 @@ class MachineFinalStatistics {
                          uint16_t timesBroken,
                          uint64_t totalDownTime,
                          const std::vector<MachineProductFinalStatistics> &productStatistics);
+  MachineFinalStatistics(const MachineFinalStatistics &other);
   const std::string &getMachineName() const;
   uint16_t getMachineId() const;
   uint16_t getMTBFinHours() const;

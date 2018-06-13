@@ -19,6 +19,7 @@ typedef std::normal_distribution<> NormalDistribution;
  */
 class RandomHelper : public patterns::singleton::Singleton<RandomHelper> {
  public:
+  RandomHelper(const RandomHelper &) = delete;
   /**
    * set the random seed
    * @param seed

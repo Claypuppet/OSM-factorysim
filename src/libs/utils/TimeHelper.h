@@ -5,7 +5,6 @@
 #ifndef PRODUCTION_LINE_CONTROL_TIMEHELPER_H
 #define PRODUCTION_LINE_CONTROL_TIMEHELPER_H
 
-
 #include <cstdint>
 #include <patterns/singleton/Singleton.h>
 
@@ -16,6 +15,7 @@ namespace utils {
  */
 class TimeHelper : public patterns::singleton::Singleton<TimeHelper> {
  public:
+  TimeHelper(const TimeHelper &) = delete;
   /**
    * Initialise the helper
    * @param workDayStartHour : hour of start of the work day

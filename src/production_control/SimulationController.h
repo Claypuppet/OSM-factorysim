@@ -25,6 +25,7 @@ class SimulationController
  public:
 
   SimulationController();
+  SimulationController(const SimulationController &) = delete;
 
   /**
    * Destruct

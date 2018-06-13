@@ -29,6 +29,23 @@ Machine::Machine(const models::Machine &aMachine)
       outputBuffers() {
 }
 
+Machine::Machine(const Machine &other)
+    : models::Machine(other),
+      status(other.status),
+      awaitingResponse(other.awaitingResponse),
+      connection(other.connection),
+      productInProcess(other.productInProcess),
+      prepareConfigureId(other.prepareConfigureId),
+      currentConfigId(other.currentConfigId),
+      nextAction(other.nextAction),
+      lastStatusChange(other.lastStatusChange),
+      producedProducts(other.producedProducts),
+      lostProducts(other.lostProducts),
+      timeSpendInState(other.timeSpendInState),
+      timesBroken(other.timesBroken),
+      inputBuffers(other.inputBuffers),
+      outputBuffers(other.outputBuffers) {}
+
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
   if (connection && connection->isConnected()) {
@@ -319,13 +336,13 @@ models::MachineStatisticsPtr Machine::getStatistics() {
   std::vector<models::MachineProductStatistics> productStats;
   for (auto &item : timeSpendInState) {
     productStats.emplace_back(models::MachineProductStatistics(item.first,
-                                                            item.second[kMachineStatusProcessingProduct],
-                                                            item.second[kMachineStatusBroken],
-                                                            item.second[kMachineStatusIdle],
-                                                            item.second[kMachineStatusConfiguring]
-                                                                + item.second[kMachineStatusInitializing],
-                                                            producedProducts[item.first],
-                                                            lostProducts[item.first]));
+                                                               item.second[kMachineStatusProcessingProduct],
+                                                               item.second[kMachineStatusBroken],
+                                                               item.second[kMachineStatusIdle],
+                                                               item.second[kMachineStatusConfiguring]
+                                                                   + item.second[kMachineStatusInitializing],
+                                                               producedProducts[item.first],
+                                                               lostProducts[item.first]));
   }
   return std::make_shared<models::MachineStatistics>(id, productStats);
 }

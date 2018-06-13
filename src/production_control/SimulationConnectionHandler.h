@@ -27,6 +27,7 @@ class SimulationConnectionHandler :
 	public communication::NetworkMapper {
  public:
   SimulationConnectionHandler() = default;
+  SimulationConnectionHandler(const SimulationConnectionHandler &) = default;
 
   virtual ~SimulationConnectionHandler() = default;
 

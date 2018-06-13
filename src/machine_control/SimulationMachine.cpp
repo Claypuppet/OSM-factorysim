@@ -6,7 +6,6 @@
 #include "states_machine/Configure/PrepareConfiguration.h"
 #include "states_machine/InOperation/TakeProductState.h"
 
-
 namespace simulator {
 
 const uint64_t oneMinuteInMillis = 60000;
@@ -14,13 +13,26 @@ const uint64_t oneHourInMillis = oneMinuteInMillis * 60;
 
 bool SimulationMachine::canBreak = true;
 
-SimulationMachine::SimulationMachine(const models::Machine &machine) : machinecore::Machine(machine), timeSinceBrokenCheck(0), checkCycle(oneMinuteInMillis), momentOfLastItemProcessed(0) {
+SimulationMachine::SimulationMachine(const models::Machine &machine)
+    : machinecore::Machine(machine),
+      timeSinceBrokenCheck(0),
+      checkCycle(oneMinuteInMillis),
+      momentOfLastItemProcessed(0) {
   uint64_t maxNumber = magicNumber + (getMeanTimeBetweenFailureInMillis() / checkCycle);
 
   // Dit compiled, maar geeft in clion een rode lijn ??
   breakDistribution = utils::UnsignedUniformDistribution(magicNumber, maxNumber);
   repairDistribution = utils::NormalDistribution(getReparationTimeInMillis(), getReparationTimeStddevInMillis());
 }
+
+SimulationMachine::SimulationMachine(const SimulationMachine &other)
+    : machinecore::Machine(other),
+      breakDistribution(other.breakDistribution),
+      repairDistribution(other.repairDistribution),
+      magicNumber(other.magicNumber),
+      timeSinceBrokenCheck(other.timeSinceBrokenCheck),
+      checkCycle(other.checkCycle),
+      momentOfLastItemProcessed(other.momentOfLastItemProcessed) {}
 
 bool SimulationMachine::configure() {
   utils::Time::getInstance().increaseCurrentTime(getInitializationDurationInMilliseconds());
@@ -53,8 +65,8 @@ void SimulationMachine::takeOutProduct() {
   auto &time = utils::Time::getInstance();
   auto currentTime = time.getCurrentTime();
   // Default is instant done with taken out (normal machines)
-  if(auto postProcess = getPostProcessInfo()){
-    if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > currentTime){
+  if (auto postProcess = getPostProcessInfo()) {
+    if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > currentTime) {
       uint64_t timeToWait = (momentOfLastItemProcessed + postProcess->getInputDelayInMillis()) - currentTime;
       time.increaseCurrentTime(timeToWait);
       // Update current time variable to reset to here after sending product placed in buffer
@@ -97,7 +109,7 @@ bool SimulationMachine::checkBroken() {
       return false;
     }
 
-    while(currentTime > timeSinceBrokenCheck){
+    while (currentTime > timeSinceBrokenCheck) {
       // Catch up with history
       timeSinceBrokenCheck += checkCycle;
 

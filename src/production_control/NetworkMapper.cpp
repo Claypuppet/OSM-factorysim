@@ -6,6 +6,10 @@
 
 namespace communication {
 
+NetworkMapper::NetworkMapper(const NetworkMapper &other) : machineConnectionMap(other.machineConnectionMap) {
+
+}
+
 void NetworkMapper::registerMachineConnection(const network::ConnectionPtr &connection, uint16_t machineId) {
   auto sessionId = static_cast<uint32_t>(connection->getSessionId());
   machineConnectionMap[sessionId] = machineId;
@@ -18,7 +22,7 @@ void NetworkMapper::disconnectMachineConnection(const network::ConnectionPtr &co
 
 uint16_t NetworkMapper::getMachineIdForConnection(const network::ConnectionPtr &connection) const {
   auto sessionId = static_cast<uint32_t>(connection->getSessionId());
-  try{
+  try {
     return machineConnectionMap.at(sessionId);
   }
   catch (const std::exception &e) {

@@ -19,6 +19,7 @@ namespace simulator {
 class SimulationMachine : public machinecore::Machine {
  public:
   SimulationMachine(const models::Machine &machine);
+  SimulationMachine(const SimulationMachine &other);
   ~SimulationMachine() override = default;
   bool configure() override;
   void selfTest() override;

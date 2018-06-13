@@ -27,6 +27,7 @@ typedef std::shared_ptr<spdlog::logger> LoggerPtr;
  */
 class FileLogger : public patterns::singleton::Singleton<FileLogger> {
  public:
+  FileLogger(const FileLogger&) = delete;
   virtual ~FileLogger() = default;
 
   /**

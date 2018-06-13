@@ -4,7 +4,7 @@
 
 #include "MachineProductStatistics.h"
 
-namespace models{
+namespace models {
 
 MachineProductStatistics::MachineProductStatistics(uint16_t productId,
                                                    uint32_t productionTime,
@@ -20,6 +20,15 @@ MachineProductStatistics::MachineProductStatistics(uint16_t productId,
       configureTime(configureTime),
       produced(produced),
       lost(lost) {}
+
+MachineProductStatistics::MachineProductStatistics(const MachineProductStatistics &other)
+    : productId(other.productId),
+      productionTime(other.productionTime),
+      downTime(other.downTime),
+      idleTime(other.idleTime),
+      configureTime(other.configureTime),
+      produced(other.produced),
+      lost(other.lost) {}
 
 uint16_t MachineProductStatistics::getProductId() const {
   return productId;

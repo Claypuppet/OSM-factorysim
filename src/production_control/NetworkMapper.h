@@ -19,6 +19,7 @@ namespace communication {
 class NetworkMapper {
  public:
   NetworkMapper() = default;
+  NetworkMapper(const NetworkMapper &other);
   virtual ~NetworkMapper() = default;
 
  protected:

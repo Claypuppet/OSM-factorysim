@@ -17,6 +17,7 @@ namespace simulation {
 class SimulationMachineLocal : public SimulationMachine, public patterns::notifyobserver::Notifier{
  public:
   explicit SimulationMachineLocal(const models::Machine &aMachine);
+  SimulationMachineLocal(const SimulationMachineLocal &other);
   ~SimulationMachineLocal() override = default;
 
   // Overrides

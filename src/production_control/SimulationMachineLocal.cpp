@@ -19,12 +19,22 @@ SimulationMachineLocal::SimulationMachineLocal(const models::Machine &aMachine)
       connected(false),
       timeSinceBrokenCheck(utils::Time::getInstance().getCurrentTime()),
       momentOfLastItemProcessed(0),
-      currentConfig()
-{
+      currentConfig() {
   // Set distributions
   uint64_t maxNumber = +(getMeanTimeBetweenFailureInMillis() / checkCycle);
   breakDistribution = utils::UnsignedUniformDistribution(magicalNumber, maxNumber);
   repairDistribution = utils::NormalDistribution(getReparationTimeInMinutes(), getReparationTimeStddevInMinutes());
+}
+
+SimulationMachineLocal::SimulationMachineLocal(const SimulationMachineLocal &other)
+    : SimulationMachine(other),
+      connected(other.connected),
+      breakDistribution(other.breakDistribution),
+      repairDistribution(other.repairDistribution),
+      timeSinceBrokenCheck(other.timeSinceBrokenCheck),
+      momentOfLastItemProcessed(other.momentOfLastItemProcessed),
+      currentConfig(other.currentConfig) {
+
 }
 
 bool SimulationMachineLocal::isSimulationConnected() const {
@@ -62,7 +72,7 @@ void SimulationMachineLocal::sendStartProcessMessage() {
   notifyOK(startTime, kMachineStatusProcessingProduct);
   notifyProductTakenFromBuffer(startTime);
 
-  if(checkBroken(startTime)){
+  if (checkBroken(startTime)) {
     // Broken
     notifyNOK(startTime, kMachineErrorCodeBroke);
     uint64_t repairtime = calculateRepairTime();
@@ -72,13 +82,13 @@ void SimulationMachineLocal::sendStartProcessMessage() {
   else {
     // Not broken
     uint64_t timeSpendProcessing = startTime + currentConfig->getProcessTime();
-    if(auto postProcess = getPostProcessInfo()){
-      if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > timeSpendProcessing){
+    if (auto postProcess = getPostProcessInfo()) {
+      if (momentOfLastItemProcessed + postProcess->getInputDelayInMillis() > timeSpendProcessing) {
         timeSpendProcessing = (momentOfLastItemProcessed + postProcess->getInputDelayInMillis());
       }
       notifyProductAddedToBuffer(timeSpendProcessing + postProcess->getPostProcessDurationInMillis());
     }
-    else{
+    else {
       notifyProductAddedToBuffer(timeSpendProcessing);
     }
     momentOfLastItemProcessed = timeSpendProcessing;
@@ -90,7 +100,7 @@ void SimulationMachineLocal::sendConfigureMessage(uint16_t configureId) {
   auto startTime = utils::Time::getInstance().getCurrentTime();
   notifyOK(startTime, kMachineStatusConfiguring);
 
-  if(checkBroken(startTime)){
+  if (checkBroken(startTime)) {
     // Broken
     notifyNOK(startTime, kMachineErrorCodeBroke);
     uint64_t repairtime = calculateRepairTime();
@@ -170,7 +180,7 @@ bool SimulationMachineLocal::checkBroken(uint64_t currentTime) {
     return false;
   }
 
-  while(currentTime > timeSinceBrokenCheck){
+  while (currentTime > timeSinceBrokenCheck) {
     // Catch up with history
     timeSinceBrokenCheck += checkCycle;
     uint64_t generated = utils::RandomHelper::getRandom(breakDistribution);

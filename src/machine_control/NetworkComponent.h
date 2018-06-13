@@ -18,6 +18,7 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
  public:
   NetworkComponent();
   ~NetworkComponent() = default;
+  NetworkComponent(const NetworkComponent&) = delete;
 
   /**
    * A function that sends a message to production control to register this machine

@@ -20,6 +20,16 @@ MachineFinalStatistics::MachineFinalStatistics(const std::string &machineName,
       totalDownTime(totalDownTime),
       productStatistics(productStatistics) {}
 
+MachineFinalStatistics::MachineFinalStatistics(const MachineFinalStatistics &other)
+    : machineName(other.machineName),
+      machineId(other.machineId),
+      MTBFinHours(other.MTBFinHours),
+      timesBroken(other.timesBroken),
+      totalDownTime(other.totalDownTime),
+      productStatistics(other.productStatistics) {
+
+}
+
 const std::string &MachineFinalStatistics::getMachineName() const {
   return machineName;
 }

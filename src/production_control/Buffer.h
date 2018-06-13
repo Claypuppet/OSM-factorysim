@@ -27,6 +27,8 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * @param size : size of the buffer
    */
   explicit Buffer(const MachinePtrW &taker, uint16_t productId, uint32_t size);
+  
+  Buffer(const Buffer &other);
 
   /**
    * destruct
@@ -127,7 +129,8 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   explicit Buffer(uint16_t productId);
   explicit Buffer(const MachinePtrW &taker, uint16_t productId);
 
-  MachinePtrW taker, putter;
+  MachinePtrW taker;
+  MachinePtrW putter;
 
   uint32_t maxSize;
 

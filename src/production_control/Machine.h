@@ -38,6 +38,8 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    * @param aMachine : A machine model
    */
   explicit Machine(const models::Machine &aMachine);
+  
+  Machine(const Machine &other);
 
   /**
   * Copy constructor

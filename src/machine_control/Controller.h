@@ -19,6 +19,8 @@ class Controller {
    * @param aMachineInfo : The machineInfo for application
    */
   explicit Controller(uint16_t aMachineId);
+  
+  Controller(const Controller&) = delete;
 
   /**
    * The destructor

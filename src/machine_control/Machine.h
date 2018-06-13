@@ -18,9 +18,8 @@ namespace machinecore {
 class Machine
     : public patterns::notifyobserver::Notifier, public patterns::statemachine::Context, public models::Machine {
  public:
-  Machine(const models::Machine &machine) : models::Machine(machine) {
-
-  }
+  Machine(const models::Machine &machine) : models::Machine(machine) {}
+  Machine(const Machine &other) : models::Machine(other) {}
   virtual ~Machine() = default;
 
   /**
