@@ -14,7 +14,7 @@ config={'simulationInfo':{},
 	}
 }	
 
-config['simulationInfo']['name'] = raw_input("Simulation name?")
+config['name'] = raw_input("Simulation name?")
 config['simulationInfo']['durationInWeeks'] = int(raw_input("Simulation duration in weeks?"))
 config['simulationInfo']['startHourOfWorkDay'] = int(raw_input("Starting hour?"))
 config['simulationInfo']['workDayDurationInHours'] = int(raw_input("Working hours per day?"))
@@ -32,6 +32,7 @@ for machineset in configs['machinesets']:
 		'initializationDurationInSeconds': machineset['machines'][choice]['initializationDurationInSeconds'],
 		'meanTimeBetweenFailureInHours': machineset['machines'][choice]['meanTimeBetweenFailureInHours'],
 		'reparationTimeStddevInMinutes': machineset['machines'][choice]['reparationTimeStddevInMinutes'],
+		'reparationTimeInMinutes': machineset['machines'][choice]['reparationTimeInMinutes'],
 		'postProcessInfo': machineset['machines'][choice]['postProcessInfo'],
 		'configurations': machineset['machines'][choice]['configurations'],
 		
@@ -39,7 +40,7 @@ for machineset in configs['machinesets']:
 
 	config['productionLine']['machines'].append(machine)
 
-yamlfile = file("config_"+config['simulationInfo']['name']+".yaml", "w")
+yamlfile = file("config_"+config['name']+".yaml", "w")
 yaml.dump(config, yamlfile)
 
 print yaml.dump(config)
