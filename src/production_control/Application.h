@@ -10,6 +10,7 @@
 #include <patterns/statemachine/Context.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include <models/Configuration.h>
+#include <models/FinalStatistics.h>
 
 // project file includes
 #include "Machine.h"
@@ -158,13 +159,21 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   virtual bool checkAllMachinesDisconnected();
 
+  uint16_t getTimesReconfigured() const;
+
  protected:
 
   /**
    * Calculates final statistics of all machines
    */
-  void calculateFinalStatistics();
+  void calculateMachineFinalStatistics();
 
+  /**
+   * Calculates the final statistics of a simulation
+   * @return : model holding the final statistics
+   */
+  models::FinalStatisticsPtr calculateFinalStatistics();
+  
   /**
    * Checks if we need to change production, if so, prepare change.
    */
@@ -208,6 +217,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   uint16_t currentProductId{};
   uint64_t momentStartingCurrentProduct{};
+  uint64_t startTimeStamp;
 
   std::map<uint16_t, uint16_t> productPorportions;
   std::map<uint16_t, MachinePtr> lastMachineInLine;
@@ -217,12 +227,14 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   ThreadPtr serverThread;
   network::Manager manager;
 
+  uint16_t timesReconfigured;
+
   /**
    * Timestamp, statistics
    */
   std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> machineStatistics;
 
-  std::vector<models::MachineFinalStatistics> finalStatistics;
+  std::vector<models::MachineFinalStatistics> machineFinalStatistics;
   void onHandleMachineDisconnected(uint16_t id);
 };
 

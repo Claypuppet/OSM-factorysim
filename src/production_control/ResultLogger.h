@@ -7,6 +7,7 @@
 
 #include <string>
 #include <patterns/singleton/Singleton.h>
+#include <models/FinalStatistics.h>
 #include "Machine.h"
 
 namespace core {
@@ -54,7 +55,8 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    * @return
    */
   void logStatistics(const std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> timeStampStatistics,
-                     const std::vector<models::MachineFinalStatistics> &finalStats);
+                     const std::vector<models::MachineFinalStatistics> &finalStats,
+                     models::FinalStatisticsPtr);
 
  private:
   friend patterns::singleton::Singleton<ResultLogger>;
@@ -72,7 +74,7 @@ class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
    * Logs the final statistics of machines
    * @param machines : The machines to log the final statistics of
    */
-  void logFinalStatistics(const std::vector<models::MachineFinalStatistics> &finalStatistics);
+  void logFinalStatistics(const std::vector<models::MachineFinalStatistics> &machineFinalStatistics, models::FinalStatisticsPtr finalStatistics);
 
   bool networkEnabled;
   bool debugEnabled;

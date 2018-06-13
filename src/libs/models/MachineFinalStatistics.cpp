@@ -2,69 +2,46 @@
 // Created by don on 6-6-18.
 //
 
+#include <cereal/types/vector.hpp>
 #include "MachineFinalStatistics.h"
 
 namespace models {
 
-MachineFinalStatistics::MachineFinalStatistics(uint16_t machinedId,
-                                               const std::map<uint16_t, uint16_t> &avgProducedProducts,
-                                               const std::map<uint16_t, uint16_t> &avgLostProducts,
-                                               uint32_t avgDownTime,
-                                               uint32_t avgProductionTime,
-                                               uint32_t avgIdleTime,
-                                               uint32_t avgConfigureTime,
-                                               const std::map<uint16_t, uint32_t> &totalProducedProducts,
-                                               const std::map<uint16_t, uint32_t> &totalLostProducts,
-                                               uint16_t MTBF)
-    : machineId(machinedId),
-      avgProducedProducts(avgProducedProducts),
-      avgLostProducts(avgLostProducts),
-      avgDownTime(avgDownTime),
-      avgProductionTime(avgProductionTime),
-      avgIdleTime(avgIdleTime),
-      avgConfigureTime(avgConfigureTime),
-      totalProducedProducts(totalProducedProducts),
-      totalLostProducts(totalLostProducts),
-      MTBFinHours(MTBF) {}
+MachineFinalStatistics::MachineFinalStatistics(const std::string &machineName,
+                                               uint16_t machineId,
+                                               uint16_t MTBFinHours,
+                                               uint16_t timesBroken,
+                                               uint64_t totalDownTime,
+                                               const std::vector<MachineProductFinalStatistics> &productStatistics)
+    : machineName(machineName),
+      machineId(machineId),
+      MTBFinHours(MTBFinHours),
+      timesBroken(timesBroken),
+      totalDownTime(totalDownTime),
+      productStatistics(productStatistics) {}
 
-const std::map<uint16_t, uint32_t> &MachineFinalStatistics::getTotalProducedProducts() const {
-  return totalProducedProducts;
+const std::string &MachineFinalStatistics::getMachineName() const {
+  return machineName;
 }
 
-const std::map<uint16_t, uint32_t> &MachineFinalStatistics::getTotalLostProducts() const {
-  return totalLostProducts;
+uint16_t MachineFinalStatistics::getMachineId() const {
+  return machineId;
 }
 
 uint16_t MachineFinalStatistics::getMTBFinHours() const {
   return MTBFinHours;
 }
 
-const std::map<uint16_t, uint16_t> &MachineFinalStatistics::getAvgProducedProducts() const {
-  return avgProducedProducts;
+uint16_t MachineFinalStatistics::getTimesBroken() const {
+  return timesBroken;
 }
 
-const std::map<uint16_t, uint16_t> &MachineFinalStatistics::getAvgLostProducts() const {
-  return avgLostProducts;
+uint64_t MachineFinalStatistics::getTotalDownTime() const {
+  return totalDownTime;
 }
 
-uint32_t MachineFinalStatistics::getAvgDownTime() const {
-  return avgDownTime;
-}
-
-uint32_t MachineFinalStatistics::getAvgProductionTime() const {
-  return avgProductionTime;
-}
-
-uint32_t MachineFinalStatistics::getAvgIdleTime() const {
-  return avgIdleTime;
-}
-
-uint32_t MachineFinalStatistics::getAvgConfigureTime() const {
-  return avgConfigureTime;
-}
-
-uint16_t MachineFinalStatistics::getMachineId() const {
-  return machineId;
+const std::vector<MachineProductFinalStatistics> &MachineFinalStatistics::getProductStatistics() const {
+  return productStatistics;
 }
 
 }
