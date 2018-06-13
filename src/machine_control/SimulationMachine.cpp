@@ -25,15 +25,6 @@ SimulationMachine::SimulationMachine(const models::Machine &machine)
   repairDistribution = utils::NormalDistribution(getReparationTimeInMillis(), getReparationTimeStddevInMillis());
 }
 
-SimulationMachine::SimulationMachine(const SimulationMachine &other)
-    : machinecore::Machine(other),
-      breakDistribution(other.breakDistribution),
-      repairDistribution(other.repairDistribution),
-      magicNumber(other.magicNumber),
-      timeSinceBrokenCheck(other.timeSinceBrokenCheck),
-      checkCycle(other.checkCycle),
-      momentOfLastItemProcessed(other.momentOfLastItemProcessed) {}
-
 bool SimulationMachine::configure() {
   utils::Time::getInstance().increaseCurrentTime(getInitializationDurationInMilliseconds());
   timeSinceBrokenCheck = utils::Time::getInstance().getCurrentTime();
