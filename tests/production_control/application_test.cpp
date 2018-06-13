@@ -423,18 +423,6 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
     BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
     BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
-    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(application->run());
-    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
-  }
-
-  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusIdle);
-
-  { // Scheduling notification and handle events
-    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusConfiguring)); // status update
     BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
     BOOST_REQUIRE_NO_THROW(application->run());
@@ -442,6 +430,18 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
   }
 
   BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusConfiguring);
+
+  { // Scheduling notification and handle events
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
+  }
+
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusIdle);
 
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);

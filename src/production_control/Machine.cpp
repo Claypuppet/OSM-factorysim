@@ -5,6 +5,7 @@
 #include <utils/time/Time.h>
 #include <utils/TimeHelper.h>
 #include <models/Configuration.h>
+#include <utils/FileLogger.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
 #include "ResultLogger.h"
@@ -63,6 +64,7 @@ void Machine::sendConfigureMessage(uint16_t configureId) {
 }
 
 void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
+  productionConfigId = configureId;
   if (const auto &configuration = getConfigurationById(configureId)) {
     // Configuration exists
     prepareConfigureId = configureId;
@@ -166,7 +168,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
         // Went from broken to configuring
         std::stringstream stream;
         stream << "machine \"" << name << "\" repaired @ " << utils::Time::getInstance().getCurrentTimeString();
-        utils::Logger::log(stream.str());
+        utils::FileLogger::i().get(utils::CONSOLE_LOG)->info(stream.str());
       }
       break;
     }
@@ -184,12 +186,18 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
+
   timeSpendInState[currentConfigId][status] += (now - lastStatusChange);
   lastStatusChange = now;
 
   // Change status
   status = newStatus;
   ResultLogger::getInstance().machineStatusUpdate(id, status);
+
+  if (status == kMachineStatusIdle && productionConfigId != currentConfigId)  {
+    // Not part of current production
+    setStatus(kMachineStatusInactive);
+  }
 }
 
 Machine::MachineStatus Machine::getStatus() {
@@ -228,7 +236,7 @@ bool Machine::canDoActionReconfigure() {
     return false;
   }
   // If machine is wants to reconfigure, we can do that in the init state or idle state
-  return status == kMachineStatusIdle || status == kMachineStatusInitializing;
+  return status == kMachineStatusIdle || status == kMachineStatusInactive || status == kMachineStatusInitializing;
 }
 
 void Machine::youreDoneForToday() {
@@ -327,6 +335,9 @@ models::MachineStatisticsPtr Machine::getStatistics() {
                                                             producedProducts[item.first],
                                                             lostProducts[item.first]));
   }
+  timeSpendInState.clear();
+  producedProducts.clear();
+  lostProducts.clear();
   return std::make_shared<models::MachineStatistics>(id, productStats);
 }
 
@@ -338,7 +349,7 @@ void Machine::handleBreak() {
   std::swap(productInProcess, empty);
   std::stringstream stream;
   stream << "machine \"" << name << "\" broke @ " << utils::Time::getInstance().getCurrentTimeString();
-  utils::Logger::log(stream.str());
+  utils::FileLogger::i().get(utils::CONSOLE_LOG)->info(stream.str());
 }
 
 void Machine::handleDoneReconfigure() {
@@ -361,7 +372,7 @@ bool Machine::isIdle(bool completelyIdle) {
       }
     }
   }
-  return status == kMachineStatusIdle && productInProcess.empty();
+  return (status == kMachineStatusIdle || status == kMachineStatusInactive) && productInProcess.empty();
 }
 uint16_t Machine::calculateMTBF() {
   if (timesBroken == 0) {

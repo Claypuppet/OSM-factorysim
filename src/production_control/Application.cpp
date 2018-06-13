@@ -230,27 +230,27 @@ void Application::setProductionLine(const models::ProductionLinePtr &productionL
 }
 
 void Application::executeScheduler() {
-  shouldChangeProduction();
   for (const auto &machine : machines) {
     machine->doNextAction();
   }
+  shouldChangeProduction();
 }
 
 void Application::prepareScheduler() {
   auto configId = currentProductId;
-  if (configId == 0) {
+  if (configId != 0 && shouldChangeProduction()) {
+    // Should change product,
+    return;
+  }
+  else if (configId == 0) {
     // First time, all buffers are empty etc. so no problem changing
     if (productionLine && !productionLine->getProducts().empty()) {
       configId = productionLine->getProducts().front()->getId();
     }
-    changeProductionLineProduct(configId);
-    createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
   }
-  else if (!shouldChangeProduction()) {
-    // Ccontinue producing what we were doing yesterday
-    changeProductionLineProduct(currentProductId);
-    createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
-  }
+  // Else continue producing what we were doing yesterday
+  changeProductionLineProduct(configId);
+  createAndScheduleStateEvent(applicationstates::kEventTypeCanSchedule);
 
 }
 

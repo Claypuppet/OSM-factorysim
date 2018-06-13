@@ -204,6 +204,7 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
 
   uint16_t prepareConfigureId;
   uint16_t currentConfigId;
+  uint16_t productionConfigId; // Currently produced by application
   NextActionType nextAction;
 
   //statistics
