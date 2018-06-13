@@ -40,22 +40,22 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
   explicit Machine(const models::Machine &aMachine);
 
   /**
-  * Copy constructor
-  * @param aMachine : The machine to copy
-  */
+   * Copy constructor
+   * @param aMachine : The machine to copy
+   */
 
   virtual ~Machine() = default;
 
   /**
-  * A function to check if a connection is established with the machine
-  * @return True if theres a connection establised with the machine
-  */
+   * A function to check if a connection is established with the machine
+   * @return True if theres a connection establised with the machine
+   */
   virtual bool isConnected() const;
 
   /**
-  * A function that sets the connection with this machine
-  * @param aConnection : The connection with this machine
-  */
+   * A function that sets the connection with this machine
+   * @param aConnection : The connection with this machine
+   */
   virtual void setConnection(const network::ConnectionPtr &aConnection);
 
   /**

@@ -106,6 +106,7 @@ bool SimulationApplication::scheduleMachineNotifications() {
   // Make sure we dont go over next work day hours
   if (foundEvents && nextLowestTime > utils::TimeHelper::getInstance().getStartOfNextWorkDay()) {
     // for now schedule all disconnected event so shutdown can continue
+    createAndScheduleStateEvent(applicationstates::kEventTypeAllMachinesDisconnected);
     return false;
   }
 
