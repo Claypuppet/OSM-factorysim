@@ -193,6 +193,11 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   // Change status
   status = newStatus;
   ResultLogger::getInstance().machineStatusUpdate(id, status);
+
+  if (status == kMachineStatusIdle && productionConfigId != currentConfigId)  {
+    // Not part of current production
+    setStatus(kMachineStatusInactive);
+  }
 }
 
 Machine::MachineStatus Machine::getStatus() {
@@ -231,7 +236,7 @@ bool Machine::canDoActionReconfigure() {
     return false;
   }
   // If machine is wants to reconfigure, we can do that in the init state or idle state
-  return status == kMachineStatusIdle || status == kMachineStatusInitializing;
+  return status == kMachineStatusIdle || status == kMachineStatusInactive || status == kMachineStatusInitializing;
 }
 
 void Machine::youreDoneForToday() {
@@ -252,7 +257,6 @@ void Machine::doNextAction() {
         sendConfigureMessage(prepareConfigureId);
       }
       break;
-    case kNextActionTypeForcedIdle:
     case kNextActionTypeIdle:
       // Do nothing!
       break;
@@ -332,6 +336,8 @@ models::MachineStatisticsPtr Machine::getStatistics() {
                                                             lostProducts[item.first]));
   }
   timeSpendInState.clear();
+  producedProducts.clear();
+  lostProducts.clear();
   return std::make_shared<models::MachineStatistics>(id, productStats);
 }
 
@@ -352,11 +358,6 @@ void Machine::handleDoneReconfigure() {
   if (nextAction == kNextActionTypeReconfigure) {
     nextAction = kNextActionTypeProcessProduct;
   }
-  if (productionConfigId != currentConfigId)  {
-    // Not part of current production
-    nextAction = kNextActionTypeForcedIdle;
-    setStatus(kMachineStatusInactive);
-  }
   ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
 }
 
@@ -371,7 +372,7 @@ bool Machine::isIdle(bool completelyIdle) {
       }
     }
   }
-  return status == kMachineStatusIdle && productInProcess.empty();
+  return (status == kMachineStatusIdle || status == kMachineStatusInactive) && productInProcess.empty();
 }
 uint16_t Machine::calculateMTBF() {
   if (timesBroken == 0) {

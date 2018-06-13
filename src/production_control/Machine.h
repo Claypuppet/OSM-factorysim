@@ -28,7 +28,6 @@ class Machine : public models::Machine, public std::enable_shared_from_this<Mach
    */
   enum NextActionType {
     kNextActionTypeIdle,
-    kNextActionTypeForcedIdle,
     kNextActionTypeReconfigure,
     kNextActionTypeProcessProduct,
     kNextActionTypeProcessProductBeforeReconfigure
