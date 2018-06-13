@@ -3,6 +3,7 @@
 #include <memory>
 #include <utils/Logger.h>
 #include <utils/time/Time.h>
+#include <utils/TimeHelper.h>
 #include <models/Configuration.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
@@ -33,7 +34,8 @@ void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   if (connection && connection->isConnected()) {
     setStatus(kMachineStatusInitializing);
     nextAction = kNextActionTypeIdle; // will be re-set by scheduler when preparing reconfigure
-  } else {
+  }
+  else {
     setStatus(kMachineStatusDisconnected);
   }
 }
@@ -65,14 +67,16 @@ void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false
     // Configuration exists
     prepareConfigureId = configureId;
     nextAction = kNextActionTypeReconfigure;
-  } else if (firstTime) {
+  }
+  else if (firstTime) {
     // First config, but requested config doest not exist, machine will initialize in first known config
     if (!configurations.empty()) {
       // Configuration exists
       prepareConfigureId = configurations.front()->getProductId();
       nextAction = kNextActionTypeReconfigure;
     }
-  } else if (status == kMachineStatusInitializing) {
+  }
+  else if (status == kMachineStatusInitializing) {
     // Machine just started up, but is not part of the current product. initialize in last config
     prepareConfigureId = currentConfigId;
     nextAction = kNextActionTypeReconfigure;
@@ -128,7 +132,8 @@ void Machine::createInitialBuffers() {
       if (bufferSize > 0 && previousMachine->getMachineId() > 0) {
         // Buffer with size
         buffer = std::make_shared<Buffer>(self, productId, bufferSize);
-      } else {
+      }
+      else {
         // Infinite buffer
         buffer = std::make_shared<InfiniteBuffer>(self, productId);
       }
@@ -179,7 +184,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
-  timeSpendInState[status] += (now - lastStatusChange);
+  timeSpendInState[currentConfigId][status] += (now - lastStatusChange);
   lastStatusChange = now;
 
   // Change status
@@ -298,7 +303,7 @@ bool Machine::isLastInLine(uint16_t productId) {
   return getOutputBuffer(productId)->isLastInLine();
 }
 
-const std::map<Machine::MachineStatus, uint32_t> &Machine::getTimeSpendInState() const {
+const std::map<uint16_t, std::map<Machine::MachineStatus, uint32_t>> &Machine::getTimeSpendInState() const {
   return timeSpendInState;
 }
 
@@ -311,24 +316,18 @@ uint16_t Machine::getCurrentConfigId() const {
 }
 
 models::MachineStatisticsPtr Machine::getStatistics() {
-  uint32_t productionTime = timeSpendInState[models::Machine::kMachineStatusProcessingProduct];
-  uint32_t idleTime = timeSpendInState[models::Machine::kMachineStatusIdle];
-  uint32_t configureTime = timeSpendInState[models::Machine::kMachineStatusConfiguring]
-      + timeSpendInState[models::Machine::kMachineStatusInitializing];
-  uint32_t downTime = timeSpendInState[models::Machine::kMachineStatusBroken];
-  auto stats = std::make_shared<models::MachineStatistics>(
-      id,
-      producedProducts,
-      lostProducts,
-      downTime,
-      productionTime,
-      idleTime,
-      configureTime
-  );
-  timeSpendInState.clear();
-  producedProducts.clear();
-  lostProducts.clear();
-  return stats;
+  std::vector<models::MachineProductStatistics> productStats;
+  for (auto &item : timeSpendInState) {
+    productStats.emplace_back(models::MachineProductStatistics(item.first,
+                                                            item.second[kMachineStatusProcessingProduct],
+                                                            item.second[kMachineStatusBroken],
+                                                            item.second[kMachineStatusIdle],
+                                                            item.second[kMachineStatusConfiguring]
+                                                                + item.second[kMachineStatusInitializing],
+                                                            producedProducts[item.first],
+                                                            lostProducts[item.first]));
+  }
+  return std::make_shared<models::MachineStatistics>(id, productStats);
 }
 
 void Machine::handleBreak() {
@@ -363,6 +362,12 @@ bool Machine::isIdle(bool completelyIdle) {
     }
   }
   return status == kMachineStatusIdle && productInProcess.empty();
+}
+uint16_t Machine::calculateMTBF() {
+  if (timesBroken == 0) {
+    return 0;
+  }
+  return static_cast<uint16_t>(utils::TimeHelper::i().getTotalHoursWorked() / timesBroken);
 }
 
 }

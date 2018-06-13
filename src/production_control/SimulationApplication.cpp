@@ -166,7 +166,9 @@ void SimulationApplication::debugLogCurrentStats() {
            << "   times broke: " << machine->getTimesBroken() << std::endl
            << "   Spend time in states:" << std::endl;
     for (const auto &stateSpend : machine->getTimeSpendInState()) {
-      stream << "    " << stateSpend.first << ": " << stateSpend.second << std::endl;
+      for(const auto &item : stateSpend.second) {
+        stream << "    " << stateSpend.first << ": " << item.first << ": " << item.second << std::endl;
+      }
     }
   }
   // Log to console for now
