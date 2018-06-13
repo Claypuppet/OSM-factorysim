@@ -4,10 +4,11 @@
 name: Demostraat
 
 simulationInfo:
-  durationInWeeks: 9
+  durationInWeeks: 3
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
-  local: false
+  local: true
+  randomSeed: 11
 
 productionLine:
   name: Kantoortafels
@@ -66,7 +67,7 @@ productionLine:
   - id: 3
     name: Mooie Potenplakker
     initializationDurationInSeconds: 300
-    meanTimeBetweenFailureInHours: 500
+    meanTimeBetweenFailureInHours: 20
     reparationTimeInMinutes: 60
     reparationTimeStddevInMinutes: 1
     postProcessInfo:

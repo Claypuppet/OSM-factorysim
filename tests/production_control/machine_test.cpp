@@ -1,11 +1,11 @@
-//
-// Created by don on 6-6-18.
-//
 
 #include <boost/test/unit_test.hpp>
 #include <utils/time/Time.h>
 #include "../../src/production_control/SimulationController.h"
+#include "../../src/production_control/SimulationMachineLocal.h"
 #include "../../src/production_control/ResultLogger.h"
+#include "../test_helpers/MockObserver.h"
+#include "../../src/production_control/NotificationTypes.h"
 
 BOOST_AUTO_TEST_SUITE(ProductionControlMachineTests)
 
@@ -175,6 +175,52 @@ BOOST_AUTO_TEST_CASE(MachineTestWeeklyStatistics){
   app->saveMachineStatistics();
 
   app->logFinalStatistics();
+}
+
+
+
+BOOST_AUTO_TEST_CASE(ProductionControlSimulationMachineLocalBreaking){
+  utils::Time::getInstance().setType(utils::TimeType::customTime);
+  utils::Time::getInstance().reset();
+
+  uint16_t nTests = 1000;
+  uint16_t nFailures = 0;
+
+
+  testutils::MockObserver observer;
+
+  testutils::NotificationHandlerFn callback = [&nFailures](const patterns::notifyobserver::NotifyEvent &notification){
+    if(notification.getEventId() == NotifyEventIds::eApplicationNOK){
+      ++nFailures;
+    }
+  };
+
+  observer.setHandleNotificationFn(callback);
+
+  uint16_t meanTimeBetweenFailureInHours = 250;
+  std::vector<models::PreviousMachinePtr> previousMachines;
+  previousMachines.push_back(std::make_shared<models::PreviousMachine>());
+  models::MachineConfigurationPtr configuration = std::make_shared<models::MachineConfiguration>(1, 1, previousMachines);
+
+  std::vector<models::MachineConfigurationPtr> confVector = {configuration};
+  models::Machine modelMachine(1, meanTimeBetweenFailureInHours, 10, 1, 300, nullptr, "", confVector);
+  auto machine = std::make_shared<simulation::SimulationMachineLocal>(modelMachine);
+  machine->sendConfigureMessage(1);
+  machine->addObserver(observer);
+
+  uint64_t millisecondsInHour = 3600000;
+
+  for(uint16_t i = 0; i < nTests; ++i) {
+    for (uint16_t j = 0; j < meanTimeBetweenFailureInHours; ++j) {
+      machine->sendStartProcessMessage();
+      utils::Time::getInstance().increaseCurrentTime(millisecondsInHour);
+    }
+    utils::Time::getInstance().reset();
+    machine->sendTurnOnCommand(); // reset time since last broken
+  }
+
+  BOOST_CHECK_GT(nFailures, 0.9*nTests);
+  BOOST_CHECK_LT(nFailures, 1.1*nTests);
 }
 
 

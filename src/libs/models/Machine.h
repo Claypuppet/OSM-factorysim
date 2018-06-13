@@ -37,6 +37,7 @@ class Machine {
 	kMachineStatusIdle,               // 3
 	kMachineStatusProcessingProduct,  // 4
 	kMachineStatusBroken,             // 5
+	kMachineStatusInactive,           // 6
   };
 
   /**

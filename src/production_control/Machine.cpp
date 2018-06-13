@@ -5,6 +5,7 @@
 #include <utils/time/Time.h>
 #include <utils/TimeHelper.h>
 #include <models/Configuration.h>
+#include <utils/FileLogger.h>
 #include "Machine.h"
 #include "InfiniteBuffer.h"
 #include "ResultLogger.h"
@@ -63,6 +64,7 @@ void Machine::sendConfigureMessage(uint16_t configureId) {
 }
 
 void Machine::prepareReconfigure(uint16_t configureId, bool firstTime /* = false */) {
+  productionConfigId = configureId;
   if (const auto &configuration = getConfigurationById(configureId)) {
     // Configuration exists
     prepareConfigureId = configureId;
@@ -166,7 +168,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
         // Went from broken to configuring
         std::stringstream stream;
         stream << "machine \"" << name << "\" repaired @ " << utils::Time::getInstance().getCurrentTimeString();
-        utils::Logger::log(stream.str());
+        utils::FileLogger::i().get(utils::CONSOLE_LOG)->info(stream.str());
       }
       break;
     }
@@ -184,6 +186,7 @@ void Machine::setStatus(Machine::MachineStatus newStatus) {
   }
   // Keep track of statistics
   auto now = utils::Time::getInstance().getCurrentTime();
+
   timeSpendInState[currentConfigId][status] += (now - lastStatusChange);
   lastStatusChange = now;
 
@@ -249,6 +252,7 @@ void Machine::doNextAction() {
         sendConfigureMessage(prepareConfigureId);
       }
       break;
+    case kNextActionTypeForcedIdle:
     case kNextActionTypeIdle:
       // Do nothing!
       break;
@@ -327,6 +331,7 @@ models::MachineStatisticsPtr Machine::getStatistics() {
                                                             producedProducts[item.first],
                                                             lostProducts[item.first]));
   }
+  timeSpendInState.clear();
   return std::make_shared<models::MachineStatistics>(id, productStats);
 }
 
@@ -338,7 +343,7 @@ void Machine::handleBreak() {
   std::swap(productInProcess, empty);
   std::stringstream stream;
   stream << "machine \"" << name << "\" broke @ " << utils::Time::getInstance().getCurrentTimeString();
-  utils::Logger::log(stream.str());
+  utils::FileLogger::i().get(utils::CONSOLE_LOG)->info(stream.str());
 }
 
 void Machine::handleDoneReconfigure() {
@@ -346,6 +351,11 @@ void Machine::handleDoneReconfigure() {
   currentConfigId = prepareConfigureId;
   if (nextAction == kNextActionTypeReconfigure) {
     nextAction = kNextActionTypeProcessProduct;
+  }
+  if (productionConfigId != currentConfigId)  {
+    // Not part of current production
+    nextAction = kNextActionTypeForcedIdle;
+    setStatus(kMachineStatusInactive);
   }
   ResultLogger::getInstance().machineConfigChanged(id, currentConfigId);
 }

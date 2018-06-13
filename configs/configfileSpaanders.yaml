@@ -4,7 +4,7 @@
 name: ProductieConfiguratieAllesGoedkoopAlleenStandaard
 
 simulationInfo:
-  durationInWeeks: 3
+  durationInWeeks: 52
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
   local: true
