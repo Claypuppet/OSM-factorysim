@@ -81,11 +81,11 @@ void Application::setupNetwork() {
     return;
   }
 
-  communication::ConnectionHandler connectionHandler;
-  handleNotificationsFor(connectionHandler);
+  auto connectionHandler = std::make_shared<communication::ConnectionHandler>();
+  handleNotificationsFor(*connectionHandler);
 
   serverThread = manager.runServiceThread();
-  server = manager.createServer(std::make_shared<communication::ConnectionHandler>(connectionHandler), 50);
+  server = manager.createServer(connectionHandler, 50);
   server->start();
 }
 

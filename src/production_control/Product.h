@@ -19,7 +19,8 @@ class Product {
    * create a product with id
    * @param aProductId
    */
-  Product(uint16_t aProductId);
+  explicit Product(uint16_t aProductId);
+  Product(const Product &other);
   uint16_t getProductId() const;
   virtual ~Product() = default;
 

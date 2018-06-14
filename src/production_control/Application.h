@@ -22,6 +22,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
  public:
 
   Application() = default;
+  Application(const Application &) = delete;
 
   /**
    * Destruct a Application object

@@ -27,8 +27,7 @@ Machine::Machine(const models::Machine &aMachine)
       timeSpendInState(),
       timesBroken(0),
       inputBuffers(),
-      outputBuffers() {
-}
+      outputBuffers() {}
 
 void Machine::setConnection(const network::ConnectionPtr &aConnection) {
   connection = aConnection;
@@ -327,13 +326,13 @@ models::MachineStatisticsPtr Machine::getStatistics() {
   std::vector<models::MachineProductStatistics> productStats;
   for (auto &item : timeSpendInState) {
     productStats.emplace_back(models::MachineProductStatistics(item.first,
-                                                            item.second[kMachineStatusProcessingProduct],
-                                                            item.second[kMachineStatusBroken],
-                                                            item.second[kMachineStatusIdle],
-                                                            item.second[kMachineStatusConfiguring]
-                                                                + item.second[kMachineStatusInitializing],
-                                                            producedProducts[item.first],
-                                                            lostProducts[item.first]));
+                                                               item.second[kMachineStatusProcessingProduct],
+                                                               item.second[kMachineStatusBroken],
+                                                               item.second[kMachineStatusIdle],
+                                                               item.second[kMachineStatusConfiguring]
+                                                                   + item.second[kMachineStatusInitializing],
+                                                               producedProducts[item.first],
+                                                               lostProducts[item.first]));
   }
   timeSpendInState.clear();
   producedProducts.clear();

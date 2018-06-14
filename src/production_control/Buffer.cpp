@@ -11,7 +11,8 @@ namespace core {
 Buffer::Buffer(uint16_t aProductId) : taker(), maxSize(0), totalProcessed(0), productId(aProductId) {
 }
 
-Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId) : taker(taker), maxSize(0), totalProcessed(0), productId(aProductId) {
+Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId)
+    : taker(taker), maxSize(0), totalProcessed(0), productId(aProductId) {
 }
 
 Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId, uint32_t size)
@@ -23,7 +24,7 @@ bool Buffer::checkAmountInBuffer(uint32_t amount) {
 }
 
 bool Buffer::checkFreeSpaceInBuffer(uint32_t amount) {
-  if(auto nextMachine = taker.lock()){
+  if (auto nextMachine = taker.lock()) {
     return nextMachine->getCurrentConfigId() == productId && (maxSize - size()) >= amount;
   }
   return (maxSize - size()) >= amount;
@@ -101,7 +102,7 @@ void Buffer::debugPrintBuffersChain(std::stringstream &stream) {
   if (!putter.lock()) {
     stream << "(Input) ";
   }
-  stream << "Buffer (" <<  (maxSize ? std::to_string(maxSize) : "infinite") << ")";
+  stream << "Buffer (" << (maxSize ? std::to_string(maxSize) : "infinite") << ")";
   if (auto machine = taker.lock()) {
     stream << " -> " << machine->getName() << " (id " << machine->getId() << ") -> ";
     machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);

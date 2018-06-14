@@ -18,6 +18,7 @@ namespace simulation {
 class SimulationApplication : public core::Application {
  public:
   SimulationApplication();
+  SimulationApplication(const SimulationApplication &) = delete;
   virtual ~SimulationApplication() = default;
   void setMachines(const std::vector<core::MachinePtr> &aMachines) override;
   /**

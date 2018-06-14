@@ -18,6 +18,7 @@ namespace core {
 class ResultLogger : public patterns::singleton::Singleton<ResultLogger> {
  public:
   virtual ~ResultLogger() = default;
+  ResultLogger(const ResultLogger& other) = delete;
 
   void initializeLog(const std::string &configurationPath, const std::string &configurationName);
 

@@ -19,6 +19,7 @@ namespace utils {
 class Logger : public patterns::singleton::Singleton<Logger> {
  public:
   Logger();
+  Logger(const Logger &) = delete;
   virtual ~Logger();
 
   /**

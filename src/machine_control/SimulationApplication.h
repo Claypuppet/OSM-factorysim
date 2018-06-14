@@ -16,6 +16,7 @@ namespace simulator {
 class SimulationApplication : public machinecore::Application {
  public:
   explicit SimulationApplication(uint16_t aMachineId);
+  SimulationApplication(const SimulationApplication&) = delete;
   virtual ~SimulationApplication() = default;
 
 };

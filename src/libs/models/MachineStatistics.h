@@ -19,6 +19,7 @@ namespace models {
 class MachineStatistics {
  public:
   MachineStatistics(uint16_t machineId, const std::vector<MachineProductStatistics> &productStatistics);
+  MachineStatistics(const MachineStatistics &other);
   uint16_t getMachineId() const;
   const std::vector<MachineProductStatistics> &getProductStatistics() const;
  private:
