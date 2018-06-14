@@ -1,11 +1,21 @@
-file(GLOB lib_utils_SRC
-        "**.h"
-        "**.cpp"
-        "time/**.h"
-        "time/**.cpp")
 
 add_library(lib_utils SHARED
-        ${lib_utils_SRC})
+        time/CustomTime.cpp
+        time/CustomTime.h
+        time/SystemTime.cpp
+        time/SystemTime.h
+        time/Time.cpp
+        time/Time.h
+        CommandLineArguments.cpp
+        CommandLineArguments.h
+        FileLogger.cpp
+        FileLogger.h
+        Logger.cpp
+        Logger.h
+        TimeHelper.cpp
+        TimeHelper.h
+        RandomHelper.cpp
+        RandomHelper.h)
 
 target_link_libraries(lib_utils lib_patterns)
 

@@ -1,0 +1,57 @@
+{
+  "name": "ProductieConfiguratie",
+  "simulationInfo": {
+    "durationInWeeks": 52,
+    "startHourOfWorkDay":9,
+    "workDayDurationInHours":8,
+    "local":false
+  },
+  "productionLine": {
+    "name": "Kantoortafels",
+    "products": [
+      {
+        "id": 1,
+        "name": "normalekantoortafels",
+        "proportion": 2
+      },
+      {
+        "id": 2,
+        "name": "luxekantoortafels",
+        "proportion": 1
+      }
+    ],
+    "machines": [
+      {
+        "id": 1,
+        "name": "Zaagmachine (hout)",
+        "meanTimeBetweenFailureInHours": 8800,
+        "reparationTimeInMinutes": 24,
+        "reparationTimeStddevInMinutes": 30,
+        "initializationDurationInSeconds": 6,
+        "configurations": [
+          {
+            "productId": 1,
+            "outputEachMinute": 12,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 1,
+                "inputBufferSize": 1
+              }
+            ]
+          },
+          {
+            "productId": 2,
+            "outputBufferSize": 9,
+            "previousMachines": [
+              {
+                "machineId": 0,
+                "neededProducts": 1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

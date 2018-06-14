@@ -19,13 +19,15 @@ class InfiniteBuffer : public Buffer {
    * @param productId
    */
   InfiniteBuffer(uint16_t productId);
+  
+  InfiniteBuffer(const InfiniteBuffer &other) = delete;
 
   /**
    * Construct infinite buffer
    * @param fromMachine
    * @param productId
    */
-  InfiniteBuffer(const MachinePtrW &aFromMachine, uint16_t productId);
+  InfiniteBuffer(const MachinePtrW &inputFor, uint16_t productId);
 
   ~InfiniteBuffer() override = default;
 

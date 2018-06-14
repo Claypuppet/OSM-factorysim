@@ -10,10 +10,15 @@
 #include "network/Connection.h"
 
 namespace Communication {
+
+/**
+ * Network component that handles messages for application
+ */
 class NetworkComponent : public network::IConnectionHandler, public patterns::notifyobserver::Notifier {
  public:
   NetworkComponent();
   ~NetworkComponent() = default;
+  NetworkComponent(const NetworkComponent&) = delete;
 
   /**
    * A function that sends a message to production control to register this machine
@@ -31,6 +36,16 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
    * @param errorCode : error code
    */
   void sendResponseNOK(models::Machine::MachineErrorCode errorCode);
+
+  /**
+   * Sends a message to production control to tell this machine took products from its input buffer
+   */
+  void sendProductTakenFromBufferMessage();
+
+  /**
+   * Sends a message to production control to tell this machine added products to its output buffer
+   */
+  void sendProductAddedToBufferMessage();
  private:
   void onConnectionFailed(network::ConnectionPtr connection, const boost::system::error_code &error) override;
   void onConnectionEstablished(network::ConnectionPtr connection) override;
@@ -50,9 +65,8 @@ class NetworkComponent : public network::IConnectionHandler, public patterns::no
 
   network::ConnectionPtr mConnection;
 
-  void handleReconfigureMessage();
   void handleProcessProductMessage();
-  void handleProcessReconfigureMessage(network::Message &message);
+  void handleReconfigureMessage(network::Message &message);
 
 };
 

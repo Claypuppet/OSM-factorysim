@@ -16,83 +16,67 @@
 #include <patterns/producerconsumer/Queue.h>
 
 namespace utils {
+
+const std::string CONSOLE_LOG = "console";
+
+typedef std::shared_ptr<spdlog::logger> LoggerPtr;
+
 /**
  * The filelogger has functions to set up a logger, the setupLogger function MUST be used before using the other functions
  * It has shortcuts to spdlog::logger instances and helper function to flush all loggers
  */
 class FileLogger : public patterns::singleton::Singleton<FileLogger> {
  public:
-
+  FileLogger(const FileLogger&) = delete;
   virtual ~FileLogger() = default;
-  /**
-   * sets up logger
-   * @param filename : wished filename and extension
-   * @param empty : if another file exists do we have to clear it?
-   */
-  void setupLogger(const std::string &filename, bool empty = false);
 
   /**
-   * makes a new file with the given parameters
-   * @param filename wished filename and extension
-   * @param empty : if another file exists do we have to clear it?
+   * changes pattern to wished format
+   * @param newPattern
    */
-  void newFile(const std::string &filename, bool empty = false);
-/**
- * changes pattern to wished format
- * @param newPattern
- */
   void changePattern(const std::string &newPattern);
-  /**
-   * helper function to flush all loggers before continueing
-   */
-  void flushLoggers();
 
   /**
-   * Log to both console and file
+   * Add a new file log
+   * @param name : name, used to get the logger
+   * @param location : filename
+   * @param clearExisting : if set to true, empties the existing file
+   * @return : The created filelogger
    */
-  void logToBoth(const std::string&);
+  LoggerPtr addFileLogger(const std::string &name, const std::string &location, bool clearExisting = true);
 
   /**
-   * Log to file
+   * Get logger by name
+   * @param name : name of logger
+   * @return : logger
    */
-  void logToFile(const std::string&);
+  LoggerPtr get(const std::string &name);
 
   /**
-   * Log to console
+   * Flush logger
+   * @param name : name of logger
    */
-  void logToConsole(const std::string&);
+  void flush(const std::string &name);
+
+  /**
+   * If useDebug is false, nothing will be logged to console sink
+   * @param useDebug
+   */
+  void useConsoleLogger(bool useDebug);
+
+  /**
+   * If debug is true, all new file loggers will also log to console.
+   * @param debug
+   */
+  void setDebug(bool debug);
 
  private:
   friend patterns::singleton::Singleton<FileLogger>;
   FileLogger();
 
-  /**
-   * shortcut to logger of both
-   * @return spdlog instance
-   */
-  std::shared_ptr<spdlog::logger> both();
-
-  /**
-   * shortcut to logger of file
-   * @return spdlog instance
-   */
-  std::shared_ptr<spdlog::logger> file();
-
-  /**
-   * shortcut to logger of console
-   * @return spdlog instance
-   */
-  std::shared_ptr<spdlog::logger> console();
-
-  /**
-   * assign loggers to spdlog
-   */
-  void assignLoggers();
-
-  std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
-  std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> fileSink;
+  bool debug;
   std::string pattern;
-
+  std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink;
 };
 }
 

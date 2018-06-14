@@ -1,8 +1,8 @@
 
-#include "SelfTestState.h"
-
 #include <utils/Logger.h>
-#include "../../Application.h"
+
+#include "SelfTestState.h"
+#include "../../NotificationEventTypes.h"
 
 namespace machinestates {
 

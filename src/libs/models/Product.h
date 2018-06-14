@@ -11,6 +11,11 @@
 
 namespace models {
 
+/**
+ * Class that holds information about a product
+ * id, name and proportion
+ * Is used in a production line
+ */
 class Product;
 typedef std::shared_ptr<Product> ProductPtr;
 
@@ -64,23 +69,15 @@ class Product {
   uint16_t proportion;
 
   /**
-   * A function to save a Product object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the objct in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(id, name, proportion);
-  }
-
-  /**
-   * A function to load a Product object from an archive
+   * A function to serialize a Product object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-	ar(id, name, proportion);
+  void serialize(Archive &ar) {
+	ar(id,
+       name,
+       proportion);
   }
 
   friend class cereal::access;

@@ -3,7 +3,7 @@
 
 #include <utils/Logger.h>
 
-#include "../../states_application/IdleState.h"
+#include "../../NotificationEventTypes.h"
 
 namespace machinestates {
 
@@ -40,9 +40,7 @@ bool TakeOutProductState::handleEvent(const EventPtr &event) {
 
 void TakeOutProductState::onProductTakenOutEvent() {
 //  utils::Logger::log("-Handle event: kEventTypeProductTakenOut");
-
-  auto notification =
-      patterns::notifyobserver::NotifyEvent(machinecore::NotifyEventType::kNotifyEventTypeMachineFinishedProcess);
+  auto notification = context.makeNotifcation(machinecore::NotifyEventType::kNotifyEventTypeMachineFinishedProcess);
   context.notifyObservers(notification);
 }
 } // machinestates

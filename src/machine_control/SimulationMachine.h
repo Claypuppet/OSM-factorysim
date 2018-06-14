@@ -8,6 +8,7 @@
 #include "Machine.h"
 
 #include <random>
+#include <utils/RandomHelper.h>
 
 namespace simulator {
 
@@ -18,6 +19,7 @@ namespace simulator {
 class SimulationMachine : public machinecore::Machine {
  public:
   SimulationMachine(const models::Machine &machine);
+  SimulationMachine(const SimulationMachine &other) = delete;
   ~SimulationMachine() override = default;
   bool configure() override;
   void selfTest() override;
@@ -30,13 +32,17 @@ class SimulationMachine : public machinecore::Machine {
   void setInOperationStartState() override;
 
   static void setCanBreak(bool canBreak);
+  uint64_t getMomentOfLastItemProcessed() const;
 
- private:
-  std::mt19937 generator;
-  std::uniform_int_distribution<uint64_t> distribution;
-  uint16_t magicNumber = 0;
+ protected:
+
+  utils::UnsignedUniformDistribution breakDistribution;
+  utils::NormalDistribution repairDistribution;
+  uint64_t magicNumber = 0;
   uint64_t timeSinceBrokenCheck;
   uint64_t checkCycle;
+
+  uint64_t momentOfLastItemProcessed;
 
   static bool canBreak;
 };

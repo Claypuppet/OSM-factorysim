@@ -18,7 +18,7 @@ void NetworkMapper::disconnectMachineConnection(const network::ConnectionPtr &co
 
 uint16_t NetworkMapper::getMachineIdForConnection(const network::ConnectionPtr &connection) const {
   auto sessionId = static_cast<uint32_t>(connection->getSessionId());
-  try{
+  try {
     return machineConnectionMap.at(sessionId);
   }
   catch (const std::exception &e) {

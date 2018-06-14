@@ -14,6 +14,10 @@
 
 namespace models {
 
+/**
+ * Class that holds information about a simulation
+ * Duration of the simulation, time of day te production starts and the production time on a day
+ */
 class SimulationInfo;
 typedef std::shared_ptr<SimulationInfo> SimulationInfoPtr;
 
@@ -28,7 +32,7 @@ class SimulationInfo {
    * @param startHourOfWorkDay the start hours number of the work day (the production line turns on)
    * @param workDayDurationInHours the number of hours a productionline produces
    */
-  SimulationInfo(uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
+  SimulationInfo(bool local, uint64_t randomSeed, uint16_t durationInHours, uint8_t startHourOfWorkDay, uint8_t workDayDurationInHours);
 
   /**
    * Copy constructor
@@ -43,33 +47,31 @@ class SimulationInfo {
    */
   SimulationInfo &operator=(const SimulationInfo &other);
 
-  uint16_t getDurationInHours() const;
+  bool isLocal() const;
+  uint64_t getRandomSeed() const;
+  uint16_t getDurationInWeeks() const;
   uint8_t getStartHourOfWorkDay() const;
   uint8_t getWorkDayDurationInHours() const;
 
  private:
-  uint16_t durationInHours;
+  bool local;
+  uint64_t randomSeed;
+  uint16_t durationInWeeks;
   uint8_t startHourOfWorkDay;
   uint8_t workDayDurationInHours;
 
   /**
-   * A function to save a SimulationInfo object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(durationInHours);
-  }
-
-  /**
-   * A function to load a SimulationInfo object from an archive
+   * A function to serialize a SimulationInfo object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-	ar(durationInHours);
+  void serialize(Archive &ar) {
+	ar(local,
+       randomSeed,
+       durationInWeeks,
+       startHourOfWorkDay,
+       workDayDurationInHours);
   }
 
   friend class cereal::access;

@@ -62,7 +62,7 @@ class Time : public patterns::singleton::Singleton<Time> {
    * Gets current time as string
    * @return : Current time as string
    */
-  const std::string getCurrentTimeString(const std::string &format = "%A %B %d, %f");
+  const std::string getCurrentTimeString(const std::string &format = "%d-%m-%Y %H:%M:%S.");
 
   /**
    * Executes the setCurrentTime function of the set strategy

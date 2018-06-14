@@ -13,9 +13,17 @@
 
 // other includes
 #include "MachineConfiguration.h"
+#include "PostProcessInfo.h"
 
 namespace models {
 
+/**
+ * Class that holds information about a machine
+ * Machine objects in the visualiser, production control and machine extend this class
+ * Id of the machine
+ * Name of the machine
+ * Configurations of the machine
+ */
 class Machine {
  public:
 
@@ -23,12 +31,13 @@ class Machine {
    * Enum of all machine states
    */
   enum MachineStatus {
-	kMachineStatusInitializing,       // 0
-	kMachineStatusConfiguring,        // 1
-	kMachineStatusIdle,               // 2
-	kMachineStatusProcessingProduct,  // 3
-    kMachineStatusDisconnected,       // 4
+    kMachineStatusDisconnected,       // 0
+	kMachineStatusInitializing,       // 1
+	kMachineStatusConfiguring,        // 2
+	kMachineStatusIdle,               // 3
+	kMachineStatusProcessingProduct,  // 4
 	kMachineStatusBroken,             // 5
+	kMachineStatusInactive,           // 6
   };
 
   /**
@@ -51,12 +60,21 @@ class Machine {
   virtual ~Machine() = default;
 
   /**
-   * ...
-   * @param id
-   * @param name
-   * @param configurations
+   * Construct a new instance of the Machine object
+   * @param id machine id
+   * @param meanTimeBetweenFailureInHours mean time between failure in hours
+   * @param reparationTimeInMinutes reparation time in minutes
+   * @param reparationTimeStddevInMinutes reparation time standard deviation in minutes
+   * @param initializationDurationInSeconds initialisation duration in seconds
+   * @param name the name of the machine
+   * @param configurations alle differen configurations of this machine
    */
   Machine(uint16_t id,
+          uint16_t meanTimeBetweenFailureInHours,
+          uint16_t reparationTimeInMinutes,
+          uint16_t reparationTimeStddevInMinutes,
+          uint16_t initializationDurationInSeconds,
+          const PostProcessInfoPtr &postProcesInfo,
           const std::string &name = "",
           const std::vector<MachineConfigurationPtr> &configurations = std::vector<MachineConfigurationPtr>());
 
@@ -105,50 +123,43 @@ class Machine {
    */
   const MachineConfigurationPtr getConfigurationById(uint16_t machineConfigurationId) const;
 
-  /**
-   * Set the machine id
-   * @param id the new machine id
-   */
-  void setId(uint16_t id);
-
-  /**
-   * Set the machine name
-   * @param name the new machine name
-   */
-  void setName(const std::string &name);
-
-  /**
-   * Add a machine configuration to this machine
-   * @param machineConfiguration machine configuration model
-   * @return the new machine configuration
-   */
-  const MachineConfigurationPtr addConfiguration(MachineConfigurationPtr machineConfiguration);
+  uint16_t getMeanTimeBetweenFailureInHours() const;
+  uint64_t getMeanTimeBetweenFailureInMillis() const;
+  uint16_t getReparationTimeInMinutes() const;
+  uint32_t getReparationTimeInMillis() const;
+  uint16_t getReparationTimeStddevInMinutes() const;
+  uint32_t getReparationTimeStddevInMillis() const;
+  uint16_t getInitializationDurationInSeconds() const;
+  uint32_t getInitializationDurationInMilliseconds() const;
+  const PostProcessInfoPtr getPostProcessInfo() const;
 
  protected:
   uint16_t id;
   std::string name;
+  uint16_t meanTimeBetweenFailureInHours;
+  uint16_t reparationTimeInMinutes;
+  uint16_t reparationTimeStddevInMinutes;
+  uint16_t initializationDurationInSeconds;
   std::vector<MachineConfigurationPtr> configurations;
+  std::shared_ptr<PostProcessInfo> postProcessInfo;
 
  private:
 
   /**
-   * A function to save the object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &archive) const {
-    archive(id, name, configurations);
-  }
-
-  /**
-   * A function to load a machine object from an archive
+   * A function to serialize a machine object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &archive) {
-    archive(id, name, configurations);
+  void serialize(Archive &archive) {
+    archive(id,
+            name,
+            meanTimeBetweenFailureInHours,
+            reparationTimeInMinutes,
+            reparationTimeStddevInMinutes,
+            initializationDurationInSeconds,
+            configurations,
+            postProcessInfo);
   };
 
   friend class ::cereal::access;

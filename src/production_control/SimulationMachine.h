@@ -24,15 +24,7 @@ class SimulationMachine : public core::Machine {
    * @param aMachine : A machine model
    */
   explicit SimulationMachine(const models::Machine &aMachine);
- protected:
-  void sendMessage(network::Message &message) override;
- public:
-
-  /**
-  * Copy constructor
-  * @param aMachine : The machine to copy
-  */
-  SimulationMachine(const SimulationMachine &aMachine);
+  SimulationMachine(const SimulationMachine &other) = delete;
 
   /**
    * Destruct
@@ -43,19 +35,19 @@ class SimulationMachine : public core::Machine {
   * A function to check if a connection is established with the machine
   * @return True if theres a connection establised with the machine
   */
-  bool isSimulationConnected() const;
+  virtual bool isSimulationConnected() const;
 
   /**
   * A function to check if the machine is ready for configuration
   * @return True if theres a connection establised with the machine and its configured
   */
-  bool isReadyForSimulation() const;
+  virtual bool isReadyForSimulation() const;
 
   /**
   * Set the simulation connection wit this machine
   * @param aConnection : The connection with this machine
   */
-  void setSimulationConnection(const network::ConnectionPtr &aConnection);
+  virtual void setSimulationConnection(const network::ConnectionPtr &aConnection);
 
   /**
    * Send the simulation configuration to this machine.
@@ -65,17 +57,17 @@ class SimulationMachine : public core::Machine {
   /**
    * Sets the machine ready for simulation
    */
-  void setReady(bool aReady);
+  virtual void setReady(bool aReady);
 
   /**
    * Send the command to turn on the machine
    */
-  void sendTurnOnCommand();
+  virtual void sendTurnOnCommand();
 
   /**
    * Send the command to turn on the machine
    */
-  void sendTurnOffCommand();
+  virtual void sendTurnOffCommand();
 
   /**
    * Get next moment for event, return 0 if no event is in queue
@@ -85,9 +77,9 @@ class SimulationMachine : public core::Machine {
   /**
    * Get all events from queue with given time, throws exception is time is later than first event in queue
    * @param moment : Time
-   * @return : List of events for given time
+   * @param list : List of events to add this machine's events to.
    */
-  std::vector<patterns::notifyobserver::NotifyEvent> getEvents(uint64_t moment);
+  void getEvents(uint64_t moment, std::vector<patterns::notifyobserver::NotifyEvent> &list);
 
   /**
    * Add a simulation event to the queue
@@ -96,22 +88,34 @@ class SimulationMachine : public core::Machine {
   void addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent);
   bool isWaitingForSimulationResponse() const;
   bool isWaitingForResponse() override;
+  bool isIdle(bool completelyIdle) override;
+
+ protected:
+
+  void handleBreak() override;
 
  private:
+  /**
+  * A function to send a message to this machine
+  * @param message : The message to send to this machine
+  */
+  void sendSimulationMessage(network::Message &message);
+
+  /**
+   * Overrides Machine::sendMessage, sets awaitingSimulationResponse to true
+   * @param message
+   */
+  void sendMessage(network::Message &message) override;
+
+
   std::mutex eventPusher;
   bool ready;
   network::ConnectionPtr simConnection;
 
   bool awaitingSimulationResponse;
 
-  std::queue<patterns::notifyobserver::NotifyEvent> simulationEvents;
-
-
-  /**
-  * A function to send a message to this machine
-  * @param message : The message to send to this machine
-  */
-  void sendSimulationMessage(network::Message &message);
+  std::queue<patterns::notifyobserver::NotifyEvent> simulationStatusEvents;
+  std::queue<patterns::notifyobserver::NotifyEvent> simulationBufferEvents;
 
 };
 

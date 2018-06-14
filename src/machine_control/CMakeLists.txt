@@ -1,7 +1,6 @@
 
 add_library(source_lib_app_machine_control SHARED
-        config.h
-        ControllerNotificationEventIds.h
+        NotificationEventTypes.h
         SimulationNetworkComponent.cpp
         SimulationNetworkComponent.h
         Controller.cpp
@@ -58,7 +57,8 @@ add_library(source_lib_app_machine_control SHARED
         states_simulation_controller/WaitForProductControlState.h
         Machine.h
         SimulationMachine.cpp
-        SimulationMachine.h)
+        SimulationMachine.h
+        )
 
 target_link_libraries(source_lib_app_machine_control lib_network lib_patterns lib_models)
 

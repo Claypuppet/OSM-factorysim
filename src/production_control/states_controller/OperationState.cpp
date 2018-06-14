@@ -15,19 +15,16 @@ OperationState::OperationState(simulation::SimulationController &aContext)
 void OperationState::entryAction() {
   utils::Logger::log(__PRETTY_FUNCTION__);
   context.getApplication()->setStartState();
-
-  uint64_t currentTime = utils::Time::getInstance().getCurrentTime();
-  logMoment = currentTime;
-
-  context.setSimulationEndTime();
 }
 
 void OperationState::doActivity() {
-  context.getApplication()->run();
-  if (context.simulationIsOver()) {
+  if (context.isSimulationOver()) {
+    // Simulation is over
     auto event = std::make_shared<Event>(kEventTypeSimulationFinished);
     context.scheduleEvent(event);
+    return;
   }
+  context.getApplication()->run();
 }
 
 void OperationState::exitAction() {

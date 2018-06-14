@@ -5,16 +5,20 @@
 #include <cereal/archives/portable_binary.hpp>
 #include <network/Protocol.h>
 #include <utils/time/Time.h>
+
 #include "SimulationMachine.h"
+#include "NotificationTypes.h"
 
 namespace simulation {
 
 SimulationMachine::SimulationMachine(const models::Machine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
-}
-
-SimulationMachine::SimulationMachine(const SimulationMachine &aMachine) :
-	core::Machine(aMachine), simConnection(nullptr), ready(false), awaitingSimulationResponse(false) {
+    core::Machine(aMachine),
+    eventPusher(),
+    ready(false),
+    simConnection(),
+    awaitingSimulationResponse(false),
+    simulationStatusEvents(),
+    simulationBufferEvents() {
 }
 
 bool SimulationMachine::isSimulationConnected() const {
@@ -24,7 +28,7 @@ bool SimulationMachine::isSimulationConnected() const {
 void SimulationMachine::sendSimulationMessage(network::Message &message) {
   message.setTime(utils::Time::getInstance().getCurrentTime());
   if (isSimulationConnected()) {
-	simConnection->writeMessage(message);
+    simConnection->writeMessage(message);
   }
 }
 
@@ -42,11 +46,14 @@ void SimulationMachine::sendSimulationConfiguration() {
 void SimulationMachine::sendTurnOnCommand() {
   network::Message message(network::Protocol::kSimMessageTypeTurnOn);
   sendSimulationMessage(message);
+  awaitingSimulationResponse = false;
 }
 
 void SimulationMachine::sendTurnOffCommand() {
   network::Message message(network::Protocol::kSimMessageTypeTurnOff);
   sendSimulationMessage(message);
+  setStatus(kMachineStatusDisconnected);
+  awaitingSimulationResponse = false;
 }
 
 bool SimulationMachine::isReadyForSimulation() const {
@@ -58,32 +65,49 @@ void SimulationMachine::setReady(bool aReady) {
 }
 
 uint64_t SimulationMachine::getNextEventMoment() {
-  if (!simulationEvents.empty()){
-    const auto& event = simulationEvents.front();
-    return event.getArgumentAsType<uint64_t>(0);
+  uint64_t lowest = 0;
+  if (!simulationStatusEvents.empty()) {
+    const auto &event = simulationStatusEvents.front();
+    lowest = event.getArgumentAsType<uint64_t>(0);
   }
-  return 0;
+  if (!simulationBufferEvents.empty()) {
+    const auto &event = simulationBufferEvents.front();
+    auto lowestBufferEvent = event.getArgumentAsType<uint64_t>(0);
+    if (lowest == 0 || lowest > lowestBufferEvent) {
+      lowest = lowestBufferEvent;
+    }
+  }
+  return lowest;
 }
 
-std::vector<patterns::notifyobserver::NotifyEvent> SimulationMachine::getEvents(uint64_t moment) {
-  std::vector<patterns::notifyobserver::NotifyEvent> list;
-  while(!simulationEvents.empty() && simulationEvents.front().getArgumentAsType<uint64_t>(0) == moment){
-    list.emplace_back(simulationEvents.front());
-    simulationEvents.pop();
+void SimulationMachine::getEvents(uint64_t moment, std::vector<patterns::notifyobserver::NotifyEvent> &list) {
+  while (!simulationBufferEvents.empty() && simulationBufferEvents.front().getArgumentAsType<uint64_t>(0) == moment) {
+    list.emplace_back(simulationBufferEvents.front());
+    simulationBufferEvents.pop();
   }
-  return list;
+  while (!simulationStatusEvents.empty() && simulationStatusEvents.front().getArgumentAsType<uint64_t>(0) == moment) {
+    list.emplace_back(simulationStatusEvents.front());
+    simulationStatusEvents.pop();
+  }
 }
 
 void SimulationMachine::addEvent(const patterns::notifyobserver::NotifyEvent &simulationEvent) {
   std::lock_guard<std::mutex> guard(eventPusher);
-  simulationEvents.emplace(simulationEvent);
-  try{
-    if(simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle){
-      awaitingSimulationResponse = false;
-    }
-  }
-  catch (const std::exception &e){
-    // temp because derp
+  switch (simulationEvent.getEventId()) {
+    case NotifyEventIds::eApplicationOK:
+      // OK checks if the state is idle,
+      if (simulationEvent.getArgumentAsType<models::Machine::MachineStatus>(2) == kMachineStatusIdle) {
+        awaitingSimulationResponse = false;
+      }
+    case NotifyEventIds::eApplicationProductTakenFromBuffer:
+    case NotifyEventIds::eApplicationNOK:
+      simulationStatusEvents.emplace(simulationEvent);
+      break;
+    case NotifyEventIds::eApplicationProductAddedToBuffer:
+      simulationBufferEvents.emplace(simulationEvent);
+      break;
+    default:
+      break;
   }
 }
 
@@ -99,6 +123,17 @@ bool SimulationMachine::isWaitingForSimulationResponse() const {
 bool SimulationMachine::isWaitingForResponse() {
   std::lock_guard<std::mutex> guard(eventPusher);
   return Machine::isWaitingForResponse() && awaitingSimulationResponse;
+}
+
+void SimulationMachine::handleBreak() {
+  Machine::handleBreak();
+  // Machine broke, so clear all buffer events
+  std::queue<patterns::notifyobserver::NotifyEvent> empty;
+  std::swap(simulationBufferEvents, empty);
+}
+
+bool SimulationMachine::isIdle(bool completelyIdle) {
+  return simulationBufferEvents.empty() && simulationStatusEvents.empty() && Machine::isIdle(completelyIdle);
 }
 
 } // simulation

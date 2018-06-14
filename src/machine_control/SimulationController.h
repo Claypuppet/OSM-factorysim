@@ -17,6 +17,9 @@
 
 namespace simulator {
 
+/**
+ * Class that controls a simulation application
+ */
 class SimulationController
 	: public machinecore::Controller,
 	  public patterns::statemachine::Context,
@@ -24,6 +27,7 @@ class SimulationController
 
  public:
   SimulationController(uint16_t aMachineId);
+  SimulationController(const SimulationController&) = delete;
   ~SimulationController() override;
 
   /**
@@ -34,7 +38,7 @@ class SimulationController
   /**
    * Stops the networkManager and execution of the controller
    */
-  void stop();
+  void stop() override;
 
   /**
    * Called to set simulation configurations of it's application to the parameter's configurations
@@ -110,7 +114,7 @@ class SimulationController
   // The network's client
   network::ClientPtr client;
 
-  SimulationCommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
+  simulationcommunication::SimulationNetworkComponentPtr simulationNetworkComponent;
 };
 }
 

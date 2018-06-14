@@ -23,6 +23,11 @@ class JSONStrategy : public YAMLStrategy {
 
   JSONStrategy(const JSONStrategy &other);
 
+  /**
+   * Funtion to deserialize a JSON configuration file
+   * @param filePath : Path to the configuration file
+   * @return : The deserialized configuration
+   */
   std::shared_ptr<models::Configuration> deserialize(const std::string &filePath);
 };
 

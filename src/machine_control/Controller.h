@@ -6,9 +6,12 @@
 #define PRODUCTION_LINE_CONTROL_CONTROLLER_H
 
 #include "Application.h"
-#include "Machine.h"
 
 namespace machinecore {
+
+/**
+ * Class that controls an application
+ */
 class Controller {
  public:
   /**
@@ -16,6 +19,8 @@ class Controller {
    * @param aMachineInfo : The machineInfo for application
    */
   explicit Controller(uint16_t aMachineId);
+  
+  Controller(const Controller&) = delete;
 
   /**
    * The destructor

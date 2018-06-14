@@ -18,8 +18,9 @@ namespace simulation {
 class SimulationApplication : public core::Application {
  public:
   SimulationApplication();
+  SimulationApplication(const SimulationApplication &) = delete;
   virtual ~SimulationApplication() = default;
-
+  void setMachines(const std::vector<core::MachinePtr> &aMachines) override;
   /**
    * Calls the core application. After that this method will call turn on sim machines.
    */
@@ -34,7 +35,7 @@ class SimulationApplication : public core::Application {
    * Get all machines as simulation machines
    * @return : simulation machine list
    */
-  const std::vector<SimulationMachinePtr> getSimulationMachines() const;
+  const std::vector<SimulationMachinePtr> &getSimulationMachines() const;
 
   /**
    * Send message to all connected simulation machines to turn on
@@ -55,14 +56,34 @@ class SimulationApplication : public core::Application {
   /**
    * Log statistics of the current operation
    */
-  void logStatistics() const;
+  void debugLogCurrentStats();
 
-  // Overrides
+  /**
+   * Keeps specific notifications separate in machine, for later scheduling
+   * @param notification : notification that arrived
+   */
   void handleNotification(const patterns::notifyobserver::NotifyEvent &notification) override;
+
+  /**
+   * Applies delayed notifications and executes the scheduler
+   */
   void executeScheduler() override;
+
+  /**
+   * also turns off the simulation machines
+   */
+  void workDayOver() override;
+
+  /**
+   * will finialize day log and move on to next day
+   */
+  void checkTimeToStartAgain() override;
+
+  bool checkAllMachinesDisconnected() override;
 
  private:
   bool canScheduleNotifications;
+  std::vector<SimulationMachinePtr> simulationMachines;
 
 };
 

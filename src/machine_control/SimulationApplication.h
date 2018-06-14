@@ -15,10 +15,10 @@ namespace simulator {
  */
 class SimulationApplication : public machinecore::Application {
  public:
-  SimulationApplication(uint16_t aMachineId);
+  explicit SimulationApplication(uint16_t aMachineId);
+  SimulationApplication(const SimulationApplication&) = delete;
   virtual ~SimulationApplication() = default;
 
-  void setStartState() override;
 };
 
 typedef std::shared_ptr<SimulationApplication> SimulationApplicationPtr;

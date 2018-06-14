@@ -7,9 +7,13 @@
 
 namespace core {
 
+/**
+ * Class that controls an application
+ */
 class Controller {
  public:
   Controller();
+  Controller(const Controller &) = delete;
   virtual ~Controller() = default;
 
   /**

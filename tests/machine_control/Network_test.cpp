@@ -12,8 +12,8 @@ BOOST_AUTO_TEST_CASE(RegisterMachine) {
 //  manager.setRemotePort(network::Protocol::PORT_SIMULATION_COMMUNICATION);
 //  auto pcMock = std::make_shared<testutils::MockNetwork>();
 //
-//  std::shared_ptr<SimulationCommunication::SimulationNetworkComponent>
-//      networkComponent = std::make_shared<SimulationCommunication::SimulationNetworkComponent>();
+//  std::shared_ptr<simulationcommunication::SimulationNetworkComponent>
+//      networkComponent = std::make_shared<simulationcommunication::SimulationNetworkComponent>();
 //
 //  testutils::OnMessageFn onMessageFn = [](network::Message &message) {
 //    BOOST_CHECK(message.getBodyObject<std::uint16_t>() == 5);

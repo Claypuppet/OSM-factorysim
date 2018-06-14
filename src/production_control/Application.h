@@ -10,6 +10,7 @@
 #include <patterns/statemachine/Context.h>
 #include <patterns/notifyobserver/Observer.hpp>
 #include <models/Configuration.h>
+#include <models/FinalStatistics.h>
 
 // project file includes
 #include "Machine.h"
@@ -21,6 +22,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
  public:
 
   Application() = default;
+  Application(const Application &) = delete;
 
   /**
    * Destruct a Application object
@@ -64,7 +66,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
   /**
    * Check if all machines are ready
    */
-  bool allMachinesRegistered();
+  bool checkAllMachinesRegistered();
 
   /**
    * set the connection of a machine by a specific machineId
@@ -82,6 +84,7 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
 
   /**
    * Executes the scheduler. Checks if a machine can process a product.
+   * @param preparingShutdown : true if preparing to shutdown, changes the functionality of the scheduler
    */
   virtual void executeScheduler();
 
@@ -105,13 +108,77 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   bool setMachineStatus(uint16_t machineId, core::Machine::MachineStatus status);
 
+  /**
+   * Makes a machine take products from its input buffer
+   * @param machineId : The machine
+   */
+  void takeProductsFromBuffer(uint16_t machineId);
+
+  /**
+   * Makes a machine add products to its output buffer
+   * @param machineId : The machine
+   */
+  void addProductsToBuffer(uint16_t machineId);
+
   virtual const std::vector<MachinePtr> &getMachines() const;
 
+  /**
+   * Saves statistics of all machines for the current timestamp
+   */
+  void saveMachineStatistics();
+
+  /**
+   * Logs statistics of a simulation to a result file
+   */
+  void logFinalStatistics();
+
+  /**
+   * Called by the prepare shutdown state to stop all machines
+   */
+  virtual void prepareForShutdown();
+
+  /**
+   * Called by the shutdown state to let the application know the work day is over.
+   */
+  virtual void workDayOver();
+
+  /**
+   * Called by the shutdown state to let the application know that all machines are shutdown.
+   */
+  virtual void checkTimeToStartAgain();
+
+  /**
+   * Check if all machines are idle
+   * @param completelyIdle : Checks not only if state is idle, but also if input / output buffer is empty. default false
+   * @return : True if all connected machines are in the idle state
+   */
+  bool checkAllMachinesIdle(bool completelyIdle = false);
+
+  /**
+   * Check if all machines are disconnected. used by shutdown state
+   * @return : True if all connected machines are disconnected
+   */
+  virtual bool checkAllMachinesDisconnected();
+
+  uint16_t getTimesReconfigured() const;
+
  protected:
+
+  /**
+   * Calculates final statistics of all machines
+   */
+  void calculateMachineFinalStatistics();
+
+  /**
+   * Calculates the final statistics of a simulation
+   * @return : model holding the final statistics
+   */
+  models::FinalStatisticsPtr calculateFinalStatistics();
+  
   /**
    * Checks if we need to change production, if so, prepare change.
    */
-  void tryChangeProduction();
+  bool shouldChangeProduction();
 
   /**
    * Handle register notification
@@ -134,18 +201,42 @@ class Application : public patterns::notifyobserver::Observer, public patterns::
    */
   void onHandleNOKNotification(uint16_t id, models::Machine::MachineErrorCode errorCode);
 
+  /**
+   * Handles a product taken notification
+   * @param machineId : Id of the machine that took products
+   */
+  void onHandleProductTakenFromBufferNotification(uint16_t machineId);
+
+  /**
+   * Handles a product added notification
+   * @param machineId : Id of the machine that added products
+   */
+  void onHandleProductAddedToBufferNotification(uint16_t machineId);
+
   models::ProductionLinePtr productionLine;
   std::vector<MachinePtr> machines;
 
-  uint16_t currentProductId;
-  uint64_t momentStartingCurrentProduct;
+  uint16_t currentProductId{};
+  uint64_t momentStartingCurrentProduct{};
+  uint64_t startTimeStamp;
 
+  std::map<uint16_t, uint16_t> productPorportions;
   std::map<uint16_t, MachinePtr> lastMachineInLine;
   std::map<uint16_t, std::vector<MachinePtr>> firstMachinesInLine;
 
   network::ServerPtr server;
   ThreadPtr serverThread;
   network::Manager manager;
+
+  uint16_t timesReconfigured;
+
+  /**
+   * Timestamp, statistics
+   */
+  std::map<uint64_t, std::vector<models::MachineStatisticsPtr>> machineStatistics;
+
+  std::vector<models::MachineFinalStatistics> machineFinalStatistics;
+  void onHandleMachineDisconnected(uint16_t id);
 };
 
 typedef std::shared_ptr<Application> ApplicationPtr;

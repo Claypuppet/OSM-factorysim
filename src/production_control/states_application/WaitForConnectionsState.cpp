@@ -2,18 +2,20 @@
 #include <utils/Logger.h>
 #include "WaitForConnectionsState.h"
 #include "InOperationState.h"
+#include "in_operation/PrepareSchedulerState.h"
 
 applicationstates::WaitForConnectionsState::WaitForConnectionsState(core::Application &context) :
 	ApplicationState(context) {
 }
 
-void applicationstates::WaitForConnectionsState::doActivity() {
-
+void applicationstates::WaitForConnectionsState::entryAction() {
+	utils::Logger::log(__PRETTY_FUNCTION__);
+	context.setupNetwork();
+	context.checkAllMachinesRegistered();
 }
 
-void applicationstates::WaitForConnectionsState::entryAction() {
-  utils::Logger::log(__PRETTY_FUNCTION__);
-  context.setupNetwork();
+void applicationstates::WaitForConnectionsState::doActivity() {
+
 }
 
 void applicationstates::WaitForConnectionsState::exitAction() {
@@ -25,12 +27,12 @@ bool applicationstates::WaitForConnectionsState::handleEvent(const EventPtr &eve
 	case kEventTypeMachineRegistered:
 	  utils::Logger::log("-Handle event: kEventTypeMachineRegistered");
 	  onMachineRegistered(event);
-	  break;
+	  return true;
 
 	case kEventTypeAllMachinesRegistered:
 	  utils::Logger::log("-Handle event: kEventTypeAllMachinesRegistered");
 	  onAllMachinesConnected();
-	  break;
+	  return true;
 
 	default:
 	  return ApplicationState::handleEvent(event);
@@ -43,5 +45,5 @@ void applicationstates::WaitForConnectionsState::onMachineRegistered(const Event
 }
 
 void applicationstates::WaitForConnectionsState::onAllMachinesConnected() {
-  context.setCurrentState(std::make_shared<InOperationState>(context));
+  context.setCurrentState(std::make_shared<PrepareSchedulerState>(context));
 }

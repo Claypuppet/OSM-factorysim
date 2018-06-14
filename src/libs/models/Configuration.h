@@ -16,6 +16,12 @@
 
 namespace models {
 
+/**
+ * Model class holds all information about a simulation
+ * Name of the simulation
+ * The production line that is used
+ * Information about the simulation
+ */
 class Configuration;
 typedef std::shared_ptr<Configuration> ConfigurationPtr;
 
@@ -65,25 +71,15 @@ class Configuration {
   ProductionLinePtr productionLine;
 
   /**
-   * Function to save class as archive
-   * @tparam Archive
-   * @param ar : Archive to store class in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-    ar(name, simulationInfo, productionLine);
-  }
-
- private:
-
-  /**
-   * Function to load class from archive
+   * Function to serialize class from archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-    ar(name, simulationInfo, productionLine);
+  void serialize(Archive &ar) {
+    ar(name,
+       simulationInfo,
+       productionLine);
   }
 
   friend class ::cereal::access;

@@ -24,16 +24,20 @@ void patterns::statemachine::Context::scheduleEvent(EventPtr event) {
 void patterns::statemachine::Context::run() {
   currentState->doActivity();
   while (!events.empty()) {
-	EventPtr e = events.front();
-	events.pop();
-	auto handled = currentState->handleEvent(e);
-
-	// Re-add unhandled events ?
-//		if (!handled){
-//			scheduleEvent(e);
-//		}
+	EventPtr &event = events.front();
+	currentState->handleEvent(event);
+    events.pop();
   }
 }
 const patterns::statemachine::StatePtr &patterns::statemachine::Context::getCurrentState() const {
   return currentState;
+}
+
+patterns::statemachine::EventPtr patterns::statemachine::Context::createStateEvent(uint32_t id) const {
+  return std::make_shared<Event>(id);
+}
+
+void patterns::statemachine::Context::createAndScheduleStateEvent(uint32_t id) {
+  auto event = std::make_shared<Event>(id);
+  scheduleEvent(event);
 }

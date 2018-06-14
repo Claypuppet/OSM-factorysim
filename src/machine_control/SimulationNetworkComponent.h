@@ -12,16 +12,20 @@
 // other includes
 // -
 
-namespace SimulationCommunication {
+/**
+ * Network component that handles messages for a simulation controler
+ */
+namespace simulationcommunication {
 
 class SimulationNetworkComponent;
 typedef std::shared_ptr<SimulationNetworkComponent> SimulationNetworkComponentPtr;
 
 class SimulationNetworkComponent :
-	public network::IConnectionHandler,
-	public patterns::notifyobserver::Notifier {
+    public network::IConnectionHandler,
+    public patterns::notifyobserver::Notifier {
  public:
   SimulationNetworkComponent() = default;
+  SimulationNetworkComponent(const SimulationNetworkComponent &) = delete;
   virtual ~SimulationNetworkComponent() = default;
 
   /**

@@ -11,12 +11,17 @@
 #include "NetworkMapper.h"
 
 namespace communication {
+
+/**
+ * Network component for an application that handles messages and connections
+ */
 class ConnectionHandler :
 	public network::IConnectionHandler,
 	public patterns::notifyobserver::Notifier,
 	public NetworkMapper {
  public:
   ConnectionHandler() = default;
+  ConnectionHandler(const ConnectionHandler &) = delete;
   virtual ~ConnectionHandler() = default;
 
  private:
@@ -25,8 +30,7 @@ class ConnectionHandler :
 
   void onConnectionEstablished(network::ConnectionPtr connection) override;
 
-  void
-  onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
+  void onConnectionDisconnected(network::ConnectionPtr connection, const boost::system::error_code &error) override;
 
   /**
    * Handles incoming messages
@@ -57,6 +61,18 @@ class ConnectionHandler :
    * @param message : The incoming message, contains the error code
    */
   void handleNOK(network::ConnectionPtr connection, network::Message &message);
+
+  /**
+   * Makes a notification to indicate a machine send a product added message
+   * @param connection : The connection that send the message
+   */
+   void handleProductAddedToBuffer(network::ConnectionPtr connection, network::Message &message);
+
+   /**
+    * Makes a notification to indicate a machine send a product taken message
+    * @param connection : The connection that send the message
+    */
+   void handleProductTakenFromBuffer(network::ConnectionPtr connection, network::Message &message);
 };
 }
 

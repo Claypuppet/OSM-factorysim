@@ -6,6 +6,7 @@
 #include <boost/test/unit_test.hpp>
 #include <patterns/notifyobserver/Notifier.hpp>
 #include <configuration_serializer/ConfigurationReader.h>
+#include <utils/time/Time.h>
 
 #include "../../src/production_control/Application.h"
 #include "../test_helpers/MockNetwork.h"
@@ -19,12 +20,24 @@
 #include "../test_helpers/HelperFunctions.h"
 #include "../../src/production_control/states_application/InOperationState.h"
 #include "../../src/production_control/InfiniteBuffer.h"
+#include "../../src/production_control/states_application/in_operation/PrepareSchedulerState.h"
+
+const uint16_t machine1Id = 15;
+const uint16_t machine2Id = 75;
 
 BOOST_AUTO_TEST_SUITE(ProductionControlApplicationNetworkTests)
 
 BOOST_AUTO_TEST_CASE(ProductionControlSendStartProcess) {
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
+  std::string configurationFilePath = "./test_configs/test_config_one_machine.yaml";
+
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machine1Id);
+  BOOST_REQUIRE(machine);
 
   auto machineMock = std::make_shared<testutils::MockNetwork>();
   auto pcMock = std::make_shared<testutils::MockNetwork>();
@@ -62,7 +75,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // use the controller for loading the config and setup the application
   simulation::SimulationController controller;
-  controller.setConfiguration("./test_configs/test_config_one_machine.yaml");
+  controller.setConfiguration("./test_configs/test_config_two_machines.yaml");
 
   // get the application from controller
   auto &application = controller.getApplication();
@@ -79,8 +92,8 @@ BOOST_AUTO_TEST_CASE(ProductionControlTestApplicationEventMachineRegistered) {
 
   // create the notification event that a notifier class normally sends to the observer
   patterns::notifyobserver::NotifyEvent event(NotifyEventIds::eApplicationRegisterMachine);
-  event.setArgument(0, (uint64_t) 0);
-  event.setArgument(1, (uint16_t) 1);
+  event.setArgument(0, utils::Time::getInstance().getCurrentTime());
+  event.setArgument(1, machine1Id);
   event.setArgument(2, machineNetwork->getConnection());
 
   // fire the notification
@@ -99,9 +112,21 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE(ProductionControlTestApplicationMachineBuffers)
 
 BOOST_AUTO_TEST_CASE(TestBuffer) {
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  auto machine = std::make_shared<core::Machine>(models::Machine(1, "", configs));
-  core::InfiniteBuffer infiniteBuffer(machine, 1);
+  std::string configurationFilePath = "./test_configs/test_config_two_machines.yaml";
+
+  simulation::SimulationController controller;
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration(configurationFilePath));
+
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
+
+  auto machine = application->getMachine(machine1Id);
+  BOOST_REQUIRE(machine);
+
+//  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
+//  auto machine = std::make_shared<core::Machine>();
+
+  core::InfiniteBuffer infiniteBuffer(machine, 0);
   BOOST_CHECK(infiniteBuffer.checkFreeSpaceInBuffer(UINT16_MAX));
   BOOST_CHECK(infiniteBuffer.checkAmountInBuffer(UINT16_MAX));
 
@@ -111,7 +136,7 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
   BOOST_REQUIRE(product);
 
   // Buffer with size 3
-  core::Buffer limitedBuffer(machine, 1, 3);
+  core::Buffer limitedBuffer(machine, 0, 3);
   BOOST_CHECK(limitedBuffer.checkFreeSpaceInBuffer(3));
   BOOST_CHECK(!limitedBuffer.checkFreeSpaceInBuffer(4));
 
@@ -132,64 +157,99 @@ BOOST_AUTO_TEST_CASE(TestBuffer) {
 }
 
 BOOST_AUTO_TEST_CASE(TestBufferMachineLinking) {
-  simulation::SimulationController controller;
-
   const std::string filePath = "./test_configs/test_config_two_machines.yaml";
+
+  simulation::SimulationController controller;
   BOOST_REQUIRE_NO_THROW(controller.setConfiguration(filePath));
 
   auto machines = controller.getApplication()->getMachines();
-
   BOOST_REQUIRE_EQUAL(machines.size(), 2);
-  auto machine1 = machines[0];
-  auto machine2 = machines[1];
 
-  BOOST_CHECK_EQUAL(machine1->getId(), 15);
-  BOOST_CHECK_EQUAL(machine2->getId(), 75);
+  { // machines[0]
+    auto machine = machines[0];
+    BOOST_CHECK_EQUAL(machine->getId(), 15);
+    auto allInputBuffers = machine->getInputBuffers();
+    BOOST_REQUIRE_EQUAL(allInputBuffers.size(), 2);
 
-  auto m1Previous1 = machine1->getPreviousMachines(12);
-  auto m1Previous2 = machine1->getPreviousMachines(88);
-  BOOST_REQUIRE_EQUAL(m1Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous1.front()->getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous1.front()->getNeededProducts(), 5);
-  BOOST_REQUIRE_EQUAL(m1Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m1Previous2.front()->getMachineId(), 0);
-  BOOST_CHECK_EQUAL(m1Previous2.front()->getNeededProducts(), 10);
+    { // machines[0].previousMachines
+      uint16_t configurationId = 12; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 0);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 5);
+      BOOST_CHECK(!machine->isLastInLine(configurationId));
+    }
 
-  auto m2Previous1 = machine2->getPreviousMachines(12);
-  BOOST_REQUIRE_EQUAL(m2Previous1.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous1.front()->getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous1.front()->getNeededProducts(), 7);
-  auto m2Previous2 = machine2->getPreviousMachines(88);
-  BOOST_REQUIRE_EQUAL(m2Previous2.size(), 1);
-  BOOST_CHECK_EQUAL(m2Previous2.front()->getMachineId(), 15);
-  BOOST_CHECK_EQUAL(m2Previous2.front()->getNeededProducts(), 8);
+    { // machine[0].inputBuffers
+      uint16_t configurationId = 12; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_REQUIRE_NO_THROW(inputBuffers.at(0));
+      BOOST_CHECK_EQUAL(inputBuffers.at(0)->getMachineIdOfPutter(), 0);
+      BOOST_CHECK_EQUAL(inputBuffers.at(0)->getMachineIdOfTaker(), machine1Id);
+    }
 
-  auto m1InputBuffers = machine1->getInputBuffers();
-  BOOST_REQUIRE_EQUAL(m1InputBuffers.size(), 2);
+    { // machines[0].previousMachines
+      uint16_t configurationId = 88; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), 0);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 10);
+      BOOST_CHECK(!machine->isLastInLine(configurationId));
+    }
 
-  auto m1InputBuffer1 = machine1->getInputBuffers(12);
-  BOOST_REQUIRE_EQUAL(m1InputBuffer1.size(), 1);
-  BOOST_CHECK_EQUAL(m1InputBuffer1.front()->getFromMachineId(), 0);
-  auto m1InputBuffer2 = machine1->getInputBuffers(88);
-  BOOST_REQUIRE_EQUAL(m1InputBuffer2.size(), 1);
-  BOOST_CHECK_EQUAL(m1InputBuffer2.front()->getFromMachineId(), 0);
+    { // machine[0].inputBuffers
+      uint16_t configurationId = 88; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_REQUIRE_NO_THROW(inputBuffers.at(0));
+      BOOST_CHECK_EQUAL(inputBuffers.at(0)->getMachineIdOfPutter(), 0);
+      BOOST_CHECK_EQUAL(inputBuffers.at(0)->getMachineIdOfTaker(), machine1Id);
+    }
+  }
 
-  auto m2InputBuffers = machine2->getInputBuffers();
-  BOOST_REQUIRE_EQUAL(m2InputBuffers.size(), 2);
+  { // machines[1]
+    auto machine = machines[1];
+    BOOST_REQUIRE_EQUAL(machine->getId(), 75);
+    auto allInputBuffers = machine->getInputBuffers();
+    BOOST_REQUIRE_EQUAL(allInputBuffers.size(), 2);
 
-  auto m2InputBuffer1 = machine2->getInputBuffers(12);
-  BOOST_REQUIRE_EQUAL(m2InputBuffer1.size(), 1);
-  BOOST_CHECK_EQUAL(m2InputBuffer1.front()->getFromMachineId(), 15);
-  auto m2InputBuffer2 = machine2->getInputBuffers(88);
-  BOOST_REQUIRE_EQUAL(m2InputBuffer2.size(), 1);
-  BOOST_CHECK_EQUAL(m2InputBuffer2.front()->getFromMachineId(), 15);
+    { // machines[1].previousMachines
+      uint16_t configurationId = 12; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), machine1Id);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 7);
+      BOOST_CHECK(machine->isLastInLine(configurationId));
+    }
 
+    { // machines[1].inputBuffers
+      uint16_t configurationId = 12; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_REQUIRE_NO_THROW(inputBuffers.at(machine1Id));
+      BOOST_CHECK_EQUAL(inputBuffers.at(machine1Id)->getMachineIdOfPutter(), machine1Id);
+      BOOST_CHECK_EQUAL(inputBuffers.at(machine1Id)->getMachineIdOfTaker(), machine2Id);
+    }
 
-  BOOST_CHECK(!machine1->isLastInLine(12));
-  BOOST_CHECK(machine2->isLastInLine(12));
-  BOOST_CHECK(!machine1->isLastInLine(88));
-  BOOST_CHECK(machine2->isLastInLine(88));
+    { // machines[1].previousMachines
+      uint16_t configurationId = 88; // is actually the productId
+      auto previousMachines = machine->getPreviousMachines(configurationId);
+      BOOST_REQUIRE_EQUAL(previousMachines.size(), 1);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getMachineId(), machine1Id);
+      BOOST_CHECK_EQUAL(previousMachines.front()->getNeededProducts(), 8);
+      BOOST_CHECK(machine->isLastInLine(configurationId));
+    }
 
+    { // machines[1].inputBuffers
+      uint16_t configurationId = 88; // is actually the productId
+      auto inputBuffers = machine->getInputBuffers(configurationId);
+      BOOST_REQUIRE_EQUAL(inputBuffers.size(), 1);
+      BOOST_REQUIRE_NO_THROW(inputBuffers.at(machine1Id));
+      BOOST_CHECK_EQUAL(inputBuffers.at(machine1Id)->getMachineIdOfPutter(), machine1Id);
+      BOOST_CHECK_EQUAL(inputBuffers.at(machine1Id)->getMachineIdOfTaker(), machine2Id);
+    }
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -199,10 +259,12 @@ BOOST_AUTO_TEST_SUITE(ProductionControlApplicationHandleMessages)
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   testutils::MockObserver observer;
 
+  const uint16_t MACHINE_ID = 12;
+
   // Making the notificationhandler for the observer
   testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_REQUIRE(notification.getEventId() == NotifyEventIds::eApplicationRegisterMachine);
-    BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_REQUIRE(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
   };
 
   observer.setHandleNotificationFn(notificationHandler);
@@ -224,7 +286,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   // Registering a machine
   network::Message message;
   message.setMessageType(network::Protocol::kAppMessageTypeRegisterMachine);
-  message.setBodyObject<uint16_t>(12);
+  message.setBodyObject<uint16_t>(MACHINE_ID);
 
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
@@ -236,7 +298,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationOK);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
     BOOST_CHECK_EQUAL(notification.getArgumentAsType<models::Machine::MachineStatus>(2), models::Machine::kMachineStatusIdle);
   };
 
@@ -251,7 +313,7 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
 
   notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
     BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationNOK);
-    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == 12);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
     BOOST_CHECK(notification.getArgumentAsType<models::Machine::MachineErrorCode>(2) == models::Machine::kMachineErrorCodeBroke);
   };
 
@@ -259,84 +321,164 @@ BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusUpdates) {
   mcMock->sendMessage(message);
   pcMock->awaitMessageReceived();
 
+  // Set empty for disconnections
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent &notification) {
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineDisconnected);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
   pcMock->stop();
   mcMock->stop();
 
 }
 
+BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleBufferUpdates){
+  testutils::MockObserver observer;
+
+  const uint16_t MACHINE_ID = 12;
+
+  testutils::NotificationHandlerFn notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationProductTakenFromBuffer);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
+  };
+
+  // Making the connectionhandler
+  auto connectionHandler = std::make_shared<communication::ConnectionHandler>();
+  connectionHandler->addObserver(observer);
+
+  // Making network mocks
+  auto mcMock = std::make_shared<testutils::MockNetwork>();
+  auto pcMock = std::make_shared<testutils::MockNetwork>();
+
+  pcMock->setConnectionHandler(connectionHandler);
+
+  // Starting the network objects
+  pcMock->startMockPCServerApplication();
+  mcMock->startMockMCClientApplication();
+
+  // Registering a machine
+  network::Message message;
+  message.setMessageType(network::Protocol::kAppMessageTypeRegisterMachine);
+  message.setBodyObject<uint16_t>(MACHINE_ID);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  // Executing product taken from buffer test
+  message.clear();
+  message.setMessageType(network::Protocol::kAppMessageTypeProductTakenFromBuffer);
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+  observer.awaitNotificationReceived();
+
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationProductAddedToBuffer);
+    BOOST_CHECK(notification.getArgumentAsType<uint16_t>(1) == MACHINE_ID);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  message.clear();
+  message.setMessageType(network::Protocol::kAppMessageTypeProductAddedToBuffer);
+
+  mcMock->sendMessage(message);
+  pcMock->awaitMessageReceived();
+
+
+  notificationHandler = [](const patterns::notifyobserver::NotifyEvent& notification){
+    BOOST_CHECK(notification.getEventId() == NotifyEventIds::eApplicationMachineDisconnected);
+  };
+
+  observer.setHandleNotificationFn(notificationHandler);
+
+  observer.awaitNotificationReceived();
+
+  mcMock->stop();
+  pcMock->stop();
+}
+
 BOOST_AUTO_TEST_CASE(ProductionControlApplicationHandleStatusNotifications) {
-  //Making machines
-  std::vector<core::MachinePtr> machines;
-  std::vector<models::MachineConfigurationPtr> configs {std::make_shared<models::MachineConfiguration>()};
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(12, "machine12", configs)));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(13, "machine13", configs)));
-  machines.push_back(std::make_shared<core::Machine>(models::Machine(14, "machine14", configs)));
+  auto &time = utils::Time::getInstance();
+  time.reset();
+  time.syncTime(1);
+  simulation::SimulationController controller;
 
-  //Making and setting up application
-  core::Application app;
-  app.setProductionLine(std::make_shared<models::ProductionLine>());
-  BOOST_REQUIRE_NO_THROW(app.setMachines(machines));
-  BOOST_REQUIRE_NO_THROW(app.setCurrentState(std::make_shared<applicationstates::InOperationState>(app)));
+  BOOST_REQUIRE_NO_THROW(controller.setConfiguration("./test_configs/test_config_two_machines.yaml"));
 
-  { // Scheduling notification and handle events
-    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    notification.setArgument(0, (uint64_t) 0); // time
-    notification.setArgument(1, (uint16_t) 12); // machine id
-    notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle); // status update
-    app.handleNotification(notification);
-    app.run();
-  }
+  auto application = controller.getApplication();
+  BOOST_REQUIRE(application);
 
-  auto machine = app.getMachine(12);
+  auto currentState = std::make_shared<applicationstates::PrepareSchedulerState>(*application);
+  BOOST_REQUIRE_NO_THROW(application->setCurrentState(currentState));
 
+  auto machine = application->getMachine(machine1Id);
   BOOST_REQUIRE(machine);
 
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
-
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusConfiguring)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
   }
 
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusConfiguring);
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusConfiguring);
 
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusProcessingProduct)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
-  }
-
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusProcessingProduct);
-
-  { // Scheduling notification and handle events
-    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
   }
 
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusIdle);
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusIdle);
+
+  { // Scheduling notification and handle events
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusProcessingProduct)); // status update
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
+  }
+
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusProcessingProduct);
+
+  { // Scheduling notification and handle events
+    patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationOK);
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(2, core::Machine::MachineStatus::kMachineStatusIdle)); // status update
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
+  }
+
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusIdle);
 
 
   { // Scheduling notification and handle events
     patterns::notifyobserver::NotifyEvent notification(NotifyEventIds::eApplicationNOK);
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, (uint64_t) 0)); // time
-    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, (uint16_t) 12)); // machine id
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(0, time.getCurrentTime())); // time
+    BOOST_REQUIRE_NO_THROW(notification.setArgument(1, machine1Id)); // machine id
     BOOST_REQUIRE_NO_THROW(notification.setArgument(2, models::Machine::MachineErrorCode::kMachineErrorCodeBroke)); // error code
-    BOOST_REQUIRE_NO_THROW(app.handleNotification(notification));
-    BOOST_REQUIRE_NO_THROW(app.run());
+    BOOST_REQUIRE_NO_THROW(application->handleNotification(notification));
+    BOOST_REQUIRE_NO_THROW(application->run());
+    BOOST_REQUIRE_NO_THROW(application->run()); // Double run because simulation application delays schedule
   }
 
-  BOOST_CHECK(machine->getStatus() == core::Machine::MachineStatus::kMachineStatusBroken);
+  BOOST_CHECK_EQUAL(machine->getStatus(), core::Machine::MachineStatus::kMachineStatusBroken);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -4,6 +4,8 @@
 
 #include <models/Machine.h>
 #include <utils/CommandLineArguments.h>
+#include <utils/time/Time.h>
+
 #include "Application.h"
 #include "states_application/ConnectState.h"
 #include "states_machine/MachineState.h"
@@ -13,8 +15,10 @@ namespace machinecore {
 Application::Application(uint16_t aMachineId)
     : patterns::statemachine::Context(),
       id(aMachineId),
-      configToSet(0) {
-  connectionHandler = std::make_shared<Communication::NetworkComponent>();
+      configToSet(0),
+      connectionHandler(std::make_shared<Communication::NetworkComponent>()) {
+  handleNotificationsFor(*connectionHandler);
+  clientThread = manager.runServiceThread();
 }
 
 Application::~Application() {
@@ -70,6 +74,16 @@ void Application::handleNotification(const patterns::notifyobserver::NotifyEvent
       break;
     }
 
+    case kNotifyEventTypeProductTakenFromBuffer: {
+      connectionHandler->sendProductTakenFromBufferMessage();
+      break;
+    }
+
+    case kNotifyEventTypeProductAddedToBuffer: {
+      connectionHandler->sendProductAddedToBufferMessage();
+      break;
+    }
+
     default: break;
   }
 }
@@ -78,20 +92,27 @@ void Application::setStartState() {
   setCurrentState(std::make_shared<applicationstates::ConnectState>(*this));
 }
 
+void Application::stopClient() {
+  manager.stopClient();
+  client = nullptr;
+}
+
 void Application::stop() {
   // Stop the manager
   manager.stop();
+  currentState = nullptr;
 
   // Join the client thread
   if (clientThread && clientThread->joinable()) {
     clientThread->join();
   }
+  client = nullptr;
 }
 
 void Application::setupNetwork() {
-  clientThread = manager.runServiceThread();
-
-  handleNotificationsFor(*connectionHandler);
+  if(client && client->isRunning()){
+    return;
+  }
 
   // Because someone forgot to implement the find PC in the application, hardcoded here
   const auto &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
@@ -120,6 +141,12 @@ void Application::statusUpdate(models::Machine::MachineStatus status) {
 
 void Application::machineBroke(){
   connectionHandler->sendResponseNOK(models::Machine::kMachineErrorCodeBroke);
+}
+
+void Application::startReparation() {
+  utils::Time::getInstance().increaseCurrentTime(machine->getReparationTimeInMillis());
+  auto event = std::make_shared<applicationstates::Event>(applicationstates::kEventTypeRepaired);
+  scheduleEvent(event);
 }
 
 } // machinecore

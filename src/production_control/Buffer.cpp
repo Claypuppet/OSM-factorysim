@@ -8,14 +8,15 @@
 
 namespace core {
 
-Buffer::Buffer(uint16_t aProductId) : fromMachine(), maxSize(0), totalProcessed(0), productId(aProductId) {
+Buffer::Buffer(uint16_t aProductId) : taker(), maxSize(0), totalProcessed(0), productId(aProductId) {
 }
 
-Buffer::Buffer(const MachinePtrW &aFromMachine, uint16_t aProductId) : fromMachine(aFromMachine), maxSize(0), totalProcessed(0), productId(aProductId) {
+Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId)
+    : taker(taker), maxSize(0), totalProcessed(0), productId(aProductId) {
 }
 
-Buffer::Buffer(const MachinePtrW &aFromMachine, uint16_t aProductId, uint32_t size)
-    : fromMachine(aFromMachine), maxSize(size), totalProcessed(0), productId(aProductId) {
+Buffer::Buffer(const MachinePtrW &taker, uint16_t aProductId, uint32_t size)
+    : taker(taker), maxSize(size), totalProcessed(0), productId(aProductId) {
 }
 
 bool Buffer::checkAmountInBuffer(uint32_t amount) {
@@ -23,6 +24,9 @@ bool Buffer::checkAmountInBuffer(uint32_t amount) {
 }
 
 bool Buffer::checkFreeSpaceInBuffer(uint32_t amount) {
+  if (auto nextMachine = taker.lock()) {
+    return nextMachine->getCurrentConfigId() == productId && (maxSize - size()) >= amount;
+  }
   return (maxSize - size()) >= amount;
 }
 
@@ -59,11 +63,22 @@ void Buffer::putInBuffer(const std::vector<ProductPtr> &list) {
   }
 }
 
-uint16_t Buffer::getFromMachineId() const {
-  auto machine = fromMachine.lock();
-  if (machine) {
-    return machine->getId();
+uint16_t Buffer::getMachineIdOfTaker() const {
+  if (auto lockedTaker = taker.lock()) {
+    return lockedTaker->getId();
   }
+  return 0;
+}
+
+uint16_t Buffer::getMachineIdOfPutter() const {
+  if (auto lockedPutter = putter.lock()) {
+    return lockedPutter->getId();
+  }
+  return 0;
+}
+
+MachinePtrW Buffer::getPutter() const {
+  return putter;
 }
 
 uint64_t Buffer::getTotalProcessed() const {
@@ -75,27 +90,25 @@ uint64_t Buffer::getAmountInBuffer() const {
 }
 
 bool Buffer::isLastInLine() const {
-  return toMachines.empty();
+  auto lockedTaker = taker.lock();
+  return (lockedTaker == nullptr);
 }
 
-void Buffer::addToMachine(const MachinePtrW machine) {
-  toMachines.emplace_back(machine);
+void Buffer::setPutterMachine(const MachinePtrW &machine) {
+  putter = machine;
 }
 
-std::stringstream &Buffer::debugPrintBuffersChain(std::stringstream &stream) {
-  if (auto machine = fromMachine.lock()) {
-    stream << machine->getName() << " (id " << machine->getId() << ") -> ";
+void Buffer::debugPrintBuffersChain(std::stringstream &stream) {
+  if (!putter.lock()) {
+    stream << "(Input) ";
+  }
+  stream << "Buffer (" << (maxSize ? std::to_string(maxSize) : "infinite") << ")";
+  if (auto machine = taker.lock()) {
+    stream << " -> " << machine->getName() << " (id " << machine->getId() << ") -> ";
+    machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);
   }
   else {
-    stream << "Input -> ";
-  }
-  if(toMachines.empty()){
-    stream << "End product" << std::endl;
-  }
-  for (const auto &machinew : toMachines){
-    if (auto machine = machinew.lock()) {
-      machine->getOutputBuffer(productId)->debugPrintBuffersChain(stream);
-    }
+    stream << " (End product)" << std::endl;
   }
 }
 

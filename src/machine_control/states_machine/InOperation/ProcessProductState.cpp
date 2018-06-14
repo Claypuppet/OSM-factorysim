@@ -33,7 +33,7 @@ bool ProcessProductState::handleEvent(const EventPtr &event) {
     }
 
 	default: {
-      MachineState::handleEvent(event);
+      return MachineState::handleEvent(event);
     }
   }
 }

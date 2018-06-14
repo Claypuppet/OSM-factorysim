@@ -18,17 +18,18 @@ void OnState::doActivity() {
 }
 
 void OnState::exitAction() {
-
+  // Disconnect the application
+  context.getApplication()->stopClient();
 }
 
 bool OnState::handleEvent(const EventPtr &event) {
   switch (event->getId()) {
-	case kEventTypePowerOff:
-	  utils::Logger::log("-Handle event: kEventTypePowerOff");
-	  context.setCurrentState(std::make_shared<OffState>(context));
-	  return true;
-	default:
-	  return SimulationState::handleEvent(event);
+    case kEventTypePowerOff:
+      utils::Logger::log("-Handle event: kEventTypePowerOff");
+      context.setCurrentState(std::make_shared<OffState>(context));
+      return true;
+    default:
+      return SimulationState::handleEvent(event);
   }
 }
 } // simulationstates

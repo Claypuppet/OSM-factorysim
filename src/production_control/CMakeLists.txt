@@ -7,6 +7,8 @@ add_library(source_lib_app_production SHARED
         Product.h
         Buffer.cpp
         Buffer.h
+        InfiniteBuffer.cpp
+        InfiniteBuffer.h
         ResultLogger.cpp
         ResultLogger.h
         Application.cpp
@@ -17,6 +19,8 @@ add_library(source_lib_app_production SHARED
         SimulationController.h
         SimulationMachine.cpp
         SimulationMachine.h
+        SimulationMachineLocal.cpp
+        SimulationMachineLocal.h
         SimulationApplication.cpp
         SimulationApplication.h
         Controller.cpp
@@ -33,6 +37,8 @@ add_library(source_lib_app_production SHARED
         states_controller/SimulationWaitForConnectionsState.h
         states_controller/ControllerState.cpp
         states_controller/ControllerState.h
+        states_controller/FinishedOperationState.cpp
+        states_controller/FinishedOperationState.h
         states_application/BroadCastState.cpp
         states_application/BroadCastState.h
         states_application/WaitForConnectionsState.h
@@ -41,16 +47,24 @@ add_library(source_lib_app_production SHARED
         states_application/ApplicationState.h
         states_application/InOperationState.cpp
         states_application/InOperationState.h
-        InfiniteBuffer.cpp
-        InfiniteBuffer.h states_controller/FinishedOperationState.cpp states_controller/FinishedOperationState.h)
+        states_application/ShutdownState.cpp
+        states_application/ShutdownState.h
+        states_application/in_operation/PrepareSchedulerState.cpp
+        states_application/in_operation/PrepareSchedulerState.h
+        states_application/in_operation/PrepareShutdownState.cpp
+        states_application/in_operation/PrepareShutdownState.h
+        states_application/in_operation/PreChangeState.cpp
+        states_application/in_operation/PreChangeState.h
+        states_application/in_operation/OperatingState.cpp
+        states_application/in_operation/OperatingState.h)
 
 # Link to libs
-target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer)
+target_link_libraries(source_lib_app_production lib_yaml-cpp lib_models lib_network lib_patterns lib_utils lib_configuration_serializer ${Boost_SYSTEM_LIBRARY} ${Boost_FILESYSTEM_LIBRARY})
 
 add_executable(app_production_control
         Main.cpp)
 
-target_link_libraries(app_production_control source_lib_app_production)
+target_link_libraries(app_production_control source_lib_app_production source_lib_app_machine_control)
 
 
 # For production control, move configuration dir to bin dir

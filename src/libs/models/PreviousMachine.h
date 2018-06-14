@@ -24,7 +24,8 @@ class PreviousMachine {
    * @param neededProducts
    */
   PreviousMachine(uint16_t machineId,
-                  uint16_t neededProducts);
+                  uint16_t neededProducts,
+                  uint16_t inputBufferSize);
 
   /**
    * Destruct a PreviousMachine object
@@ -46,29 +47,23 @@ class PreviousMachine {
 
   uint16_t getMachineId() const;
   uint16_t getNeededProducts() const;
+  uint16_t getInputBufferSize() const;
 
  private:
   uint16_t machineId;
   uint16_t neededProducts;
+  uint16_t inputBufferSize;
 
   /**
-   * A function to save a MachineConfiguration object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-    ar(machineId, neededProducts);
-  }
-
-  /**
-   * A function to load a MachineConfiguration object from an archive
+   * A function to serialize a MachineConfiguration object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-    ar(machineId, neededProducts);
+  void serialize(Archive &ar) {
+    ar(machineId,
+       neededProducts,
+       inputBufferSize);
   }
 
   friend class ::cereal::access;

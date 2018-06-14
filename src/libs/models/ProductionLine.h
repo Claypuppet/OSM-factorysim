@@ -15,6 +15,10 @@
 
 namespace models {
 
+/**
+ * Class that holds information about a production line
+ * The name of the production line, the products that are produced and what machines are in it
+ */
 class ProductionLine;
 typedef std::shared_ptr<ProductionLine> ProductionLinePtr;
 
@@ -62,7 +66,7 @@ class ProductionLine {
    * Getter for products
    * @return products
    */
-  const ProductPtr &getProductById(uint16_t productId) const;
+  const ProductPtr getProductById(uint16_t productId) const;
 
   /**
    * Getter for machines
@@ -75,24 +79,17 @@ class ProductionLine {
   std::vector<ProductPtr> products;
   std::vector<MachinePtr> machines;
 
-  /**
-   * A function to save a ProductionLine object in an archive
-   * @tparam Archive
-   * @param ar : The archive to save the object in
-   */
-  template<class Archive>
-  void save(Archive &ar) const {
-	ar(name, products, machines);
-  }
 
   /**
-   * A function to load a ProductionLine object from an archive
+   * A function to serialize a ProductionLine object from an archive
    * @tparam Archive
    * @param ar : The archive to load
    */
   template<class Archive>
-  void load(Archive &ar) {
-	ar(name, products, machines);
+  void serialize(Archive &ar) {
+	ar(name,
+       products,
+       machines);
   }
 
   friend class cereal::access;

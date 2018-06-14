@@ -1,9 +1,11 @@
 ---
-name: TestConfig
+name: TestConfig2Machines
 simulationInfo:
-  durationInHours: 8760
+  durationInWeeks: 1
   startHourOfWorkDay: 9
   workDayDurationInHours: 8
+  local: false
+
 productionLine:
   name: TestProduction
   products:
@@ -15,56 +17,50 @@ productionLine:
     proportion: 3
   machines:
 
-
-
   - id: 15
     name: Testmachine15
+    initializationDurationInSeconds: 6
+    meanTimeBetweenFailureInHours: 8800
+    reparationTimeStddevInMinutes: 30
+    reparationTimeInMinutes: 24
+    postProcessInfo:
+      inputDelayInSeconds: 20
+      postProcessDurationInMinutes: 30
     configurations:
+
     - productId: 12
       outputEachMinute: 12
-      initializationDurationInSeconds: 6
-      outputBufferSize: 14
-      meanTimeBetweenFailureInHours: 8800
-      meanTimeBetweenFailureStddevInHours: 30
-      reparationTimeInMinutes: 24
       previousMachines:
-        - machineId: 0
-          neededProducts: 5
+      - machineId: 0
+        neededProducts: 5
+        inputBufferSize: 0
 
     - productId: 88
       outputEachMinute: 8
-      initializationDurationInSeconds: 9
-      outputBufferSize: 43
-      meanTimeBetweenFailureInHours: 9800
-      meanTimeBetweenFailureStddevInHours: 36
-      reparationTimeInMinutes: 27
       previousMachines:
-        - machineId: 0
-          neededProducts: 10
-
-
+      - machineId: 0
+        neededProducts: 10
+        inputBufferSize: 0
 
   - id: 75
     name: Testmachine75
+    initializationDurationInSeconds: 7
+    meanTimeBetweenFailureInHours: 8801
+    reparationTimeStddevInMinutes: 31
+    reparationTimeInMinutes: 25
+    postProcessInfo:
     configurations:
+
     - productId: 12
       outputEachMinute: 8
-      initializationDurationInSeconds: 7
-      outputBufferSize: 39
-      meanTimeBetweenFailureInHours: 8801
-      meanTimeBetweenFailureStddevInHours: 31
-      reparationTimeInMinutes: 25
       previousMachines:
-        - machineId: 15
-          neededProducts: 7
+      - machineId: 15
+        neededProducts: 7
+        inputBufferSize: 35
 
     - productId: 88
       outputEachMinute: 8
-      initializationDurationInSeconds: 10
-      outputBufferSize: 69
-      meanTimeBetweenFailureInHours: 9801
-      meanTimeBetweenFailureStddevInHours: 37
-      reparationTimeInMinutes: 28
       previousMachines:
-        - machineId: 15
-          neededProducts: 8
+      - machineId: 15
+        neededProducts: 8
+        inputBufferSize: 40

@@ -13,22 +13,14 @@
 
 #include "Machine.h"
 #include "NetworkComponent.h"
+#include "NotificationEventTypes.h"
 
 
-//TODO: Implement Observer
 namespace machinecore {
 
-enum NotifyEventType {
-  kNotifyEventTypeServiceStarted,
-  kNotifyEventTypeServiceError,
-  kNotifyEventTypeStartProcess,
-  kNotifyEventTypeMachineConfigured,
-  kNotifyEventTypeMachineFailedToConfigure,
-  kNotifyEventTypeConfigure,
-  kNotifyEventTypeMachineFinishedProcess,
-  kNotifyEventTypeMachineBroke
-};
-
+/**
+ * Core class of machine control that controls the machine
+ */
 class Application
     : public patterns::statemachine::Context,
       public patterns::notifyobserver::Observer {
@@ -40,6 +32,8 @@ class Application
    * @param aMachineInfo : The value for machineInfo
    */
   explicit Application(uint16_t aMachineId);
+  
+  Application(const Application&) = delete;
 
   /**
    * The destructor
@@ -65,7 +59,7 @@ class Application
     id = aId;
   }
 
-  void setConfigToSet(uint16_t aConfigToSet){
+  void setConfigToSet(uint16_t aConfigToSet) {
     configToSet = aConfigToSet;
   }
 
@@ -79,17 +73,23 @@ class Application
   virtual void setStartState();
 
   /**
+   * Stops the client
+   */
+  void stopClient();
+
+  /**
    * Stops the network manager and joins the client thread
    */
   void stop();
 
   /**
- * Executes network
- */
+   * Executes network
+   */
   void setupNetwork();
-/**
- * sends register machine message to PC
- */
+
+  /**
+   * sends register machine message to PC
+   */
   void registerMachine();
 
   /**
@@ -102,6 +102,11 @@ class Application
    * Send a kMachineErrorCodeBroke to Production Control
    */
   void machineBroke();
+
+  /**
+   * Star the reparation of a broken machine
+   */
+  void startReparation();
 
  protected:
   uint16_t id;

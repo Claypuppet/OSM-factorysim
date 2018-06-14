@@ -9,6 +9,7 @@ namespace states {
 enum EventType {
   kEventTypeReadConfigFile,
   kEventTypeSimulationConfigLoaded,
+  kEventTypeLocalSimulationConfigLoaded,
   kEventTypeProductionConfigLoaded,
   kEventTypeBroadcastSend,
   kEventTypeServerSetupFailed,

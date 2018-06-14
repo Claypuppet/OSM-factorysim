@@ -24,15 +24,8 @@ class SimulationController
 	: public core::Controller, public patterns::notifyobserver::Observer, public patterns::statemachine::Context {
  public:
 
-  // TODO : remove method
-  void printMachinesLength() {
-    std::cout << "length: " << machines.size() << std::endl;
-  }
-
-  /**
-   *
-  */
   SimulationController();
+  SimulationController(const SimulationController &) = delete;
 
   /**
    * Destruct
@@ -108,9 +101,7 @@ class SimulationController
    * Check if simulation is over
    * @return simulationIsOver bool
    */
-  bool simulationIsOver() const;
-
-  const std::shared_ptr<models::Configuration> &getConfiguration() const;
+  bool isSimulationOver() const;
 
  private:
 

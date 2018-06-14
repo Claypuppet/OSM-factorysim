@@ -26,7 +26,9 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Create a finite buffer
    * @param size : size of the buffer
    */
-  explicit Buffer(const MachinePtrW &fromMachine, uint16_t productId, uint32_t size);
+  explicit Buffer(const MachinePtrW &taker, uint16_t productId, uint32_t size);
+  
+  Buffer(const Buffer &other)= delete;
 
   /**
    * destruct
@@ -41,7 +43,7 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   virtual bool checkAmountInBuffer(uint32_t amount);
 
   /**
-   * checks if given amount can be placed in buffer
+   * checks if given amount can be placed in buffer and the buffer is currently active
    * @param amount : amount to check
    * @return : true if its possible
    */
@@ -77,10 +79,16 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
   virtual void putInBuffer(const std::vector<ProductPtr> &list);
 
   /**
-   * get machine id from the owner of this buffer
+   * get machine id from the taker machine of this buffer
    * @return : machine id
    */
-  uint16_t getFromMachineId() const;
+  uint16_t getMachineIdOfTaker() const;
+
+  /**
+   * get machine id from the putter machine of this buffer
+   * @return : machine id
+   */
+  uint16_t getMachineIdOfPutter() const;
 
   /**
    * Get number of total processed items that went through the buffer
@@ -104,27 +112,31 @@ class Buffer : private patterns::producerconsumer::Queue<ProductPtr> {
    * Add a machine that uses this buffer
    * @param machine
    */
-  void addToMachine(const MachinePtrW machine);
+  void setPutterMachine(const MachinePtrW &machine);
+
+
+  MachinePtrW getPutter() const;
 
   /**
    * Print list of buffers after this.
    */
-  std::stringstream &debugPrintBuffersChain(std::stringstream &stream);
+  void debugPrintBuffersChain(std::stringstream &stream);
 
  protected:
   /**
    * Construct an buffer for machine, used by infinite buffer
    */
   explicit Buffer(uint16_t productId);
-  explicit Buffer(const MachinePtrW &aFromMachine, uint16_t productId);
+  explicit Buffer(const MachinePtrW &taker, uint16_t productId);
+
+  MachinePtrW taker;
+  MachinePtrW putter;
 
   uint32_t maxSize;
-  MachinePtrW fromMachine;
-  std::vector<MachinePtrW> toMachines;
-
-  uint16_t productId;
 
   uint64_t totalProcessed;
+  uint16_t productId;
+
 };
 
 typedef std::shared_ptr<Buffer> BufferPtr;
