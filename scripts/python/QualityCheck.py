@@ -1,19 +1,18 @@
-import sys
 import json
 import yaml
 
 def get_config_file(file_name):
-    with open(config_file_name, 'r') as stream:
+    with open(file_name, 'r') as stream:
         return yaml.load(stream)
 
 def get_log_file(file_name):
-    with open(log_file_name) as content:
+    with open(file_name) as content:
         return json.load(content)
 
 def checkMeanTimeBetweenFailure(config_file, log_file):
     string = "{name}, {configurated_value}, {simulated_value}"
     config_machines = config_file['productionLine']['machines']
-    log_machines = log_file['finalStatistics']['machines']
+    log_machines = log_file['machineFinalStatistics']['machines']
 
     print 'Mean time between failure checks:'
     print 'machine_name, configured_value, simulated_value'
@@ -29,7 +28,7 @@ def checkMeanTimeBetweenFailure(config_file, log_file):
 def checkReparationTime(config_file, log_file):
     string = "{name}, {configurated_value}, {simulated_value}, {configured_stddev}"
     config_machines = config_file['productionLine']['machines']
-    log_machines = log_file['finalStatistics']['machines']
+    log_machines = log_file['machineFinalStatistics']['machines']
 
     print 'Reparation time checks:'
     print 'machine_name, configurated_value, simulated_value, configured_stddev'
@@ -39,23 +38,26 @@ def checkReparationTime(config_file, log_file):
                 data = {}
                 data['name'] = config_machine['name']
                 data['configurated_value'] = config_machine['reparationTimeInMinutes']
-                down_time = simulated_machine['avgDownTime']
-                total_down_time = simulated_machine['MTBFinHours'] # TODO : change name
-                data['simulated_value'] = total_down_time / times_broken / 1000 / 60 if down_time > 0 and times_broken > 0 else 0
+                total_down_time = simulated_machine['totalDownTime']
+                times_broken = simulated_machine['totalTimesBroken']
+                data['simulated_value'] = float(total_down_time) / float(times_broken) / 1000.0 / 60.0  if total_down_time > 0 and times_broken > 0 else 0
                 data['configured_stddev'] = config_machine['reparationTimeStddevInMinutes']
                 print string.format(**data)
     print
 
 def checkPropportion(config_file, log_file):
     string = "{name}, {configurated_value}, {simulated_value}"
-    machines = log_file['finalStatistics']['machines']
-    last_simulated_machine = machines[len(machines)-1] # inpakmachine
+    simulated_statisticks = log_file['machineFinalStatistics']
 
-    simulated_products = {'total_proportion':sum(last_simulated_machine['totalProducedProducts'].values()),
-                          'products':[{'id':int(key), 'proportion':value} for key, value in last_simulated_machine['totalProducedProducts'].iteritems()]}
+    simulated_products = {
+        'total_proportion':sum([int(simulated_statisticks['totalEndProducts'][i]) for i in simulated_statisticks['totalEndProducts']]),
+        'products': [{"id":int(key), "proportion":value} for key, value in simulated_statisticks['totalEndProducts'].iteritems()]
+    }
 
-    configurated_products = {'total_proportion': sum([i['proportion'] for i in config_file['productionLine']['products']]),
-                             'products':config_file['productionLine']['products']}
+    configurated_products = {
+        'total_proportion': sum([i['proportion'] for i in config_file['productionLine']['products']]),
+        'products': config_file['productionLine']['products']
+    }
 
     print 'product propportion checks:'
     print 'product_name, configured_proportion, simulated_proportion'
@@ -67,19 +69,18 @@ def checkPropportion(config_file, log_file):
                 data['configurated_value'] = float(configured_product['proportion']) / float(configurated_products['total_proportion'])
                 data['simulated_value'] = float(simulated_product['proportion']) / float(simulated_products['total_proportion'])
                 print string.format(**data)
-    print
 
 
+def main():
+    config_file_name = 'config.yaml'
+    config_file = get_config_file(config_file_name)
 
-config_file_name = sys.argv[1]
-config_file = get_config_file(config_file_name)
+    log_file_name = 'log.json'
+    log_file = get_log_file(log_file_name)
 
-log_file_name = sys.argv[2]
-log_file = get_log_file(log_file_name)
+    checkMeanTimeBetweenFailure(config_file, log_file)
+    checkReparationTime(config_file, log_file)
+    checkPropportion(config_file, log_file)
 
-checkMeanTimeBetweenFailure(config_file, log_file)
-checkReparationTime(config_file, log_file)
-checkPropportion(config_file, log_file)
-
-# print "Workday duration, {configurated_value}, {simulated_value}"
-# print "Production each minute, {configurated_value}, {simulated_value}"
+if __name__ == '__main__':
+    main()
