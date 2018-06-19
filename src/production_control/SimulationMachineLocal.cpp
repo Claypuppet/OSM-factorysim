@@ -61,7 +61,7 @@ void SimulationMachineLocal::sendStartProcessMessage() {
   notifyOK(startTime, kMachineStatusProcessingProduct);
   notifyProductTakenFromBuffer(startTime);
 
-  if (checkBroken(startTime)) {
+  if (checkBroken(startTime + currentConfig->getProcessTime())) {
     // Broken
     notifyNOK(startTime, kMachineErrorCodeBroke);
     uint64_t repairtime = calculateRepairTime();
@@ -86,19 +86,22 @@ void SimulationMachineLocal::sendStartProcessMessage() {
 }
 
 void SimulationMachineLocal::sendConfigureMessage(uint16_t configureId) {
-  auto startTime = utils::Time::getInstance().getCurrentTime();
-  notifyOK(startTime, kMachineStatusConfiguring);
+  auto currentTime = utils::Time::getInstance().getCurrentTime();
+  notifyOK(currentTime, kMachineStatusConfiguring);
 
-  if (checkBroken(startTime)) {
+  timeSinceBrokenCheck = currentTime;
+  currentTime += getInitializationDurationInMilliseconds();
+
+  if (checkBroken(currentTime)) {
     // Broken
-    notifyNOK(startTime, kMachineErrorCodeBroke);
+    notifyNOK(currentTime, kMachineErrorCodeBroke);
     uint64_t repairtime = calculateRepairTime();
-    notifyOK(startTime + repairtime, kMachineStatusConfiguring);
-    notifyOK(startTime + repairtime + getInitializationDurationInMilliseconds(), kMachineStatusIdle);
+    notifyOK(currentTime + repairtime, kMachineStatusConfiguring);
+    notifyOK(currentTime + repairtime + getInitializationDurationInMilliseconds(), kMachineStatusIdle);
   }
   else {
     // Not broken
-    notifyOK(startTime + getInitializationDurationInMilliseconds(), kMachineStatusIdle);
+    notifyOK(currentTime, kMachineStatusIdle);
     currentConfig = getConfigurationById(configureId);
   }
 }
