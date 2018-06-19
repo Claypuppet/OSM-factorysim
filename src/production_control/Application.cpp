@@ -288,9 +288,9 @@ bool Application::shouldChangeProduction() {
     producedProportions[productId] =
         lastMachineInLine[productId]->getAmountProcessed(productId) / productPorportion.second;
   }
-  // Check if there is another product which is ~150 products behind
+  // Check if there is another product which is ~120 products behind
   for (const auto &producedProportion : producedProportions) {
-    if (producedProportion.second + 150 < producedProportions[newId]) {
+    if (producedProportion.second + 120 < producedProportions[newId]) {
       newId = producedProportion.first;
     }
   }
