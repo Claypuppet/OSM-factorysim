@@ -1,0 +1,7 @@
+naam, normale_kantoortafels, luxe_kantoortafels, total_lost_products, total_broken_machines, total_time_not_producing, total_reconfigures
+hoogstemtbf, 1532698, 766380, 3630, 1001, 996432192, 10401
+allesgoedkoop, 1167538, 583812, 3139, 1236, 1077216857, 10401
+hogemtbfhogeproductie, 1546864, 773235, 3502, 1010, 971145407, 10401
+hoogsteproductie, 1538825, 769563, 3783, 1285, 984179510, 10401
+allesduur, 1022337, 511121, 2617, 1292, 1094668902, 10401
+goedkopehogeproductie, 1534296, 766950, 3815, 1241, 929465506, 10401

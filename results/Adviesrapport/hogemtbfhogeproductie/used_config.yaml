@@ -179,5 +179,5 @@ productionLine:
   products:
   - {id: 1, name: normalekantoortafels, proportion: 2}
   - {id: 2, name: luxekantoortafels, proportion: 1}
-simulationInfo: {durationInWeeks: 1040, local: true, randomSeed: 3, startHourOfWorkDay: 9,
+simulationInfo: {durationInWeeks: 2080, local: true, randomSeed: 3, startHourOfWorkDay: 9,
   workDayDurationInHours: 8}
