@@ -57,9 +57,14 @@ bewerk het configs.yaml bestand.
 ### Developmentscripts
 
 1. **adviesrapport**
-Script voor het berekenen van resultaten die gebruikt worden in adviesrapport hoofdstuk 7.
-Maakt gebruik van de statistics.json en used_config.yaml die gegenereerd worden door het uitvoeren
-van een simulatie.
+Script voor het berekenen van resultaten die gebruikt worden in
+adviesrapport hoofdstuk 7. Maakt gebruik van de statistics.json en
+used_config.yaml die gegenereerd worden door het uitvoeren van een simulatie.
+
 
 2. **simulations.sh**
-Een shellscript voor het uitvoeren van meerdere configuraties achter elkaar.
+Een shellscript voor het uitvoeren van meerdere configuraties achter
+elkaar. Dit wordt via argumenten meegegeven.
+
+    1. argument 0: executable file for production control
+    2. argument 1+: configuratiebestanden om uit te voeren
