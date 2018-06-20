@@ -1,0 +1,35 @@
+Mean time between failure checks:
+machine_name, configured_value, simulated_value
+Zaagmachine (hout), 600, 631.051683104
+Lijmmachine (hout), 450, 488.706811459
+Freesmachine (hout), 1200, 1332.39106872
+Voorboormachine (hout), 600, 643.930307811
+Schuurmachine (hout), 280, 294.499241215
+Spuitmachine (hout), 500, 591.673339643
+Zaagmachine (staal), 600, 639.05379674
+Buigmachine (staal), 2200, 3062.07376956
+Lasmachine (staal), 625, 775.340547912
+Poedercoatmachine (staal), 500, 540.225875586
+Polijstmachine (staal), 700, 762.392166695
+Inpakmachine, 1200, 1276.86876712
+
+Reparation time checks:
+machine_name, configurated_value, simulated_value, configured_stddev
+Zaagmachine (hout), 720, 721.492753623, 48
+Lijmmachine (hout), 720, 726.402985075, 30
+Freesmachine (hout), 240, 236.739130435, 15
+Voorboormachine (hout), 480, 476.933333333, 30
+Schuurmachine (hout), 120, 120.698305085, 6
+Spuitmachine (hout), 360, 361.564935065, 30
+Zaagmachine (staal), 480, 481.838235294, 30
+Buigmachine (staal), 720, 725.9, 30
+Lasmachine (staal), 240, 238.535714286, 12
+Poedercoatmachine (staal), 480, 479.537037037, 30
+Polijstmachine (staal), 480, 475.256410256, 30
+Inpakmachine, 720, 705.794117647, 120
+
+product propportion checks:
+product_name, configured_proportion, simulated_proportion
+normalekantoortafels, 0.666666666667, 0.666623201992
+luxekantoortafels, 0.333333333333, 0.333376798008
+
