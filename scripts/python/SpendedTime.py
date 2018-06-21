@@ -60,4 +60,4 @@ def generate_chart(folder_path, config_file, log_file, product_id):
 
     # plt.draw()
     plt.savefig(chart_path, bbox_inches = 'tight')
-    plt.show()
+    # plt.show()
