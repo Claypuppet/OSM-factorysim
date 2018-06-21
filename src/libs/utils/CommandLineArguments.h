@@ -21,6 +21,12 @@ class CommandlineArgument {
  public:
   CommandlineArgument();
 
+  /**
+ *copy constructor
+ * @param aCommandlineArgument
+ */
+  CommandlineArgument(const CommandlineArgument &aCommandlineArgument);
+
   explicit operator bool() const;
 
   explicit operator const std::string &() const;
@@ -34,12 +40,6 @@ class CommandlineArgument {
   CommandlineArgument(uint16_t anArgumentNumber,
 					  const std::string &aVariable,
 					  const std::string &aValue);
-
-  /**
-   *copy constructor
-   * @param aCommandlineArgument
-   */
-  CommandlineArgument(const CommandlineArgument &aCommandlineArgument);
 
   /**
    * destruct

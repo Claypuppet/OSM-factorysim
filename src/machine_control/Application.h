@@ -32,6 +32,8 @@ class Application
    * @param aMachineInfo : The value for machineInfo
    */
   explicit Application(uint16_t aMachineId);
+  
+  Application(const Application&) = delete;
 
   /**
    * The destructor

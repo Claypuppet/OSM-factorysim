@@ -22,6 +22,7 @@ class MachineProductFinalStatistics {
                                 uint32_t avgIdleTime,
                                 uint32_t avgDownTime,
                                 uint32_t avgConfigureTime);
+  MachineProductFinalStatistics(const MachineProductFinalStatistics &other);
   uint16_t getId() const;
   uint32_t getTotalProduced() const;
   uint16_t getAvgProduced() const;

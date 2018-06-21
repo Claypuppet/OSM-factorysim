@@ -27,6 +27,7 @@ class SimulationController
 
  public:
   SimulationController(uint16_t aMachineId);
+  SimulationController(const SimulationController&) = delete;
   ~SimulationController() override;
 
   /**

@@ -21,6 +21,7 @@ class MachineProductStatistics {
                            uint32_t configureTime,
                            uint16_t produced,
                            uint16_t lost);
+  MachineProductStatistics(const MachineProductStatistics &other);
   uint16_t getProductId() const;
   uint32_t getProductionTime() const;
   uint32_t getDownTime() const;

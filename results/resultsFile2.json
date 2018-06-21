@@ -1,0 +1,127 @@
+{
+  "timeStamps":
+  [
+    {
+      "timeStamp" : 30000,
+      "machines" : [
+        {
+          "id" : 15,
+          "producedProducts" : {"12":100,"88":50},
+          "lostProducts" : {},
+          "downTime" : 5000,
+          "productionTime" : 15000,
+          "idleTime" : 9000,
+          "configureTime" : 1000
+        },
+        {
+          "id" : 75,
+          "producedProducts" : {},
+          "lostProducts" : {},
+          "downTime" : 0,
+          "productionTime" : 0,
+          "idleTime" : 0,
+          "configureTime" : 0
+        }
+      ]
+    },
+    {
+      "timeStamp" : 60000,
+      "machines" : [
+        {
+          "id" : 15,
+          "producedProducts" : {"12":200,"88":150},
+          "lostProducts" : {},
+          "downTime" : 10000,
+          "productionTime" : 8000,
+          "idleTime" : 10500,
+          "configureTime" : 1500
+        },
+        {
+          "id" : 75,
+          "producedProducts" : {},
+          "lostProducts" : {},
+          "downTime" : 0,
+          "productionTime" : 0,
+          "idleTime" : 0,
+          "configureTime" : 0
+        }
+      ]
+    },
+    {
+      "timeStamp" : 90000,
+      "machines" : [
+        {
+          "id" : 15,
+          "producedProducts" : {"12":180,"88":110},
+          "lostProducts" : {},
+          "downTime" : 7000,
+          "productionTime" : 11000,
+          "idleTime" : 10000,
+          "configureTime" : 2000
+        },
+        {
+          "id" : 75,
+          "producedProducts" : {},
+          "lostProducts" : {},
+          "downTime" : 0,
+          "productionTime" : 0,
+          "idleTime" : 0,
+          "configureTime" : 0
+        }
+      ]
+    },
+    {
+      "timeStamp" : 120000,
+      "machines" : [
+        {
+          "id" : 15,
+          "producedProducts" : {"12":210,"88":170},
+          "lostProducts" : {},
+          "downTime" : 11000,
+          "productionTime" : 8000,
+          "idleTime" : 8500,
+          "configureTime" : 2500
+        },
+        {
+          "id" : 75,
+          "producedProducts" : {},
+          "lostProducts" : {},
+          "downTime" : 0,
+          "productionTime" : 0,
+          "idleTime" : 0,
+          "configureTime" : 0
+        }
+      ]
+    }
+  ],
+  "finalStatistics":
+  {
+    "machines":
+    [
+      {
+        "id" : 15,
+        "totalProducedProducts" : {"12":690,"88":480},
+        "avgProducedProducts" : {"12":172,"88":120},
+        "totalLostProducts" : {},
+        "avgLostProducts" : {},
+        "avgProductionTime" : 10500,
+        "avgIdleTime" : 9500,
+        "avgDownTime" : 8250,
+        "avgConfigureTime" : 1750,
+        "MTBFinHours" : 120
+      },
+      {
+        "id" : 75,
+        "totalProducedProducts" : {},
+        "avgProducedProducts" : {},
+        "totalLostProducts" : {},
+        "avgLostProducts" : {},
+        "avgProductionTime" : 12000,
+        "avgIdleTime" : 7000,
+        "avgDownTime" : 5000,
+        "avgConfigureTime" : 1200,
+        "MTBFinHours" : 150
+      }
+    ]
+  }
+}

@@ -16,6 +16,9 @@ class FinalStatistics {
   FinalStatistics(const std::map<uint16_t, uint32_t> &producedEndProducts,
                   uint16_t timesReconfigured,
                   uint32_t simulationDurationInHours);
+  
+  FinalStatistics(const FinalStatistics &other);
+  
   const std::map<uint16_t, uint32_t> &getProducedEndProducts() const;
   uint16_t getTimesReconfigured() const;
   uint32_t getSimulationDurationInHours() const;

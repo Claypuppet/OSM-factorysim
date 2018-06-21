@@ -17,6 +17,7 @@ namespace simulation {
 class SimulationMachineLocal : public SimulationMachine, public patterns::notifyobserver::Notifier{
  public:
   explicit SimulationMachineLocal(const models::Machine &aMachine);
+  SimulationMachineLocal(const SimulationMachineLocal &other) = delete;
   ~SimulationMachineLocal() override = default;
 
   // Overrides
@@ -70,7 +71,7 @@ class SimulationMachineLocal : public SimulationMachine, public patterns::notify
   void notifyProductTakenFromBuffer(uint64_t time);
 
   /**
-   * Checks if the machine broke betwee last time and given time.
+   * Checks if the machine broke between last time and given time.
    * @param time : time to check broken on
    */
   bool checkBroken(uint64_t time);

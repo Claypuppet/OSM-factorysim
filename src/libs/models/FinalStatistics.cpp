@@ -4,7 +4,7 @@
 
 #include "FinalStatistics.h"
 
-namespace models{
+namespace models {
 
 FinalStatistics::FinalStatistics(const std::map<uint16_t, uint32_t> &producedEndProducts,
                                  uint16_t timesReconfigured,
@@ -21,4 +21,11 @@ uint16_t FinalStatistics::getTimesReconfigured() const {
 uint32_t FinalStatistics::getSimulationDurationInHours() const {
   return simulationDurationInHours;
 }
+FinalStatistics::FinalStatistics(const FinalStatistics &other)
+    : producedEndProducts(other.producedEndProducts),
+      timesReconfigured(other.timesReconfigured),
+      simulationDurationInHours(other.simulationDurationInHours) {
+
+}
+
 }

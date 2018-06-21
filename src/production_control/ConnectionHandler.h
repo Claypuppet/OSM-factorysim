@@ -21,6 +21,7 @@ class ConnectionHandler :
 	public NetworkMapper {
  public:
   ConnectionHandler() = default;
+  ConnectionHandler(const ConnectionHandler &) = delete;
   virtual ~ConnectionHandler() = default;
 
  private:

@@ -3,6 +3,9 @@
 //
 
 #include "MachineProductFinalStatistics.h"
+
+namespace models {
+
 models::MachineProductFinalStatistics::MachineProductFinalStatistics(uint16_t id,
                                                                      uint32_t totalProduced,
                                                                      uint16_t avgProduced,
@@ -21,6 +24,17 @@ models::MachineProductFinalStatistics::MachineProductFinalStatistics(uint16_t id
       avgIdleTime(avgIdleTime),
       avgDownTime(avgDownTime),
       avgConfigureTime(avgConfigureTime) {}
+
+models::MachineProductFinalStatistics::MachineProductFinalStatistics(const models::MachineProductFinalStatistics &other)
+    : id(other.id),
+      totalProduced(other.totalProduced),
+      avgProduced(other.avgProduced),
+      totalLost(other.totalLost),
+      avgLost(other.avgLost),
+      avgProductionTime(other.avgProductionTime),
+      avgIdleTime(other.avgIdleTime),
+      avgDownTime(other.avgDownTime),
+      avgConfigureTime(other.avgConfigureTime) {}
 
 uint16_t models::MachineProductFinalStatistics::getId() const {
   return id;
@@ -56,4 +70,6 @@ uint32_t models::MachineProductFinalStatistics::getAvgDownTime() const {
 
 uint32_t models::MachineProductFinalStatistics::getAvgConfigureTime() const {
   return avgConfigureTime;
+}
+
 }
