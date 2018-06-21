@@ -116,7 +116,7 @@ void Application::setupNetwork() {
 
   // Because someone forgot to implement the find PC in the application, hardcoded here
   const auto &pcip = utils::CommandLineArguments::getInstance().getKwarg("-pcip");
-  if (!pcip) {
+  if (pcip) {
     manager.setRemoteHost(pcip.value);
   } else {
     manager.setRemoteHost("localhost");

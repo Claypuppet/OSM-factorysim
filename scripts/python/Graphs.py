@@ -1,8 +1,13 @@
-import sys
+import os
 import json
 import yaml
 
 import SpendedTime
+
+
+logs_directory = './logs'
+log_file_name = 'statistics.json'
+config_file_name = 'used_config.yaml'
 
 def get_config_file(file_name):
     with open(file_name, 'r') as stream:
@@ -13,13 +18,14 @@ def get_log_file(file_name):
         return json.load(content)
 
 def main():
-    log_file_name = 'log.json'
-    log_file = get_log_file(log_file_name)
+    for file_or_foldername in os.listdir(logs_directory):
+        file_or_folderpath = os.path.join(logs_directory, file_or_foldername)
+        if os.path.isdir(file_or_folderpath):
+            log_file = get_log_file(os.path.join(file_or_folderpath, log_file_name))
+            config_file = get_config_file(os.path.join(file_or_folderpath, config_file_name))
 
-    config_file_name = 'config.yaml'
-    config_file = get_config_file(config_file_name)
-
-    SpendedTime.generate_chart(config_file, log_file)
+            for product_id in [i['id'] for i in config_file['productionLine']['products']]:
+                SpendedTime.generate_chart(file_or_folderpath, config_file, log_file, product_id)
 
 if __name__ == '__main__':
     main()
