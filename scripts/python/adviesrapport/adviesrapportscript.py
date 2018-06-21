@@ -33,6 +33,8 @@ for machine in endResult['machines']:
   totalDownTime += machine['totalDownTime']
   for product in machine['products']:
     nTotalLostProducts += product['totalLost']
+totalDownTime = round(float(totalDownTime) / config['simulationInfo']['durationInWeeks'], 2)
+nTotalLostProducts = round(float(nTotalLostProducts) / config['simulationInfo']['durationInWeeks'], 2)
 
 # Make the machineEffeciency dict ready for use
 machineEffeciency = {}
@@ -63,6 +65,6 @@ print ("Tafels per week per product:")
 for product in nTotalProducedPerProduct:
   print("\tId: " + str(product['id']) + ":\tTafels: " + str(product['averageProductionPerWeek']))
   print("\t\tStddev: " + str(product['std']))
-print("Totale downtime: " + str(round(totalDownTime/1000/60/60, 2)))
-print("Totaal verloren producten: " + str(nTotalLostProducts))
+print("Downtime per week in uren: " + str(round(totalDownTime/1000/60/60, 2)))
+print("Verloren producten per week: " + str(nTotalLostProducts))
 print("Gemiddeld rendementverschil in staat tot de meest werkende macihine: " + str(round(numpy.mean(effeciencyDeviations), 2)) + "%")
