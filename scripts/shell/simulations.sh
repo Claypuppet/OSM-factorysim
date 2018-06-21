@@ -16,10 +16,10 @@ else
             then
                 echo "config file \"$config_file\" not found or no read rights"
             else
-                echo "executing with $config_file..."
+                echo "\n\n\tExecuting: ${pc_exe} ${config_file}\n\n"
                 ${pc_exe} "$config_file"
             fi
         done
-        echo "All simulation done"
+        echo "\n\n\tAll simulation done\n\n"
     fi
 fi
